@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class P001_d001DAOImpl implements P001_d001DAO{
+public class RootP001_d001DAOImpl implements RootP001_d001DAO{
 	@Autowired
 	private SqlSession sqlSession;
 		

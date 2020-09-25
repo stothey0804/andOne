@@ -4,6 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 
-public interface P001_d001DAO {
+public interface RootP001_d001DAO {
 	
 }
