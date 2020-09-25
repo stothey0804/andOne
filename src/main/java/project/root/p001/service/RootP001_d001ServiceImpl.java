@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class P001_d001ServiceImpl implements P001_d001Service{
+public class RootP001_d001ServiceImpl implements RootP001_d001Service{
 
 
 }
