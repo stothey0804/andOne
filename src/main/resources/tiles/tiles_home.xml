@@ -16,6 +16,7 @@
       <put-attribute name="body" value="" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
+   
    <definition name="adminLayout"  template="/WEB-INF/views/common/admin/adminLayout.jsp">
       <put-attribute name="title" value="" />
       <put-attribute name="header" value="/WEB-INF/views/common/admin/header.jsp" />
@@ -24,10 +25,11 @@
       <put-attribute name="footer" value="/WEB-INF/views/common/admin/footer.jsp" />
    </definition>
 
-<!--    <definition name="main" extends="baseLayout"> -->
-<!--       <put-attribute name="title" value="메인페이지" /> -->
-<!--        <put-attribute name="body" value="/WEB-INF/views/project/p006_d001/main.jsp" /> -->
-<!--    </definition> -->
+	<!-- 메인페이지 -->
+   <definition name="main" extends="baseLayout">
+      <put-attribute name="title" value="메인페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/root/p001_d001_init.jsp" />
+   </definition>
    
 
 </tiles-definitions>
