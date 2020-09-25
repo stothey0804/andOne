@@ -32,10 +32,16 @@
    </definition>
    
 	<!-- 소모임 -->
-	<definition name="baseLayout"  template="/WEB-INF/views/common/layout.jsp">
+<!-- 	<definition name="clubMain"  template="/WEB-INF/views/common/layout.jsp"> -->
+<!--       <put-attribute name="title" value="소모임 메인" /> -->
+<!--       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" /> -->
+<!--       <put-attribute name="body" value="/WEB-INF/views/project/club/p001/clubMain.jsp" /> -->
+<!--       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" /> -->
+<!--    </definition> -->
+	<definition name="clubMain"  template="/WEB-INF/views/common/layout.jsp">
       <put-attribute name="title" value="소모임 메인" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
-      <put-attribute name="body" value="/WEB-INF/views/project/club/clubMain.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/project/club/p001/clubMain.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
 </tiles-definitions>

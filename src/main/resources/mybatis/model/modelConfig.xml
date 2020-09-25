@@ -4,7 +4,7 @@
 
 <configuration>
 	<typeAliases>
-		<typeAlias alias="p001_d001VO" type="club.p001.vo.P001_d001VO" />
-		<typeAlias alias="p001_d001articleVO" type="club.p001.vo.P001_d001articleVO" />
+		<typeAlias alias="p001_d001VO" type="project.club.p001.vo.ClubP001_d001VO" />
+		<typeAlias alias="p001_d001articleVO" type="project.club.p001.vo.ClubP001_d001articleVO" />
 	</typeAliases>
 </configuration>

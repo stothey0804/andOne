@@ -1,10 +1,10 @@
-package club.p001.vo;
+package project.club.p001.vo;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class P001_d001articleVO {
-	public P001_d001articleVO() {
+public class ClubP001_d001articleVO {
+	public ClubP001_d001articleVO() {
 		System.out.println("clubArticleVO 생성자 호출");
 	}
 	private String ca_id;

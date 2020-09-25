@@ -1,12 +1,12 @@
-package club.p001.vo;
+package project.club.p001.vo;
 
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class P001_d001VO {
-	public P001_d001VO() {
+public class ClubP001_d001VO {
+	public ClubP001_d001VO() {
 		System.out.println("clubVO 생성자 호출");
 	}
 	private String c_id;
@@ -15,12 +15,12 @@ public class P001_d001VO {
 	private String c_membercnt;
 	private String c_category;
 	private String c_hashtag;
-	private List<P001_d001articleVO> articleList;
+	private List<ClubP001_d001articleVO> articleList;
 	
-	public List<P001_d001articleVO> getArticleList() {
+	public List<ClubP001_d001articleVO> getArticleList() {
 		return articleList;
 	}
-	public void setArticleList(List<P001_d001articleVO> articleList) {
+	public void setArticleList(List<ClubP001_d001articleVO> articleList) {
 		this.articleList = articleList;
 	}
 	public String getC_id() {
