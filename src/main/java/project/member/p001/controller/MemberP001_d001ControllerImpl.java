@@ -12,10 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Controller("member")
+@Controller
 @RequestMapping("/member")
-public class P001_d001ControllerImpl {
-	
+public class MemberP001_d001ControllerImpl {
 	
 	@RequestMapping(value="/login.do")	// 로그인 화면
 	public String login(@RequestParam Map<String, String> param, HttpServletRequest request, HttpServletResponse response, HttpSession session)
@@ -50,9 +49,9 @@ public class P001_d001ControllerImpl {
 			
 		}else {
 			// 입력값 없을시 로그인 화면으로 
-			returnView = "member/p001_d002.jsp";
+			returnView = "member/p001_d002";
 		}
-		return "member/p001_d002.jsp";
+		return "member/p001_d002";
 	}
 	
 	@RequestMapping(value="/logout.do")

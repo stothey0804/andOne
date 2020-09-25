@@ -8,6 +8,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.ModelAndView;
 
-public interface P001_d001Controller {
+public interface RootP001_d001Controller {
 	public ModelAndView searchInit(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }
