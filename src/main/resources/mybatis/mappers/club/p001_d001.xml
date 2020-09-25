@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="club.p001_d001">
+	<resultMap id="p001_d001Result01" type="p001_d001VO">
+		<result property="c_id" column="c_id" />
+		<result property="c_name" column="c_name" />
+		<result property="c_content" column="c_content" />
+		<result property="c_category" column="c_category" />
+		<result property="c_membercnt" column="c_membercnt" />
+		<result property="c_hashtag" column="c_hashtag" />
+		<collection property="articleList" column="c_id" javaType="java.util.ArrayList"
+					select="getArticleList" ofType="p001_d001ArticleVO" />
+	</resultMap>
+
+	<resultMap id="articleList" type="p001_d001ArticleVO">
+		<result property="ca_content" column="ca_content" />
+		<result property="ca_date" column="ca_date" />
+		<result property="m_id" column="m_id" />
+		<result property="ca_img" column="ca_img" />
+		<result property="ca_id" column="ca_id" />
+	</resultMap>
+	
+	<select id="clubList" resultMap="p001_d001Result01">
+      <![CDATA[
+        SELECT b.c_name,b.c_content,b.c_membercnt,b.c_id,
+         (select c.gc_name
+       	from club a, common_code c
+       	where a.c_category= c.gc_id
+       	and c.g_id = '019'
+       	and b.c_id = a.c_id) as c_category
+         from 
+         (select *
+         from club
+         order by c_membercnt desc) b
+         where rownum between 1 and 6
+          ]]>
+	</select>
+	<select id="myClubList" resultMap="p001_d001Result01">
+		<![CDATA[
+		 SELECT a.c_name,a.c_membercnt,a.c_id
+         from club a, c_member b
+         where a.c_id = b.c_id
+         and m_id='test1'
+         and cm_state='20'
+		]]>
+	</select>
+
+	<select id="searchClubList" resultMap="p001_d001Result01">
+		<![CDATA[
+		 select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id
+        from
+        (
+            select *
+            from common_code a inner join club b on a.gc_id = b.c_category
+            where g_id=019
+        )
+        where
+        gc_name like #{searchWord}
+        or c_content like #{searchWord}
+        or c_name like #{searchWord}
+        or c_hashtag like #{searchWord}
+		]]>
+	</select>
+
+	<select id="detailClub" resultMap="p001_d001Result01">
+		<![CDATA[
+		 	select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id
+        from
+        (
+            select *
+            from common_code a inner join club b on a.gc_id = b.c_category
+            where g_id=019
+        )
+        where c_id = #{c_id}
+		]]>
+	</select>
+
+	<select id="getArticleList" resultMap="club.p001_d001.articleList">
+		<![CDATA[
+		 	select ca_content,ca_date,m_id,ca_img,ca_id,ca_pin
+		 	from c_article
+		 	where c_id = #{c_id}
+            order by ca_pin desc, ca_date desc
+		]]>
+	</select>
+
+</mapper>
