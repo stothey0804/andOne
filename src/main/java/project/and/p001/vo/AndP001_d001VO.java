@@ -1,11 +1,11 @@
-package and.p001.vo;
+package project.and.p001.vo;
 
 import java.sql.Timestamp;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class P001_d001VO {
+public class AndP001_d001VO {
 	private String one_type;
 	private String one_id;
 	private String one_category;
@@ -21,7 +21,7 @@ public class P001_d001VO {
 	private String one_editor;
 	private Timestamp one_editDate;
 	
-	public P001_d001VO() {
+	public AndP001_d001VO() {
 	}
 	
 	public String getOne_price() {

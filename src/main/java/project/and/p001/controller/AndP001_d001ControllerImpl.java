@@ -1,4 +1,4 @@
-package and.p001.controller;
+package project.and.p001.controller;
 
 import java.util.List;
 
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import and.p001.vo.P001_d001VO;
+import project.and.p001.service.AndP001_d001Service;
+import project.and.p001.vo.AndP001_d001VO;
 
 
 @Controller
-public class P001_d001ControllerImpl implements P001_d001Controller {
+public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	@Autowired
-	private P001_d001Service P001_d001Service;
+	private AndP001_d001Service p001_d001Service;
 	
 	//&분의 일 같이먹기 검색화면
 	@RequestMapping(value="/eat")
@@ -30,7 +30,7 @@ public class P001_d001ControllerImpl implements P001_d001Controller {
 	@RequestMapping(value="/eat/listAndOne.do")
 	public ModelAndView searchList_eat(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		List<P001_d001VO> searchList_eat = P001_d001Service.listAndOne_eat();
+		List<AndP001_d001VO> searchList_eat = p001_d001Service.listAndOne_eat();
 		ModelAndView mav = new ModelAndView("andone_eat");
 		mav.addObject("searchList_eat",searchList_eat);
 		return mav;
@@ -40,7 +40,7 @@ public class P001_d001ControllerImpl implements P001_d001Controller {
 	@RequestMapping(value="/do/listAndOne.do")
 	public ModelAndView searchList_do(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		List<P001_d001VO> searchList_do = P001_d001Service.listAndOne_do();
+		List<AndP001_d001VO> searchList_do = p001_d001Service.listAndOne_do();
 		ModelAndView mav = new ModelAndView("andone_do");
 		mav.addObject("searchList_do",searchList_do);
 		return mav;
@@ -49,7 +49,7 @@ public class P001_d001ControllerImpl implements P001_d001Controller {
 	@RequestMapping(value="/buy/listAndOne.do")
 	public ModelAndView searchList_buy(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		List<P001_d001VO> searchList_buy = P001_d001Service.listAndOne_buy();
+		List<AndP001_d001VO> searchList_buy = p001_d001Service.listAndOne_buy();
 		ModelAndView mav = new ModelAndView("andone_buy");
 		mav.addObject("searchList_buy",searchList_buy);
 		return mav;
