@@ -24,7 +24,6 @@
       <put-attribute name="footer" value="/WEB-INF/views/common/admin/footer.jsp" />
    </definition>
 
-
 <!--    <definition name="main" extends="baseLayout"> -->
 <!--       <put-attribute name="title" value="메인페이지" /> -->
 <!--        <put-attribute name="body" value="/WEB-INF/views/project/p006_d001/main.jsp" /> -->
