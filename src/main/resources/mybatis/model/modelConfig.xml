@@ -4,6 +4,6 @@
 
 <configuration>
 	<typeAliases>
-	
+		<typeAlias type="project.member.p001.vo.MemberP001_MemberVO" alias="memberP001_MemberVO" /> <!-- Member -->
 	</typeAliases>
 </configuration>

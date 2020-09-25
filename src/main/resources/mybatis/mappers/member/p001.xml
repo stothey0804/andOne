@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="member.p001">
+   <!-- Member 테이블 -->
+   	<resultMap id="p001Result" type="memberP001_MemberVO">
+		<result property="m_id" column="m_id"  />
+		<result property="m_email" column="m_email"  />
+		<result property="m_pwd" column="m_pwd"  />
+		<result property="m_phonenumber" column="m_phonenumber"  />
+		<result property="m_nickname" column="m_nickname"  />
+		<result property="m_gender" column="m_gender"  />
+		<result property="m_age" column="m_age"  />
+		<result property="m_joindate" column="m_joindate"  />
+		<result property="m_img" column="m_img"  />
+		<result property="m_editor" column="m_editor"  />
+		<result property="m_editdate" column="m_editdate"  />
+		<result property="m_score" column="m_score"  />
+	</resultMap>
+
+   	<select id="selectOverlapEmail" resultType="String" parameterType="String">
+   		<![CDATA[
+   			select m_email
+			from member
+			where m_email like #{email}
+   		]]>
+   	</select>
+   	<select id="selectOverlapPhone" resultType="String" parameterType="String">
+ 		<![CDATA[
+   			select m_phonenumber
+			from member
+			where m_phonenumber like #{phone}
+ 		]]>
+   	</select>
+   	
+   	<insert id="insertMember" parameterType="memberP001_MemberVO">
+		<![CDATA[
+			INSERT INTO member(m_id, m_email, m_pwd, m_phonenumber, m_nickname, m_gender, m_age, m_joindate, m_locate, m_editor, m_editdate)
+    		VALUES(
+	    		LPAD(MEMBER_ID_SEQ.NEXTVAL,8,'0'),#{m_email},#{m_pwd},#{m_phonenumber},
+	    		#{m_nickname},#{m_gender},#{m_age}, TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss'),'0',
+	    		LPAD(MEMBER_ID_SEQ.CURRVAL,8,'0'), TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+    		)
+   		]]>
+   	</insert>
+   	
+ 	<select id="selectMemberByEmail" resultMap="p001Result" parameterType="String">
+   		<![CDATA[
+	   		SELECT *
+	   		FROM member
+	   		WHERE m_email like #{email}
+   		]]>
+   	</select>
+   	
+ 	</mapper>
