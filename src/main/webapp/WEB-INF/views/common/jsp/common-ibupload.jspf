@@ -1,0 +1,7 @@
+<%--  ibupload 관련 라이브러리 --%>
+<link href="<c:url value='/common/jquery/contextMenu/jquery.contextMenu.min.css'/>" rel="stylesheet" type="text/css" />
+<script src="<c:url value='/common/jquery/js/jquery-ui-1.10.3.custom.min.js'/>"></script>
+<script src="<c:url value='/common/jquery/contextMenu/jquery.contextMenu.min.js'/>"></script>
+
+<script src="<c:url value='/common/IBSheet7/upload/js/ibuploadinfo.js'/>"></script>
+<script src="<c:url value='/common/IBSheet7/upload/js/ibupload.js'/>"></script>

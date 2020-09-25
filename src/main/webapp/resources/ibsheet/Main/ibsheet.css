@@ -1,0 +1,955 @@
+/* -----------------------------------------------------------------------*/
+/* ----------------- "Main" IBSheet style definition ---------------------*/
+/* -----------------------------------------------------------------------*/
+
+/* Base tags */
+.GMImage {padding-bottom:256px;}
+.GMNone {display:none;}
+.GMSection,.GMSectionFF3, .GMChildPart {table-layout:fixed; width:0;}
+.GMSectionFF3 {border-collapse:collapse; }
+
+/* Sections */
+.GMMainTable {border:1px solid #99BCE8; border-collapse:separate; text-align:left; background:#ffffff; font:12px Dotum,Helvetica,AppleGothic,Sans-serif;}
+.GMFootLeft,.GMFootMid,.GMFootRight {border-top:1px solid #99BCE8;}
+.GMHeadLeft,.GMBodyLeft,.GMFootLeft,.GMHScrollLeft {border-right:1px solid #c0c0ff;}    
+.GMHeadRight,.GMBodyRight,.GMFootRight,.GMHScrollRight {border-left:1px solid #c0c0ff;} 
+.GMVScroll {padding-top:1px; padding-bottom:1px;}
+.GMHScrollLeft,.GMHScrollMid,.GMHScrollLeftResizeTouch,.GMHScrollRightResizeTouch {padding-left:1px; padding-right:1px; cursor:default;}
+.GMHScrollLeftResizeTouch {border-right:2px solid #000000; padding-right:18px; background:#F4F4F4;}
+.GMHScrollRightResizeTouch {border-left:2px solid #000000; padding-left:18px; background:#F4F4F4;}
+.GMHScrollMidLeftResizeTouch {border-left:1px solid #000000; padding-left:19px; background:#F4F4F4;}
+.GMHScrollMidRightResizeTouch {border-right:1px solid #000000; padding-right:19px; background:#F4F4F4;}
+.GMHScrollWide {padding-right:1px;}
+.GMHScrollHidden {overflow:visible !important; background:#F4F4F4; cursor:default; }
+.GMXScroll {background:#F4F4F4;}
+.GMPage {border-top:0px solid #E0E0E0;}
+
+/* Rows */
+.GMSpaceRowHeight{height:21px; }
+.GMRowHeight     {height:18px; }
+.GMRowHeightTouch{height:22px; }
+.GMSpaceMargin   {margin:0; }
+.GMSpaceMarginTouch{margin:0; }
+.GMSpaceRow {background:#ffffff; white-space:nowrap; overflow:hidden; padding-top:2px; padding-bottom:2px; border-bottom:1px solid #e0e0ff;}
+.GMGroupRow,.GMSearchRow,.GMPagerRow 
+{background-color:#C9E1F5; white-space:nowrap; padding-top:1px; padding-bottom:1px; overflow:hidden; border-bottom:1px solid #99BCE8;} 
+.GMGroupRow,.GMPagerRow {background-position:0 -1801px; }
+.GMFillRow {background:#ffffff; }
+.GMRowAbove,.GMRowBelow {border-left:1px solid #9cb6c8; border-right:1px solid #9cb6c8;}
+.GMRowAbove { margin-top:3px; overflow:hidden;}
+.GMRowBelow {margin-bottom:3px; overflow:hidden;}
+.GMCountRowTop {background-color:#C9E1F5; white-space:nowrap;padding-top:1px; padding-bottom:1px; overflow:hidden; border-bottom:1px solid #99BCE8;}
+.GMCountRowBottom {background-color:#C9E1F5; white-space:nowrap; padding-top:1px; padding-bottom:1px; overflow:hidden; border-top:1px solid #99BCE8;}
+.GMButtonbarTop {background-color:#C9E1F5; white-space:nowrap;padding-top:1px; padding-bottom:1px; overflow:hidden; border-bottom:1px solid #99BCE8;}
+.GMButtonbarBottom {background-color:#C9E1F5; white-space:nowrap; padding-top:1px; padding-bottom:1px; overflow:hidden; border-top:1px solid #99BCE8;}
+.GMCountFont { font-size:/*IBFS*/12px; font-family:/*IBFN*/"Dotum", "Helvetica", "AppleGothic", sans-serif; }
+.GMNoDataRow {padding-top:0px; padding-bottom:0px; background-color:#ffffff; color:#000000;}
+
+/* Cell */
+.GMCell,.GMCellPanel,.GMCellFilter,.GMHeaderDrag,.GMHeaderGroup 
+ {border-bottom:1px solid #e0e0ff; border-right:1px solid #e0e0ff; border-left:0; border-top:0;vertical-align:top; overflow:hidden; height:auto; font-size:/*IBFS*/12px; font-family:/*IBFN*/"Dotum", "Helvetica", "AppleGothic", sans-serif; line-height: 14px; box-sizing: border-box;}
+
+.GMCellHeader,.GMCellHeaderEmpty
+ {vertical-align:middle; overflow:hidden;height:auto; background-color:#C9E1F5; padding-top:1px; border-right:1px solid #99BCE8; border-bottom:1px solid #99BCE8;} 
+
+.GMHeaderGroup, .GMHeaderGroupCustom { vertical-align: middle; height:20px; text-align: center; }
+
+.GMCellBorderFF3 {border-left:0;border-top:0;} 
+.GMCellSpace {vertical-align:top; padding-top:5px !important; }
+.GMCellSpacePanel,.GMCellSpaceBool {vertical-align:top; }
+.GMCellSpaceRadio { padding-top:3px !important;}
+.GMCellSpaceEditButton { vertical-align:top; padding-top:4px !important; border:1px solid #000000 !important; background-color:#ffffff !important; }
+.GMCellSpaceButtonButton { vertical-align:top; }
+.GMCellSpaceButton { vertical-align:top; padding-top:5px !important; white-space:nowrap; }
+.GMCellSpaceAbove { border-top:1px solid #9cb6c8; }
+.GMCellSpaceBelow { border-bottom:1px solid #9cb6c8; }
+.GMCellPanel,.GMCellHeaderPanel{ white-space:nowrap; } 
+.GMCellHidden { background:transparent!important; border-top:none!important; border-bottom:none!important; }
+.GMHeaderButton { padding:0; }
+.GMHeaderGroup {background: #7FA9E6; color:#ffffff; font-weight: bold; border-radius: 5px;}
+.GMHeaderGroupFocus {background-color: #C0C0A0; }
+.GMHeaderGroupDelete {background-color: #F0F0E0; color: #F0F0E0; }
+.GMHeaderGroupCustom {color:#BBB; padding-left:5px; cursor:default; white-space:nowrap; }
+.GMHeaderDrag {background: #9FB9E9; cursor:default; overflow:hidden; }
+.GMHeaderFocus {background: #9FB9E9;}
+.GMPanel {padding-left:80px;}
+.GMNoTreeLines1 {text-align:right;}
+.GMNoTreeLines2 {text-align:right; vertical-align:middle; padding-top:0;}
+.GMTree {padding-top:0; white-space:nowrap;}
+.GMSpannedTree {vertical-align:top;}
+.GMCellClassInner {padding-top:0; padding-bottom:0;}
+
+.GMCellSpan { border-bottom: 0px;}
+
+/* Inside cell */
+.GMStatus,.GMSeq,.GMPopup,.GMPopupEdit,.GMHtml,.GMText,.GMLines,.GMPass,.GMInt,.GMFloat,.GMDate,
+.GMLink,.GMImg,.GMRadio,.GMRadioText,.GMList,.GMEnum,.GMDropCols,.GMAbs,.GMPagerEdit,.GMUser,.GMResult,.GMNumber,.GMBtn,.GMBool,.GMCheckBox,.GMDummyCheck,.GMDelCheck
+ {white-space:nowrap;vertical-align: middle;padding:2px 3px;} 
+ .GMBoolInput {cursor:pointer;}
+.GMInt,.GMFloat { text-align:right; }
+.GMLines,.GMRadio,.GMHtml,.GMList { white-space:normal; }   
+.GMImg,.GMHtml {padding:0; } 
+.GMRadio,.GMRadioText { padding:0; font-weight:normal !important; }
+.GMBool,.GMCheckBox,.GMDummyCheck,.GMDelCheck { text-align:center; }
+.GMIcon { background-repeat:no-repeat; }
+.GMHiddenSpace { display:none; }
+.GMDropCols { padding-top:2px !important; }
+
+.GMHeaderText {color: #15498B; vertical-align:middle; font-size:/*IBFS*/12px; font-family:/*IBFN*/"Dotum", "Helvetica", "AppleGothic", sans-serif;}
+.GMAbs { padding:0; }
+.GMUser { padding:0; }
+.GMPagerEdit { text-align:right; padding-top:4px!important; }
+.GMPagerTotal { text-align:left; padding-top:4px!important; }
+.GMEditPager { /*background-color:#ffffff; border:1px solid gray;*/font-size:/*IBFS*/12px; font-family:/*IBFN*/"Dotum", "Helvetica", "AppleGothic", sans-serif;}
+.GMMergedCellH {padding:0 0 5px 0}
+.GMMergedCellV {padding:0 0 1px 0}
+
+.GMWrap0 { white-space:nowrap; }
+.GMWrap1 { white-space:normal; }
+.GMEllipsis { white-space:nowrap; text-overflow:ellipsis;}
+
+.GMAlignLeft { text-align:left; }
+.GMAlignCenter { text-align:center; }
+.GMAlignJustify { text-align:center; }
+.GMAlignRight { text-align:right;}
+
+.GMValignTop { vertical-align:top; }
+.GMValignMiddle { vertical-align:middle; }
+.GMValignBottom { vertical-align:bottom;}
+
+.GMCellButtonBase {
+    color: #fff;
+    display: inline-block;
+    padding: 2px 10px 3px;
+    text-decoration: none;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    border-bottom: 1px solid rgba(0,0,0,0.25);
+    line-height: 1;
+    border:0;
+    font-family: "Dotum";
+    font-weight: bold;
+    text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+    height: 20px;
+}
+.GMCellButton {
+    cursor: pointer;
+    background-color: #5689b9;
+}
+.GMCellButton0 {
+    cursor:default;
+    background-color: #c8c8c8;
+}
+.GMCellButton:hover { background-color: #3a6ea0; }
+.GMCellButton0:hover {}
+
+/* Tree Img with lines */
+.GM000,.GM010,.GM001,.GM011,.GM100,.GM110,.GM101,.GM111, 
+.GM000T,.GM010T,.GM001T,.GM011T,.GM100T,.GM110T,.GM101T,.GM111T,
+.GM00,.GM01,.GM10,.GM11,.GM00T,.GM01T,.GM10T,.GM11T,
+.GM0T,.GM1T,.GM0TL,.GM1TL,.GM0C,.GM1C,.GM0CL,.GM1CL,.GM0E,.GM1E,.GM0EL,.GM1EL,
+.GM0,.GM1,.GMT,.GMTL,.GMC,.GMCL,.GME,.GMEL,.GMD0,.GMD1,.GMD2,.GMD3,.GMD4,.GMD0L,.GMD1L,.GMD2L,.GMD3L,.GMD4L 
+{background-image:url(Tree.gif); vertical-align:top;}
+
+u.GM000,u.GM010,u.GM001,u.GM011,u.GM100,u.GM110,u.GM101,u.GM111 { padding-left:39px; }
+u.GM000T,u.GM010T,u.GM001T,u.GM011T,u.GM100T,u.GM110T,u.GM101T,u.GM111T { padding-left:60px; }
+u.GM00,u.GM01,u.GM10,u.GM11 { padding-left:26px; }   
+u.GM00T,u.GM01T,u.GM10T,u.GM11T { padding-left:47px; }   
+u.GM0T,u.GM1T,u.GM0TL,u.GM1TL,u.GM0C,u.GM1C,u.GM0CL,u.GM1CL,u.GM0E,u.GM1E,u.GM0EL,u.GM1EL { padding-left:34px; }   
+u.GM0,u.GM1 { padding-left:13px; }
+u.GMT,u.GMTL,u.GMC,u.GMCL,u.GME,u.GMEL,u.GMD0,u.GMD1,u.GMD2,u.GMD3,u.GMD4,u.GMD0L,u.GMD1L,u.GMD2L,u.GMD3L,u.GMD4L { padding-left:21px; }   
+
+.GM000,.GM000T{ background-position:-24px 0px; }
+.GM010,.GM010T{ background-position:-136px 0; }
+.GM001,.GM001T{ background-position:-272px 0; }
+.GM011,.GM011T{ background-position:-392px 0; }
+.GM100,.GM100T{ background-position:-512px 0; }
+.GM110,.GM110T{ background-position:-640px 0; }
+.GM101,.GM101T{ background-position:-768px 0; }
+.GM111,.GM111T{ background-position:-896px 0; }
+.GM00,.GM00T  { background-position:-37px 0;  }
+.GM10,.GM10T  { background-position:-149px 0; }
+.GM01,.GM01T  { background-position:-285px 0; }
+.GM11,.GM11T  { background-position:-405px 0; }
+.GM0,.GM0T    { background-position:-50px 0;  }
+.GM1,.GM1T    { background-position:-298px 0; }
+.GMT          { background-position:-63px 0;  }
+.GM0TL        { background-position:-1032px 0; }
+.GM1TL        { background-position:-1088px 0; }
+.GM0C         { background-position:-1160px 0; }
+.GM1C         { background-position:-1216px 0; }
+.GM0CL        { background-position:-1288px 0; }
+.GM1CL        { background-position:-1344px 0; }
+.GM0E         { background-position:-1416px 0; }
+.GM1E         { background-position:-1472px 0; }
+.GM0EL        { background-position:-1544px 0; }
+.GM1EL        { background-position:-1600px 0; }
+.GMTL         { background-position:-1045px 0; }
+.GMC          { background-position:-1173px 0; }
+.GMCL         { background-position:-1301px 0; }
+.GME          { background-position:-1429px 0; }
+.GMEL         { background-position:-1557px 0; }
+.GMD0         { background-position:-1664px 0; }
+.GMD1         { background-position:-1696px 0; }
+.GMD2         { background-position:-1728px 0; }
+.GMD3         { background-position:-1760px 0; }
+.GMD0L        { background-position:-1792px 0; }
+.GMD1L        { background-position:-1824px 0; }
+.GMD2L        { background-position:-1856px 0; }
+.GMD3L        { background-position:-1888px 0; }
+.GMD4         { background-position:-1920px 0; }
+.GMD4L        { background-position:-1952px 0; }
+
+/* Tree Img without lines  */
+.GMND0,.GMND1,.GMND2,.GMND3,.GMND4,.GMNC,.GMNE,.GMNCR,.GMNER {background-image:url(TreeN.gif); background-repeat:no-repeat; vertical-align:top; }
+u.GMND0,u.GMND1,u.GMND2,u.GMND3,u.GMND4,u.GMNC,u.GMNE,u.GMNCR,u.GMNER { padding-left:20px; }
+.GMND0 { background-position: -6px 0; }
+.GMND1 { background-position: -56px 0; }
+.GMND2 { background-position: -106px 0; }
+.GMND3 { background-position: -156px 0; }
+.GMND4 { background-position: -206px 0; }
+.GMNC { background-position:right -50px;}
+.GMNE { background-position:right -2000px;}
+.GMNCR { background-position:-255px -50px;}
+.GMNER { background-position:-255px -2000px;}
+u.GMNL { padding-left:21px; }
+
+/* Tree Node Image */
+.GMTreeNodeIcon0, .GMTreeNodeIcon1, .GMTreeNodeIcon2 { background-position:2px 0px; background-repeat:no-repeat; }
+.GMTreeNodeIcon0 { background-image:url(treenode0.gif); }
+.GMTreeNodeIcon1 { background-image:url(treenode1.gif); }
+.GMTreeNodeIcon2 { background-image:url(treenode2.gif); }
+
+/* Cell images */
+.GMIconLink { text-decoration:none; width:1000px; display:inline-block; }
+.GMIconLeft,.GMIconRight,.GMIconCenter {  background-repeat:no-repeat; }
+.GMIconLeft { background-position:left 0; padding-left:20px !important; }
+.GMIconRight { background-position:right 0; padding-right:20px !important; }
+.GMIconCenter { background-position:center 0; }
+.GMPopupRight { background:url(popup.gif) no-repeat 5px center; }
+.GMExpandLeft,.GMCollapseLeft,.GMExpandHeaderLeft,.GMCollapseHeaderLeft { padding-left:20px!important; }
+.GMDateRight{ padding-right:20px!important;}
+u.GMDateRight,u.GMPopupRight { padding-right:0!important; padding-left:17px; }
+.GMDateRight {background:url(calendar.gif) no-repeat 2px center}
+.GMEnumRight { background:url(combo.gif) no-repeat right center; }
+u.GMEnumRight {padding-right:0; padding-left:17px}
+.GMExpandLeft { background:url(ic_plus.gif) no-repeat 3px center; padding:2px 0 0  18px; _padding:0 0 0 18px }
+.GMCollapseLeft { background:url(ic_minus.gif) no-repeat 3px center ; padding:2px 0 0  18px; _padding:0 0 0 18px }
+
+.GMRadio0Left,.GMRadio1Left,.GMRadio2Left,.GMRadio3Left,.GMRadioRO0Left,.GMRadioRO1Left,.GMRadioRO2Left,.GMRadioRO3Left { padding-left:17px; padding-right:10px; line-height:17px; background-repeat:no-repeat; background-position:3px 50%;}
+.GMRadio0Right,.GMRadio1Right,.GMRadio2Right,.GMRadio3Right,.GMRadioRO0Right,.GMRadioRO1Right,.GMRadioRO2Right,.GMRadioRO3Right {line-height:17px; padding-right:17px; padding-left:10px; background-repeat:no-repeat; background-position:3px 50%;}
+.GMRadio0Left  { background-image:url(chk2.gif); } 
+.GMRadioRO0Left  { background-image:url(chk2R.gif); } 
+.GMRadio1Left  { background-image:url(chk3.gif); } 
+.GMRadioRO1Left  { background-image:url(chk3R.gif); } 
+.GMRadio2Left  { background-image:url(chk0.gif); }
+.GMRadioRO2Left  { background-image:url(chk0R.gif); }
+.GMRadio3Left  { background-image:url(chk1.gif); }
+.GMRadioRO3Left  { background-image:url(chk1R.gif); }
+.GMRadio0Right { background-image:url(chk2.gif); } 
+.GMRadioRO0Right { background-image:url(chk2R.gif); } 
+.GMRadio1Right { background-image:url(chk3.gif); } 
+.GMRadioRO1Right { background-image:url(chk3R.gif); } 
+.GMRadio2Right { background-image:url(chk0.gif); }
+.GMRadioRO2Right { background-image:url(chk0R.gif); }
+.GMRadio3Right { background-image:url(chk1.gif); }
+.GMRadioRO3Right { background-image:url(chk1R.gif); }
+
+u.GMFilter0,u.GMFilter1 { padding-left:16px; }
+.GMBool0,.GMBool0RO,.GMBool1,.GMBool1RO,.GMBool2,.GMBool2RO,.GMBool3,.GMBool3RO {background-position:center center; background-repeat:no-repeat;}
+
+.GMCheck0Left, .GMCheck1Left, .GMCheckRO0Left, .GMCheckRO1Left { background-repeat:no-repeat; padding-left:20px!important; background-position:3px 50%;}
+.GMCheck0Left   { background-image:url(chk0.gif); }
+.GMCheck1Left   { background-image:url(chk1.gif); }
+.GMCheckRO0Left { background-image:url(chk0R.gif); }
+.GMCheckRO1Left { background-image:url(chk1R.gif); }
+
+.GMBool0   { background-image:url(chk0.gif);  }
+.GMBool0RO { background-image:url(chk0R.gif); }
+
+.GMBool1   { background-image:url(chk1.gif);  }
+.GMBool1RO { background-image:url(chk1R.gif); }
+
+.GMBool2   { background-image:url(chk2.gif);  }
+.GMBool2RO { background-image:url(chk2R.gif); }
+
+.GMBool3   { background-image:url(chk3.gif);  }
+.GMBool3RO { background-image:url(chk3R.gif); }
+
+/* Filter images  */
+.GMFilter0Left,.GMFilter1Left,.GMFilter2Left,.GMFilter3Left,.GMFilter4Left,.GMFilter5Left,.GMFilter6Left,.GMFilter7Left,
+.GMFilter8Left,.GMFilter9Left,.GMFilter10Left,.GMFilter11Left,.GMFilter12Left {width:100%; height:18px; padding-left:18px;}
+
+.GMFilter0Left,.GMFilter0Menu   { background:url(filter0.gif) no-repeat left center; }   
+.GMFilter1Left,.GMFilter1Menu   { background:url(filter1.gif) no-repeat left center; }
+.GMFilter2Left,.GMFilter2Menu   { background:url(filter2.gif) no-repeat left center; }
+.GMFilter3Left,.GMFilter3Menu   { background:url(filter3.gif) no-repeat left center; }
+.GMFilter4Left,.GMFilter4Menu   { background:url(filter4.gif) no-repeat left center; }
+.GMFilter5Left,.GMFilter5Menu   { background:url(filter5.gif) no-repeat left center; }   
+.GMFilter6Left,.GMFilter6Menu   { background:url(filter6.gif) no-repeat left center; }
+.GMFilter7Left,.GMFilter7Menu   { background:url(filter7.gif) no-repeat left center; }
+.GMFilter8Left,.GMFilter8Menu   { background:url(filter8.gif) no-repeat left center; }
+.GMFilter9Left,.GMFilter9Menu   { background:url(filter9.gif) no-repeat left center; }
+.GMFilter10Left,.GMFilter10Menu { background:url(filter10.gif) no-repeat left center; }
+.GMFilter11Left,.GMFilter11Menu { background:url(filter11.gif) no-repeat left center; }
+.GMFilter12Left,.GMFilter12Menu { background:url(filter12.gif) no-repeat left center; }
+
+.GMFilter0Menu,.GMFilter1Menu,.GMFilter2Menu,.GMFilter3Menu,.GMFilter4Menu,.GMFilter5Menu,.GMFilter6Menu,.GMFilter7Menu,.GMFilter8Menu,.GMFilter9Menu,
+.GMFilter10Menu,.GMFilter11Menu,.GMFilter12Menu {width:18px; height:18px; overflow:hidden; margin: -2px 0 0 -1px;}
+.GMFilterMenuHeader { padding-left:2px; border-bottom:0 !important; } 
+
+/*  Keyfield Image */
+.GMKeyfield {background-image:url(keyfield.gif); display:inline-block; vertical-align:middle; background-repeat: no-repeat; background-position:center 1px; padding: 0 2px 0 4px; }
+
+.GMStatusR,.GMStatusI,.GMStatusU,.GMStatusD {background-position:center center; background-repeat:no-repeat;}
+.GMStatusI   { background-image:url(status_i.gif); }
+.GMStatusU   { background-image:url(status_u.gif); }
+.GMStatusD   { background-image:url(status_d.gif); }
+
+/* GMKeyfield : hack OP*/
+ @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) 
+ { .GMKeyfield{  background-position: center 3px;padding: 0 2px 0 4px; }}
+
+/* CheckBox Header Image */
+.GMCheckHeader0 {background-image:url(chk0.gif); display:inline-block; vertical-align:middle; background-repeat:no-repeat; background-position:5px 1px; padding:2px 7px 0 6px; margin:0 2px 0 0;}
+
+/* GMCheckHeader0 : hack CR,SF*/
+@media screen and (-webkit-min-device-pixel-ratio:0) 
+{.GMCheckHeader0{ background-position:6px 1px ; padding: 2px 8px 0 6px; }}
+
+/* GMCheckHeader0 : hack FF*/
+.GMCheckHeader0, x:-moz-any-link, x:default { background-position:6px 1px ; padding: 2px 8px 0 6px; }
+
+/* GMCheckHeader0 : hack OP*/
+ @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) 
+ { .GMCheckHeader0{ background-position:7px center ; padding:1px  17px 0 0; }}
+
+.GMCheckHeader1 {background-image:url(chk1.gif); display:inline-block; vertical-align:middle; background-repeat:no-repeat; background-position:4px 1px ; padding:2px 6px 0 6px; margin:0 2px 0 0}
+
+/* GMCheckHeader1 : hack CR,SF*/
+@media screen and (-webkit-min-device-pixel-ratio:0) 
+{.GMCheckHeader1{ background-position:6px 1px ; padding: 2px 8px 0 6px; }}
+
+/* GMCheckHeader1 : hack FF*/
+.GMCheckHeader1, x:-moz-any-link, x:default { background-position:6px 1px ; padding: 2px 8px 0 6px; }
+
+/* GMCheckHeader1 : hack OP*/
+ @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) 
+ { .GMCheckHeader1 { background-position:7px center ; padding:1px  17px 0 0;  }}
+
+/* Sort images */
+.GMSort {display:block; float:right; margin:2px 2px 0; width:7px;}
+
+/* State classes */
+/* The colors must be set by numbers not by names */
+.GMColorDefault  { background-color:#FFFFFF;}
+.GMColorNoFocus  { background-color:#E8F4FF;}
+.GMColorReadOnly { background-color:#F4F4F4;}
+.GMColorPreview  { background-color:#FFFFFF;}
+.GMColorAlternate{ background-color:#EBFFFF;}
+.GMColorSelected { background-color:/*#FFFF80*/#aadbff; }
+
+.GMColorFilter {background-color:#FFFFFF;}
+
+/*//.GMClassSelected { }*/
+.GMColorError   { background-color:#FF6969; }
+.GMColorDeleted { background-color:#FFCDCD; }
+.GMClassDeleted { font-style:italic; }
+.GMColorAdded   { background-color:#CDFFCD; }
+.GMClassAdded   { font-weight:bold; }
+.GMColorMoved1  { background-color:#FFFFFF; }
+.GMColorMoved2  { background-color:#D7EBEB; }
+.GMColorChanged { background-color:#EBEBFF; }
+.GMColorChangedCell { background-color:#E1E1FF; }
+.GMClassChangedCell { font-weight:bold; }
+.GMColorMaxChildren { background-color:#FFFFF0; }
+.GMColorDetail { background-color:#FFF0FF; }
+.GMColorDetailSelected { background-color:#FFF0E0; }
+.GMColorDragged{ background-color:#E0E0C0; }
+.GMColorFound1 { background-color:#FF87FF; }
+.GMColorFound2 { background-color:#FFC387; }
+.GMColorFound3 { background-color:#87FF87; }
+
+.GMColorHovered             { background-color:#f4edfe; }
+.GMColorHoveredCell         { background-color:#d7c6ee; }
+.GMColorHoveredCellReadOnly { background-color:#d7c6ee; }
+.GMColorHoveredCellSpace    { background-color:#FFFFFF; }
+.GMColorHoveredCellSpaceEdit{ background-color:#C0C0FF; }
+.GMColorHoveredCellSpaceBool{ background-color:#FFFFFF; }
+.GMColorHoveredCellButton   { background-color:#d0dde7; }
+.GMColorHoveredCellButton1  { background-color:#add4f5; }
+
+.GMColorFocused             { background-color:#e9f5d0; }
+.GMColorFocusedCell         { background-color:#FFFFFE; }
+.GMColorFocusedCellSpace    { background-color:#E6E6E6; }
+.GMColorFocusedCellButton   { background-color:#BCD; }
+.GMColorFocusedCellHeader   { background-color:#FFFFFE; }
+.GMColorFocusedCellPanel    { background-color:#FFFFFE; }
+.GMColorEditedCell          { background-color:#FFFFFF; }
+.GMColorViewedCell          { background-color:#FFFFFF; }
+.GMColorMultiRowFocused     { background-color:#e9f5d0; }
+
+/* Hover, focus, edit cursors */
+.GMHoverRowBackground   { opacity:0.2; filter:alpha(opacity=20); background:#8238f0; } /* 일반모드에서의 Hover Row의 Background*/
+.GMHoverRowBorder       { z-index:0; border-top:1px solid #bda7dc; border-bottom:1px solid #bda7dc; } /* 일반모드에서의 Hover Row의 Border*/
+.GMHoverCellBorder      { z-index:0; border:1px solid #bda7dc; cursor:default; } /* 일반모드에서의 Hover Cell의 Border*/
+.GMFocusRowBackground   { opacity:0.1; filter:alpha(opacity=20); background:/*IBSB*/#b6d102; } /* <-- Sheet : Selected Row Background */
+.GMFocusRowBorder       { z-index:0; border:1px solid /*IBSB*/#D6E581; } /* <-- Sheet : Selected Row Border */
+.GMFocusCellBorder      { z-index:0; border:2px solid /*IBSB*/#CCE24C; } /* <-- Sheet : Selected Cell Border */
+.GMFocusCellSpaceBorder,.GMEditCellSpaceBorder { z-index:4; }
+.GMEditCellBorder       { z-index:0; border:2px solid #FF6666;}    /*<-- Sheet : CellEdit Border */
+.GMEditCellInput        { position:relative; border:0 solid #39aefb; overflow:hidden; z-index:2; } 
+
+.GMCursorBackground, .GMCursorBorderLeft ,.GMCursorBorderRight,.GMCursorBorderTop,.GMCursorBorderBottom 
+ {position:relative;overflow:hidden;}
+
+.GMCursorBackground  {border:none; padding:0;}
+.GMCursorBorderLeft  {padding-right:0; padding-top:0; padding-bottom:0; border-right:none; border-top:none; border-bottom:none;  width:0; height:0;}
+.GMCursorBorderRight {padding-left:0; padding-top:0; padding-bottom:0; border-left:none; border-top:none; border-bottom:none;  width:0; height:0;}
+.GMCursorBorderTop   {padding-bottom:0; padding-left:0; padding-right:0; border-bottom:none; border-left:none; border-right:none;  width:0; height:0;}
+.GMCursorBorderBottom{padding-top:0; padding-left:0; padding-right:0; border-top:none; border-left:none; border-right:none; width:0; height:0;}
+
+/* Cell edges */
+.GMNoLeft { border-left:0; }
+.GMNoRight { border-right:0; }
+
+/* Dragging */
+.GMMouseObject { opacity:0.5; filter:alpha(opacity=50); z-index:300; overflow:hidden;}
+.GMDragObject {z-index:300; margin-left:10px; margin-top:10px; padding-left:3px; padding-right:3px;background:#E4E5F0 ; border:1px solid #777;}
+.GMUserDragObject {z-index:300; margin-left:10px; margin-top:10px;}
+.GMDragColInsideTop,.GMDragColInsideBottom,.GMDragColOutsideTop,.GMDragColOutsideBottom{position:absolute;width:10px; height:11px; overflow:hidden; z-index:258;}
+.GMDragColInsideTop     {background:url(in_top.gif) no-repeat;}     
+.GMDragColInsideBottom  {background:url(in_bottom.gif) no-repeat;}  
+.GMDragColOutsideTop    {background:url(out_top.gif) no-repeat;}    
+.GMDragColOutsideBottom {background:url(out_bottom.gif) no-repeat;}  
+
+/* Messages */
+.GMDisabled{position:absolute; z-index:264; background:#ffffff; opacity:0.5; filter:alpha(opacity=50); } 
+.GMProcess {position: absolute; left:0; top:0; background:#E2F0FF; border:1px solid #777; white-space:nowrap; text-align:center; visibility:hidden; z-index:266;}
+.GMMessage {background:#E2F0FF; border:1px solid #000000; padding:10px; white-space:nowrap; text-align:center;
+             position: absolute; left:0; top:0; visibility:hidden; z-index:266;}
+.GMMessageShadow 
+{position:absolute; margin-left:3px; margin-top:3px; z-index:265;background:#888; opacity:0.5; filter:alpha(opacity=50); left:0; top:0; visibility:hidden;}
+      
+/* Other */
+/* !!! No .GM style prefix here !!! */
+.GridTmpTag { position:absolute; left:5px; top:5px; visibility:hidden; }
+
+/* Popup menus */
+.GMMenuMain  {position:absolute;left:0;top:0; z-index:258;}
+.GMMenuOuter {overflow:hidden; border:1px solid #000000; background:#fff; padding:1px; margin:1px;}
+.GMMenuHeader{overflow:hidden; position:absolute; z-index:258;border:1px solid #b0b0c0; background:#fff; cursor:pointer; _cursor:hand;}
+.GMMenuHead {color:#15498B; cursor:pointer; text-align:left; font-weight:bold; padding-top:5px; padding-bottom:4px;
+    background: #c9e1f5; /* Old browsers */
+    background: -moz-linear-gradient(top,  #c9e1f5 0%, #99bce8 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c9e1f5), color-stop(100%,#99bce8)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #c9e1f5 0%,#99bce8 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #c9e1f5 0%,#99bce8 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #c9e1f5 0%,#99bce8 100%); /* IE10+ */
+    background: linear-gradient(top,  #c9e1f5 0%,#99bce8 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c9e1f5', endColorstr='#99bce8',GradientType=0 ); /* IE6-9 */
+}
+.GMMenuClose {float:right!important; width:14px; cursor:pointer; _cursor:hand; display:none;}
+.GMMenuBody {cursor:default; background-color:#fff; padding-top:1px; padding-bottom:1px;}
+.GMMenuShadow {position:absolute;margin:3px 0 0 3px;z-index:257;background-color:#888; opacity:0.5; filter:alpha(opacity=50);}
+.GMMenuCheckedIconRight {padding-right:17px; background:url(chk1.gif) no-repeat 96% center; }
+.GMMenuUncheckedIconRight { padding-right:17px;background:url(chk0.gif) no-repeat 96% center ; }
+
+.GMMenuCursorIcon {background-image:url(d_gray_right.gif); background-repeat:no-repeat; background-position: 3px center;_background-color:#fff}
+.GMMenuHoverIcon {background-image:url(d_right.gif); background-repeat:no-repeat; background-position: 3px center; _background-color:#ffeeaa }   
+
+.GMMenuNextIcon { padding-right:10px; }
+.GMMenuNextIconRtl { padding-left:10px; }
+
+.GMMenuItemText,.GMMenuItemIcon,.GMMenuEnum,.GMMenuEnumHeader,.GMMenuEdit,.GMFilterMenuItemText 
+{white-space:nowrap; overflow:hidden; vertical-align: middle; padding:1px 0 0 0; font-size:/*IBFS*/12px; font-family:/*IBFN*/"Dotum", "Helvetica", "AppleGothic", sans-serif;}
+.GMMenuItemDisabled {opacity:0.50; filter:alpha(opacity=30); overflow:hidden; }
+.GMMenuLevel {color:blue;text-align:center; }  
+.GMMenuEnumParent,.GMMenuEditParent {padding-left:5px; padding-right:2px}
+.GMMenuItemIcon {background-repeat:no-repeat;}
+.GMMenuEnum {border:1px solid #DDD; border-top:1px solid #666; border-left:1px solid #666; padding-left:15px; overflow:hidden;}
+.GMMenuEnumHeader  {padding:1px 0 2px 16px; cursor:default; } 
+.GMMenuEdit{border:1px solid #DDD; border-top:1px solid #666; border-left:1px solid #666; background:white; overflow:hidden;white-space:nowrap;
+  padding-left:2px; padding-right:2px;}
+.GMMenuEditInput,.GMMenuEditTextarea {margin:0;padding:0;border:0; background:#FDD;_margin:-1px; _padding-right:1px; _padding_left:1px; }   
+.GMMenuEditTextarea { line-height:13px;  }   
+.GMMenuEditInt,.GMMenuEditFloat,.GMMenuEditDate { text-align:right; } 
+.GMMenuEditMulti { white-space:normal; }
+.GMMenuItem {background-color:#ffffff;padding:2px;}  
+.GMMenuItemHover {background-color:#ffeeaa; border:1px solid #aaaadd;margin:0 1px; padding:1px 0;}
+.GMMenuFocusHover {margin:1px; background-color:#CAE1F3; border:1px solid #000000;}
+.GMMenuFocus      {margin:1px; background-color:#CAE1F3; border:1px solid #aaaadd;}
+.GMMenuDisabledHover {margin:1px; background-color:#dddddd; border:1px solid #aaaadd; }
+.GMMenuDisabled      {margin:1px; background-color:#dddddd; border:1px solid #aaaadd;}
+.GMMenuSeparator {margin:1px 3px 0 3px; height:1px; border-top:1px solid #aaaadd; overflow:hidden;}
+.GMMenuCaption {padding:2px; background:#ffffff; color:blue; text-align:center;}
+.GMMenuVSeparator { border-right:1px solid #DDD; }
+.GMMenuFoot { border-top:none; text-align:center; white-space:nowrap; }
+.GMMenuButton {font-size:11px;background:#dcecf8; text-align:center; border:1px solid #8a8fb5;margin:5px 2px 4px 2px;padding:0;white-space:nowrap;width:48px;} 
+.GMMenuButtonHover { background:#ffeeaa; border:1px solid #aaaadd; }
+
+.GMEnumMenuItem {background-color:#ffffff;padding:2px;padding-top:0px;padding-bottom:0px;}  
+.GMEnumMenuFocus      {margin:1px; background-color:#CAE1F3; border:1px solid #aaaadd;}
+.GMEnumMenuFocusHover {margin:1px; background-color:#CAE1F3; border:1px solid #000000;}
+.GMEnumMenuItemHover {background-color:#ffeeaa; border:0px solid #aaaadd;margin:0 1px; padding:1px;padding-top:0px;padding-bottom:0px;}
+.GMEnumMenuColBorderColor {border-color:#e0e0ff; font-size:/*IBFS*/12px; font-family:/*IBFN*/"Dotum", "Helvetica", "AppleGothic", sans-serif;}
+
+.GMSuggestMenuItem {background-color:#ffffff;padding:2px;padding-top:0px;padding-bottom:0px;}  
+.GMSuggestMenuFocus       {margin:1px; background-color:#CAE1F3; border:1px solid #aaaadd;}
+.GMSuggestMenuFocusHover {margin:1px; background-color:#CAE1F3; border:1px solid #000000;}
+.GMSuggestMenuItemHover {background-color:#ffeeaa; border:0px solid #aaaadd;margin:0 1px; padding:1px;padding-top:0px;padding-bottom:0px;}
+.GMSuggestMenuColBorderColor {border-color:#e0e0ff;}
+
+/* Grid configuration menus */
+.GMCfgMenuOuter,.GMColumnsMenuOuter { border:1px solid #000000; }
+.GMCfgMenuHead,.GMColumnsMenuHead { padding-left:3px; }
+.GMCfgMenuBody,.GMColumnsMenuBody { padding-left:4px; padding-right:4px;}
+.GMCfgMenuFoot,.GMColumnsMenuFoot { padding-right:3px; padding-left:3px;}
+.GMCfgMenuButton { width:70px; } 
+.GMCfgMenuItemText,.GMColumnsMenuItemText { padding-left:3px; }
+.GMColumnsMenuItemText { white-space:nowrap; }
+.GMCfgMenuItem,.GMColumnsMenuItem { padding-top:3px; padding-bottom:3px;}
+.GMCfgMenuItemHover,.GMCfgMenuFocus,.GMCfgMenuFocusHover,
+.GMColumnsMenuItemHover,.GMColumnsMenuFocus,.GMColumnsMenuFocusHover { padding-top:2px; padding-bottom:2px;}
+
+/* Popup grid dialog */
+.GMPopupGridOuter { border:0; overflow:visible; }
+.GMPopupGridHead { padding:0; }
+.GMPopupGridBody { padding:0; }
+.GMPopupGridFoot { padding:0; }
+.GMPopupGridButton { width:50px;margin-top:-2px; margin-bottom:3px;} 
+
+/* Calendar */
+/* calendar small design */
+.GMPickMain  {position:absolute; left:0; top:0; z-index:258; font-size:/*IBFS*/12px; font-family:/*IBFN*/"Dotum", "Helvetica", "AppleGothic", sans-serif;}
+.GMPickOuter {overflow:hidden; background:white; padding:1px; border:1px solid #426b8c; }
+.GMPickHeader{overflow:hidden; position:absolute; z-index:258; border:1px solid black; background:#ffffff; cursor:pointer; _cursor:hand;}
+.GMPickHeaderBottom{border-bottom:0; padding-bottom:1px;}
+.GMPickHeaderTop{border-top:0; padding-bottom:1px; }
+.GMPickHead {background:#5c8397; font:10px Dotum,Verdana,Arial; color:white; cursor:default; padding-left:5px; padding-top:1px; padding-bottom:1px;border-bottom:1px solid white;}
+.GMPickClose{float:right; width:14px; cursor:pointer; _cursor:hand; display:none;}
+.GMPickBody {cursor:default; padding:0; }
+.GMPickShadow{position:absolute; background:#888; z-index:257; margin:3px 0 0 3px;opacity:0.5; filter:alpha(opacity=50);} 
+.GMPickFooter,.GMPick2Footer{text-align:center; padding:2px; cursor:default; background:#EFF0F1; border-top:1px solid #E3E4E6}
+ 
+.GMPickMY{background-color:#C9E1F5;border-bottom:1px solid #99BCE8;color:#15498B; cursor:default;text-align:center;padding:2px 0 4px 0;}
+   
+.GMPickMYDown{padding-right:13px; background:url(d_down.gif) no-repeat right; cursor:pointer; _cursor:hand;}
+.GMPickMYUp {padding-right:13px; background:url(d_up.gif) no-repeat right center; cursor:pointer; _cursor:hand;}
+
+.GMPickMYRtl{padding-right:0; padding-left:13px; }
+.GMPickBL,.GMPickBR{padding-top:3px; cursor:pointer; _cursor:hand; width:16px; height:14px; overflow:hidden;}
+
+.GMPickBL {float:left !important; background:url(d_left.gif) no-repeat 50%; }
+.GMPickBR {float:right !important; background:url(d_right.gif) no-repeat 50%; }
+
+.GMPickTable{width:160px !important;}
+.GMPickRow  {background:#ffffff;}
+.GMPickRowW {background:#DAEAF8;}
+.GMPickCell {width:22px;}
+.GMPickWDN {background:transparent; color:#333333;text-align:center; cursor:default; margin:2px 3px;padding:1px;}
+
+.GMPickHover,.GMPickSelHover,.GMPickWD,.GMPickSa,.GMPickSu,.GMPickHo,.GMPickSel,.GMPickNow,.GMPickWDNE,.GMPickSaNE,.GMPickSuNE,
+.GMPickSelNE,.GMPickNowNE,.GMPickOM,.GMPickOMNE {text-align:center; border:1px solid #ffffff; cursor:pointer; _cursor:hand;margin:2px 3px;}
+.GMPickWN,.GMPickWNE {text-align:center; cursor:pointer; _cursor:hand;padding:3px 4px; border-right:1px solid #8CA9E1; background:#EFF0F1; white-space:nowrap;}
+
+.GMPickWDNE,.GMPickSaNE,.GMPickSuNE,.GMPickSelNE,.GMPickNowNE,.GMPickWNE {cursor:default;}
+.GMPickWD{background-color:#ffffff;}
+.GMPickSa{background-color:#ffffff; color:blue;}
+.GMPickSu{background-color:#ffffff; color:red;}
+.GMPickHo {background-color:#ffffff; color:orange;}
+.GMPickSel{background-color:#fbea54; border:1px solid #dad1d1;}
+.GMPickSelNE{background-color:#fbea54; border:1px solid #dad1d1;}
+.GMPickNow {background-color:#c0f3ff; border:1px solid #dad1d1;}
+.GMPickNowNE{background-color:#c0f3ff; border:1px solid #dad1d1;}
+.GMPickHover{background-color:#ddd; border:1px solid #ddd;}
+.GMPickSelHover{background-color:#eeeeaa; border:1px solid #ddd;}
+.GMPickOM{background-color:white; color:#aaaaaa;}
+.GMPickOMNE{color:#aaaaaa;}
+
+.GMPickEmpty{background:url(d_blank.gif) no-repeat 50%; cursor:pointer; _cursor:hand;padding:3px 0; }
+
+.GMPickTimeCell 
+{text-align:right; padding-bottom:4px; padding-top:6px; padding-right:5px; border-top:1px solid #8CA9E1; background:#EFF0F1;}
+
+.GMPickTime 
+{border:0px none; white-space:nowrap; text-align:right; background:#EFF0F1;}
+
+.GMPickButton{background:#dcecf8; text-align:center; border:1px solid #8a8fb5; width:45px; height:16px; font:inherit;}
+    
+.GMPickButtonHover{background:#ffeeaa; border:1px solid #aaaadd; }
+.GMPick2Table{width:158px !important; vertical-align:middle}
+.GMPick2CellM{height:20px; width:55px; }
+.GMPick2CellY{height:20px; width:35px; vertical-align:middle }
+.GMPick2CellSep{height:20px; width:5px; }
+.GMPick2Cell{vertical-align:middle}
+.GMPick2M,.GMPick2Y,.GMPick2MSel,.GMPick2YSel,.GMPick2MHover,.GMPick2YHover,.GMPick2MSelHover,.GMPick2YSelHover
+{cursor:pointer; _cursor:hand; text-align:center; margin-left:1px; margin-right:1px; padding-left:4px; padding-right:4px; overflow:hidden; }
+   
+.GMPick2MSel,.GMPick2YSel {background:#c0f3ff; border:1px solid #dad1d1; margin-left:0; margin-right:0;}
+.GMPick2MHover,.GMPick2YHover {background:#DDD; border:1px solid #ffffff; margin-left:0; margin-right:0;}
+.GMPick2MSelHover,.GMPick2YSelHover {background:#80e0f0; border:1px solid #ffffff;margin-left:0; margin-right:0;}   
+.GMPick2SepH {width:1px; height:1px; overflow:hidden; }
+.GMPick2Sep {width:1px; background:#E3E4E6; overflow:hidden; margin-left:2px; margin-right:2px; height:20px;}
+.GMPick2BL,.GMPick2BR {width:35px; cursor:pointer; _cursor:hand; }
+
+
+.GMPick2BL {background:url(d_left2.gif) no-repeat center center}
+.GMPick2BR {background:url(d_right2.gif) no-repeat center center}
+
+/* calendar large design */
+/*
+.GMPickMain { position:absolute; left:0px; top:0px; z-index:258; font-size:12px; font-family:"Dotum", "Helvetica", "AppleGothic", sans-serif;}
+.GMPickOuter { overflow:hidden; border:1px solid black; background:white; }
+.GMPickHeader { overflow:hidden; position:absolute; z-index:258; border:1px solid black; background:white; cursor:pointer; _cursor:hand; }
+.GMPickHeaderBottom { border-bottom:0px none; padding-bottom:1px; }
+.GMPickHeaderTop { border-top:0px none; padding-bottom:1px; }
+.GMPickHead { background:white; font:bold 13px "Microsoft Sans Serif",Arial; cursor:default; padding-left:5px; padding-top:3px; padding-bottom:4px; }
+.GMPickClose { float:right; width:14px; cursor:pointer; _cursor:hand; display:none; background:url(Menu.gif) no-repeat right -353px; }
+.GMPickBody { cursor:default; border:none;}
+.GMPickShadow { position:absolute; background:#888; z-index:257; margin-left:3px; margin-top:3px; opacity:0.5; filter:alpha(opacity=50); }   
+.GMPickFooter,.GMPick2Footer { border-top:1px solid #E3E4E6; background:#EFF0F1; color:blue; cursor:default; padding:2px; text-align:center; }
+
+.GMPickMY{background-color:#0062b1; color:white; cursor:default; text-align:center; padding:4px 0 4px 0;}
+
+.GMPickMYNone { font:15px "Microsoft Sans Serif",Arial; padding-right:13px; }
+.GMPickMYDown { font:15px "Microsoft Sans Serif",Arial; padding-right:13px; background:url(d_l_down.gif) no-repeat right; cursor:pointer; _cursor:hand; }   
+.GMPickMYUp { font:15px "Microsoft Sans Serif",Arial; padding-right:13px; background:url(d_l_up.gif) no-repeat right; cursor:pointer; _cursor:hand; }
+.GMPickMYRtl { padding-right:0px; padding-left:13px; }
+
+.GMPickBL,.GMPickBR { padding-top:10px; cursor:pointer; _cursor:hand; width:16px; overflow:hidden; }
+.GMPickBL { float:left !important; background:url(d_l_left.gif) no-repeat 50%;}
+.GMPickBR { float:right !important; background:url(d_l_right.gif) no-repeat 50%;}
+
+.GMPickTableParent { padding-left:3px; padding-right:5px; padding-bottom:5px; padding-top:3px; clear:both; }
+.GMPickTable { width:240px !important; }
+.GMPickRow { background:white; }
+.GMPickRowW { background:#a8daff;}   
+.GMPickCell { width:30px;}
+.GMPickWDN {
+   text-align:center; padding:1px; color:#010101;
+   padding-left:3px; padding-right:3px; padding-top:2px; padding-bottom:2px;border-left:1px solid #fff;
+   font:15px "Microsoft Sans Serif",Arial; cursor:default;
+   }
+.GMPickHover,.GMPickSelHover,.GMPickWD,.GMPickSa,.GMPickSu,.GMPickHo,.GMPickSel,.GMPickNow,.GMPickWDNE,.GMPickSaNE,.GMPickSuNE,.GMPickSelNE,.GMPickNowNE,.GMPickOM,.GMPickOMNE {
+   text-align:center; padding-top:4px; padding-bottom:4px; padding-left:3px; padding-right:3px;
+   font:15px "Microsoft Sans Serif",Arial; cursor:pointer; _cursor:hand;border-bottom:1px solid #e4e4e4;border-right:1px solid #e4e4e4;
+   }
+.GMPickWN,.GMPickWNE { 
+   text-align:center; font:15px "Microsoft Sans Serif",Arial; cursor:pointer; _cursor:hand;
+   padding-left:4px; padding-right:4px; padding-top:4px; padding-bottom:4px;
+   background:#488; color:white;
+   }
+.GMPickWDNE,.GMPickSaNE,.GMPickSuNE,.GMPickSelNE,.GMPickNowNE,.GMPickWNE { cursor:default; background-color:#e4e4e4; color:#000; border-bottom:1px solid #d0d0d0; border-left:1px solid #d0d0d0;}
+.GMPickWD { background-color:#fff; }
+.GMPickSa { color:#0d3def; } 
+.GMPickSu { color:#e40505; } 
+.GMPickHo { color:orange; } 
+.GMPickSel { color:#05467c;font-weight:bold;background-color:#e4e4e4; }
+.GMPickSelNE { color:#05467c;font-weight:bold;background-color:#e4e4e4; }
+.GMPickNow { background-color:#a8daff; }
+.GMPickNowNE { background-color:#ffe0ff; }
+.GMPickOM { background-color:inherit; color:#c1c1c1; }
+.GMPickOMNE { color:#aaaaaa; }
+.GMPickEmpty { background:url(d_blank.gif) no-repeat 50%; cursor:pointer; _cursor:hand; padding:6px 0 0 0;}
+.GMPickHover { background-color:#DDD; }
+.GMPickSelHover { background-color:#eeee77; }
+
+.GMPickTimeCell { text-align:right; background-color:white; padding-bottom:4px; padding-top:6px; padding-right:5px; }
+.GMPickTime { font:13px Verdana,Arial; border:0px none; white-space:nowrap; text-align:right; }
+.GMPickButton {font:14px "Microsoft Sans Serif",Arial; background:#dcecf8; text-align:center; border:1px solid #8a8fb5; width:60px; height:20px; font:inherit;}
+    
+.GMPickButtonHover{background:#9cd0fa; border:1px solid #aaaadd; }
+
+.GMPick2TableParent { padding-left:3px; padding-right:3px; padding-bottom:1px; padding-top:2px; text-align:center; }
+.GMPick2Table { vertical-align:middle; width:240px !important; }
+.GMPick2Row { background:white;}
+.GMPick2CellM { height:35px; width:76px; }
+.GMPick2CellY { vertical-align:middle; height:27px; width:55px;text-align:center;}
+.GMPick2CellSep { height:27px; width:10px; }
+.GMPick2Cell { vertical-align:middle; height:27px; width:55px;}
+.GMPick2M,.GMPick2Y,.GMPick2MSel,.GMPick2YSel,.GMPick2MHover,.GMPick2YHover,.GMPick2MSelHover,.GMPick2YSelHover {
+   font:14px "Microsoft Sans Serif",Arial; overflow:hidden;
+   margin-left:1px; margin-right:1px;
+   padding-left:4px; padding-right:4px; overflow:hidden;
+   background-color:white; cursor:pointer; _cursor:hand; text-align:center;
+   }
+.GMPick2MSel,.GMPick2YSel { background-color:#d1ebff; border:1px solid #dad1d1; margin-left:0; margin-right:0;}
+.GMPick2MHover,.GMPick2YHover { background-color:#DDD; border:1px solid #ffffff; margin-left:0; margin-right:0;}
+.GMPick2MSelHover,.GMPick2YSelHover { background-color:#9cd0fa; border:1px solid #ffffff; margin-left:0; margin-right:0;}   
+.GMPick2SepH { width:1px; height:1px; overflow:hidden; }
+.GMPick2Sep { width:1px; background:#E3E4E6; overflow:hidden; margin-left:4px; margin-right:5px; height:27px; }    
+.GMPick2BL,.GMPick2BR {width:24px !important; cursor:pointer; _cursor:hand;padding:3px 0px;margin:0 auto;}
+.GMPick2BL { background:url(d_l_left2.gif) no-repeat center center;}
+.GMPick2BR { background:url(d_l_right2.gif) no-repeat center center;}
+*/
+
+/* Edit controls */
+.GMEdit,.GMEditInline {padding:2px 4px;border:1px solid #DDD; border-top:1px solid #666; border-left:1px solid #666;background:#ffffff; white-space:nowrap; overflow:hidden;}
+  
+.GMEditInline { display:inline-block; vertical-align:bottom; }
+.GMEditInput,.GMEditTextarea {border:0 solid transparent !important; margin:0; padding:0;padding-right:1px !important;vertical-align: middle; font-size:/*IBFS*/12px; font-family:/*IBFN*/"Dotum", "Helvetica", "AppleGothic", sans-serif;} 
+
+.GMEditTextarea { line-height:13px; }
+.GMEditSpaceInput { vertical-align:middle; }
+.GMEditNormalInput,.GMEditNormalTextarea,.GMEditSpaceTextarea { background-color:#FFFFFF; /*#FFDCFF;*/; }
+.GMEditInt,.GMEditFloat { text-align:right; }
+
+.GMEditMulti { white-space:normal; }
+.GMEditReadOnly { background-color:#FFEEFF; }   
+.GMEditParent { position:absolute; z-index:258; overflow:hidden; }
+
+.GMEnumHeaderLeft,.GMEnumHeaderRight,.GMEnumHeaderNone 
+{background:white; cursor:pointer; _cursor:hand; vertical-align:middle; text-align:left; padding:2px 0 2px 2px; font-size:/*IBFS*/12px; font-family:/*IBFN*/"Dotum", "Helvetica", "AppleGothic", sans-serif;}
+
+.GMEnumHeaderRight {background: url(combo.gif) no-repeat right center;margin:1px 1px 0 0;}
+ @media screen and (-webkit-min-device-pixel-ratio:0) {.GMEnumHeaderRight{margin:1px 0 0 0;}}/* hack:CR,SF */
+.GMEnumHeaderRight, x:-moz-any-link, x:default {margin:1px 0 0 0;} /* hack:FF */
+ @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {.GMEnumHeaderRight{ margin:1px 0 0 0;}}/* hack:OP */
+
+.GMEnumMenuHeader { background:#ffffff; }
+
+.GMEnumControl,.GMEnumInline {
+   cursor:pointer; _cursor:hand; padding-left:15px; padding-right:4px; padding-top:2px; padding-bottom:2px;
+   border:1px solid #DDD; border-top:1px solid #666; border-left:1px solid #666; overflow:hidden;}
+   
+.GMEnumInline { display:inline-block; vertical-align:bottom; }
+.GMEnumHeader { cursor:pointer; _cursor:hand;padding-left:15px; padding-right:4px; padding-top:2px; padding-bottom:2px;} 
+
+/*  Custom scrollbars  */
+.GMCustScroll1RightHidden { background:url(VScroll.gif) left -108px; height:18px; overflow:hidden; }
+.GMCustScroll1Right { padding-right:18px; background:url(VScroll.gif) right 0; }
+.GMCustScroll1RightHover { padding-right:18px; background:url(VScroll.gif) right -18px; }
+.GMCustScroll1Left { padding-left:18px;  background:url(VScroll.gif) left 0; }
+.GMCustScroll1LeftHover { padding-left:18px;  background:url(VScroll.gif) left -18px; }
+.GMCustScroll1SliderRight { padding-right:3px; background:url(VScroll.gif) right -36px; }
+.GMCustScroll1SliderLeft { padding-left:3px; background:url(VScroll.gif) left -36px; }
+.GMCustScroll1SliderHIn { height:18px; overflow:hidden; background:url(VScroll.gif) center -54px; }
+.GMCustScroll1SliderRightHover { padding-right:3px; background:url(VScroll.gif) right -72px; }
+.GMCustScroll1SliderLeftHover { padding-left:3px; background:url(VScroll.gif) left -72px; }
+.GMCustScroll1SliderHInHover { height:18px; overflow:hidden; background:url(VScroll.gif) center -90px; }
+
+.GMCustScroll2RightHidden { background:url(VScroll.gif) left -460px; height:10px; overflow:hidden; }
+.GMCustScroll2Right { padding-right:10px; background:url(VScroll.gif) right -400px; }
+.GMCustScroll2RightHover { padding-right:10px; background:url(VScroll.gif) right -410px; }
+.GMCustScroll2Left { padding-left:10px;  background:url(VScroll.gif) left -400px; }
+.GMCustScroll2LeftHover { padding-left:10px;  background:url(VScroll.gif) left -410px; }
+.GMCustScroll2SliderRight { padding-right:6px; background:url(VScroll.gif) right -420px; }
+.GMCustScroll2SliderLeft { padding-left:6px; background:url(VScroll.gif) left -420px; }
+.GMCustScroll2SliderHIn { height:10px; overflow:hidden; background:url(VScroll.gif) center -430px; }
+.GMCustScroll2SliderRightHover { padding-right:6px; background:url(VScroll.gif) right -440px; }
+.GMCustScroll2SliderLeftHover { padding-left:6px; background:url(VScroll.gif) left -440px; }
+.GMCustScroll2SliderHInHover { height:10px; overflow:hidden; background:url(VScroll.gif) center -450px; }
+
+.GMCustScroll3Right,.GMCustScroll3RightHidden { background:white; height:9px; overflow:hidden; }
+.GMCustScroll3SliderRight,.GMCustScroll3SliderRightHover { padding-right:3px; height:9px; background:url(VScroll.gif) right -126px; }
+.GMCustScroll3SliderLeft,.GMCustScroll3SliderLeftHover { height:9px; background:url(VScroll.gif) left -126px; }
+.GMCustScroll3SliderRightHover { background-position:right -135px; }
+.GMCustScroll3SliderLeftHover { background-position:left -135px; }
+
+.GMCustScroll4Right,.GMCustScroll4RightHidden,.GMCustScroll4SliderRight,.GMCustScroll4SliderRightHover { height:1px; overflow:hidden; }
+
+.GMCustScroll1DownHidden { background:url(HScroll.gif) -108px top; width:18px; overflow:hidden; }
+.GMCustScroll1Down { padding-bottom:18px; background:url(HScroll.gif) 0px bottom; cursor:default; width:18px; overflow:hidden; }
+.GMCustScroll1DownHover { padding-bottom:18px; background:url(HScroll.gif) -18px bottom; width:18px; overflow:hidden; }
+.GMCustScroll1Up { padding-top:18px; background:url(HScroll.gif) 0px top; width:18px; overflow:hidden; }
+.GMCustScroll1UpHover { padding-top:18px;  background:url(HScroll.gif) -18px top; width:18px; overflow:hidden; }
+.GMCustScroll1SliderDown { padding-bottom:3px; background:url(HScroll.gif) -36px bottom; width:18px; overflow:hidden; }
+.GMCustScroll1SliderUp { padding-top:3px; background:url(HScroll.gif) -36px top; width:18px; overflow:hidden; }
+.GMCustScroll1SliderVIn { background:url(HScroll.gif) -54px center; width:18px; overflow:hidden; }
+.GMCustScroll1SliderDownHover { padding-bottom:3px; background:url(HScroll.gif) -72px bottom; width:18px; overflow:hidden; }
+.GMCustScroll1SliderUpHover { padding-top:3px; background:url(HScroll.gif) -72px top; width:18px; overflow:hidden; }
+.GMCustScroll1SliderVInHover { background:url(HScroll.gif) -90px center; width:18px; overflow:hidden; }
+
+.GMCustScroll2DownHidden { background:url(HScroll.gif) -460px top; width:10px; overflow:hidden; }
+.GMCustScroll2Down { padding-bottom:10px; background:url(HScroll.gif) -400px bottom; cursor:default; width:10px; overflow:hidden; }
+.GMCustScroll2DownHover { padding-bottom:10px; background:url(HScroll.gif) -410px bottom; width:10px; overflow:hidden; }
+.GMCustScroll2Up { padding-top:10px; background:url(HScroll.gif) -400px top; width:10px; overflow:hidden; }
+.GMCustScroll2UpHover { padding-top:10px;  background:url(HScroll.gif) -410px top; width:10px; overflow:hidden; }
+.GMCustScroll2SliderDown { padding-bottom:6px; background:url(HScroll.gif) -420px bottom; width:10px; overflow:hidden; }
+.GMCustScroll2SliderUp { padding-top:6px; background:url(HScroll.gif) -420px top; width:10px; overflow:hidden; }
+.GMCustScroll2SliderVIn { background:url(HScroll.gif) -430px center; width:10px; overflow:hidden; }
+.GMCustScroll2SliderDownHover { padding-bottom:6px; background:url(HScroll.gif) -440px bottom; width:10px; overflow:hidden; }
+.GMCustScroll2SliderUpHover { padding-top:6px; background:url(HScroll.gif) -440px top; width:10px; overflow:hidden; }
+.GMCustScroll2SliderVInHover { background:url(HScroll.gif) -450px center; width:10px; overflow:hidden; }
+
+.GMCustScroll3Down,.GMCustScroll3DownHidden { background:white; width:9px; overflow:hidden; cursor:default; }
+.GMCustScroll3SliderDown,.GMCustScroll3SliderDownHover { padding-bottom:3px; width:9px; background:url(HScroll.gif) -126px bottom; }
+.GMCustScroll3SliderUp,.GMCustScroll3SliderUpHover { width:9px; background:url(HScroll.gif) -126px top; cursor:default; }
+.GMCustScroll3SliderDownHover { background-position:-135px bottom; }
+.GMCustScroll3SliderUpHover { background-position:-135px top; cursor:default; }
+
+.GMCustScroll4Down,.GMCustScroll4DownHidden,.GMCustScroll4SliderDown,.GMCustScroll4SliderDownHover { width:1px; overflow:hidden; }
+
+/* Other messages */
+.GMHintMain {position:absolute; margin-left:-1px; margin-top:-1px; left:0px; top:0px; z-index:260; background:#ffffff; cursor:default; }
+.GMHintOuter {overflow:hidden; border:1px solid #000000; background:#ffffff !important; color:black; text-align:left; }
+.GMHintHeaderOuter {background-color:#39aefb !important; color:#ffffff; border: 1px solid #ffffff; }
+.GMHintShadow {position:absolute; z-index:259;background:#888; opacity:0.3; filter:alpha(opacity=30);margin-left:2px; margin-top:2px;}
+.GMTipMain {position:absolute; left:0px; top:0px; z-index:262; visibility:hidden; }
+.GMTipOuter  {overflow:hidden; cursor:default; font:12px Arial;padding-left:3px; padding-right:3px; background:#E4E5F0; border:1px solid #777;}
+.GMTipBody {background:#E4E5F0; white-space:nowrap; padding: 3px;}
+.GMTipShadow {position:absolute;z-index:261;background:#888; opacity:0.3; filter:alpha(opacity=30);visibility:hidden; margin-left:3px; margin-top:3px}
+.GMMouseOrig { background:yellow !important; opacity:0.5; filter:alpha(opacity=50); }
+.GMMouseDragObject { position:absolute; z-index:260; background:#888; opacity:0.5; filter:alpha(opacity=50); }
+.GMFocus { border:1px solid #AAF; border-top:1px solid #00F; border-left:1px solid #00F; background-color:#EEE; } 
+.GridDisabled { position:absolute; z-index:256; background:white; opacity:0.5; filter:alpha(opacity=50); } 
+
+/* Do not change, marks the style loaded */
+.GMLoaded { border:1px solid #000000 !important;}
+
+/*sum*/
+.GMSumCell{background:#EAF1FB; color:#F30;}/*//text-align: right;font-weight:bold;*/
+.GMSubSumCell{background: #FFFFEF; border-bottom:1px solid #F5D9CD; color:#FF6600}
+.GMCumulateCell{background: #FFFFEF; border-bottom:1px solid #F5D9CD; color:#AE4600}
+
+/* FindDialog && PivotDialog */
+.GMH1Pop,.GMPPop{margin:0; padding:0}
+.GMPaddingl10{padding-left:10px}
+.GMPaddingT10{padding-top:10px}
+.GMPPop{ padding:0 0 10px 0; text-align:center }
+.GMPop{width:410px; overflow:hidden; border:1px solid #426B8C; padding:0; font-size:12px;background:#EBF2F5; font-family:dotum, Arial, Helvetica, sans-serif}
+.GMPopTitle{width:100%; border-bottom:1px solid #99BCE8; font-size:12px; font-weight:bold; display:block; line-height:28px; color:#15498B;
+background: #c9e1f5; /* Old browsers */
+background: -moz-linear-gradient(top,  #c9e1f5 0%, #99bce8 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c9e1f5), color-stop(100%,#99bce8)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #c9e1f5 0%,#99bce8 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #c9e1f5 0%,#99bce8 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #c9e1f5 0%,#99bce8 100%); /* IE10+ */
+background: linear-gradient(top,  #c9e1f5 0%,#99bce8 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c9e1f5', endColorstr='#99bce8',GradientType=0 ); /* IE6-9 */
+}
+.GMPopSearch{margin:5px; overflow:hidden; }
+.GMPopContent{border:1px solid #D0DBE8; background-color:#fff}
+.GMPopUl,.GMPopUl2{list-style:none; margin:0; padding:10px;}
+.GMPopDiv{overflow:hidden; width:100%}
+.GMPopDiv2{overflow:hidden; width:100%}
+.GMPopLeft,.GMPopLeft2, .GMPopLeft3 {width:220px; float:left !important; }
+.GMPopRight,.GMPopRight2,.GMPopRight3 {width:166px; float:right !important; }
+.GMPopUl input {margin:-2px 2px 0px 0px;padding:0 ; width:13px; height:13px; vertical-align:middle;}
+.GMPopUl li{ padding-top:4px; padding-bottom:3px; padding-left:5px}
+.GMPopUl2 li{ padding-top:4px; padding-bottom:3px;}
+.GMBtnArea {margin-top:10px; text-align:center }
+.GMPopLeft, .GMPopRight{ height:120px}
+.GMPopLeft2, .GMPopRight2{ height:120px}
+.GMPopLabel{line-height:12px; margin:0 0 0 2px}
+.GMPopSubtitle{font-weight:bold; color:#000; border-bottom:1px solid  #E0E0E0; background-color:#E7E7E7;padding-left:4px;}
+.GMPopBtn {text-align: center;text-decoration: none;color:#fff;position: relative;border:1px solid #316290;
+          font-size:12px; width:50px !important; height:22px !important; cursor:pointer;}
+.GMPopBtn2 {text-align: center;text-decoration: none;color:#fff;position: relative;border:1px solid #316290;
+          font-size:12px; height:22px !important; cursor:pointer;}
+.GMPopBtn, .GMPopBtn:hover {color:#fff;}
+.GMPopBtnBlue {
+    background: #5689b9; /* Old browsers */
+    background: -moz-linear-gradient(top,  #5689b9 0%, #3a6ea0 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5689b9), color-stop(100%,#3a6ea0)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #5689b9 0%,#3a6ea0 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #5689b9 0%,#3a6ea0 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #5689b9 0%,#3a6ea0 100%); /* IE10+ */
+    background: linear-gradient(top,  #5689b9 0%,#3a6ea0 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5689b9', endColorstr='#3a6ea0',GradientType=0 ); /* IE6-9 */
+}
+.GMPopBtnBlue:hover {
+    background: #3a6ea0; /* Old browsers */
+    background: -moz-linear-gradient(top,  #3a6ea0 0%, #5689b9 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3a6ea0), color-stop(100%,#5689b9)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #3a6ea0 0%,#5689b9 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #3a6ea0 0%,#5689b9 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #3a6ea0 0%,#5689b9 100%); /* IE10+ */
+    background: linear-gradient(top,  #3a6ea0 0%,#5689b9 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3a6ea0', endColorstr='#5689b9',GradientType=0 ); /* IE6-9 */
+}
+
+.GMUserBtn {text-align: center;text-decoration: none;color:#fff;position: relative;border:1px solid #316290;margin-left:4px;
+          font-size:12px; height:20px !important; cursor:pointer;}
+.GMUserBtn, .GMUserBtn:hover {color:#fff;}
+.GMUserBtnBlue {
+    background: #5689b9; /* Old browsers */
+    background: -moz-linear-gradient(top,  #5689b9 0%, #3a6ea0 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5689b9), color-stop(100%,#3a6ea0)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #5689b9 0%,#3a6ea0 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #5689b9 0%,#3a6ea0 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #5689b9 0%,#3a6ea0 100%); /* IE10+ */
+    background: linear-gradient(top,  #5689b9 0%,#3a6ea0 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5689b9', endColorstr='#3a6ea0',GradientType=0 ); /* IE6-9 */
+}
+.GMUserBtnBlue:hover {
+    background: #3a6ea0; /* Old browsers */
+    background: -moz-linear-gradient(top,  #3a6ea0 0%, #5689b9 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3a6ea0), color-stop(100%,#5689b9)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #3a6ea0 0%,#5689b9 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #3a6ea0 0%,#5689b9 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #3a6ea0 0%,#5689b9 100%); /* IE10+ */
+    background: linear-gradient(top,  #3a6ea0 0%,#5689b9 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3a6ea0', endColorstr='#5689b9',GradientType=0 ); /* IE6-9 */
+}
+
+.GMPopDisc {margin:0px 8px 8px 8px; background-color:#ebf2f5; border:1px solid #D0DBE8;}
+.GMPopDisc ul {padding:0px; margin-left:0; margin-top:10px; margin-bottom:0;}
+.GMPopDisc li {list-style:none; background:url(bullet.gif) no-repeat 5px 3px; margin-bottom:8px; padding-left:13px; color:#426b8c; word-break:break-all;}
+
+.GMPopChkArea {margin:8px; height:25px;}
+.GMPopChkArea ul {margin:0; padding:0; float:right!important; background-color:#ebf2f5; border:1px solid #D0DBE8;}
+.GMPopChkArea li {float:left!important; padding:3px 5px 0px 5px; list-style:none; color:#426b8c; font-weight:bold;}
+
+.GMPopFilter {width:250px;}
+.GMPopHelp0, .GMPopHelp1, .GMPopClose {
+    cursor:pointer;
+    margin-top:4px;padding-right:3px;float:right!important;height:20px;
+    border: 0px none; background-repeat: no-repeat; padding-left: 12px; background-image: url(filter_btn.gif);
+}
+.GMPopHelp0 { background-position:0px 0px; }
+.GMPopHelp1 { background-position:-23px 0px; }
+.GMPopClose { background-position:-46px 0px; }
+
+/* Paging Icon */
+.GMToolPagerFirst, .GMToolPagerFirst1, .GMToolPagerPrev, .GMToolPagerPrev1, .GMToolPagerNext, .GMToolPagerNext1, .GMToolPagerLast, .GMToolPagerLast1 {
+    border: 0px none; background-repeat: no-repeat; padding-left: 16px; padding-right: 3px; background-image: url(pager.gif);
+}
+
+.GMToolPagerFirst1 { background-position:0px 0px; }
+.GMToolPagerFirst { background-position:-30px 0px; }
+.GMToolPagerPrev1 { background-position:-120px 0px; }
+.GMToolPagerPrev { background-position:-150px 0px; }
+.GMToolPagerNext1 { background-position:-180px 0px; }
+.GMToolPagerNext { background-position:-210px 0px; }
+.GMToolPagerLast1 { background-position:-300px 0px; }
+.GMToolPagerLast { background-position:-330px 0px; }
+
+.GMToolExpand1, .GMToolCollapse1 {
+    border: 0px none; background-repeat: no-repeat; padding-left: 16px; padding-right: 3px; background-image: url(group.gif);
+}
+
+.GMToolExpand1 { background-position:4px 3px; }
+.GMToolCollapse1 { background-position:-21px 3px; }
+
+.GMScrollInfo {
+    background:#E8E8E8; padding: 8px; border: 1px solid #C8C8C8; z-index:300; box-shadow: 3px 3px 3px #888888;    
+}
+
+/* FocusedSheet */
+/*
+.GMFocusedSheet{  
+    z-index:0; border:1px solid #88bde9 !important; outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px #88bde9, 0 0 10px #88bde9;
+    -moz-box-shadow: inset 0 1px 1px #88bde9, 0 0 10px #88bde9;
+    box-shadow: 0 0 10px #88bde9; 
+}
+*/
+/* button { padding: 1px !important; }
+
+.GMPick2CellY {
+    padding: 5px !important;
+} */
+
+/* Web-accessibility calender */
+.GMPickCell button, .GMPickBL button, .GMPickBR button, .GMPickMY button, .GMPickMYDown button, .GMPickMYUp button, .GMPickMYRtl button, .GMPick2Cell button, .GMPick2BL button, .GMPick2BR button, .GMPick2MY button, .GMPick2MYDown button, .GMPick2MYUp button, .GMPick2MYRtl button, .GMPick2CellY button, .GMPickEmpty button {border: 0px; background:transparent; padding: 0; margin: 0 auto; cursor:pointer; _cursor:hand; }
+.GMPickBL button, .GMPickBR button, .GMPick2BL button, .GMPick2BR button, .GMPickEmpty button {width: 100%;}
+.GMPickOM button {background-color:white; color:#aaaaaa;}
+.GMPickOMNE button {color:#aaaaaa;}
+.GMSortButton {display:block; float:right; border: 0px; background:transparent; padding: 0 2px; cursor:pointer; _cursor:hand; }
+

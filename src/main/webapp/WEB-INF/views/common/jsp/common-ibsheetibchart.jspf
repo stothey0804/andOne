@@ -1,0 +1,8 @@
+<script src="<c:url value='/common/IBSheet7/sheet/js/ibsheet_config.js'/>"></script>
+<script src="<c:url value='/common/IBSheet7/sheet/js/ibsheet.js'/>"></script>
+<script src="<c:url value='/common/IBSheet7/sheet/js/ibsheetinfo.js'/>"></script>
+
+<script src="<c:url value='/common/IBSheet7/chart/highcharts/highcharts.js'/>"></script>
+<script src="<c:url value='/common/IBSheet7/chart/ibchart.js'/>"></script>
+<script src="<c:url value='/common/IBSheet7/chart/ibchartinfo.js'/>"></script>
+

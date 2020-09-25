@@ -1,0 +1,15 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link rel="stylesheet" type="text/css" href="<c:url value='/common/css/sheetSample.css'/>">
+<link rel="stylesheet" type="text/css"  href="<c:url value='/common/jquery/jquery-ui/jquery-ui.min.css'/>" />
+
+
+<script src="<c:url value='/common/jquery/js/jquery.1.12.4.js'/>"></script>
+<script src="<c:url value='/common/jquery/jquery-ui/jquery-ui.min.js'/>"></script>
+<script src="<c:url value='/common/jquery/js/jquery.blockUI.js'/>"></script>
+
+<script src="<c:url value='/common/js/json2.js'/>"></script>
+
+<script src="<c:url value='/common/js/message.js'/>"></script>
+<script src="<c:url value='/common/js/ib.util.js'/>"></script>
+<script src="<c:url value='/common/js/ib.common.js'/>"></script>
