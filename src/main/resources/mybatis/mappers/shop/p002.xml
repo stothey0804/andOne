@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="shop.p002">
+	
+	<resultMap id="shopDetail" type="P002ShopDetailVO">
+		<id property="s_id" column="S_ID" />
+		<result property="s_category" column="S_CATEGORY" />
+		<result property="s_name" column="S_NAME" />
+		<result property="s_score" column="S_SCORE" />
+		<result property="s_content" column="S_CONTENT" />
+		<result property="bm_id" column="BM_ID" />
+		<result property="s_locate" column="S_LOCATE" />
+		<result property="s_phoneNumber" column="S_PHONENUMBER" />
+		<result property="s_hashtag" column="S_HASHTAG" />
+		<result property="reviewCount" column="REVIEWCOUNT" />
+		<result property="gc_name" column="GC_NAME" />
+		<collection property="shopImage" column="S_ID" javaType="java.util.ArrayList" 
+					select="getShopImageList" ofType="P002ShopImageVO"/>
+		<collection property="shopReviewList" column="S_ID" javaType="java.util.ArrayList" 
+					select="getShopReviewListByShopId" ofType="P003ShopReviewVO"/>						
+	</resultMap>
+	
+	<resultMap id="shopImage" type="P002ShopImageVO">
+		<id property="si_idx" column="SI_IDX" />
+		<result property="s_id" column="S_ID" />		
+		<result property="si_img" column="SI_IMG" />		
+		<result property="si_editor" column="SI_EDITOR" />		
+		<result property="si_editdate" column="SI_EDITDATE" />		
+	</resultMap>
+	
+	<resultMap id="shopReview" type="P003ShopReviewVO">
+		<result property="s_id" column="S_ID" />
+		<result property="m_id" column="M_ID" />
+		<result property="sr_date" column="SR_DATE" />
+		<result property="sr_score" column="SR_SCORE" />
+		<result property="sr_content" column="SR_CONTENT" />
+		<result property="sr_public" column="SR_PUBLIC" />
+		<result property="sr_editor" column="SR_EDITOR" />
+		<result property="sr_editdate" column="SR_EDITDATE" />
+		<collection property="shopReviewImage" column="{s_id=S_ID,m_id=M_ID}" javaType="java.util.ArrayList" 
+					select="getShopReviewImageList" ofType="P003ShopReviewImageVO"/>
+	</resultMap>
+	
+	<resultMap id="shopReviewImage" type="P003ShopReviewImageVO">
+		<id property="ri_idx" column="RI_IDX" />		
+		<result property="s_id" column="S_ID" />		
+		<result property="m_id" column="M_ID" />		
+		<result property="ri_editor" column="RI_EDITOR" />		
+		<result property="ri_img" column="RI_IMG" />		
+		<result property="ri_editdate" column="RI_EDITDATE" />		
+	</resultMap>
+
+<select id="getShopList" resultMap="shop.p002.shopDetail">
+	<![CDATA[
+		SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
+        S_LOCATE, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME
+		FROM SHOP S 
+		INNER JOIN
+		(
+			SELECT COUNT(*) AS REVIEWCOUNT, INS.S_ID
+			FROM SHOP INS 
+			INNER JOIN S_REVIEW INSR ON INS.S_ID=INSR.S_ID
+			GROUP BY INS.S_ID
+		)CNT ON S.S_ID = CNT.S_ID
+		INNER JOIN
+		(
+			SELECT GC_ID, GC_NAME
+			FROM COMMON_CODE
+			WHERE G_ID=009
+		)CODE ON S.S_CATEGORY = CODE.GC_ID
+		ORDER BY S.S_ID ASC;
+	]]>
+</select>
+
+<select id="getShopDetail" resultMap="shop.p002.shopDetail">
+	<![CDATA[
+		SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
+        S_LOCATE, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME
+		FROM SHOP S 
+		INNER JOIN
+		(
+			SELECT COUNT(*) AS REVIEWCOUNT, INS.S_ID
+			FROM SHOP INS 
+			INNER JOIN S_REVIEW INSR ON INS.S_ID=INSR.S_ID
+			GROUP BY INS.S_ID
+		)CNT ON S.S_ID = CNT.S_ID
+		INNER JOIN
+		(
+			SELECT GC_ID, GC_NAME
+			FROM COMMON_CODE
+			WHERE G_ID=009
+		)CODE ON S.S_CATEGORY = CODE.GC_ID
+		WHERE S.S_ID = #{s_id}
+	]]>
+</select>
+
+<select id="getShopImageList" resultMap="shop.p002.shopImage">
+	<![CDATA[
+		SELECT SI_IDX, S_ID, SI_IMG, SI_EDITOR, SI_EDITDATE
+		FROM S_IMAGE
+		WHERE S_ID = #{s_id}
+		ORDER BY SI_IDX ASC
+	]]>
+</select>
+
+<select id="getShopReviewListByMemberId" resultMap="shop.p002.shopReview">
+	<![CDATA[
+		SELECT S_ID, M_ID, SR_DATE, SR_CONTENT, SR_SCORE, SR_PUBLIC, SR_EDITOR, SR_EDITDATE
+		FROM S_REVIEW
+		WHERE M_ID = #{m_id}
+	]]>
+</select>
+
+<select id="getShopReviewListByShopId" resultMap="shop.p002.shopReview">
+	<![CDATA[
+		SELECT S_ID, M_ID, SR_DATE, SR_CONTENT, SR_SCORE, SR_PUBLIC, SR_EDITOR, SR_EDITDATE
+		FROM S_REVIEW
+		WHERE S_ID = #{s_id}
+		ORDER BY SR_DATE DESC
+	]]>
+</select>
+
+
+<select id="getShopReviewImageList" resultMap="shop.p002.shopReviewImage" parameterType="java.util.Map">
+	<![CDATA[
+		SELECT S_ID, M_ID, RI_IMG, RI_IDX, RI_EDITOR, RI_EDITDATE
+		FROM R_IMAGE
+		WHERE S_ID = #{s_id}
+		AND M_ID = #{m_id}
+		ORDER BY RI_IDX ASC
+	]]>
+</select>
+
+<!-- <select id="getShopList" resultMap="project.p005_d001.shopResult"> -->
+<!-- 	<![CDATA[ -->
+<!-- 		SELECT S.*,I.*,R.*, REVIEWCOUNT, CODE.GC_NAME -->
+<!-- 		FROM SHOP S -->
+<!-- 	    INNER JOIN  -->
+<!-- 	    ( -->
+<!-- 	        SELECT COUNT(*) AS REVIEWCOUNT, X.S_ID -->
+<!-- 	        FROM SHOP X INNER JOIN S_REVIEW Y ON X.S_ID=Y.S_ID -->
+<!-- 	        GROUP BY X.S_ID -->
+<!-- 	    )C ON S.S_ID = C.S_ID -->
+<!-- 	    LEFT OUTER JOIN S_IMAGE I ON S.S_ID = I.S_ID -->
+<!-- 	    LEFT OUTER JOIN  -->
+<!-- 	    ( -->
+<!-- 	        SELECT * -->
+<!-- 	        FROM -->
+<!-- 	        ( -->
+<!-- 	            SELECT S_ID, M_ID, SR_DATE, SR_SCORE, SR_CONTENT, SR_IMG, SR_PUBLIC, -->
+<!-- 	                    RANK() OVER(PARTITION BY S_ID ORDER BY SR_DATE DESC) AS RESCENT -->
+<!-- 	            FROM s_review -->
+<!-- 	        ) -->
+<!-- 	        WHERE RESCENT=1 -->
+<!-- 	    )R ON S.S_ID=R.S_ID -->
+<!-- 	    LEFT OUTER JOIN -->
+<!--         ( -->
+<!-- 	        SELECT GC_ID, GC_NAME -->
+<!-- 	        FROM COMMON_CODE -->
+<!-- 	        WHERE G_ID=009 -->
+<!--         )CODE ON CODE.GC_ID = S.S_CATEGORY  -->
+<!--    		WHERE 1=1   -->
+<!-- 	]]> -->
+<!-- 	<if test="searchCondition=='POPULAR'"> -->
+<!-- 	<![CDATA[ -->
+<!-- 		AND S.S_SCORE >= 8 -->
+<!-- 	]]> -->
+<!-- 	</if> -->
+<!-- 	<if test="searchCondition=='S_NAME'"> -->
+<!-- 	<![CDATA[ -->
+<!-- 		AND S.S_NAME LIKE '%'||#{searchKeyword}||'%' -->
+<!-- 	]]> -->
+<!-- 	</if> -->
+<!-- 	<if test="searchCondition=='FILTER_CATEGORY'"> -->
+<!-- 	<![CDATA[ -->
+<!-- 		AND S.S_CATEGORY = #{filter } -->
+<!-- 		AND ( -->
+<!-- 			S.S_NAME LIKE '%'||#{searchKeyword}||'%' -->
+<!-- 			OR S.S_CONTENT LIKE '%'||#{searchKeyword}||'%' -->
+<!-- 			OR S.S_HASHTAG LIKE '%'||#{searchKeyword}||'%' -->
+<!-- 			) -->
+<!-- 	]]> -->
+<!-- 	</if> -->
+	
+<!-- 	<if test="searchCondition=='HASHTAG'"> -->
+<!-- 	<![CDATA[ -->
+<!-- 		AND S.S_HASHTAG LIKE '%'||#{searchKeyword}||'%' -->
+<!-- 	]]> -->
+<!-- 	</if> -->
+<!-- 	<if test="searchCondition=='ALLSEARCH'"> -->
+<!-- 	<![CDATA[ -->
+<!-- 		AND S.S_NAME LIKE '%'||#{searchKeyword}||'%' -->
+<!-- 		OR CODE.GC_NAME LIKE '%'||#{searchKeyword}||'%' -->
+<!-- 		OR S.S_CONTENT LIKE '%'||#{searchKeyword}||'%' -->
+<!-- 		OR S.S_HASHTAG LIKE '%'||#{searchKeyword}||'%' -->
+<!-- 	]]> -->
+<!-- 	</if> -->
+<!-- 	<![CDATA[ -->
+<!-- 		ORDER BY REVIEWCOUNT DESC, S.S_SCORE DESC -->
+<!-- 	]]> -->
+<!-- </select> -->
+
+</mapper>
