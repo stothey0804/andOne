@@ -33,8 +33,8 @@
    <!-- 같이먹기 메인 -->
    <definition name="eatMain" extends="baseLayout">
       <put-attribute name="title" value="메인페이지" />
-       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_eatAMain.jsp" />
-   </definition>
+       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_eatMain.jsp" />
+   </definition> 
    <!-- 같이먹기 메인 -->
    <definition name="andone_eat" extends="baseLayout">
       <put-attribute name="title" value="메인페이지" />

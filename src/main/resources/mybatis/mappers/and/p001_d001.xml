@@ -3,9 +3,9 @@
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="project.p003_d001">
+<mapper namespace="and.p001_d001">
 	<!-- &분의일 같이먹기 -->
-	<resultMap id="p003_d001Result01" type="java.util.HashMap">
+	<resultMap id="p001_d001Result01" type="java.util.HashMap">
 		<result property="one_type" column="one_type"  /> <!-- 구분(먹기,하기,사기)-->
 		<result property="one_id" column="one_id"  /> <!--글번호-->
 		<result property="one_state" column="one_state"  />  <!-- 진행상태(진행중) -->
@@ -18,7 +18,7 @@
 		<result property="one_time" column="one_time" /> <!-- 등록시간-->
 	</resultMap>
 
-	<select id="selectAllAndOneEatList" resultMap="p003_d001Result01"> 
+	<select id="selectAllAndOneEatList" resultMap="p001_d001Result01"> 
       <![CDATA[
       	select one_type, one_id, (select DISTINCT c.gc_name
                           from and_one a, common_code c
@@ -38,20 +38,7 @@
       ]]>
 	</select>
 	<!-- &분의일 같이사기 -->
-	<resultMap id="p003_d001Result02" type="java.util.HashMap">
-		<result property="one_type" column="one_type"  /> <!-- 구분(먹기,하기,사기)-->
-		<result property="one_id" column="one_id"  /> <!--글번호-->
-		<result property="one_state" column="one_state"  />  <!-- 진행상태(진행중) -->
-		<result property="one_category" column="one_category" /> <!-- 카테고리(치킨/피자) -->
-		<result property="one_title" column="one_title" /> <!-- 제목 -->
-		<result property="one_memberMax" column="one_memberMax" /> <!-- 모집인원 -->
-		<result property="one_totalPrice" column="one_totalPrice" /> <!-- 총금액 -->
-		<result property="one_Price" column="one_Price" /> <!-- 예상금액 -->	
-		<result property="one_date" column="one_date" /> <!-- 실행날짜-->
-		<result property="one_time" column="one_time" /> <!-- 등록시간-->
-	</resultMap>
-
-	<select id="selectAllAndOneBuyList" resultMap="p003_d001Result02"> 
+	<select id="selectAllAndOneBuyList" resultMap="p001_d001Result01"> 
       <![CDATA[
        select one_type, one_id, (select DISTINCT c.gc_name
                           from and_one a, common_code c
@@ -72,20 +59,7 @@
 	</select>
 	
 	<!-- &분의일 같이하기 -->
-	<resultMap id="p003_d001Result03" type="java.util.HashMap">
-		<result property="one_type" column="one_type"  /> <!-- 구분(먹기,하기,사기)-->
-		<result property="one_id" column="one_id"  /> <!--글번호-->
-		<result property="one_state" column="one_state"  />  <!-- 진행상태(진행중) -->
-		<result property="one_category" column="one_category" /> <!-- 카테고리(치킨/피자) -->
-		<result property="one_title" column="one_title" /> <!-- 제목 -->
-		<result property="one_memberMax" column="one_memberMax" /> <!-- 모집인원 -->
-		<result property="one_totalPrice" column="one_totalPrice" /> <!-- 총금액 -->
-		<result property="one_Price" column="one_Price" /> <!-- 예상금액 -->	
-		<result property="one_date" column="one_date" /> <!-- 실행날짜-->
-		<result property="one_time" column="one_time" /> <!-- 등록시간-->
-	</resultMap>
-
-	<select id="selectAllAndOneDoList" resultMap="p003_d001Result03"> 
+	<select id="selectAllAndOneDoList" resultMap="p001_d001Result01"> 
       <![CDATA[
         select one_type, one_id, (select DISTINCT c.gc_name
                           from and_one a, common_code c

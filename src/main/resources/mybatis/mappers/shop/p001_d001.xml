@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="shop.p001_d001">
+
+	<resultMap id="p003_d001Result01" type="java.util.HashMap">
+		<result property="bm_id" column="bm_id"  /> <!-- 구분(먹기,하기,사기)-->
+		<result property="bm_pwd" column="bm_pwd"  /> <!--글번호-->
+		<result property="bm_name" column="bm_name"  />  <!-- 진행상태(진행중) -->
+		<result property="bm_email" column="bm_email" /> <!-- 카테고리(치킨/피자) -->
+		<result property="bm_joindate" column="bm_joindate" /> <!-- 제목 -->
+		<result property="bm_phonenumber" column="bm_phonenumber" /> <!-- 모집인원 -->
+	</resultMap>
+	
+	<!-- 아이디 중복체크 -->
+	<select id="checkId" parameterType="String" resultType="int"> 
+      <![CDATA[
+     	select count(*) 
+     	from b_member
+     	where bm_id = #{bm_id}  		
+      ]]>
+	</select>
+	<!-- 이메일 중복체크 -->
+	<select id="checkEmail" parameterType="String" resultType="int"> 
+      <![CDATA[
+     	select count(*) 
+     	from b_member
+     	where bm_email = #{bm_email}  		
+      ]]>
+	</select>
+	<!-- 회원가입 -->
+	<insert id="insertBmember" parameterType="java.util.HashMap"> 
+      <![CDATA[
+     	insert into b_member (bm_id, bm_pwd, bm_name, bm_email, bm_joindate, bm_phonenumber)
+     	values (#{bm_id}, #{bm_pwd}, #{bm_name}, #{bm_email}, sysdate, #{bm_phonenumber})
+      ]]>
+      </insert>
+</mapper>
+	
