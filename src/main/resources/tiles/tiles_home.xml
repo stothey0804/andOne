@@ -31,6 +31,27 @@
        <put-attribute name="body" value="/WEB-INF/views/root/p001_d001_init.jsp" />
    </definition>
 
+   <!-- 같이먹기 메인 -->
+   <definition name="eatMain" extends="baseLayout">
+      <put-attribute name="title" value="메인페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_eatMain.jsp" />
+   </definition> 
+   <!-- 같이먹기 리스트 -->
+   <definition name="andone_eat" extends="baseLayout">
+      <put-attribute name="title" value="메인페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_listAndOne_eat.jsp" />
+   </definition>
+   <!-- 같이하기 리스트 -->
+   <definition name="andone_do" extends="baseLayout">
+      <put-attribute name="title" value="메인페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_listAndOne_do.jsp" />
+   </definition>
+   <!-- 같이사기 리스트 -->
+   <definition name="andone_buy" extends="baseLayout">
+      <put-attribute name="title" value="메인페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_listAndOne_buy.jsp" />
+   </definition>
+
    <!-- 지역업체 페이지 -->
    <definition name="localShopMain" extends="baseLayout">
       <put-attribute name="title" value="지역업체 메인페이지" />
@@ -57,7 +78,6 @@
       <put-attribute name="title" value="회원약관" />
        <put-attribute name="body" value="/WEB-INF/views/member/p001_d001_insert_sub01.jsp" />
    </definition>
-   
    
 	<!-- 소모임 메인-->
 	<definition name="clubMain"  template="/WEB-INF/views/common/layout.jsp">
@@ -90,4 +110,16 @@
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
    
+   <!-- 마이페이지 -->
+	<definition name="mypage" extends="mypageLayout">
+		<put-attribute name="title" value="마이페이지"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p001_init.jsp"/>
+	</definition>
+	
+	<!-- 회원정보조회 -->
+	<definition name="p001_d005_update" extends="mypageLayout">
+		<put-attribute name="title" value="내 정보 변경"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p001_d005_update.jsp"/>
+	</definition>
+
 </tiles-definitions>

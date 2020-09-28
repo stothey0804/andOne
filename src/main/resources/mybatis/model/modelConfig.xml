@@ -6,6 +6,7 @@
 	<typeAliases>
 		<typeAlias alias="p001_d001VO" type="project.club.p001.vo.ClubP001_d001VO" />
 		<typeAlias alias="p001_d001articleVO" type="project.club.p001.vo.ClubP001_d001articleVO" />
+		<typeAlias type="project.shop.p001.vo.ShopP001_d001VO" alias="shopP001_d001VO"/>
 	    <typeAlias type="project.shop.p002.vo.ShopP002ShopDetailVO" alias="ShopP002ShopDetailVO" />
 	    <typeAlias type="project.shop.p002.vo.ShopP002ShopImageVO" alias="ShopP002ShopImageVO" />
 	    <typeAlias type="project.shop.p003.vo.ShopP003ShopReviewImageVO" alias="ShopP003ShopReviewImageVO" />

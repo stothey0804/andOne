@@ -78,7 +78,7 @@
 		]]>
 	</select>
 
-	<select id="getArticleList" resultMap="club.p001_d001.articleList">
+	<select id="getArticleList" resultMap="club.p001.articleList">
 		<![CDATA[
 		 	select ca_content,ca_date,m_id,ca_img,ca_id,ca_pin
 		 	from c_article
@@ -89,9 +89,8 @@
 	
 	<delete id="deleteClubArticle">
 		<![CDATA[
-			delete
-		
+			delete c_article
+			where ca_id = #{ca_id}
 		]]>
-		
 	</delete>
 </mapper>
