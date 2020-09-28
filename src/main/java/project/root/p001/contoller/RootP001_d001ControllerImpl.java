@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 
-@Controller("root")
+@Controller
 public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 
 	// 메인영역

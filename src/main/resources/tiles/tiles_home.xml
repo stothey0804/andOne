@@ -25,19 +25,21 @@
       <put-attribute name="footer" value="/WEB-INF/views/common/admin/footer.jsp" />
    </definition>
 
-	<!-- 테스트 페이지 -->
-   <definition name="test" extends="baseLayout">
-      <put-attribute name="title" value="test" />
-      <put-attribute name="body" value="/WEB-INF/views/project/test.jsp" />
-   </definition>
-   
-
 	<!-- 메인페이지 -->
    <definition name="main" extends="baseLayout">
       <put-attribute name="title" value="메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/root/p001_d001_init.jsp" />
    </definition>
 
+   <!-- 지역업체 페이지 -->
+   <definition name="localShopMain" extends="baseLayout">
+      <put-attribute name="title" value="지역업체 메인페이지" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/p002_d001_localShopMain.jsp" />
+   </definition>
    
+   <definition name="localShopSearch" extends="baseLayout">
+      <put-attribute name="title" value="지역업체 검색결과" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/p002_d001_localShopSearch.jsp" />
+   </definition>
 
 </tiles-definitions>

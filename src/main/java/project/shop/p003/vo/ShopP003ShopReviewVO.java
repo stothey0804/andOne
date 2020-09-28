@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
-public class P003ShopReviewVO {
+public class ShopP003ShopReviewVO {
 	private String s_id;
 	private String m_id;
 	private String sr_date;
@@ -14,7 +14,7 @@ public class P003ShopReviewVO {
 	private String sr_public;
 	private String sr_editor;
 	private String sr_editdate;
-	private List<P003ShopReviewImageVO> shopReviewImage;
+	private List<ShopP003ShopReviewImageVO> shopReviewImage;
 	
 	public String getS_id() {
 		return s_id;
@@ -64,10 +64,10 @@ public class P003ShopReviewVO {
 	public void setSr_editdate(String sr_editdate) {
 		this.sr_editdate = sr_editdate;
 	}
-	public List<P003ShopReviewImageVO> getShopReviewImage() {
+	public List<ShopP003ShopReviewImageVO> getShopReviewImage() {
 		return shopReviewImage;
 	}
-	public void setShopReviewImage(List<P003ShopReviewImageVO> shopReviewImage) {
+	public void setShopReviewImage(List<ShopP003ShopReviewImageVO> shopReviewImage) {
 		this.shopReviewImage = shopReviewImage;
 	}
 	

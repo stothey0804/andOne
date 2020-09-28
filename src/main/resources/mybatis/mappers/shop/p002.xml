@@ -5,7 +5,7 @@
 
 <mapper namespace="shop.p002">
 	
-	<resultMap id="shopDetail" type="P002ShopDetailVO">
+	<resultMap id="shopDetail" type="ShopP002ShopDetailVO">
 		<id property="s_id" column="S_ID" />
 		<result property="s_category" column="S_CATEGORY" />
 		<result property="s_name" column="S_NAME" />
@@ -17,13 +17,17 @@
 		<result property="s_hashtag" column="S_HASHTAG" />
 		<result property="reviewCount" column="REVIEWCOUNT" />
 		<result property="gc_name" column="GC_NAME" />
+		<result property="searchCondition" column="SEARCHCONDITION" />
+		<result property="searchKeyword" column="SEARCHKEYWORD" />
+		<result property="filter" column="FILTER" />
+		<result property="status" column="STATUS" />
 		<collection property="shopImage" column="S_ID" javaType="java.util.ArrayList" 
-					select="getShopImageList" ofType="P002ShopImageVO"/>
+					select="getShopImageList" ofType="ShopP002ShopImageVO"/>
 		<collection property="shopReviewList" column="S_ID" javaType="java.util.ArrayList" 
-					select="getShopReviewListByShopId" ofType="P003ShopReviewVO"/>						
+					select="getShopReviewListByShopId" ofType="ShopP003ShopReviewVO"/>						
 	</resultMap>
 	
-	<resultMap id="shopImage" type="P002ShopImageVO">
+	<resultMap id="shopImage" type="ShopP002ShopImageVO">
 		<id property="si_idx" column="SI_IDX" />
 		<result property="s_id" column="S_ID" />		
 		<result property="si_img" column="SI_IMG" />		
@@ -31,7 +35,7 @@
 		<result property="si_editdate" column="SI_EDITDATE" />		
 	</resultMap>
 	
-	<resultMap id="shopReview" type="P003ShopReviewVO">
+	<resultMap id="shopReview" type="ShopP003ShopReviewVO">
 		<result property="s_id" column="S_ID" />
 		<result property="m_id" column="M_ID" />
 		<result property="sr_date" column="SR_DATE" />
@@ -41,10 +45,10 @@
 		<result property="sr_editor" column="SR_EDITOR" />
 		<result property="sr_editdate" column="SR_EDITDATE" />
 		<collection property="shopReviewImage" column="{s_id=S_ID,m_id=M_ID}" javaType="java.util.ArrayList" 
-					select="getShopReviewImageList" ofType="P003ShopReviewImageVO"/>
+					select="getShopReviewImageList" ofType="ShopP003ShopReviewImageVO"/>
 	</resultMap>
 	
-	<resultMap id="shopReviewImage" type="P003ShopReviewImageVO">
+	<resultMap id="shopReviewImage" type="ShopP003ShopReviewImageVO">
 		<id property="ri_idx" column="RI_IDX" />		
 		<result property="s_id" column="S_ID" />		
 		<result property="m_id" column="M_ID" />		
@@ -71,30 +75,38 @@
 			FROM COMMON_CODE
 			WHERE G_ID=009
 		)CODE ON S.S_CATEGORY = CODE.GC_ID
-		ORDER BY S.S_ID ASC;
-	]]>
-</select>
-
-<select id="getShopDetail" resultMap="shop.p002.shopDetail">
+		WHERE 1=1
+	]]>	
+	<if test="searchCondition=='ALLSEARCH'">
 	<![CDATA[
-		SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
-        S_LOCATE, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME
-		FROM SHOP S 
-		INNER JOIN
-		(
-			SELECT COUNT(*) AS REVIEWCOUNT, INS.S_ID
-			FROM SHOP INS 
-			INNER JOIN S_REVIEW INSR ON INS.S_ID=INSR.S_ID
-			GROUP BY INS.S_ID
-		)CNT ON S.S_ID = CNT.S_ID
-		INNER JOIN
-		(
-			SELECT GC_ID, GC_NAME
-			FROM COMMON_CODE
-			WHERE G_ID=009
-		)CODE ON S.S_CATEGORY = CODE.GC_ID
-		WHERE S.S_ID = #{s_id}
+		AND (S.S_NAME LIKE '%'||#{searchKeyword}||'%' 
+		OR CODE.GC_NAME LIKE '%'||#{searchKeyword}||'%' 
+ 		OR S.S_CONTENT LIKE '%'||#{searchKeyword}||'%' 
+		OR S.S_HASHTAG LIKE '%'||#{searchKeyword}||'%')
+		ORDER BY S.S_ID ASC 
 	]]>
+	</if>
+	<if test="searchCondition=='SEARCHBYFILTER'">
+	<![CDATA[
+		AND GC_ID = #{filter}
+		AND (S.S_NAME LIKE '%'||#{searchKeyword}||'%' 
+		OR CODE.GC_NAME LIKE '%'||#{searchKeyword}||'%' 
+ 		OR S.S_CONTENT LIKE '%'||#{searchKeyword}||'%' 
+		OR S.S_HASHTAG LIKE '%'||#{searchKeyword}||'%')
+		ORDER BY S.S_ID ASC 
+	]]>
+	</if>
+	<if test="searchCondition=='SEARCHBYSHOPID'">
+	<![CDATA[
+		AND S.S_ID = #{s_id}
+	]]>
+	</if>
+	<if test="searchCondition=='POPULAR'">
+	<![CDATA[
+		AND S.S_SCORE > 8
+		ORDER BY REVIEWCOUNT ASC
+	]]>
+	</if>	
 </select>
 
 <select id="getShopImageList" resultMap="shop.p002.shopImage">

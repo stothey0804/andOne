@@ -3,7 +3,7 @@ package project.shop.p002.vo;
 import org.springframework.stereotype.Component;
 
 @Component
-public class P002ShopImageVO {
+public class ShopP002ShopImageVO {
 	private String s_id;
 	private String si_idx;
 	private byte[] si_img;

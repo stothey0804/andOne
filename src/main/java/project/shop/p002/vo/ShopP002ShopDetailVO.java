@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import project.shop.p003.vo.P003ShopReviewVO;
+import project.shop.p003.vo.ShopP003ShopReviewVO;
 
 @Component
-public class P002ShopDetailVO {
+public class ShopP002ShopDetailVO {
 		private String s_id;
 		private String s_category;
 		private String s_name;
@@ -17,18 +17,45 @@ public class P002ShopDetailVO {
 		private String s_locate;
 		private String s_phoneNumber;
 		private String s_hashtag;
-		private String reviwCount;
+		private String reviewCount;
 		private String gc_name;
-		private List<P003ShopReviewVO> shopReviewList;
-		private List<P002ShopImageVO> shopImage;
+		private String searchCondition;
+		private String searchKeyword;
+		private String status;
+		private String filter;
+		private List<ShopP003ShopReviewVO> shopReviewList;
+		private List<ShopP002ShopImageVO> shopImage;
 		
 		
-		
-		public String getReviwCount() {
-			return reviwCount;
+		public String getFilter() {
+			return filter;
 		}
-		public void setReviwCount(String reviwCount) {
-			this.reviwCount = reviwCount;
+		public void setFilter(String filter) {
+			this.filter = filter;
+		}
+		public String getStatus() {
+			return status;
+		}
+		public void setStatus(String status) {
+			this.status = status;
+		}
+		public String getSearchCondition() {
+			return searchCondition;
+		}
+		public void setSearchCondition(String searchCondition) {
+			this.searchCondition = searchCondition;
+		}
+		public String getSearchKeyword() {
+			return searchKeyword;
+		}
+		public void setSearchKeyword(String searchKeyword) {
+			this.searchKeyword = searchKeyword;
+		}
+		public String getReviewCount() {
+			return reviewCount;
+		}
+		public void setReviewCount(String reviewCount) {
+			this.reviewCount = reviewCount;
 		}
 		public String getGc_name() {
 			return gc_name;
@@ -90,16 +117,16 @@ public class P002ShopDetailVO {
 		public void setS_hashtag(String s_hashtag) {
 			this.s_hashtag = s_hashtag;
 		}
-		public List<P003ShopReviewVO> getShopReviewList() {
+		public List<ShopP003ShopReviewVO> getShopReviewList() {
 			return shopReviewList;
 		}
-		public void setShopReviewList(List<P003ShopReviewVO> shopReviewList) {
+		public void setShopReviewList(List<ShopP003ShopReviewVO> shopReviewList) {
 			this.shopReviewList = shopReviewList;
 		}
-		public List<P002ShopImageVO> getShopImage() {
+		public List<ShopP002ShopImageVO> getShopImage() {
 			return shopImage;
 		}
-		public void setShopImage(List<P002ShopImageVO> shopImage) {
+		public void setShopImage(List<ShopP002ShopImageVO> shopImage) {
 			this.shopImage = shopImage;
 		}
 		

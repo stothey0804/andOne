@@ -3,7 +3,7 @@ package project.shop.p003.vo;
 import org.springframework.stereotype.Component;
 
 @Component
-public class P003ShopReviewImageVO {
+public class ShopP003ShopReviewImageVO {
 	private String s_id;
 	private String m_id;
 	private String ri_editor;

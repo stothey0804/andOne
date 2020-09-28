@@ -4,9 +4,9 @@
 
 <configuration>
 	<typeAliases>
-	    <typeAlias type="project.shop.p002.vo.P002ShopDetailVO" alias="P002ShopDetailVO" />
-	    <typeAlias type="project.shop.p002.vo.P002ShopImageVO" alias="P002ShopImageVO" />
-	    <typeAlias type="project.shop.p003.vo.P003ShopReviewImageVO" alias="P003ShopReviewImageVO" />
-	    <typeAlias type="project.shop.p003.vo.P003ShopReviewVO" alias="P003ShopReviewVO" />
+	    <typeAlias type="project.shop.p002.vo.ShopP002ShopDetailVO" alias="ShopP002ShopDetailVO" />
+	    <typeAlias type="project.shop.p002.vo.ShopP002ShopImageVO" alias="ShopP002ShopImageVO" />
+	    <typeAlias type="project.shop.p003.vo.ShopP003ShopReviewImageVO" alias="ShopP003ShopReviewImageVO" />
+	    <typeAlias type="project.shop.p003.vo.ShopP003ShopReviewVO" alias="ShopP003ShopReviewVO" />
 	</typeAliases>
 </configuration>
