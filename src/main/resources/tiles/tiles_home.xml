@@ -47,5 +47,16 @@
        <put-attribute name="body" value="/WEB-INF/views/member/p001_d001_insert_sub01.jsp" />
    </definition>
    
+   <!-- 마이페이지 -->
+	<definition name="mypage" extends="mypageLayout">
+		<put-attribute name="title" value="마이페이지"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p001_init.jsp"/>
+	</definition>
+	
+	<!-- 회원정보조회 -->
+	<definition name="p001_d005_update" extends="mypageLayout">
+		<put-attribute name="title" value="내 정보 변경"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p001_d005_update.jsp"/>
+	</definition>
 
 </tiles-definitions>

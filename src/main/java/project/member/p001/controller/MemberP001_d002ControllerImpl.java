@@ -40,11 +40,12 @@ public class MemberP001_d002ControllerImpl implements MemberP001_d002Controller{
 		if(email!=null && inputPwd!=null) {
 			// user 데이터 조회
 			MemberP001_MemberVO memberVO = memberP001_d002Service.selectMemberByEmail(email);
-//			 user 정보가 있고 비밀번호가 일치하는 경우
+			 //user 정보가 있고 비밀번호가 일치하는 경우
 			if(memberVO!=null && BCrypt.checkpw(inputPwd,memberVO.getM_pwd())) {
-//				// 로그인 성공~!
+				// 로그인 성공~!
 				session.setAttribute("member", memberVO);
 				session.setAttribute("isLogOn", true);
+				session.setMaxInactiveInterval(-1);
 				returnView = "main"; // 메인화면으로 이동
 			}else{	// 정보불일치
 				request.setAttribute("warning", "이메일과 비밀번호를 확인해주세요.");
