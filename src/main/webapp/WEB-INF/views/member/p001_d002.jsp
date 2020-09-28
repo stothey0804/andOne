@@ -42,9 +42,9 @@
 	}
 </script>
 </head>
-<body onload="init()" class="text-center bg-light">
+<body class="text-center bg-light" onload="init()">
 	<div class="login-form m-auto">
-		<form action="${contextPath}/member/login.do" method="post">
+		<form name="frmLogin" method="post" action="${contextPath}/member/login.do">
 			<a href="${contextPath}/"><h1 class="logotype">&분의일</h1></a>
 			<p class="h5 mb-4 font-weight-normal">로그인페이지</p>
 			<label for="inputEmail" class="sr-only">이메일주소</label>

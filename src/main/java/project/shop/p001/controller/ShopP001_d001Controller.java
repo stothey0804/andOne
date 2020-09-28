@@ -16,5 +16,5 @@ public interface ShopP001_d001Controller {
 	public ModelAndView joinform() throws Exception;
 	public int idCheck(@RequestParam("bm_id") String bm_id) throws Exception;
 	public int emailCheck(@RequestParam("bm_email") String bm_email) throws Exception;
-	public ModelAndView addMember(@RequestParam Map<String, String> bMemberMap) throws Exception;
+	public ModelAndView addMember(@ModelAttribute("bMember") ShopP001_d001VO shopP001_d001VO) throws Exception;
 }

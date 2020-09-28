@@ -26,9 +26,9 @@ public class ShopP001_d001ServiceImpl implements ShopP001_d001Service{
 		System.out.println(result);
 		return result;
 	}
-	public int addBmember(Map<String, String> bMemberMap) throws DataAccessException{
+	public int addBmember(ShopP001_d001VO vo) throws DataAccessException{
 		System.out.println(">>>>>>회원가입 Service");
-		int result = shopP001_d001DAO.insertBmember(bMemberMap);
+		int result = shopP001_d001DAO.insertBmember(vo);
 		return result;
 	}
 	

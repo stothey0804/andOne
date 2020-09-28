@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,23 +62,13 @@ public class ShopP001_d001ControllerImpl implements ShopP001_d001Controller {
 	}
 	//회원가입신청
 	@RequestMapping(value="/biz/addMember")
-	public ModelAndView addMember(@RequestParam Map<String, String> bMemberMap) throws Exception{
+	public ModelAndView addMember(@ModelAttribute("bMember") ShopP001_d001VO shopP001_d001VO) throws Exception{
 		System.out.println(">>>>>>>>>회원가입신청");
 		//암호화 -> DB넣어주기
-		String bm_id = bMemberMap.get("bm_id");
-		String bm_name = bMemberMap.get("bm_name");
-		String bm_email = bMemberMap.get("bm_email");
-		String bm_phonenumber = bMemberMap.get("bm_phonenumber");
-		String bm_pwd = bMemberMap.get("bm_pwd");
-		System.out.println(bm_pwd);
-		bm_pwd = BCrypt.hashpw(bMemberMap.get("bm_pwd"), BCrypt.gensalt()); //패스워드 암호화
-		System.out.println(bm_pwd);
-		System.out.println(bm_id);
-		System.out.println(bm_name);
-		System.out.println(bm_email);
-		System.out.println(bm_phonenumber);
+		String bm_pwd = BCrypt.hashpw(shopP001_d001VO.getBm_pwd(), BCrypt.gensalt()); //패스워드 암호화
+		shopP001_d001VO.setBm_pwd(bm_pwd);
 		
-		int result = shopP001_d001Service.addBmember(bMemberMap);
+		int result = shopP001_d001Service.addBmember(shopP001_d001VO);
 		if(result == 1) {
 			ModelAndView mav =  new ModelAndView("shop/p001_d001_join_step3");
 			return mav;

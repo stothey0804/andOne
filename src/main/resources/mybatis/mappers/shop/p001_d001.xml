@@ -5,13 +5,13 @@
 
 <mapper namespace="shop.p001_d001">
 
-	<resultMap id="p003_d001Result01" type="java.util.HashMap">
+	<resultMap id="p001_d001Result" type="shopP001_d001VO">
 		<result property="bm_id" column="bm_id"  /> <!-- 구분(먹기,하기,사기)-->
 		<result property="bm_pwd" column="bm_pwd"  /> <!--글번호-->
 		<result property="bm_name" column="bm_name"  />  <!-- 진행상태(진행중) -->
 		<result property="bm_email" column="bm_email" /> <!-- 카테고리(치킨/피자) -->
 		<result property="bm_joindate" column="bm_joindate" /> <!-- 제목 -->
-		<result property="bm_phonenumber" column="bm_phonenumber" /> <!-- 모집인원 -->
+		<result property="bm_phoneNumber" column="bm_phoneNumber" /> <!-- 모집인원 -->
 	</resultMap>
 	
 	<!-- 아이디 중복체크 -->
@@ -31,10 +31,10 @@
       ]]>
 	</select>
 	<!-- 회원가입 -->
-	<insert id="insertBmember" parameterType="java.util.HashMap"> 
+	<insert id="insertBmember" parameterType="shopP001_d001VO"> 
       <![CDATA[
-     	insert into b_member (bm_id, bm_pwd, bm_name, bm_email, bm_joindate, bm_phonenumber)
-     	values (#{bm_id}, #{bm_pwd}, #{bm_name}, #{bm_email}, sysdate, #{bm_phonenumber})
+     	insert into b_member (bm_id, bm_pwd, bm_name, bm_email, bm_joindate, bm_phoneNumber)
+     	values (#{bm_id}, #{bm_pwd}, #{bm_name}, #{bm_email}, TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss'), #{bm_phoneNumber})
       ]]>
       </insert>
 </mapper>

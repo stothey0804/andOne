@@ -31,9 +31,9 @@ public class ShopP001_d001DAOImpl implements ShopP001_d001DAO {
 		System.out.println(result);
 		return result;
 	}
-	public int insertBmember(Map<String, String> bMemberMap) throws DataAccessException {
+	public int insertBmember(ShopP001_d001VO vo) throws DataAccessException {
 		System.out.println(">>>>>>>>>>> 회원가입dao");
-		int result = sqlSession.insert("shop.p001_d001.insertBmember", bMemberMap); //성공하면 1반환
+		int result = sqlSession.insert("shop.p001_d001.insertBmember", vo); //성공하면 1반환
 		return result;
 	}
 
