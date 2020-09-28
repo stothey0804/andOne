@@ -30,6 +30,17 @@
       <put-attribute name="title" value="메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/root/p001_d001_init.jsp" />
    </definition>
+
+   <!-- 지역업체 페이지 -->
+   <definition name="localShopMain" extends="baseLayout">
+      <put-attribute name="title" value="지역업체 메인페이지" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/p002_d001_localShopMain.jsp" />
+   </definition>
+   
+   <definition name="localShopSearch" extends="baseLayout">
+      <put-attribute name="title" value="지역업체 검색결과" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/p002_d001_localShopSearch.jsp" />
+   </definition>
    
 	<!-- 회원약관 -->
    <definition name="p001_d001_init" extends="baseLayout">
@@ -55,7 +66,6 @@
       <put-attribute name="body" value="/WEB-INF/views/project/club/p001/clubMain.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
-
 	<!-- 소모임 상세페이지-->
 	<definition name="detailClub"  template="/WEB-INF/views/common/layout.jsp">
       <put-attribute name="title" value="소모임 상세" />

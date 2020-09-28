@@ -4,8 +4,12 @@
 
 <configuration>
 	<typeAliases>
-		
 		<typeAlias alias="p001_d001VO" type="project.club.p001.vo.ClubP001_d001VO" />
 		<typeAlias alias="p001_d001articleVO" type="project.club.p001.vo.ClubP001_d001articleVO" />
+	    <typeAlias type="project.shop.p002.vo.ShopP002ShopDetailVO" alias="ShopP002ShopDetailVO" />
+	    <typeAlias type="project.shop.p002.vo.ShopP002ShopImageVO" alias="ShopP002ShopImageVO" />
+	    <typeAlias type="project.shop.p003.vo.ShopP003ShopReviewImageVO" alias="ShopP003ShopReviewImageVO" />
+	    <typeAlias type="project.shop.p003.vo.ShopP003ShopReviewVO" alias="ShopP003ShopReviewVO" />
+		<typeAlias type="project.member.p001.vo.MemberP001_MemberVO" alias="memberP001_MemberVO" /> <!-- Member -->
 	</typeAliases>
 </configuration>

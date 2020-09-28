@@ -22,7 +22,7 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 	ClubP001_d001VO p001_d001;
 	
 	@Override
-	@RequestMapping(value="/clubMain.do",method= {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value="/club/clubMain.do",method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView clubMain() throws Exception{
 		List<ClubP001_d001VO> clubList = clubP001_d001Service.clubList();
 		List<ClubP001_d001VO> myClubList = clubP001_d001Service.myClubList();
@@ -31,6 +31,7 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		mav.addObject("clubList",clubList);
 		mav.addObject("myClubList",myClubList);
 		mav.addObject("myClubCnt", myClubList.size());
+		
 		return mav;
 	}
 	

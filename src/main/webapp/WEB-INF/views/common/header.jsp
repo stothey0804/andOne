@@ -71,10 +71,10 @@
 	        <a class="nav-link" href="#">찾기</a>
 	      </li>
 	      <li class="nav-item h5">
-	        <a class="nav-link" href="${contextPath}/clubMain.do">소모임</a>
+	        <a class="nav-link" href="${contextPath}/club/clubMain.do">소모임</a>
 	      </li>
 	      <li class="nav-item h5">
-	        <a class="nav-link" href="${contextPath}/localShopMain.do">지역업체</a>
+	        <a class="nav-link" href="${contextPath}/shop/localShopMain.do">지역업체</a>
 	      </li>
        <c:choose>
           <c:when test="${isLogOn == true && member!= null}">

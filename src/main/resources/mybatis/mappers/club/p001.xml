@@ -3,7 +3,7 @@
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="club.p001_d001">
+<mapper namespace="club.p001">
 	<resultMap id="p001_d001Result01" type="p001_d001VO">
 		<result property="c_id" column="c_id" />
 		<result property="c_name" column="c_name" />
@@ -86,5 +86,12 @@
             order by ca_pin desc, ca_date desc
 		]]>
 	</select>
-
+	
+	<delete id="deleteClubArticle">
+		<![CDATA[
+			delete
+		
+		]]>
+		
+	</delete>
 </mapper>

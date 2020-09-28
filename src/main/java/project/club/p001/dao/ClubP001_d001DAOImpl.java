@@ -15,22 +15,22 @@ public class ClubP001_d001DAOImpl implements ClubP001_d001DAO{
 	private SqlSession sqlSession;
 	@Override
 	public List<ClubP001_d001VO> clubList() throws DataAccessException {
-		List<ClubP001_d001VO> clubList = sqlSession.selectList("club.p001_d001.clubList");
+		List<ClubP001_d001VO> clubList = sqlSession.selectList("club.p001.clubList");
 		return clubList;
 	}
 	@Override
 	public List<ClubP001_d001VO> myClubList() {
-		List<ClubP001_d001VO> myClubList = sqlSession.selectList("club.p001_d001.myClubList");
+		List<ClubP001_d001VO> myClubList = sqlSession.selectList("club.p001.myClubList");
 		return myClubList;
 	}
 	@Override
 	public List<ClubP001_d001VO> searchClubList(Map<String, Object> searchMap){
-		List<ClubP001_d001VO> searchClubList = sqlSession.selectList("club.p001_d001.searchClubList",searchMap);
+		List<ClubP001_d001VO> searchClubList = sqlSession.selectList("club.p001.searchClubList",searchMap);
 		return searchClubList;
 	}
 	@Override
 	public ClubP001_d001VO detailClub(Map<String, Object> searchMap) throws DataAccessException{
-		ClubP001_d001VO vo = sqlSession.selectOne("club.p001_d001.detailClub",searchMap);
+		ClubP001_d001VO vo = sqlSession.selectOne("club.p001.detailClub",searchMap);
 		return vo;
 	}
 }

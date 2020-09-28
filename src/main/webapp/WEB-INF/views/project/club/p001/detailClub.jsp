@@ -57,15 +57,25 @@
 	margin-top:10px;
 }
 
-svg{
+.bi-bookmark-star-fill{
 	fill:#ffcc00;
 	display:inline-block; 
 }
 .show{
 	position:fixed;
 }
+.sub{
+	display:none;
+}
+.tap{
+	cursor:pointer;
+}
 </style>
 <script type="text/javascript">
+function menuTap(ca_id){
+	$('.'+ca_id).slideToggle();
+};
+
 </script>
 </head>
 <body>
@@ -101,20 +111,55 @@ svg{
 					<h5 class="card-title art-title">${club.m_id }</h5>
 					<c:set var="ca_pin" value="${club.ca_pin }"/>
 					<c:choose>
-						<c:when test="${ca_pin eq 1}">
+					<c:when test="${ca_pin eq 1}">
 					<div class="pin">
 						<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-bookmark-star-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   							<path fill-rule="evenodd" d="M4 0a2 2 0 0 0-2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4zm4.16 4.1a.178.178 0 0 0-.32 0l-.634 1.285a.178.178 0 0 1-.134.098l-1.42.206a.178.178 0 0 0-.098.303L6.58 6.993c.042.041.061.1.051.158L6.39 8.565a.178.178 0 0 0 .258.187l1.27-.668a.178.178 0 0 1 .165 0l1.27.668a.178.178 0 0 0 .257-.187L9.368 7.15a.178.178 0 0 1 .05-.158l1.028-1.001a.178.178 0 0 0-.098-.303l-1.42-.206a.178.178 0 0 1-.134-.098L8.16 4.1z"/>
 						</svg>
-							</div>		
-						</c:when>
+					</div>		
+					</c:when>
 					</c:choose>
 					<h6 class="card-subtitle mb-2 text-muted">${club.ca_date }</h6>
 					<p class="card-text" style="margin-top:10px;">${club.ca_content }</p>
+					
+			<!--본인이 쓴 글일 경우 수정,삭제 메뉴 -->
+					<c:set var="logOnId" value="${member.m_id }"/>
+					<c:set var="writer" value="${club.m_id }"/>
+					<c:choose>
+						<c:when test="${logOnId eq writer}">
+	         				<svg class="tap" onclick="menuTap(${club.ca_id});" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-three-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  								<path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+							</svg>
+							<div class="sub ${club.ca_id}">
+								<button type="button" class="btn btn-outline-secondary">수정</button>
+								<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#staticBackdrop">삭제</button>
+							</div>
+							
+							<!-- delete Modal -->
+							<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+							  <div class="modal-dialog">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							      </div>
+							      <div class="modal-body">
+							        	<h5 style="text-align:center;">해당 게시물을 삭제하겠습니까?</h5>
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+							        <button type="button" class="btn btn-primary"
+							        	onclick="location.href='deleteClubArticle.do?ca_id=${club.ca_id}'">삭제하기</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						</c:when>
+					</c:choose>
 				</div>
-			</div>
+				</div>
 			</c:forEach>
 		</div>
 	</div>
+	
+	
 </body>
 </html>
