@@ -1,5 +1,6 @@
 package project.member.p001.controller;
 
+import java.io.PrintWriter;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,57 +8,97 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import common.SendSMSTwilio;
+import project.member.p001.service.MemberP001_d001Service;
+import project.member.p001.vo.MemberP001_MemberVO;
 
 @Controller
 @RequestMapping("/member")
-public class MemberP001_d001ControllerImpl {
+public class MemberP001_d001ControllerImpl implements MemberP001_d001Controller{
 	
-	@RequestMapping(value="/login.do")	// 로그인 화면
-	public String login(@RequestParam Map<String, String> param, HttpServletRequest request, HttpServletResponse response, HttpSession session)
-			throws Exception {
-		String returnView;
-		String email = param.get("email");
-		String inputPwd = param.get("pwd");
-		
-		// 세션 멤버정보 존재시 메인으로 보내기
-		if(session.getAttribute("member")!=null) {
-			// 로그인중이다.
-			return "main";
-		}
-		// 입력값 존재시
-		if(email!=null && inputPwd!=null) {
-			// user 데이터 조회
-			
-//			P008_d001VO memberVO = p008_d001Service.selectMemberByEmail(email);
-			
-			// 관리자경우 관리자페이지로 넘겨주기
-			
-			// user 정보가 있고 비밀번호가 일치하는 경우
-//			if(memberVO!=null && BCrypt.checkpw(inputPwd,memberVO.getM_pwd())) {
-//				// 로그인 성공~!
-//				session.setAttribute("member", memberVO);
-//				session.setAttribute("isLogOn", true);
-//				returnView = "main"; // 메인화면으로 이동
-//			}else{	// 정보불일치
-//				request.setAttribute("warning", "이메일과 비밀번호를 확인해주세요.");
-//				returnView = "project/p006_d001/login";
-//			}
-			
+	@Autowired
+	MemberP001_d001Service memberP001_d001Service;
+
+	@Override
+	@RequestMapping(value="/join.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public String joinMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String agree = request.getParameter("agree")!=null? request.getParameter("agree"): "";
+		if(agree.equals("true")) {
+			return "p001_d001_insert";
 		}else {
-			// 입력값 없을시 로그인 화면으로 
-			returnView = "member/p001_d002";
+			return "p001_d001_init";
 		}
-		return "member/p001_d002";
 	}
-	
-	@RequestMapping(value="/logout.do")
-	public String logout(HttpServletRequest request) throws Exception {
-		HttpSession session = request.getSession(false);
-		session.invalidate();
-		return "main";
+
+	//SMS발송
+	@Override
+	@RequestMapping(value="/confirmSMSCode.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public void confirmSMSCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		String targetPhoneNum = request.getParameter("phone");
+		String twilioPhoneNum = targetPhoneNum.replaceAll("-", "");
+		SendSMSTwilio twilio = new SendSMSTwilio();		// 문자 인증
+//		int authNum = twilio.sendSMS(twilioPhoneNum);
+		int authNum = 999999;
+		out.print(""+authNum);
+	}
+	// 이메일체크
+	@Override
+	@RequestMapping(value="/searchOverlapEmail.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public void searchOverlapEmail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		String email = request.getParameter("email");
+		// 이메일 중복 체크 조회 쿼리
+		String result = memberP001_d001Service.searchOverlapEmail(email);
+		if(result!=null) {
+			out.print("true"); 	// 중복
+		}
+	}
+
+	@Override
+	@RequestMapping(value="/searchOverlapPhone.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public void searchOverlapPhone(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		String phone = request.getParameter("phone");
+		// 이메일 중복 체크 조회 쿼리
+		String result = memberP001_d001Service.searchOverlapPhone(phone);
+		if(result!=null) {
+			out.print("true"); 	// 중복
+		}
+	}
+
+	@Override
+	@RequestMapping(value="/addMember.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView addMember(@RequestParam Map<String, String> param, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		// 폼에서 값 얻어오기
+		String email = param.get("email"); 
+		String phoneNum = param.get("phonenumber");
+		String pwd = BCrypt.hashpw(param.get("pwd"), BCrypt.gensalt());	// 패스워드 암호화
+		// 선택정보
+		String gender = param.get("gender")==null? "": param.get("gender");
+		String age = param.get("age");
+		String nickName = "익명#"+ (int)(Math.random()* 900000 + 100000);
+		// 멤버추가
+		MemberP001_MemberVO memberVO = new MemberP001_MemberVO(email, pwd, phoneNum, nickName, gender, age);
+		int result = memberP001_d001Service.addMember(memberVO);
+		if(result==1) {	// 추가 성공시
+			mav.setViewName("p001_d001_insert_sub01");	// 완료화면
+		}
+		return mav;
 	}
 }

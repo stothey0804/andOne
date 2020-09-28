@@ -41,5 +41,23 @@
       <put-attribute name="title" value="지역업체 검색결과" />
       <put-attribute name="body" value="/WEB-INF/views/shop/p002_d001_localShopSearch.jsp" />
    </definition>
+   
+	<!-- 회원약관 -->
+   <definition name="p001_d001_init" extends="baseLayout">
+      <put-attribute name="title" value="회원약관" />
+       <put-attribute name="body" value="/WEB-INF/views/member/p001_d001_init.jsp" />
+   </definition>
+   <!-- 가입폼 -->
+   <definition name="p001_d001_insert" extends="baseLayout">
+      <put-attribute name="title" value="회원약관" />
+       <put-attribute name="body" value="/WEB-INF/views/member/p001_d001_insert.jsp" />
+   </definition>
+   <!-- 가입완료 -->
+   <definition name="p001_d001_insert_sub01" extends="baseLayout">
+      <put-attribute name="title" value="회원약관" />
+       <put-attribute name="body" value="/WEB-INF/views/member/p001_d001_insert_sub01.jsp" />
+   </definition>
+   
+
 
 </tiles-definitions>
