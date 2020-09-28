@@ -32,16 +32,32 @@
    </definition>
    
 	<!-- 소모임 -->
-<!-- 	<definition name="clubMain"  template="/WEB-INF/views/common/layout.jsp"> -->
-<!--       <put-attribute name="title" value="소모임 메인" /> -->
-<!--       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" /> -->
-<!--       <put-attribute name="body" value="/WEB-INF/views/project/club/p001/clubMain.jsp" /> -->
-<!--       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" /> -->
-<!--    </definition> -->
 	<definition name="clubMain"  template="/WEB-INF/views/common/layout.jsp">
       <put-attribute name="title" value="소모임 메인" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
       <put-attribute name="body" value="/WEB-INF/views/project/club/p001/clubMain.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
+
+	<definition name="detailClub"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 상세" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/project/club/p001/detailClub.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+   
+   <definition name="searchList"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 검색결과" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/project/club/p001/searchList.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+   
+   <definition name="createClub"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 검색결과" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/project/club/p001/createClub.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+   
 </tiles-definitions>

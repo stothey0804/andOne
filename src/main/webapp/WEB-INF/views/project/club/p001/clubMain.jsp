@@ -85,8 +85,8 @@ body{
 					style="max-width: 540px; margin-left: 25px;padding:0">
 					<div class="row no-gutters">
 						<div class="col-sm-6">
-							<img src="https://img.huffingtonpost.com/asset/5e848c4825000056010586d9.jpeg?ops=1778_1000" class="card-img"
-								alt="..."  style="height:225px">
+							<img src="https://t1.daumcdn.net/cafeattach/1IHuH/76e8170e8985e795b1536d4d7ca4224247e71a5c" class="card-img"
+								alt="...">
 						</div>
 						<div class="col-sm-6">
 							<div class="card-body" style="height: 225px">
@@ -119,7 +119,7 @@ body{
 			<button type="button"
 				class="btn btn-outline-info btn-block search create"
 				style="font-size: 18px;"
-				onclick="location.href='${contextPath}/club/p001/createClub.do'">소모임
+				onclick="location.href='${contextPath}/createClub.do'">소모임
 				만들기</button>
 		</div>
 		<br>
