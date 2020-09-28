@@ -38,6 +38,9 @@
 		color: white;
 	}
 </style>
+
+<!-- JQuery -->
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script>
 	function onProfile(){
 		var memberLayer = document.getElementById("memberLayer");
@@ -46,6 +49,25 @@
 	function outProfile(){
 		var memberLayer = document.getElementById("memberLayer");
 		memberLayer.classList.remove("visible");
+	}
+	function loadHeaderProfileImage(){
+		// 프로필이미지
+		$.ajax({
+            type: "post",
+            async: "true",
+            dataType: "text",
+            data: {
+                id: '${member.m_id}' //data로 넘겨주기
+            },
+            url: "${contextPath}/member/getByteImage",
+            success: function (data, textStatus) {
+            	if(data==null || data==""){	
+            		$(".profile").attr("src","${contextPath}/resources/image/user.png")
+            	}else{	// null이 아닐경우
+            		$(".profile").attr("src","data:image/png;base64, "+data);
+            	}
+            }
+		});
 	}
 </script>
 </head>
@@ -71,10 +93,10 @@
 	        <a class="nav-link" href="#">찾기</a>
 	      </li>
 	      <li class="nav-item h5">
-	        <a class="nav-link" href="${contextPath}/clubMain.do">소모임</a>
+	        <a class="nav-link" href="${contextPath}/club/clubMain.do">소모임</a>
 	      </li>
 	      <li class="nav-item h5">
-	        <a class="nav-link" href="${contextPath}/localShopMain.do">지역업체</a>
+	        <a class="nav-link" href="${contextPath}/shop/localShopMain.do">지역업체</a>
 	      </li>
        <c:choose>
           <c:when test="${isLogOn == true && member!= null}">
@@ -84,13 +106,13 @@
 	      	</ul>
           	<!-- 프로필사진 -->
           	<div class="box" style="background: #BDBDBD;" onmouseover="onProfile()" onmouseout="outProfile()">
-    			<img class="profile" src="${contextPath}/resources/image/choco.jpg">
+    			<img class="profile">
 			</div>
 			<div class="ml-3">
 	            <h6 class="mb-0"><b>${member.m_nickname}</b>님</h6>
 				<p class="text-primary mb-0">point</p>
-				<div id="memberLayer" onmouseover="onProfile()" onmouseout="outProfile()">
-					<a href="${contextPath}/member/mypage"><p class="mb-2">마이페이지</p></a>
+				<div id="memberLayer" onmouseover="onProfile()" onmouseout="outProfile()" onload="loadHeaderProfileImage()">
+					<a href="${contextPath}/member/mypage.do"><p class="mb-2">마이페이지</p></a>
 		  			<a href="${contextPath}/member/logout.do"><p class="mb-0">로그아웃</p></a>
 				</div>
 			</div>

@@ -29,7 +29,7 @@ public class MemberP001_d001ControllerImpl implements MemberP001_d001Controller{
 
 	@Override
 	@RequestMapping(value="/join.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String joinMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String joinMember(HttpServletRequest request) throws Exception {
 		String agree = request.getParameter("agree")!=null? request.getParameter("agree"): "";
 		if(agree.equals("true")) {
 			return "p001_d001_insert";
@@ -83,8 +83,8 @@ public class MemberP001_d001ControllerImpl implements MemberP001_d001Controller{
 
 	@Override
 	@RequestMapping(value="/addMember.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView addMember(@RequestParam Map<String, String> param, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
+	public String addMember(@RequestParam Map<String, String> param) throws Exception {
+		String resultView="";
 		// 폼에서 값 얻어오기
 		String email = param.get("email"); 
 		String phoneNum = param.get("phonenumber");
@@ -97,8 +97,8 @@ public class MemberP001_d001ControllerImpl implements MemberP001_d001Controller{
 		MemberP001_MemberVO memberVO = new MemberP001_MemberVO(email, pwd, phoneNum, nickName, gender, age);
 		int result = memberP001_d001Service.addMember(memberVO);
 		if(result==1) {	// 추가 성공시
-			mav.setViewName("p001_d001_insert_sub01");	// 완료화면
+			resultView = "p001_d001_insert_sub01";	// 완료화면
 		}
-		return mav;
+		return resultView;
 	}
 }

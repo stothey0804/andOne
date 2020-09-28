@@ -225,6 +225,11 @@
 			var pwd = $("#inputPassword").val();
 			var phoneNum = $("#inputPhoneNumber").val();
 			var isConfirmSmS = $("#inputConfirmSMS").attr("readonly");
+			// confirmSMS가 처리체크
+			if(!isConfirmSmS){
+				alert("휴대폰인증을 완료해주세요.");
+				return;
+			}
 			// 필수입력조건 체크
 			if(email=='' || email==null
 					|| pwd=='' || pwd==null

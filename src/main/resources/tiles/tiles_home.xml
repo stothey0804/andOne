@@ -30,6 +30,7 @@
       <put-attribute name="title" value="메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/root/p001_d001_init.jsp" />
    </definition>
+
    <!-- 같이먹기 메인 -->
    <definition name="eatMain" extends="baseLayout">
       <put-attribute name="title" value="메인페이지" />
@@ -50,6 +51,17 @@
       <put-attribute name="title" value="메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_listAndOne_buy.jsp" />
    </definition>
+
+   <!-- 지역업체 페이지 -->
+   <definition name="localShopMain" extends="baseLayout">
+      <put-attribute name="title" value="지역업체 메인페이지" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/p002_d001_localShopMain.jsp" />
+   </definition>
+   
+   <definition name="localShopSearch" extends="baseLayout">
+      <put-attribute name="title" value="지역업체 검색결과" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/p002_d001_localShopSearch.jsp" />
+   </definition>
    
 	<!-- 회원약관 -->
    <definition name="p001_d001_init" extends="baseLayout">
@@ -67,5 +79,17 @@
        <put-attribute name="body" value="/WEB-INF/views/member/p001_d001_insert_sub01.jsp" />
    </definition>
    
+   <!-- 마이페이지 -->
+	<definition name="mypage" extends="mypageLayout">
+		<put-attribute name="title" value="마이페이지"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p001_init.jsp"/>
+	</definition>
+	
+	<!-- 회원정보조회 -->
+	<definition name="p001_d005_update" extends="mypageLayout">
+		<put-attribute name="title" value="내 정보 변경"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p001_d005_update.jsp"/>
+	</definition>
+
 
 </tiles-definitions>

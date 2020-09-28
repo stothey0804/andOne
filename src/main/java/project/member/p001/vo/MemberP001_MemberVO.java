@@ -1,11 +1,12 @@
 package project.member.p001.vo;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class MemberP001_MemberVO {
-	String m_id, m_email, m_pwd, m_phonenumber, m_nickname, m_gender, m_age, m_joindate, m_editor, m_editdate, m_score;
-	byte[] m_img;
+	private String m_id, m_email, m_pwd, m_phonenumber, m_nickname, m_gender, m_age, m_joindate, m_editor, m_editdate, m_score;
+	private MultipartFile m_img;
 	
 	public MemberP001_MemberVO() {
 	}
@@ -84,11 +85,11 @@ public class MemberP001_MemberVO {
 		this.m_joindate = m_joindate;
 	}
 
-	public byte[] getM_img() {
+	public MultipartFile getM_img() {
 		return m_img;
 	}
 
-	public void setM_img(byte[] m_img) {
+	public void setM_img(MultipartFile m_img) {
 		this.m_img = m_img;
 	}
 
@@ -115,6 +116,16 @@ public class MemberP001_MemberVO {
 	public void setM_score(String m_score) {
 		this.m_score = m_score;
 	}
+
+	@Override
+	public String toString() {
+		return "MemberP001_MemberVO [m_id=" + m_id + ", m_email=" + m_email + ", m_pwd=" + m_pwd + ", m_phonenumber="
+				+ m_phonenumber + ", m_nickname=" + m_nickname + ", m_gender=" + m_gender + ", m_age=" + m_age
+				+ ", m_joindate=" + m_joindate + ", m_editor=" + m_editor + ", m_editdate=" + m_editdate + ", m_score="
+				+ m_score + ", m_img=" + m_img + "]";
+	}
+	
+	
 	
 	
 }
