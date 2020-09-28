@@ -8,15 +8,14 @@ public class SendSMSTwilio {
 	
 	  // Find your Account Sid and Token at twilio.com/user/account
 	  public static final String ACCOUNT_SID = "ACbad887ed3af9409a0efddd0dc2ee5c0b";
-	  public static final String AUTH_TOKEN = "24240d127cf2b2a98c8667c564ec517e";
+	  public static final String AUTH_TOKEN = "7a8d664b74878094247a51f345176e9d";
 	  
 	  // SMS 전송
 	  public static int sendSMS (String phoneNum) {
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-	    
 	    // 휴대폰 인증번호 생성
 	    int authNum = randomRange(100000, 999999);
-	    
+
 	    // 전송대상 휴대폰 번호
 	    String sendTarget = "+82" + phoneNum;
 	    
