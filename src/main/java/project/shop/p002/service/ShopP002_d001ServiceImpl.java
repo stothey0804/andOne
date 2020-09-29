@@ -19,4 +19,9 @@ public class ShopP002_d001ServiceImpl implements ShopP002_d001Service {
 		return shopP002_d001DAO.getShopList(vo);
 	}
 
+	@Override
+	public ShopP002ShopDetailVO getShopDetail(ShopP002ShopDetailVO vo) {
+		return shopP002_d001DAO.getShopDetail(vo);
+	}
+
 }

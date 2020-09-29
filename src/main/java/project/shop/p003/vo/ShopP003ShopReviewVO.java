@@ -14,8 +14,24 @@ public class ShopP003ShopReviewVO {
 	private String sr_public;
 	private String sr_editor;
 	private String sr_editdate;
+	private String m_nickname;
+	private byte[] m_img;
 	private List<ShopP003ShopReviewImageVO> shopReviewImage;
 	
+	
+	
+	public String getM_nickname() {
+		return m_nickname;
+	}
+	public void setM_nickname(String m_nickname) {
+		this.m_nickname = m_nickname;
+	}
+	public byte[] getM_img() {
+		return m_img;
+	}
+	public void setM_img(byte[] m_img) {
+		this.m_img = m_img;
+	}
 	public String getS_id() {
 		return s_id;
 	}

@@ -42,6 +42,11 @@
       <put-attribute name="body" value="/WEB-INF/views/shop/p002_d001_localShopSearch.jsp" />
    </definition>
    
+   <definition name="localShopDetail" extends="baseLayout">
+      <put-attribute name="title" value="지역업체 상세정보" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/p002_d001_localShopDetail.jsp" />
+   </definition>
+   
 	<!-- 회원약관 -->
    <definition name="p001_d001_init" extends="baseLayout">
       <put-attribute name="title" value="회원약관" />

@@ -71,6 +71,55 @@ a:hover {
 	color: black;
 }
 </style>
+<script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
+<script>
+	$(document).ready(function(){
+		popularSearch();
+	})
+	function popularSearch(){
+		$.ajax({
+			type: "post",
+			async: true,
+			url: "http://localhost:8090/andOne/shop/popularSearchByAjax.do",
+			dataType: "text",
+			beforeSend:function(data, textStatus){
+				$('.popular').html("<img src='${contextPath}/resources/image/loading.gif' style='display: block; margin: 0 auto; width:100px; height:100px;'>");
+			},
+			success: function (data, textStatus) {
+				var jsonStr = data;
+				var jsonInfo = JSON.parse(jsonStr);
+				var output = "";
+				output += "<div class='row'>";
+				for (let i=0; i<3; i++) {
+					console.log(jsonInfo[i].s_name);
+					output += "<div style='margin: 20px'>";
+					output += "<div class='card' style='width: 18rem;'>";
+					output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
+					output += "<img src='https://via.placeholder.com/150' class='card-img-top'alt='...'></a>";
+					output += "<div class='card-body'><h5 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>"+jsonInfo[i].s_name+"</a></h5>";
+					output += "<p class='card-text'>"+jsonInfo[i].s_locate+"</p></div>";
+					output += "<div class='card-body' id='review'>";
+					output += "<p class='card-text'>";
+					output += "<a href='#'>후기 "+jsonInfo[i].reviewCount+"건</a><br>";
+					output += "<a href='#'>"+jsonInfo[i].shopReviewList[0].m_nickname+"</a>님의 후기 <br>";
+					output += jsonInfo[i].shopReviewList[0].sr_score+"<br>";
+					output += jsonInfo[i].shopReviewList[0].sr_content+"</p></div></div></div>";
+				}
+				output += "</div>";
+				$('.popular').html(output);
+			},
+			error: function (data, textStatus) {
+				alert("에러가 발생했습니다.");
+			},
+			complete: function (data, textStatus) {
+			}
+		});
+	}
+
+
+
+
+</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -199,35 +248,9 @@ a:hover {
 		</div>
 		<br>
 		<br>
+		<h3>우리동네 인기업체></h3>
 		<div class="popular">
-			<h3>우리동네 인기업체></h3>
-			<div class="row">
-				<c:forEach var="shop" items="${shopList}" begin="0" end="2" step="1">
-					<div style="margin: 20px">
-						<div class="card" style="width: 18rem;">
-							<img src="https://via.placeholder.com/150" class="card-img-top"
-								alt="...">
-							<div class="card-body">
-								<h5 class="card-title">
-									<a href="#">${shop.s_name }</a>
-								</h5>
-								<p class="card-text">${shop.s_locate }</p>
-							</div>
-							<div class="card-body" id="review">
-								<p class="card-text">
-									<a href="#">후기 ${shop.reviewCount }건</a> 
-									<br> 
-									<a href="#">${shop.shopReviewList[0].m_id }</a>님의 후기 
-									<br> 
-									${shop.shopReviewList[0].sr_score } 
-									<br> 
-									${shop.shopReviewList[0].sr_content }
-								</p>
-							</div>
-						</div>
-					</div>
-				</c:forEach>
-			</div>
+				
 		</div>
 	</div>
 </body>
