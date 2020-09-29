@@ -87,6 +87,7 @@
     		WHERE m_id = #{m_id}
    		]]>
    	</update>
+   	
    	<select id="getByteImage" resultMap="clobMap" parameterType="String">
 	   	<![CDATA[
 	   		SELECT m_img
