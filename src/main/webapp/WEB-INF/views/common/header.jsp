@@ -38,6 +38,9 @@
 		color: white;
 	}
 </style>
+
+<!-- JQuery -->
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script>
 	function onProfile(){
 		var memberLayer = document.getElementById("memberLayer");
@@ -47,6 +50,34 @@
 		var memberLayer = document.getElementById("memberLayer");
 		memberLayer.classList.remove("visible");
 	}
+	$(document).ready(function(){
+    	// 세션에서 이미지 읽기
+		var profileImg = '${profileImg}';
+       	if(profileImg==null || profileImg==""){	
+       		$(".profile").attr("src","${contextPath}/resources/image/user.png")
+       	}else{	// null이 아닐경우
+       		$(".profile").attr("src","data:image/png;base64, "+profileImg);
+       	}
+// 		// 프로필이미지 ->세션에서 읽기
+// 		$.ajax({
+//             type: "post",
+//             async: "true",
+//             dataType: "text",
+//             data: {
+//                 id: '${member.m_id}' //data로 넘겨주기
+//             },
+//             url: "${contextPath}/member/getByteImage",
+//             success: function (data, textStatus){
+//             	// 세션에서 이미지 읽기
+// 				var profile_img = '${profile_img}';
+// 		       	if(profile_img==null || profile_img==""){	
+// 		       		$(".profile").attr("src","${contextPath}/resources/image/user.png")
+// 		       	}else{	// null이 아닐경우
+// 		       		$(".profile").attr("src","data:image/png;base64, "+profile_img);
+// 		       	}
+//              }
+// 		});
+	});
 </script>
 </head>
 <body>
@@ -84,13 +115,13 @@
 	      	</ul>
           	<!-- 프로필사진 -->
           	<div class="box" style="background: #BDBDBD;" onmouseover="onProfile()" onmouseout="outProfile()">
-    			<img class="profile" src="${contextPath}/resources/image/choco.jpg">
+    			<img class="profile">
 			</div>
 			<div class="ml-3">
 	            <h6 class="mb-0"><b>${member.m_nickname}</b>님</h6>
 				<p class="text-primary mb-0">point</p>
 				<div id="memberLayer" onmouseover="onProfile()" onmouseout="outProfile()">
-					<a href="${contextPath}/member/mypage"><p class="mb-2">마이페이지</p></a>
+					<a href="${contextPath}/member/mypage.do"><p class="mb-2">마이페이지</p></a>
 		  			<a href="${contextPath}/member/logout.do"><p class="mb-0">로그아웃</p></a>
 				</div>
 			</div>

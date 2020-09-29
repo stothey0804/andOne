@@ -13,10 +13,13 @@
 		<result property="m_gender" column="m_gender"  />
 		<result property="m_age" column="m_age"  />
 		<result property="m_joindate" column="m_joindate"  />
-		<result property="m_img" column="m_img"  />
+		<result property="m_img" column="m_img" javaType="[B" jdbcType="BLOB" />
 		<result property="m_editor" column="m_editor"  />
 		<result property="m_editdate" column="m_editdate"  />
 		<result property="m_score" column="m_score"  />
+	</resultMap>
+	<resultMap id="clobMap" type="java.util.HashMap">
+		<result property="m_img" column="m_img" javaType="[B" jdbcType="BLOB" />
 	</resultMap>
 
    	<select id="selectOverlapEmail" resultType="String" parameterType="String">
@@ -34,6 +37,7 @@
  		]]>
    	</select>
    	
+   	<!-- 회원추가  -->
    	<insert id="insertMember" parameterType="memberP001_MemberVO">
 		<![CDATA[
 			INSERT INTO member(m_id, m_email, m_pwd, m_phonenumber, m_nickname, m_gender, m_age, m_joindate, m_locate, m_editor, m_editdate)
@@ -45,12 +49,51 @@
    		]]>
    	</insert>
    	
+   	<!-- 회원정보수정  -->
+   	<update id="updateMember" parameterType="memberP001_MemberVO">
+		<![CDATA[
+			UPDATE member
+    		SET m_email = #{m_email}, m_pwd = #{m_pwd}, m_phonenumber = #{m_phonenumber}, m_nickname= #{m_nickname},
+	    		m_gender = #{m_gender}, m_age = #{m_age},
+	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+    		WHERE m_id = #{m_id}
+   		]]>
+   	</update>
+   	
+   	<!-- 이메일기준 회원조회 -->
  	<select id="selectMemberByEmail" resultMap="p001Result" parameterType="String">
    		<![CDATA[
-	   		SELECT *
+	   		SELECT m_id, m_email, m_pwd, m_phonenumber, m_nickname, m_gender, m_age
 	   		FROM member
 	   		WHERE m_email like #{email}
    		]]>
+   	</select>
+   	
+   	<!-- 회원 비밀번호 조회 -->
+ 	<select id="selectPwdById" resultType="String" parameterType="String">
+   		<![CDATA[
+	   		SELECT m_pwd
+	   		FROM member
+	   		WHERE m_id like #{id}
+   		]]>
+   	</select>
+   	
+   	<!-- 프로필 이미지 업데이트 -->
+   	<update id="saveImage" parameterType="java.util.Map">
+		<![CDATA[
+			UPDATE member
+    		SET m_img = #{m_img},
+	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+    		WHERE m_id = #{m_id}
+   		]]>
+   	</update>
+   	
+   	<select id="getByteImage" resultMap="clobMap" parameterType="String">
+	   	<![CDATA[
+	   		SELECT m_img
+	   		FROM member
+	   		WHERE m_id = #{m_id}
+	   	]]>
    	</select>
    	
  	</mapper>
