@@ -48,25 +48,28 @@ public class MemberP001_d005ControllerImpl implements MemberP001_d005Controller{
 		return Common.checkLoginDestinationView("p001_d005_update", request);
 	}
 
+	@Override
 	@RequestMapping(value="/getByteImage", method = { RequestMethod.GET, RequestMethod.POST })
 	public void getByteImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
-//		HttpSession session = request.getSession(false);
-//		MemberP001_MemberVO member = (MemberP001_MemberVO) session.getAttribute("member");
-//		String m_id = member.getM_id();
 		String m_id = request.getParameter("id");
-		Map<String, Object> map = memberP001_d005Service.getByteImage(m_id);
-		if(map==null)	return;
-		byte[] encoded = Base64.getEncoder().encode((byte[])map.get("m_img"));
-		String encodedString = new String(encoded);
-//		session.setAttribute("profile_img", encodedString);
-//		byte[] imageContent = (byte[]) map.get("m_img");
-		System.out.println("======imgContent> >>" + encodedString);
-		out.print(encodedString);
-//		final HttpHeaders headers = new HttpHeaders();
-//		headers.setContentType(MediaType.IMAGE_PNG);
-//		return new ResponseEntity<byte[]>(imageContent, headers, HttpStatus.OK);
+		out.print(Common.encodeBlobImage(m_id, memberP001_d005Service));
+	}
+	
+	@RequestMapping(value="/deleteUserImage.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public void deleteUserImage(HttpServletRequest request) throws Exception {
+//		response.setContentType("text/html;charset=utf-8");
+//		PrintWriter out = response.getWriter();
+		String m_id = request.getParameter("id");
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("m_img", "");	// img컬럼에 null 저장
+		hmap.put("m_id", m_id);
+		memberP001_d005Service.saveImage(hmap);
+		// 세션 프로필 이미지 set
+		String profileImg = Common.encodeBlobImage(m_id, memberP001_d005Service);
+		HttpSession session = request.getSession(false);
+		session.setAttribute("profileImg", profileImg);
 	}
 	
 	// 실제 저장 클릭시
@@ -103,6 +106,9 @@ public class MemberP001_d005ControllerImpl implements MemberP001_d005Controller{
 			// 세션 정보업데이트
 			HttpSession session = request.getSession(false);
 			session.setAttribute("member", member);
+			// 세션 프로필 이미지 set
+			String profileImg = Common.encodeBlobImage(member.getM_id(), memberP001_d005Service);
+			session.setAttribute("profileImg", profileImg);
 		}
 		return resultView;
 	}
