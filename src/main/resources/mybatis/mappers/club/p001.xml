@@ -19,7 +19,7 @@
 		<result property="ca_content" column="ca_content" />
 		<result property="ca_date" column="ca_date" />
 		<result property="m_id" column="m_id" />
-		<result property="ca_img" column="ca_img" />
+		<result property="ca_img" column="ca_img" jdbcType="BLOB"/>
 		<result property="ca_id" column="ca_id" />
 	</resultMap>
 	
@@ -89,8 +89,13 @@
 	
 	<delete id="deleteClubArticle">
 		<![CDATA[
-			delete c_article
+			delete from c_article
 			where ca_id = #{ca_id}
 		]]>
 	</delete>
+	
+	<insert id="insertClubArticle" parameterType="java.util.Map">
+		INSERT INTO c_article(ca_id,ca_content,c_id,ca_date,m_id,ca_img,ca_pin)
+		values(art_SEQ.NEXTVAL,#{ca_content},#{c_id},to_char(sysdate,'YYYY-MM-DD hh:mm'),#{m_id},#{ca_img},0);
+	</insert>
 </mapper>

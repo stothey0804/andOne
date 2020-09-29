@@ -12,7 +12,12 @@ public class ClubP001_d002DAOImpl implements ClubP001_d002DAO{
 
 	@Override
 	public void deleteClubArticle(Map<String, Object> searchMap) {
-		sqlSession.delete("club.p001.deleteClubArticle");
+		sqlSession.delete("club.p001.deleteClubArticle",searchMap);
+	}
+
+	@Override
+	public void insertClubArticle(Map<String, Object> insertMap) {
+		sqlSession.insert("club.p001.insertClubArticle", insertMap);
 	}
 	
 }

@@ -21,5 +21,10 @@ public class ClubP001_d002ServiceImpl implements ClubP001_d002Service{
 		clubP001_d002DAO.deleteClubArticle(searchMap);
 	}
 
+	@Override
+	public void writeArticle(Map<String, Object> insertMap) {
+		clubP001_d002DAO.insertClubArticle(insertMap);
+	}
+
 	
 }

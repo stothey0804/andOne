@@ -27,7 +27,6 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		List<ClubP001_d001VO> clubList = clubP001_d001Service.clubList();
 		List<ClubP001_d001VO> myClubList = clubP001_d001Service.myClubList();
 		ModelAndView mav = new ModelAndView("clubMain");
-		System.out.println("===========");
 		mav.addObject("clubList",clubList);
 		mav.addObject("myClubList",myClubList);
 		mav.addObject("myClubCnt", myClubList.size());

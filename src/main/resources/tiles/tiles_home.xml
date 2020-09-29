@@ -104,9 +104,17 @@
    
 	<!-- 소모임 만들기-->
    <definition name="createClub"  template="/WEB-INF/views/common/layout.jsp">
-      <put-attribute name="title" value="소모임 검색결과" />
+      <put-attribute name="title" value="소모임 만들기" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
       <put-attribute name="body" value="/WEB-INF/views/project/club/p001/createClub.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+   
+   <!-- 소모임  게시글 쓰기-->
+   <definition name="writeArticleForm"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 게시글 쓰기" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/project/club/p001/writeArticle.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
    

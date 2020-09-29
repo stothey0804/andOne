@@ -88,7 +88,7 @@ function menuTap(ca_id){
 					<h5 class="card-title">${clubInfo.c_name }</h5>
 					<p class="card-text">함께하는 사람 ${clubInfo.c_membercnt }</p>
 					<small class="text-muted" style="height: 14px">#${clubInfo.c_hashtag}</small>
-					<a href="#" class="btn btn-warning btn-primary btn-block"
+					<a href="${contextPath }/club/writeArticleForm.do?c_id=${clubInfo.c_id}" class="btn btn-success btn-block"
 						style="margin-top: 3px;">글쓰기</a>
 				</div>
 			</div>
@@ -139,15 +139,13 @@ function menuTap(ca_id){
 							<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 							  <div class="modal-dialog">
 							    <div class="modal-content">
-							      <div class="modal-header">
-							      </div>
 							      <div class="modal-body">
-							        	<h5 style="text-align:center;">해당 게시물을 삭제하겠습니까?</h5>
+							        	<h6 style="text-align:center;">해당 게시물을 삭제하겠습니까?</h6>
 							      </div>
 							      <div class="modal-footer">
 							        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 							        <button type="button" class="btn btn-primary"
-							        	onclick="location.href='deleteClubArticle.do?ca_id=${club.ca_id}'">삭제하기</button>
+							        	onclick="location.href='deleteClubArticle.do?ca_id=${club.ca_id}',location.reload();">삭제하기</button>
 							      </div>
 							    </div>
 							  </div>
@@ -159,7 +157,5 @@ function menuTap(ca_id){
 			</c:forEach>
 		</div>
 	</div>
-	
-	
 </body>
 </html>
