@@ -19,4 +19,9 @@ public class ShopP002_d001DAOImpl implements ShopP002_d001DAO {
 		return sqlSession.selectList("shop.p002.getShopList",vo);
 	}
 
+	@Override
+	public ShopP002ShopDetailVO getShopDetail(ShopP002ShopDetailVO vo) {
+		return sqlSession.selectOne("shop.p002.getShopList",vo);
+	}
+
 }
