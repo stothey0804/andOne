@@ -44,9 +44,24 @@ public class MemberP001_d005ControllerImpl implements MemberP001_d005Controller{
 	@Override
 	@RequestMapping(value="/updateMember.do")
 	public String updateMemberInfo(HttpServletRequest request) {
-		// 정보수정 페이지로
-		return Common.checkLoginDestinationView("p001_d005_update", request);
+		// 패스워드 체크 페이지로
+		return Common.checkLoginDestinationView("p001_d005_init", request);
 	}
+	
+	// 비번체크
+	@RequestMapping(value="/checkUserPwd.do", method = RequestMethod.POST)
+	public String checkUserPwd(HttpServletRequest request) {
+		String m_id = request.getParameter("m_id");
+		String inputPwd = request.getParameter("inputPwd");
+		String oriPwd = memberP001_d005Service.selectPwdById(m_id);
+		if(BCrypt.checkpw(inputPwd, oriPwd)) {
+			// 비번 일치시
+			return Common.checkLoginDestinationView("p001_d005_update", request);	// 수정페이지로
+		}else {
+			return Common.checkLoginDestinationView("p001_d005_init", request);	// 체크페이지로
+		}
+	}
+	
 
 	@Override
 	@RequestMapping(value="/getByteImage", method = { RequestMethod.GET, RequestMethod.POST })
@@ -57,6 +72,7 @@ public class MemberP001_d005ControllerImpl implements MemberP001_d005Controller{
 		out.print(Common.encodeBlobImage(m_id, memberP001_d005Service));
 	}
 	
+	// 프로필 이미지 삭제시
 	@RequestMapping(value="/deleteUserImage.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public void deleteUserImage(HttpServletRequest request) throws Exception {
 //		response.setContentType("text/html;charset=utf-8");
@@ -77,10 +93,8 @@ public class MemberP001_d005ControllerImpl implements MemberP001_d005Controller{
 	@RequestMapping(value="/saveMember.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String saveMemberInfo(MemberP001_MemberVO member, HttpServletRequest request) {
 		String resultView = "p001_d005_update";
-		System.out.println("========================>>" + member.toString());
 		// 패스워드 암호화 세팅
 		if(!"".equals(member.getM_pwd())) {
-			System.out.println("========================>>" + member.getM_pwd());
 			String parsePwd = BCrypt.hashpw(member.getM_pwd(), BCrypt.gensalt());
 			member.setM_pwd(parsePwd);
 		}else {
