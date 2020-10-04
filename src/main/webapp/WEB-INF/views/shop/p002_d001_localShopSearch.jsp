@@ -44,6 +44,10 @@ div.search {
 	
 }
 
+img.noResult{
+	display:block; margin:0px auto;
+}
+
 a {
 	text-decoration: none;
 }
@@ -138,29 +142,37 @@ a:hover {
 					var jsonStr = data;
 					var jsonInfo = JSON.parse(jsonStr);
 					var output = "";
-					for (var i in jsonInfo) {
-						console.log(jsonInfo[i].s_name);
-						output += "<div class='col-sm-6 mb-3' style='max-width: 540px;'>";
-						output += "<div class='row no-gutters'>";
-						output += "<div class='col-sm-6'>";
-						output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
-						output += "<img src='https://via.placeholder.com/100x100' class='card-img' alt='...'></a>";
-						output += "</div>";
-						output += "<div class='col-sm-6'>";
-						output += "<div class='card-body' style='height: 225px'>";
-						output += "<h5 class='card-title' style='height: 20%'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>" + jsonInfo[i].s_name + "</a></h5>";
-						output += "<p class='card-text' style='height: 40%'>" + jsonInfo[i].s_content + "</p>";
-						output += "<p class='card-text'>";
-						output += "<small class='text-muted' style='height: 14px'>" + jsonInfo[i].shopReviewList[0].sr_content + "</small>";
-						output += "</p>";
-						output += "<p class='card-text'>";
-						output += "<small class='text-muted' style='height: 14px'>가게평점 ";
-						output += jsonInfo[i].s_score + "</small>";
-						output += "</p>";
-						output += "</div>";
-						output += "</div>";
-						output += "</div>";
-						output += "</div>";
+					if(Object.keys(jsonInfo).length == 0){
+						output += '<img class="noResult" src="${contextPath }/resources/image/no_result.png">';
+					}else{
+						for (var i in jsonInfo) {
+							console.log(jsonInfo[i].s_name);
+							output += "<div class='col-sm-6 mb-3' style='max-width: 540px;'>";
+							output += "<div class='row no-gutters'>";
+							output += "<div class='col-sm-6'>";
+							output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
+							output += "<img src='https://via.placeholder.com/100x100' class='card-img' alt='...'></a>";
+							output += "</div>";
+							output += "<div class='col-sm-6'>";
+							output += "<div class='card-body' style='height: 225px'>";
+							output += "<h5 class='card-title' style='height: 20%'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>" + jsonInfo[i].s_name + "</a></h5>";
+							output += "<p class='card-text' style='height: 40%'>" + jsonInfo[i].s_content + "</p>";
+							output += "<p class='card-text'>";
+							if(Object.keys(jsonInfo[i].shopReviewList).length == 0){
+								output += "<small class='text-muted' style='height: 14px'>" + "아직 남겨진 리뷰가 없어요~" + "</small>";
+							}else{
+								output += "<small class='text-muted' style='height: 14px'>" + jsonInfo[i].shopReviewList[0].sr_content + "</small>";
+							}
+							output += "</p>";
+							output += "<p class='card-text'>";
+							output += "<small class='text-muted' style='height: 14px'>가게평점 ";
+							output += jsonInfo[i].s_score + "</small>";
+							output += "</p>";
+							output += "</div>";
+							output += "</div>";
+							output += "</div>";
+							output += "</div>";
+						}
 					}
 					$('div.row#result').html(output);
 				},

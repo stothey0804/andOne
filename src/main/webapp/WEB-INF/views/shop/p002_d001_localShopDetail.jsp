@@ -44,6 +44,10 @@ div.search {
 	
 }
 
+img.noResult{
+	display:block; margin:0px auto;
+}
+
 a {
 	text-decoration: none;
 }
@@ -63,15 +67,101 @@ a:active {
 a:hover {
 	color: black;
 }
+
+#pop {
+	background:#e6e6e6;
+	border:1px solid #000;
+	position: fixed;
+	top: 20%;
+	left: 25%;
+	width: 480px;
+	height: auto;
+	z-index: 10;
+}
+
 </style>
 
 <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
 <script>
 	var shopId = '${shopId}';
+	var s_category = '';
 	
 	$(document).ready(function(){
+		$('#pop').hide();
 		getShopDetail();
 	})
+	
+	function popup(p1, p2){
+		$('#pop').show();
+		$.ajax({
+			type: "post",
+			async: true,
+			url: "http://localhost:8090/andOne/shop/shopReviewPopup.do",
+			dataType: "text",
+			beforeSend:function(data, textStatus){
+				$('#popContent').html("<br><br><br><br><img src='${contextPath}/resources/image/loading.gif' style='display: block; margin: 0 auto; width:100px; height:100px;'>");
+			},
+			data: "m_id="+p1+"&s_id=" + p2,
+			success: function (data, textStatus) {
+				var jsonStr = data;
+				var jsonInfo = JSON.parse(jsonStr);
+				var output = "";
+				output += '<table>';
+				output += 	'<tr>';
+				output += 		'<td align="center" height="80" width="80">';
+				output += 			'<div style="margin: 2px">';
+				output +=				'<div class="card" style="width: 4rem;">';
+				output +=					'<a href="#">';
+				output +=						'<img src="${contextPath }/resources/image/basicProfileImg.png" class="card-img-top" alt="...">';
+				output +=					'</a>';
+				output +=				'</div>';
+				output +=			'</div>';
+				output +=		'</td>';
+				output += 		'<td align="left" height="80" width="350"><h2>&nbsp;&nbsp;'+jsonInfo.m_nickname+'</h2></td>';
+				output += 		'<td id="close" align="right" height="80" width="80" valign="top"><img src="${contextPath }/resources/image/close.png" height="40" width="40"></td>';
+				output += 	'</tr>';
+				output += 	'<tr>';
+				output += 		'<td colspan="2" align="left" height="40">'+jsonInfo.sr_score+'</td>';
+				output += 		'<td align="right">'+jsonInfo.sr_date+'</td>';
+				output += 	'</tr>';
+				output += 	'<tr>';
+				output += 		'<td colspan="2" height="300" valign="top">'+jsonInfo.sr_content+'</td>';
+				output += 		'<td></td>';
+				output +=	 '</tr>';
+				output += 	'<tr>';
+				output +=		'<td></td>'
+				output += 		'<td colspan="2" align="center" height="110">';
+				output += 		'<div class="row">';
+				for(let j=0; j<Object.keys(jsonInfo.shopReviewImage).length; j++){
+					output += 		'<div style="margin: 5px">';
+					output += 			'<div class="card" style="width: 5rem;">';
+					output += 				'<a href="#">';
+					output += 					'<img src="https://via.placeholder.com/50" class="card-img-top" alt="...">';
+					output += 				'</a></div></div>';
+				}
+				for(let j=0; j<3 - Object.keys(jsonInfo.shopReviewImage).length; j++){
+					output += 		'<div style="margin: 5px">';
+					output += 			'<div class="card" style="width: 5rem;">';
+					output += 				'<img src="${contextPath }/resources/image/ina.png" class="card-img-top" alt="...">';
+					output += 			'</div></div>';
+				}
+				output +=		'</div>'
+				output +=		'</td>';
+				output += 	'</tr>';
+				output += '</table>';
+				$('#popContent').html(output);
+				$('#close').click(function(){
+					$('#pop').hide();
+				})
+			},
+			error: function (data, textStatus) {
+				alert("에러가 발생했습니다.");
+			},
+			complete: function (data, textStatus) {
+				
+			}
+		});
+	}
 	
 	function getShopDetail(){
 		$.ajax({
@@ -94,6 +184,9 @@ a:hover {
 				var imageCount = Object.keys(jsonInfo.shopImage).length;
 				var reviewCount = Object.keys(jsonInfo.shopReviewList).length;
 				
+				s_category = jsonInfo.s_category;
+				console.log('======> 가게 카테고리');
+				console.log(s_category);
 				console.log('======> 가게 이름');
 				console.log(jsonInfo.s_name);
 				console.log('======> 리뷰 갯수');
@@ -136,7 +229,7 @@ a:hover {
 					reviewList += '<a href="#">';
 					reviewList += '<img src="${contextPath }/resources/image/basicProfileImg.png" class="card-img-top" alt="...">';
 					reviewList += '</a></div></div></td>';
-					reviewList += '<td width="680">'+jsonInfo.shopReviewList[i].m_nickname+'</td>';
+					reviewList += '<td class="clickArea" id="'+jsonInfo.shopReviewList[i].m_id+'"width="680">'+jsonInfo.shopReviewList[i].m_nickname+'</td>';
 					for(let j=0; j<Object.keys(jsonInfo.shopReviewList[i].shopReviewImage).length; j++){
 						reviewList += '<td rowspan="3" width="80">';
 						reviewList += '<div style="margin: 5px">';
@@ -154,39 +247,84 @@ a:hover {
 						reviewList += '</div></div>';
 						reviewList += '</td>';
 					}
-					reviewList += '</tr><tr><td width="80">'+jsonInfo.shopReviewList[i].sr_score+'</td></tr>';
-					reviewList += '<tr><td width="80">'+jsonInfo.shopReviewList[i].sr_content+'</td>';
+					reviewList += '</tr><tr><td class="clickArea" id="'+jsonInfo.shopReviewList[i].m_id+'" width="80">'+jsonInfo.shopReviewList[i].sr_score+'</td></tr>';
+					reviewList += '<tr><td class="clickArea" id="'+jsonInfo.shopReviewList[i].m_id+'" value="rl" width="80">'+jsonInfo.shopReviewList[i].sr_content+'</td>';
 					reviewList += '<td>'+jsonInfo.shopReviewList[i].sr_date+'</td></tr></table><hr>';
 				}
-				
-				
-				recommendShop += '<h3>업체추천</h3>'
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				recommendShop += '<h3>업체추천</h3><div id="recommendShopList"></div>'
+					
 				$('div.shopImage').html(shopImage);
 				$('div.shopInformation').html(shopInformation);
 				$('div.reviewList').html(reviewList);
 				$('div.recommendShop').html(recommendShop);
+				$('td.clickArea').click(function(){
+					let m_id = $(this).attr('id');
+					popup(m_id, shopId);
+				})
 			},
 			error: function (data, textStatus) {
 				alert("에러가 발생했습니다.");
 			},
 			complete: function (data, textStatus) {
-				
+				recommend();
 			}
 		});
 		
+	}
+	
+	function recommend(){
+		$.ajax({
+			type: "post",
+			async: true,
+			url: "http://localhost:8090/andOne/shop/searchByAjax.do",
+			dataType: "text",
+			beforeSend:function(data, textStatus){
+				$('div#recommendShopList').html("<img src='${contextPath}/resources/image/loading.gif' style='display: block; margin: 0 auto; width:100px; height:100px;'>");
+			},
+			data:"filter="+s_category+"&searchCondition=GETRECOMMENDLIST&s_id="+shopId,
+			success: function (data, textStatus) {
+				console.log('======>추천 아작스');
+				console.log(s_category);
+				var jsonStr = data;
+				var jsonInfo = JSON.parse(jsonStr);
+				var shopCount = Object.keys(jsonInfo).length;
+				var output = "";
+				if(shopCount == 0){
+					output += "<h3>저런~ 추천 가게가 없습니다.</h3>";
+				}else{
+					if(shopCount > 3){
+						shopCount = 3;
+					}
+					output += "<div class='row'>";
+					for (let i=0; i<shopCount; i++) {
+						console.log(jsonInfo[i].s_name);
+						output += "<div style='margin: 20px'>";
+						output += "<div class='card' style='width: 18rem;'>";
+						output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
+						output += "<img src='https://via.placeholder.com/150' class='card-img-top'alt='...'></a>";
+						output += "<div class='card-body'><h5 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>"+jsonInfo[i].s_name+"</a></h5>";
+						output += "<p class='card-text'>"+jsonInfo[i].s_locate+"</p></div>";
+						output += "<div class='card-body' id='review'>";
+						output += "<p class='card-text'>";
+						output += "<a href='#'>후기 "+jsonInfo[i].reviewCount+"건</a><br>";
+						if(Object.keys(jsonInfo[i].shopReviewList).length == 0){
+							output += "아직 남겨진 리뷰가 없어요~</p></div></div></div>";
+						}else{
+							output += "<a href='#'>"+jsonInfo[i].shopReviewList[0].m_nickname+"</a>님의 후기 <br>";
+							output += jsonInfo[i].shopReviewList[0].sr_score+"<br>";
+							output += jsonInfo[i].shopReviewList[0].sr_content+"</p></div></div></div>";
+						}
+					}
+					output += "</div>";
+				}
+				$('div#recommendShopList').html(output);
+			},
+			error: function (data, textStatus) {
+				alert("에러가 발생했습니다.");
+			},
+			complete: function (data, textStatus) {
+			}
+		});
 	}
 	
 	
@@ -219,73 +357,15 @@ a:hover {
 		
 		<div class="recommendShop">
 		
-			<div class="row" id="result">
-				<div class='col-sm-6 mb-3' style='max-width: 540px;'>
-					<div class='row no-gutters'>
-						<div class='col-sm-6'>
-							<img src='https://via.placeholder.com/100x100' class='card-img' alt='...'>
-						</div>
-						<div class='col-sm-6'>
-							<div class='card-body' style='height: 225px'>
-								<h5 class='card-title' style='height: 20%'>가게이르ㅡㅡㅡ음</h5>
-								<p class='card-text' style='height: 40%'>가게소개애ㅐㅐㅐㅐ</p>
-								<p class='card-text'>
-									<small class='text-muted' style='height: 14px'>리뷰내용요ㅛㅛ</small>
-								</p>
-								<p class='card-text'>
-									<small class='text-muted' style='height: 14px'>가게평점
-										평저어어어ㅓㅓㅇㅁ</small>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col-sm-6 mb-3' style='max-width: 540px;'>
-					<div class='row no-gutters'>
-						<div class='col-sm-6'>
-							<img src='https://via.placeholder.com/100x100' class='card-img' alt='...'>
-						</div>
-						<div class='col-sm-6'>
-							<div class='card-body' style='height: 225px'>
-								<h5 class='card-title' style='height: 20%'>가게이르ㅡㅡㅡ음</h5>
-								<p class='card-text' style='height: 40%'>가게소개애ㅐㅐㅐㅐ</p>
-								<p class='card-text'>
-									<small class='text-muted' style='height: 14px'>리뷰내용요ㅛㅛ</small>
-								</p>
-								<p class='card-text'>
-									<small class='text-muted' style='height: 14px'>가게평점
-										평저어어어ㅓㅓㅇㅁ</small>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col-sm-6 mb-3' style='max-width: 540px;'>
-					<div class='row no-gutters'>
-						<div class='col-sm-6'>
-							<img src='https://via.placeholder.com/100x100' class='card-img' alt='...'>
-						</div>
-						<div class='col-sm-6'>
-							<div class='card-body' style='height: 225px'>
-								<h5 class='card-title' style='height: 20%'>가게이르ㅡㅡㅡ음</h5>
-								<p class='card-text' style='height: 40%'>가게소개애ㅐㅐㅐㅐ</p>
-								<p class='card-text'>
-									<small class='text-muted' style='height: 14px'>리뷰내용요ㅛㅛ</small>
-								</p>
-								<p class='card-text'>
-									<small class='text-muted' style='height: 14px'>가게평점
-										평저어어어ㅓㅓㅇㅁ</small>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 	
 		</div>
 	</div>
 	<br>
-
+	<div id='pop'>
+		<div id='popContent' style="height:530px;">
+			
+		</div>
+	</div>
 </body>
 
 </html>

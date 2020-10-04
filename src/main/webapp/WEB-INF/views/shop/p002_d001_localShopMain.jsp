@@ -47,6 +47,10 @@ div.search {text-align =center;
 	
 }
 
+img.noResult{
+	display:block; margin:0px auto;
+}
+
 div#review {
 	background-color: rgb(228, 228, 228);
 }
@@ -89,23 +93,31 @@ a:hover {
 				var jsonStr = data;
 				var jsonInfo = JSON.parse(jsonStr);
 				var output = "";
-				output += "<div class='row'>";
-				for (let i=0; i<3; i++) {
-					console.log(jsonInfo[i].s_name);
-					output += "<div style='margin: 20px'>";
-					output += "<div class='card' style='width: 18rem;'>";
-					output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
-					output += "<img src='https://via.placeholder.com/150' class='card-img-top'alt='...'></a>";
-					output += "<div class='card-body'><h5 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>"+jsonInfo[i].s_name+"</a></h5>";
-					output += "<p class='card-text'>"+jsonInfo[i].s_locate+"</p></div>";
-					output += "<div class='card-body' id='review'>";
-					output += "<p class='card-text'>";
-					output += "<a href='#'>후기 "+jsonInfo[i].reviewCount+"건</a><br>";
-					output += "<a href='#'>"+jsonInfo[i].shopReviewList[0].m_nickname+"</a>님의 후기 <br>";
-					output += jsonInfo[i].shopReviewList[0].sr_score+"<br>";
-					output += jsonInfo[i].shopReviewList[0].sr_content+"</p></div></div></div>";
+				if(Object.keys(jsonInfo).length == 0){
+					output += '<img class="noResult" src="${contextPath }/resources/image/no_result.png">';
+				}else{
+					output += "<div class='row'>";
+					for (let i=0; i<3; i++) {
+						console.log(jsonInfo[i].s_name);
+						output += "<div style='margin: 20px'>";
+						output += "<div class='card' style='width: 18rem;'>";
+						output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
+						output += "<img src='https://via.placeholder.com/150' class='card-img-top'alt='...'></a>";
+						output += "<div class='card-body'><h5 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>"+jsonInfo[i].s_name+"</a></h5>";
+						output += "<p class='card-text'>"+jsonInfo[i].s_locate+"</p></div>";
+						output += "<div class='card-body' id='review'>";
+						output += "<p class='card-text'>";
+						output += "<a href='#'>후기 "+jsonInfo[i].reviewCount+"건</a><br>";
+						if(Object.keys(jsonInfo[i].shopReviewList).length == 0){
+							output += "아직 남겨진 리뷰가 없어요~</p></div></div></div>";
+						}else{
+							output += "<a href='#'>"+jsonInfo[i].shopReviewList[0].m_nickname+"</a>님의 후기 <br>";
+							output += jsonInfo[i].shopReviewList[0].sr_score+"<br>";
+							output += jsonInfo[i].shopReviewList[0].sr_content+"</p></div></div></div>";
+						}
+					}
+					output += "</div>";
 				}
-				output += "</div>";
 				$('.popular').html(output);
 			},
 			error: function (data, textStatus) {
