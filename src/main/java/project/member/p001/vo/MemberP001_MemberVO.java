@@ -117,15 +117,5 @@ public class MemberP001_MemberVO {
 		this.m_score = m_score;
 	}
 
-	@Override
-	public String toString() {
-		return "MemberP001_MemberVO [m_id=" + m_id + ", m_email=" + m_email + ", m_pwd=" + m_pwd + ", m_phonenumber="
-				+ m_phonenumber + ", m_nickname=" + m_nickname + ", m_gender=" + m_gender + ", m_age=" + m_age
-				+ ", m_joindate=" + m_joindate + ", m_editor=" + m_editor + ", m_editdate=" + m_editdate + ", m_score="
-				+ m_score + ", m_img=" + m_img + "]";
-	}
-	
-	
-	
 	
 }
