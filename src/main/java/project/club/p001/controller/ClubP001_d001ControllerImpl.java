@@ -58,29 +58,36 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 	public ModelAndView detailClub(@RequestParam(value="c_id",required = true) String c_id, HttpSession session) throws Exception{
 		String m_id = (String)session.getAttribute("m_id");
 		System.out.println("===========yasyayayyay"+m_id);
-		String rank="";
 		Map<String, Object> searchMap = new HashMap<String, Object>();
 		searchMap.put("c_id", c_id);
 		searchMap.put("m_id",m_id);
 		ClubP001_d001VO vo = clubP001_d001Service.detailClub(searchMap);
 		System.out.println("**************"+m_id);
-		if(m_id == null) {
-			rank = "99";
-		} else {
-			rank = clubP001_d001Service.memberCheck(searchMap);
+		
+		byte[] encoded = null;
+		String clubImg = "";
+		
+//		소모임 대표 이미지 encoding
+		if(vo.getC_imgByte() != null) {
+			encoded = Base64.getEncoder().encode(vo.getC_imgByte());
+			clubImg = new String(encoded);	
 		}
+		
+//		회원 등급 확인
+		String rank = clubP001_d001Service.memberCheck(searchMap);
+		
+//		소모임 게시글 이미지 encoding
 		for(int i=0; i<vo.getArticleList().size();i++) {
 			if(vo.getArticleList().get(i).getImgList()!=null) {
-				byte[] encoded = Base64.getEncoder().encode(vo.getArticleList().get(i).getImgList());
+				encoded = Base64.getEncoder().encode(vo.getArticleList().get(i).getImgList());
 				String encodedString = new String(encoded);
 				vo.getArticleList().get(i).setResultImgList(encodedString);
-			} else {
-				System.out.println("null image");
-			}
+			} 
 		}
 		ModelAndView mav = new ModelAndView("detailClub");
 		mav.addObject("clubInfo", vo);
 		mav.addObject("rank", rank);
+		mav.addObject("clubImg", clubImg);
 		return mav;
 	}
 	

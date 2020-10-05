@@ -90,8 +90,15 @@ function menuTap(ca_id){
 	<div class="container my-5 center top">
 		<div class="left">
 			<div class="card info" style="width: 18rem;">
-				<img src="https://static.toiimg.com/photo/msid-76940605/76940605.jpg?758247" class="card-img-top"
-					alt="...">
+			<c:set var="c_img" value="${clubImg}"/>
+				<c:choose>
+					<c:when test="${c_img eq null}">
+						<img src="https://static.toiimg.com/photo/msid-76940605/76940605.jpg?758247" class="card-img-top" alt="...">
+					</c:when>
+					<c:otherwise>
+						<img src="data:image/jpg;base64, ${c_img}" class="c_img">
+					</c:otherwise>
+				</c:choose>
 				<div class="card-body">
 					<h5 class="card-title">${clubInfo.c_name }</h5>
 					<p class="card-text">함께하는 사람 ${clubInfo.c_membercnt }</p>
@@ -110,7 +117,7 @@ function menuTap(ca_id){
 								<a href="${contextPath}/club/writeArticleForm.do?c_id=${clubInfo.c_id}" class="btn btn-success btn-block"
 									style="margin-top: 3px;">글쓰기</a>
 							</c:when>
-							<c:when test="${rank eq 01}">
+							<c:when test="${rank eq 40}">
 								<a href="#" class="btn btn-success btn-block"
 									style="margin-top: 3px;">가입승인 대기중</a>
 							</c:when>

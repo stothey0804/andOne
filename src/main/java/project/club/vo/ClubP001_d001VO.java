@@ -3,6 +3,7 @@ package project.club.vo;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class ClubP001_d001VO {
@@ -15,18 +16,39 @@ public class ClubP001_d001VO {
 	private String c_name;
 	private String c_content;
 	private String c_membercnt;
+	private String c_membermax;
 	private String c_category;
 	private String c_hashtag;
-	private byte[] c_img;
-	
-	public byte[] getC_img() {
-		return c_img;
+	private MultipartFile c_img;
+	private byte[] c_imgByte;
+	private String c_openingdate;
+	public String getC_openingdate() {
+		return c_openingdate;
 	}
-	public void setC_img(byte[] c_img) {
-		this.c_img = c_img;
+	public void setC_openingdate(String c_openingdate) {
+		this.c_openingdate = c_openingdate;
 	}
+
 	private List<ClubP001_d001articleVO> articleList;
 	
+	public byte[] getC_imgByte() {
+		return c_imgByte;
+	}
+	public void setC_imgByte(byte[] c_imgByte) {
+		this.c_imgByte = c_imgByte;
+	}
+	public String getC_membermax() {
+		return c_membermax;
+	}
+	public void setC_membermax(String c_membermax) {
+		this.c_membermax = c_membermax;
+	}
+	public MultipartFile getC_img() {
+		return c_img;
+	}
+	public void setC_img(MultipartFile c_img) {
+		this.c_img = c_img;
+	}
 	public List<ClubP001_d001articleVO> getArticleList() {
 		return articleList;
 	}

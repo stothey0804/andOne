@@ -11,6 +11,20 @@
 		<result property="c_category" column="c_category" />
 		<result property="c_membercnt" column="c_membercnt" />
 		<result property="c_hashtag" column="c_hashtag" />
+		<result property="c_openingdate" column="c_openingdate" />
+		<result property="c_membermax" column="c_membermax" />
+		<result property="c_imgByte" column="c_img" javaType="[B" jdbcType="BLOB" />
+	</resultMap>
+	<resultMap id="p001_d001Result02" type="p001_d001VO">
+		<result property="c_id" column="c_id" />
+		<result property="c_name" column="c_name" />
+		<result property="c_content" column="c_content" />
+		<result property="c_category" column="c_category" />
+		<result property="c_membercnt" column="c_membercnt" />
+		<result property="c_hashtag" column="c_hashtag" />
+		<result property="c_openingdate" column="c_openingdate" />
+		<result property="c_membermax" column="c_membermax" />
+		<result property="c_imgByte" column="c_img" javaType="[B" jdbcType="BLOB" />
 		<collection property="articleList" column="c_id" javaType="java.util.ArrayList"
 					select="getArticleList" ofType="p001_d001ArticleVO" />
 	</resultMap>
@@ -28,10 +42,10 @@
 		<result property="imgList" column="ca_img" javaType="[B"  jdbcType="BLOB"/>
 	</resultMap>
 	
-	<resultMap id="article" type="p001_d001ArticleVO">
-		<result property="ca_content" column="ca_content"/>
-		<result property="imgList" column="ca_img" javaType="[B"  jdbcType="BLOB"/>
-	</resultMap>
+<!-- 	<resultMap id="article" type="p001_d001ArticleVO"> -->
+<!-- 		<result property="ca_content" column="ca_content"/> -->
+<!-- 		<result property="imgList" column="ca_img" javaType="[B"  jdbcType="BLOB"/> -->
+<!-- 	</resultMap> -->
 	
 	<select id="clubList" resultMap="p001_d001Result01">
       <![CDATA[
@@ -84,9 +98,9 @@
 		]]>
 	</select>
 
-	<select id="detailClub" resultMap="p001_d001Result01">
+	<select id="detailClub" resultMap="p001_d001Result02">
 		<![CDATA[
-		 	select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id
+		 	select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id,c_openingdate,c_membermax,c_img
         from
         (
             select *
@@ -118,12 +132,12 @@
 		values(art_SEQ.NEXTVAL,#{ca_content},#{c_id},to_char(sysdate,'YYYY-MM-DD hh:mm'),#{m_id},#{ca_img},0)
 	</insert>
 	
-	<select id="editArticleView" resultMap="article">
-		<![CDATA[
-			select ca_content,ca_img
-			from c_article
-			where ca_id = #{ca_id}
-		]]>
-	</select>
+<!-- 	<select id="editArticleView" resultMap="article"> -->
+<!-- 		<![CDATA[ -->
+<!-- 			select ca_content,ca_img -->
+<!-- 			from c_article -->
+<!-- 			where ca_id = #{ca_id} -->
+<!-- 		]]> -->
+<!-- 	</select> -->
 	
 </mapper>

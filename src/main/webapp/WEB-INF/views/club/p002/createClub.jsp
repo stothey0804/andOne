@@ -11,7 +11,7 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+<script src="https://cdn.ckeditor.com/ckeditor5/22.0.0/classic/ckeditor.js"></script>
 <style>
 @font-face {
 	font-family: 'YanoljaYacheR';
@@ -26,17 +26,12 @@ h2{
 	text-align:center;
 }
 </style>
-<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script>
-	$(document).ready(function() {
-		$("textarea").keyup(function(){
-			
-		})
-	})
+	
 </script>
 </head>
 <body>
-<form action="createClub.do" class="container my-5 center" method="post" style="width:600px">
+<form action="${contextPath}/createClub.do" enctype="multipart/form-data" class="container my-5 center" method="post" style="width:600px">
 <h2>소모임 만들기</h2><br>
  <div class="form-group">
     <label>소모임 이름</label>
@@ -45,7 +40,7 @@ h2{
  <div class="form-group">
 	<label>카테고리</label>
 	<select class="form-control" name="c_category">
-		<option selected>카테고리 선택</option>
+		<option value="">카테고리 선택</option>
 		<option value="10">아웃도어/여행</option>
 		<option value="20">운동/스포츠</option>
 		<option value="30">인문학/책/글</option>
@@ -63,19 +58,28 @@ h2{
     <label>해쉬태그</label>
     <input type="text" class="form-control" name="c_hashtag" placeholder="소모임과 관련된 해쉬태그를 사용해보세요!">
 </div>
-<div>
-    <label>소모임 소개</label><br>
-    <textarea class="form-control c_content" rows=8 name="c_content"></textarea>
-	<span class="cnt">0 / 최대 300자</span>
-</div>
+
 <div class="col form-group">
-	소모임 인원 <input type="number" class="form-control memberMax" name="c_membermax" style="width:60px;">명
+	소모임 인원 <input type="text" class="form-control memberMax" name="c_membermax" style="width:60px;">명
 </div>
+<?php
+	$data = str_replace('&','&amp;',$data);
+?>
+<textarea name="c_content" id="c_content">
+zz
+</textarea>
+<script>
+ClassicEditor
+	.create(document.querySelector('#c_content'))
+	.catch(error=>{
+		console.log(error);
+	});
+</script>
   <div class="form-group">
     <label>대표 이미지 첨부</label>
-    <input type="file" class="form-control-file" name="c_img">
+    <input type="file" class="form-control-file" accept="image/*" name="c_img">
   </div>
-<input class="btn btn-primary btn-block" accept="image/*" type="submit" value="소모임 만들기">
+<input class="btn btn-primary btn-block" type="submit" value="소모임 만들기">
 </form>
 </body>
 </html>

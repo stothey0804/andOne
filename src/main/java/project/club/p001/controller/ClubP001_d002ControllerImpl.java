@@ -62,9 +62,6 @@ public class ClubP001_d002ControllerImpl implements ClubP001_d002Controller{
 		insertMap.put("m_id", vo.getM_id());
 		insertMap.put("c_id", vo.getC_id());
 		clubP001_d002Service.writeArticle(insertMap);
-//		ModelAndView mav = new ModelAndView("detailClub");
-//		mav.addObject("c_id", vo.getC_id());
-//		return mav;
 	}
 	
 	@Override
