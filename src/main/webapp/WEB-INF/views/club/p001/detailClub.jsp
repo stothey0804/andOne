@@ -70,6 +70,13 @@
 .tap{
 	cursor:pointer;
 }
+
+.ca_img{
+	height:100%;
+	width:100%;
+	object-fit : contain;
+}
+
 </style>
 <script type="text/javascript">
 function menuTap(ca_id){
@@ -79,6 +86,7 @@ function menuTap(ca_id){
 </script>
 </head>
 <body>
+<!-- 	소모임 카드 -->
 	<div class="container my-5 center top">
 		<div class="left">
 			<div class="card info" style="width: 18rem;">
@@ -88,28 +96,47 @@ function menuTap(ca_id){
 					<h5 class="card-title">${clubInfo.c_name }</h5>
 					<p class="card-text">함께하는 사람 ${clubInfo.c_membercnt }</p>
 					<small class="text-muted" style="height: 14px">#${clubInfo.c_hashtag}</small>
-					<a href="${contextPath }/club/writeArticleForm.do?c_id=${clubInfo.c_id}" class="btn btn-success btn-block"
-						style="margin-top: 3px;">글쓰기</a>
+					<c:set var="cm_rank" value="${rank}"/>
+						<c:choose>
+							<c:when test="${rank eq 0}">
+								<a href="${contextPath }/club/introForm.do?c_id=${clubInfo.c_id}" class="btn btn-success btn-block"
+									style="margin-top: 3px;">함께하기</a>
+							</c:when>
+							<c:when test="${rank eq 10}">
+								<a href="${contextPath }/club/introForm.do?c_id=${clubInfo.c_id}" class="btn btn-success btn-block"
+									style="margin-top: 3px;">소모임 관리</a>
+							</c:when>
+							<c:when test="${rank eq 20 or rank eq 30}">
+								<a href="${contextPath}/club/writeArticleForm.do?c_id=${clubInfo.c_id}" class="btn btn-success btn-block"
+									style="margin-top: 3px;">글쓰기</a>
+							</c:when>
+							<c:when test="${rank eq 01}">
+								<a href="#" class="btn btn-success btn-block"
+									style="margin-top: 3px;">가입승인 대기중</a>
+							</c:when>
+						</c:choose>
 				</div>
 			</div>
 		</div>
 		<div class="right">
-			<div class="card article">
+			<div class="card">
 				<div class="card-header">${clubInfo.c_name }</div>
 				<div class="card-body">
-					<h5 class="card-title">${clubInfo.c_content }</h5>
+				 	<h5>${clubInfo.c_content }</h5>
 				</div>
 			</div>
+			
+			<!--소모임 게시글  -->
 			<c:forEach var="club" items="${clubInfo.articleList }">
-			<div class="card" style="width: 500px;height:300px">
-				<div class="card-body">
+			<div class="card article" style="width: 500px;height:auto;">
+				<div class="card-body" style="height:auto">
 					<img style="position:relative;border-radius: 70px;
 								-moz-border-radius: 70px;
 								-khtml-border-radius: 70px;
 								-webkit-border-radius: 70px;width:70px;height:70px;"
 								src="https://www.vettedpetcare.com/vetted-blog/wp-content/uploads/2017/09/How-To-Travel-With-a-Super-Anxious-Cat-square.jpeg" />
-					<h5 class="card-title art-title">${club.m_id }</h5>
-					<c:set var="ca_pin" value="${club.ca_pin }"/>
+					<h5 class="card-title art-title">${club.m_id}</h5>
+					<c:set var="ca_pin" value="${club.ca_pin}"/>
 					<c:choose>
 					<c:when test="${ca_pin eq 1}">
 					<div class="pin">
@@ -121,22 +148,28 @@ function menuTap(ca_id){
 					</c:choose>
 					<h6 class="card-subtitle mb-2 text-muted">${club.ca_date }</h6>
 					<p class="card-text" style="margin-top:10px;">${club.ca_content }</p>
-					
+					<c:set var="ca_img" value="${club.resultImgList}"/>
+					<c:choose>
+						<c:when test="${ca_img ne null}">
+						<div class="ca_img_div">
+							<img src="data:image/jpg;base64, ${ca_img}" class="ca_img">
+						</div>							
+						</c:when>
+					</c:choose>
 			<!--본인이 쓴 글일 경우 수정,삭제 메뉴 -->
 					<c:set var="logOnId" value="${member.m_id }"/>
 					<c:set var="writer" value="${club.m_id }"/>
 					<c:choose>
 						<c:when test="${logOnId eq writer}">
-	         				<svg class="tap" onclick="menuTap(${club.ca_id});" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-three-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+	     					<svg onclick="menuTap(${club.ca_id});" width="1em" height="1em" viewBox="0 0 16 16" class="tap bi bi-three-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   								<path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
 							</svg>
 							<div class="sub ${club.ca_id}">
-								<button type="button" class="btn btn-outline-secondary">수정</button>
-								<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#staticBackdrop">삭제</button>
+								<button type="button" class="btn btn-outline-secondary" onclick="location.href='editClubArticle.do?ca_id=${club.ca_id}'">수정${club.ca_id }</button>
+								<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#staticBackdrop">삭제${club.ca_id}</button>
 							</div>
-							
 							<!-- delete Modal -->
-							<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+							<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
 							  <div class="modal-dialog">
 							    <div class="modal-content">
 							      <div class="modal-body">
@@ -145,7 +178,7 @@ function menuTap(ca_id){
 							      <div class="modal-footer">
 							        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 							        <button type="button" class="btn btn-primary"
-							        	onclick="location.href='deleteClubArticle.do?ca_id=${club.ca_id}',location.reload();">삭제하기</button>
+							        	onclick="location.href='deleteClubArticle.do?ca_id=${club.ca_id},c_id=${clubInfo.c_id }'">삭제하기${club.ca_content }</button>
 							      </div>
 							    </div>
 							  </div>

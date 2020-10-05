@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import project.club.p001.dao.ClubP001_d001DAO;
-import project.club.p001.vo.ClubP001_d001VO;
+import project.club.vo.ClubP001_d001VO;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
@@ -25,11 +25,10 @@ public class ClubP001_d001ServiceImpl implements ClubP001_d001Service{
 	}
 
 	@Override
-	public List<ClubP001_d001VO> myClubList() {
-		List<ClubP001_d001VO> myClubList = clubP001_d001DAO.myClubList();
+	public List<ClubP001_d001VO> myClubList(String m_id) {
+		List<ClubP001_d001VO> myClubList = clubP001_d001DAO.myClubList(m_id);
 		return myClubList;
 	}
-	
 	@Override
 	public List<ClubP001_d001VO> searchClubList(Map<String, Object> searchMap){
 		List<ClubP001_d001VO> searchClubList = clubP001_d001DAO.searchClubList(searchMap);
@@ -40,6 +39,16 @@ public class ClubP001_d001ServiceImpl implements ClubP001_d001Service{
 	public ClubP001_d001VO detailClub(Map<String, Object> searchMap) {
 		ClubP001_d001VO vo = clubP001_d001DAO.detailClub(searchMap);
 		return vo;
+	}
+
+//	@Override
+//	public List<Object> getByteImage(String c_id) {
+//		return clubP001_d001DAO.getByteImage(c_id);
+//	}
+
+	@Override
+	public String memberCheck(Map<String, Object> searchMap) {
+		return clubP001_d001DAO.memberCheck(searchMap);
 	}
 	
 }

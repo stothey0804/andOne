@@ -1,4 +1,4 @@
-package project.club.p001.vo;
+package project.club.vo;
 
 import java.util.List;
 
@@ -6,15 +6,25 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ClubP001_d001VO {
+	
 	public ClubP001_d001VO() {
 		System.out.println("clubVO 생성자 호출");
 	}
+	
 	private String c_id;
 	private String c_name;
 	private String c_content;
 	private String c_membercnt;
 	private String c_category;
 	private String c_hashtag;
+	private byte[] c_img;
+	
+	public byte[] getC_img() {
+		return c_img;
+	}
+	public void setC_img(byte[] c_img) {
+		this.c_img = c_img;
+	}
 	private List<ClubP001_d001articleVO> articleList;
 	
 	public List<ClubP001_d001articleVO> getArticleList() {

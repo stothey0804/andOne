@@ -119,7 +119,7 @@ body{
 			<button type="button"
 				class="btn btn-outline-info btn-block search create"
 				style="font-size: 18px;"
-				onclick="location.href='${contextPath}/createClub.do'">소모임
+				onclick="location.href='${contextPath}/createClubForm.do'">소모임
 				만들기</button>
 		</div>
 		<br>

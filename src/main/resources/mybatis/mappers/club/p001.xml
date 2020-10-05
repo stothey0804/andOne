@@ -14,13 +14,23 @@
 		<collection property="articleList" column="c_id" javaType="java.util.ArrayList"
 					select="getArticleList" ofType="p001_d001ArticleVO" />
 	</resultMap>
-
+	
+	<resultMap id="member" type="p001_d001MemberVO">
+		<result property="m_id" column="m_id"/>
+		<result property="cm_rank" column="cm_rank"/>
+	</resultMap>
+	
 	<resultMap id="articleList" type="p001_d001ArticleVO">
 		<result property="ca_content" column="ca_content" />
 		<result property="ca_date" column="ca_date" />
 		<result property="m_id" column="m_id" />
-		<result property="ca_img" column="ca_img" jdbcType="BLOB"/>
 		<result property="ca_id" column="ca_id" />
+		<result property="imgList" column="ca_img" javaType="[B"  jdbcType="BLOB"/>
+	</resultMap>
+	
+	<resultMap id="article" type="p001_d001ArticleVO">
+		<result property="ca_content" column="ca_content"/>
+		<result property="imgList" column="ca_img" javaType="[B"  jdbcType="BLOB"/>
 	</resultMap>
 	
 	<select id="clubList" resultMap="p001_d001Result01">
@@ -38,16 +48,25 @@
          where rownum between 1 and 6
           ]]>
 	</select>
+	
 	<select id="myClubList" resultMap="p001_d001Result01">
 		<![CDATA[
 		 SELECT a.c_name,a.c_membercnt,a.c_id
          from club a, c_member b
          where a.c_id = b.c_id
-         and m_id='test1'
-         and cm_state='20'
+         and m_id=#{m_id}
 		]]>
 	</select>
-
+	
+	<select id = "memberCheck" resultMap="member">
+		<![CDATA[
+			select m_id,cm_rank
+			from c_member
+			where c_id = #{c_id}
+			and m_id = #{m_id}
+		]]>
+	</select>
+	
 	<select id="searchClubList" resultMap="p001_d001Result01">
 		<![CDATA[
 		 select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id
@@ -96,6 +115,15 @@
 	
 	<insert id="insertClubArticle" parameterType="java.util.Map">
 		INSERT INTO c_article(ca_id,ca_content,c_id,ca_date,m_id,ca_img,ca_pin)
-		values(art_SEQ.NEXTVAL,#{ca_content},#{c_id},to_char(sysdate,'YYYY-MM-DD hh:mm'),#{m_id},#{ca_img},0);
+		values(art_SEQ.NEXTVAL,#{ca_content},#{c_id},to_char(sysdate,'YYYY-MM-DD hh:mm'),#{m_id},#{ca_img},0)
 	</insert>
+	
+	<select id="editArticleView" resultMap="article">
+		<![CDATA[
+			select ca_content,ca_img
+			from c_article
+			where ca_id = #{ca_id}
+		]]>
+	</select>
+	
 </mapper>
