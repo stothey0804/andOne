@@ -37,6 +37,7 @@
 			<param-value>
 			/WEB-INF/spring/appServlet/servlet-context.xml
 			/WEB-INF/spring/message-context.xml
+			/WEB-INF/spring/mail-context.xml
 			/WEB-INF/spring/action-mybatis.xml
 			</param-value>
 		</init-param>

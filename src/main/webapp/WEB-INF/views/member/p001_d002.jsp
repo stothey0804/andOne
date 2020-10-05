@@ -53,7 +53,7 @@
 			<input type="password" id="inputPassword" class="form-control" placeholder="비밀번호" required="" name="pwd">
 		    <button class="btn btn-lg btn-primary btn-block mt-2" type="submit">로그인</button>
 		</form>
-		    <p class="m-3"><a class="text-muted" herf="#">비밀번호를 잊으셨나요?</a></p>
+		    <p class="m-3"><a class="text-muted" href="${contextPath}/member/searchMemberPwd.do">비밀번호를 잊으셨나요?</a></p>
 		    <a class="btn btn-lg btn-outline-primary btn-block" href="./join.do">회원가입</a><p class="mt-5 mb-3 text-muted">© 2020 능력있는사람들</p>
 	</div>
 </body>

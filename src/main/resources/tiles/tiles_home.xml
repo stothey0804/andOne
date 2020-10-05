@@ -30,6 +30,12 @@
       <put-attribute name="title" value="메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/root/p001_d001_init.jsp" />
    </definition>
+   
+	<!-- 비밀번호찾기 -->
+   <definition name="p001_d003_init" extends="baseLayout">
+      <put-attribute name="title" value="메인페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/member/p001_d003_init.jsp" />
+   </definition>
 
    <!-- 같이먹기 메인 -->
    <definition name="eatMain" extends="baseLayout">
@@ -68,6 +74,17 @@
       <put-attribute name="body" value="/WEB-INF/views/shop/p002_d001_localShopDetail.jsp" />
    </definition>
    
+	<!-- 비밀번호찾기 -->
+   <definition name="p001_d003_init" extends="baseLayout">
+      <put-attribute name="title" value="비밀번호 찾기" />
+       <put-attribute name="body" value="/WEB-INF/views/member/p001_d003_init.jsp" />
+   </definition>
+	<!-- 비밀번호찾기 전송완료 -->
+   <definition name="p001_d003_search" extends="baseLayout">
+      <put-attribute name="title" value="비밀번호 찾기" />
+       <put-attribute name="body" value="/WEB-INF/views/member/p001_d003_search.jsp" />
+   </definition>
+   
 	<!-- 회원약관 -->
    <definition name="p001_d001_init" extends="baseLayout">
       <put-attribute name="title" value="회원약관" />
@@ -99,6 +116,10 @@
 		<put-attribute name="title" value="내 정보 변경"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p001_d005_init.jsp"/>
 	</definition>
-
+	<!-- 회원탈퇴 -->
+	<definition name="p001_d004_init" extends="mypageLayout">
+		<put-attribute name="title" value="내 정보 변경"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p001_d004_init.jsp"/>
+	</definition>
 
 </tiles-definitions>

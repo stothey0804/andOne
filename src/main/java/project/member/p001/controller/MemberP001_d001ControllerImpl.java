@@ -48,8 +48,8 @@ public class MemberP001_d001ControllerImpl implements MemberP001_d001Controller{
 		String targetPhoneNum = request.getParameter("phone");
 		String twilioPhoneNum = targetPhoneNum.replaceAll("-", "");
 		SendSMSTwilio twilio = new SendSMSTwilio();		// 문자 인증
-		int authNum = twilio.sendSMS(twilioPhoneNum);
-//		int authNum = 999999;
+//		int authNum = twilio.sendSMS(twilioPhoneNum);
+		int authNum = 999999;	// 인증번호 임시
 		out.print(""+authNum);
 	}
 	// 이메일체크
@@ -64,6 +64,8 @@ public class MemberP001_d001ControllerImpl implements MemberP001_d001Controller{
 		String result = memberP001_d001Service.searchOverlapEmail(email);
 		if(result!=null) {
 			out.print("true"); 	// 중복
+		}else {
+			out.print("false");
 		}
 	}
 
@@ -78,6 +80,8 @@ public class MemberP001_d001ControllerImpl implements MemberP001_d001Controller{
 		String result = memberP001_d001Service.searchOverlapPhone(phone);
 		if(result!=null) {
 			out.print("true"); 	// 중복
+		}else {
+			out.print("false");
 		}
 	}
 
