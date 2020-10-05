@@ -54,5 +54,8 @@
 
    <!-- <bean id="memberDAO" class="com.spring.member.dao.MemberDAOImpl"> <property 
       name="sqlSession" ref="sqlSession"></property> </bean> -->
-
+	
+	<!-- 파일 업로드 관련 MultipartResolver Bean 등록 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+	
 </beans>

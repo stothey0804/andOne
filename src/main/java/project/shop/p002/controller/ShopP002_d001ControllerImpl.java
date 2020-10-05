@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import project.shop.p002.service.ShopP002_d001Service;
+import project.shop.p002.vo.FileVO;
 import project.shop.p002.vo.ShopP002ShopDetailVO;
 import project.shop.p003.vo.ShopP003ShopReviewVO;
 
@@ -70,12 +71,23 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 		return getShopList(vo);
 	}
 	
-	
 	@ResponseBody
 	@RequestMapping("/shop/shopReviewPopup.do")
 	public ShopP003ShopReviewVO shopReviewPopup(ShopP003ShopReviewVO vo, Model model) {
 		return getShopReview(vo);
 	}
+	
+	
+	@RequestMapping("/shop/fileTest.do")
+	public String fileTest() {
+		return "fileTest";
+	}
+	
+	@RequestMapping("/shop/getFile.do")
+	public void getFile(FileVO file) {
+		System.out.println(file.getFile().getOriginalFilename());
+	}
+	
 	
 	public ShopP003ShopReviewVO getShopReview(ShopP003ShopReviewVO vo) {
 		return shopP002_d001Service.getShopReview(vo);
