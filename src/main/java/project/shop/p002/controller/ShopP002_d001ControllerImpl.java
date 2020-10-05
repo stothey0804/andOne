@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import project.shop.p002.service.ShopP002_d001Service;
 import project.shop.p002.vo.ShopP002ShopDetailVO;
+import project.shop.p003.vo.ShopP003ShopReviewVO;
 
 @Controller
 public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
@@ -53,10 +54,12 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 	@ResponseBody
 	@RequestMapping("/shop/searchByAjax.do")
 	public List<ShopP002ShopDetailVO> searchByAjax(ShopP002ShopDetailVO vo, Model model) {
-		if(vo.getFilter().equals("all") ||  vo.getFilter().equals("") || vo.getFilter()==null) {
-			vo.setSearchCondition("ALLSEARCH");
-		}else {
-			vo.setSearchCondition("SEARCHBYFILTER");
+		if(vo.getSearchCondition()==null) {
+			if(vo.getFilter().equals("all") ||  vo.getFilter().equals("") || vo.getFilter()==null) {
+				vo.setSearchCondition("ALLSEARCH");
+			}else {
+				vo.setSearchCondition("SEARCHBYFILTER");
+			}
 		}
 		if(vo.getSearchKeyword()==null) {
 			vo.setSearchKeyword("");
@@ -65,6 +68,17 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 			vo.setStatus("SCORE");
 		}
 		return getShopList(vo);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping("/shop/shopReviewPopup.do")
+	public ShopP003ShopReviewVO shopReviewPopup(ShopP003ShopReviewVO vo, Model model) {
+		return getShopReview(vo);
+	}
+	
+	public ShopP003ShopReviewVO getShopReview(ShopP003ShopReviewVO vo) {
+		return shopP002_d001Service.getShopReview(vo);
 	}
 	
 	public List<ShopP002ShopDetailVO> getShopList(ShopP002ShopDetailVO vo){

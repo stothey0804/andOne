@@ -101,6 +101,7 @@
        <put-attribute name="body" value="/WEB-INF/views/member/p001_d001_insert_sub01.jsp" />
    </definition>
    
+   
    <!-- 마이페이지 -->
 	<definition name="mypage" extends="mypageLayout">
 		<put-attribute name="title" value="마이페이지"/>
@@ -112,6 +113,61 @@
 		<put-attribute name="title" value="내 정보 변경"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p001_d005_update.jsp"/>
 	</definition>
+	
+	<!-- 소모임 메인-->
+	<definition name="clubMain"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 메인" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p001/clubMain.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+	<!-- 소모임 상세페이지-->
+	<definition name="detailClub"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 상세" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p001/detailClub.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+   
+	<!-- 소모임 검색결과-->
+   <definition name="searchList"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 검색결과" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p001/searchList.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+   
+	<!-- 소모임 만들기-->
+   <definition name="createClub"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 만들기" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p002/createClub.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+   
+   <!-- 소모임  게시글 쓰기-->
+   <definition name="writeArticleForm"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 게시글 쓰기" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p001/writeArticle.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+   
+   <!-- 소모임  게시글 쓰기 완료 페이지-->
+   <definition name="writeResult"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 게시글 쓰기" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p001/writeResult.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+   
+   <!-- 소모임  게시글 수정 페이지-->
+   <definition name="editArticle"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 게시글 쓰기" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p001/editArticle.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
 	<definition name="p001_d005_init" extends="mypageLayout">
 		<put-attribute name="title" value="내 정보 변경"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p001_d005_init.jsp"/>

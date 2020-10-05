@@ -15,10 +15,10 @@
 		<result property="m_joindate" column="m_joindate"  />
 		<result property="m_img" column="m_img" javaType="[B" jdbcType="BLOB" />
 		<result property="m_editor" column="m_editor"  />
-		<result property="m_editdate" column="m_editdate"  />
+		<result property="m_editdate" column="m_editdate"  />  
 		<result property="m_score" column="m_score"  />
 	</resultMap>
-	<resultMap id="clobMap" type="java.util.HashMap">
+	<resultMap id="clobMap" type="java.util.Map">
 		<result property="m_img" column="m_img" javaType="[B" jdbcType="BLOB" />
 	</resultMap>
 

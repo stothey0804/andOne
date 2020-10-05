@@ -106,6 +106,12 @@
 		AND S.S_SCORE > 4
 	]]>
 	</if>
+	<if test="searchCondition=='GETRECOMMENDLIST'">
+	<![CDATA[
+		AND GC_ID = #{filter}
+		AND S.S_ID <> #{s_id}
+	]]>
+	</if>
 	<if test="status=='SCORE'">
 	<![CDATA[
 		ORDER BY S.S_SCORE DESC, REVIEWCOUNT DESC
@@ -126,6 +132,17 @@
 		ORDER BY SI_IDX ASC
 	]]>
 </select>
+
+<select id="getShopReview" resultMap="shop.p002.shopReview">
+	<![CDATA[
+		SELECT S_ID, SR.M_ID, SR_DATE, SR_CONTENT, SR_SCORE, SR_PUBLIC, SR_EDITOR, SR_EDITDATE, M.M_NICKNAME, M.M_IMG
+		FROM S_REVIEW SR
+		INNER JOIN MEMBER M ON SR.M_ID = M.M_ID
+		WHERE M.M_ID = #{m_id}
+		AND S_ID = #{s_id}
+	]]>
+</select>
+
 
 <select id="getShopReviewListByMemberId" resultMap="shop.p002.shopReview">
 	<![CDATA[

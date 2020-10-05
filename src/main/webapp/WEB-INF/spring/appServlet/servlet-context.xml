@@ -70,9 +70,9 @@
 	<!-- 다중파일 업로드 -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="52428800" />
-		<beans:property name="maxInMemorySize" value="1000000" />
-		<beans:property name="defaultEncoding" value="utf-8" />
+		<beans:property name="maxUploadSize" value="52428800" /><!-- 최대 업로드가능 파일크기 -->
+		<beans:property name="maxInMemorySize" value="1000000" /><!-- 메모리보관 최대크기 -->
+		<beans:property name="defaultEncoding" value="utf-8" /><!-- 매개변수 인코딩 -->
 	</beans:bean>
  
     <!-- websocket -->

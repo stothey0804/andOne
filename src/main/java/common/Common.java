@@ -4,11 +4,9 @@ import java.util.Base64;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import project.member.p001.service.MemberP001_d005Service;
-import project.member.p001.vo.MemberP001_MemberVO;
 
 public class Common {
 	

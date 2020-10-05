@@ -1,31 +1,25 @@
 package project.root.p001.contoller;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import project.member.p001.vo.MemberP001_MemberVO;
 import project.root.p001.service.RootP001_d001Service;
 
 
 
 @Controller
 public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
-
 	@Autowired
 	RootP001_d001Service rootP001_d001Service;
 	
@@ -35,6 +29,7 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 	public ModelAndView searchInit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("main");
 		
+
 		HttpSession session = request.getSession(false);
 //		System.out.println("세션값? >> " + session.getAttribute("member"));
 		

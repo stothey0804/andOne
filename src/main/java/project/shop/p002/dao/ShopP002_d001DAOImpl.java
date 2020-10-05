@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import project.shop.p002.vo.ShopP002ShopDetailVO;
+import project.shop.p003.vo.ShopP003ShopReviewVO;
 
 @Repository
 public class ShopP002_d001DAOImpl implements ShopP002_d001DAO {
@@ -22,6 +23,11 @@ public class ShopP002_d001DAOImpl implements ShopP002_d001DAO {
 	@Override
 	public ShopP002ShopDetailVO getShopDetail(ShopP002ShopDetailVO vo) {
 		return sqlSession.selectOne("shop.p002.getShopList",vo);
+	}
+	
+	@Override
+	public ShopP003ShopReviewVO getShopReview(ShopP003ShopReviewVO vo) {
+		return sqlSession.selectOne("shop.p002.getShopReview",vo);
 	}
 
 }
