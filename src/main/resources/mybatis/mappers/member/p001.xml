@@ -70,6 +70,15 @@
    		]]>
    	</select>
    	
+   	<!-- 비밀번호 찾기 사용시 -->
+ 	<select id="selectIdPwdByEmail" resultType="java.util.HashMap" parameterType="String">
+   		<![CDATA[
+	   		SELECT m_id, m_pwd
+	   		FROM member
+	   		WHERE m_email like #{email}
+   		]]>
+   	</select>
+   	
    	<!-- 회원 비밀번호 조회 -->
  	<select id="selectPwdById" resultType="String" parameterType="String">
    		<![CDATA[
@@ -84,6 +93,15 @@
 		<![CDATA[
 			UPDATE member
     		SET m_locate = #{m_locate},
+	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+    		WHERE m_id = #{m_id}
+   		]]>
+   	</update>
+   	<!-- 비밀번호 업데이트  -->
+   	<update id="updateMemberPwd" parameterType="java.util.Map">
+		<![CDATA[
+			UPDATE member
+    		SET m_pwd = #{m_pwd},
 	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
     		WHERE m_id = #{m_id}
    		]]>
@@ -115,5 +133,13 @@
 	   		WHERE m_id = #{m_id}
 	   	]]>
    	</select>
+   	
+   	<!-- 회원탈퇴(삭제) -->
+   	<delete id="deleteMember" parameterType="String">
+	   	<![CDATA[
+	   		DELETE FROM member
+	   		WHERE m_id = #{m_id}
+	   	]]>
+   	</delete>
    	
  	</mapper>

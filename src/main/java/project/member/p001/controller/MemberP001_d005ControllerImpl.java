@@ -30,6 +30,10 @@ import project.member.p001.vo.MemberP001_MemberVO;
 @Controller
 @RequestMapping("/member")
 public class MemberP001_d005ControllerImpl implements MemberP001_d005Controller{
+	/*
+	 * 회원정보조회
+	 * 
+	 * */
 
 	@Autowired
 	MemberP001_d005Service memberP001_d005Service;
@@ -50,17 +54,32 @@ public class MemberP001_d005ControllerImpl implements MemberP001_d005Controller{
 	
 	// 비번체크
 	@RequestMapping(value="/checkUserPwd.do", method = RequestMethod.POST)
-	public String checkUserPwd(HttpServletRequest request) {
+	public void checkUserPwd(HttpServletRequest request, HttpServletResponse response) throws Exception  {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
 		String m_id = request.getParameter("m_id");
 		String inputPwd = request.getParameter("inputPwd");
 		String oriPwd = memberP001_d005Service.selectPwdById(m_id);
+//		String trueView = request.getParameter("trueView");
+//		String falseView = request.getParameter("falseView");
 		if(BCrypt.checkpw(inputPwd, oriPwd)) {
 			// 비번 일치시
-			return Common.checkLoginDestinationView("p001_d005_update", request);	// 수정페이지로
+			out.print("true");
+			System.out.println("TRUE===========");
+//			return Common.checkLoginDestinationView(trueView, request);	// 수정페이지로
 		}else {
-			return Common.checkLoginDestinationView("p001_d005_init", request);	// 체크페이지로
+			out.print("false");
+//			request.setAttribute("warning", "비밀번호를 확인해주세요.");
+//			return Common.checkLoginDestinationView(falseView, request);	// 체크페이지로
 		}
 	}
+	
+	// 수정폼으로 이동
+	@RequestMapping(value="/updateMemberForm.do", method = RequestMethod.POST)
+	public String updateMemberInfo2(HttpServletRequest request) {
+		return Common.checkLoginDestinationView("p001_d005_update", request);
+	}	
 	
 
 	@Override
