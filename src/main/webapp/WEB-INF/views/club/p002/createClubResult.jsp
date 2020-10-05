@@ -35,6 +35,6 @@ h2{
   <button type="button" class="btn btn-primary"
    	onclick="location.href='${contextPath}/detailClub.do?c_id=${c_id}'">만든 소모임 확인하기</button>
   <button type="button" class="btn btn-primary"
-   	onclick="location.href='${contextPath}/club/clubMain.do'">만든 소모임 확인하기</button>
+   	onclick="location.href='${contextPath}/club/clubMain.do'">소모임 메인으로 가기</button>
 </body>
 </html>
