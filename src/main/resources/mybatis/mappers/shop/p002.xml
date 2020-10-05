@@ -44,6 +44,8 @@
 		<result property="sr_public" column="SR_PUBLIC" />
 		<result property="sr_editor" column="SR_EDITOR" />
 		<result property="sr_editdate" column="SR_EDITDATE" />
+		<result property="m_nickname" column="M_NICKNAME" />
+		<result property="m_img" column="M_IMG" />
 		<collection property="shopReviewImage" column="{s_id=S_ID,m_id=M_ID}" javaType="java.util.ArrayList" 
 					select="getShopReviewImageList" ofType="ShopP003ShopReviewImageVO"/>
 	</resultMap>
@@ -83,7 +85,6 @@
 		OR CODE.GC_NAME LIKE '%'||#{searchKeyword}||'%' 
  		OR S.S_CONTENT LIKE '%'||#{searchKeyword}||'%' 
 		OR S.S_HASHTAG LIKE '%'||#{searchKeyword}||'%')
-		ORDER BY S.S_ID ASC 
 	]]>
 	</if>
 	<if test="searchCondition=='SEARCHBYFILTER'">
@@ -93,7 +94,6 @@
 		OR CODE.GC_NAME LIKE '%'||#{searchKeyword}||'%' 
  		OR S.S_CONTENT LIKE '%'||#{searchKeyword}||'%' 
 		OR S.S_HASHTAG LIKE '%'||#{searchKeyword}||'%')
-		ORDER BY S.S_ID ASC 
 	]]>
 	</if>
 	<if test="searchCondition=='SEARCHBYSHOPID'">
@@ -103,10 +103,25 @@
 	</if>
 	<if test="searchCondition=='POPULAR'">
 	<![CDATA[
-		AND S.S_SCORE > 8
-		ORDER BY REVIEWCOUNT ASC
+		AND S.S_SCORE > 4
 	]]>
-	</if>	
+	</if>
+	<if test="searchCondition=='GETRECOMMENDLIST'">
+	<![CDATA[
+		AND GC_ID = #{filter}
+		AND S.S_ID <> #{s_id}
+	]]>
+	</if>
+	<if test="status=='SCORE'">
+	<![CDATA[
+		ORDER BY S.S_SCORE DESC, REVIEWCOUNT DESC
+	]]>
+	</if>
+	<if test="status=='REVIEW'">
+	<![CDATA[
+		ORDER BY REVIEWCOUNT DESC, S.S_SCORE DESC
+	]]>
+	</if>
 </select>
 
 <select id="getShopImageList" resultMap="shop.p002.shopImage">
@@ -118,18 +133,32 @@
 	]]>
 </select>
 
+<select id="getShopReview" resultMap="shop.p002.shopReview">
+	<![CDATA[
+		SELECT S_ID, SR.M_ID, SR_DATE, SR_CONTENT, SR_SCORE, SR_PUBLIC, SR_EDITOR, SR_EDITDATE, M.M_NICKNAME, M.M_IMG
+		FROM S_REVIEW SR
+		INNER JOIN MEMBER M ON SR.M_ID = M.M_ID
+		WHERE M.M_ID = #{m_id}
+		AND S_ID = #{s_id}
+	]]>
+</select>
+
+
 <select id="getShopReviewListByMemberId" resultMap="shop.p002.shopReview">
 	<![CDATA[
-		SELECT S_ID, M_ID, SR_DATE, SR_CONTENT, SR_SCORE, SR_PUBLIC, SR_EDITOR, SR_EDITDATE
-		FROM S_REVIEW
-		WHERE M_ID = #{m_id}
+		SELECT S_ID, SR.M_ID, SR_DATE, SR_CONTENT, SR_SCORE, SR_PUBLIC, SR_EDITOR, SR_EDITDATE, M.M_NICKNAME, M.M_IMG
+		FROM S_REVIEW SR
+		INNER JOIN MEMBER M ON SR.M_ID = M.M_ID
+		WHERE M.M_ID = #{m_id}
+		ORDER BY SR_DATE DESC
 	]]>
 </select>
 
 <select id="getShopReviewListByShopId" resultMap="shop.p002.shopReview">
 	<![CDATA[
-		SELECT S_ID, M_ID, SR_DATE, SR_CONTENT, SR_SCORE, SR_PUBLIC, SR_EDITOR, SR_EDITDATE
-		FROM S_REVIEW
+		SELECT S_ID, SR.M_ID, SR_DATE, SR_CONTENT, SR_SCORE, SR_PUBLIC, SR_EDITOR, SR_EDITDATE, M.M_NICKNAME, M.M_IMG
+		FROM S_REVIEW SR
+		INNER JOIN MEMBER M ON SR.M_ID = M.M_ID
 		WHERE S_ID = #{s_id}
 		ORDER BY SR_DATE DESC
 	]]>

@@ -29,6 +29,7 @@
 			where m_email like #{email}
    		]]>
    	</select>
+   	
    	<select id="selectOverlapPhone" resultType="String" parameterType="String">
  		<![CDATA[
    			select m_phonenumber
@@ -76,6 +77,25 @@
 	   		FROM member
 	   		WHERE m_id like #{id}
    		]]>
+   	</select>
+   	
+   	<!-- 주소정보 업데이트  -->
+   	<update id="updateMemberLocate" parameterType="java.util.Map">
+		<![CDATA[
+			UPDATE member
+    		SET m_locate = #{m_locate},
+	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+    		WHERE m_id = #{m_id}
+   		]]>
+   	</update>
+   	
+   	<!-- 주소정보 조회 -->
+   	<select id="selectMemberLocate" resultType="String" parameterType="String">
+ 		<![CDATA[
+   			select m_locate
+			from member
+			where m_id like #{m_id}
+ 		]]>
    	</select>
    	
    	<!-- 프로필 이미지 업데이트 -->

@@ -27,15 +27,25 @@
 	    object-fit: cover;
 	}
 	div#memberLayer{
-		margin-left: -75px;
-		background-color: rgba(0,0,0,0.5);
-		padding: 1.0em;
+		width: 250px;
+		margin-left: -250px;
+		margin-top: 20px;
 		position: absolute;
-		visibility: hidden;
+ 		visibility: hidden; 
 		z-index:9999;
 	}
 	div#memberLayer a{
-		color: white;
+		text-decoration: none;
+	}
+	#memberLayer p.point::before{
+		font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f51e";
+		margin-right: 0.5em;
+		color: #ffc107;
+	}
+	#memberLayer h5.card-title::before{
+		font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f007";
+		margin-right: 0.5em;
+		color:gray;
 	}
 </style>
 
@@ -118,12 +128,23 @@
     			<img class="profile">
 			</div>
 			<div class="ml-3">
-	            <h6 class="mb-0"><b>${member.m_nickname}</b>님</h6>
-				<p class="text-primary mb-0">point</p>
-				<div id="memberLayer" onmouseover="onProfile()" onmouseout="outProfile()">
-					<a href="${contextPath}/member/mypage.do"><p class="mb-2">마이페이지</p></a>
-		  			<a href="${contextPath}/member/logout.do"><p class="mb-0">로그아웃</p></a>
-				</div>
+				<div id="memberLayer" class="card" onmouseover="onProfile()" onmouseout="outProfile()">
+					<div class="card-body">
+			            <h5 class="card-title"><b>${member.m_nickname}</b>님 
+			            	<a href="${contextPath}/member/updateMember.do"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+							  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+							</svg></a>
+			            </h5>
+						<div class="row mx-1">
+							<p class="point mb-0">000point</p>
+							<a class="btn btn-outline-primary btn-sm ml-auto">충전</a>
+						</div>
+					</div>
+					<ul class="list-group list-group-horizontal">
+						<li class="list-group-item col-6 text-center"><a href="${contextPath}/member/mypage.do">마이페이지</a></li>
+			  			<li class="list-group-item col-6 text-center"><a href="${contextPath}/member/logout.do">로그아웃</a></li>
+					</ul>
 			</div>
 			
           </c:when>
