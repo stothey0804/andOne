@@ -22,7 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.twilio.rest.messaging.v1.Session;
+
 import common.Common;
+import project.member.p001.service.MemberP001_d002Service;
 import project.member.p001.service.MemberP001_d005Service;
 import project.member.p001.vo.MemberP001_MemberVO;
 
@@ -61,24 +64,25 @@ public class MemberP001_d005ControllerImpl implements MemberP001_d005Controller{
 		String m_id = request.getParameter("m_id");
 		String inputPwd = request.getParameter("inputPwd");
 		String oriPwd = memberP001_d005Service.selectPwdById(m_id);
-//		String trueView = request.getParameter("trueView");
-//		String falseView = request.getParameter("falseView");
+//		System.out.println("============> " + inputPwd + " / " + oriPwd);
 		if(BCrypt.checkpw(inputPwd, oriPwd)) {
 			// 비번 일치시
 			out.print("true");
-			System.out.println("TRUE===========");
-//			return Common.checkLoginDestinationView(trueView, request);	// 수정페이지로
 		}else {
 			out.print("false");
-//			request.setAttribute("warning", "비밀번호를 확인해주세요.");
-//			return Common.checkLoginDestinationView(falseView, request);	// 체크페이지로
 		}
 	}
 	
 	// 수정폼으로 이동
 	@RequestMapping(value="/updateMemberForm.do", method = RequestMethod.POST)
-	public String updateMemberInfo2(HttpServletRequest request) {
-		return Common.checkLoginDestinationView("p001_d005_update", request);
+	public ModelAndView updateMemberInfo2(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession(false);
+		String id = (String) session.getAttribute("m_id");
+		
+		mav.setViewName(Common.checkLoginDestinationView("p001_d005_update", request));
+		mav.addObject("member", memberP001_d005Service.selectMemberById(id));
+		return mav;
 	}	
 	
 
