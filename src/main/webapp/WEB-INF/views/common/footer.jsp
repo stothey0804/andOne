@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"   isELIgnored="false"
  %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,8 +21,8 @@
       <div class="col-sm-6 col-md">
         <h5>업체관리</h5>
         <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">업체회원가입</a></li>
-          <li><a class="text-muted" href="#">업체어드민</a></li>
+          <li><a class="text-muted" href="${contextPath}/biz/join.do">업체회원가입</a></li>
+          <li><a class="text-muted" href="${contextPath}/biz/loginPage.do">업체어드민</a></li>
         </ul>
       </div>
       <div class="col-sm-6 col-md">

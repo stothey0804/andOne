@@ -46,7 +46,7 @@
 		});
 	</script>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>업체 서비스 이용약관</title>
 </head>
 <body>
 	<form name="term">

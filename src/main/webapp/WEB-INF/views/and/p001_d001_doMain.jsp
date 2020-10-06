@@ -61,12 +61,6 @@
 </head>
 <body onload="init()">
 	<div style="width:350px; margin: 0 auto">
-	<c:set var="g_id" value="${g_id}" ></c:set>
-	<c:choose>
-		<c:when test="${g_id='010'}">
-		
-		</c:when>
-	</c:choose>
 		<form name="eat" class="form-inline" method="get" action="${contextPath}/project/p003_d001/eat/listAndOne.do">
 			<div class="form-group mx-sm-3 mb-2">
 				<input class="form-control" type ="text" placeholder="카테고리/지역/제목">
@@ -80,24 +74,24 @@
 		<h4>카테고리</h4><br>
 		<div style="width:800px; margin: 0 auto">
 		<c:forEach var ="ctg" items="${ctg_eat}" > 
-		<button type="button" class="btn btn-outline-dark btn-lg mb-3" onclick="location.href='${contextPath}/andeat/searchAndOne.do?one_category=${ctg.gc_id}&g_id=010'">${ctg.gc_name}</button>
+		<button type="button" class="btn btn-outline-dark btn-lg mb-3" onclick="location.href='${contextPath}/anddo/searchAndOne.do?one_category=${ctg.gc_id}&&g_id=012'">${ctg.gc_name}</button>
 		</c:forEach>
 		</div>
 	</div>
 	<br><br>
-	<h4 style="text-align: center;">최근등록된 같이먹기</h4><br>
+	<h4 style="text-align: center;">최근등록된 같이하기</h4><br>
 	<div class="container">
 		<div class="row">
-			<c:forEach var ="andone_eat" items="${recentAndOneList}" > 
+			<c:forEach var ="andone" items="${recentAndOneList}" > 
 			<c:url var="url"  value="add.do"  >
 			 </c:url> 
 				<div class="col-sm-6 mb-3">
 					<div class="card">
 						<a href="#"><div class="card-body">
-							<h4 class="card-title">[${andone_eat.one_category}] ${andone_eat.one_title}</h4>
-							<h5 class="card-subtitle mb-3 text-muted">  ${andone_eat.one_state} ${andone_eat.one_date}  </h5>
-							<p class="card-text"> 예상 ${andone_eat.one_price}원  n/${andone_eat.one_memberMax}명   </p>
-							<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone_eat.one_time}</span></p>
+							<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
+							<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}  </h5>
+							<p class="card-text"> 예상 ${andone.one_price}원  n/${andone.one_memberMax}명   </p>
+							<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}</span></p>
 						</div></a>
 					</div>
 				</div>

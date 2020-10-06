@@ -79,35 +79,26 @@
 	<h1>같이하기 검색결과</h1>
 	<!-- 카테고리 검색 -->
 	<div class="aa">
-		<button type="button" class="btn btn-outline-dark btn-lg">여행</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">영화</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">공연</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">운동/헬스</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">스포츠</button>
-	</div>
-	<div class="bb">
-		<button type="button" class="btn btn-outline-dark btn-lg">야외활동</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">반려동물</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">취미</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">스터디</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">외식</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">기타</button>
+		<div style="width:800px; margin: 0 auto">
+		<c:forEach var ="ctg" items="${ctg_eat}" > 
+		<button type="button" class="btn btn-outline-dark btn-lg mb-3" onclick="location.href='${contextPath}/andeat/searchAndOne.do?one_category=${ctg.gc_id}&g_id=012'">${ctg.gc_name}</button>
+		</c:forEach>
 	</div>
 	<br><br>
 	<!--진행상태 one_state, 카테고리번호one_category,제목one_title,모집인원 one_memberMax,총금액one_totalPrice,실행날짜one_date-->
 	<!-- 같이먹기 검색결과 list -->
 	 <div class="container">
 		<div class="row">
-			<c:forEach var ="andone_do" items="${searchList_do}" > 
+			<c:forEach var ="andone" items="${ctgSearchList}" > 
 			<c:url var="url"  value="add.do"  >
 			 </c:url> 
 				<div class="col-sm-6 mb-3">
 					<div class="card">
 						<a href="#"><div class="card-body">
-							<h4 class="card-title">[${andone_do.one_category}] ${andone_do.one_title}</h4>
-							<h5 class="card-subtitle mb-3 text-muted">  ${andone_do.one_state} ${andone_do.one_date}주문  </h5>
-							<p class="card-text"> 예상 ${andone_do.one_Price}원  n/${andone_do.one_memberMax}명   </p>
-							<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone_do.one_time}</span></p>
+							<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
+							<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}주문  </h5>
+							<p class="card-text"> 예상 ${andone.one_price}원  n/${andone.one_memberMax}명   </p>
+							<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}</span></p>
 						</div></a>
 					</div>
 				</div>

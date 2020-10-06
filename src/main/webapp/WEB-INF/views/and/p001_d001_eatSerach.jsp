@@ -62,7 +62,6 @@
 	.aa{
 		padding: 15px; 
 		display: block;
-		text-align: center; 
 	 }
 	.bb{
 		display: block;
@@ -76,40 +75,29 @@
 </head>
 <body onload="init()">
 
-	<h1>같이사기 검색결과</h1>
+	<h1>같이먹기 검색결과</h1>
 	<!-- 카테고리 검색 -->
 	<div class="aa">
-		<button type="button" class="btn btn-outline-dark btn-lg">과일</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">채소</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">정육</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">수산물</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">식품기타</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">패션의류</button>
-	</div>
-	<div class="bb">
-		<button type="button" class="btn btn-outline-dark btn-lg">뷰티</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">완구/취미</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">헬스/건강식품</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">반려동물</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">주방용품</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">생활용품</button>
-		<button type="button" class="btn btn-outline-dark btn-lg">기타</button>
+		<div style="width:800px; margin: 0 auto">
+		<c:forEach var ="ctg" items="${ctg_eat}" > 
+		<button type="button" class="btn btn-outline-dark btn-lg mb-3" onclick="location.href='${contextPath}/andeat/searchAndOne.do?one_category=${ctg.gc_id}&g_id=010'">${ctg.gc_name}</button>
+		</c:forEach>
 	</div>
 	<br><br>
 	<!--진행상태 one_state, 카테고리번호one_category,제목one_title,모집인원 one_memberMax,총금액one_totalPrice,실행날짜one_date-->
 	<!-- 같이먹기 검색결과 list -->
 	 <div class="container">
 		<div class="row">
-			<c:forEach var ="andone_buy" items="${searchList_buy}" > 
+			<c:forEach var ="andone" items="${ctgSearchList}" > 
 			<c:url var="url"  value="add.do"  >
 			 </c:url> 
 				<div class="col-sm-6 mb-3">
 					<div class="card">
 						<a href="#"><div class="card-body">
-							<h4 class="card-title">[${andone_buy.one_category}] ${andone_buy.one_title}</h4>
-							<h5 class="card-subtitle mb-3 text-muted">  ${andone_buy.one_state} ${andone_buy.one_date}주문  </h5>
-							<p class="card-text"> 예상 ${andone_buy.one_Price}원  n/${andone_buy.one_memberMax}명   </p>
-							<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone_buy.one_time}</span></p>
+							<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
+							<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}주문  </h5>
+							<p class="card-text"> 예상 ${andone.one_price}원  n/${andone.one_memberMax}명   </p>
+							<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}</span></p>
 						</div></a>
 					</div>
 				</div>

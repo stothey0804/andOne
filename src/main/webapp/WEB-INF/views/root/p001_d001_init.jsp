@@ -173,21 +173,21 @@
 		<div class="row">
 			<div class="col-lg-4">
 				<p class="text-center">
-					<a href="#"><img src="https://via.placeholder.com/150"></a>
+					<a href="${contextPath}/andeat?g_id=010"><img src="https://via.placeholder.com/150"></a>
 				</p>
-        		<p class="text-center"><a class="btn btn-link" href="#" role="button">같이먹기</a></p>
+        		<p class="text-center"><a class="btn btn-link" href="${contextPath}/andeat?g_id=010" role="button">같이먹기</a></p>
       		</div>
 			<div class="col-lg-4">
 				<p class="text-center">
-					<a href="#"><img src="https://via.placeholder.com/150"></a>
+					<a href="${contextPath}/andbuy?g_id=011"><img src="https://via.placeholder.com/150"></a>
 				</p>
-        		<p class="text-center"><a class="btn btn-link" href="#" role="button">같이사기</a></p>
+        		<p class="text-center"><a class="btn btn-link" href="${contextPath}/andbuy?g_id=011" role="button">같이사기</a></p>
       		</div>
 			<div class="col-lg-4">
 				<p class="text-center">
-					<a href="#"><img src="https://via.placeholder.com/150"></a>
+					<a href="${contextPath}/anddo?g_id=012"><img src="https://via.placeholder.com/150"></a>
 				</p>
-        		<p class="text-center"><a class="btn btn-link" href="#" role="button">같이하기</a></p>
+        		<p class="text-center"><a class="btn btn-link" href="${contextPath}/anddo?g_id=012" role="button">같이하기</a></p>
       		</div>
 		</div>
 	</div>

@@ -11,7 +11,8 @@
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring/action-mybatis.xml</param-value>
+		<param-value>/WEB-INF/spring/action-mybatis.xml
+		</param-value>
 	</context-param>
 
     <!-- encodingFilter -->

@@ -7,31 +7,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import project.and.p001.vo.AndP001_d001VO;
+import project.and.p001.vo.AndP001AndOneVO;
 
 @Repository
 public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 	@Autowired
 	private SqlSession sqlSession;
-	//같이먹기
-	public List selectAllAndOneEatList() throws DataAccessException{
-		List<AndP001_d001VO> andOneEatList = null;
-		andOneEatList = sqlSession.selectList("and.p001_d001.selectAllAndOneEatList");
-		return andOneEatList;
+	//최근 등록된 같이먹기/사기/하기
+	@Override
+	public List selectRecentList(String g_id) throws DataAccessException{
+		List<AndP001AndOneVO> selectRecentList = null;
+		selectRecentList = sqlSession.selectList("and.p001.selectRecentList",g_id);
+		return selectRecentList;
+	}
+	//카테고리(이름/번호)
+	@Override
+	public List selectCtg(String g_id) throws DataAccessException{
+		List<AndP001AndOneVO> selectCtg = null;
+		selectCtg = sqlSession.selectList("and.p001.selectCtg",g_id);
+		return selectCtg;
+	}
+	@Override
+	public List selctCtgList(AndP001AndOneVO vo) throws DataAccessException{
+		List<AndP001AndOneVO> selctCtgList = null;
+		selctCtgList = sqlSession.selectList("and.p001.selctCtgList",vo);
+		return selctCtgList;
 	}
 	
-	//같이하기
-	public List selectAllAndOneDoList() throws DataAccessException{
-		List<AndP001_d001VO> andOneDOList = null;
-		andOneDOList = sqlSession.selectList("and.p001_d001.selectAllAndOneDoList");
-		return andOneDOList;
-	}
-	
-	//같이사기
-	public List selectAllAndOneBuyList() throws DataAccessException{
-		List<AndP001_d001VO> andOneBuyList = null;
-		andOneBuyList = sqlSession.selectList("and.p001_d001.selectAllAndOneBuyList");
-		return andOneBuyList;
-	}
 	
 }
