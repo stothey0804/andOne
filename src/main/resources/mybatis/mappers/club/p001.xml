@@ -49,7 +49,7 @@
 	
 	<select id="clubList" resultMap="p001_d001Result01">
       <![CDATA[
-        SELECT b.c_name,b.c_content,b.c_membercnt,b.c_id,
+        SELECT b.c_name,b.c_content,b.c_membercnt,b.c_id,b.c_img,
          (select c.gc_name
        	from club a, common_code c
        	where a.c_category= c.gc_id
@@ -65,7 +65,7 @@
 	
 	<select id="myClubList" resultMap="p001_d001Result01">
 		<![CDATA[
-		 SELECT a.c_name,a.c_membercnt,a.c_id
+		 SELECT a.c_name,a.c_membercnt,a.c_id,a.c_img
          from club a, c_member b
          where a.c_id = b.c_id
          and m_id=#{m_id}
@@ -83,7 +83,7 @@
 	
 	<select id="searchClubList" resultMap="p001_d001Result01">
 		<![CDATA[
-		 select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id
+		 select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id,c_img
         from
         (
             select *

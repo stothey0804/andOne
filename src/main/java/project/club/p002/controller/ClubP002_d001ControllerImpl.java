@@ -28,8 +28,7 @@ public class ClubP002_d001ControllerImpl implements ClubP002_d001Controller{
 	
 	@Override
 	@RequestMapping(value="/createClub.do",method= {RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView createClub(ClubP001_d001VO vo, HttpSession session) throws Exception {
-		System.out.println("컨트롤러 들어옴?????????????????");
+	public String createClub(ClubP001_d001VO vo, HttpSession session) throws Exception {
 		Map<String, Object> insertMap = new HashMap<String, Object>();
 		insertMap.put("c_name", vo.getC_name());
 		System.out.println();
@@ -47,6 +46,6 @@ public class ClubP002_d001ControllerImpl implements ClubP002_d001Controller{
 		clubP002_d001Service.insertLeader(insertMap);
 		ModelAndView mav = new ModelAndView("createClubResult");
 		mav.addObject("c_id", c_id);
-		return mav;
+		return "forward:/detailClub.do?c_id="+c_id;
 	}
 }
