@@ -27,12 +27,35 @@
 					select="getShopReviewListByShopId" ofType="ShopP003ShopReviewVO"/>						
 	</resultMap>
 	
+	<resultMap id="shopShort" type="ShopP002ShopDetailVO">
+		<id property="s_id" column="S_ID" />
+		<result property="s_category" column="S_CATEGORY" />
+		<result property="s_name" column="S_NAME" />
+		<result property="s_score" column="S_SCORE" />
+		<result property="s_content" column="S_CONTENT" />
+		<result property="bm_id" column="BM_ID" />
+		<result property="s_locate" column="S_LOCATE" />
+		<result property="s_phoneNumber" column="S_PHONENUMBER" />
+		<result property="s_hashtag" column="S_HASHTAG" />
+		<result property="reviewCount" column="REVIEWCOUNT" />
+		<result property="gc_name" column="GC_NAME" />
+		<result property="searchCondition" column="SEARCHCONDITION" />
+		<result property="searchKeyword" column="SEARCHKEYWORD" />
+		<result property="filter" column="FILTER" />
+		<result property="status" column="STATUS" />
+		<collection property="shopImage" column="S_ID" javaType="java.util.ArrayList" 
+					select="getShopImageList" ofType="ShopP002ShopImageVO"/>
+	</resultMap>
+	
 	<resultMap id="shopImage" type="ShopP002ShopImageVO">
 		<id property="si_idx" column="SI_IDX" />
 		<result property="s_id" column="S_ID" />		
-		<result property="si_img" column="SI_IMG" />		
+		<result property="si_img" column="SI_IMG" />
 		<result property="si_editor" column="SI_EDITOR" />		
-		<result property="si_editdate" column="SI_EDITDATE" />		
+		<result property="si_editdate" column="SI_EDITDATE" />
+		<collection property="si_imgEncoder" column="{s_id=S_ID,si_idx=SI_IDX}" javaType="java.util.Map"
+					select="getShopImage" ofType="java.util.Map">
+		</collection>		
 	</resultMap>
 	
 	<resultMap id="shopReview" type="ShopP003ShopReviewVO">
@@ -48,6 +71,9 @@
 		<result property="m_img" column="M_IMG" />
 		<collection property="shopReviewImage" column="{s_id=S_ID,m_id=M_ID}" javaType="java.util.ArrayList" 
 					select="getShopReviewImageList" ofType="ShopP003ShopReviewImageVO"/>
+		<collection property="m_imgEncoder" column="{m_id=M_ID}" javaType="java.util.Map"
+					select="getMemberImage" ofType="java.util.Map">
+		</collection>			
 	</resultMap>
 	
 	<resultMap id="shopReviewImage" type="ShopP003ShopReviewImageVO">
@@ -56,10 +82,25 @@
 		<result property="m_id" column="M_ID" />		
 		<result property="ri_editor" column="RI_EDITOR" />		
 		<result property="ri_img" column="RI_IMG" />		
-		<result property="ri_editdate" column="RI_EDITDATE" />		
+		<result property="ri_editdate" column="RI_EDITDATE" />
+		<collection property="ri_imgEncoder" column="{m_id=M_ID,s_id=S_ID,ri_idx=RI_IDX}" javaType="java.util.Map"
+					select="getShopReviewImage" ofType="java.util.Map">
+		</collection>		
+	</resultMap>
+	
+	<resultMap id="si_clobMap" type="java.util.Map">
+		<result property="si_imgEncoder" column="SI_IMG" javaType="[B" jdbcType="BLOB" />
+	</resultMap>
+	
+	<resultMap id="ri_clobMap" type="java.util.Map">
+		<result property="ri_imgEncoder" column="RI_IMG" javaType="[B" jdbcType="BLOB" />
+	</resultMap>
+	
+	<resultMap id="m_clobMap" type="java.util.Map">
+		<result property="m_imgEncoder" column="M_IMG" javaType="[B" jdbcType="BLOB" />
 	</resultMap>
 
-<select id="getShopList" resultMap="shop.p002.shopDetail">
+<select id="getShopShort" resultMap="shop.p002.shopShort">
 	<![CDATA[
 		SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
         S_LOCATE, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME
@@ -78,7 +119,7 @@
 			WHERE G_ID=009
 		)CODE ON S.S_CATEGORY = CODE.GC_ID
 		WHERE 1=1
-	]]>	
+	]]>
 	<if test="searchCondition=='ALLSEARCH'">
 	<![CDATA[
 		AND (S.S_NAME LIKE '%'||#{searchKeyword}||'%' 
@@ -120,6 +161,35 @@
 	<if test="status=='REVIEW'">
 	<![CDATA[
 		ORDER BY REVIEWCOUNT DESC, S.S_SCORE DESC
+	]]>
+	</if>	
+</select>
+
+
+<select id="getShopDetail" resultMap="shop.p002.shopDetail">
+	<![CDATA[
+		SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
+        S_LOCATE, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME
+		FROM SHOP S 
+		INNER JOIN
+		(
+			SELECT COUNT(*) AS REVIEWCOUNT, INS.S_ID
+			FROM SHOP INS 
+			INNER JOIN S_REVIEW INSR ON INS.S_ID=INSR.S_ID
+			GROUP BY INS.S_ID
+		)CNT ON S.S_ID = CNT.S_ID
+		INNER JOIN
+		(
+			SELECT GC_ID, GC_NAME
+			FROM COMMON_CODE
+			WHERE G_ID=009
+		)CODE ON S.S_CATEGORY = CODE.GC_ID
+		WHERE 1=1
+	]]>	
+	
+	<if test="searchCondition=='SEARCHBYSHOPID'">
+	<![CDATA[
+		AND S.S_ID = #{s_id}
 	]]>
 	</if>
 </select>
@@ -172,6 +242,52 @@
 		WHERE S_ID = #{s_id}
 		AND M_ID = #{m_id}
 		ORDER BY RI_IDX ASC
+	]]>
+</select>
+
+<update id="updateShopImage" parameterType="ShopP002ShopImageVO">
+	<![CDATA[
+		UPDATE S_IMAGE
+		SET SI_IMG = #{si_imgEncoder.img}
+		WHERE S_ID = #{s_id}
+		AND SI_IDX = #{si_idx}
+	]]>
+</update>
+
+<update id="updateShopReviewImage" parameterType="ShopP003ShopReviewImageVO">
+	<![CDATA[
+		UPDATE R_IMAGE
+		SET RI_IMG = #{ri_imgEncoder.img}
+		WHERE S_ID = #{s_id}
+		AND M_ID = #{m_id}
+		AND RI_IDX = #{ri_idx}
+	]]>
+</update>
+
+<select id="getShopImage" parameterType="java.util.Map" resultMap="si_clobMap">
+	<![CDATA[
+		SELECT SI_IMG
+		FROM S_IMAGE
+		WHERE S_ID = #{s_id}
+		AND SI_IDX = #{si_idx}
+	]]>
+</select>
+
+<select id="getShopReviewImage" parameterType="java.util.Map" resultMap="ri_clobMap">
+	<![CDATA[
+		SELECT RI_IMG
+		FROM R_IMAGE
+		WHERE S_ID = #{s_id}
+		AND M_ID = #{m_id}
+		AND RI_IDX = #{ri_idx}
+	]]>
+</select>
+
+<select id="getMemberImage" parameterType="java.util.Map" resultMap="m_clobMap">
+	<![CDATA[
+		SELECT M_IMG
+		FROM MEMBER
+		WHERE M_ID = #{m_id}
 	]]>
 </select>
 

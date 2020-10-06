@@ -14,8 +14,15 @@ public class ShopP003ShopReviewImageVO {
 	private String ri_idx;
 	private MultipartFile ri_img;
 	private Map<String, Object> ri_imgEncoder;
+	private String ri_encodedImg;
 	
 	
+	public String getRi_encodedImg() {
+		return ri_encodedImg;
+	}
+	public void setRi_encodedImg(String ri_encodedImg) {
+		this.ri_encodedImg = ri_encodedImg;
+	}
 	public Map<String, Object> getRi_imgEncoder() {
 		return ri_imgEncoder;
 	}

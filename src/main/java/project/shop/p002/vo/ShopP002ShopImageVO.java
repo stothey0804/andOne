@@ -11,11 +11,18 @@ public class ShopP002ShopImageVO {
 	private String si_idx;
 	private MultipartFile si_img;
 	private Map<String, Object> si_imgEncoder;
+	private String si_encodedImg;
 	private String si_editor;
 	private String si_editdate;
 	
 	
 	
+	public String getSi_encodedImg() {
+		return si_encodedImg;
+	}
+	public void setSi_encodedImg(String si_encodedImg) {
+		this.si_encodedImg = si_encodedImg;
+	}
 	public Map<String, Object> getSi_imgEncoder() {
 		return si_imgEncoder;
 	}

@@ -73,6 +73,11 @@
       <put-attribute name="body" value="/WEB-INF/views/shop/fileTest.jsp" />
    </definition>
    
+   <definition name="viewTest" extends="baseLayout">
+      <put-attribute name="title" value="파일 출력 테스트" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/viewTest.jsp" />
+   </definition>
+   
 	<!-- 회원약관 -->
    <definition name="p001_d001_init" extends="baseLayout">
       <put-attribute name="title" value="회원약관" />
