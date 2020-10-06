@@ -32,7 +32,7 @@
 		         async: "true",
 		         dataType: "text",
 		         data: { //data로 넘겨주기
-		             m_id: '${member.m_id}',
+		             m_id: '${m_id}',
 		             inputPwd: _inputPwd
 		         },
 		         url: "${contextPath}/member/checkUserPwd.do",

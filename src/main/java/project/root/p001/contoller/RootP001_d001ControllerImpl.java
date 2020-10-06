@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import common.Common;
 import project.root.p001.service.RootP001_d001Service;
 
 
@@ -72,13 +73,11 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 		}
 	}
 	
-	// 테스트용, 추후삭제
-	//--------------------
+	// 어드민 연결
 	@RequestMapping(value="/admin")
-	public String adminMain() {
-		return "adminMain";
+	public String adminMain(HttpServletRequest request) {
+		return Common.checkAdminDestinationView("adminMain", request);
 	}
-	//-------------------- 추후삭제
 
 
 

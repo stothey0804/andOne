@@ -48,13 +48,19 @@ public class MemberP001_d002ControllerImpl implements MemberP001_d002Controller{
 			 //user 정보가 있고 비밀번호가 일치하는 경우
 			if(memberVO!=null && BCrypt.checkpw(inputPwd,memberVO.getM_pwd())) {
 				// 로그인 성공~!
-				session.setAttribute("member", memberVO);
+//				session.setAttribute("member", memberVO);
+				session.setAttribute("m_id", memberVO.getM_id());	// 아이디조회
+				session.setAttribute("m_nickname", memberVO.getM_nickname());	// 닉네임조회
 				session.setAttribute("isLogOn", true);
 				// 세션 프로필 이미지 set
 				String profileImg = Common.encodeBlobImage(memberVO.getM_id(), memberP001_d005Service);
 				session.setAttribute("profileImg", profileImg);
-				session.setMaxInactiveInterval(-1);
-				returnView = "main"; // 메인화면으로 이동
+				session.setMaxInactiveInterval(-1);	// 세션유지시간 (추후수정)
+				if(memberVO.getM_id().equals("00000001")) {	// 관리자일시
+					returnView = "adminMain"; // 어드민화면으로 이동
+				}else {
+					returnView = "main"; // 메인화면으로 이동
+				}
 			}else{	// 정보불일치
 				request.setAttribute("warning", "이메일과 비밀번호를 확인해주세요.");
 				returnView = "member/p001_d002";

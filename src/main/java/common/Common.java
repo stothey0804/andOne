@@ -17,9 +17,23 @@ public class Common {
 		HttpSession session = request.getSession(false);
 		// 세션 멤버정보, 로그인상태 체크
 		if(session!=null) {
-			if(session.getAttribute("member")!=null && session.getAttribute("isLogOn")!=null)
-			{
+			if(session.getAttribute("m_id")!=null && session.getAttribute("isLogOn")!=null){
 				returnView = dest;				// 목적지 view로
+			}
+		}
+		return returnView;
+	}
+	// 관리자여부 체크 메서드, dest = 목적지 view
+	public static String checkAdminDestinationView(String dest, HttpServletRequest request) {
+		// 세션체크
+		String returnView = "member/p001_d002";	// 로그인 페이지
+		HttpSession session = request.getSession(false);
+		// 세션 멤버정보, 로그인상태 체크
+		if(session!=null) {
+			if("00000001".equals(session.getAttribute("m_id")) && session.getAttribute("isLogOn")!=null){
+				returnView = dest;				// 목적지 view로
+			}else {
+				returnView = "main";			// 일반회원일 경우 메인으로 
 			}
 		}
 		return returnView;

@@ -10,6 +10,8 @@
 	</settings>
 
 	<typeAliases>
+		<typeAlias alias="memberP001_d006VO" type="project.member.p001.vo.MemberP001_d006VO"/>
+		<typeAlias alias="memberP001_d006ListVO" type="project.member.p001.vo.MemberP001_d006ListVO"/>
 		<typeAlias alias="p001_d001VO" type="project.club.vo.ClubP001_d001VO" />
 		<typeAlias alias="p001_d001articleVO" type="project.club.vo.ClubP001_d001articleVO" />
 		<typeAlias alias="p001_d001MemberVO" type="project.club.vo.ClubP001_d001MemberVO" />

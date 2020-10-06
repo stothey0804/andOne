@@ -25,9 +25,22 @@
       <put-attribute name="footer" value="/WEB-INF/views/common/admin/footer.jsp" />
    </definition>
 
+	<!-- 관리자 START -->
+	<!-- 관리자메인페이지 -->
+   <definition name="adminMain" extends="adminLayout">
+      <put-attribute name="title" value="메인페이지" />
+       <put-attribute name="body" value="" />
+   </definition>
+
+   <definition name="p001_d006_search" extends="adminLayout">
+      <put-attribute name="title" value="메인페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/member/p001_d006_search.jsp" />
+   </definition>
+   <!-- 관리자페이지 END -->
+   
 	<!-- 메인페이지 -->
    <definition name="main" extends="baseLayout">
-      <put-attribute name="title" value="메인페이지" />
+      <put-attribute name="title" value="관리자메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/root/p001_d001_init.jsp" />
    </definition>
    
