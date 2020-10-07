@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="common">
+   	<resultMap id="commonCodeMap" type="java.util.HashMap">
+		<result property="gc_id" column="gc_id" />
+		<result property="gc_name" column="gc_name" />
+	</resultMap>
+   
+   
+   <!-- 분류 그룹명 조회 (이름) -->
+   	<select id="select" resultType="java.util.List" parameterType="String">
+   		<![CDATA[
+			SELECT g_name
+			FROM code_group
+			WHERE g_id = #{g_id}
+   		]]>
+   	</select>
+   <!-- 분류 그룹명 내의 분류 리스트 조회 (이름) -->
+   	<select id="selectCommonNameList" resultType="java.util.List" parameterType="String">
+   		<![CDATA[
+			SELECT gc_name
+			FROM common_code
+			WHERE g_id like #{g_id}
+   		]]>
+   	</select>
+   <!-- 분류 그룹명 내의 분류 리스트 조회 (이름) -->
+   	<select id="selectCommonCodeNameList" resultMap="commonCodeMap" parameterType="String">
+   		<![CDATA[
+			SELECT gc_id, gc_name 
+			FROM common_code
+			WHERE g_id like #{g_id}
+   		]]>
+   	</select>
+   	
+	</mapper>

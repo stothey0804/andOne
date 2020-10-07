@@ -87,6 +87,16 @@
       <put-attribute name="body" value="/WEB-INF/views/shop/p002_d001_localShopDetail.jsp" />
    </definition>
    
+    <definition name="fileTest" extends="baseLayout">
+      <put-attribute name="title" value="파일 업로드 테스트" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/fileTest.jsp" />
+   </definition>
+   
+   <definition name="viewTest" extends="baseLayout">
+      <put-attribute name="title" value="파일 출력 테스트" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/viewTest.jsp" />
+   </definition>
+   
 	<!-- 비밀번호찾기 -->
    <definition name="p001_d003_init" extends="baseLayout">
       <put-attribute name="title" value="비밀번호 찾기" />
@@ -125,6 +135,11 @@
 	<definition name="p001_d005_update" extends="mypageLayout">
 		<put-attribute name="title" value="내 정보 변경"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p001_d005_update.jsp"/>
+	</definition>
+	<!-- 문의하기 -->
+	<definition name="p002_d001_insert" extends="mypageLayout">
+		<put-attribute name="title" value="문의하기"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p002_d001_insert.jsp"/>
 	</definition>
 	
 	<!-- 소모임 메인-->

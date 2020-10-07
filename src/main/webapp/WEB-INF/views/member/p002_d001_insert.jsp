@@ -7,7 +7,7 @@
 <head>
 <style type="text/css">
 	div.form-group{
-		width: 800px;
+		width: 750px;
 	}
 	@media screen and (max-width: 750px){
 		div.form-group{
@@ -17,13 +17,9 @@
 	.container{
 		margin: 0 auto;
 	}
-	.filebox input[type="file"] {
-	    position: absolute;
-	    width: 0;
-	    height: 0;
-	    padding: 0;
-	    overflow: hidden;
-	    border: 0;
+	#cke_q_content{
+		width: 95%;
+		margin: 0 auto;
 	}
 
 </style>
@@ -48,25 +44,28 @@
 			<p class="h4 mb-3">내용</p>
 				<!-- 제목 -->
 				<div class="mb-2 row">
-				    <label for="inputSubject" class="col-lg-3 col-sm-12 col-form-label">제목</label>
-				    <div class="col-lg-7 col-sm-12">
+				    <label for="inputSubject" class="col-lg-2 col-sm-12 col-form-label">제목</label>
+				    <div class="col-lg-10 col-sm-12">
 				      <input type="text" class="form-control" id="inputSubject" name="q_subject" value="">
 		    		</div>
 		    	</div>
+		    	<input type="hidden" name="m_id" value="${m_id}">
 		    	<!-- 문의유형 -->
 				<div class="mb-2 row">
-				    <label for="selectType" class="col-lg-3 col-sm-12 col-form-label">문의유형</label>
-			    	  <div class="form-group col-lg-7 col-sm-12">
-					    <select class="form-control " id="selectType" name="q_type">
+				    <label for="selectType" class="col-lg-2 col-sm-12 col-form-label">문의유형</label>
+			    	  <div class="form-group col-lg-10 col-sm-12">
+					    <select class="form-control " id="selectType" name="q_type" required>
 					      <option value="">선택</option>
-					      <option value="10">
-					      </option>
+					      <c:forEach var="list" items="${qTypeList}">
+						      <option value="<c:out value="${list.gc_id}"/>"><c:out value="${list.gc_name}" /></option>
+					      </c:forEach>
 					    </select>
 					  </div>
 		    	</div>
 		    	<!-- 에디터 -->
 				<div class="mb-2 row">
-					<textarea id="q_content" name="q_content">
+					<textarea class="form-control" id="q_content" name="q_content" rows="30">
+					문의 내용을 작성해주세요.
 					</textarea>
 					<script>CKEDITOR.replace('q_content',{filebrowserUploadUrl:'${contextPath}/member/editorFileUpload.do'});</script>				
 				</div>
