@@ -18,7 +18,7 @@
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	  <a class="navbar-brand logotype" href="#">&분의일 </a>
 	  <span class="navbar-brand mb-0">관리자페이지</span>
-  		<button type="button" class="btn btn-dark ml-auto">로그아웃</button>
+  		<a class="btn btn-dark ml-auto" href="${contextPath}/member/logout.do">로그아웃</a>
 	</nav>
 
 <!-- <table border=0  width="100%"> -->

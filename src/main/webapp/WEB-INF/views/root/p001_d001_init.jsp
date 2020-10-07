@@ -19,7 +19,7 @@
 
  <script type="text/javascript">
  
- 	var m_id = '${member.m_id}';
+ 	var m_id = '${m_id}';
 	
  	function init(){
 		// 주소클릭시 맵설정 창 띄우기

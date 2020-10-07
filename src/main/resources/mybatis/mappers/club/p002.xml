@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="club.p002">
+	<resultMap id="result01" type="p001_d001VO">
+		<result property="c_id" column="c_id" />
+		<result property="c_name" column="c_name" />
+		<result property="c_content" column="c_content" />
+		<result property="c_category" column="c_category" />
+		<result property="c_membercnt" column="c_membercnt" />
+		<result property="c_hashtag" column="c_hashtag" />
+	</resultMap>
+	
+	<resultMap id="article" type="p001_d001ArticleVO">
+		<result property="ca_content" column="ca_content"/>
+		<result property="imgList" column="ca_img" javaType="[B"  jdbcType="BLOB"/>
+	</resultMap>
+	
+	<select id="nextC_id" resultType="string">
+		<![CDATA[
+			select club_seq.nextval from dual
+           ]]> 
+	</select>
+	
+	<insert id="insertClub">
+		<![CDATA[
+			insert into club (c_id,c_name,c_content,c_category,c_membercnt,c_membermax,c_hashtag,c_img,c_openingdate)
+			values(#{c_id},#{c_name},#{c_content},#{c_category},1,#{c_membermax},#{c_hashtag},#{c_img},to_char(sysdate,'YYYY-MM-DD hh:mm'))
+		]]>
+	</insert>
+	
+	<insert id="insertLeader">
+		<![CDATA[
+			insert into c_member(c_id,m_id,cm_joindate,cm_rank)
+			values(#{c_id},#{m_id},to_char(sysdate,'YYYY-MM-DD hh:mm'),10)
+		]]>
+	</insert>
+</mapper>
