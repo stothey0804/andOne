@@ -62,6 +62,7 @@
 	.aa{
 		padding: 15px; 
 		display: block;
+		text-align: center; 
 	 }
 	.bb{
 		display: block;
@@ -74,30 +75,80 @@
 	
 </head>
 <body onload="init()">
-
-	<h1>같이먹기 검색결과</h1>
+	<c:set var="g_id" value="${g_id}" />
+	<c:set var="size" value="${size}" />
+	<h1>
+	<c:choose>
+		<c:when test="${g_id == '010'}">
+			같이먹기 검색결과  ${size}건
+		</c:when>
+		<c:when test="${g_id == '011'}">
+			같이사기 검색결과 ${size}건
+		</c:when>
+		<c:when test="${g_id == '012'}">
+			같이하기 검색결과 ${size}건
+		</c:when>
+	</c:choose>
+	</h1>
 	<!-- 카테고리 검색 -->
 	<div class="aa">
-		<div style="width:800px; margin: 0 auto">
-		<c:forEach var ="ctg" items="${ctg_eat}" > 
-		<button type="button" class="btn btn-outline-dark btn-lg mb-3" onclick="location.href='${contextPath}/andeat/searchAndOne.do?one_category=${ctg.gc_id}&g_id=010'">${ctg.gc_name}</button>
-		</c:forEach>
+		<h4 style="text-align : center;">카테고리</h4><br>
+		<c:choose>
+			<c:when test="${g_id == '010'}">
+				<div style="width:700px; margin: 0 auto">
+				<c:forEach var ="ctg" items="${ctg_eat}" > 
+				<button type="button" class="btn btn-outline-dark mb-3" onclick="location.href='${contextPath}/andeat/searchAndOne.do?one_category=${ctg.gc_id}&g_id=${g_id}'">${ctg.gc_name}</button>
+				</c:forEach>
+				</div>
+			</c:when>
+			<c:when test="${g_id == '011'}">
+				<div style="width:570px; margin: 0 auto">
+				<c:forEach var ="ctg" items="${ctg_eat}" > 
+				<button type="button" class="btn btn-outline-dark mb-3" onclick="location.href='${contextPath}/andeat/searchAndOne.do?one_category=${ctg.gc_id}&g_id=${g_id}'">${ctg.gc_name}</button>
+				</c:forEach>
+				</div>
+			</c:when>
+			<c:when test="${g_id == '012'}">
+				<div style="width:800px; margin: 0 auto">
+				<c:forEach var ="ctg" items="${ctg_eat}" > 
+				<button type="button" class="btn btn-outline-dark mb-3" onclick="location.href='${contextPath}/andeat/searchAndOne.do?one_category=${ctg.gc_id}&g_id=${g_id}'">${ctg.gc_name}</button>
+				</c:forEach>
+				</div>
+			</c:when>
+		</c:choose>
 	</div>
 	<br><br>
 	<!--진행상태 one_state, 카테고리번호one_category,제목one_title,모집인원 one_memberMax,총금액one_totalPrice,실행날짜one_date-->
 	<!-- 같이먹기 검색결과 list -->
+	<c:if test="${size eq 0}">
+	<h2 style="text-align: center;">등록된 &분의 일이 없습니다ㅠㅠ</h2>
+	</c:if>
 	 <div class="container">
 		<div class="row">
 			<c:forEach var ="andone" items="${ctgSearchList}" > 
-			<c:url var="url"  value="add.do"  >
-			 </c:url> 
 				<div class="col-sm-6 mb-3">
 					<div class="card">
 						<a href="#"><div class="card-body">
-							<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
-							<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}주문  </h5>
-							<p class="card-text"> 예상 ${andone.one_price}원  n/${andone.one_memberMax}명   </p>
-							<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}</span></p>
+				<c:choose>
+					<c:when test="${g_id == '010'}"> 
+						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
+						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}주문  </h5>
+						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
+						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}</span></p>
+					</c:when>
+					<c:when test="${g_id == '011'}">
+						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
+						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}수령예정  </h5>
+						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
+						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}</span></p>
+					</c:when>
+					<c:when test="${g_id == '012'}">
+						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
+						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}  </h5>
+						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
+						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}</span></p>
+					</c:when>
+				</c:choose>
 						</div></a>
 					</div>
 				</div>
@@ -106,7 +157,17 @@
 	</div>
 	<br><br><br>
 	<div class="cc">
+	<c:choose>
+		<c:when test="${g_id == '010'}"> 
 		<a href='${url}' button class="btn btn-outline-dark btn-lg"> 같이먹기 등록하기 </a>
+		</c:when>
+		<c:when test="${g_id == '011'}"> 
+		<a href='${url}' button class="btn btn-outline-dark btn-lg"> 같이사기 등록하기 </a>
+		</c:when>
+		<c:when test="${g_id == '012'}"> 
+		<a href='${url}' button class="btn btn-outline-dark btn-lg"> 같이하기 등록하기 </a>
+		</c:when>
+	</c:choose>
 	</div>
 	
 </body>

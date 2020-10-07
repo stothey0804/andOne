@@ -7,8 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!--font awesome-->
-<script src="https://kit.fontawesome.com/cdac256c63.js" crossorigin="anonymous"></script>
 <!-- Swiper JS -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <!-- kakao map-->
@@ -16,27 +14,24 @@
 <!-- services 라이브러리 불러오기 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+<!-- JQuery -->
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 
  <script type="text/javascript">
-
+ 
+ 	var m_id = '${m_id}';
+	
  	function init(){
- 		
- 		//지도에서 위치선택 적용
- 		document.getElementById('setAddr').addEventListener("click", function(){
-			// 행정동 주소정보 요청 및 메인 set
-			searchAddrFromCoords(map.getCenter(), displayCenterInfo);
- 		});
- 		
- 		// 주소클릭시 맵설정 창 띄우기
- 		document.getElementById('centerAddr').addEventListener("click", function(){
- 			var mapNode = document.querySelector(".map-container");
- 			mapNode.classList.add('visible');
- 			var closeNode = mapNode.querySelector("#map-close");
- 			closeNode.addEventListener("click",function(){
+		// 주소클릭시 맵설정 창 띄우기
+		document.getElementById('centerAddr').addEventListener("click", function(){
+			var mapNode = document.querySelector(".map-container");
+			mapNode.classList.add('visible');
+			var closeNode = mapNode.querySelector("#map-close");
+			closeNode.addEventListener("click",function(){
 				mapNode.classList.remove('visible');
- 			});
- 		});
- 		
+			});
+		});
+		
  		
  		// swiper
 	    var swiper = new Swiper('.swiper-container', {
@@ -138,15 +133,15 @@
 			<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
 			</svg>
-			<a href="#"><small class="text-muted" id="centerAddr"></small></a>
+			<small class="text-muted" id="centerAddr"></small>
 		</p>
 	</div>
 	<!-- MAP 영역 -->
 	<div class="map-container p-4 bg-light m-auto">
 		<div class="row m-1">
 			<p class="h4">
-				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-geo-alt-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-				  <path fill-rule="evenodd" d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-map" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+				  <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.502.502 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103zM10 1.91l-4-.8v12.98l4 .8V1.91zm1 12.98l4-.8V1.11l-4 .8v12.98zm-6-.8V1.11l-4 .8v12.98l4-.8z"/>
 				</svg>
 				지도에서 위치 선택	
 			</p>		
@@ -156,18 +151,27 @@
 				</svg>
 			</div>
 		</div>
-		<div class="row m-3"><span class="pt-1 mr-1">선택한 위치
+		<div class="row mx-3 mt-3 mb-2"><span class="pt-1 mr-1 text-primary" id="selectGeoLocation">
+			<svg width="1em" height="1.0625em" viewBox="0 0 16 17" class="bi bi-compass" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+				  <path fill-rule="evenodd" d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016zm6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+				  <path d="M6.94 7.44l4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/>
+				</svg>		
+			현재 위치 자동선택 
+			</span>
+		</div>
+		<div class="row mx-3 mb-3"><span class="pt-1 mr-1">선택한 위치
 			<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-double-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 			  <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
 			  <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
 			</svg>
 		</span><span id="selectedAddr" class="text-muted pt-1"></span>
-		<button id="setAddr" class="btn btn-secondary btn-sm ml-2 my-auto">적용</button>
+		<button id="setAddr" class="btn btn-secondary btn-sm ml-2 my-auto">저장</button>
 		</div>
 		<div id="map"></div>
 	</div>
 	<!-- MAP 영역 END -->
 	<script src="${contextPath}/resources/js/kakaoMapMain.js"></script>
+	
 	<!-- &분의일 링크 -->
 	<div class="container my-5">
 		<div class="row">

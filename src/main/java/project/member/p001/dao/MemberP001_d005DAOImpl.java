@@ -35,4 +35,10 @@ public class MemberP001_d005DAOImpl implements MemberP001_d005DAO{
 	public Map<String, Object> getByteImage(String m_id) {
 		return sqlSession.selectOne("member.p001.getByteImage", m_id);
 	}
+
+	@Override
+	public MemberP001_MemberVO selectMemberById(String id) {
+		MemberP001_MemberVO member = sqlSession.selectOne("member.p001.selectMemberById", id);
+		return member;
+	}
 }

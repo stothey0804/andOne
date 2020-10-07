@@ -14,7 +14,7 @@
 			<a href="#"><li>회원등급</li></a>
 			<a href="#"><li>회원평가</li></a>
 			<a href="${contextPath}/member/updateMember.do"><li>내 정보 변경</li></a>
-			<a href="#"><li>회원탈퇴</li></a>
+			<a href="${contextPath}/member/deleteMember.do"><li>회원탈퇴</li></a>
 		</ul>
 		<li>포인트 관리</li>
 		<ul class="mb-3">

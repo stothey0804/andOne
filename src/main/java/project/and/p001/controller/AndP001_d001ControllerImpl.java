@@ -27,22 +27,13 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		System.out.println(">>>>>>>>>g_id: "+g_id);
 		//최근 등록된 같이먹기 + 해쉬태그
 		List<AndP001AndOneVO> recentAndOneList = p001_d001Service.recentAndOneList(g_id); //최근등록된 같이먹기
-		List<AndP001AndOneVO> ctg_eat = p001_d001Service.searchCtg(g_id); //카테고리
+		List<AndP001AndOneVO> ctg_eat = p001_d001Service.searchCtg(g_id); //카테고리설정
 		
-		ModelAndView mav = new ModelAndView();
-		if(g_id == "010") {
-			mav.setViewName("andOneEatMain");
-			mav.addObject("recentAndOneList", recentAndOneList);
-			mav.addObject("ctg_eat",ctg_eat);
-		}else if(g_id == "011") {
-			mav.setViewName("andOneBuyMain");
-			mav.addObject("recentAndOneList", recentAndOneList);
-			mav.addObject("ctg_eat",ctg_eat);
-		}else {
-			mav.setViewName("andOneDoMain");
-			mav.addObject("recentAndOneList", recentAndOneList);
-			mav.addObject("ctg_eat",ctg_eat);
-		}
+		ModelAndView mav = new ModelAndView("andOneMain");
+		mav.addObject("g_id",g_id);
+		mav.addObject("ctg_eat",ctg_eat);
+		mav.addObject("recentAndOneList", recentAndOneList);
+		
 		return mav;
 	}
 	
@@ -57,19 +48,19 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		String g_id = vo.getG_id();
 		System.out.println(">>>>>>>>>>one_category:" +one_category);
 		System.out.println(">>>>>>>>>>g_id:" +g_id);
+		List<AndP001AndOneVO> ctg_eat = p001_d001Service.searchCtg(g_id); //카테고리설정
 		List<AndP001AndOneVO> ctgSearchList = p001_d001Service.ctgSearchList(vo);//카테고리 검색
-		List<AndP001AndOneVO> ctg_eat = p001_d001Service.searchCtg(g_id); //카테고리
+		
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+vo.getOne_date());
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("ctgSearchList", ctgSearchList);
+		mav.addObject("g_id",g_id);
 		mav.addObject("ctg_eat",ctg_eat);
-		if(g_id == "010") {
-			mav.setViewName("eatCtgSearch");
-		}else if(g_id == "011") {
-			mav.setViewName("buyCtgSearch");
-		}else {
-			mav.setViewName("doCtgSearch");
-		}
+		mav.addObject("ctgSearchList", ctgSearchList);
+		mav.addObject("size",ctgSearchList.size());
+		mav.setViewName("eatCtgSearch");
+		
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ctgSearchList.size());
 		return mav;
 	}
 	

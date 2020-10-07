@@ -15,13 +15,97 @@
 		<result property="m_joindate" column="m_joindate"  />
 		<result property="m_img" column="m_img" javaType="[B" jdbcType="BLOB" />
 		<result property="m_editor" column="m_editor"  />
-		<result property="m_editdate" column="m_editdate"  />
+		<result property="m_editdate" column="m_editdate"  />  
 		<result property="m_score" column="m_score"  />
 	</resultMap>
-	<resultMap id="clobMap" type="java.util.HashMap">
+	
+	<resultMap id="clobMap" type="java.util.Map">
 		<result property="m_img" column="m_img" javaType="[B" jdbcType="BLOB" />
 	</resultMap>
+	<!-- 어드민 조회용 -->
+	<resultMap id="p001Result02" type="memberP001_d006VO">
+		<result property="m_id" column="m_id" />
+		<result property="m_phonenumber" column="m_phonenumber" />
+		<result property="m_email" column="m_email" />
+		<result property="m_gender" column="m_gender" />
+		<result property="m_nickname" column="m_nickname" />
+		<result property="m_age" column="m_age" />
+		<result property="m_score" column="m_score" />
+		<result property="reportCnt" column="reportCnt" />
+		<result property="p_currentpoint" column="p_currentpoint" />
+		<result property="qnaCnt" column="qnaCnt" />
+		<result property="joinClubCnt" column="joinClubCnt" />
+		<result property="reviewCnt" column="reviewCnt" />
+		<result property="m_joinDate" column="m_joinDate" />
+		<result property="m_locate" column="m_locate" />
+		<result property="m_pwd" column="m_pwd" />
+		<result property="m_editor" column="m_editor" />
+		<result property="m_editdate" column="m_editdate" />
+		<result property="searchKeyword" column="searchKeyword" />
+		<result property="searchCondition" column="searchCondition" />
+		
+	</resultMap>
+	<resultMap id="p001Result03" type="memberP001_d006ListVO">
+		<collection property="list" column ="p_id" select="getPointList"/>		
+	</resultMap>
 
+	<!-- 어드민 영역 START -->
+	<select id="detailMember" resultMap="p001Result02">
+      <![CDATA[
+         SELECT m_id,m_phonenumber,m_email,m_gender,m_nickname,m_age,m_score,
+		(
+ 		SELECT a.p_currentpoint
+		from point a
+		where a.m_id =#{m_id}
+		and a.p_date in (select max(p.p_date) from point p)) as p_currentpoint,
+         (select count(m_id) 
+		from report_member
+		where m_id = #{m_id}) as reportCnt,
+		(select count(a.m_id)+count(b.m_id)
+		from qna a, report b
+		where a.m_id = b.m_id
+		and a.m_id =#{m_id}) as qnaCnt,
+		(select count(m_id)
+		from c_member
+		where m_id = #{m_id}) as joinClubCnt,
+		(select count(m_id)
+		from m_review
+		where m_id = #{m_id}) as reviewCnt
+         FROM member
+         where m_id = #{m_id}
+          ]]>
+	</select>
+	<select id="getPointList" resultMap="p001Result03">
+           <![CDATA[
+         select a.one_date,a.one_title,b.p_changepoint,a.one_state
+         from and_one a inner join point b
+         on a.one_id = b.p_detail
+         where b.m_id= #{m_id}
+         order by b.p_date desc
+      ]]>
+	</select>
+	
+	<select id="getMemberList" resultMap="p001Result02">
+		<![CDATA[
+			SELECT M_ID, M_EMAIL, M_NICKNAME, M_PHONENUMBER, M_JOINDATE
+			FROM MEMBER
+			WHERE 1=1
+		]]>
+		<if test="searchCondition=='EMAIL'">
+		<![CDATA[
+			AND M_EMAIL LIKE '%'||#{searchKeyword}||'%'
+		]]>
+		</if>
+		<if test="searchCondition=='NICKNAME'">
+		<![CDATA[
+			AND M_NICKNAME LIKE '%'||#{searchKeyword}||'%'
+		]]>
+		</if>
+		<![CDATA[
+			ORDER BY M_JOINDATE DESC
+		]]>
+	</select>
+	<!-- 어드민영역 END  -->
    	<select id="selectOverlapEmail" resultType="String" parameterType="String">
    		<![CDATA[
    			select m_email
@@ -29,6 +113,7 @@
 			where m_email like #{email}
    		]]>
    	</select>
+   	
    	<select id="selectOverlapPhone" resultType="String" parameterType="String">
  		<![CDATA[
    			select m_phonenumber
@@ -69,6 +154,24 @@
    		]]>
    	</select>
    	
+   	<!-- 아이디기준 회원조회 -->
+ 	<select id="selectMemberById" resultMap="p001Result" parameterType="String">
+   		<![CDATA[
+	   		SELECT m_id, m_email, m_pwd, m_phonenumber, m_nickname, m_gender, m_age
+	   		FROM member
+	   		WHERE m_id like #{id}
+   		]]>
+   	</select>
+   	
+   	<!-- 비밀번호 찾기 사용시 -->
+ 	<select id="selectIdPwdByEmail" resultType="java.util.HashMap" parameterType="String">
+   		<![CDATA[
+	   		SELECT m_id, m_pwd
+	   		FROM member
+	   		WHERE m_email like #{email}
+   		]]>
+   	</select>
+   	
    	<!-- 회원 비밀번호 조회 -->
  	<select id="selectPwdById" resultType="String" parameterType="String">
    		<![CDATA[
@@ -76,6 +179,34 @@
 	   		FROM member
 	   		WHERE m_id like #{id}
    		]]>
+   	</select>
+   	
+   	<!-- 주소정보 업데이트  -->
+   	<update id="updateMemberLocate" parameterType="java.util.Map">
+		<![CDATA[
+			UPDATE member
+    		SET m_locate = #{m_locate},
+	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+    		WHERE m_id = #{m_id}
+   		]]>
+   	</update>
+   	<!-- 비밀번호 업데이트  -->
+   	<update id="updateMemberPwd" parameterType="java.util.Map">
+		<![CDATA[
+			UPDATE member
+    		SET m_pwd = #{m_pwd},
+	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+    		WHERE m_id = #{m_id}
+   		]]>
+   	</update>
+   	
+   	<!-- 주소정보 조회 -->
+   	<select id="selectMemberLocate" resultType="String" parameterType="String">
+ 		<![CDATA[
+   			select m_locate
+			from member
+			where m_id like #{m_id}
+ 		]]>
    	</select>
    	
    	<!-- 프로필 이미지 업데이트 -->
@@ -87,6 +218,7 @@
     		WHERE m_id = #{m_id}
    		]]>
    	</update>
+   	
    	<select id="getByteImage" resultMap="clobMap" parameterType="String">
 	   	<![CDATA[
 	   		SELECT m_img
@@ -94,5 +226,13 @@
 	   		WHERE m_id = #{m_id}
 	   	]]>
    	</select>
+   	
+   	<!-- 회원탈퇴(삭제) -->
+   	<delete id="deleteMember" parameterType="String">
+	   	<![CDATA[
+	   		DELETE FROM member
+	   		WHERE m_id = #{m_id}
+	   	]]>
+   	</delete>
    	
  	</mapper>

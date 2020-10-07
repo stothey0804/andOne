@@ -28,6 +28,15 @@
 	    height: 100%;
 	    object-fit: cover;
 	}
+	.filebox input[type="file"] {
+	    position: absolute;
+	    width: 0;
+	    height: 0;
+	    padding: 0;
+	    overflow: hidden;
+	    border: 0;
+	}
+
 </style>
 
 <!-- JQuery -->
@@ -143,13 +152,17 @@
 		    	<div class="mb-2 row">
 		    		<label for="profileImage" class="col-lg-3 col-sm-12 col-form-label">프로필이미지</label>
 		    		<div class="form-group col-lg-7 col-sm-12">
-   		          		<div class="input-box" style="background: #BDBDBD;">
+   		          		<div class="input-box my-3" style="background: #BDBDBD;">
 <%--    		          		  <img alt="" src="data:image/jpg;base64, ${data}" /> --%>
 <%--     						<img class="profile" src="${contextPath}/member/getByteImage"> --%>
     						<img class="input-profile">
 						</div>
-		    			<input class="form-control" id="inputFile" type="file" name="m_img" value="${member.m_img}">
-		    			<input class="btn btn-secondary mt-2" type="button" value="삭제">
+						<div class="filebox">
+							<label for="inputFile" class="btn btn-primary my-0">업로드</label>
+		    				<input class="btn btn-danger" id="deleteFile"type="button" value="삭제">
+		    				<input class="form-control" id="inputFile" type="file" name="m_img">
+							<input class="upload-name form-control-plaintext" value="" readonly>
+						</div>
 		    		</div>
 		    	</div>
 			<input type="button" class="btn btn-primary btn-lg btn-block mt-4" value="수정" id="sendForm"></input>
@@ -294,6 +307,33 @@
 	            }
 			});
 		}
+		
+		// 이미지 삭제 클릭
+		$("#deleteFile").click(function(){
+			// 기본프로필 사진 적용
+			if(window.confirm("프로필이미지를 삭제하시겠어요?")){
+				$(".input-profile").attr("src","${contextPath}/resources/image/user.png");
+				$.ajax({
+		            type: "post",
+		            async: "true",
+		            dataType: "text",
+		            data: {
+		                id: '${member.m_id}' //data로 넘겨주기
+		            },
+		            url: "${contextPath}/member/deleteUserImage.do",
+		            success: function (data, textStatus) {
+		            	
+		            }
+				});
+			}
+			
+		});
+		
+		// 파일수정시 upload-name 업데이트
+		$("#inputFile").on('change',function(){
+			  var fileName = $("#inputFile").val();
+			  $(".upload-name").val(fileName);
+		});
 		
 		// 수정 클릭 시 *
 		$("#sendForm").click(function(){

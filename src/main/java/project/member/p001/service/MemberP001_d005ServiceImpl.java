@@ -33,6 +33,11 @@ public class MemberP001_d005ServiceImpl implements MemberP001_d005Service{
 	public Map<String, Object> getByteImage(String m_id) {
 		return memberP001_d005DAO.getByteImage(m_id);
 	}
+
+	@Override
+	public MemberP001_MemberVO selectMemberById(String id) {
+		return memberP001_d005DAO.selectMemberById(id);
+	}
 	
 	
 }

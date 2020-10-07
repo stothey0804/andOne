@@ -23,7 +23,8 @@
 	<select id="selectRecentList" parameterType="String" resultType="AndP001AndOneVO">
       <![CDATA[
       	select  a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
-       			a.one_totalPrice/a.one_memberMax as one_price, to_char(to_date(a.one_date),'hh:mi') as one_date,
+       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
+       			to_char(to_date(a.one_date),'mm/dd hh:mi') as one_date,
         		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
 		from and_one a, 
        		 (select gc_name, gc_id, g_id
@@ -51,7 +52,8 @@
 	<select id="selctCtgList" parameterType="String" resultType="AndP001AndOneVO">
       <![CDATA[
       	select  a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
-       			a.one_totalPrice/a.one_memberMax as one_price, to_char(to_date(a.one_date),'hh:mi') as one_date,
+       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
+       			to_char(to_date(a.one_date),'hh:mi') as one_date,
         		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
 		from and_one a, 
        		 (select gc_name, gc_id, g_id

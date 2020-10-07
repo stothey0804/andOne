@@ -38,7 +38,7 @@
 	            </a>
 	          </li>
 	          <li class="nav-item">
-	            <a class="nav-link" href="#">
+	            <a class="nav-link" href="${contextPath}/admin/searchMemberList.do">
 	              	일반회원 조회
 	            </a>
 	          </li>
