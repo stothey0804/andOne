@@ -155,7 +155,7 @@
 <body>
 	<!-- 리스트영역  -->
 	<div class="p-3 pt-5">
-		<form action="getMemberList.do" method="post">
+		<form action="searchMemberList.do" method="post">
 				<table border="0">
 					<tr>
 						<td width="500"></td>
