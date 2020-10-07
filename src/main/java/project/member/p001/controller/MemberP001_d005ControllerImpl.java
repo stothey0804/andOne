@@ -115,7 +115,8 @@ public class MemberP001_d005ControllerImpl implements MemberP001_d005Controller{
 	@Override
 	@RequestMapping(value="/saveMember.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String saveMemberInfo(MemberP001_MemberVO member, HttpServletRequest request) {
-		String resultView = "p001_d005_update";
+		String resultView = "mypage";	// 마이페이지로
+		System.out.println("==========>"+member.toString());
 		// 패스워드 암호화 세팅
 		if(!"".equals(member.getM_pwd())) {
 			String parsePwd = BCrypt.hashpw(member.getM_pwd(), BCrypt.gensalt());
@@ -142,7 +143,7 @@ public class MemberP001_d005ControllerImpl implements MemberP001_d005Controller{
 		if(result==1) {	// 추가 성공시
 			// 세션 정보업데이트
 			HttpSession session = request.getSession(false);
-			session.setAttribute("member", member);
+			session.setAttribute("m_nickname", member.getM_nickname());
 			// 세션 프로필 이미지 set
 			String profileImg = Common.encodeBlobImage(member.getM_id(), memberP001_d005Service);
 			session.setAttribute("profileImg", profileImg);
