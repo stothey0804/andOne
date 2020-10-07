@@ -44,8 +44,8 @@
 <script>
 	// 초기화시, 선택정보 영역 set
 	$(document).ready(function(){
-		var gender = ${member.m_gender};
-		var age = ${member.m_age};
+		var gender = '${member.m_gender}';
+		var age = '${member.m_age}';
 		// gender 정보 존재시 체크
 		if(gender!=null || gender!=''){
 			if(gender==10){

@@ -20,7 +20,7 @@
 	
 	<select id="nextC_id" resultType="string">
 		<![CDATA[
-			select club_seq.nextval from dual -->
+			select club_seq.nextval from dual
            ]]> 
 	</select>
 	

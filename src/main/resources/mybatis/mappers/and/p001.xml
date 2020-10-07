@@ -49,7 +49,7 @@
       ]]>
 	</select>
 	<!-- 카테고리별 검색 -->
-	<select id="selctCtgList" parameterType="String" resultType="AndP001AndOneVO">
+	<select id="selectCtgList" parameterType="String" resultType="AndP001AndOneVO">
       <![CDATA[
       	select  a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
        			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
@@ -69,6 +69,7 @@
 		order by to_number(a.one_id) desc
       ]]>
 	</select>
+	
 	
 	
 	

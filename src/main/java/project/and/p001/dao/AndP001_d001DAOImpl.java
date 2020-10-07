@@ -27,11 +27,19 @@ public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 		selectCtg = sqlSession.selectList("and.p001.selectCtg",g_id);
 		return selectCtg;
 	}
+	//카테고리 검색
 	@Override
-	public List selctCtgList(AndP001AndOneVO vo) throws DataAccessException{
-		List<AndP001AndOneVO> selctCtgList = null;
-		selctCtgList = sqlSession.selectList("and.p001.selctCtgList",vo);
-		return selctCtgList;
+	public List selectCtgList(AndP001AndOneVO vo) throws DataAccessException{
+		List<AndP001AndOneVO> selectCtgList = null;
+		selectCtgList = sqlSession.selectList("and.p001.selectCtgList",vo);
+		return selectCtgList;
+	}
+	//전체검색
+	@Override
+	public List selectTotalSearchList(String totalSearch) throws DataAccessException{
+		List<AndP001AndOneVO> selectTotalSearchList = null;
+		selectTotalSearchList = sqlSession.selectList("and.p001.selectTotalSearchList",totalSearch);
+		return selectTotalSearchList;
 	}
 	
 	

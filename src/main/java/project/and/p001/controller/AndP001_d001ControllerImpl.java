@@ -39,19 +39,20 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	
 	//&분의 일 같이먹기 List
 	//1.전체검색
+	//2.카테고리검색
 	//3.해쉬태그검색
 	@Override
 	@RequestMapping(value="/and*/searchAndOne.do")
-	public ModelAndView searchList_eat(@ModelAttribute AndP001AndOneVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		//2.카테고리검색
+	public ModelAndView searchList_eat(@ModelAttribute AndP001AndOneVO vo, @RequestParam("totalSearch") String totalSearch, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//1.전체검색
 		String one_category = vo.getOne_category();
 		String g_id = vo.getG_id();
 		System.out.println(">>>>>>>>>>one_category:" +one_category);
 		System.out.println(">>>>>>>>>>g_id:" +g_id);
 		List<AndP001AndOneVO> ctg_eat = p001_d001Service.searchCtg(g_id); //카테고리설정
-		List<AndP001AndOneVO> ctgSearchList = p001_d001Service.ctgSearchList(vo);//카테고리 검색
+		List<AndP001AndOneVO> totalSearchList = p001_d001Service.totalSearchList(totalSearch);
+		List<AndP001AndOneVO> ctgSearchList = p001_d001Service.ctgSearchList(vo);//>>>>>>>카테고리 검색
 		
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+vo.getOne_date());
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("g_id",g_id);
@@ -60,7 +61,6 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		mav.addObject("size",ctgSearchList.size());
 		mav.setViewName("eatCtgSearch");
 		
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ctgSearchList.size());
 		return mav;
 	}
 	

@@ -10,4 +10,5 @@ public interface AndP001_d001Service {
 	public List recentAndOneList(String g_id) throws DataAccessException;
 	public List searchCtg(String g_id) throws DataAccessException;
 	public List ctgSearchList(AndP001AndOneVO vo) throws DataAccessException;
+	public List totalSearchList(String totalSearch) throws DataAccessException;
 }

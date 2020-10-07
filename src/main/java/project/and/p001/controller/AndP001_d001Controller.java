@@ -10,6 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 import project.and.p001.vo.AndP001AndOneVO;
 
 public interface AndP001_d001Controller{
-	public ModelAndView search_eat(@RequestParam("g_id") String g_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView searchList_eat(@ModelAttribute AndP001AndOneVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView search_eat(String g_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView searchList_eat(AndP001AndOneVO vo, String totalSearch, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

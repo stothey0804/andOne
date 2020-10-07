@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import project.club.p002.service.ClubP002_d001Service;
-import project.club.vo.ClubP001_d001VO;
+import project.club.vo.ClubVO;
 
 @Controller
 public class ClubP002_d001ControllerImpl implements ClubP002_d001Controller{
@@ -28,7 +28,7 @@ public class ClubP002_d001ControllerImpl implements ClubP002_d001Controller{
 	
 	@Override
 	@RequestMapping(value="/createClub.do",method= {RequestMethod.POST,RequestMethod.GET})
-	public String createClub(ClubP001_d001VO vo, HttpSession session) throws Exception {
+	public String createClub(ClubVO vo, HttpSession session) throws Exception {
 		Map<String, Object> insertMap = new HashMap<String, Object>();
 		insertMap.put("c_name", vo.getC_name());
 		System.out.println();

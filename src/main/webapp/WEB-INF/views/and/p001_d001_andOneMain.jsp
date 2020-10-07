@@ -64,9 +64,9 @@
 	<div style="width:350px; margin: 0 auto">
 	<c:choose>
 		<c:when test="${g_id == '010'}">
-			<form name="eat" class="form-inline" method="get" action="${contextPath}/andeat/searchAndOne.do">
+			<form name="eat" class="form-inline" method="get" action="${contextPath}/andeat/searchAndOne.do?g_id=${g_id}">
 				<div class="form-group mx-sm-3 mb-2">
-					<input class="form-control" type ="text" placeholder="카테고리/지역/제목">
+					<input class="form-control" type ="text" name="totalSearch" placeholder="카테고리/지역/제목">
 				</div>
 					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
 			</form>
@@ -75,7 +75,7 @@
 				</c:url> 
 		</c:when>
 		<c:when test="${g_id == '011'}">
-			<form name="eat" class="form-inline" method="get" action="${contextPath}/andbuy/searchAndOne.do">
+			<form name="eat" class="form-inline" method="get" action="${contextPath}/andbuy/searchAndOne.do?g_id=${g_id}">
 				<div class="form-group mx-sm-3 mb-2">
 					<input class="form-control" type ="text" placeholder="카테고리/지역/제목">
 				</div>
@@ -86,7 +86,7 @@
 				</c:url> 
 		</c:when>
 		<c:when test="${g_id == '012'}">
-			<form name="eat" class="form-inline" method="get" action="${contextPath}/anddo/searchAndOne.do">
+			<form name="eat" class="form-inline" method="get" action="${contextPath}/anddo/searchAndOne.do?g_id=${g_id}">
 				<div class="form-group mx-sm-3 mb-2">
 					<input class="form-control" type ="text" placeholder="카테고리/지역/제목">
 				</div>
@@ -105,7 +105,7 @@
 			<c:when test="${g_id == '010'}">
 				<div style="width:650px; margin: 0 auto">
 				<c:forEach var ="ctg" items="${ctg_eat}" > 
-				<button type="button" class="btn btn-outline-dark mb-3" onclick="location.href='${contextPath}/andeat/searchAndOne.do?one_category=${ctg.gc_id}&g_id=010'">${ctg.gc_name}</button>
+				<button type="button" class="btn btn-outline-dark mb-3" onclick="location.href='${contextPath}/andeat/searchAndOne.do?one_category=${ctg.gc_id}&g_id=${g_id}'">${ctg.gc_name}</button>
 				</c:forEach>
 				</div>
 			</c:when>

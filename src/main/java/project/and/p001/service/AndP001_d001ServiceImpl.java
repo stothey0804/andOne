@@ -34,8 +34,15 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 	@Override
 	public List ctgSearchList(AndP001AndOneVO vo) throws DataAccessException{
 		List<AndP001AndOneVO> ctgSearchList = null;
-		ctgSearchList = p001_d001DAO.selctCtgList(vo);
+		ctgSearchList = p001_d001DAO.selectCtgList(vo);
 		return ctgSearchList;
+	}
+	//전체검색
+	@Override
+	public List totalSearchList(String totalSearch) throws DataAccessException{
+		List<AndP001AndOneVO> totalSearchList = null;
+		totalSearchList = p001_d001DAO.selectTotalSearchList(totalSearch);
+		return totalSearchList;
 	}
 	
 }
