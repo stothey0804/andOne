@@ -26,7 +26,8 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 	
 	@Override      //소모임 메인페이지
 	@RequestMapping(value="/club/clubMain.do",method= {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView clubMain(@RequestParam(value="m_id", required=false) String m_id, HttpSession session) throws Exception{
+	public ModelAndView clubMain(HttpSession session) throws Exception{
+		String m_id = (String) session.getAttribute("m_id");
 		//상위 멤버수 소모임 리스트
 		List<ClubVO> clubList = clubP001_d001Service.clubList();
 		//나의 소모임 리스트

@@ -131,14 +131,14 @@
 	<definition name="clubMain"  template="/WEB-INF/views/common/layout.jsp">
       <put-attribute name="title" value="소모임 메인" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
-      <put-attribute name="body" value="/WEB-INF/views/club/p001/clubMain.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p001/p001_d001_clubMain.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
 	<!-- 소모임 상세페이지-->
 	<definition name="detailClub"  template="/WEB-INF/views/common/layout.jsp">
       <put-attribute name="title" value="소모임 상세" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
-      <put-attribute name="body" value="/WEB-INF/views/club/p001/detailClub.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p001/p001_d001_detailClub.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
    
@@ -146,7 +146,7 @@
    <definition name="searchList"  template="/WEB-INF/views/common/layout.jsp">
       <put-attribute name="title" value="소모임 검색결과" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
-      <put-attribute name="body" value="/WEB-INF/views/club/p001/searchList.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p001/p001_d001_search.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
    
@@ -154,7 +154,7 @@
    <definition name="createClub"  template="/WEB-INF/views/common/layout.jsp">
       <put-attribute name="title" value="소모임 만들기" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
-      <put-attribute name="body" value="/WEB-INF/views/club/p002/createClub.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p002/p002_d001_insert.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
    
@@ -162,7 +162,7 @@
    <definition name="writeArticleForm"  template="/WEB-INF/views/common/layout.jsp">
       <put-attribute name="title" value="소모임 게시글 쓰기" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
-      <put-attribute name="body" value="/WEB-INF/views/club/p003/writeArticle.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p003/p003_d001_insert.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
    
@@ -170,7 +170,7 @@
    <definition name="editArticle"  template="/WEB-INF/views/common/layout.jsp">
       <put-attribute name="title" value="소모임 게시글 쓰기" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
-      <put-attribute name="body" value="/WEB-INF/views/club/p003/editArticle.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p003/p003_d001_update.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
    

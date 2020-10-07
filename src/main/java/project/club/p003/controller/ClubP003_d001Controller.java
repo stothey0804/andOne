@@ -10,5 +10,5 @@ public interface ClubP003_d001Controller {
 	public ModelAndView writeArticleForm(String c_id) throws Exception;
 	public String writeArticle(ClubArticleVO vo, HttpServletRequest request) throws Exception;
 	public ModelAndView editArticle(String ca_id) throws Exception;
-	public String deleteClubArticle(String ca_id, String c_id) throws Exception;
+	public void deleteClubArticle(String ca_id, String c_id) throws Exception;
 }

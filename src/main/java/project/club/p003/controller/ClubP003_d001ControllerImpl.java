@@ -31,12 +31,12 @@ public class ClubP003_d001ControllerImpl implements ClubP003_d001Controller{
 	
 	@Override		//게시글 삭제
 	@RequestMapping(value="/deleteClubArticle.do",method= {RequestMethod.GET})
-	public String deleteClubArticle(@RequestParam(value="ca_id",required = false) String ca_id,@RequestParam(value="c_id",required = true) String c_id) throws Exception {
+	public void deleteClubArticle(@RequestParam(value="ca_id",required = false) String ca_id,@RequestParam(value="c_id",required = true) String c_id) throws Exception {
+		System.out.println("****************");
 		System.out.println(ca_id);
 		Map<String, Object> searchMap = new HashMap<String, Object>();
 		searchMap.put("ca_id", ca_id);
 		clubP003_d001Service.deleteClubArticle(searchMap);
-		return "redirect:/detailClub.do?c_id="+c_id;
 	}
 
 	@Override		//게시글 작성폼
