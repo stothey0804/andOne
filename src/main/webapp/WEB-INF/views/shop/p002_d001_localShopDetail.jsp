@@ -23,6 +23,11 @@
 	font-style: normal;
 }
 
+i{
+	color:rgb(237, 237, 237);
+	font-size:500%;
+}
+
 h3 {
 	font-family: 'YanoljaYacheR' !important;
 	font-size: 200%;
@@ -79,6 +84,42 @@ a:hover {
 	z-index: 10;
 }
 
+#imgPop {
+	background:#e6e6e6;
+	border:1px solid #000;
+	position: fixed;
+	top: 15%;
+	left: 25%;
+	width: auto;
+	height: auto;
+	z-index: 10;
+}
+
+#imgPop #close{
+	top:10px;
+	right: 10px;
+	position: absolute;
+	z-index:9999;
+}
+
+#imgPop #prev{
+  	top: 50%;
+	left: 10px;
+	position: absolute;
+	z-index:9999;
+	margin: 0;
+  	transform: translate(-50%, -50%)
+}
+
+#imgPop #next{
+	top: 50%;
+	right: -40px;
+	position: absolute;
+	z-index:9999;
+	margin: 0;
+  	transform: translate(-50%, -50%)
+}
+
 </style>
 
 <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
@@ -88,8 +129,48 @@ a:hover {
 	
 	$(document).ready(function(){
 		$('#pop').hide();
+		$('#imgPop').hide();
+		$('div#close').click(function(){
+			$('#imgPop').hide();
+		})
+		$('div#prev').click(function(){
+			prev();
+		})
+		$('div#next').click(function(){
+			next();
+		})
 		getShopDetail();
 	})
+	
+	function prev(){
+		let imgId = $('#imgPopContent img').attr('id');
+		let idArr = imgId.split('-split-');
+		let m_id = idArr[0];
+		let idx = idArr[1];
+		let length = idArr[2];
+		if(idx != 0){
+			idx--;
+			let path = '#'+m_id+'-split-'+idx+'-split-'+length;
+			let src = $(path).attr('src');
+			let id = $(path).attr('id');
+			$('#imgPopContent').html('<img src="'+src+'" id="'+id+'" width="720">');
+		}
+	}
+	
+	function next(){
+		let imgId = $('#imgPopContent img').attr('id');
+		let idArr = imgId.split('-split-');
+		let m_id = idArr[0];
+		let idx = idArr[1];
+		let length = idArr[2];
+		if(idx != length){
+			idx++;
+			let path = '#'+m_id+'-split-'+idx+'-split-'+length;
+			let src = $(path).attr('src');
+			let id = $(path).attr('id');
+			$('#imgPopContent').html('<img src="'+src+'" id="'+id+'" width="720">');
+		}
+	}
 	
 	function popup(p1, p2){
 		$('#pop').show();
@@ -111,9 +192,11 @@ a:hover {
 				output += 		'<td align="center" height="80" width="80">';
 				output += 			'<div style="margin: 2px">';
 				output +=				'<div class="card" style="width: 4rem;">';
-				output +=					'<a href="#">';
-				output +=						'<img src="${contextPath }/resources/image/basicProfileImg.png" class="card-img-top" alt="...">';
-				output +=					'</a>';
+				if(jsonInfo.m_encodedImg == null){
+					output += '<img src="${contextPath }/resources/image/basicProfileImg.png" class="card-img-top" alt="...">';
+				}else{
+					output += '<img src="data:image/jpg;base64,'+jsonInfo.m_encodedImg+'" class="card-img-top" alt="...">';
+				}
 				output +=				'</div>';
 				output +=			'</div>';
 				output +=		'</td>';
@@ -135,16 +218,15 @@ a:hover {
 				for(let j=0; j<Object.keys(jsonInfo.shopReviewImage).length; j++){
 					output += 		'<div style="margin: 5px">';
 					output += 			'<div class="card" style="width: 5rem;">';
-					output += 				'<a href="#">';
-					output += 					'<img src="https://via.placeholder.com/50" class="card-img-top" alt="...">';
-					output += 				'</a></div></div>';
-				}
-				for(let j=0; j<3 - Object.keys(jsonInfo.shopReviewImage).length; j++){
-					output += 		'<div style="margin: 5px">';
-					output += 			'<div class="card" style="width: 5rem;">';
-					output += 				'<img src="${contextPath }/resources/image/ina.png" class="card-img-top" alt="...">';
+					output += 				'<img src="data:image/jpg;base64,'+jsonInfo.shopReviewImage[j].ri_encodedImg+'" id="'+jsonInfo.m_id+'-split-'+j+'-split-'+(Object.keys(jsonInfo.shopReviewImage).length-1)+'" class="card-img-top clickImg" alt="...">';
 					output += 			'</div></div>';
 				}
+// 				for(let j=0; j<3 - Object.keys(jsonInfo.shopReviewImage).length; j++){
+// 					output += 		'<div style="margin: 5px">';
+// 					output += 			'<div class="card" style="width: 5rem;">';
+// 					output += 				'<img src="${contextPath }/resources/image/ina.png" class="card-img-top" alt="...">';
+// 					output += 			'</div></div>';
+// 				}
 				output +=		'</div>'
 				output +=		'</td>';
 				output += 	'</tr>';
@@ -158,7 +240,10 @@ a:hover {
 				alert("에러가 발생했습니다.");
 			},
 			complete: function (data, textStatus) {
-				
+				$('img.clickImg').click(function(){
+					$('#imgPopContent').html('<img src="'+(this.src)+'" id="'+(this.id)+'" width="720">');
+					$('#imgPop').show();
+				})
 			}
 		});
 	}
@@ -198,16 +283,15 @@ a:hover {
 				for(let i=0; i<imageCount; i++){
 					shopImage += '<div style="margin: 15px">';
 					shopImage += '<div class="card" style="width: 20rem;">';
-					shopImage += '<a href="#">';
-					shopImage += '<img src="https://via.placeholder.com/150" class="card-img-top" alt="...">';
-					shopImage += '</a></div></div>';
-				}
-				for(let i=0; i<3-imageCount; i++){
-					shopImage += '<div style="margin: 15px">';
-					shopImage += '<div class="card" style="width: 20rem;">';
-					shopImage += '<img src="${contextPath }/resources/image/ina.png" class="card-img-top" alt="...">';
+					shopImage += '<img src="data:image/jpg;base64,'+jsonInfo.shopImage[i].si_encodedImg+'"id="'+jsonInfo.s_id+'-split-'+i+'-split-'+(Object.keys(jsonInfo.shopImage).length-1)+'" class="card-img-top clickImg" alt="...">';
 					shopImage += '</div></div>';
 				}
+// 				for(let i=0; i<3-imageCount; i++){
+// 					shopImage += '<div style="margin: 15px">';
+// 					shopImage += '<div class="card" style="width: 20rem;">';
+// 					shopImage += '<img src="${contextPath }/resources/image/ina.png" class="card-img-top" alt="...">';
+// 					shopImage += '</div></div>';
+// 				}
 				shopImage += '</div>';
 				
 				shopInformation += '<table><tr><td width="500" height="70">';
@@ -227,23 +311,26 @@ a:hover {
 					reviewList += '<div style="margin: 10px">';
 					reviewList += '<div class="card" style="width: 5rem;">';
 					reviewList += '<a href="#">';
-					reviewList += '<img src="${contextPath }/resources/image/basicProfileImg.png" class="card-img-top" alt="...">';
+					if(jsonInfo.shopReviewList[i].m_encodedImg == null){
+						reviewList += '<img src="${contextPath }/resources/image/user.png" class="card-img-top" alt="...">';
+					}else{
+						reviewList += '<img src="data:image/jpg;base64,'+jsonInfo.shopReviewList[i].m_encodedImg+'" class="card-img-top" alt="...">';
+					}
 					reviewList += '</a></div></div></td>';
 					reviewList += '<td class="clickArea" id="'+jsonInfo.shopReviewList[i].m_id+'"width="680">'+jsonInfo.shopReviewList[i].m_nickname+'</td>';
+					for(let j=0; j<3 - Object.keys(jsonInfo.shopReviewList[i].shopReviewImage).length; j++){
+						reviewList += '<td rowspan="3" width="80">';
+						reviewList += '<div style="margin: 5px">';
+						reviewList += '<div style="width: 5rem;">';
+						reviewList += '<img src="${contextPath}/resources/image/nbsp_img.png" class="card-img-top" alt="...">';
+						reviewList += '</div></div>';
+						reviewList += '</td>';
+					}
 					for(let j=0; j<Object.keys(jsonInfo.shopReviewList[i].shopReviewImage).length; j++){
 						reviewList += '<td rowspan="3" width="80">';
 						reviewList += '<div style="margin: 5px">';
 						reviewList += '<div class="card" style="width: 5rem;">';
-						reviewList += '<a href="#">';
-						reviewList += '<img src="https://via.placeholder.com/50" class="card-img-top" alt="...">';
-						reviewList += '</a></div></div>';
-						reviewList += '</td>';
-					}
-					for(let j=0; j<3 - Object.keys(jsonInfo.shopReviewList[i].shopReviewImage).length; j++){
-						reviewList += '<td rowspan="3" width="80">';
-						reviewList += '<div style="margin: 5px">';
-						reviewList += '<div class="card" style="width: 5rem;">';
-						reviewList += '<img src="${contextPath }/resources/image/ina.png" class="card-img-top" alt="...">';
+						reviewList += '<img src="data:image/jpg;base64,'+jsonInfo.shopReviewList[i].shopReviewImage[j].ri_encodedImg+'" id="'+jsonInfo.shopReviewList[i].m_id+'-split-'+j+'-split-'+(Object.keys(jsonInfo.shopReviewList[i].shopReviewImage).length-1)+'" class="card-img-top clickImg" alt="...">';
 						reviewList += '</div></div>';
 						reviewList += '</td>';
 					}
@@ -266,10 +353,14 @@ a:hover {
 				alert("에러가 발생했습니다.");
 			},
 			complete: function (data, textStatus) {
+				$('img.clickImg').click(function(){
+					console.log(this.id);
+					$('#imgPopContent').html('<img src="'+(this.src)+'" id="'+(this.id)+'" width="720">');
+					$('#imgPop').show();
+				})
 				recommend();
 			}
 		});
-		
 	}
 	
 	function recommend(){
@@ -301,19 +392,18 @@ a:hover {
 						output += "<div style='margin: 20px'>";
 						output += "<div class='card' style='width: 18rem;'>";
 						output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
-						output += "<img src='https://via.placeholder.com/150' class='card-img-top'alt='...'></a>";
+						if(Object.keys(jsonInfo[i].shopImage).length != 0){
+							output += "<img src='data:image/jpg;base64,"+jsonInfo[i].shopImage[0].si_encodedImg+"' class='card-img-top'alt='...'>";
+						}else{
+							output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top'alt='...'>";
+						}
+						output += "</a>";
 						output += "<div class='card-body'><h5 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>"+jsonInfo[i].s_name+"</a></h5>";
 						output += "<p class='card-text'>"+jsonInfo[i].s_locate+"</p></div>";
 						output += "<div class='card-body' id='review'>";
 						output += "<p class='card-text'>";
 						output += "<a href='#'>후기 "+jsonInfo[i].reviewCount+"건</a><br>";
-						if(Object.keys(jsonInfo[i].shopReviewList).length == 0){
-							output += "아직 남겨진 리뷰가 없어요~</p></div></div></div>";
-						}else{
-							output += "<a href='#'>"+jsonInfo[i].shopReviewList[0].m_nickname+"</a>님의 후기 <br>";
-							output += jsonInfo[i].shopReviewList[0].sr_score+"<br>";
-							output += jsonInfo[i].shopReviewList[0].sr_content+"</p></div></div></div>";
-						}
+						output += "별점 : "+jsonInfo[i].s_score+"</p></div></div></div>";
 					}
 					output += "</div>";
 				}
@@ -365,6 +455,15 @@ a:hover {
 		<div id='popContent' style="height:530px;">
 			
 		</div>
+	</div>
+	
+	<div id='imgPop'>
+		<div id='close'><img width='30' height='30' src='${contextPath }/resources/image/close2.png'></div>
+		<div id='imgPopContent' style="width:auto;">
+		
+		</div>
+		<div id='prev'><i class="fas fa-chevron-left"></i></div>
+		<div id='next'><i class="fas fa-chevron-right"></i></div>
 	</div>
 </body>
 

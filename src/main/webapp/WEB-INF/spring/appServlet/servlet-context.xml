@@ -43,7 +43,7 @@
 	<mvc:view-controller path="/smartEditor2" view-name="editor/SmartEditor2" />
 	<mvc:view-controller path="/chat" view-name="chat/chat-ws" />
 
-	<context:component-scan base-package="project" />
+	<context:component-scan base-package="project,common" />
 
 	<beans:bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">

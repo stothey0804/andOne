@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.google.gson.JsonObject;
 
+import common.Common;
+import common.dao.CommonDAO;
+import common.service.CommonService;
 import project.member.p002.service.MemberP002_d001Service;
 
 @Controller
@@ -26,56 +33,18 @@ public class MemberP002_d001ControllerImpl implements MemberP002_d001Controller{
 //	@Autowired
 //	MemberP002_d001Service memberP002_d001Service;
 	
-	@RequestMapping(value="/editor")
-	public String editor() {
-		return "member/p002_d001_insert";
+	@Autowired
+	CommonService commonService;
+	
+	@RequestMapping(value="/qna.do")
+	public ModelAndView insertMemberQnA(HttpServletRequest request) {
+		List<HashMap<String, String>> qTypeList = commonService.searchCommonCodeList("016");	// 016 - 문의유형
+		ModelAndView mav = new ModelAndView(Common.checkLoginDestinationView("p002_d001_insert", request));
+		mav.addObject("qTypeList",qTypeList);
+		return mav;
 	}
 	
-	@RequestMapping(value="/editorFileUpload.do", method = RequestMethod.POST)
-	public String editorFileUpload(HttpServletRequest request, HttpServletResponse response, MultipartHttpServletRequest multiFile) throws Exception{
-		JsonObject json = new JsonObject();
-		PrintWriter printWriter = response.getWriter();
-		response.setContentType("text/html;charset=utf-8");
-		OutputStream out = null;
-		MultipartFile file = multiFile.getFile("upload");
-		if(file!=null) {
-			if(file.getSize() > 0) {
-				if(file.getContentType().toLowerCase().startsWith("image/")) {
-					try {
-						String fileName = file.getName();
-						byte[] bytes = file.getBytes();
-						// 실제경로 얻기
-						String uploadPath = request.getSession().getServletContext().getRealPath("/img");
-						File uploadFile = new File(uploadPath);
-						if(!uploadFile.exists()) {
-							uploadFile.mkdirs();
-						}
-						fileName = UUID.randomUUID().toString();
-						uploadPath += "/" + fileName;
-						out = new FileOutputStream(new File(uploadPath));
-						out.write(bytes);
-						System.out.println("============> "+uploadPath);
-						String fileUrl = request.getContextPath() + "/img/" + fileName;
-						
-						// json 등록
-						json.addProperty("uploaded", 1);
-						json.addProperty("fileName", fileName);
-						json.addProperty("url", fileUrl);
-						// 출력
-						printWriter.println(json);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}finally {
-						if(out!=null) {
-							out.close();
-						}
-						printWriter.close();
-					}
-				}
-			}
-		}
-		return null;
-	}
+
 	
 	
 }

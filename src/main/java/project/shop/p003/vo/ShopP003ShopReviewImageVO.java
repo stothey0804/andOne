@@ -1,6 +1,9 @@
 package project.shop.p003.vo;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class ShopP003ShopReviewImageVO {
@@ -9,8 +12,23 @@ public class ShopP003ShopReviewImageVO {
 	private String ri_editor;
 	private String ri_editdate;
 	private String ri_idx;
-	private byte[] ri_img;
+	private MultipartFile ri_img;
+	private Map<String, Object> ri_imgEncoder;
+	private String ri_encodedImg;
 	
+	
+	public String getRi_encodedImg() {
+		return ri_encodedImg;
+	}
+	public void setRi_encodedImg(String ri_encodedImg) {
+		this.ri_encodedImg = ri_encodedImg;
+	}
+	public Map<String, Object> getRi_imgEncoder() {
+		return ri_imgEncoder;
+	}
+	public void setRi_imgEncoder(Map<String, Object> ri_imgEncoder) {
+		this.ri_imgEncoder = ri_imgEncoder;
+	}
 	public String getS_id() {
 		return s_id;
 	}
@@ -41,10 +59,10 @@ public class ShopP003ShopReviewImageVO {
 	public void setRi_idx(String ri_idx) {
 		this.ri_idx = ri_idx;
 	}
-	public byte[] getRi_img() {
+	public MultipartFile getRi_img() {
 		return ri_img;
 	}
-	public void setRi_img(byte[] ri_img) {
+	public void setRi_img(MultipartFile ri_img) {
 		this.ri_img = ri_img;
 	}
 	
