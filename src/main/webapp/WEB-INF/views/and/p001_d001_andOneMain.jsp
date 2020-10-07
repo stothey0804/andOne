@@ -64,9 +64,10 @@
 	<div style="width:350px; margin: 0 auto">
 	<c:choose>
 		<c:when test="${g_id == '010'}">
-			<form name="eat" class="form-inline" method="get" action="${contextPath}/andeat/searchAndOne.do?g_id=${g_id}">
+			<form name="eat" class="form-inline" method="get" action="${contextPath}/andeat/searchAndOne.do">
 				<div class="form-group mx-sm-3 mb-2">
 					<input class="form-control" type ="text" name="totalSearch" placeholder="카테고리/지역/제목">
+					<input type ="hidden" name="g_id" value="${g_id}">
 				</div>
 					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
 			</form>
@@ -75,9 +76,10 @@
 				</c:url> 
 		</c:when>
 		<c:when test="${g_id == '011'}">
-			<form name="eat" class="form-inline" method="get" action="${contextPath}/andbuy/searchAndOne.do?g_id=${g_id}">
+			<form name="eat" class="form-inline" method="get" action="${contextPath}/andbuy/searchAndOne.do">
 				<div class="form-group mx-sm-3 mb-2">
-					<input class="form-control" type ="text" placeholder="카테고리/지역/제목">
+					<input class="form-control" type ="text" name="totalSearch" placeholder="카테고리/지역/제목">
+					<input type ="hidden" name="g_id" value="${g_id}">
 				</div>
 					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
 			</form>
@@ -86,9 +88,10 @@
 				</c:url> 
 		</c:when>
 		<c:when test="${g_id == '012'}">
-			<form name="eat" class="form-inline" method="get" action="${contextPath}/anddo/searchAndOne.do?g_id=${g_id}">
+			<form name="eat" class="form-inline" method="get" action="${contextPath}/anddo/searchAndOne.do">
 				<div class="form-group mx-sm-3 mb-2">
-					<input class="form-control" type ="text" placeholder="카테고리/지역/제목">
+					<input class="form-control" type ="text" name="totalSearch" placeholder="카테고리/지역/제목">
+					<input type ="hidden" name="g_id" value="${g_id}">
 				</div>
 					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
 			</form>
@@ -150,19 +153,22 @@
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
 						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}주문  </h5>
 						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
-						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time} ${andone.one_hashtag} </span></p>
+						<p class="card-text"> ${andone.one_hashTag}  </p>
+						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}  </span></p>
 					</c:when>
 					<c:when test="${g_id == '011'}">
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
 						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}수령예정  </h5>
 						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
-						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time} ${andone.one_hashtag}</span></p>
+						<p class="card-text"> ${andone.one_hashTag}  </p>
+						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
 					</c:when>
 					<c:when test="${g_id == '012'}">
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
 						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}  </h5>
 						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
-						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time} ${andone.one_hashtag}</span></p>
+						<p class="card-text"> ${andone.one_hashTag}  </p>
+						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}</span></p>
 					</c:when>
 				</c:choose>
 						</div></a>

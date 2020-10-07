@@ -15,7 +15,7 @@
 		<result property="one_price" column="one_price" /> <!-- 예상금액 -->		
 		<result property="one_date" column="one_date" /> <!-- 실행날짜-->
 		<result property="one_time" column="one_time" /> <!-- 등록시간-->
-		<result property="one_hashtag" column="one_hashtag" /> 
+		<result property="one_hashTag" column="one_hashTag" /> 
 		<result property="gc_name" column="gc_name" />
 		<result property="gc_id" column="gc_id" />
 	</resultMap>
@@ -25,7 +25,7 @@
       <![CDATA[
       	select  a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
        			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
-       			to_char(to_date(a.one_date),'mm/dd hh:mi') as one_date, a.one_hashtag,
+       			to_char(to_date(a.one_date),'mm/dd hh:mi') as one_date, a.one_hashTag,
         		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
 		from and_one a, 
        		 (select gc_name, gc_id, g_id
@@ -54,7 +54,7 @@
       <![CDATA[
       	select  a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
        			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
-       			to_char(to_date(a.one_date),'hh:mi') as one_date, a.one_hashtag,
+       			to_char(to_date(a.one_date),'hh:mi') as one_date, a.one_hashTag,
         		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
 		from and_one a, 
        		 (select gc_name, gc_id, g_id
@@ -71,11 +71,11 @@
       ]]>
 	</select>
 	<!-- 전체검색  추후 지역추가해야함-->
-	<select id="selectTotalSearchList" parameterType="String" resultType="AndP001AndOneVO">
+	<select id="selectTotalSearchList" parameterType="AndP001AndOneVO" resultType="AndP001AndOneVO">
       <![CDATA[
       	select  a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
        			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
-       			to_char(to_date(a.one_date),'hh:mi') as one_date, a.one_hashtag,
+       			to_char(to_date(a.one_date),'hh:mi') as one_date, a.one_hashTag,
         		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
 		from and_one a, 
        		 (select gc_name, gc_id, g_id
@@ -89,15 +89,9 @@
 	    a.one_state = b.gc_id
 		and a.one_category = c.gc_id
 		and a.one_type= #{g_id}
-		(one_category like '%' ||#{totalSearch}||'%'
-		or a.one_title like '%' ||#{totalSearch}||'%'
-		or a.one_hashtag like '%' ||#{totalSearch}'%')
+		and(one_category like '%' ||#{totalSearch}|| '%' or a.one_title like '%' ||#{totalSearch}|| '%' or a.one_hashTag like '%' ||#{totalSearch} || '%')
       </where>
-		order by to_number(a.one_id) desc
+		order by to_number(a.one_id) DESC
 	</select>
-	
-	
-	
-	
 	
 </mapper>

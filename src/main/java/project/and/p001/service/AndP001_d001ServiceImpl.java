@@ -39,9 +39,9 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 	}
 	//전체검색
 	@Override
-	public List totalSearchList(String totalSearch) throws DataAccessException{
+	public List totalSearchList(AndP001AndOneVO vo) throws DataAccessException{
 		List<AndP001AndOneVO> totalSearchList = null;
-		totalSearchList = p001_d001DAO.selectTotalSearchList(totalSearch);
+		totalSearchList = p001_d001DAO.selectTotalSearchList(vo);
 		return totalSearchList;
 	}
 	

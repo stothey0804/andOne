@@ -90,6 +90,45 @@
 		</c:when>
 	</c:choose>
 	</h1>
+	<div style="width:350px; margin: 0 auto">
+	<c:choose>
+		<c:when test="${g_id == '010'}">
+			<form name="eat" class="form-inline" method="get" action="${contextPath}/andeat/searchAndOne.do">
+				<div class="form-group mx-sm-3 mb-2">
+					<input class="form-control" type ="text" name="totalSearch" placeholder="카테고리/지역/제목">
+					<input type ="hidden" name="g_id" value="${g_id}">
+				</div>
+					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
+			</form>
+				<c:url var="url"  value="add.do"  >
+					<a href='${url}' class="btn btn-outline-dark "> 새로운 같이먹기 등록하기 </a>
+				</c:url> 
+		</c:when>
+		<c:when test="${g_id == '011'}">
+			<form name="eat" class="form-inline" method="get" action="${contextPath}/andbuy/searchAndOne.do?g_id=${g_id}">
+				<div class="form-group mx-sm-3 mb-2">
+					<input class="form-control" type ="text" placeholder="카테고리/지역/제목">
+				</div>
+					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
+			</form>
+				<c:url var="url"  value="add.do"  >
+					<a href='${url}' class="btn btn-outline-dark "> 새로운 같이사기 등록하기 </a>
+				</c:url> 
+		</c:when>
+		<c:when test="${g_id == '012'}">
+			<form name="eat" class="form-inline" method="get" action="${contextPath}/anddo/searchAndOne.do?g_id=${g_id}">
+				<div class="form-group mx-sm-3 mb-2">
+					<input class="form-control" type ="text" placeholder="카테고리/지역/제목">
+				</div>
+					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
+			</form>
+				<c:url var="url"  value="add.do"  >
+					<a href='${url}' class="btn btn-outline-dark "> 새로운 같이하기 등록하기 </a>
+				</c:url> 
+		</c:when>
+	</c:choose>
+	</div>
+	<br>
 	<!-- 카테고리 검색 -->
 	<div class="aa">
 		<h4 style="text-align : center;">카테고리</h4><br>

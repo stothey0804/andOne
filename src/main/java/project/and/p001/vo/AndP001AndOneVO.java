@@ -23,19 +23,22 @@ public class AndP001AndOneVO {
 	private String g_id;
 	private String gc_name;
 	private String gc_id;
-	private String one_hashtag;
+	private String totalSearch; //총검색
 	
 	public AndP001AndOneVO() {
 		System.out.println("AndOneVO 생성자호출");
 	}
 	
-	public String getOne_hashtag() {
-		return one_hashtag;
+	
+	public String getTotalSearch() {
+		return totalSearch;
 	}
 
-	public void setOne_hashtag(String one_hashtag) {
-		this.one_hashtag = one_hashtag;
+
+	public void setTotalSearch(String totalSearch) {
+		this.totalSearch = totalSearch;
 	}
+
 
 	public String getG_id() {
 		return g_id;

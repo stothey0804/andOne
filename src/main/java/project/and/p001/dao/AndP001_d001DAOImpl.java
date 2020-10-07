@@ -36,9 +36,9 @@ public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 	}
 	//전체검색
 	@Override
-	public List selectTotalSearchList(String totalSearch) throws DataAccessException{
+	public List selectTotalSearchList(AndP001AndOneVO vo) throws DataAccessException{
 		List<AndP001AndOneVO> selectTotalSearchList = null;
-		selectTotalSearchList = sqlSession.selectList("and.p001.selectTotalSearchList",totalSearch);
+		selectTotalSearchList = sqlSession.selectList("and.p001.selectTotalSearchList",vo);
 		return selectTotalSearchList;
 	}
 	

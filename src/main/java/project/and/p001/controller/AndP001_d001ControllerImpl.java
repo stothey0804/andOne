@@ -20,10 +20,11 @@ import project.and.p001.vo.AndP001AndOneVO;
 public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	@Autowired
 	private AndP001_d001Service p001_d001Service;
+	
 	//&분의일 먹기 사기 하기 메인
 	@Override
 	@RequestMapping(value="/and*")
-	public ModelAndView search_eat(@RequestParam("g_id") String g_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView andOneMain(@RequestParam("g_id") String g_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println(">>>>>>>>>g_id: "+g_id);
 		//최근 등록된 같이먹기 + 해쉬태그
 		List<AndP001AndOneVO> recentAndOneList = p001_d001Service.recentAndOneList(g_id); //최근등록된 같이먹기
@@ -43,23 +44,30 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	//3.해쉬태그검색
 	@Override
 	@RequestMapping(value="/and*/searchAndOne.do")
-	public ModelAndView searchList_eat(@ModelAttribute AndP001AndOneVO vo, @RequestParam(value="totalSearch", required=false) String totalSearch, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView searchAndOneList(@ModelAttribute AndP001AndOneVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		//1.전체검색
 		String one_category = vo.getOne_category();
 		String g_id = vo.getG_id();
+		String totalSearch = vo.getTotalSearch();
 		System.out.println(">>>>>>>>>>one_category:" +one_category);
 		System.out.println(">>>>>>>>>>g_id:" +g_id);
+		
 		List<AndP001AndOneVO> ctg_eat = p001_d001Service.searchCtg(g_id); //카테고리설정
-		List<AndP001AndOneVO> totalSearchList = p001_d001Service.totalSearchList(totalSearch);
-		List<AndP001AndOneVO> ctgSearchList = p001_d001Service.ctgSearchList(vo);//>>>>>>>카테고리 검색
+		List<AndP001AndOneVO> ctgSearchList =null;
 		
+		if(totalSearch != null) {
+			System.out.println(">>>>>>>>>>>>>>>전체검색 실행");
+			ctgSearchList = p001_d001Service.totalSearchList(vo);//전체 검색
+		}else {
+			System.out.println(">>>>>>>>>>>>>>>카테고리검색 실행");
+			ctgSearchList = p001_d001Service.ctgSearchList(vo);
+		}
 		
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mav = new ModelAndView("andOneSearch");
+		mav.addObject("ctgSearchList", ctgSearchList);
+		mav.addObject("size",ctgSearchList.size());//>>>>>>>카테고리 검색
 		mav.addObject("g_id",g_id);
 		mav.addObject("ctg_eat",ctg_eat);
-		mav.addObject("ctgSearchList", ctgSearchList);
-		mav.addObject("size",ctgSearchList.size());
-		mav.setViewName("eatCtgSearch");
 		
 		return mav;
 	}
