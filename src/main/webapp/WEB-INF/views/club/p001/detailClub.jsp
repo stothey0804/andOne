@@ -169,7 +169,7 @@ function menuTap(ca_id){
 						</c:when>
 					</c:choose>
 			<!--본인이 쓴 글일 경우 수정,삭제 메뉴 -->
-					<c:set var="logOnId" value="${member.m_id }"/>
+					<c:set var="logOnId" value="${m_id }"/>
 					<c:set var="writer" value="${club.m_id }"/>
 					<c:choose>
 						<c:when test="${logOnId eq writer}">
@@ -190,7 +190,7 @@ function menuTap(ca_id){
 							      <div class="modal-footer">
 							        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 							        <button type="button" class="btn btn-primary"
-							        	onclick="location.href='deleteClubArticle.do?ca_id=${club.ca_id},c_id=${clubInfo.c_id }'">삭제하기${club.ca_content }</button>
+							        	onclick="location.href='deleteClubArticle.do?ca_id=${club.ca_id}&c_id=${clubInfo.c_id }'">삭제하기${club.ca_content }</button>
 							      </div>
 							    </div>
 							  </div>

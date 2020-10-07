@@ -3,7 +3,7 @@ package project.club.vo;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ClubP001_d001MemberVO {
+public class ClubMemberVO {
 	private String m_id;
 	private String cm_rank;
 	

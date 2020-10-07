@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
-public class ClubP001_d001VO {
+public class ClubVO {
 	
-	public ClubP001_d001VO() {
+	public ClubVO() {
 		System.out.println("clubVO 생성자 호출");
 	}
 	
@@ -23,7 +23,7 @@ public class ClubP001_d001VO {
 	private byte[] c_imgByte;
 	private String resultImg;
 	private String c_openingdate;
-	private List<ClubP001_d001articleVO> articleList;
+	private List<ClubArticleVO> articleList;
 	
 	public String getResultImg() {
 		return resultImg;
@@ -58,10 +58,10 @@ public class ClubP001_d001VO {
 	public void setC_img(MultipartFile c_img) {
 		this.c_img = c_img;
 	}
-	public List<ClubP001_d001articleVO> getArticleList() {
+	public List<ClubArticleVO> getArticleList() {
 		return articleList;
 	}
-	public void setArticleList(List<ClubP001_d001articleVO> articleList) {
+	public void setArticleList(List<ClubArticleVO> articleList) {
 		this.articleList = articleList;
 	}
 	public String getC_id() {

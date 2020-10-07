@@ -57,8 +57,8 @@ input[type="submit"] {
 	<br>
 	<br>
 	<input type="hidden" name="c_id" value="${clubInfo.c_id }">
-	<input type="hidden" name="m_id" value="${member.m_id }">
-	<input type="submit" class="btn btn-success btn-block" onclick="location.href='${contextPath}/detailClub.do?c_id=${clubInfo.c_id }'"></div>
+	<input type="hidden" name="m_id" value="${m_id}">
+	<input type="submit" class="btn btn-success btn-block"></div>
 </form>
 </div>
 </body>

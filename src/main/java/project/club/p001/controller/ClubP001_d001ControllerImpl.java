@@ -15,24 +15,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import project.club.p001.service.ClubP001_d001Service;
-import project.club.vo.ClubP001_d001VO;
+import project.club.vo.ClubVO;
 
 @Controller
 public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 	@Autowired
 	ClubP001_d001Service clubP001_d001Service;
 	@Autowired
-	ClubP001_d001VO p001_d001;
+	ClubVO p001_d001;
 	
 	@Override      //소모임 메인페이지
 	@RequestMapping(value="/club/clubMain.do",method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView clubMain(@RequestParam(value="m_id", required=false) String m_id, HttpSession session) throws Exception{
 		//상위 멤버수 소모임 리스트
-		List<ClubP001_d001VO> clubList = clubP001_d001Service.clubList();
+		List<ClubVO> clubList = clubP001_d001Service.clubList();
 		//나의 소모임 리스트
-		List<ClubP001_d001VO> myClubList = clubP001_d001Service.myClubList(m_id);
-		session.setAttribute("m_id", m_id);
-		
+		List<ClubVO> myClubList = clubP001_d001Service.myClubList(m_id);
 		//소모임 대표이미지 encoding
 		getEncoded(clubList);
 		getEncoded(myClubList);
@@ -49,7 +47,7 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 	public ModelAndView searchClubList(@RequestParam(value="searchWord", required=false) String searchWord) throws Exception{
 		Map<String, Object> searchMap = new HashMap<String, Object>();
 		searchMap.put("searchWord", "%"+searchWord+"%");
-		List<ClubP001_d001VO> list = clubP001_d001Service.searchClubList(searchMap);
+		List<ClubVO> list = clubP001_d001Service.searchClubList(searchMap);
 		
 		//소모임 대표이미지 encoding
 		getEncoded(list);
@@ -67,7 +65,7 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		Map<String, Object> searchMap = new HashMap<String, Object>();
 		searchMap.put("c_id", c_id);
 		searchMap.put("m_id",m_id);
-		ClubP001_d001VO vo = clubP001_d001Service.detailClub(searchMap);
+		ClubVO vo = clubP001_d001Service.detailClub(searchMap);
 		//회원 등급 확인
 		String rank = clubP001_d001Service.memberCheck(searchMap);
 		
@@ -78,6 +76,7 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 			encoded = Base64.getEncoder().encode(vo.getC_imgByte());
 			clubImg = new String(encoded);	
 		}
+		
 		//소모임 게시글 이미지 encoding
 		for(int i=0; i<vo.getArticleList().size();i++) {
 			if(vo.getArticleList().get(i).getImgList()!=null) {
@@ -98,7 +97,7 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		return mav;
 	}
 	
-	public void getEncoded(List<ClubP001_d001VO> list) {
+	public void getEncoded(List<ClubVO> list) {
 		byte[] encoded = null;
 		for(int i=0; i < list.size();i++) {
 			if(list.get(i).getC_imgByte() != null) {

@@ -1,4 +1,4 @@
-package project.club.p001.service;
+package project.club.p003.service;
 
 import java.util.Map;
 
@@ -7,29 +7,29 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import project.club.p001.dao.ClubP001_d002DAO;
-import project.club.vo.ClubP001_d001articleVO;
+import project.club.p003.dao.ClubP003_d001DAO;
+import project.club.vo.ClubArticleVO;
 
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
-public class ClubP001_d002ServiceImpl implements ClubP001_d002Service{
+public class ClubP003_d001ServiceImpl implements ClubP003_d001Service{
 	@Autowired
-	private ClubP001_d002DAO clubP001_d002DAO;
+	private ClubP003_d001DAO clubP003_d001DAO;
 
 	@Override
 	public void deleteClubArticle(Map<String, Object> searchMap) {
-		clubP001_d002DAO.deleteClubArticle(searchMap);
+		clubP003_d001DAO.deleteClubArticle(searchMap);
 	}
 
 	@Override
 	public void writeArticle(Map<String, Object> insertMap) {
-		clubP001_d002DAO.insertClubArticle(insertMap);
+		clubP003_d001DAO.insertClubArticle(insertMap);
 	}
 
 	@Override
-	public ClubP001_d001articleVO editArticle(Map<String, Object> searchMap) {
-		ClubP001_d001articleVO articleVO = clubP001_d002DAO.editClubArticle(searchMap);
+	public ClubArticleVO editArticle(Map<String, Object> searchMap) {
+		ClubArticleVO articleVO = clubP003_d001DAO.editClubArticle(searchMap);
 		return articleVO;
 	}
 

@@ -132,12 +132,4 @@
 		values(art_SEQ.NEXTVAL,#{ca_content},#{c_id},to_char(sysdate,'YYYY-MM-DD hh:mm'),#{m_id},#{ca_img},0)
 	</insert>
 	
-<!-- 	<select id="editArticleView" resultMap="article"> -->
-<!-- 		<![CDATA[ -->
-<!-- 			select ca_content,ca_img -->
-<!-- 			from c_article -->
-<!-- 			where ca_id = #{ca_id} -->
-<!-- 		]]> -->
-<!-- 	</select> -->
-	
 </mapper>
