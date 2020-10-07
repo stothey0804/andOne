@@ -14,29 +14,44 @@ public class ClubArticleVO {
 	private String ca_content;
 	private String ca_date;
 	private String m_id;
+	private String m_nickname;
 	private MultipartFile ca_img;
 	private String ca_pin;
-	private byte[] imgList;
-	private String resultImgList;
+	private byte[] articleImg;
+	private String resultArticleImg;
+	private byte[] userImg;
+	private String resultUserImg;
 	
-	public String getResultImgList() {
-		return resultImgList;
+	public String getM_nickname() {
+		return m_nickname;
 	}
-	public void setResultImgList(String encodedString) {
-		this.resultImgList = encodedString;
+	public void setM_nickname(String m_nickname) {
+		this.m_nickname = m_nickname;
 	}
-	public byte[] getImgList() {
-		return imgList;
+	public byte[] getArticleImg() {
+		return articleImg;
 	}
-	public void setImgList(byte[] imgList) {
-		this.imgList = imgList;
+	public void setArticleImg(byte[] articleImg) {
+		this.articleImg = articleImg;
 	}
-	//	public Map<String,Object> getImgList() {
-//		return imgList;
-//	}
-//	public void setImgList(Map<String,Object> imgList) {
-//		this.imgList = imgList;
-//	}
+	public String getResultArticleImg() {
+		return resultArticleImg;
+	}
+	public void setResultArticleImg(String resultArticleImg) {
+		this.resultArticleImg = resultArticleImg;
+	}
+	public String getResultUserImg() {
+		return resultUserImg;
+	}
+	public void setResultUserImg(String resultUserImg) {
+		this.resultUserImg = resultUserImg;
+	}
+	public byte[] getUserImg() {
+		return userImg;
+	}
+	public void setUserImg(byte[] userImg) {
+		this.userImg = userImg;
+	}
 	public String getC_id() {
 		return c_id;
 	}

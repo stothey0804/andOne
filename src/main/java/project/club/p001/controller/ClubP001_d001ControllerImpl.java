@@ -80,21 +80,21 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		
 		//소모임 게시글 이미지 encoding
 		for(int i=0; i<vo.getArticleList().size();i++) {
-			if(vo.getArticleList().get(i).getImgList()!=null) {
-				encoded = Base64.getEncoder().encode(vo.getArticleList().get(i).getImgList());
+			if(vo.getArticleList().get(i).getArticleImg()!=null) {
+				encoded = Base64.getEncoder().encode(vo.getArticleList().get(i).getArticleImg());
 				String encodedString = new String(encoded);
-				vo.getArticleList().get(i).setResultImgList(encodedString);
-			} 
+				vo.getArticleList().get(i).setResultArticleImg(encodedString);
+			}
+			if(vo.getArticleList().get(i).getUserImg()!=null) {
+				encoded = Base64.getEncoder().encode(vo.getArticleList().get(i).getUserImg());
+				vo.getArticleList().get(i).setResultUserImg(new String(encoded));
+			}
 		}
 	
 		ModelAndView mav = new ModelAndView("detailClub");
 		mav.addObject("clubInfo", vo);
 		mav.addObject("rank", rank);
-		if(clubImg == "") {
-			mav.addObject("clubImg", 0);
-		} else {
-			mav.addObject("clubImg",clubImg);
-		}
+		mav.addObject("clubImg",clubImg);
 		return mav;
 	}
 	
