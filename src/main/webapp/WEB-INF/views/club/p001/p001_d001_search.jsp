@@ -78,7 +78,7 @@ img{
 </head>
 <body>
 	<form class="searchClub container center" name="searchFrm"
-		method="post" action="${contextPath }/club/p001/searchClub.do">
+		method="post" action="${contextPath}/searchClub.do">
 <a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br>
 		<input type="text" value="${searchWord}" name="searchWord"> <input
 			type="submit" value="&#xf002;">
@@ -89,7 +89,7 @@ img{
 		<c:set var="cnt" value="${cnt }" />
 		<c:choose>
 			<c:when test="${cnt eq 0 }">
-				<h3 style="text-align:center;">검색결과가 없습니다. 다른 검색어로 찾아보세요!</h3>
+				<h3 style="text-align:center;">검색결과가 없습니다. 다른 검색어로 찾아보세요(ノω<。)ノ))☆.。</h3>
 			</c:when>
 			<c:otherwise>
 				<h3 style="text-align: center">검색결과 ${cnt}건</h3>

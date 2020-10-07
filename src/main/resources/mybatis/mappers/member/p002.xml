@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="member.p002">
+   <!-- QnA 테이블 -->
+   	<resultMap id="p002Result" type="memberP002VO">
+		<result property="q_id" column="q_id"  />
+		<result property="q_type" column="q_type"  />
+		<result property="m_id" column="m_id"  />
+		<result property="q_subject" column="q_subject"  />
+		<result property="q_date" column="q_date"  />
+		<result property="q_content" column="q_content"  />
+		<result property="q_state" column="q_state"  />
+		<result property="q_checked" column="q_checked"  />
+		<result property="q_reply" column="q_reply"  />
+		<result property="q_editor" column="q_editor"  />
+		<result property="q_editdate" column="q_editdate"  />
+	</resultMap>
+	
+	<insert id="insertQnA" parameterType="memberP002VO">
+		<![CDATA[
+			INSERT INTO qna(q_id, q_type, m_id, q_subject, q_date, q_content, q_state, q_checked, q_reply, q_editor, q_editdate)
+    		VALUES(
+	    		QNA_SEQ.NEXTVAL, #{q_type},#{m_id},#{q_subject},
+	    		TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss'), #{q_content}, '10', '0', '',
+	    		#{m_id}, TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+    		)
+		]]>
+	</insert>
+	
+	<select id="selectQnAListById" resultMap="p002Result" parameterType="String">
+		<![CDATA[
+			SELECT (LPAD(q_id,6,'0'))q_id, 
+			(SELECT gc_name FROM common_code WHERE g_id like '016' AND gc_id like q_type)q_type, 
+			q_subject, REPLACE(SUBSTR(q_date,1,10),'/','-')q_date, q_content, 
+			(SELECT gc_name FROM common_code WHERE g_id like '004' AND gc_id like q_state)q_state, 
+			q_reply
+			FROM qna
+			WHERE m_id = '00000041'
+			ORDER BY q_id desc
+		]]>
+	</select>
+	
+	</mapper>

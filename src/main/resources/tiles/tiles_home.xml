@@ -132,6 +132,11 @@
 		<put-attribute name="title" value="문의하기"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p002_d001_insert.jsp"/>
 	</definition>
+	<!-- 문의하기리스트 -->
+	<definition name="p002_d001_search" extends="mypageLayout">
+		<put-attribute name="title" value="문의하기"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p002_d001_search.jsp"/>
+	</definition>
 	
 	<!-- 소모임 메인-->
 	<definition name="clubMain"  template="/WEB-INF/views/common/layout.jsp">

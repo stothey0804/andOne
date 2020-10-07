@@ -26,7 +26,7 @@
 		<li>서비스 문의/신고</li>
 		<ul class="mb-3">
 			<a href="${contextPath}/member/qna.do"><li>1:1 문의</li></a>
-			<a href="#"><li>문의 내역</li></a>
+			<a href="${contextPath}/member/searchQnA.do"><li>문의 내역</li></a>
 			<a href="#"><li>신고하기</li></a>
 			<a href="#"><li>문의 내역</li></a>
 		</ul>

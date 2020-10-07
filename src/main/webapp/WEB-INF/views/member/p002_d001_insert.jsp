@@ -37,7 +37,7 @@
 </head>
 <body>
 <div class="container">
-	<form name="frmMemberInfo" enctype="multipart/form-data" method="post">
+	<form action="${contextPath}/member/sendQnA.do" enctype="multipart/form-data" method="post">
 			<h2 class="m-5">1:1문의</h2>
 			<hr class="m-5">
 			<div class="form-group col-sm-10 mx-auto mt-5 p-0">
@@ -46,7 +46,7 @@
 				<div class="mb-2 row">
 				    <label for="inputSubject" class="col-lg-2 col-sm-12 col-form-label">제목</label>
 				    <div class="col-lg-10 col-sm-12">
-				      <input type="text" class="form-control" id="inputSubject" name="q_subject" value="">
+				      <input type="text" class="form-control" id="inputSubject" name="q_subject" required>
 		    		</div>
 		    	</div>
 		    	<input type="hidden" name="m_id" value="${m_id}">
@@ -57,7 +57,7 @@
 					    <select class="form-control " id="selectType" name="q_type" required>
 					      <option value="">선택</option>
 					      <c:forEach var="list" items="${qTypeList}">
-						      <option value="<c:out value="${list.gc_id}"/>"><c:out value="${list.gc_name}" /></option>
+						      <option value="${list.gc_id}">${list.gc_name}</option>
 					      </c:forEach>
 					    </select>
 					  </div>
@@ -65,9 +65,10 @@
 		    	<!-- 에디터 -->
 				<div class="mb-2 row">
 					<textarea class="form-control" id="q_content" name="q_content" rows="30">
-					문의 내용을 작성해주세요.
+					문의내용:
+					발생일시:
 					</textarea>
-					<script>CKEDITOR.replace('q_content',{filebrowserUploadUrl:'${contextPath}/member/editorFileUpload.do'});</script>				
+					<script>CKEDITOR.replace('q_content',{filebrowserUploadUrl:'${contextPath}/editorFileUpload.do'});</script>				
 				</div>
 		    	
 <!-- 		    	<div class="mb-2 row"> -->
@@ -81,6 +82,8 @@
 <!-- 						</div> -->
 <!-- 		    		</div> -->
 <!-- 		    	</div> -->
-			<input type="button" class="btn btn-primary btn-lg btn-block mt-4" value="작성" id="sendForm"></input>
+			<input type="submit" class="btn btn-primary btn-lg btn-block mt-4" value="작성" id="sendForm"></input>
 			</div>
 		</form>
+	</div>
+</body>
