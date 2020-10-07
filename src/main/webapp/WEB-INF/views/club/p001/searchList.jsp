@@ -49,7 +49,11 @@ h3 {
 .card{
 	width:800px;
 }
-
+img{
+	height:100%;
+	width:100%;
+	object-fit:cover;
+}
 </style>
 
 <meta charset="UTF-8">
@@ -97,8 +101,17 @@ h3 {
 				<div class="row no-gutters"
 					onclick="location.href='${contextPath }/detailClub.do?c_id=${club.c_id}'">
 					<div class="col-md-4" style="width: 500px">
-						<img src="https://via.placeholder.com/100x100" class="card-img"
-							alt="...">
+						<c:set var="c_img" value="${club.resultImg}" />
+						<c:choose>
+							<c:when test="${c_img eq null}">
+								<img
+									src="https://cdn.pixabay.com/photo/2014/07/08/10/47/team-386673_1280.jpg"
+									class="card-img-top" alt="...">
+							</c:when>
+							<c:otherwise>
+								<img src="data:image/jpg;base64, ${c_img}" class="c_img">
+							</c:otherwise>
+						</c:choose>
 					</div>
 					<div class="col-md-8">
 						<div class="card-body">

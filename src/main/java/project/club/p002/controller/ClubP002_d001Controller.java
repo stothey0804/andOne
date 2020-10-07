@@ -8,5 +8,5 @@ import project.club.vo.ClubP001_d001VO;
 
 public interface ClubP002_d001Controller {
 	public ModelAndView createClubForm() throws Exception;
- 	public ModelAndView createClub(ClubP001_d001VO vo, HttpSession session) throws Exception;
+ 	public String createClub(ClubP001_d001VO vo, HttpSession session) throws Exception;
 }

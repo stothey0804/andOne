@@ -25,7 +25,9 @@ h3 {
 	font-family: 'YanoljaYacheR' !important;
 	font-size: 250%;
 }
-
+.card_img{
+	object-fit:contain;
+}
 input[type="submit"] {
 	font-family: FontAwesome;
 }
@@ -67,6 +69,14 @@ body{
     border-color: #002A87;
     background-color: #002A87;
     color: #FFF; }
+    
+div.img{
+	line-height:225px;
+	background-color: #f5f7f8;
+}
+div.img > img{
+	vertical-align:middle;
+}
 </style>
 	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script>
@@ -84,9 +94,16 @@ body{
 				<div class="col-sm-6 mb-3 mainClub" onclick="location.href='${contextPath }/detailClub.do?c_id=${club.c_id}'"
 					style="max-width: 540px; margin-left: 25px;padding:0">
 					<div class="row no-gutters">
-						<div class="col-sm-6">
-							<img src="https://t1.daumcdn.net/cafeattach/1IHuH/76e8170e8985e795b1536d4d7ca4224247e71a5c" class="card-img"
+						<div class="col-sm-6 img">
+						<c:choose>
+						<c:when test="${club.resultImg eq null}">
+							<img src="https://cdn.pixabay.com/photo/2014/07/08/10/47/team-386673_1280.jpg" class="card-img" alt="...">
+						</c:when>
+						<c:otherwise>
+							<img src="data:image/jpg;base64,${club.resultImg}" class="card-img"
 								alt="...">
+						</c:otherwise>
+						</c:choose>
 						</div>
 						<div class="col-sm-6">
 							<div class="card-body" style="height: 225px">
@@ -110,7 +127,7 @@ body{
 			<a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a
 				href="#">#독서</a> <br>
 			<form name="searchFrm" method="post"
-				action="${contextPath }/club/p001/searchClub.do">
+				action="${contextPath }/searchClub.do">
 				<input type="text" placeholder="검색" name="searchWord"> <input
 					type="submit" value="&#xf002;">
 			</form>
@@ -139,8 +156,16 @@ body{
 						<div class="club"
 							style="margin-left: 45px; margin-right: 45px; margin-top: 20px" onclick="location.href='${contextPath }/detailClub.do?c_id=${club.c_id}'">
 							<div class="card" style="width: 18rem;">
-								<img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/close-up-of-cat-wearing-sunglasses-while-sitting-royalty-free-image-1571755145.jpg" class="card-img-top"
-									alt="...">
+							<div class="img">
+								<c:choose>
+								<c:when test="${club.resultImg eq null}">
+									<img src="https://cdn.pixabay.com/photo/2014/07/08/10/47/team-386673_1280.jpg" class="card-img" alt="...">
+								</c:when>
+								<c:otherwise>
+									<img src="data:image/jpg;base64,${club.resultImg}" class="card-img" alt="...">
+								</c:otherwise>
+								</c:choose>
+							</div>
 								<div class="card-body">
 									<h5 class="card-title">${club.c_name }</h5>
 									<p class="card-text">함께하는 사람 ${club.c_membercnt }</p>

@@ -77,6 +77,11 @@
 	object-fit : contain;
 }
 
+.c_img{
+	height:100%;
+	width:100%;
+	object-fit:cover;
+}
 </style>
 <script type="text/javascript">
 function menuTap(ca_id){
@@ -92,8 +97,8 @@ function menuTap(ca_id){
 			<div class="card info" style="width: 18rem;">
 			<c:set var="c_img" value="${clubImg}"/>
 				<c:choose>
-					<c:when test="${c_img eq null}">
-						<img src="https://static.toiimg.com/photo/msid-76940605/76940605.jpg?758247" class="card-img-top" alt="...">
+					<c:when test="${c_img eq '0'}">
+						<img src="https://cdn.pixabay.com/photo/2014/07/08/10/47/team-386673_1280.jpg" class="card-img-top" alt="...">
 					</c:when>
 					<c:otherwise>
 						<img src="data:image/jpg;base64, ${c_img}" class="c_img">
@@ -105,7 +110,7 @@ function menuTap(ca_id){
 					<small class="text-muted" style="height: 14px">#${clubInfo.c_hashtag}</small>
 					<c:set var="cm_rank" value="${rank}"/>
 						<c:choose>
-							<c:when test="${rank eq 0}">
+							<c:when test="${rank eq 0 or rank eq 50}">
 								<a href="${contextPath }/club/introForm.do?c_id=${clubInfo.c_id}" class="btn btn-success btn-block"
 									style="margin-top: 3px;">함께하기</a>
 							</c:when>

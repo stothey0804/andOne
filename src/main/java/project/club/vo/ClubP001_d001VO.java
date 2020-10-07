@@ -21,7 +21,17 @@ public class ClubP001_d001VO {
 	private String c_hashtag;
 	private MultipartFile c_img;
 	private byte[] c_imgByte;
+	private String resultImg;
 	private String c_openingdate;
+	private List<ClubP001_d001articleVO> articleList;
+	
+	public String getResultImg() {
+		return resultImg;
+	}
+	public void setResultImg(String resultImg) {
+		this.resultImg = resultImg;
+	}
+
 	public String getC_openingdate() {
 		return c_openingdate;
 	}
@@ -29,7 +39,6 @@ public class ClubP001_d001VO {
 		this.c_openingdate = c_openingdate;
 	}
 
-	private List<ClubP001_d001articleVO> articleList;
 	
 	public byte[] getC_imgByte() {
 		return c_imgByte;

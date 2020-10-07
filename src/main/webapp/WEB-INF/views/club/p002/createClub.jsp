@@ -66,7 +66,7 @@ h2{
 	$data = str_replace('&','&amp;',$data);
 ?>
 <textarea name="c_content" id="c_content">
-zz
+
 </textarea>
 <script>
 ClassicEditor
