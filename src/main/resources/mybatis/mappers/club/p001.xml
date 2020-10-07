@@ -37,15 +37,11 @@
 	<resultMap id="articleList" type="p001_d001ArticleVO">
 		<result property="ca_content" column="ca_content" />
 		<result property="ca_date" column="ca_date" />
-		<result property="m_id" column="m_id" />
+		<result property="m_nickname" column="m_nickname" />
 		<result property="ca_id" column="ca_id" />
-		<result property="imgList" column="ca_img" javaType="[B"  jdbcType="BLOB"/>
+		<result property="articleImg" column="ca_img" javaType="[B"  jdbcType="BLOB"/>
+		<result property="userImg" column="m_img" javaType="[B" jdbcType="BLOB"/>
 	</resultMap>
-	
-<!-- 	<resultMap id="article" type="p001_d001ArticleVO"> -->
-<!-- 		<result property="ca_content" column="ca_content"/> -->
-<!-- 		<result property="imgList" column="ca_img" javaType="[B"  jdbcType="BLOB"/> -->
-<!-- 	</resultMap> -->
 	
 	<select id="clubList" resultMap="p001_d001Result01">
       <![CDATA[
@@ -113,10 +109,11 @@
 
 	<select id="getArticleList" resultMap="club.p001.articleList">
 		<![CDATA[
-		 	select ca_content,ca_date,m_id,ca_img,ca_id,ca_pin
-		 	from c_article
-		 	where c_id = #{c_id}
-            order by ca_pin desc, ca_date desc
+		 	select a.ca_content,a.ca_date,b.m_nickname,a.ca_img,a.ca_id,a.ca_pin,b.m_img,a.m_id
+		 	from c_article a, member b
+		 	where a.m_id = b.m_id 
+		 	and a.c_id = #{c_id}
+            order by a.ca_pin desc, a.ca_date desc
 		]]>
 	</select>
 	
