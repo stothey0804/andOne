@@ -11,7 +11,7 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://cdn.ckeditor.com/ckeditor5/22.0.0/classic/ckeditor.js"></script>
+<script src = "${contextPath}/resources/js/ckeditor/ckeditor.js"></script>
 <style>
 @font-face {
 	font-family: 'YanoljaYacheR';
@@ -65,16 +65,8 @@ h2{
 <?php
 	$data = str_replace('&','&amp;',$data);
 ?>
-<textarea name="c_content" id="c_content">
-
-</textarea>
-<script>
-ClassicEditor
-	.create(document.querySelector('#c_content'))
-	.catch(error=>{
-		console.log(error);
-	});
-</script>
+<textarea name="c_content" id="c_content"></textarea>
+<script>CKEDITOR.replace('c_content')</script>
   <div class="form-group">
     <label>대표 이미지 첨부</label>
     <input type="file" class="form-control-file" accept="image/*" name="c_img">

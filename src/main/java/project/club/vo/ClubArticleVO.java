@@ -4,9 +4,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
-public class ClubP001_d001articleVO {
+public class ClubArticleVO {
 	
-	public ClubP001_d001articleVO() {
+	public ClubArticleVO() {
 		System.out.println("clubArticleVO 생성자 호출");
 	}
 	private String c_id;

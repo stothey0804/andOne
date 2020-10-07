@@ -82,11 +82,36 @@
 	width:100%;
 	object-fit:cover;
 }
+.aa{
+	display:none;
+}
 </style>
 <script type="text/javascript">
-function menuTap(ca_id){
-	$('.'+ca_id).slideToggle();
-};
+
+	function menuTap(ca_id){
+		$('.'+ca_id).slideToggle();
+	};
+	
+	function send(ca_id){
+		console.log(ca_id); 
+		var ca_id_p = ca_id;
+		$('.aa').html(ca_id_p);
+	};
+	
+	function deleteArticle(c_id){
+		console.log(c_id);
+		var p_c_id = c_id;
+		var ca_id = $('.aa').text();
+		console.log(ca_id);
+
+		$.ajax({
+			type: "get",
+			dataType: "text",
+			async: true,
+			url:"${contextPath}/deleteClubArticle.do?ca_id="+ca_id+"&c_id="+p_c_id
+		});
+		location.reload();
+	}
 
 </script>
 </head>
@@ -110,10 +135,6 @@ function menuTap(ca_id){
 					<small class="text-muted" style="height: 14px">#${clubInfo.c_hashtag}</small>
 					<c:set var="cm_rank" value="${rank}"/>
 						<c:choose>
-							<c:when test="${rank eq 0 or rank eq 50}">
-								<a href="${contextPath }/club/introForm.do?c_id=${clubInfo.c_id}" class="btn btn-success btn-block"
-									style="margin-top: 3px;">함께하기</a>
-							</c:when>
 							<c:when test="${rank eq 10}">
 								<a href="${contextPath }/club/introForm.do?c_id=${clubInfo.c_id}" class="btn btn-success btn-block"
 									style="margin-top: 3px;">소모임 관리</a>
@@ -126,6 +147,10 @@ function menuTap(ca_id){
 								<a href="#" class="btn btn-success btn-block"
 									style="margin-top: 3px;">가입승인 대기중</a>
 							</c:when>
+							<c:otherwise>
+								<a href="${contextPath }/club/introForm.do?c_id=${clubInfo.c_id}" class="btn btn-success btn-block"
+									style="margin-top: 3px;">함께하기</a>
+							</c:otherwise>
 						</c:choose>
 				</div>
 			</div>
@@ -169,7 +194,7 @@ function menuTap(ca_id){
 						</c:when>
 					</c:choose>
 			<!--본인이 쓴 글일 경우 수정,삭제 메뉴 -->
-					<c:set var="logOnId" value="${member.m_id }"/>
+					<c:set var="logOnId" value="${m_id }"/>
 					<c:set var="writer" value="${club.m_id }"/>
 					<c:choose>
 						<c:when test="${logOnId eq writer}">
@@ -177,29 +202,30 @@ function menuTap(ca_id){
   								<path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
 							</svg>
 							<div class="sub ${club.ca_id}">
-								<button type="button" class="btn btn-outline-secondary" onclick="location.href='editClubArticle.do?ca_id=${club.ca_id}'">수정${club.ca_id }</button>
-								<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#staticBackdrop">삭제${club.ca_id}</button>
-							</div>
-							<!-- delete Modal -->
-							<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
-							  <div class="modal-dialog">
-							    <div class="modal-content">
-							      <div class="modal-body">
-							        	<h6 style="text-align:center;">해당 게시물을 삭제하겠습니까?</h6>
-							      </div>
-							      <div class="modal-footer">
-							        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-							        <button type="button" class="btn btn-primary"
-							        	onclick="location.href='deleteClubArticle.do?ca_id=${club.ca_id},c_id=${clubInfo.c_id }'">삭제하기${club.ca_content }</button>
-							      </div>
-							    </div>
-							  </div>
+								<button type="button" class="btn btn-outline-secondary" onclick="location.href='editClubArticle.do?ca_id=${club.ca_id}'">수정</button>
+								<button type="button" class="btn btn-outline-danger delete" onclick="send(${club.ca_id})" data-toggle="modal" data-target="#staticBackdrop">삭제</button>
 							</div>
 						</c:when>
 					</c:choose>
 				</div>
 				</div>
 			</c:forEach>
+							<!-- delete Modal -->
+							<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+							  <div class="modal-dialog">
+							    <div class="modal-content">
+							      <div class="modal-body">
+							        	<h6 style="text-align:center;">해당 게시물을 삭제하겠습니까?</h6>
+							        	<p class="aa"></p>
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+							        <button type="button" class="btn btn-primary"
+							        	onclick="deleteArticle(${clubInfo.c_id})">삭제하기${club.ca_content}</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
 		</div>
 	</div>
 </body>

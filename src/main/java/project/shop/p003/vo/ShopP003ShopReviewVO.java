@@ -1,8 +1,10 @@
 package project.shop.p003.vo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class ShopP003ShopReviewVO {
@@ -15,21 +17,35 @@ public class ShopP003ShopReviewVO {
 	private String sr_editor;
 	private String sr_editdate;
 	private String m_nickname;
-	private byte[] m_img;
+	private MultipartFile m_img;
+	private Map<String,Object> m_imgEncoder;
+	private String m_encodedImg;
 	private List<ShopP003ShopReviewImageVO> shopReviewImage;
 	
 	
 	
+	public Map<String, Object> getM_imgEncoder() {
+		return m_imgEncoder;
+	}
+	public void setM_imgEncoder(Map<String, Object> m_imgEncoder) {
+		this.m_imgEncoder = m_imgEncoder;
+	}
+	public String getM_encodedImg() {
+		return m_encodedImg;
+	}
+	public void setM_encodedImg(String m_encodedImg) {
+		this.m_encodedImg = m_encodedImg;
+	}
 	public String getM_nickname() {
 		return m_nickname;
 	}
 	public void setM_nickname(String m_nickname) {
 		this.m_nickname = m_nickname;
 	}
-	public byte[] getM_img() {
+	public MultipartFile getM_img() {
 		return m_img;
 	}
-	public void setM_img(byte[] m_img) {
+	public void setM_img(MultipartFile m_img) {
 		this.m_img = m_img;
 	}
 	public String getS_id() {

@@ -151,18 +151,19 @@ a:hover {
 							output += "<div class='row no-gutters'>";
 							output += "<div class='col-sm-6'>";
 							output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
-							output += "<img src='https://via.placeholder.com/100x100' class='card-img' alt='...'></a>";
+							if(Object.keys(jsonInfo[i].shopImage).length != 0){
+								output += "<img src='data:image/jpg;base64,"+jsonInfo[i].shopImage[0].si_encodedImg+"' class='card-img-top'alt='...'>";
+							}else{
+								output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top'alt='...'>";
+							}
+							output += "</a>";
 							output += "</div>";
 							output += "<div class='col-sm-6'>";
 							output += "<div class='card-body' style='height: 225px'>";
 							output += "<h5 class='card-title' style='height: 20%'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>" + jsonInfo[i].s_name + "</a></h5>";
 							output += "<p class='card-text' style='height: 40%'>" + jsonInfo[i].s_content + "</p>";
 							output += "<p class='card-text'>";
-							if(Object.keys(jsonInfo[i].shopReviewList).length == 0){
-								output += "<small class='text-muted' style='height: 14px'>" + "아직 남겨진 리뷰가 없어요~" + "</small>";
-							}else{
-								output += "<small class='text-muted' style='height: 14px'>" + jsonInfo[i].shopReviewList[0].sr_content + "</small>";
-							}
+							output += "<small class='text-muted' style='height: 14px'>리뷰 " + jsonInfo[i].reviewCount + "건</small>";
 							output += "</p>";
 							output += "<p class='card-text'>";
 							output += "<small class='text-muted' style='height: 14px'>가게평점 ";

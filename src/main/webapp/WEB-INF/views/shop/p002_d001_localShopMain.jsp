@@ -102,19 +102,18 @@ a:hover {
 						output += "<div style='margin: 20px'>";
 						output += "<div class='card' style='width: 18rem;'>";
 						output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
-						output += "<img src='https://via.placeholder.com/150' class='card-img-top'alt='...'></a>";
+						if(Object.keys(jsonInfo[i].shopImage).length != 0){
+							output += "<img src='data:image/jpg;base64,"+jsonInfo[i].shopImage[0].si_encodedImg+"' class='card-img-top'alt='...'>";
+						}else{
+							output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top'alt='...'>";
+						}
+						output += "</a>";
 						output += "<div class='card-body'><h5 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>"+jsonInfo[i].s_name+"</a></h5>";
 						output += "<p class='card-text'>"+jsonInfo[i].s_locate+"</p></div>";
 						output += "<div class='card-body' id='review'>";
 						output += "<p class='card-text'>";
 						output += "<a href='#'>후기 "+jsonInfo[i].reviewCount+"건</a><br>";
-						if(Object.keys(jsonInfo[i].shopReviewList).length == 0){
-							output += "아직 남겨진 리뷰가 없어요~</p></div></div></div>";
-						}else{
-							output += "<a href='#'>"+jsonInfo[i].shopReviewList[0].m_nickname+"</a>님의 후기 <br>";
-							output += jsonInfo[i].shopReviewList[0].sr_score+"<br>";
-							output += jsonInfo[i].shopReviewList[0].sr_content+"</p></div></div></div>";
-						}
+						output += "평점 : "+jsonInfo[i].s_score+" 점</p></div></div></div>";
 					}
 					output += "</div>";
 				}
@@ -124,6 +123,7 @@ a:hover {
 				alert("에러가 발생했습니다.");
 			},
 			complete: function (data, textStatus) {
+				
 			}
 		});
 	}
@@ -156,7 +156,7 @@ a:hover {
 				<div class="row">
 					<div style="margin: 15px">
 						<div class="card" style="width: 8rem;">
-							<a href="${contextPath }/shop/localShopSearch.do?filter=10"><img src="https://via.placeholder.com/70" class="card-img-top"
+							<a href="${contextPath }/shop/localShopSearch.do?filter=10"><img src="${contextPath }/resources/image/shopCategory/cafe.png" class="card-img-top"
 								alt="..."></a>
 							<div class="card-body">
 								<h5 class="card-title">
@@ -167,7 +167,7 @@ a:hover {
 					</div>	
 					<div style="margin: 15px">
 						<div class="card" style="width: 8rem;">
-							<a href="${contextPath }/shop/localShopSearch.do?filter=20"><img src="https://via.placeholder.com/70" class="card-img-top"
+							<a href="${contextPath }/shop/localShopSearch.do?filter=20"><img src="${contextPath }/resources/image/shopCategory/restaurant.png" class="card-img-top"
 								alt="..."></a>
 							<div class="card-body">
 								<h5 class="card-title">
@@ -178,7 +178,7 @@ a:hover {
 					</div>
 					<div style="margin: 15px">
 						<div class="card" style="width: 8rem;">
-							<a href="${contextPath }/shop/localShopSearch.do?filter=30"><img src="https://via.placeholder.com/70" class="card-img-top"
+							<a href="${contextPath }/shop/localShopSearch.do?filter=30"><img src="${contextPath }/resources/image/shopCategory/hospital.png" class="card-img-top"
 								alt="..."></a>
 							<div class="card-body">
 								<h5 class="card-title">
@@ -189,7 +189,7 @@ a:hover {
 					</div>
 					<div style="margin: 15px">
 						<div class="card" style="width: 8rem;">
-							<a href="${contextPath }/shop/localShopSearch.do?filter=40"><img src="https://via.placeholder.com/70" class="card-img-top"
+							<a href="${contextPath }/shop/localShopSearch.do?filter=40"><img src="${contextPath }/resources/image/shopCategory/academy.png" class="card-img-top"
 								alt="..."></a>
 							<div class="card-body">
 								<h5 class="card-title">
@@ -202,7 +202,7 @@ a:hover {
 				<div class="row">
 					<div style="margin: 15px">
 						<div class="card" style="width: 8rem;">
-							<a href="${contextPath }/shop/localShopSearch.do?filter=50"><img src="https://via.placeholder.com/70" class="card-img-top"
+							<a href="${contextPath }/shop/localShopSearch.do?filter=50"><img src="${contextPath }/resources/image/shopCategory/beauty.png" class="card-img-top"
 								alt="..."></a>
 							<div class="card-body">
 								<h5 class="card-title">
@@ -213,7 +213,7 @@ a:hover {
 					</div>
 					<div style="margin: 15px">
 						<div class="card" style="width: 8rem;">
-							<a href="${contextPath }/shop/localShopSearch.do?filter=60"><img src="https://via.placeholder.com/70" class="card-img-top"
+							<a href="${contextPath }/shop/localShopSearch.do?filter=60"><img src="${contextPath }/resources/image/shopCategory/mart.png" class="card-img-top"
 								alt="..."></a>
 							<div class="card-body">
 								<h5 class="card-title">
@@ -224,7 +224,7 @@ a:hover {
 					</div>
 					<div style="margin: 15px">
 						<div class="card" style="width: 8rem;">
-							<a href="${contextPath }/shop/localShopSearch.do?filter=70"><img src="https://via.placeholder.com/70" class="card-img-top"
+							<a href="${contextPath }/shop/localShopSearch.do?filter=70"><img src="${contextPath }/resources/image/shopCategory/pottery.png" class="card-img-top"
 								alt="..."></a>
 							<div class="card-body">
 								<h5 class="card-title">
@@ -235,7 +235,7 @@ a:hover {
 					</div>
 					<div style="margin: 15px">
 						<div class="card" style="width: 8rem;">
-							<a href="${contextPath }/shop/localShopSearch.do?filter=80"><img src="https://via.placeholder.com/70" class="card-img-top"
+							<a href="${contextPath }/shop/localShopSearch.do?filter=80"><img src="${contextPath }/resources/image/shopCategory/interior.png" class="card-img-top"
 								alt="..."></a>
 							<div class="card-body">
 								<h5 class="card-title">
@@ -246,7 +246,7 @@ a:hover {
 					</div>
 					<div style="margin: 15px">
 						<div class="card" style="width: 8rem;">
-							<a href="${contextPath }/shop/localShopSearch.do?filter=90"><img src="https://via.placeholder.com/70" class="card-img-top"
+							<a href="${contextPath }/shop/localShopSearch.do?filter=90"><img src="${contextPath }/resources/image/shopCategory/real_estate.png" class="card-img-top"
 								alt="..."></a>
 							<div class="card-body">
 								<h5 class="card-title">
