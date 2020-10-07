@@ -23,20 +23,27 @@ public class AndP001AndOneVO {
 	private String g_id;
 	private String gc_name;
 	private String gc_id;
+	private String one_hashtag;
 	
 	public AndP001AndOneVO() {
+		System.out.println("AndOneVO 생성자호출");
 	}
 	
-	
+	public String getOne_hashtag() {
+		return one_hashtag;
+	}
+
+	public void setOne_hashtag(String one_hashtag) {
+		this.one_hashtag = one_hashtag;
+	}
+
 	public String getG_id() {
 		return g_id;
 	}
 
-
 	public void setG_id(String g_id) {
 		this.g_id = g_id;
 	}
-
 
 	public String getOne_state() {
 		return one_state;

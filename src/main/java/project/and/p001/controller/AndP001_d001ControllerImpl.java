@@ -43,7 +43,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	//3.해쉬태그검색
 	@Override
 	@RequestMapping(value="/and*/searchAndOne.do")
-	public ModelAndView searchList_eat(@ModelAttribute AndP001AndOneVO vo, @RequestParam("totalSearch") String totalSearch, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView searchList_eat(@ModelAttribute AndP001AndOneVO vo, @RequestParam(value="totalSearch", required=false) String totalSearch, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		//1.전체검색
 		String one_category = vo.getOne_category();
 		String g_id = vo.getG_id();
