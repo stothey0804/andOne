@@ -28,14 +28,28 @@
 	<!-- 관리자 START -->
 	<!-- 관리자메인페이지 -->
    <definition name="adminMain" extends="adminLayout">
-      <put-attribute name="title" value="메인페이지" />
+      <put-attribute name="title" value="관리자메인" />
        <put-attribute name="body" value="" />
    </definition>
 
    <definition name="p001_d006_search" extends="adminLayout">
-      <put-attribute name="title" value="메인페이지" />
+      <put-attribute name="title" value="회원정보조회" />
        <put-attribute name="body" value="/WEB-INF/views/member/p001_d006_search.jsp" />
    </definition>
+   
+   <!-- 문의하기 조회 -->
+   <definition name="p002_d002_search" extends="adminLayout">
+      <put-attribute name="title" value="문의조회" />
+       <put-attribute name="body" value="/WEB-INF/views/member/p002_d002_search.jsp" />
+   </definition>
+<!--    <definition name="p002_d002_search_all" extends="adminLayout"> -->
+<!--       <put-attribute name="title" value="전체 문의조회" /> -->
+<!--        <put-attribute name="body" value="/WEB-INF/views/member/p002_d002_search_all.jsp" /> -->
+<!--    </definition> -->
+<!--    <definition name="p002_d002_update_reply" extends="adminLayout"> -->
+<!--       <put-attribute name="title" value="문의 답변작성/수정" /> -->
+<!--        <put-attribute name="body" value="/WEB-INF/views/member/p002_d002_update_reply.jsp" /> -->
+<!--    </definition> -->
    <!-- 관리자페이지 END -->
    
 	<!-- 메인페이지 -->

@@ -87,7 +87,7 @@
 	  			<ul class="nav flex-column">
 			<!-- 메뉴목록시작 -->
 	          <li class="nav-item">
-	            <a class="nav-link" href="#">
+	            <a class="nav-link" href="${contextPath}/admin/searchNewQnA.do">
 	              	새로 접수된 문의
 	            </a>
 	          </li>
@@ -97,7 +97,7 @@
 	            </a>
 	          </li>
 	          <li class="nav-item">
-	            <a class="nav-link" href="#">
+	            <a class="nav-link" href="${contextPath}/admin/searchAllQnA.do">
 	              	문의 리스트
 	            </a>
 	          </li>

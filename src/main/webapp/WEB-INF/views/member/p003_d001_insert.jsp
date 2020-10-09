@@ -37,8 +37,8 @@
 </head>
 <body>
 <div class="container">
-	<form action="${contextPath}/member/sendQnA.do" enctype="multipart/form-data" method="post">
-			<h2 class="m-5">1:1문의</h2>
+	<form action="${contextPath}/member/sendReport.do" enctype="multipart/form-data" method="post">
+			<h2 class="m-5">신고하기</h2>
 			<hr class="m-5">
 			<div class="form-group col-sm-10 mx-auto mt-5 p-0">
 			<p class="h4 mb-3">처리기간에 대한 안내</p>
