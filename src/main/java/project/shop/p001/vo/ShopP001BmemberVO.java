@@ -3,21 +3,11 @@ package project.shop.p001.vo;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ShopP001_d001VO {
+public class ShopP001BmemberVO {
 	private String bm_id, bm_pwd, bm_name, bm_email, bm_joinDate, bm_phoneNumber;
 	
-	public ShopP001_d001VO() {
+	public ShopP001BmemberVO() {
 	}
-	
-	public ShopP001_d001VO(String bm_id, String bm_pwd, String bm_name, String bm_email, String bm_joinDate, String bm_phoneNumber) {
-		this.bm_id= bm_id;
-		this.bm_pwd = bm_pwd;
-		this.bm_name = bm_name;
-		this.bm_email = bm_email;
-		this.bm_joinDate = bm_joinDate;
-		this.bm_phoneNumber = bm_phoneNumber;
-	}
-
 
 	public String getBm_id() {
 		return bm_id;

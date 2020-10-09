@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AndP001_d001VO {
+public class AndP001AndOneVO {
 	private String one_type;
 	private String one_id;
 	private String one_category;
@@ -15,19 +15,67 @@ public class AndP001_d001VO {
 	private String one_totalPrice; //총가격
 	private String one_price; // 총가격/인원
 	private String one_date;
-	private String one_sate;
+	private String one_state;
 	private String one_hashTag;
 	private String one_time;
 	private String one_editor;
 	private Timestamp one_editDate;
+	private String g_id;
+	private String gc_name;
+	private String gc_id;
+	private String totalSearch; //총검색
 	
-	public AndP001_d001VO() {
+	public AndP001AndOneVO() {
+		System.out.println("AndOneVO 생성자호출");
 	}
 	
+	
+	public String getTotalSearch() {
+		return totalSearch;
+	}
+
+
+	public void setTotalSearch(String totalSearch) {
+		this.totalSearch = totalSearch;
+	}
+
+
+	public String getG_id() {
+		return g_id;
+	}
+
+	public void setG_id(String g_id) {
+		this.g_id = g_id;
+	}
+
+	public String getOne_state() {
+		return one_state;
+	}
+
+	public void setOne_state(String one_state) {
+		this.one_state = one_state;
+	}
+
+
+	public String getGc_name() {
+		return gc_name;
+	}
+
+	public void setGc_name(String gc_name) {
+		this.gc_name = gc_name;
+	}
+
+	public String getGc_id() {
+		return gc_id;
+	}
+
+	public void setGc_id(String gc_id) {
+		this.gc_id = gc_id;
+	}
+
 	public String getOne_price() {
 		return one_price;
 	}
-
 
 	public void setOne_price(String one_price) {
 		this.one_price = one_price;
@@ -105,14 +153,6 @@ public class AndP001_d001VO {
 
 	public void setOne_date(String one_date) {
 		this.one_date = one_date;
-	}
-
-	public String getOne_sate() {
-		return one_sate;
-	}
-
-	public void setOne_sate(String one_sate) {
-		this.one_sate = one_sate;
 	}
 
 	public String getOne_hashTag() {

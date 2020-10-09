@@ -63,27 +63,18 @@
       <put-attribute name="title" value="메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/member/p001_d003_init.jsp" />
    </definition>
-
-   <!-- 같이먹기 메인 -->
-   <definition name="eatMain" extends="baseLayout">
+	
+   <!-- 같이 메인 -->
+   <definition name="andOneMain" extends="baseLayout">
       <put-attribute name="title" value="메인페이지" />
-       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_eatMain.jsp" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_andOneMain.jsp" />
    </definition> 
-   <!-- 같이먹기 리스트 -->
-   <definition name="andone_eat" extends="baseLayout">
+   <!-- 같이 리스트 -->
+   <definition name="andOneSearch" extends="baseLayout">
       <put-attribute name="title" value="메인페이지" />
-       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_listAndOne_eat.jsp" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_andOneSearch.jsp" />
    </definition>
-   <!-- 같이하기 리스트 -->
-   <definition name="andone_do" extends="baseLayout">
-      <put-attribute name="title" value="메인페이지" />
-       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_listAndOne_do.jsp" />
-   </definition>
-   <!-- 같이사기 리스트 -->
-   <definition name="andone_buy" extends="baseLayout">
-      <put-attribute name="title" value="메인페이지" />
-       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_listAndOne_buy.jsp" />
-   </definition>
+
 
    <!-- 지역업체 페이지 -->
    <definition name="localShopMain" extends="baseLayout">

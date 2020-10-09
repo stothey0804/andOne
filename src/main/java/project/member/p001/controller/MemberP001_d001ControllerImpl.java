@@ -48,8 +48,8 @@ public class MemberP001_d001ControllerImpl implements MemberP001_d001Controller{
 		String targetPhoneNum = request.getParameter("phone");
 		String twilioPhoneNum = targetPhoneNum.replaceAll("-", "");
 		SendSMSTwilio twilio = new SendSMSTwilio();		// 문자 인증
-//		int authNum = twilio.sendSMS(twilioPhoneNum);
-		int authNum = 999999;	// 인증번호 임시
+		int authNum = twilio.sendSMS(twilioPhoneNum);
+//		int authNum = 999999;	// 인증번호 임시
 		out.print(""+authNum);
 		out.close();
 	}

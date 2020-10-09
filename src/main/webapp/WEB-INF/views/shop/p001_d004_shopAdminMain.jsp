@@ -6,12 +6,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>업체관리자페이지</title>
 </head>
 <body>
-	<form name="eat" method="post" action="${contextPath}/project/p003_d001/eat/listAndOne.do">
-	같이먹기 검색: <input type ="text" name="eat_id">
-	<input type="submit" value="조회하기">
-	</form>
+	<h3>업체관리자페이지</h3>
+	<h3>로그인 성공!!!!!!!!!!!!!!!!!!!</h3>
+	${bMember.bm_name}님 안녕하세요<br>
+	<button onclick="location.href='${contextPath}/biz/logout.do'">로그아웃</button>
 </body>
 </html>
