@@ -45,4 +45,15 @@ public class MemberP002_d002DAOImpl implements MemberP002_d002DAO{
 		return sqlSession.selectOne("member.p002.selectReplyQnA", q_id);
 	}
 
+	@Override
+	public int selectAllQnAListCnt(Map<String, String> param) {
+		return sqlSession.selectOne("member.p002.selectAllQnAListCnt", param);
+	}
+
+	@Override
+	public int selectNewQnAListCnt(Map<String, String> param) {
+		return sqlSession.selectOne("member.p002.selectNewQnAListCnt", param);
+	}
+
+
 }

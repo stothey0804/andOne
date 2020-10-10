@@ -38,5 +38,13 @@ public class MemberP002_d002ServiceImpl implements MemberP002_d002Service{
 	public String searchReplyQnA(String q_id) {
 		return memberP002_d002DAO.searchReplyQnA(q_id);
 	}
+	@Override
+	public int selectAllQnAListCnt(Map<String, String> param) {
+		return memberP002_d002DAO.selectAllQnAListCnt(param);
+	}
+	@Override
+	public int selectNewQnAListCnt(Map<String, String> param) {
+		return memberP002_d002DAO.selectNewQnAListCnt(param);
+	}
 
 }

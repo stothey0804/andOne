@@ -15,6 +15,8 @@ public class MemberP002VO {
 		this.q_content = q_content;
 	}
 
+	
+
 	public String getQ_id() {
 		return q_id;
 	}

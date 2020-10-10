@@ -58,6 +58,20 @@
 		]]>
 	</select>
 	
+ 	<!-- qna 게시글 카운트 --> 
+<!-- 	<select id="selectQnACnt" resultType="" parameterType="String"> -->
+<!-- 		<![CDATA[ -->
+<!-- 			SELECT COUNT(q_id) FROM qna -->
+<!-- 		]]> -->
+<!-- 		<where> -->
+<!-- 			<choose> -->
+<!-- 				<when test="m_id!='' and m_id!=null"> -->
+<!-- 					m_id like #{m_id} 		 -->
+<!-- 				</when> -->
+<!-- 			</choose> -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+	
 	<select id="selectQnADetailByQID" resultMap="p002Result" parameterType="String">
 		<![CDATA[
 			SELECT q_id, 
@@ -116,55 +130,136 @@
 			ORDER BY q_id desc
 	</select><!-- 신규리스트 END -->
 	
-	<!-- 전체리스트 -->
-	<select id="selectAllQnAList" resultMap="p002Result" parameterType="java.util.HashMap">
+	<!-- 신규리스트 -->
+	<select id="selectNewQnAListCnt" resultType="int" parameterType="java.util.HashMap">
 		<![CDATA[
-			SELECT q_id, 
-			(SELECT gc_name FROM common_code WHERE g_id like '016' AND gc_id like q_type)q_type, 
-			q_subject, REPLACE(SUBSTR(q_date,1,10),'/','-')q_date,  
-			(SELECT gc_name FROM common_code WHERE g_id like '004' AND gc_id like q_state)q_state, m_id
-			FROM qna
+			SELECT COUNT(q_id) FROM qna
 		]]>
 		<where>
+			q_state = '10'
 		<choose>
+			<when test="q_type!='' and q_type!=null">
+				AND q_type like #{q_type} AND q_state = '10'
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and m_id!='' and m_id!=null">
+				AND m_id like '%'||#{m_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and q_id!='' and q_id!=null">
+				AND q_id like '%'||#{q_id}||'%' AND q_type like #{q_type}
+			</when>
 			<when test="m_id!='' and m_id!=null">
-				m_id like '%'||#{m_id}||'%'
+				AND m_id like '%'||#{m_id}||'%'
 			</when>
 			<when test="q_id!='' and q_id!=null">
-				q_id like '%'||#{q_id}||'%'
-			</when>
-			<when test="q_state!='' and q_state!=null">
-				q_state like #{q_state}
-			</when>
-			<when test="q_type!='' and q_type!=null">
-				q_type like #{q_type}
-			</when>
-			<when test="q_state!='' and q_state!=null and m_id!='' and m_id!=null">
-				q_state like #{q_state} AND m_id like '%'||#{m_id}||'%'
-			</when>
-			<when test="q_state!='' and q_state!=null and q_id!='' and q_id!=null">
-				q_state like #{q_state} AND q_id like '%'||#{q_id}||'%'
-			</when>
-			<when test="q_type!='' and q_type!=null	and m_id!='' and m_id!=null">
-				m_id like '%'||#{m_id}||'%' AND q_type like #{q_type}
-			</when>
-			<when test="q_type!='' and q_type!=null	and q_id!='' and q_id!=null">
-				q_id like '%'||#{q_id}||'%' AND q_type like #{q_type}
-			</when>
-			<when test="q_type!='' and q_type!=null
-				and m_id!='' and m_id!=null and q_state!='' and q_state!=null">
-				m_id like '%'||#{m_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
-			</when>
-			<when test="q_type!='' and q_type!=null
-				and q_id!='' and q_id!=null and q_state!='' and q_state!=null">
-				q_id like '%'||#{q_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
-			</when>
-			<when test="q_state!='' and q_state!=null and q_type!='' and q_type!=null">
-				q_state like #{q_state} AND q_type like #{q_type}
+				AND q_id like '%'||#{q_id}||'%'
 			</when>
 		</choose>
 		</where>
 			ORDER BY q_id desc
+	</select><!-- 신규리스트 END -->
+	
+	
+	
+	<!-- 전체리스트 -->
+	<select id="selectAllQnAList" resultMap="p002Result" parameterType="java.util.HashMap">
+		<![CDATA[
+			SELECT * FROM (
+			SELECT q_id, 
+			(SELECT gc_name FROM common_code WHERE g_id like '016' AND gc_id like q_type)q_type, 
+			q_subject, REPLACE(SUBSTR(q_date,1,10),'/','-')q_date,  
+			(SELECT gc_name FROM common_code WHERE g_id like '004' AND gc_id like q_state)q_state, m_id,
+			ROW_NUMBER() OVER (ORDER BY q_id DESC) ROWNUMBER
+			FROM qna)
+		]]>
+		<where>
+			ROWNUMBER BETWEEN #{startIndex} AND #{endIndex}
+		<choose>
+			<when test="m_id!='' and m_id!=null">
+				and m_id like '%'||#{m_id}||'%'
+			</when>
+			<when test="q_id!='' and q_id!=null">
+				and q_id like '%'||#{q_id}||'%'
+			</when>
+			<when test="q_state!='' and q_state!=null">
+				and q_state like #{q_state}
+			</when>
+			<when test="q_type!='' and q_type!=null">
+				and q_type like #{q_type}
+			</when>
+			<when test="q_state!='' and q_state!=null and m_id!='' and m_id!=null">
+				and q_state like #{q_state} AND m_id like '%'||#{m_id}||'%'
+			</when>
+			<when test="q_state!='' and q_state!=null and q_id!='' and q_id!=null">
+				and q_state like #{q_state} AND q_id like '%'||#{q_id}||'%'
+			</when>
+			<when test="q_type!='' and q_type!=null	and m_id!='' and m_id!=null">
+				and m_id like '%'||#{m_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null	and q_id!='' and q_id!=null">
+				and q_id like '%'||#{q_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and m_id!='' and m_id!=null and q_state!='' and q_state!=null">
+				and m_id like '%'||#{m_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and q_id!='' and q_id!=null and q_state!='' and q_state!=null">
+				and q_id like '%'||#{q_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
+			</when>
+			<when test="q_state!='' and q_state!=null and q_type!='' and q_type!=null">
+				and q_state like #{q_state} AND q_type like #{q_type}
+			</when>
+		</choose>
+		</where>
+			ORDER BY q_id desc
+	</select><!-- 전체리스트 END -->
+	
+	<!-- 전체리스트 -->
+	<select id="selectAllQnAListCnt" resultType="int" parameterType="java.util.HashMap">
+		<![CDATA[
+			SELECT COUNT(q_id) FROM qna
+		]]>
+		<where>
+		<choose>
+			<when test="m_id!='' and m_id!=null">
+				and m_id like '%'||#{m_id}||'%'
+			</when>
+			<when test="q_id!='' and q_id!=null">
+				and q_id like '%'||#{q_id}||'%'
+			</when>
+			<when test="q_state!='' and q_state!=null">
+				and q_state like #{q_state}
+			</when>
+			<when test="q_type!='' and q_type!=null">
+				and q_type like #{q_type}
+			</when>
+			<when test="q_state!='' and q_state!=null and m_id!='' and m_id!=null">
+				and q_state like #{q_state} AND m_id like '%'||#{m_id}||'%'
+			</when>
+			<when test="q_state!='' and q_state!=null and q_id!='' and q_id!=null">
+				and q_state like #{q_state} AND q_id like '%'||#{q_id}||'%'
+			</when>
+			<when test="q_type!='' and q_type!=null	and m_id!='' and m_id!=null">
+				and m_id like '%'||#{m_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null	and q_id!='' and q_id!=null">
+				and q_id like '%'||#{q_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and m_id!='' and m_id!=null and q_state!='' and q_state!=null">
+				and m_id like '%'||#{m_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and q_id!='' and q_id!=null and q_state!='' and q_state!=null">
+				and q_id like '%'||#{q_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
+			</when>
+			<when test="q_state!='' and q_state!=null and q_type!='' and q_type!=null">
+				and q_state like #{q_state} AND q_type like #{q_type}
+			</when>
+		</choose>
+		</where>
 	</select><!-- 전체리스트 END -->
 	
 	</mapper>

@@ -12,4 +12,6 @@ public interface MemberP002_d002Service {
 	public int saveQnAState(Map<String, String> param);	// qna 상태변경
 	public int saveReplyQnA(Map<String, String> param);	// qna 답변작성
 	public String searchReplyQnA(String q_id);	// 답변조회
+	public int selectAllQnAListCnt(Map<String, String> param);
+	public int selectNewQnAListCnt(Map<String, String> param);
 }

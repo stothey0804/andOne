@@ -83,5 +83,5 @@ $(document).ready(function(){
 		// frmDetail.action = "sendReplyQnA.do";
 		// frmDetail.submit();
 	});
-	
+
 });
