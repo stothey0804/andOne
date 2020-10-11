@@ -42,20 +42,29 @@
       <put-attribute name="title" value="문의조회" />
        <put-attribute name="body" value="/WEB-INF/views/member/p002_d002_search.jsp" />
    </definition>
-<!--    <definition name="p002_d002_search_all" extends="adminLayout"> -->
-<!--       <put-attribute name="title" value="전체 문의조회" /> -->
-<!--        <put-attribute name="body" value="/WEB-INF/views/member/p002_d002_search_all.jsp" /> -->
-<!--    </definition> -->
-<!--    <definition name="p002_d002_update_reply" extends="adminLayout"> -->
-<!--       <put-attribute name="title" value="문의 답변작성/수정" /> -->
-<!--        <put-attribute name="body" value="/WEB-INF/views/member/p002_d002_update_reply.jsp" /> -->
-<!--    </definition> -->
+   
+   <!-- 공지사항 조회 -->
+   <definition name="RootP003_d001_search" extends="adminLayout">
+      <put-attribute name="title" value="공지사항" />
+       <put-attribute name="body" value="/WEB-INF/views/root/p003_d001_search.jsp" />
+   </definition>
+   <!-- 공지사항 작성폼 -->
+   <definition name="RootP003_d001_save" extends="adminLayout">
+      <put-attribute name="title" value="공지사항" />
+       <put-attribute name="body" value="/WEB-INF/views/root/p003_d001_save.jsp" />
+   </definition>
+
    <!-- 관리자페이지 END -->
    
 	<!-- 메인페이지 -->
    <definition name="main" extends="baseLayout">
       <put-attribute name="title" value="관리자메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/root/p001_d001_init.jsp" />
+   </definition>
+	<!-- 공지사항 -->
+   <definition name="RootP003_d001_search_common" extends="baseLayout">
+      <put-attribute name="title" value="공지사항" />
+       <put-attribute name="body" value="/WEB-INF/views/root/p003_d001_search.jsp" />
    </definition>
    
 	<!-- 비밀번호찾기 -->

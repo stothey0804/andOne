@@ -1,7 +1,7 @@
 package project.member.p002.vo;
 
 public class MemberP002VO {
-	private String q_id, q_type, m_id, q_subject, q_date, q_content, q_state, q_checked, q_reply;
+	private String q_id, q_type, m_id, q_subject, q_date, q_content, q_state, q_checked, q_reply, q_type_id;
 	
 	public MemberP002VO() {
 		// TODO Auto-generated constructor stub
@@ -16,6 +16,14 @@ public class MemberP002VO {
 	}
 
 	
+
+	public String getQ_type_id() {
+		return q_type_id;
+	}
+
+	public void setQ_type_id(String q_type_id) {
+		this.q_type_id = q_type_id;
+	}
 
 	public String getQ_id() {
 		return q_id;

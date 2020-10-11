@@ -23,5 +23,6 @@
 	    <typeAlias type="project.shop.p003.vo.ShopP003ShopReviewVO" alias="ShopP003ShopReviewVO" />
 		<typeAlias type="project.member.p001.vo.MemberP001_MemberVO" alias="memberP001_MemberVO" /> <!-- Member -->
 		<typeAlias type="project.member.p002.vo.MemberP002VO" alias="memberP002VO" /> <!-- QnA -->
+		<typeAlias type="project.root.p003.vo.RootP003VO" alias="rootP003VO" /> <!-- notice -->
 	</typeAliases>
 </configuration>

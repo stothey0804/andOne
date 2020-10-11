@@ -14,16 +14,14 @@
 /* 			width: 90%; */
 /* 		} */
 /* 	} */
-/* 	.container{ */
+ 	.container{ 
 		margin: 0 auto;
 	}
-	#cke_q_content{
-		width: 95%;
-		margin: 0 auto;
-	}
+	
 	.arcticleSubject{
 		cursor: pointer;
 	}
+	
 	tbody{
 		border-top-width: 0px !important;
 	}
@@ -39,20 +37,20 @@
 	$(document).ready(function(){
 		$(".arcticleSubject").click(function(){
 		  	let id = getArticleId(this);
-		    $("#"+id + " .arcticleBody").toggle();	// q_id get
+		    $("#"+id + " .arcticleBody").toggle();	// id get
 		});
 		
 		// 수정
 		$(".editContent").click(function(){
-			let id = getArticleId(this);	// q_id get
-			dynamicFormInsert(id,"qna");
+			let id = getArticleId(this);	// id get
+			dynamicFormInsert(id,"initNotice");
 		});
 		
 		// 삭제
 		$(".deleteArticle").click(function(){
-			let id = getArticleId(this);	// q_id get
+			let id = getArticleId(this);	// id get
 			if(confirm("삭제 하시겠습니까?")){
-				dynamicFormInsert(id, "deleteMemberQnA");
+				dynamicFormInsert(id, "deleteNotice");
 			}
 		});
 		
@@ -65,13 +63,13 @@
 			// 동적 form 생성
 			let frm = document.createElement('form');
 			frm.name = "frmQnA";				
-			frm.action = "${contextPath}/member/"+dest+".do";
+			frm.action = "${contextPath}/admin/"+dest+".do";
 			// form에 연결
 			let input = document.createElement('input');
 			input.setAttribute("type","hidden");
-			input.setAttribute("name","q_id");
+			input.setAttribute("name","n_id");
 			input.setAttribute("value",id);
-			frm.appendChild(input);	// append q_id
+			frm.appendChild(input);	// append id
 			document.body.appendChild(frm);	// append form
 			frm.submit();
 		}
@@ -80,38 +78,34 @@
 </head>
 <body>
 <div class="container">
-			<h2 class="m-5">문의내역</h2>
+			<h2 class="m-5">공지사항</h2>
 			<div class="form-group col-sm-10 mx-auto p-0">
 				<table class="table">
 					<thead>
 						<tr class="text-center">
-							<th>문의번호</th><th>분류</th><th style="width:400px;">제목</th><th>날짜</th><th>처리상태</th>
+							<th>글 번호</th><th style="width:500px;">제목</th><th>날짜</th>
 						</tr>
 					</thead>
 					<c:forEach var="list" items="${articleList}">
-					<tbody id="${list.q_id}">
+					<tbody id="${list.n_id}">
 						<tr class="arcticleSubject text-center">
-							<td>${list.q_id}</td><td>${list.q_type}</td><td class="text-left">${list.q_subject}</td><td>${list.q_date}</td><td>${list.q_state}</td>
+							<td>${list.n_id}</td><td class="text-left">${list.n_title}</td><td>${list.n_date}</td>
 						</tr>
 						<!-- 내용영역 -->
 						<tr style="display:none;" class="arcticleBody">
 							<td colspan="5" class="p-3">
-								${list.q_content}
+								${list.n_content}
+							<c:if test="${m_id eq '00000001'}">
 							<div class="form-inline">
 								<div class="mt-2 ml-auto">
 									<button type="button" class="editContent btn btn-primary mr-1">수정</button>
 									<button type="button" class="deleteArticle btn btn-danger">삭제</button>
 								</div>
 							</div>
+							</c:if>
 							</td>
 						</tr>
 						<!-- 내용영역 END -->
-						<tr style="display:none;" class="arcticleBody">
-							<td colspan="5" class="p-3 bg-light">
-							관리자답변: <br>
-								${list.q_reply}
-							</td>
-						</tr>					
 					</tbody>
 					</c:forEach>
 				</table>

@@ -1,6 +1,7 @@
 package project.member.p002.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,23 @@ public class MemberP002_d001ServiceImpl implements MemberP002_d001Service{
 	}
 
 	@Override
-	public List<MemberP002VO> searchQnAListbyMemberID(String m_id) {
-		return memberP002_d001DAO.searchQnAListbyMemberID(m_id);
+	public int selectQnAListCnt(String m_id) {
+		return memberP002_d001DAO.selectQnAListCnt(m_id);
+	}
+
+	@Override
+	public List<MemberP002VO> searchQnAListbyMemberID(Map<String, String> param) {
+		return memberP002_d001DAO.searchQnAListbyMemberID(param);
+	}
+
+	@Override
+	public int saveQnA(MemberP002VO vo) {
+		return memberP002_d001DAO.saveQnA(vo);
+	}
+
+	@Override
+	public int deleteQnA(String q_id) {
+		return memberP002_d001DAO.deleteQnA(q_id);
 	}
 
 }

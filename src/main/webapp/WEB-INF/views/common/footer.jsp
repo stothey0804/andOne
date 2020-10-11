@@ -36,8 +36,8 @@
       <div class="col-sm-6 col-md">
         <h5>공지/문의</h5>
         <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">공지사항</a></li>
-          <li><a class="text-muted" href="#">문의하기</a></li>
+          <li><a class="text-muted" href="${contextPath}/notice.do">공지사항</a></li>
+          <li><a class="text-muted" href="${contextPath}/member/qna.do">문의하기</a></li>
           <li><a class="text-muted" href="#">신고하기</a></li>
         </ul>
       </div>
