@@ -1,9 +1,11 @@
 package project.club.p003.controller;
 
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +34,6 @@ public class ClubP003_d001ControllerImpl implements ClubP003_d001Controller{
 	@Override		//게시글 삭제
 	@RequestMapping(value="/deleteClubArticle.do",method= {RequestMethod.GET})
 	public void deleteClubArticle(@RequestParam(value="ca_id",required = false) String ca_id,@RequestParam(value="c_id",required = true) String c_id) throws Exception {
-		System.out.println("****************");
 		System.out.println(ca_id);
 		Map<String, Object> searchMap = new HashMap<String, Object>();
 		searchMap.put("ca_id", ca_id);
@@ -46,18 +47,29 @@ public class ClubP003_d001ControllerImpl implements ClubP003_d001Controller{
 		Map<String, Object> searchMap = new HashMap<String, Object>();
 		searchMap.put("c_id", c_id);
 		ClubVO vo = clubP001_d001Service.detailClub(searchMap);
+
+		//소모임 대표 이미지 encoding
+		byte[] encoded = null;
+		String clubImg = "";
+		if(vo.getC_imgByte() != null) {
+			encoded = Base64.getEncoder().encode(vo.getC_imgByte());
+			clubImg = new String(encoded);	
+		}
+		System.out.println("zzzzzzzzzzzzz"+clubImg);
 		ModelAndView mav = new ModelAndView("writeArticleForm");
 		mav.addObject("clubInfo", vo);
+		mav.addObject("clubImg", clubImg);
 		return mav;
 	}
 	
 	@Override		//게시글 작성
 	@RequestMapping(value="/writeArticle.do", method= {RequestMethod.GET,RequestMethod.POST})
-	public String writeArticle(ClubArticleVO vo, HttpServletRequest request) throws Exception{
+	public String writeArticle(ClubArticleVO vo, HttpServletRequest request, HttpSession session) throws Exception{
+		String m_id = (String) session.getAttribute("m_id");
 		Map<String, Object> insertMap = new HashMap<String, Object>();
 		insertMap.put("ca_img", vo.getCa_img().getBytes());
 		insertMap.put("ca_content", vo.getCa_content());
-		insertMap.put("m_id", vo.getM_id());
+		insertMap.put("m_id", m_id);
 		insertMap.put("c_id", vo.getC_id());
 		clubP003_d001Service.writeArticle(insertMap);
 		return "redirect:/detailClub.do?c_id="+vo.getC_id();

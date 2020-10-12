@@ -24,66 +24,84 @@
 	font-style: normal;
 }
 
-.left,.right {
+.left, .right {
 	display: inline-block;
 	margin: 0;
-	width:500px;
-}
-.left{
-	margin-top:0;
-	position:fixed;
+	width: 500px;
 }
 
-.right{
-	margin-left:300px;
-	margin-top:17px;
-}
-.card-title,.pin,.card-subtitle{
-	display:inline-block;
-	margin-left:10px;
-}
-.art-title{
-	width:330px;
-	position:absolute;
+.left {
+	margin-top: 0;
+	position: fixed;
 }
 
-.pin{
-	width:30px;
+.right {
+	margin-left: 300px;
+	margin-top: 17px;
+}
+
+.card-title, .pin, .card-subtitle {
+	display: inline-block;
+	margin-left: 10px;
+}
+
+.art-title {
+	width: 330px;
+	position: absolute;
+}
+
+.pin {
+	width: 30px;
 	position: absolute;
 	top: 20px;
-    right: 20px;
-}
-.card-subtitle{
-	margin-top:10px;
+	right: 20px;
 }
 
-.bi-bookmark-star-fill{
-	fill:#ffcc00;
-	display:inline-block; 
-}
-.show{
-	position:fixed;
-}
-.sub{
-	display:none;
-}
-.tap{
-	cursor:pointer;
+.card-subtitle {
+	margin-top: 10px;
 }
 
-.ca_img{
-	height:100%;
-	width:100%;
-	object-fit : contain;
+.bi-bookmark-star-fill {
+	fill: #ffcc00;
+	display: inline-block;
 }
 
-.c_img{
-	height:100%;
-	width:100%;
-	object-fit:cover;
+.show {
+	position: fixed;
 }
-.aa{
-	display:none;
+
+.sub {
+	display: none;
+}
+
+.tap {
+	cursor: pointer;
+}
+
+.ca_img {
+	height: 100%;
+	width: 100%;
+	object-fit: contain;
+}
+
+.c_img {
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+}
+
+.aa {
+	display: none;
+}
+
+.userImg {
+	position: relative;
+	border-radius: 70px;
+	-moz-border-radius: 70px;
+	-khtml-border-radius: 70px;
+	-webkit-border-radius: 70px;
+	width: 60px;
+	height: 60px;
 }
 </style>
 <script type="text/javascript">
@@ -122,7 +140,7 @@
 			<div class="card info" style="width: 18rem;">
 			<c:set var="c_img" value="${clubImg}"/>
 				<c:choose>
-					<c:when test="${c_img eq '0'}">
+					<c:when test="${c_img eq ''}">
 						<img src="https://cdn.pixabay.com/photo/2014/07/08/10/47/team-386673_1280.jpg" class="card-img-top" alt="...">
 					</c:when>
 					<c:otherwise>
@@ -159,73 +177,89 @@
 			<div class="card">
 				<div class="card-header">${clubInfo.c_name }</div>
 				<div class="card-body">
-				 	<h5>${clubInfo.c_content }</h5>
+					<h5>${clubInfo.c_content }</h5>
 				</div>
 			</div>
-			
+
 			<!--소모임 게시글  -->
 			<c:forEach var="club" items="${clubInfo.articleList }">
-			<div class="card article" style="width: 500px;height:auto;">
-				<div class="card-body" style="height:auto">
-					<img style="position:relative;border-radius: 70px;
-								-moz-border-radius: 70px;
-								-khtml-border-radius: 70px;
-								-webkit-border-radius: 70px;width:70px;height:70px;"
-								src="https://www.vettedpetcare.com/vetted-blog/wp-content/uploads/2017/09/How-To-Travel-With-a-Super-Anxious-Cat-square.jpeg" />
-					<h5 class="card-title art-title">${club.m_id}</h5>
-					<c:set var="ca_pin" value="${club.ca_pin}"/>
+			<c:set var="m_img" value="${club.resultUserImg }"/>
+				<div class="card article" style="width: 500px; height: auto;">
+					<div class="card-body" style="height: auto">
 					<c:choose>
-					<c:when test="${ca_pin eq 1}">
-					<div class="pin">
-						<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-bookmark-star-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  							<path fill-rule="evenodd" d="M4 0a2 2 0 0 0-2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4zm4.16 4.1a.178.178 0 0 0-.32 0l-.634 1.285a.178.178 0 0 1-.134.098l-1.42.206a.178.178 0 0 0-.098.303L6.58 6.993c.042.041.061.1.051.158L6.39 8.565a.178.178 0 0 0 .258.187l1.27-.668a.178.178 0 0 1 .165 0l1.27.668a.178.178 0 0 0 .257-.187L9.368 7.15a.178.178 0 0 1 .05-.158l1.028-1.001a.178.178 0 0 0-.098-.303l-1.42-.206a.178.178 0 0 1-.134-.098L8.16 4.1z"/>
+						<c:when test="${m_img ne null}">
+							<img src="data:image/jpg;base64, ${club.resultUserImg}" class="userImg">
+						</c:when>
+						<c:otherwise>
+							<img src="${contextPath}/resources/image/user.png" class="userImg">
+						</c:otherwise>
+					</c:choose>
+						<h5 class="card-title art-title">${club.m_nickname}</h5>
+						<c:set var="ca_pin" value="${club.ca_pin}" />
+						<c:choose>
+							<c:when test="${ca_pin eq 1}">
+								<div class="pin">
+									<svg width="1.5em" height="1.5em" viewBox="0 0 16 16"
+										class="bi bi-bookmark-star-fill" fill="currentColor"
+										xmlns="http://www.w3.org/2000/svg">
+  							<path fill-rule="evenodd"
+											d="M4 0a2 2 0 0 0-2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4zm4.16 4.1a.178.178 0 0 0-.32 0l-.634 1.285a.178.178 0 0 1-.134.098l-1.42.206a.178.178 0 0 0-.098.303L6.58 6.993c.042.041.061.1.051.158L6.39 8.565a.178.178 0 0 0 .258.187l1.27-.668a.178.178 0 0 1 .165 0l1.27.668a.178.178 0 0 0 .257-.187L9.368 7.15a.178.178 0 0 1 .05-.158l1.028-1.001a.178.178 0 0 0-.098-.303l-1.42-.206a.178.178 0 0 1-.134-.098L8.16 4.1z" />
 						</svg>
-					</div>		
-					</c:when>
-					</c:choose>
-					<h6 class="card-subtitle mb-2 text-muted">${club.ca_date }</h6>
-					<p class="card-text" style="margin-top:10px;">${club.ca_content }</p>
-					<c:set var="ca_img" value="${club.resultImgList}"/>
-					<c:choose>
-						<c:when test="${ca_img ne null}">
-						<div class="ca_img_div">
-							<img src="data:image/jpg;base64, ${ca_img}" class="ca_img">
-						</div>							
-						</c:when>
-					</c:choose>
-			<!--본인이 쓴 글일 경우 수정,삭제 메뉴 -->
-					<c:set var="logOnId" value="${m_id }"/>
-					<c:set var="writer" value="${club.m_id }"/>
-					<c:choose>
-						<c:when test="${logOnId eq writer}">
-	     					<svg onclick="menuTap(${club.ca_id});" width="1em" height="1em" viewBox="0 0 16 16" class="tap bi bi-three-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  								<path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+								</div>
+							</c:when>
+						</c:choose>
+						<h6 class="card-subtitle mb-2 text-muted">${club.ca_date }</h6>
+						<p class="card-text" style="margin-top: 10px;">${club.ca_content }</p>
+						<c:set var="ca_img" value="${club.resultArticleImg}" />
+						<c:choose>
+							<c:when test="${ca_img ne null}">
+								<div class="ca_img_div">
+									<img src="data:image/jpg;base64, ${ca_img}" class="ca_img">
+								</div>
+							</c:when>
+						</c:choose>
+						<!--본인이 쓴 글일 경우 수정,삭제 메뉴 -->
+						<c:set var="logOnId" value="${m_id }" />
+						<c:set var="writer" value="${club.m_id }" />
+						<c:choose>
+							<c:when test="${logOnId eq writer}">
+								<svg onclick="menuTap(${club.ca_id});" width="1em" height="1em"
+									viewBox="0 0 16 16" class="tap bi bi-three-dots"
+									fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  								<path fill-rule="evenodd"
+										d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
 							</svg>
-							<div class="sub ${club.ca_id}">
-								<button type="button" class="btn btn-outline-secondary" onclick="location.href='editClubArticle.do?ca_id=${club.ca_id}'">수정</button>
-								<button type="button" class="btn btn-outline-danger delete" onclick="send(${club.ca_id})" data-toggle="modal" data-target="#staticBackdrop">삭제</button>
-							</div>
-						</c:when>
-					</c:choose>
-				</div>
+								<div class="sub ${club.ca_id}">
+									<button type="button" class="btn btn-outline-secondary"
+										onclick="location.href='editClubArticle.do?ca_id=${club.ca_id}'">수정</button>
+									<button type="button" class="btn btn-outline-danger delete"
+										onclick="send(${club.ca_id})" data-toggle="modal"
+										data-target="#staticBackdrop">삭제</button>
+								</div>
+							</c:when>
+						</c:choose>
+					</div>
 				</div>
 			</c:forEach>
-							<!-- delete Modal -->
-							<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
-							  <div class="modal-dialog">
-							    <div class="modal-content">
-							      <div class="modal-body">
-							        	<h6 style="text-align:center;">해당 게시물을 삭제하겠습니까?</h6>
-							        	<p class="aa"></p>
-							      </div>
-							      <div class="modal-footer">
-							        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-							        <button type="button" class="btn btn-primary"
-							        	onclick="deleteArticle(${clubInfo.c_id})">삭제하기${club.ca_content}</button>
-							      </div>
-							    </div>
-							  </div>
-							</div>
+			<!-- delete Modal -->
+			<div class="modal fade" id="staticBackdrop" data-backdrop="static"
+				data-keyboard="true" tabindex="-1"
+				aria-labelledby="staticBackdropLabel" aria-hidden="false">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-body">
+							<h6 style="text-align: center;">해당 게시물을 삭제하겠습니까?</h6>
+							<p class="aa"></p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">닫기</button>
+							<button type="button" class="btn btn-primary"
+								onclick="deleteArticle(${clubInfo.c_id})">삭제하기${club.ca_content}</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

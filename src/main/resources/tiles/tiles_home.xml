@@ -28,14 +28,32 @@
 	<!-- 관리자 START -->
 	<!-- 관리자메인페이지 -->
    <definition name="adminMain" extends="adminLayout">
-      <put-attribute name="title" value="메인페이지" />
+      <put-attribute name="title" value="관리자메인" />
        <put-attribute name="body" value="" />
    </definition>
 
    <definition name="p001_d006_search" extends="adminLayout">
-      <put-attribute name="title" value="메인페이지" />
+      <put-attribute name="title" value="회원정보조회" />
        <put-attribute name="body" value="/WEB-INF/views/member/p001_d006_search.jsp" />
    </definition>
+   
+   <!-- 문의하기 조회 -->
+   <definition name="p002_d002_search" extends="adminLayout">
+      <put-attribute name="title" value="문의조회" />
+       <put-attribute name="body" value="/WEB-INF/views/member/p002_d002_search.jsp" />
+   </definition>
+   
+   <!-- 공지사항 조회 -->
+   <definition name="RootP003_d001_search" extends="adminLayout">
+      <put-attribute name="title" value="공지사항" />
+       <put-attribute name="body" value="/WEB-INF/views/root/p003_d001_search.jsp" />
+   </definition>
+   <!-- 공지사항 작성폼 -->
+   <definition name="RootP003_d001_save" extends="adminLayout">
+      <put-attribute name="title" value="공지사항" />
+       <put-attribute name="body" value="/WEB-INF/views/root/p003_d001_save.jsp" />
+   </definition>
+
    <!-- 관리자페이지 END -->
    
 	<!-- 메인페이지 -->
@@ -43,33 +61,29 @@
       <put-attribute name="title" value="관리자메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/root/p001_d001_init.jsp" />
    </definition>
+	<!-- 공지사항 -->
+   <definition name="RootP003_d001_search_common" extends="baseLayout">
+      <put-attribute name="title" value="공지사항" />
+       <put-attribute name="body" value="/WEB-INF/views/root/p003_d001_search.jsp" />
+   </definition>
    
 	<!-- 비밀번호찾기 -->
    <definition name="p001_d003_init" extends="baseLayout">
       <put-attribute name="title" value="메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/member/p001_d003_init.jsp" />
    </definition>
-
-   <!-- 같이먹기 메인 -->
-   <definition name="eatMain" extends="baseLayout">
+	
+   <!-- 같이 메인 -->
+   <definition name="andOneMain" extends="baseLayout">
       <put-attribute name="title" value="메인페이지" />
-       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_eatMain.jsp" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_andOneMain.jsp" />
    </definition> 
-   <!-- 같이먹기 리스트 -->
-   <definition name="andone_eat" extends="baseLayout">
+   <!-- 같이 리스트 -->
+   <definition name="andOneSearch" extends="baseLayout">
       <put-attribute name="title" value="메인페이지" />
-       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_listAndOne_eat.jsp" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_andOneSearch.jsp" />
    </definition>
-   <!-- 같이하기 리스트 -->
-   <definition name="andone_do" extends="baseLayout">
-      <put-attribute name="title" value="메인페이지" />
-       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_listAndOne_do.jsp" />
-   </definition>
-   <!-- 같이사기 리스트 -->
-   <definition name="andone_buy" extends="baseLayout">
-      <put-attribute name="title" value="메인페이지" />
-       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_listAndOne_buy.jsp" />
-   </definition>
+
 
    <!-- 지역업체 페이지 -->
    <definition name="localShopMain" extends="baseLayout">
@@ -145,6 +159,16 @@
 	<definition name="p001_d005_update" extends="mypageLayout">
 		<put-attribute name="title" value="내 정보 변경"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p001_d005_update.jsp"/>
+	</definition>
+	<!-- 문의하기 -->
+	<definition name="p002_d001_insert" extends="mypageLayout">
+		<put-attribute name="title" value="문의하기"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p002_d001_insert.jsp"/>
+	</definition>
+	<!-- 문의하기리스트 -->
+	<definition name="p002_d001_search" extends="mypageLayout">
+		<put-attribute name="title" value="문의하기"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p002_d001_search.jsp"/>
 	</definition>
 	
 	<!-- 소모임 메인-->
