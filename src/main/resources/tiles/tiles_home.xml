@@ -60,6 +60,11 @@
       <put-attribute name="title" value="메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_andOneSearch.jsp" />
    </definition>
+   <!--같이 글쓰기 -->
+   <definition name="insertAndOnePage" extends="baseLayout">
+      <put-attribute name="title" value="메인페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p002_d001_insertAndOne.jsp" />
+   </definition>
 
 
    <!-- 지역업체 페이지 -->

@@ -1,4 +1,4 @@
-package project.and.p001.vo;
+package project.and.vo;
 
 import java.sql.Timestamp;
 

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import project.and.p001.vo.AndP001AndOneVO;
+import project.and.vo.AndP001AndOneVO;
 
 @Repository
 public class AndP001_d001DAOImpl implements AndP001_d001DAO{

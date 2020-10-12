@@ -5,6 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
+	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+	<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 	<style>
 	.aa{
 		padding: 15px; 
@@ -18,18 +23,23 @@
 	 .cc{
 	 	text-align: center; 
 	 }
+	 .swifer-container {
+	 	width: 800px;
+	 	height : 800px;
+	 }
 	</style>
 	<script>
 		function init(){
 			let times = document.querySelectorAll("span.time");
 			let timeResults = document.querySelectorAll("span.timeResult");
 	  		console.log(times);
-	  
+	  		
 	  		for(let i=0; i<times.length; i++){
 	  			var result = times[i].textContent;
 	  			timeResults[i].innerHTML = timeForToday(result);
 	  		}
 		}
+		//글 올라온시점 계산 함수
 	    function timeForToday(value) {
 	    const today = new Date();
 	    console.log(today);
@@ -55,6 +65,7 @@
 	        }
 	    return Math.floor(betweenTimeDay / 365)+'년전';
 		}
+	   
 	</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -71,9 +82,7 @@
 				</div>
 					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
 			</form>
-				<c:url var="url"  value="add.do"  >
-					<a href='${url}' class="btn btn-outline-dark "> 새로운 같이먹기 등록하기 </a>
-				</c:url> 
+					<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이먹기 등록하기 </button>
 		</c:when>
 		<c:when test="${g_id == '011'}">
 			<form name="eat" class="form-inline" method="get" action="${contextPath}/andbuy/searchAndOne.do">
@@ -83,9 +92,7 @@
 				</div>
 					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
 			</form>
-				<c:url var="url"  value="add.do"  >
-					<a href='${url}' class="btn btn-outline-dark "> 새로운 같이사기 등록하기 </a>
-				</c:url> 
+					<button type="button" onclick="location='href=${contextPath}/andeat/insertAndOne.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이사기 등록하기 </button>
 		</c:when>
 		<c:when test="${g_id == '012'}">
 			<form name="eat" class="form-inline" method="get" action="${contextPath}/anddo/searchAndOne.do">
@@ -95,9 +102,7 @@
 				</div>
 					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
 			</form>
-				<c:url var="url"  value="add.do"  >
-					<a href='${url}' class="btn btn-outline-dark "> 새로운 같이하기 등록하기 </a>
-				</c:url> 
+					<button type="button" onclick="location='href=${contextPath}/andeat/insertAndOne.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이하기 등록하기 </button>
 		</c:when>
 	</c:choose>
 	</div>
@@ -113,7 +118,7 @@
 				</div>
 			</c:when>
 			<c:when test="${g_id == '011'}">
-				<div style="width:570px; margin: 0 auto">
+				<div style="width:650px; margin: 0 auto">
 				<c:forEach var ="ctg" items="${ctg_eat}" > 
 				<button type="button" class="btn btn-outline-dark mb-3" onclick="location.href='${contextPath}/andbuy/searchAndOne.do?one_category=${ctg.gc_id}&g_id=011'">${ctg.gc_name}</button>
 				</c:forEach>
@@ -153,21 +158,21 @@
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
 						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}주문  </h5>
 						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
-						<p class="card-text"> ${andone.one_hashTag}  </p>
+						<p class="card-text"> #${andone.one_hashTag}  </p>
 						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}  </span></p>
 					</c:when>
 					<c:when test="${g_id == '011'}">
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
 						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}수령예정  </h5>
 						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
-						<p class="card-text"> ${andone.one_hashTag}  </p>
+						<p class="card-text"> #${andone.one_hashTag}  </p>
 						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
 					</c:when>
 					<c:when test="${g_id == '012'}">
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
 						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}  </h5>
 						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
-						<p class="card-text"> ${andone.one_hashTag}  </p>
+						<p class="card-text"> #${andone.one_hashTag}  </p>
 						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}</span></p>
 					</c:when>
 				</c:choose>
@@ -175,7 +180,7 @@
 					</div>
 				</div>
 			</c:forEach>
+			</div>
 		</div>
-	</div>
 </body>
 </html>
