@@ -48,6 +48,14 @@ img.noResult{
 	display:block; margin:0px auto;
 }
 
+i.fa-star-half-alt{
+	color:rgb(255,234,0);
+}
+
+i.fa-star{
+	color:rgb(255,234,0);
+}
+
 a {
 	text-decoration: none;
 }
@@ -123,6 +131,24 @@ a:hover {
 			})
 		})
 		
+		function printStar(score){
+			var calScore = score;
+			var resultStar = '';
+			while(true){
+				if(calScore>=2){
+					resultStar += '<i class="fas fa-star"></i>';
+					calScore -= 2;
+					continue;
+				}else if(calScore>0){
+					resultStar += '<i class="fas fa-star-half-alt"></i>';
+					break;
+				}else{
+					break;
+				}
+			}
+			return resultStar;
+		}
+		
 		function searchButton(){
 			usedKeyword = $('#searchWindow').val();
 			search();
@@ -166,8 +192,8 @@ a:hover {
 							output += "<small class='text-muted' style='height: 14px'>리뷰 " + jsonInfo[i].reviewCount + "건</small>";
 							output += "</p>";
 							output += "<p class='card-text'>";
-							output += "<small class='text-muted' style='height: 14px'>가게평점 ";
-							output += jsonInfo[i].s_score + "</small>";
+							output += "<small class='text-muted' style='height: 14px'>";
+							output += printStar(jsonInfo[i].s_score) + "</small>";
 							output += "</p>";
 							output += "</div>";
 							output += "</div>";

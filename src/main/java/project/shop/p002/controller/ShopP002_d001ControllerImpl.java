@@ -1,6 +1,8 @@
 package project.shop.p002.controller;
 
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +42,56 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 	public String localShopDetail(ShopP002ShopDetailVO vo, Model model) {
 		model.addAttribute("shopId",vo.getS_id());
 		return "localShopDetail";
+	}
+	
+	@RequestMapping("/shop/popularHashtagUpdate.do")
+	public String popularHashtagUpdate() {
+		List<String> hashtagList = shopP002_d001Service.getAllHashtag();
+		Map<String,Integer> hashtagMap = new HashMap<>();
+		for(int i=0; i<hashtagList.size(); i++) {
+			String[] parser = hashtagList.get(i).split(",");
+			for(int j=0; j<parser.length; j++) {
+				if(parser[j].equals("")) {
+					continue;
+				}else {
+					if(hashtagMap.containsKey(parser[j])) {
+						int value = (int)hashtagMap.get(parser[j]);
+						value++;
+						hashtagMap.replace(parser[j], value);
+					}else {
+						hashtagMap.put(parser[j], 1);
+					}
+				}
+			}
+		}
+		List<String> keySetList = new ArrayList<>(hashtagMap.keySet());
+		System.out.println("======> 정렬 전 입력된 값 확인");
+		for(int i=0; i<keySetList.size(); i++) {
+			System.out.println("해시태그 : #" + keySetList.get(i) + "  /  횟수 : " + hashtagMap.get(keySetList.get(i)));
+		}
+		Collections.sort(keySetList, (o1, o2) -> (hashtagMap.get(o2).compareTo(hashtagMap.get(o1))));
+		System.out.println("======> 정렬 후 입력된 값 확인");
+		for(int i=0; i<keySetList.size(); i++) {
+			System.out.println("해시태그 : #" + keySetList.get(i) + "  /  횟수 : " + hashtagMap.get(keySetList.get(i)));
+		}
+		System.out.println("======>상위 4개 해시태그만 printout");
+		String result = "";
+		for(int i=0; i<4; i++) {
+			result += keySetList.get(i);
+			System.out.println("#"+keySetList.get(i));
+			result += ",";
+		}
+		result = result.substring(0, result.length()-1);
+		System.out.println("=======>DB에 들어갈 인기 해시태그");
+		System.out.println(result);
+		shopP002_d001Service.updatePopularHashtag(result);
+		return "redirect:localShopMain.do";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/shop/getPopularHashtag.do", produces="text/plain;charset=UTF-8")
+	public String getPopularHashtag() {
+		return shopP002_d001Service.getPopularHashtag();
 	}
 	
 	@ResponseBody
@@ -112,7 +164,7 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 			vo.setSi_imgEncoder(map);
 			shopP002_d001Service.updateShopImage(vo);
 		}catch(Exception e){
-			e.printStackTrace();
+			e.printStackTrace();	
 		}
 		
 		return "redirect:fileTest.do";

@@ -48,4 +48,19 @@ public class ShopP002_d001DAOImpl implements ShopP002_d001DAO {
 		sqlSession.update("shop.p002.updateShopReviewImage",vo);
 	}
 
+	@Override
+	public List<String> getAllHashtag() {
+		return sqlSession.selectList("shop.p002.getAllHashtag");
+	}
+
+	@Override
+	public void updatePopularHashtag(String result) {
+		sqlSession.update("shop.p002.updatePopularHashtag", result);
+	}
+
+	@Override
+	public String getPopularHashtag() {
+		return sqlSession.selectOne("shop.p002.getPopularHashtag");
+	}
+
 }

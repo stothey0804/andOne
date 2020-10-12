@@ -87,6 +87,16 @@
       <put-attribute name="body" value="/WEB-INF/views/shop/p002_d001_localShopDetail.jsp" />
    </definition>
    
+   <definition name="writeShopReview" extends="baseLayout">
+      <put-attribute name="title" value="지역업체 리뷰작성" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/p003_d001_writeShopReview.jsp" />
+   </definition>
+   
+   <definition name="modifyShopReview" extends="baseLayout">
+      <put-attribute name="title" value="지역업체 리뷰수정" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/p003_d001_modifyShopReview.jsp" />
+   </definition>
+   
     <definition name="fileTest" extends="baseLayout">
       <put-attribute name="title" value="파일 업로드 테스트" />
       <put-attribute name="body" value="/WEB-INF/views/shop/fileTest.jsp" />
