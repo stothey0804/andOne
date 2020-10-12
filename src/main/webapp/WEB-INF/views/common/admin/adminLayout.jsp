@@ -43,7 +43,7 @@
          overflow-x: hidden;
        } 
       #content {
-        width: auto;
+        width: calc(100vw - 300px);
 /*         top: 6em; */
 /*     	position: relative; */
         float: left;

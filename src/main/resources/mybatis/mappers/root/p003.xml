@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="root.p003">
+      <!-- notice 테이블 -->
+	   	<resultMap id="p003Result" type="rootP003VO">
+			<result property="n_id" column="n_id"  />
+			<result property="n_title" column="n_title"  />
+			<result property="n_content" column="n_content"  />
+			<result property="n_date" column="n_date"  />
+			<result property="n_editor" column="n_editor"  />
+			<result property="n_editdate" column="n_editdate"  />
+		</resultMap>
+		
+		<!-- 전체 게시글 수 조회 -->
+		<select id="selectNoticeListCnt" resultType="int">
+		<![CDATA[
+			SELECT COUNT(n_id)
+			FROM notice
+		]]>
+		</select>
+		
+		<!-- 공지작성  -->
+		<insert id="insertNotice" parameterType="rootP003VO">
+			<![CDATA[
+				INSERT INTO notice(n_id, n_title, n_content, n_date, n_editor, n_editdate)
+				VALUES(LPAD(NOTICE_SEQ.NEXTVAL,6,'0'), #{n_title}, #{n_content}, TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss'),
+				'00000001', TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss'))
+			]]>
+		</insert>
+
+		<!-- 공지 조회 -->
+		<select id="selectNoticeList" resultMap="p003Result" parameterType="java.util.HashMap">
+			<![CDATA[
+				SELECT *
+				FROM (
+				SELECT n_id, n_title, n_content, REPLACE(n_date,'/','-')n_date,
+				ROW_NUMBER() OVER (ORDER BY n_id DESC) ROWNUMBER
+				FROM notice)
+				WHERE ROWNUMBER BETWEEN #{startIndex} AND #{endIndex}
+				ORDER BY n_id desc
+			]]>
+		</select>
+		
+		<!-- 공지조회  / 글번호로 조회 - 수정폼 전달 -->
+		<select id="selectNoticeById" resultMap="p003Result" parameterType="String">
+			<![CDATA[
+				SELECT n_id, n_title,
+				REPLACE(n_content, CHR(13)||CHR(10), '')n_content
+				FROM notice
+				WHERE n_id like #{n_id}
+			]]>
+		</select>		
+		
+		<!-- 공지 수정 -->
+		<update id="updateNoticeById" parameterType="rootP003VO">
+			<![CDATA[
+				UPDATE notice
+				SET n_title = #{n_title}, n_content = #{n_content}, n_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+				WHERE n_id like #{n_id}
+			]]>
+		</update>
+		
+		<!-- 공지 삭제 -->
+		<delete id="deleteNoticeById" parameterType="String">
+			<![CDATA[
+				DELETE FROM notice
+				WHERE n_id like #{n_id}
+			]]>
+		</delete>
+		
+   </mapper>

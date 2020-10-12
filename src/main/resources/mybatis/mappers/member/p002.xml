@@ -7,6 +7,7 @@
    	<resultMap id="p002Result" type="memberP002VO">
 		<result property="q_id" column="q_id"  />
 		<result property="q_type" column="q_type"  />
+		<result property="q_type_id" column="q_type_id"  />
 		<result property="m_id" column="m_id"  />
 		<result property="q_subject" column="q_subject"  />
 		<result property="q_date" column="q_date"  />
@@ -22,24 +23,279 @@
 		<![CDATA[
 			INSERT INTO qna(q_id, q_type, m_id, q_subject, q_date, q_content, q_state, q_checked, q_reply, q_editor, q_editdate)
     		VALUES(
-	    		QNA_SEQ.NEXTVAL, #{q_type},#{m_id},#{q_subject},
+	    		(LPAD(QNA_SEQ.NEXTVAL, 6,'0')), #{q_type},#{m_id},#{q_subject},
 	    		TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss'), #{q_content}, '10', '0', '',
 	    		#{m_id}, TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
     		)
 		]]>
 	</insert>
 	
-	<select id="selectQnAListById" resultMap="p002Result" parameterType="String">
+	<update id="saveQnA" parameterType="memberP002VO">
 		<![CDATA[
-			SELECT (LPAD(q_id,6,'0'))q_id, 
-			(SELECT gc_name FROM common_code WHERE g_id like '016' AND gc_id like q_type)q_type, 
+			UPDATE qna
+			SET q_type = #{q_type}, q_subject = #{q_subject}, q_content = #{q_content}, q_editor = #{m_id}, q_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+			WHERE q_id = #{q_id}
+		]]>
+	</update>
+	
+	<delete id="deleteQnA" parameterType="String">
+		<![CDATA[
+			DELETE FROM qna
+			WHERE q_id = #{q_id}
+		]]>
+	</delete>
+	
+	<update id="saveReplyQnA" parameterType="java.util.HashMap">
+		<![CDATA[
+			UPDATE qna
+			SET q_reply=#{q_reply}, q_editor = '00000001', q_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+			WHERE q_id = #{q_id}
+		]]>
+	</update>
+	
+<!-- 	<select id="selectReplyQnA" resultType="String" parameterType="String"> -->
+<!-- 		<![CDATA[ -->
+<!-- 			SELECT q_reply -->
+<!-- 			FROM qna  -->
+<!-- 			WHERE q_id like #{q_id} -->
+<!-- 		]]> -->
+<!-- 	</select> -->
+	
+	<select id="selectQnAListById" resultMap="p002Result" parameterType="java.util.HashMap">
+		<![CDATA[
+			SELECT * 
+			FROM(
+			SELECT q_id, 
+			(SELECT gc_name FROM common_code WHERE g_id like '016' AND gc_id like q_type)q_type,
 			q_subject, REPLACE(SUBSTR(q_date,1,10),'/','-')q_date, q_content, 
 			(SELECT gc_name FROM common_code WHERE g_id like '004' AND gc_id like q_state)q_state, 
+			ROW_NUMBER() OVER (ORDER BY q_id DESC) ROWNUMBER,
 			q_reply
 			FROM qna
-			WHERE m_id = '00000041'
+			WHERE m_id like #{m_id})
+			WHERE ROWNUMBER BETWEEN #{startIndex} AND #{endIndex}
 			ORDER BY q_id desc
 		]]>
 	</select>
+	<select id="selectQnAListCnt" resultType="int" parameterType="String">
+		<![CDATA[
+			SELECT COUNT(q_id)
+			FROM qna
+			WHERE m_id like #{m_id}
+		]]>
+	</select>
+	
+ 	<!-- qna 게시글 카운트 --> 
+<!-- 	<select id="selectQnACnt" resultType="" parameterType="String"> -->
+<!-- 		<![CDATA[ -->
+<!-- 			SELECT COUNT(q_id) FROM qna -->
+<!-- 		]]> -->
+<!-- 		<where> -->
+<!-- 			<choose> -->
+<!-- 				<when test="m_id!='' and m_id!=null"> -->
+<!-- 					m_id like #{m_id} 		 -->
+<!-- 				</when> -->
+<!-- 			</choose> -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+	
+	<select id="selectQnADetailByQID" resultMap="p002Result" parameterType="String">
+		<![CDATA[
+			SELECT q_id, 
+			(SELECT gc_name FROM common_code WHERE g_id like '016' AND gc_id like q_type)q_type,
+			(q_type)q_type_id, 
+			q_subject, REPLACE(q_date,'/','-')q_date, 
+			REPLACE(q_content, CHR(13)||CHR(10), '')q_content,
+			(SELECT gc_name FROM common_code WHERE g_id like '004' AND gc_id like q_state)q_state, m_id,
+			REPLACE(q_reply, CHR(13)||CHR(10), '')q_reply
+			FROM qna
+			WHERE q_id like #{q_id}
+			ORDER BY q_id desc
+		]]>
+	</select>
+	
+	<!-- 상태변경 -->
+	<update id="saveQnAState" parameterType="java.util.HashMap">
+		<![CDATA[
+			UPDATE qna
+			SET q_state = #{q_state}, q_editor = '00000001', q_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+			WHERE q_id = #{q_id}
+		]]>	
+	</update>
+	
+	<!-- 신규리스트 -->
+	<select id="selectNewQnAList" resultMap="p002Result" parameterType="java.util.HashMap">
+		<![CDATA[
+			SELECT *
+			FROM ( SELECT q_id, 
+			(SELECT gc_name FROM common_code WHERE g_id like '016' AND gc_id like q_type)q_type,
+			(SELECT gc_name FROM common_code WHERE g_id like '004' AND gc_id like q_state)q_state, 
+			q_subject, REPLACE(SUBSTR(q_date,1,10),'/','-')q_date, m_id,
+			ROW_NUMBER() OVER (ORDER BY q_id DESC) ROWNUMBER
+			FROM qna 
+		]]>
+		<where>
+			 q_state like '10'
+		<choose>
+			<when test="q_type!='' and q_type!=null">
+				AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and m_id!='' and m_id!=null">
+				AND vm_id like '%'||#{m_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and q_id!='' and q_id!=null">
+				AND q_id like '%'||#{q_id}||'%' AND q_type like #{q_type} 
+			</when>
+			<when test="m_id!='' and m_id!=null">
+				AND m_id like '%'||#{m_id}||'%'
+			</when>
+			<when test="q_id!='' and q_id!=null">
+				AND q_id like '%'||#{q_id}||'%'
+			</when>
+		</choose>
+		</where>
+		<![CDATA[
+			)
+			WHERE ROWNUMBER BETWEEN #{startIndex} AND #{endIndex}
+			ORDER BY q_id desc
+		]]>
+	</select><!-- 신규리스트 END -->
+	
+	<!-- 신규리스트 -->
+	<select id="selectNewQnAListCnt" resultType="int" parameterType="java.util.HashMap">
+		<![CDATA[
+			SELECT COUNT(q_id) FROM qna
+		]]>
+		<where>
+			q_state = '10'
+		<choose>
+			<when test="q_type!='' and q_type!=null">
+				AND q_type like #{q_type} AND q_state = '10'
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and m_id!='' and m_id!=null">
+				AND m_id like '%'||#{m_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and q_id!='' and q_id!=null">
+				AND q_id like '%'||#{q_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="m_id!='' and m_id!=null">
+				AND m_id like '%'||#{m_id}||'%'
+			</when>
+			<when test="q_id!='' and q_id!=null">
+				AND q_id like '%'||#{q_id}||'%'
+			</when>
+		</choose>
+		</where>
+			ORDER BY q_id desc
+	</select><!-- 신규리스트 END -->
+	
+	
+	
+	<!-- 전체리스트 -->
+	<select id="selectAllQnAList" resultMap="p002Result" parameterType="java.util.HashMap">
+		<![CDATA[
+			SELECT * FROM (
+			SELECT q_id, 
+			(SELECT gc_name FROM common_code WHERE g_id like '016' AND gc_id like q_type)q_type, 
+			q_subject, REPLACE(SUBSTR(q_date,1,10),'/','-')q_date,  
+			(SELECT gc_name FROM common_code WHERE g_id like '004' AND gc_id like q_state)q_state, m_id,
+			ROW_NUMBER() OVER (ORDER BY q_id DESC) ROWNUMBER
+			FROM qna
+		]]>
+		<where>
+		<choose>
+			<when test="m_id!='' and m_id!=null">
+				m_id like '%'||#{m_id}||'%'
+			</when>
+			<when test="q_id!='' and q_id!=null">
+				q_id like '%'||#{q_id}||'%'
+			</when>
+			<when test="q_state!='' and q_state!=null">
+				q_state like #{q_state}
+			</when>
+			<when test="q_type!='' and q_type!=null">
+				q_type like #{q_type}
+			</when>
+			<when test="q_state!='' and q_state!=null and m_id!='' and m_id!=null">
+				q_state like #{q_state} AND m_id like '%'||#{m_id}||'%'
+			</when>
+			<when test="q_state!='' and q_state!=null and q_id!='' and q_id!=null">
+				q_state like #{q_state} AND q_id like '%'||#{q_id}||'%'
+			</when>
+			<when test="q_type!='' and q_type!=null	and m_id!='' and m_id!=null">
+				m_id like '%'||#{m_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null	and q_id!='' and q_id!=null">
+				q_id like '%'||#{q_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and m_id!='' and m_id!=null and q_state!='' and q_state!=null">
+				m_id like '%'||#{m_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and q_id!='' and q_id!=null and q_state!='' and q_state!=null">
+				q_id like '%'||#{q_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
+			</when>
+			<when test="q_state!='' and q_state!=null and q_type!='' and q_type!=null">
+				q_state like #{q_state} AND q_type like #{q_type}
+			</when>
+		</choose>
+		</where>
+		<![CDATA[
+			)
+			WHERE ROWNUMBER BETWEEN #{startIndex} AND #{endIndex}
+			ORDER BY q_id desc
+		]]>
+	</select><!-- 전체리스트 END -->
+	
+	<!-- 전체리스트 -->
+	<select id="selectAllQnAListCnt" resultType="int" parameterType="java.util.HashMap">
+		<![CDATA[
+			SELECT COUNT(q_id) FROM qna
+		]]>
+		<where>
+		<choose>
+			<when test="m_id!='' and m_id!=null">
+				and m_id like '%'||#{m_id}||'%'
+			</when>
+			<when test="q_id!='' and q_id!=null">
+				and q_id like '%'||#{q_id}||'%'
+			</when>
+			<when test="q_state!='' and q_state!=null">
+				and q_state like #{q_state}
+			</when>
+			<when test="q_type!='' and q_type!=null">
+				and q_type like #{q_type}
+			</when>
+			<when test="q_state!='' and q_state!=null and m_id!='' and m_id!=null">
+				and q_state like #{q_state} AND m_id like '%'||#{m_id}||'%'
+			</when>
+			<when test="q_state!='' and q_state!=null and q_id!='' and q_id!=null">
+				and q_state like #{q_state} AND q_id like '%'||#{q_id}||'%'
+			</when>
+			<when test="q_type!='' and q_type!=null	and m_id!='' and m_id!=null">
+				and m_id like '%'||#{m_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null	and q_id!='' and q_id!=null">
+				and q_id like '%'||#{q_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and m_id!='' and m_id!=null and q_state!='' and q_state!=null">
+				and m_id like '%'||#{m_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and q_id!='' and q_id!=null and q_state!='' and q_state!=null">
+				and q_id like '%'||#{q_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
+			</when>
+			<when test="q_state!='' and q_state!=null and q_type!='' and q_type!=null">
+				and q_state like #{q_state} AND q_type like #{q_type}
+			</when>
+		</choose>
+		</where>
+	</select><!-- 전체리스트 END -->
 	
 	</mapper>

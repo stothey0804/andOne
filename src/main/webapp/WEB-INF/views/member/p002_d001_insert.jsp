@@ -31,22 +31,50 @@
 <script>
 	// 초기화시, 선택정보 영역 set
 	$(document).ready(function(){
+		// 에디터 set
+		let q_contentVal = '${article.q_content}';
+		CKEDITOR.replace('q_content',{filebrowserUploadUrl:'${contextPath}/editorFileUpload.do'});
+		CKEDITOR.instances["q_content"].setData(q_contentVal);
+		
+		var q_type = '${article.q_type_id}';
+		if(q_type!=null && q_type!=''){
+			console.log($("#selectType #" + q_type).val());
+			$("#selectType #" + q_type).attr('selected',true);
+		}
+		
+		// 수정
+		$("#updateQnA").click(function(){
+			let frmQnA = document.frmQnA;
+			frmQnA.action = "${contextPath}/member/updateQnA.do";
+			frmQnA.submit();
+		});
+		
+		// 작성
+		$("#insertQnA").click(function(){
+			let frmQnA = document.frmQnA;
+			frmQnA.action = "${contextPath}/member/insertQnA.do";
+			frmQnA.submit();
+		});
 		
 	});
 </script>
 </head>
 <body>
 <div class="container">
-	<form action="${contextPath}/member/sendQnA.do" enctype="multipart/form-data" method="post">
-			<h2 class="m-5">1:1문의</h2>
+	<form enctype="multipart/form-data" method="post" name="frmQnA">
+			<h2 class="m-5">
+				<c:if test="${flag eq 1}">1:1 문의수정</c:if>
+				<c:if test="${flag eq 0}">1:1 문의하기</c:if>
+			</h2>
 			<hr class="m-5">
 			<div class="form-group col-sm-10 mx-auto mt-5 p-0">
-			<p class="h4 mb-3">내용</p>
+			<p class="h4 mb-3">처리기간에 대한 안내</p>
+			<p>접수완료된 문의는 평일 09:00 ~ 18:00 사이에 처리가 진행되며, 문의건에 따라 처리기간이 상이할 수 있습니다.</p>
 				<!-- 제목 -->
 				<div class="mb-2 row">
 				    <label for="inputSubject" class="col-lg-2 col-sm-12 col-form-label">제목</label>
 				    <div class="col-lg-10 col-sm-12">
-				      <input type="text" class="form-control" id="inputSubject" name="q_subject" required>
+				      <input type="text" class="form-control" id="inputSubject" name="q_subject" value="${article.q_subject}" required>
 		    		</div>
 		    	</div>
 		    	<input type="hidden" name="m_id" value="${m_id}">
@@ -57,7 +85,7 @@
 					    <select class="form-control " id="selectType" name="q_type" required>
 					      <option value="">선택</option>
 					      <c:forEach var="list" items="${qTypeList}">
-						      <option value="${list.gc_id}">${list.gc_name}</option>
+						      <option id="${list.gc_id}" value="${list.gc_id}">${list.gc_name}</option>
 					      </c:forEach>
 					    </select>
 					  </div>
@@ -65,24 +93,15 @@
 		    	<!-- 에디터 -->
 				<div class="mb-2 row">
 					<textarea class="form-control" id="q_content" name="q_content" rows="30">
-					문의내용:
-					발생일시:
 					</textarea>
-					<script>CKEDITOR.replace('q_content',{filebrowserUploadUrl:'${contextPath}/editorFileUpload.do'});</script>				
 				</div>
-		    	
-<!-- 		    	<div class="mb-2 row"> -->
-<!-- 		    		<div class="form-group col-lg-7 col-sm-12"> -->
-<!-- 					</div> -->
-<!-- 						<div class="filebox"> -->
-<!-- 							<label for="inputFile" class="btn btn-primary my-0">업로드</label> -->
-<!-- 		    				<input class="btn btn-danger" id="deleteFile"type="button" value="삭제"> -->
-<!-- 		    				<input class="form-control" id="inputFile" type="file" name="m_img"> -->
-<!-- 							<input class="upload-name form-control-plaintext" value="" readonly> -->
-<!-- 						</div> -->
-<!-- 		    		</div> -->
-<!-- 		    	</div> -->
-			<input type="submit" class="btn btn-primary btn-lg btn-block mt-4" value="작성" id="sendForm"></input>
+				<c:if test="${flag eq 1}">
+					<input type="hidden" name="q_id" value="${article.q_id}" />
+					<input type="button" class="btn btn-primary btn-lg btn-block mt-4" value="수정" id="updateQnA"></input>
+				</c:if>
+				<c:if test="${flag eq 0}">
+					<input type="button" class="btn btn-primary btn-lg btn-block mt-4" value="작성" id="insertQnA"></input>
+				</c:if>
 			</div>
 		</form>
 	</div>

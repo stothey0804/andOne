@@ -99,7 +99,11 @@
 	<resultMap id="m_clobMap" type="java.util.Map">
 		<result property="m_imgEncoder" column="M_IMG" javaType="[B" jdbcType="BLOB" />
 	</resultMap>
-
+	
+	<resultMap id="allHashtag" type="String">
+		<result property="s_hashtag" column="S_HASHTAG" />
+	</resultMap>
+	
 <select id="getShopShort" resultMap="shop.p002.shopShort">
 	<![CDATA[
 		SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
@@ -151,6 +155,11 @@
 	<![CDATA[
 		AND GC_ID = #{filter}
 		AND S.S_ID <> #{s_id}
+	]]>
+	</if>
+	<if test="searchCondition=='SEARCHBYHASHTAG'">
+	<![CDATA[
+		AND S.S_HASHTAG LIKE '%'||#{searchKeyword}||'%'
 	]]>
 	</if>
 	<if test="status=='SCORE'">
@@ -289,6 +298,27 @@
 		FROM MEMBER
 		WHERE M_ID = #{m_id}
 	]]>
+</select>
+
+<select id="getAllHashtag" resultMap="shop.p002.allHashtag">
+	<![CDATA[
+		SELECT S_HASHTAG
+		FROM SHOP
+	]]>
+</select>
+<update id="updatePopularHashtag" parameterType="String">
+	<![CDATA[
+		UPDATE P_HASHTAG
+		SET PH_CONTENT = #{result}
+		WHERE PH_CATEGORY = '009'
+	]]>
+</update>
+<select id="getPopularHashtag" resultType="String">
+	<![CDATA[
+		SELECT PH_CONTENT
+		FROM P_HASHTAG
+		WHERE PH_CATEGORY = '009'
+	]]>	
 </select>
 
 <!-- <select id="getShopList" resultMap="project.p005_d001.shopResult"> -->

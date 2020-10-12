@@ -71,6 +71,7 @@ public class MemberP001_d005ControllerImpl implements MemberP001_d005Controller{
 		}else {
 			out.print("false");
 		}
+		out.close();
 	}
 	
 	// 수정폼으로 이동
@@ -93,6 +94,7 @@ public class MemberP001_d005ControllerImpl implements MemberP001_d005Controller{
 		PrintWriter out = response.getWriter();
 		String m_id = request.getParameter("id");
 		out.print(Common.encodeBlobImage(m_id, memberP001_d005Service));
+		out.close();
 	}
 	
 	// 프로필 이미지 삭제시
