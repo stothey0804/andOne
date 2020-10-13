@@ -31,10 +31,11 @@
 <script>
 	// 초기화시, 선택정보 영역 set
 	$(document).ready(function(){
-		// 에디터 set
-		let n_contentVal = '${article.n_content}';
-		CKEDITOR.replace('n_content',{filebrowserUploadUrl:'${contextPath}/editorFileUpload.do'});
-		CKEDITOR.instances["n_content"].setData(n_contentVal);
+		let n_contentVal = '${article.n_content}';	// DB에서 가져온 content내용
+		// init		
+		CKEDITOR.replace('n_content',{filebrowserUploadUrl:'${contextPath}/editorFileUpload.do'});	// n_content : textarea id
+		// data set
+		CKEDITOR.instances["n_content"].setData(n_contentVal);	// set Method 
 		
 		// 수정
 		$("#updateNotice").click(function(){

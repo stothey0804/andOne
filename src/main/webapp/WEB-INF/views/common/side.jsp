@@ -19,7 +19,7 @@
 		<li>포인트 관리</li>
 		<ul class="mb-3">
 			<a href="#"><li>요약</li></a>
-			<a href="#"><li>포인트 충전</li></a>
+			<a href="${contextPath}/point/charge.do"><li>포인트 충전</li></a>
 			<a href="#"><li>포인트 사용이력</li></a>
 			<a href="#"><li>포인트 환전</li></a>
 		</ul>

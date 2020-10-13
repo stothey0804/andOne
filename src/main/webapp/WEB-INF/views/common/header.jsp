@@ -138,7 +138,7 @@
 			            </h5>
 						<div class="row mx-1">
 							<p class="point mb-0">000point</p>
-							<a class="btn btn-outline-primary btn-sm ml-auto">충전</a>
+							<a href="${contextPath}/point/charge.do" class="btn btn-outline-primary btn-sm ml-auto">충전</a>
 						</div>
 					</div>
 					<ul class="list-group list-group-horizontal">
