@@ -156,21 +156,21 @@
 				<c:choose>
 					<c:when test="${g_id == '010'}"> 
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
-						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}주문  </h5>
+						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}수령예정 </h5>
 						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
 						<p class="card-text"> #${andone.one_hashTag}  </p>
 						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}  </span></p>
 					</c:when>
 					<c:when test="${g_id == '011'}">
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
-						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}수령예정  </h5>
+						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}수령예정</h5>
 						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
 						<p class="card-text"> #${andone.one_hashTag}  </p>
 						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
 					</c:when>
 					<c:when test="${g_id == '012'}">
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
-						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}  </h5>
+						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}수령예정 </h5>
 						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
 						<p class="card-text"> #${andone.one_hashTag}  </p>
 						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}</span></p>

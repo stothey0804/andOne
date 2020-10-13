@@ -5,10 +5,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="/resources/demos/style.css">
- 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
- 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+ 	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<!-- Perfect-DateTimePicker CSS -->
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/jquery.datetimepicker.css"/>
+	<!-- Perfect-DateTimePicker JS -->
+	<script type="text/javascript" src="${contextPath}/resources/js/jquery.datetimepicker.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -21,16 +23,35 @@
 				<button type="button" id="category_sub" class="btn btn-outline-dark mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
 				</c:forEach>
 		</div>
-		<input type="hidden" name="one_category" value=""><br> <!-- 맵 좌표값 보내기 -->
+		<input type="hidden" name="one_category" value=""><br><br> <!-- 카테고리값 보내기 -->
+		주문금액 <br><input type="text" name="one_totalPrice"><br>
 		<!--달력 -->
-		<p>날짜: <input type="text" id="datepicker" ></p>
-		
+		주문시간 <div id="demo7">
+				<input name="one_date"/>		
+			   </div>
+			   <br>
+	   <!-- 인원설정 -->
+		인원 <select id="memberCnt" class="custom-select" onChange="setValue()" >
+			<option selected >인원을 선택하세요</option>
+			<c:forEach var="i" begin="2" end="10">
+				<option value="<c:out value='${i}'/>"><c:out value="${i}"/></option>
+			</c:forEach>
+			 </select>
+			 <input type="hidden" name="one_memberMax" value="">
+			 <br><br>	 
 		<!-- 지도 -->
         <button type="button" onclick="searchAddress()">위치선택하기</button><br><br>
         <input type="text" id="inputAddress" readonly><br><br>
         <div id="map" style="width:500px; height:400px"></div>
         <input type="hidden" name="one_locate" value=""><br> <!-- 맵 좌표값 보내기 -->
-        
+        <!-- 내용 -->
+        <div class="form-group">
+        	<label for="one_content"></label>
+        	<textarea rows="15" cols="100" id="one_content" name="one_content"></textarea>
+       	</div>
+       	해쉬태그<br>
+       	<input type="text" name="one_hashTag"><br><br>
+       	<input type="hidden" name="one_type" value="${g_id}">
         <input type="submit" id="registerAndEat" value="새로운같이먹기 등록하기" >
     </form>
     
@@ -45,7 +66,6 @@
             center: new daum.maps.LatLng(37.570371, 126.985308), // 지도의 중심좌표 (위도,경도)
             level: 3
         };
-        
        	//지도 생성
        	var map = new daum.maps.Map(container, option); 
 		//주소-좌표 변환객체 
@@ -55,7 +75,7 @@
             position : new daum.maps.LatLng(37.570371, 126.985308),
             map: map
         });
-    
+        //위치선택클릭시 실행
         function searchAddress(){
             new daum.Postcode({
                 oncomplete: function(data) {
@@ -93,25 +113,43 @@
         }
       //<<<<<<<<<<<< MAP 끝
       
-      //카테고리 클릭시
       $(document).ready(function() {
+	      //카테고리 버튼 클릭시 선택
     	  $('#category').on('click', '#category_sub' , function(e){
     		  $(this).addClass('active');
     		  $(this).siblings().removeClass('active');
-    		  var category = $(this).val();
     		  
-    		//hidden값으로  변수 one_category에 전달
+    		  var category = $(this).val();
+   			  //hidden값으로  변수 one_category에 전달
+   			  console.log(category);
     		  document.insertAndEat.one_category.value = category;
     	  });
-      });
-      //datepicker 한국어 설정
-      
-      //달력실행
-      $(function(){
-    	  $("#datepicker").datepicker();
-      });
-      
-      
+	      //달력
+	      var $d7input = $('input', '#demo7').focus(function() {
+                $('.dropdown', '#demo7').remove();
+                var $dropdown = $('<div class="dropdown"/>').appendTo('#demo7');
+                    $dropdown.datetimepicker({
+                        date: $d7input.data('value') || new Date(),
+                        viewMode: 'YMDHM',
+                        onDateChange: function(){
+                            //debugger;
+                            $d7input.val(this.getText('YYYY-MM-DD hh:mm'));
+                            $d7input.data('value', this.getValue());
+                        },
+                        //ok button click event
+	  	    			 onOk: function() {
+	  	    				 $dropdown.remove();
+	  	    				 }
+                    })
+                });
+			
+            });
+      	  //인원수 설정
+	      function setValue(){
+	    	  var cnt = $("#memberCnt").val();
+		      console.log(cnt); 
+		      document.insertAndEat.one_memberMax.value = cnt;//인원수 전달
+	      }
     </script>
 	
 </body>

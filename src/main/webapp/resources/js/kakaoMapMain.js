@@ -24,7 +24,7 @@
                 id: m_id
                 //data로 넘겨주기
             },
-            url: "/andOne/member/selectLocate.do",
+            url: "member/selectLocate.do",
             success: function (data, textStatus) {
             	if(data=='0'){	// 회원가입 초기값
             		locPosition = new kakao.maps.LatLng(37.570371, 126.985308)    // 기본위치 set
@@ -83,7 +83,7 @@
                 locate: m_locate
                 //data로 넘겨주기
             },
-            url: "/andOne/member/saveLocation.do",
+            url: "member/saveLocation.do",
             success: function (data, textStatus) {
             }
 		});
