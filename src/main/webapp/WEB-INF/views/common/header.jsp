@@ -103,9 +103,9 @@
 	          &분의일
 	        </a>
 	        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-	         	<a class="dropdown-item" href="#">같이먹기</a>
-          		<a class="dropdown-item" href="#">같이사기</a>
-         		<a class="dropdown-item" href="#">같이하기</a>
+	         	<a class="dropdown-item" href="${contextPath}/andeat?g_id=010">같이먹기</a>
+          		<a class="dropdown-item" href="${contextPath}/andeat?g_id=011">같이사기</a>
+         		<a class="dropdown-item" href="${contextPath}/andeat?g_id=012">같이하기</a>
 	        </div>
 	      </li>
 	      <li class="nav-item h5">

@@ -54,7 +54,7 @@
                 var pwd1 = $("#bm_pwd").val();
                 var pwd2 = $("#bm_pwd_2").val();
                 console.log(pwd1);
-​
+
               if(pwd1 != "" && pwd2 == ""){//비밀번호 확인 입력 안했을때
                     $(".pwd_check").text("비밀번호를 재입력해주세요");
                     $(".pwd_check").css("color","red");

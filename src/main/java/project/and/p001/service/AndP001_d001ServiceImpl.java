@@ -7,7 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import project.and.p001.dao.AndP001_d001DAO;
-import project.and.p001.vo.AndP001AndOneVO;
+import project.and.vo.AndP001AndOneVO;
 
 
 @Service

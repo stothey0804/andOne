@@ -83,6 +83,11 @@
       <put-attribute name="title" value="메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_andOneSearch.jsp" />
    </definition>
+   <!--같이 글쓰기 -->
+   <definition name="insertAndOnePage" extends="baseLayout">
+      <put-attribute name="title" value="메인페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p002_d001_insertAndOne.jsp" />
+   </definition>
 
 
    <!-- 지역업체 페이지 -->
@@ -99,6 +104,16 @@
    <definition name="localShopDetail" extends="baseLayout">
       <put-attribute name="title" value="지역업체 상세정보" />
       <put-attribute name="body" value="/WEB-INF/views/shop/p002_d001_localShopDetail.jsp" />
+   </definition>
+   
+   <definition name="writeShopReview" extends="baseLayout">
+      <put-attribute name="title" value="지역업체 리뷰작성" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/p003_d001_writeShopReview.jsp" />
+   </definition>
+   
+   <definition name="modifyShopReview" extends="baseLayout">
+      <put-attribute name="title" value="지역업체 리뷰수정" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/p003_d001_modifyShopReview.jsp" />
    </definition>
    
     <definition name="fileTest" extends="baseLayout">

@@ -72,6 +72,7 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 		String m_id = request.getParameter("id");
 		if(m_id!=null && m_id!="") {
 			String m_locate = rootP001_d001Service.selectMemberLocate(m_id);
+			System.out.println("===========>" + m_locate);
 			out.write(m_locate);
 		}
 	}

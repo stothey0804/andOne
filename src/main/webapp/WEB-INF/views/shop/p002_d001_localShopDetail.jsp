@@ -23,9 +23,22 @@
 	font-style: normal;
 }
 
-i{
+i.fa-chevron-left{
 	color:rgb(237, 237, 237);
 	font-size:500%;
+}
+
+i.fa-chevron-right{
+	color:rgb(237, 237, 237);
+	font-size:500%;
+}
+
+i.fa-star-half-alt{
+	color:rgb(255,234,0);
+}
+
+i.fa-star{
+	color:rgb(255,234,0);
 }
 
 h3 {
@@ -172,6 +185,28 @@ a:hover {
 		}
 	}
 	
+	function printStar(score){
+		var calScore = score;
+		var resultStar = '';
+		while(true){
+			if(calScore>=2){
+				resultStar += '<i class="fas fa-star"></i>';
+				calScore -= 2;
+				continue;
+			}else if(calScore>0){
+				resultStar += '<i class="fas fa-star-half-alt"></i>';
+				break;
+			}else{
+				break;
+			}
+		}
+		return resultStar;
+	}
+	
+	function writeButton(){
+		window.location.href='${contextPath }/shop/writeShopReview.do?s_id='+shopId;
+	}
+	
 	function popup(p1, p2){
 		$('#pop').show();
 		$.ajax({
@@ -204,7 +239,7 @@ a:hover {
 				output += 		'<td id="close" align="right" height="80" width="80" valign="top"><img src="${contextPath }/resources/image/close.png" height="40" width="40"></td>';
 				output += 	'</tr>';
 				output += 	'<tr>';
-				output += 		'<td colspan="2" align="left" height="40">'+jsonInfo.sr_score+'</td>';
+				output += 		'<td colspan="2" align="left" height="40">'+printStar(jsonInfo.sr_score)+'</td>';
 				output += 		'<td align="right">'+jsonInfo.sr_date+'</td>';
 				output += 	'</tr>';
 				output += 	'<tr>';
@@ -269,6 +304,7 @@ a:hover {
 				var imageCount = Object.keys(jsonInfo.shopImage).length;
 				var reviewCount = Object.keys(jsonInfo.shopReviewList).length;
 				
+				
 				s_category = jsonInfo.s_category;
 				console.log('======> 가게 카테고리');
 				console.log(s_category);
@@ -297,10 +333,15 @@ a:hover {
 				shopInformation += '<table><tr><td width="500" height="70">';
 				shopInformation += '<h1>'+jsonInfo.s_name+'</h1></td><td width="350" height="70"></td>';
 				shopInformation += '<td align="right" width="150" height="70">';
-				shopInformation += '<button id="all" type="button" class="btn btn-outline-info" onclick="">리뷰 쓰기</button>';
-				shopInformation += '</td></tr><tr><td colspan="3" height="30">'+jsonInfo.s_score+'</td>';
-				shopInformation += '</tr><tr><td colspan="3" height="30">'+jsonInfo.gc_name+'</td>';
-				shopInformation += '</tr><tr><td colspan="3" height="30">'+jsonInfo.s_hashtag+'</td></tr><tr>';
+				shopInformation += '<button id="all" type="button" class="btn btn-outline-info" onclick="writeButton()">리뷰 쓰기</button>';
+				shopInformation += '</td></tr><tr><td colspan="3" height="30">'+printStar(jsonInfo.s_score)+'</td>';
+				shopInformation += '</tr><tr><td colspan="3" height="30"><a href="${contextPath }/shop/localShopSearch.do?filter='+jsonInfo.s_category+'">'+jsonInfo.gc_name+'</a></td>';
+				shopInformation += '</tr><tr><td colspan="3" height="30">'
+				var hashtagArr = jsonInfo.s_hashtag.split(',');
+				for(let i=0; i<hashtagArr.length; i++){
+					shopInformation += '<a href="${contextPath }/shop/localShopSearch.do?searchCondition=SEARCHBYHASHTAG&searchKeyword='+hashtagArr[i]+'">#'+hashtagArr[i]+'</a>&nbsp;';
+				}
+				shopInformation += '</td></tr><tr>';
 				shopInformation += '<td valign="top" colspan="3" height="100">'+jsonInfo.s_content+'</td>';
 				shopInformation += '</tr></table>';
 				
@@ -334,7 +375,7 @@ a:hover {
 						reviewList += '</div></div>';
 						reviewList += '</td>';
 					}
-					reviewList += '</tr><tr><td class="clickArea" id="'+jsonInfo.shopReviewList[i].m_id+'" width="80">'+jsonInfo.shopReviewList[i].sr_score+'</td></tr>';
+					reviewList += '</tr><tr><td class="clickArea" id="'+jsonInfo.shopReviewList[i].m_id+'" width="80">'+printStar(jsonInfo.shopReviewList[i].sr_score)+'</td></tr>';
 					reviewList += '<tr><td class="clickArea" id="'+jsonInfo.shopReviewList[i].m_id+'" value="rl" width="80">'+jsonInfo.shopReviewList[i].sr_content+'</td>';
 					reviewList += '<td>'+jsonInfo.shopReviewList[i].sr_date+'</td></tr></table><hr>';
 				}
@@ -403,7 +444,7 @@ a:hover {
 						output += "<div class='card-body' id='review'>";
 						output += "<p class='card-text'>";
 						output += "<a href='#'>후기 "+jsonInfo[i].reviewCount+"건</a><br>";
-						output += "별점 : "+jsonInfo[i].s_score+"</p></div></div></div>";
+						output += "별점 : "+printStar(jsonInfo[i].s_score)+"</p></div></div></div>";
 					}
 					output += "</div>";
 				}

@@ -49,4 +49,20 @@ public class ShopP002_d001ServiceImpl implements ShopP002_d001Service {
 		
 	}
 
+	@Override
+	public List<String> getAllHashtag() {
+		return shopP002_d001DAO.getAllHashtag();
+	}
+
+	@Override
+	public void updatePopularHashtag(String result) {
+		shopP002_d001DAO.updatePopularHashtag(result);
+		
+	}
+
+	@Override
+	public String getPopularHashtag() {
+		return shopP002_d001DAO.getPopularHashtag();
+	}
+
 }

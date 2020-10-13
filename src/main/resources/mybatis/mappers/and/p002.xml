@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="and.p002">
+	<resultMap id="p001_d002Result01" type="java.util.HashMap">
+		<result property="one_type" column="one_type"  /> <!-- 구분(먹기,하기,사기)-->
+		<result property="one_id" column="one_id"  /> <!--글번호-->
+		<result property="one_state" column="one_state"  />  <!-- 진행상태(진행중) -->
+		<result property="one_category" column="one_category" /> <!-- 카테고리(치킨/피자) -->
+		<result property="one_title" column="one_title" /> <!-- 제목 -->
+		<result property="one_content" column="one_content" />
+		<result property="one_locate" column="one_locate" />
+		<result property="one_memberMax" column="one_memberMax" /> <!-- 모집인원 -->
+		<result property="one_totalPrice" column="one_totalPrice" /> <!-- 총금액 -->
+		<result property="one_date" column="one_date" /> <!-- 실행날짜-->
+		<result property="one_time" column="one_time" /> <!-- 등록시간-->
+		<result property="one_hashTag" column="one_hashTag" /> 
+		<result property="gc_name" column="gc_name" />
+		<result property="gc_id" column="gc_id" />
+	</resultMap>
+	
+	<!-- one_date 실행날짜 one_time 등록시간 -->
+	<!-- &분의일  최근등록된 같이먹기 -->
+	<insert id="insertAndOne" parameterType="java.util.HashMap">
+      <![CDATA[
+       	insert into and_one(one_type, one_id, one_state, one_category, one_title, one_memberMax, 
+		       			one_totalPrice, one_date, one_hashTag, one_time, one_locate, one_content  )
+		values (#{one_type}, LPAD(andone_SEQ.NEXTVAL,6,'0'), '10', #{one_category}, #{one_title}, #{one_memberMax},
+				#{one_totalPrice}, #{one_date}, #{one_hashTag}, to_char(sysdate,'yyyy-mm-dd hh:mi:ss'), #{one_locate}, #{one_content} )
+      ]]>
+	</insert>
+</mapper>
