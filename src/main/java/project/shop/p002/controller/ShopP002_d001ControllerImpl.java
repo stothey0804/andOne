@@ -99,9 +99,23 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 	public ShopP002ShopDetailVO getShopDetailByAjax(ShopP002ShopDetailVO vo, Model model) {
 		vo.setSearchCondition("SEARCHBYSHOPID");
 		ShopP002ShopDetailVO resultVO = getShopDetail(vo);
-		shopImageEncoder(resultVO);
+		String s_id = resultVO.getS_id();
+		List<String> memberIdList = shopP002_d001Service.getMemberIdFromShopReview(s_id);
+		int count = memberIdList.size();
+		if(count>3) {
+			count = 3;
+		}
+		List<ShopP003ShopReviewVO> reviewList = new ArrayList<>();
+		for(int i=0; i<count; i++) {
+			ShopP003ShopReviewVO reviewVO = new ShopP003ShopReviewVO();
+			reviewVO.setS_id(s_id);
+			reviewVO.setM_id(memberIdList.get(i));
+			reviewList.add(shopP002_d001Service.getShopReview(reviewVO));
+		}
+		resultVO.setShopReviewList(reviewList);
+		shopP002_d001Service.shopImageEncoder(resultVO);
 		for(int i=0; i<resultVO.getShopReviewList().size();i++) {
-			reviewImageEncoder(resultVO.getShopReviewList().get(i));
+			shopP002_d001Service.reviewImageEncoder(resultVO.getShopReviewList().get(i));
 		}
 		return resultVO;
 	}
@@ -112,7 +126,7 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 		vo.setStatus("REVIEW");
 		List<ShopP002ShopDetailVO> resultList = getShopList(vo);
 		for(int i=0; i<resultList.size(); i++) {
-			shopImageEncoder(resultList.get(i));
+			shopP002_d001Service.shopImageEncoder(resultList.get(i));
 		}
 		return resultList;
 	}
@@ -135,7 +149,7 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 		}
 		List<ShopP002ShopDetailVO> resultList = getShopList(vo);
 		for(int i=0; i<resultList.size(); i++) {
-			shopImageEncoder(resultList.get(i));
+			shopP002_d001Service.shopImageEncoder(resultList.get(i));
 		}
 		return resultList;
 	}
@@ -144,7 +158,7 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 	@RequestMapping("/shop/shopReviewPopup.do")
 	public ShopP003ShopReviewVO shopReviewPopup(ShopP003ShopReviewVO vo, Model model) {
 		ShopP003ShopReviewVO resultVO = getShopReview(vo);
-		reviewImageEncoder(resultVO);
+		shopP002_d001Service.reviewImageEncoder(resultVO);
 		return resultVO;
 	}
 	
@@ -186,34 +200,6 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 		
 		return "redirect:fileTest.do";
 	}
-	
-	public void shopImageEncoder(ShopP002ShopDetailVO vo) {
-		int shopImageCount = vo.getShopImage().size();
-		for(int i=0; i<shopImageCount; i++) {
-			if(!vo.getShopImage().get(i).getSi_imgEncoder().isEmpty()) {
-				byte[] encoded = Base64.getEncoder().encode((byte[])vo.getShopImage().get(i).getSi_imgEncoder().get("si_imgEncoder"));
-				vo.getShopImage().get(i).setSi_encodedImg(new String(encoded));
-				vo.getShopImage().get(i).setSi_imgEncoder(null);
-			}
-		}
-	}
-	
-	public void reviewImageEncoder(ShopP003ShopReviewVO vo) {
-		int shopReviewImageCount = vo.getShopReviewImage().size();
-		if(!vo.getM_imgEncoder().isEmpty()) {
-			byte[] encoded1 = Base64.getEncoder().encode((byte[])vo.getM_imgEncoder().get("m_imgEncoder"));
-			vo.setM_encodedImg(new String(encoded1));
-			vo.setM_imgEncoder(null);
-		}
-		for(int i=0; i<shopReviewImageCount; i++) {
-			if(!vo.getShopReviewImage().get(i).getRi_imgEncoder().isEmpty()) {
-				byte[] encoded2 = Base64.getEncoder().encode((byte[])vo.getShopReviewImage().get(i).getRi_imgEncoder().get("ri_imgEncoder"));
-				vo.getShopReviewImage().get(i).setRi_encodedImg(new String(encoded2));
-				vo.getShopReviewImage().get(i).setRi_imgEncoder(null);
-			}
-		}
-	}
-	
 	
 	@ResponseBody
 	@RequestMapping("/shop/viewTest.do")

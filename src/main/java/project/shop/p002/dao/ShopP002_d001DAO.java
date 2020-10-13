@@ -19,4 +19,5 @@ public interface ShopP002_d001DAO {
 	public List<String> getAllHashtag();
 	public void updatePopularHashtag(String result);
 	public String getPopularHashtag();
+	public List<String> getMemberIdFromShopReview(String s_id);
 }

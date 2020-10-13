@@ -25,7 +25,7 @@ public class ShopP002_d001DAOImpl implements ShopP002_d001DAO {
 
 	@Override
 	public ShopP002ShopDetailVO getShopDetail(ShopP002ShopDetailVO vo) {
-		return sqlSession.selectOne("shop.p002.getShopDetail",vo);
+		return sqlSession.selectOne("shop.p002.getShopShort",vo);
 	}
 	
 	@Override
@@ -61,6 +61,11 @@ public class ShopP002_d001DAOImpl implements ShopP002_d001DAO {
 	@Override
 	public String getPopularHashtag() {
 		return sqlSession.selectOne("shop.p002.getPopularHashtag");
+	}
+
+	@Override
+	public List<String> getMemberIdFromShopReview(String s_id) {
+		return sqlSession.selectList("shop.p002.getMemberIdFromShopReview",s_id);
 	}
 
 }
