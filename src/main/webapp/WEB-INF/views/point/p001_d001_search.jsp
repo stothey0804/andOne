@@ -17,7 +17,6 @@
 	function changePointFormat(){
 		let pointList = document.getElementsByClassName('changePoint');
 		for(let key in pointList){
-			console.log((pointList[key].innerHTML));
 			if((pointList[key].innerHTML)>0){
 				pointList[key].innerHTML = '+'+pointToNumFormat(pointList[key].innerHTML);
 				pointList[key].classList.add('text-success');
@@ -25,8 +24,8 @@
 				pointList[key].innerHTML = pointToNumFormat(pointList[key].innerHTML);
 				pointList[key].classList.add('text-danger');
 			}
+			
 		}
-		
 	}
 	
 </script>
