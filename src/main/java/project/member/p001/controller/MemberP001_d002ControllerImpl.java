@@ -17,6 +17,7 @@ import common.Common;
 import project.member.p001.service.MemberP001_d002Service;
 import project.member.p001.service.MemberP001_d005Service;
 import project.member.p001.vo.MemberP001_MemberVO;
+import project.point.p001.service.PointP001_d001Service;
 
 @Controller
 @RequestMapping("/member")
@@ -27,6 +28,9 @@ public class MemberP001_d002ControllerImpl implements MemberP001_d002Controller{
 	
 	@Autowired
 	MemberP001_d005Service memberP001_d005Service;	// profile img set
+	
+	@Autowired
+	PointP001_d001Service pointP001_d001Service; 	// 포인트조회
 	
 	@Override
 	@RequestMapping(value="/login.do")	// 로그인 화면
@@ -52,6 +56,9 @@ public class MemberP001_d002ControllerImpl implements MemberP001_d002Controller{
 				session.setAttribute("m_id", memberVO.getM_id());	// 아이디조회
 				session.setAttribute("m_nickname", memberVO.getM_nickname());	// 닉네임조회
 				session.setAttribute("isLogOn", true);
+				String point = pointP001_d001Service.selectNowPointById(memberVO.getM_id());	// 포인트 조회
+				session.setAttribute("point", point==null? "0": point);	// 포인트 저장
+				
 				// 세션 프로필 이미지 set
 				String profileImg = Common.encodeBlobImage(memberVO.getM_id(), memberP001_d005Service);
 				session.setAttribute("profileImg", profileImg);

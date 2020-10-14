@@ -52,6 +52,11 @@
 <!-- JQuery -->
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script>
+	// comma 
+	function pointToNumFormat(num) {
+    	return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+
 	function onProfile(){
 		var memberLayer = document.getElementById("memberLayer");
 		memberLayer.classList.add("visible");
@@ -68,6 +73,11 @@
        	}else{	// null이 아닐경우
        		$(".profile").attr("src","data:image/png;base64, "+profileImg);
        	}
+       	// 포인트 읽기
+       	var point = '${point}';
+       	point = pointToNumFormat(point);
+       	$("#point").text(point);
+       	
 // 		// 프로필이미지 ->세션에서 읽기
 // 		$.ajax({
 //             type: "post",
@@ -137,7 +147,7 @@
 							</svg></a>
 			            </h5>
 						<div class="row mx-1">
-							<p class="point mb-0">000point</p>
+							<p class="point mb-0"><span id="point"></span>point</p>
 							<a href="${contextPath}/point/charge.do" class="btn btn-outline-primary btn-sm ml-auto">충전</a>
 						</div>
 					</div>

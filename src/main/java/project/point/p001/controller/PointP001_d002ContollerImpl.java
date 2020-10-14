@@ -39,34 +39,36 @@ public class PointP001_d002ContollerImpl implements PointP001_d002Controller{
 	@RequestMapping("/kakaoPaySuccess.do")	// 결제성공 연결
 	public ModelAndView kakaoPaySuccess(@RequestParam("pg_token") String pg_token, HttpServletRequest request) {
 //		System.out.println("======pg_token : "+pg_token);
+		ModelAndView mav = new ModelAndView("point/p001_success");
 		KakaoPayApprovalVO info = pointP001_d002Service.kakaoPayInfo(pg_token);
-		// 충전포인트 값
-		String chargeAmount = (info.getAmount().getTotal()).toString();
-		
-		// db에 포인트 입력
-		HttpSession session = request.getSession(false);
-		String m_id = (String) session.getAttribute("m_id");
-		PointP001VO pointVO = new PointP001VO();
-		pointVO.setM_id(m_id);
-		pointVO.setP_changepoint(chargeAmount);
-		pointVO.setP_detail("포인트 충전");
-		
-		pointP001_d002Service.insertPoint(pointVO);
-		
+
 		try {
+			// 충전포인트 값
+			String chargeAmount = (info.getAmount().getTotal()).toString();
+			// Session 얻기
+			HttpSession session = request.getSession(false);
+			String m_id = (String) session.getAttribute("m_id");
+			
+			// Point VO 값 set
+			PointP001VO pointVO = new PointP001VO();
+			pointVO.setM_id(m_id);
+			pointVO.setP_changepoint(chargeAmount);
+			pointVO.setP_detail("포인트 충전");
+			
+			// 현재 포인트 조회
+			String nowPoint = pointP001_d001Service.selectNowPointById(m_id);
+			pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint);	// 적용		
+			pointP001_d002Service.insertPoint(pointVO);	// 포인트 입력
+			nowPoint = pointP001_d001Service.selectNowPointById(m_id); // 입력 후 값 갱신
+			// view에 전달할 정보
+			mav.addObject("chargeAmount", chargeAmount);
+			mav.addObject("nowPoint", nowPoint);
+			// session에 포인트 값 저장
+			session.setAttribute("point", nowPoint);
 			
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}	
-		
-		// 현재 포인트 조회
-		String nowPoint = pointP001_d001Service.selectNowPointById(m_id);
-		
-		ModelAndView mav = new ModelAndView("point/p001_success");
-		mav.addObject("chargeAmount", chargeAmount);
-		mav.addObject("nowPoint", nowPoint);
-		
-//		mav.addObject("info", kakaoPayAprrovalVO);
 		return mav;
 		
 	}

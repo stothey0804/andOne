@@ -17,10 +17,14 @@
 </style>
 <script>
 	var totalAmount = 0;	// 충전금액
+	// comma 
+	function pointToNumFormat(num) {
+    	return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
 	
 	function init(){
 		// 충전금액 초기값 출력
-		document.getElementById('totalAmount').innerHTML = totalAmount;
+		document.getElementById('totalAmount').innerHTML = pointToNumFormat(totalAmount);
 		// 약관동의시
 		document.getElementById("agreeTerm").addEventListener("click",function(){
 			let btnSubmit = document.getElementById('btnCharge');
@@ -34,15 +38,15 @@
 	
 	function add1000won(){
 		totalAmount += 1000;
-		document.getElementById('totalAmount').innerHTML = totalAmount;
+		document.getElementById('totalAmount').innerHTML = pointToNumFormat(totalAmount);
 	}
 	function add5000won(){
 		totalAmount += 5000;
-		document.getElementById('totalAmount').innerHTML = totalAmount;
+		document.getElementById('totalAmount').innerHTML = pointToNumFormat(totalAmount);
 	}
 	function add10000won(){
 		totalAmount += 10000;
-		document.getElementById('totalAmount').innerHTML = totalAmount;
+		document.getElementById('totalAmount').innerHTML = pointToNumFormat(totalAmount);
 	}
 
 	function amountClear(){

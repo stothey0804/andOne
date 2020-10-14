@@ -1,5 +1,6 @@
 package common;
 
+import java.text.DecimalFormat;
 import java.util.Base64;
 import java.util.Map;
 
@@ -50,6 +51,10 @@ public class Common {
 		return result;
 	}
 	
-	
+	// 천단위 컴마 찍기 
+	 public static String toNumFormat(String num) {
+		 DecimalFormat df = new DecimalFormat("#,###");
+		 return df.format(Integer.parseInt(num));
+	 }
 	
 }

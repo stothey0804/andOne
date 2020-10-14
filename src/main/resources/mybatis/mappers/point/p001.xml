@@ -21,13 +21,7 @@
     		VALUES(
 	    		(LPAD(POINT_SEQ.NEXTVAL, 10,'0')), #{m_id}, TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss'), 
 	    		#{p_changepoint},
-	    		(SELECT p_currentpoint
-					FROM ( SELECT p_currentpoint,
-						ROW_NUMBER() OVER (ORDER BY p_id DESC) ROWNUMBER
-						FROM point 
-						WHERE m_id like #{m_id})
-					WHERE ROWNUMBER = 1
-				) + #{p_changepoint}, 
+	    		#{p_currentpoint} + #{p_changepoint}, 
 	    		#{p_detail},
 	    		#{m_id}, TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss')
     		)
