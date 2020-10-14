@@ -147,7 +147,7 @@
 							</svg></a>
 			            </h5>
 						<div class="row mx-1">
-							<p class="point mb-0"><span id="point"></span>point</p>
+							<p class="point mb-0"><span id="point" class="font-weight-bold"></span>point</p>
 							<a href="${contextPath}/point/charge.do" class="btn btn-outline-primary btn-sm ml-auto">충전</a>
 						</div>
 					</div>
