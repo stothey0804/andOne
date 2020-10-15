@@ -26,4 +26,9 @@ public class ClubP002_d001DAOImpl implements ClubP002_d001DAO{
 		sqlSession.insert("club.p002.insertLeader", insertMap);
 	}
 
+	@Override
+	public void deleteClub(Map<String, Object> searchMap) {
+		sqlSession.delete("club.p002.deleteClub",searchMap);
+	}
+
 }

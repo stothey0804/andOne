@@ -35,10 +35,6 @@ public class ClubP001_d001DAOImpl implements ClubP001_d001DAO{
 		ClubVO vo = sqlSession.selectOne("club.p001.detailClub",searchMap);
 		return vo;
 	}
-//	@Override
-//	public List<Object> getByteImage(String c_id) {
-//		return sqlSession.selectList("club.p001.getByteImage", c_id);
-//	}
 	@Override
 	public String memberCheck(Map<String, Object> searchMap) {
 		ClubMemberVO vo = sqlSession.selectOne("club.p001.memberCheck",searchMap);
@@ -49,5 +45,15 @@ public class ClubP001_d001DAOImpl implements ClubP001_d001DAO{
 			result = vo.getCm_rank();
 		}
 		return result;
+	}
+	@Override
+	public List<ClubMemberVO> getClubMember(Map<String, Object> searchMap) {
+		List<ClubMemberVO> list = sqlSession.selectList("club.p001.getClubMember", searchMap);
+		return list;
+	}
+	@Override
+	public List<ClubMemberVO> getLeaderMember(Map<String, Object> searchMap) {
+		List<ClubMemberVO> list = sqlSession.selectList("club.p001.getLeaderMember",searchMap);
+		return list;
 	}
 }

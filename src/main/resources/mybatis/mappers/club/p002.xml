@@ -37,4 +37,15 @@
 			values(#{c_id},#{m_id},to_char(sysdate,'YYYY-MM-DD hh:mm'),10)
 		]]>
 	</insert>
+	
+	<delete id="deleteClub">
+		{call
+			declare
+			begin
+				delete from club where c_id = #{c_id};
+				delete from c_member where c_id = #{c_id};
+				delete from c_article where c_id = #{c_id};
+			end
+		}	
+	</delete>
 </mapper>

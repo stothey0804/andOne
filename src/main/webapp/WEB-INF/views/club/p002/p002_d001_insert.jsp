@@ -41,17 +41,9 @@ h2{
 	<label>카테고리</label>
 	<select class="form-control" name="c_category">
 		<option value="">카테고리 선택</option>
-		<option value="10">아웃도어/여행</option>
-		<option value="20">운동/스포츠</option>
-		<option value="30">인문학/책/글</option>
-		<option value="40">외국/언어</option>
-		<option value="50">문화/공연</option>
-		<option value="60">음악/악기</option>
-		<option value="70">공예/만들기</option>
-		<option value="80">사교/인맥</option>
-		<option value="90">댄스/무용</option>
-		<option value="100">봉사활동</option>
-		<option value="110">기타</option>
+		<c:forEach var="c" items="${category}">
+			<option value="${c.gc_id}">${c.gc_name}</option>
+		</c:forEach>
 	</select>
 </div>
 <div class="form-group">
@@ -62,9 +54,6 @@ h2{
 <div class="col form-group">
 	소모임 인원 <input type="text" class="form-control memberMax" name="c_membermax" style="width:60px;">명
 </div>
-<?php
-	$data = str_replace('&','&amp;',$data);
-?>
 <textarea name="c_content" id="c_content"></textarea>
 <script>CKEDITOR.replace('c_content')</script>
   <div class="form-group">

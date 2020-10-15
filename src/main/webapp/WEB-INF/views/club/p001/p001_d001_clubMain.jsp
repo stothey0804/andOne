@@ -21,12 +21,12 @@
 	font-style: normal;
 }
 
-h3 {
+h3,.card-title {
 	font-family: 'YanoljaYacheR' !important;
 	font-size: 250%;
 }
 .card_img{
-	object-fit:contain;
+	object-fit: cover;
 }
 input[type="submit"] {
 	font-family: FontAwesome;
@@ -80,12 +80,25 @@ div.img > img{
 </style>
 	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script>
-	
+function init(){
+	var txt = document.getElementsByClassName("str");
+	for(i=0;i<txt.length;i++){
+// 		txt[i] = removeHTML(txt[i].innerHTML);
+		console.log(txt[i]);
+		document.getElementsByClassName("str")[i].innerHTML = txt[i].innerText;
+	}
+}
+ 
+function removeHTML(text){
+	text = text.toString().replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
+	text = text.toString().replace(/<br\/>/ig, "\n");
+	return text;
+}
 </script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body onload="init();">
 	<div class="container my-5 center">
 		<h3>인기 소모임></h3>
 		<br>
@@ -108,7 +121,9 @@ div.img > img{
 						<div class="col-sm-6">
 							<div class="card-body" style="height: 225px">
 								<h5 class="card-title" style="height: 20%">${club.c_name}</h5>
+								<div class="str">
 								<p class="card-text" style="height: 40%">${club.c_content}</p>
+								</div>
 								<p class="card-text">
 									<small class="text-muted" style="height: 14px">${club.c_category}</small>
 								</p>
@@ -124,8 +139,7 @@ div.img > img{
 	</div>
 	<div class="container my-5 center">
 		<div class="search">
-			<a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a
-				href="#">#독서</a> <br>
+			<a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br>
 			<form name="searchFrm" method="post"
 				action="${contextPath }/searchClub.do">
 				<input type="text" placeholder="검색" name="searchWord"> <input
@@ -136,8 +150,7 @@ div.img > img{
 			<button type="button"
 				class="btn btn-outline-info btn-block search create"
 				style="font-size: 18px;"
-				onclick="location.href='${contextPath}/createClubForm.do'">소모임
-				만들기</button>
+				onclick="location.href='${contextPath}/createClubForm.do'">소모임 만들기</button>
 		</div>
 		<br>
 
@@ -146,8 +159,8 @@ div.img > img{
 		<c:choose>
 			<c:when test="${myClubCnt eq 0}">
 				<div class="card">
-					<div class="card-body" style="text-align: center;">가입된 소모임이
-						없습니다. 함께 해봐요!</div>
+					<div class="card-body" style="text-align: center;">
+					가입된 소모임이 없습니다. 함께 해봐요!</div>
 				</div>
 			</c:when>
 			<c:otherwise>
