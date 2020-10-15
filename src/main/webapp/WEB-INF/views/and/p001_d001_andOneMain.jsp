@@ -72,7 +72,9 @@
 		//console.log('${andOneLocate}');
 		//console.log('${memLocate}');
 		
-		var memLocate= ${memLocate};
+		var memLocate= '${memLocate}';
+		var memLocate2= '${memLocate.m_locate_lat}';
+		console.log(memLocate2);
 		var andLocate = ${andOneLocate};
 		
 		console.log(andLocate);
