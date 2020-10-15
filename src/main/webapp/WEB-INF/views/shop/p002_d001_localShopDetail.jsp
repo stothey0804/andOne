@@ -346,7 +346,7 @@ a:hover {
 				shopInformation += '</tr></table>';
 				
 				
-				reviewList += '<hr><h3>후기('+jsonInfo.reviewCount+')</h3>';
+				reviewList += '<hr><h3><a href="${contextPath }/shop/getShopReviewList.do?s_id='+shopId+'">후기('+jsonInfo.reviewCount+')</a></h3>';
 				for(let i=0; i<reviewCount; i++){
 					reviewList += '<table><tr><td rowspan="3" width="80">';
 					reviewList += '<div style="margin: 10px">';

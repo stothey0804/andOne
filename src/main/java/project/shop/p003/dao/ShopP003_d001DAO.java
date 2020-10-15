@@ -16,4 +16,5 @@ public interface ShopP003_d001DAO {
 	public void updateShopReviewImage(ShopP003ShopReviewImageVO vo);
 	public int selectShopReviewListCnt(Map<String,String> searchParam);
 	public List<ShopP003ShopReviewVO> getShopReviewListByPaging(Map<String,String> searchParam);
+	public void deleteShopReview(ShopP003ShopReviewVO vo);
 }

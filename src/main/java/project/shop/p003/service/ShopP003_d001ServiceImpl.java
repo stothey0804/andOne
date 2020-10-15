@@ -3,6 +3,9 @@ package project.shop.p003.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,5 +62,22 @@ public class ShopP003_d001ServiceImpl implements ShopP003_d001Service{
 	@Override
 	public List<ShopP003ShopReviewVO> getShopReviewListByPaging(Map<String, String> searchParam) {
 		return shopP003_d001DAO.getShopReviewListByPaging(searchParam);
+	}
+
+	@Override
+	public boolean loginCheck(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		boolean result = false;
+		if(session!=null) {
+			if(session.getAttribute("m_id")!=null && session.getAttribute("isLogOn")!=null){
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public void deleteShopReview(ShopP003ShopReviewVO vo) {
+		shopP003_d001DAO.deleteShopReview(vo);
 	}
 }

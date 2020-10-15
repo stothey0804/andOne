@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import project.shop.p002.service.ShopP002_d001Service;
 import project.shop.p002.vo.ShopP002ShopDetailVO;
 import project.shop.p002.vo.ShopP002ShopImageVO;
+import project.shop.p003.service.ShopP003_d001Service;
 import project.shop.p003.vo.ShopP003ShopReviewImageVO;
 import project.shop.p003.vo.ShopP003ShopReviewVO;
 
@@ -25,6 +28,8 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 	ShopP002ShopDetailVO shopP002ShopDetailVO;
 	@Autowired
 	ShopP002_d001Service shopP002_d001Service;
+	@Autowired
+	ShopP003_d001Service shopP003_d001Service;
 	
 	@RequestMapping("/shop/localShopMain.do")
 	public String localShopMain(ShopP002ShopDetailVO vo, Model model) {
@@ -39,7 +44,12 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 	}
 	
 	@RequestMapping("/shop/localShopDetail.do")
-	public String localShopDetail(ShopP002ShopDetailVO vo, Model model) {
+	public String localShopDetail(ShopP002ShopDetailVO vo, Model model, HttpServletRequest request) {
+		if(shopP003_d001Service.loginCheck(request)) {
+			model.addAttribute("loginCheck",true);
+		}else {
+			model.addAttribute("loginCheck",false);
+		}
 		model.addAttribute("shopId",vo.getS_id());
 		return "localShopDetail";
 	}

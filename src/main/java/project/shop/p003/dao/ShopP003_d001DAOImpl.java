@@ -68,4 +68,9 @@ public class ShopP003_d001DAOImpl implements ShopP003_d001DAO{
 	public List<ShopP003ShopReviewVO> getShopReviewListByPaging(Map<String, String> searchParam) {
 		return sqlSession.selectList("shop.p002.getShopReviewListByPaging",searchParam);
 	}
+
+	@Override
+	public void deleteShopReview(ShopP003ShopReviewVO vo) {
+		sqlSession.delete("shop.p003.deleteShopReview",vo);
+	}
 }

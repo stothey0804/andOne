@@ -43,6 +43,14 @@
 		]]>
 	</update>
 	
+	<delete id="deleteShopReview" parameterType="ShopP003ShopReviewVO">
+		<![CDATA[
+			DELETE FROM S_REVIEW
+			WHERE S_ID = #{s_id}
+			AND M_ID = #{m_id}
+		]]>
+	</delete>
+	
 	<delete id="deleteShopReviewImage" parameterType="ShopP003ShopReviewImageVO">
 		<![CDATA[
 			DELETE FROM R_IMAGE

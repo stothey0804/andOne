@@ -75,7 +75,7 @@ public class ShopP002_d001ServiceImpl implements ShopP002_d001Service {
 	public void shopImageEncoder(ShopP002ShopDetailVO vo) {
 		int shopImageCount = vo.getShopImage().size();
 		for(int i=0; i<shopImageCount; i++) {
-			if(!vo.getShopImage().get(i).getSi_imgEncoder().isEmpty()) {
+			if(vo.getShopImage().get(i).getSi_imgEncoder()!=null) {
 				byte[] encoded = Base64.getEncoder().encode((byte[])vo.getShopImage().get(i).getSi_imgEncoder().get("si_imgEncoder"));
 				vo.getShopImage().get(i).setSi_encodedImg(new String(encoded));
 				vo.getShopImage().get(i).setSi_imgEncoder(null);
@@ -86,13 +86,13 @@ public class ShopP002_d001ServiceImpl implements ShopP002_d001Service {
 	@Override
 	public void reviewImageEncoder(ShopP003ShopReviewVO vo) {
 		int shopReviewImageCount = vo.getShopReviewImage().size();
-		if(!vo.getM_imgEncoder().isEmpty()) {
+		if(vo.getM_imgEncoder()!=null) {
 			byte[] encoded1 = Base64.getEncoder().encode((byte[])vo.getM_imgEncoder().get("m_imgEncoder"));
 			vo.setM_encodedImg(new String(encoded1));
 			vo.setM_imgEncoder(null);
 		}
 		for(int i=0; i<shopReviewImageCount; i++) {
-			if(!vo.getShopReviewImage().get(i).getRi_imgEncoder().isEmpty()) {
+			if(vo.getShopReviewImage().get(i).getRi_imgEncoder()!=null) {
 				byte[] encoded2 = Base64.getEncoder().encode((byte[])vo.getShopReviewImage().get(i).getRi_imgEncoder().get("ri_imgEncoder"));
 				vo.getShopReviewImage().get(i).setRi_encodedImg(new String(encoded2));
 				vo.getShopReviewImage().get(i).setRi_imgEncoder(null);
