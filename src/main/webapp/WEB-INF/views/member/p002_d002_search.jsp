@@ -21,10 +21,10 @@
      	width: 800px;
     	z-index: 9999;
 /*     	visibility: hidden; */
-    	position: fixed;
+    	position: absolute;
     	left: 50%;
-    	top: 50%;
-    	transform: translate(-50%, -50%);
+    	top: 100px;
+    	transform: translateX(-50%);
     	border: solid 2px black;
     }
     #popup-close{

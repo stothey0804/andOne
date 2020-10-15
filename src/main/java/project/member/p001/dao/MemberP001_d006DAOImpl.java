@@ -27,8 +27,13 @@ public class MemberP001_d006DAOImpl implements MemberP001_d006DAO{
 	}
 
 	@Override
-	public List<MemberP001_d006VO> getMemberList(MemberP001_d006VO vo) {
-		return sqlSession.selectList("member.p001.getMemberList",vo);
+	public List<MemberP001_d006VO> getMemberList(Map<String, String> param) {
+		return sqlSession.selectList("member.p001.getMemberList", param);
+	}
+
+	@Override
+	public int selectMemberCnt(Map<String, String> param) {
+		return sqlSession.selectOne("member.p001.selectMemberCnt",param);
 	}
 
 }

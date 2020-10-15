@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import common.Pagination;
 import project.member.p001.service.MemberP001_d006Service;
 import project.member.p001.vo.MemberP001_d006VO;
 
@@ -48,15 +49,29 @@ public class MemberP001_d006ControllerImpl implements MemberP001_d006Controller{
 	
 	@Override
 	@RequestMapping("/admin/searchMemberList.do")
-	public String searchMemberList(MemberP001_d006VO vo, Model model) {
+	public String searchMemberList(@RequestParam(defaultValue = "1") int curPage, @RequestParam Map<String, String> param, Model model) {
 		System.out.println("===>회원목록 조회");
-		if(vo.getSearchCondition() == null) {
-			vo.setSearchCondition("EMAIL");
+		if(param.get("searchCondition") == null) {
+			param.put("searchCondition","EMAIL");
 		}
-		if(vo.getSearchKeyword() == null) {
-			vo.setSearchKeyword("");
+		if(param.get("searchKeyword") == null) {
+			param.put("searchKeyword","");
 		}
-		model.addAttribute("memberList",memberP001_d006Service.getMemberList(vo));
+		
+		int listCnt = memberP001_d006Service.selectMemberCnt(param);
+		Pagination pagination = new Pagination(listCnt, curPage);	
+//		if(vo.getSearchCondition() == null) {
+//			vo.setSearchCondition("EMAIL");
+//		}
+//		if(vo.getSearchKeyword() == null) {
+//			vo.setSearchKeyword("");
+//		}
+		
+		param.put("startIndex", (pagination.getStartIndex()+1)+"");	// 시작 index는 1부터 이므로 1을 더해줌.
+		param.put("endIndex", (pagination.getStartIndex()+pagination.getPageSize())+"");	// 끝 index
+
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("memberList",memberP001_d006Service.getMemberList(param));
 		return "p001_d006_search";
 	}
 	

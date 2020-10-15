@@ -37,7 +37,7 @@ public class EditorFileUploadController {
             //String filePath = "C:/MyProject/workspace/devFw/src/main/webapp/resources/photoUpload/";
             //String filePath = "C:/Tomcat 9.0/webapps/devFw/resources/photoUpload/";
             
-            System.out.println("=================>>111111111111111 filePath:"+filePath);
+            System.out.println("=================>> filePath:"+filePath);
             
             String saveName = sb.append(new SimpleDateFormat("yyyyMMddHHmmss")
                           .format(System.currentTimeMillis()))
@@ -72,6 +72,7 @@ public class EditorFileUploadController {
 		response.setContentType("text/html;charset=utf-8");
 		OutputStream out = null;
 		MultipartFile file = multiFile.getFile("upload");
+		
 		if(file!=null) {
 			if(file.getSize() > 0) {
 				if(file.getContentType().toLowerCase().startsWith("image/")) {
@@ -90,6 +91,7 @@ public class EditorFileUploadController {
 						out.write(bytes);
 						System.out.println("============> "+uploadPath);
 						String fileUrl = request.getContextPath() + "/img/" + fileName;
+//						String fileUrl = uploadPath;
 						
 						// json 등록
 						json.addProperty("uploaded", 1);

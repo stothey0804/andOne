@@ -60,8 +60,8 @@ public class ShopP003_d001DAOImpl implements ShopP003_d001DAO{
 	}
 
 	@Override
-	public int selectShopReviewListCnt(Map<String,String> searchParam) {
-		return sqlSession.selectOne("shop.p003.selectShopReviewListCnt",searchParam);
+	public int selectShopReviewListCnt(String s_id) {
+		return sqlSession.selectOne("shop.p003.selectShopReviewListCnt",s_id);
 	}
 
 	@Override
@@ -73,4 +73,15 @@ public class ShopP003_d001DAOImpl implements ShopP003_d001DAO{
 	public void deleteShopReview(ShopP003ShopReviewVO vo) {
 		sqlSession.delete("shop.p003.deleteShopReview",vo);
 	}
+
+	@Override
+	public void updateShopScore(String s_id) {
+		sqlSession.update("shop.p003.updateShopScore",s_id);
+	}
+
+	@Override
+	public void initShopScore(String s_id) {
+		sqlSession.update("shop.p003.initShopScore",s_id);
+	}
+
 }

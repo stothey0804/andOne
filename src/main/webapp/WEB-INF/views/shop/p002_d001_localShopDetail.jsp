@@ -138,8 +138,8 @@ a:hover {
 <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
 <script>
 	var shopId = '${shopId}';
+	var logonId = '${logonId }';
 	var s_category = '';
-	
 	$(document).ready(function(){
 		$('#pop').hide();
 		$('#imgPop').hide();
@@ -247,8 +247,8 @@ a:hover {
 				output += 		'<td></td>';
 				output +=	 '</tr>';
 				output += 	'<tr>';
-				output +=		'<td></td>'
-				output += 		'<td colspan="2" align="center" height="110">';
+				output +=		'<td rowspan="2"></td>'
+				output += 		'<td rowspan="2" align="center" height="110">';
 				output += 		'<div class="row">';
 				for(let j=0; j<Object.keys(jsonInfo.shopReviewImage).length; j++){
 					output += 		'<div style="margin: 5px">';
@@ -264,7 +264,19 @@ a:hover {
 // 				}
 				output +=		'</div>'
 				output +=		'</td>';
-				output += 	'</tr>';
+				if(logonId == p1){
+					output += '<td align="center">';
+					output += '<button onclick="location.href=\'${contextPath }/shop/checkReviewControll.do?command=modify&m_id='+p1+'&s_id='+shopId+'\'">수정</button>';
+					output += '</td>';
+					output += '</tr>';
+					output += '<tr>';
+					output += '<td align="center">';
+					output += '<button onclick="location.href=\'${contextPath }/shop/checkReviewControll.do?command=delete&m_id='+p1+'&s_id='+shopId+'\'">삭제</button>';
+					output += '</td>';
+					output += '</tr>';
+				}else{
+					output += '<td></td></tr><tr><td></td></tr>'
+				}
 				output += '</table>';
 				$('#popContent').html(output);
 				$('#close').click(function(){
