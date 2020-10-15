@@ -44,11 +44,11 @@
 		<result property="ca_id" column="ca_id" />
 		<result property="userImg" column="m_img" javaType="[B" jdbcType="BLOB"/>
 		<collection property="articleImgList" column="ca_id" javaType="java.util.ArrayList"
-					select="getArticleListImg" ofType="clubArticleImgVO"/>
+					select="getArticleListImg" ofType="java.util.Map"/>
 	</resultMap>
 	
 	<resultMap id="imgList" type="java.util.Map">
-		<result property="articleImg" column="ca_img" javaType="[B" jdbcType="BLOB"/>
+		<collection property="articleImg" column="ca_img" javaType="[B" jdbcType="BLOB"/>
 	</resultMap>
 	
 	<select id="clubList" resultMap="p001_d001Result01">
