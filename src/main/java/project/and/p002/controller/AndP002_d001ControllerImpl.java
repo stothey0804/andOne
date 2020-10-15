@@ -38,19 +38,10 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 	//글쓰기 내용 DB저장
 	@Override
 	@RequestMapping(value="/and*/insertAndOne.do")
-	public ModelAndView insertAndOne(@RequestParam Map<String,String> Andone) {
-		System.out.println(Andone.get("one_locate"));
-		System.out.println(Andone.get("one_category"));
-		System.out.println(Andone.get("one_date"));//실행날짜
-		System.out.println(Andone.get("one_title"));
-		System.out.println(Andone.get("one_memberMax"));
-		System.out.println(Andone.get("one_type"));//구분
-		System.out.println(Andone.get("one_hashTag"));
-		
-		List<Map> insertAndOne =  p002_d001Service.insertAndOne(Andone);
-		//진행상태 
-		return null;
-		
+	public void insertAndOne(@RequestParam Map<String,Object> Andone) {
+		System.out.println(">>>>>>"+Andone.get("one_locate_Lat"));
+		System.out.println(">>>>>>"+Andone.get("one_locate_Lng"));
+		p002_d001Service.insertAndOne(Andone); //글쓰기
 	}
 	
 	

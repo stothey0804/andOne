@@ -6,6 +6,6 @@ import java.util.Map;
 import org.springframework.dao.DataAccessException;
 
 public interface AndP002_d001DAO {
-	public List<Map> insertAndOne(Map<String,String> Andone) throws DataAccessException;
+	public List<Map<String,Object>> insertAndOne(Map<String,Object> Andone) throws DataAccessException;
 
 }

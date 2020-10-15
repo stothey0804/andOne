@@ -83,6 +83,7 @@
                 locate_lng: m_locate_lng
                 //data로 넘겨주기
             },
+
             url: "/andOne/member/saveLocate.do",
             success: function (data, textStatus) {
 	

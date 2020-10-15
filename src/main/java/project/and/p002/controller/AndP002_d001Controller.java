@@ -8,5 +8,5 @@ import org.springframework.web.servlet.ModelAndView;
 
 public interface AndP002_d001Controller {
 	public ModelAndView insertAndOnePage(HttpServletRequest request);
-	public ModelAndView insertAndOne(Map<String,String> Andone);
+	public void insertAndOne(Map<String,Object> Andone);
 }
