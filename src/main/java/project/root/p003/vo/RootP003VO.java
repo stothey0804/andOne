@@ -4,7 +4,7 @@ public class RootP003VO {
 	String n_id, n_title, n_content, n_date, n_editor, n_editdate;
 
 	public RootP003VO() {
-		System.out.println("RootP003VO 생성");
+		System.out.println("KakaoPayReady VO생성");
 	}
 	
 	public RootP003VO(String n_title, String n_content) {

@@ -83,6 +83,11 @@
       <put-attribute name="title" value="메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_andOneSearch.jsp" />
    </definition>
+   <!--같이 글쓰기 -->
+   <definition name="insertAndOnePage" extends="baseLayout">
+      <put-attribute name="title" value="메인페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p002_d001_insertAndOne.jsp" />
+   </definition>
 
 
    <!-- 지역업체 페이지 -->
@@ -159,6 +164,19 @@
 		<put-attribute name="title" value="마이페이지"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p001_init.jsp"/>
 	</definition>
+	
+   <!-- 포인트 충전 -->
+	<definition name="PointP001_d001_init" extends="mypageLayout">
+		<put-attribute name="title" value="포인트충전"/>
+		<put-attribute name="body" value="/WEB-INF/views/point/p001_init.jsp"/>
+	</definition>
+   <!-- 포인트 사용이력 -->
+	<definition name="PointP001_d001_Search" extends="mypageLayout">
+		<put-attribute name="title" value="포인트 사용이력"/>
+		<put-attribute name="body" value="/WEB-INF/views/point/p001_d001_search.jsp"/>
+	</definition>
+	
+
 	
 	<!-- 회원정보조회 -->
 	<definition name="p001_d005_update" extends="mypageLayout">

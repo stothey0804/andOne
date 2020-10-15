@@ -21,7 +21,7 @@ public class RootP001_d001ServiceImpl implements RootP001_d001Service{
 	}
 
 	@Override
-	public String selectMemberLocate(String m_id) {
+	public Map<String, String> selectMemberLocate(String m_id) {
 		return rootP001_d001DAO.selectMemberLocate(m_id);
 	}
 

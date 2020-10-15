@@ -1,5 +1,7 @@
 package project.club.vo;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,30 +17,30 @@ public class ClubArticleVO {
 	private String ca_date;
 	private String m_id;
 	private String m_nickname;
-	private MultipartFile ca_img;
+	//이미지 첨부 List
+	private List<MultipartFile> ca_img;
 	private String ca_pin;
-	private byte[] articleImg;
-	private String resultArticleImg;
 	private byte[] userImg;
 	private String resultUserImg;
+	private List<ClubArticleImgVO> articleImgList;
 	
+	public List<ClubArticleImgVO> getArticleImgList() {
+		return articleImgList;
+	}
+	public void setArticleImgList(List<ClubArticleImgVO> articleImgList) {
+		this.articleImgList = articleImgList;
+	}
+	public List<MultipartFile> getCa_img() {
+		return ca_img;
+	}
+	public void setCa_img(List<MultipartFile> ca_img) {
+		this.ca_img = ca_img;
+	}
 	public String getM_nickname() {
 		return m_nickname;
 	}
 	public void setM_nickname(String m_nickname) {
 		this.m_nickname = m_nickname;
-	}
-	public byte[] getArticleImg() {
-		return articleImg;
-	}
-	public void setArticleImg(byte[] articleImg) {
-		this.articleImg = articleImg;
-	}
-	public String getResultArticleImg() {
-		return resultArticleImg;
-	}
-	public void setResultArticleImg(String resultArticleImg) {
-		this.resultArticleImg = resultArticleImg;
 	}
 	public String getResultUserImg() {
 		return resultUserImg;
@@ -88,12 +90,6 @@ public class ClubArticleVO {
 	}
 	public void setM_id(String m_id) {
 		this.m_id = m_id;
-	}
-	public MultipartFile getCa_img() {
-		return ca_img;
-	}
-	public void setCa_img(MultipartFile ca_img) {
-		this.ca_img = ca_img;
 	}
 	
 }

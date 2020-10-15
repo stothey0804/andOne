@@ -2,6 +2,7 @@ package project.club.p003.controller;
 
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import project.club.p001.service.ClubP001_d001Service;
@@ -55,7 +58,6 @@ public class ClubP003_d001ControllerImpl implements ClubP003_d001Controller{
 			encoded = Base64.getEncoder().encode(vo.getC_imgByte());
 			clubImg = new String(encoded);	
 		}
-		System.out.println("zzzzzzzzzzzzz"+clubImg);
 		ModelAndView mav = new ModelAndView("writeArticleForm");
 		mav.addObject("clubInfo", vo);
 		mav.addObject("clubImg", clubImg);
@@ -64,10 +66,14 @@ public class ClubP003_d001ControllerImpl implements ClubP003_d001Controller{
 	
 	@Override		//게시글 작성
 	@RequestMapping(value="/writeArticle.do", method= {RequestMethod.GET,RequestMethod.POST})
-	public String writeArticle(ClubArticleVO vo, HttpServletRequest request, HttpSession session) throws Exception{
+	public String writeArticle(ClubArticleVO vo, HttpServletRequest request, HttpSession session, MultipartHttpServletRequest mtfRequest) throws Exception{
 		String m_id = (String) session.getAttribute("m_id");
+		List<MultipartFile> mf = mtfRequest.getFiles("ca_img");
 		Map<String, Object> insertMap = new HashMap<String, Object>();
-		insertMap.put("ca_img", vo.getCa_img().getBytes());
+		System.out.println(vo.getCa_img().size());
+		for(int i=0; i<vo.getCa_img().size();i++) {
+			insertMap.put("ca_img", mf.get(i).getBytes());
+		}
 		insertMap.put("ca_content", vo.getCa_content());
 		insertMap.put("m_id", m_id);
 		insertMap.put("c_id", vo.getC_id());

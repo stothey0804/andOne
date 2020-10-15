@@ -93,7 +93,7 @@
 	<div style="width:350px; margin: 0 auto">
 	<c:choose>
 		<c:when test="${g_id == '010'}">
-			<form name="eat" class="form-inline" method="get" action="${contextPath}/andeat/searchAndOne.do">
+			<form name="andeat" class="form-inline" method="get" action="${contextPath}/andeat/searchAndOne.do">
 				<div class="form-group mx-sm-3 mb-2">
 					<input class="form-control" type ="text" name="totalSearch" placeholder="카테고리/지역/제목">
 					<input type ="hidden" name="g_id" value="${g_id}">
@@ -105,7 +105,7 @@
 				</c:url> 
 		</c:when>
 		<c:when test="${g_id == '011'}">
-			<form name="eat" class="form-inline" method="get" action="${contextPath}/andbuy/searchAndOne.do?g_id=${g_id}">
+			<form name="andbuy" class="form-inline" method="get" action="${contextPath}/andbuy/searchAndOne.do?g_id=${g_id}">
 				<div class="form-group mx-sm-3 mb-2">
 					<input class="form-control" type ="text" placeholder="카테고리/지역/제목">
 				</div>
@@ -116,7 +116,7 @@
 				</c:url> 
 		</c:when>
 		<c:when test="${g_id == '012'}">
-			<form name="eat" class="form-inline" method="get" action="${contextPath}/anddo/searchAndOne.do?g_id=${g_id}">
+			<form name="anddo" class="form-inline" method="get" action="${contextPath}/anddo/searchAndOne.do?g_id=${g_id}">
 				<div class="form-group mx-sm-3 mb-2">
 					<input class="form-control" type ="text" placeholder="카테고리/지역/제목">
 				</div>
@@ -141,7 +141,7 @@
 				</div>
 			</c:when>
 			<c:when test="${g_id == '011'}">
-				<div style="width:570px; margin: 0 auto">
+				<div style="width:650px; margin: 0 auto">
 				<c:forEach var ="ctg" items="${ctg_eat}" > 
 				<button type="button" class="btn btn-outline-dark mb-3" onclick="location.href='${contextPath}/andeat/searchAndOne.do?one_category=${ctg.gc_id}&g_id=${g_id}'">${ctg.gc_name}</button>
 				</c:forEach>
@@ -164,7 +164,7 @@
 	</c:if>
 	 <div class="container">
 		<div class="row">
-			<c:forEach var ="andone" items="${ctgSearchList}" > 
+			<c:forEach var ="andone" items="${SearchAndOneList}" > 
 				<div class="col-sm-6 mb-3">
 					<div class="card">
 						<a href="#"><div class="card-body">
@@ -173,18 +173,21 @@
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
 						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}주문  </h5>
 						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
+						<p class="card-text"> #${andone.one_hashTag}  </p>
 						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}</span></p>
 					</c:when>
 					<c:when test="${g_id == '011'}">
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
 						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}수령예정  </h5>
 						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
+						<p class="card-text"> #${andone.one_hashTag}  </p>
 						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}</span></p>
 					</c:when>
 					<c:when test="${g_id == '012'}">
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
 						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}  </h5>
 						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
+						<p class="card-text"> #${andone.one_hashTag}  </p>
 						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}</span></p>
 					</c:when>
 				</c:choose>
