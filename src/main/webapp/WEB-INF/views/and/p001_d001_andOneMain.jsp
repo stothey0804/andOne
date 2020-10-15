@@ -72,7 +72,7 @@
 		//console.log('${andOneLocate}');
 		//console.log('${memLocate}');
 		
-		var memLocate= '${memLocate}';
+	/* 	var memLocate= '${memLocate[0].m_locate_Lat}';
 		var memLocate2= '${memLocate.m_locate_lat}';
 		console.log(memLocate2);
 		var andLocate = ${andOneLocate};
@@ -85,9 +85,11 @@
 		let x_memLocate = memLocate.slice(1,andLocate[6].indexOf(","));
 		let y_memLocate = memLocate.slice(andLocate[6].indexOf(",")+1,andLocate[6].length-1);
 		
-		locPosition = new kakao.maps.LatLng(x_memLocate, y_memLocate);
+		locPosition = new kakao.maps.LatLng(x_memLocate, y_memLocate); */
 		//console.log(locPosition);
 		
+		var posi = $("#possible").text();
+		console.log(posi);
 		
 		
 		
@@ -209,9 +211,10 @@
 			</div>
 		</div>
 		
-		<c:forEach var ="Alocate" items="${AndOneLocate}" > 
-		<h1>${Alocate} ${Alocate.one_locate}</h1>
-		</c:forEach>
+		<span id="possible">${memLocate.M_LOCATE_LNG}</span>
+		
+		${andOneLocate}
+		
 		
 </body>
 </html>
