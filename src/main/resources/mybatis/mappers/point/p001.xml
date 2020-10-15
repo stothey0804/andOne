@@ -3,7 +3,6 @@
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
    <mapper namespace="point.p001">
-   <!-- QnA 테이블 -->
    	<resultMap id="pointResult" type="pointP001VO">
 		<result property="p_id" column="p_id"  />
 		<result property="m_id" column="m_id"  />

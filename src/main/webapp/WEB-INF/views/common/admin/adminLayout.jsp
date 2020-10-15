@@ -54,7 +54,7 @@
     
     <title><tiles:insertAttribute name="title" /></title>
   </head>
-    <body>
+    <body class="bg-light">
     <div id="container">
       <div id="header" class="sticky-top">
          <tiles:insertAttribute name="header"/>
@@ -62,7 +62,7 @@
       <div id="sidebar-left" class="bg-light p-2 pt-3">
           <tiles:insertAttribute name="side"/>
       </div>
-      <div id="content">
+      <div id="content" class="bg-white">
           <tiles:insertAttribute name="body"/>
       </div>
     </div>

@@ -81,12 +81,12 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		
 		//소모임 게시글 이미지 encoding
 		for(int i=0; i<vo.getArticleList().size();i++) {
-			if(vo.getArticleList().get(i).getArticleImgList()!=null) {
-				for(int j=0; j < vo.getArticleList().get(i).getArticleImgList().size();j++) {
-					encoded = Base64.getEncoder().encode((byte[]) vo.getArticleList().get(i).getArticleImgList().get(j).getArticleImg().get("ca_img"));
-					vo.getArticleList().get(i).getArticleImgList().get(j).setResultArticleImg(new String(encoded));
-				}
-			}
+//			if(vo.getArticleList().get(i).getArticleImgList()!=null) {
+//				for(int j=0; j < vo.getArticleList().get(i).getArticleImgList().size();j++) {
+//					encoded = Base64.getEncoder().encode((byte[]) vo.getArticleList().get(i).getArticleImgList().get(j).getArticleImg().get("ca_img"));
+//					vo.getArticleList().get(i).getArticleImgList().get(j).setResultArticleImg(new String(encoded));
+//				}
+//			}
 			if(vo.getArticleList().get(i).getUserImg()!=null) {
 				encoded = Base64.getEncoder().encode(vo.getArticleList().get(i).getUserImg());
 				vo.getArticleList().get(i).setResultUserImg(new String(encoded));
