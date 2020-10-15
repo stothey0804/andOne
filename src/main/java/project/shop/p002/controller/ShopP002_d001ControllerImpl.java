@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,9 +47,10 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 	@RequestMapping("/shop/localShopDetail.do")
 	public String localShopDetail(ShopP002ShopDetailVO vo, Model model, HttpServletRequest request) {
 		if(shopP003_d001Service.loginCheck(request)) {
-			model.addAttribute("loginCheck",true);
+			HttpSession session = request.getSession(false);
+			model.addAttribute("logonId",session.getAttribute("m_id"));
 		}else {
-			model.addAttribute("loginCheck",false);
+			model.addAttribute("logonId","guest");
 		}
 		model.addAttribute("shopId",vo.getS_id());
 		return "localShopDetail";

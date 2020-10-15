@@ -64,6 +64,7 @@ public class ShopP003_d001ControllerImpl implements ShopP003_d001Controller{
 		System.out.println(reviewVO.getSr_content());
 		System.out.println(reviewVO.getSr_score());
 		shopP003_d001Service.updateShopReview(reviewVO);
+		shopP003_d001Service.shopScoreCalculator(reviewVO.getS_id());
 		if(fileList.get(0).getSize()!=0) {
 			ShopP003ShopReviewImageVO reviewImageVO = new ShopP003ShopReviewImageVO();
 			reviewImageVO.setM_id(reviewVO.getM_id());
@@ -86,7 +87,7 @@ public class ShopP003_d001ControllerImpl implements ShopP003_d001Controller{
 				e.printStackTrace();
 			}
 		}
-		return "shop/localShopDetail.do?s_id="+reviewVO.getS_id();
+		return "redirect:localShopDetail.do?s_id="+reviewVO.getS_id();
 	}
 	
 	@RequestMapping("/shop/insertShopReview.do")
@@ -106,6 +107,7 @@ public class ShopP003_d001ControllerImpl implements ShopP003_d001Controller{
 		// fileList로 포문 돌려서 si_image 테이블 insert. m_id, s_id는 VO가 들고 있는 값 삽입.
 		// list의 인덱스 +1을 si_idx로
 		shopP003_d001Service.insertShopReview(reviewVO);
+		shopP003_d001Service.shopScoreCalculator(reviewVO.getS_id());
 		if(fileList.get(0).getSize()!=0) {
 			ShopP003ShopReviewImageVO reviewImageVO = new ShopP003ShopReviewImageVO();
 			reviewImageVO.setM_id(reviewVO.getM_id());
@@ -134,10 +136,10 @@ public class ShopP003_d001ControllerImpl implements ShopP003_d001Controller{
 	@RequestMapping("/shop/getShopReviewList.do")
 	public ModelAndView searchShopReview(@RequestParam(defaultValue="1")int curPage, @RequestParam String s_id, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
+		int listCnt = shopP003_d001Service.selectShopReviewListCnt(s_id);
+		Pagination pagination = new Pagination(listCnt, curPage);
 		Map<String, String> searchParam = new HashMap<>();
 		searchParam.put("s_id",s_id);
-		int listCnt = shopP003_d001Service.selectShopReviewListCnt(searchParam);
-		Pagination pagination = new Pagination(listCnt, curPage);
 		searchParam.put("startIndex",(pagination.getStartIndex()+1)+"");
 		searchParam.put("endIndex",(pagination.getStartIndex()+pagination.getPageSize())+"");
 		List<ShopP003ShopReviewVO> reviewList = shopP003_d001Service.getShopReviewListByPaging(searchParam);
@@ -168,6 +170,7 @@ public class ShopP003_d001ControllerImpl implements ShopP003_d001Controller{
 				imageVO.setS_id(vo.getS_id());
 				shopP003_d001Service.deleteShopReviewImage(imageVO);
 				shopP003_d001Service.deleteShopReview(vo);
+				shopP003_d001Service.shopScoreCalculator(vo.getS_id());
 				path += "redirect:localShopDetail.do?s_id="+vo.getS_id(); break;
 			case "modify" : 
 				model.addAttribute("vo",vo);

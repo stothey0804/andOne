@@ -69,12 +69,33 @@
 		]]>
 	</update>
 	
-	<select id="selectShopReviewListCnt" parameterType="java.util.HashMap" resultType="int">
+	<select id="selectShopReviewListCnt" parameterType="String" resultType="int">
 		<![CDATA[
 			SELECT COUNT(M_ID)
 			FROM S_REVIEW
 			WHERE S_ID = #{s_id}
 		]]>
 	</select>
+	
+	<update id="updateShopScore" parameterType="String">
+		<![CDATA[
+			UPDATE SHOP
+			SET S_SCORE = 
+			(
+				SELECT SUM(SR_SCORE)/COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+		    )
+			WHERE S_ID = #{s_id}
+		]]>
+	</update>
+	
+	<update id="initShopScore" parameterType="String">
+		<![CDATA[
+			UPDATE SHOP
+			SET S_SCORE = 'none'
+			WHERE S_ID = #{s_id}
+		]]>
+	</update>
 	
 </mapper>

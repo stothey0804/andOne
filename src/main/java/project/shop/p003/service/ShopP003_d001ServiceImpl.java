@@ -1,5 +1,6 @@
 package project.shop.p003.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,8 +56,8 @@ public class ShopP003_d001ServiceImpl implements ShopP003_d001Service{
 	}
 
 	@Override
-	public int selectShopReviewListCnt(Map<String,String> searchParam) {
-		return shopP003_d001DAO.selectShopReviewListCnt(searchParam);
+	public int selectShopReviewListCnt(String s_id) {
+		return shopP003_d001DAO.selectShopReviewListCnt(s_id);
 	}
 
 	@Override
@@ -79,5 +80,29 @@ public class ShopP003_d001ServiceImpl implements ShopP003_d001Service{
 	@Override
 	public void deleteShopReview(ShopP003ShopReviewVO vo) {
 		shopP003_d001DAO.deleteShopReview(vo);
+	}
+
+	@Override
+	public void updateShopScore(String s_id) {
+		shopP003_d001DAO.updateShopScore(s_id);
+	}
+
+	@Override
+	public void initShopScore(String s_id) {
+		shopP003_d001DAO.initShopScore(s_id);
+		
+	}
+
+	@Override
+	public void shopScoreCalculator(String s_id) {
+		int listCnt = selectShopReviewListCnt(s_id);
+		System.out.println("=====> 리뷰 갯수 : " + listCnt);
+		if(listCnt == 0) {
+			System.out.println("=====> 가게점수 none으로 초기화");
+			initShopScore(s_id);
+		}else {
+			System.out.println("=====> 가게점수 업데이트");
+			updateShopScore(s_id);
+		}
 	}
 }
