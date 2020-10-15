@@ -10,6 +10,9 @@
 
 	<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
 	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+	
+	<!--kakao map-->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
 	<style>
 	.aa{
 		padding: 15px; 
@@ -65,6 +68,29 @@
 	        }
 	    return Math.floor(betweenTimeDay / 365)+'년전';
 		}
+		//거리계산
+		//console.log('${andOneLocate}');
+		//console.log('${memLocate}');
+		
+		var memLocate= '${memLocate}';
+		var andLocate = '${andOneLocate}';
+		for(var [key,value] of andLocate){
+			console.log('${key} = ${value}');
+		}
+		console.log(andLocate);
+// 		console.log(typeof andLocate);
+		console.log(andLocate.indexOf(6));
+		//console.log(memLocate);
+		
+		let x_memLocate = memLocate.slice(1,andLocate[6].indexOf(","));
+		let y_memLocate = memLocate.slice(andLocate[6].indexOf(",")+1,andLocate[6].length-1);
+		
+		locPosition = new kakao.maps.LatLng(x_memLocate, y_memLocate);
+		//console.log(locPosition);
+		
+		
+		
+		
 	   
 	</script>
 <meta charset="UTF-8">
@@ -92,7 +118,7 @@
 				</div>
 					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
 			</form>
-					<button type="button" onclick="location='href=${contextPath}/andeat/insertAndOne.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이사기 등록하기 </button>
+					<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이사기 등록하기 </button>
 		</c:when>
 		<c:when test="${g_id == '012'}">
 			<form name="eat" class="form-inline" method="get" action="${contextPath}/anddo/searchAndOne.do">
@@ -102,7 +128,7 @@
 				</div>
 					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
 			</form>
-					<button type="button" onclick="location='href=${contextPath}/andeat/insertAndOne.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이하기 등록하기 </button>
+					<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이하기 등록하기 </button>
 		</c:when>
 	</c:choose>
 	</div>
@@ -182,5 +208,10 @@
 			</c:forEach>
 			</div>
 		</div>
+		
+		<c:forEach var ="Alocate" items="${AndOneLocate}" > 
+		<h1>${Alocate} ${Alocate.one_locate}</h1>
+		</c:forEach>
+		
 </body>
 </html>

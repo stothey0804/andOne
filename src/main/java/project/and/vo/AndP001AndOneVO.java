@@ -10,7 +10,8 @@ public class AndP001AndOneVO {
 	private String one_id;
 	private String one_category;
 	private String one_title;
-	private String one_locate;
+	private String one_locate_lan;
+	private String one_locate_lat;
 	private String one_memberMax;
 	private String one_totalPrice; //총가격
 	private String one_price; // 총가격/인원
@@ -26,7 +27,6 @@ public class AndP001AndOneVO {
 	private String totalSearch; //총검색
 	
 	public AndP001AndOneVO() {
-		System.out.println("AndOneVO 생성자호출");
 	}
 	
 	
@@ -123,13 +123,24 @@ public class AndP001AndOneVO {
 		this.one_title = one_title;
 	}
 
-	public String getOne_locate() {
-		return one_locate;
+	public String getOne_locate_lan() {
+		return one_locate_lan;
 	}
 
-	public void setOne_locate(String one_locate) {
-		this.one_locate = one_locate;
+	public void setOne_locate_lan(String one_locate_lan) {
+		this.one_locate_lan = one_locate_lan;
 	}
+
+
+	public String getOne_locate_lat() {
+		return one_locate_lat;
+	}
+
+
+	public void setOne_locate_lat(String one_locate_lat) {
+		this.one_locate_lat = one_locate_lat;
+	}
+
 
 	public String getOne_memberMax() {
 		return one_memberMax;
