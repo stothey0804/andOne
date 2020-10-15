@@ -88,6 +88,7 @@ public class MemberP001_d001ControllerImpl implements MemberP001_d001Controller{
 		out.close();
 	}
 
+	// 가입완료, 멤버 추가 작업
 	@Override
 	@RequestMapping(value="/addMember.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String addMember(@RequestParam Map<String, String> param) throws Exception {
@@ -103,6 +104,8 @@ public class MemberP001_d001ControllerImpl implements MemberP001_d001Controller{
 		// 멤버추가
 		MemberP001_MemberVO memberVO = new MemberP001_MemberVO(email, pwd, phoneNum, nickName, gender, age);
 		int result = memberP001_d001Service.addMember(memberVO);
+		// 가입축하 포인트 제공
+		
 		if(result==1) {	// 추가 성공시
 			resultView = "p001_d001_insert_sub01";	// 완료화면
 		}

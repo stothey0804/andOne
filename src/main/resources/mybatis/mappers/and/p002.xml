@@ -11,8 +11,8 @@
 		<result property="one_category" column="one_category" /> <!-- 카테고리(치킨/피자) -->
 		<result property="one_title" column="one_title" /> <!-- 제목 -->
 		<result property="one_content" column="one_content" />
-		<result property="one_locate_lat" column="one_locate_lat" />
-		<result property="one_locate_lan" column="one_locate_lng" />
+		<result property="one_locate_Lat" column="one_locate_Lat" />
+		<result property="one_locate_Lng" column="one_locate_Lng" />
 		<result property="one_memberMax" column="one_memberMax" /> <!-- 모집인원 -->
 		<result property="one_totalPrice" column="one_totalPrice" /> <!-- 총금액 -->
 		<result property="one_date" column="one_date" /> <!-- 실행날짜-->
@@ -29,7 +29,7 @@
        	insert into and_one(one_type, one_id, one_state, one_category, one_title, one_memberMax, 
 		       			one_totalPrice, one_date, one_hashTag, one_time, one_locate_lat, one_locate_lng, one_content  )
 		values (#{one_type}, LPAD(andone_SEQ.NEXTVAL,6,'0'), '10', #{one_category}, #{one_title}, #{one_memberMax},
-				#{one_totalPrice}, #{one_date}, #{one_hashTag}, to_char(sysdate,'yyyy-mm-dd hh:mi:ss'), #{one_locate}, #{one_content} )
+				#{one_totalPrice}, #{one_date}, #{one_hashTag}, to_char(sysdate,'yyyy-mm-dd hh:mi:ss'), #{one_locate_Lat}, #{one_locate_Lng}, #{one_content} )
       ]]>
 	</insert>
 </mapper>

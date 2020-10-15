@@ -30,7 +30,6 @@ public class RootP003_d001ControllerImpl implements RootP003_d001Controller{
 	RootP003_d001Service rootP003_d001Service;
 
 	// ADMIN 영역
-	
 	// 공지사항 수정, 작성 폼 연결
 	@Override
 	@RequestMapping(value="/admin/initNotice.do", method= {RequestMethod.GET, RequestMethod.POST})
@@ -48,6 +47,7 @@ public class RootP003_d001ControllerImpl implements RootP003_d001Controller{
 		return mav;
 	}
 
+	// 공지사항 작성
 	@Override
 	@RequestMapping(value="/admin/insertNotice.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String insertNotice(@RequestParam Map<String, String> param, HttpServletRequest request) throws Exception {
@@ -56,6 +56,7 @@ public class RootP003_d001ControllerImpl implements RootP003_d001Controller{
 		return "redirect:/admin/searchNotice.do";
 	}
 
+	// 공지사항 수정
 	@Override
 	@RequestMapping(value="/admin/updateNotice.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String updateNotice(@RequestParam Map<String, String> param, HttpServletRequest request) throws Exception {
@@ -64,6 +65,7 @@ public class RootP003_d001ControllerImpl implements RootP003_d001Controller{
 		return "redirect:/admin/searchNotice.do";
 	}
 
+	// 공지사항 삭제
 	@Override
 	@RequestMapping(value="/admin/deleteNotice.do", method = {RequestMethod.POST, RequestMethod.GET})
 	public String deleteNotice(HttpServletRequest request) throws Exception {
@@ -74,41 +76,38 @@ public class RootP003_d001ControllerImpl implements RootP003_d001Controller{
 		return "redirect:/admin/searchNotice.do";
 	}
 
+	// 어드민 - 공지사항 조회
 	@Override
 	@RequestMapping(value="/admin/searchNotice.do", method = {RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView searchNotice(@RequestParam(defaultValue = "1") int curPage, HttpServletRequest request) throws Exception {
-		ModelAndView mav = new ModelAndView(Common.checkAdminDestinationView("RootP003_d001_search", request));	// return Object
-		// Pagination
-		int listCnt = rootP003_d001Service.selectNoticeListCnt();
-		Pagination pagination = new Pagination(listCnt, curPage);
-		// 조회용 Parameter 생성
-		Map<String, String> searchParam = new HashMap<String, String>();
-		searchParam.put("startIndex", (pagination.getStartIndex()+1)+"");
-		searchParam.put("endIndex", (pagination.getStartIndex()+pagination.getPageSize())+"");
-		// Notice List 조회
-		List<RootP003VO> list = rootP003_d001Service.searchNoticeList(searchParam);
-		mav.addObject("pagination", pagination);	//페이지네이션
-		mav.addObject("articleList",list);			//글목록
+		ModelAndView mav = setNoticeListObject(curPage);	// notice 리스트 생성
+		mav.setViewName(Common.checkAdminDestinationView("RootP003_d001_search", request));
 		return mav;
 	}
 	
-	// 메인 - 공지사항 연결
+	// 메인(회원) - 공지사항 조회
 	@RequestMapping(value="/notice.do", method = {RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView notice(@RequestParam(defaultValue = "1") int curPage, HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("RootP003_d001_search_common");	// return Object
+		ModelAndView mav = setNoticeListObject(curPage);	// notice 리스트 생성
+		mav.setViewName("RootP003_d001_search_common");
+		return mav;
+	}
+	
+	// notice 리스트 생성 전달
+	private ModelAndView setNoticeListObject(int curPage) {
+		ModelAndView mav = new ModelAndView();
 		// Pagination
-		int listCnt = rootP003_d001Service.selectNoticeListCnt();
-		Pagination pagination = new Pagination(listCnt, curPage);
+		int listCnt = rootP003_d001Service.selectNoticeListCnt();	// 전체 게시글 수 조회
+		Pagination pagination = new Pagination(listCnt, curPage);	// pagination 객체 생성
 		// 조회용 Parameter 생성
 		Map<String, String> searchParam = new HashMap<String, String>();
-		searchParam.put("startIndex", (pagination.getStartIndex()+1)+"");
-		searchParam.put("endIndex", (pagination.getStartIndex()+pagination.getPageSize())+"");
+		searchParam.put("startIndex", (pagination.getStartIndex()+1)+"");	// 시작 index는 1부터 이므로 1을 더해줌.
+		searchParam.put("endIndex", (pagination.getStartIndex()+pagination.getPageSize())+"");	// 끝 index
 		// Notice List 조회
 		List<RootP003VO> list = rootP003_d001Service.searchNoticeList(searchParam);
 		mav.addObject("pagination", pagination);	//페이지네이션
 		mav.addObject("articleList",list);			//글목록
 		return mav;
 	}
-	
 	
 }

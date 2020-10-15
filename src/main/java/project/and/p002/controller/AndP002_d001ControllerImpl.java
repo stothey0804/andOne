@@ -38,11 +38,10 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 	//글쓰기 내용 DB저장
 	@Override
 	@RequestMapping(value="/and*/insertAndOne.do")
-	public ModelAndView insertAndOne(@RequestParam Map<String,String> Andone) {
-		
-		List<Map> insertAndOne =  p002_d001Service.insertAndOne(Andone); //글쓰기
-		return null;
-		
+	public void insertAndOne(@RequestParam Map<String,Object> Andone) {
+		System.out.println(">>>>>>"+Andone.get("one_locate_Lat"));
+		System.out.println(">>>>>>"+Andone.get("one_locate_Lng"));
+		p002_d001Service.insertAndOne(Andone); //글쓰기
 	}
 	
 	

@@ -38,8 +38,8 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		//회원 위치 가져오기
 		String m_id = (String) session.getAttribute("m_id");
 		System.out.println(m_id);
-		//List memLocate = p001_d001Service.selectMemLocate(m_id);
-		//System.out.println(memLocate);
+		Map<String, Object> memLocate = p001_d001Service.selectMemLocate(m_id);
+		System.out.println(memLocate);
 		
 		//AndOne 글 위치 가져오기
 		List<String> andOneLocate = p001_d001Service.selectAndOneLocate(g_id);
@@ -52,7 +52,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		mav.addObject("recentAndOneList", recentAndOneList);
 		mav.addObject("andOneLocate",andOneLocate);
 //		mav.addObject("AndOneLocate", JSONArray.fromObject(andOneLocate));
-		//mav.addObject("memLocate",memLocate);
+		mav.addObject("memLocate",memLocate);
 		
 		return mav;
 	}

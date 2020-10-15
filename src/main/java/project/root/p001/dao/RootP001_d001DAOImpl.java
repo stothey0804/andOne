@@ -1,6 +1,5 @@
 package project.root.p001.dao;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -19,8 +18,8 @@ public class RootP001_d001DAOImpl implements RootP001_d001DAO{
 		return result;
 	}
 	
-	public String selectMemberLocate(String m_id) {
-		String result = sqlSession.selectOne("member.p001.selectMemberLocate",m_id);
+	public Map<String, String> selectMemberLocate(String m_id) {
+		Map<String, String> result = sqlSession.selectOne("member.p001.selectMemberLocate",m_id);
 		return result;
 	}
 

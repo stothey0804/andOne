@@ -1,6 +1,7 @@
 package project.and.p001.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -44,21 +45,16 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 		totalSearchList = p001_d001DAO.selectTotalSearchList(vo);
 		return totalSearchList;
 	}
-	//위치가져오기
-	//@Override
-	//public List selectMemLocate(String m_id) throws DataAccessException{
-		//List locate =  p001_d001DAO.selectMemLocate(m_id);
-		//return locate;
-	//}
+	//회원위치가져오기
+	@Override
+	public Map<String, Object> selectMemLocate(String m_id) throws DataAccessException{
+		Map<String, Object> locate =  p001_d001DAO.selectMemLocate(m_id);
+		return locate;
+	}
 	@Override
 	public List<String> selectAndOneLocate(String g_id) throws DataAccessException{
 		List<String> AndOneLocate =  p001_d001DAO.selectAndOneLocate(g_id);
 		return AndOneLocate;
-	}
-	@Override
-	public String selectMemLocate(String m_id) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	

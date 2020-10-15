@@ -15,7 +15,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-      <form method="post" name="insertAndEat" action="${contextPath}/andeat/insertAndOne.do" >
+      <form method="post" name="insertAnd" action="${contextPath}/andeat/insertAndOne.do" >
       	<input type="text" name="one_title" placeholder="제목을 입력해주세요">
       	<!-- 카테고리 -->
       	<c:set var="g_id" value="${g_id}" />
@@ -66,7 +66,8 @@
         <button type="button" onclick="searchAddress()">위치선택하기</button><br><br>
         <input type="text" id="inputAddress" readonly><br><br>
         <div id="map" style="width:500px; height:400px"></div>
-        <input type="hidden" name="one_locate" value=""><br> <!-- 맵 좌표값 보내기 -->
+        <input type="hidden" name="one_locate_Lat" value="">
+        <input type="hidden" name="one_locate_Lng" value=""><br> <!-- 맵 좌표값 보내기 -->
         <!-- 내용 -->
         <div class="form-group">
         	<label for="one_content"></label>
@@ -116,10 +117,12 @@
                             
 							//해당 주소에 대한 좌표를 받아서	
                             var coords = new daum.maps.LatLng(result.y, result.x);
-                            var locate = coords.toString();//주소 객체 . getlat
+                            var one_locate_Lat = coords.getLat();//주소 객체 . getlat
+                            var one_locate_Lng = coords.getLng()
                             
                             console.log(coords);
-                            console.log(locate);
+                            console.log(typeof(one_locate_Lat)); //37
+                            console.log(typeof(one_locate_Lng)); //126
 							//지도에 보여준다
                             container.style.display = "block";
                             map.relayout();
@@ -129,7 +132,8 @@
                             marker.setPosition(coords);
 
                             //hidden값으로  변수 one_locate에 좌표 전달
-                            document.insertAndEat.one_locate.value = locate;
+                            document.insertAnd.one_locate_Lat.value = one_locate_Lat;
+                            document.insertAnd.one_locate_Lng.value = one_locate_Lng;
                         }
                     });
                 }
@@ -146,7 +150,7 @@
     		  var category = $(this).val();
    			  //hidden값으로  변수 one_category에 전달
    			  console.log(category);
-    		  document.insertAndEat.one_category.value = category;
+    		  document.insertAnd.one_category.value = category;
     	  });
 	      //달력
 	      var $d7input = $('input', '#orderDate').focus(function() {
@@ -172,7 +176,7 @@
 	      function setValue(){
 	    	  var cnt = $("#memberCnt").val();
 		      console.log(cnt); 
-		      document.insertAndEat.one_memberMax.value = cnt;//인원수 전달
+		      document.insertAnd.one_memberMax.value = cnt;//인원수 전달
 	      }
     </script>
 	

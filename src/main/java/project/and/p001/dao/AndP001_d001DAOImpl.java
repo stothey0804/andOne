@@ -1,6 +1,7 @@
 package project.and.p001.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +42,14 @@ public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 		selectTotalSearchList = sqlSession.selectList("and.p001.selectTotalSearchList",vo);
 		return selectTotalSearchList;
 	}
+	//회원위치가져오기
 	@Override
-	public String selectMemLocate(String m_id) throws DataAccessException{
+	public Map<String, Object> selectMemLocate(String m_id) throws DataAccessException{
 		System.out.println(">>>>>>>>>>>>>>"+m_id);
-		String selectMemLocate = sqlSession.selectOne("and.p001.selectMemLocate",m_id);
+		 Map<String, Object> selectMemLocate = sqlSession.selectOne("and.p001.selectMemLocate",m_id);
 		return selectMemLocate;
 	}
+	//엔분의일 위치 
 	@Override
 	public List<String> selectAndOneLocate(String g_id) throws DataAccessException{
 		System.out.println(g_id);

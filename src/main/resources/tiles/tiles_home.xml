@@ -160,6 +160,19 @@
 		<put-attribute name="body" value="/WEB-INF/views/member/p001_init.jsp"/>
 	</definition>
 	
+   <!-- 포인트 충전 -->
+	<definition name="PointP001_d001_init" extends="mypageLayout">
+		<put-attribute name="title" value="포인트충전"/>
+		<put-attribute name="body" value="/WEB-INF/views/point/p001_init.jsp"/>
+	</definition>
+   <!-- 포인트 사용이력 -->
+	<definition name="PointP001_d001_Search" extends="mypageLayout">
+		<put-attribute name="title" value="포인트 사용이력"/>
+		<put-attribute name="body" value="/WEB-INF/views/point/p001_d001_search.jsp"/>
+	</definition>
+	
+
+	
 	<!-- 회원정보조회 -->
 	<definition name="p001_d005_update" extends="mypageLayout">
 		<put-attribute name="title" value="내 정보 변경"/>

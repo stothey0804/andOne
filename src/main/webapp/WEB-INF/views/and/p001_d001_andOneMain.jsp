@@ -72,15 +72,13 @@
 		//console.log('${andOneLocate}');
 		//console.log('${memLocate}');
 		
-		var memLocate= '${memLocate}';
-		var andLocate = '${andOneLocate}';
-		for(var [key,value] of andLocate){
-			console.log('${key} = ${value}');
-		}
+		var memLocate= ${memLocate};
+		var andLocate = ${andOneLocate};
+		
 		console.log(andLocate);
-// 		console.log(typeof andLocate);
+ 		console.log(typeof andLocate);
 		console.log(andLocate.indexOf(6));
-		//console.log(memLocate);
+		console.log(memLocate);
 		
 		let x_memLocate = memLocate.slice(1,andLocate[6].indexOf(","));
 		let y_memLocate = memLocate.slice(andLocate[6].indexOf(",")+1,andLocate[6].length-1);

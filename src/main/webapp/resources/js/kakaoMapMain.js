@@ -24,10 +24,9 @@
                 id: m_id
                 //data로 넘겨주기
             },
-			url: "http://localhost:8090/andOne/member/selectLocate.do",
-//			url: "selectLocate.do",
- 			//url: "member/selectLocate.do",
+            url: "/andOne/member/selectLocate.do",
             success: function (data, textStatus) {
+//				console.log(data);
             	if(data=='0'){	// 회원가입 초기값
             		locPosition = new kakao.maps.LatLng(37.570371, 126.985308)    // 기본위치 set
            			displayMarker(locPosition);
@@ -35,12 +34,10 @@
         			document.getElementById('centerAddr').innerHTML = '저장된 위치가 없습니다.';
             	}else if(data!='' || data!=null){
             		//db에 저장된 위도,경도 값
-            		let oridata = data+"";
-            		// (+1 부터  ,앞까지 slice
-            		let x = oridata.slice(1,oridata.indexOf(","));
-            		// ,뒤부터 )-1까지 slice
-            		let y = oridata.slice(oridata.indexOf(",")+1,oridata.length-1);
-            		locPosition = new kakao.maps.LatLng(x, y);	// 자른 값으로 객체 생성
+					let latLng = JSON.parse(data);
+            		let lat = latLng.M_LOCATE_LAT;
+            		let lng = latLng.M_LOCATE_LNG;
+            		locPosition = new kakao.maps.LatLng(lat, lng);	// 자른 값으로 객체 생성
             		displayMarker(locPosition);
             		searchAddrFromCoords(locPosition, displayCenterInfo);
             	}
@@ -73,21 +70,23 @@
 		// 행정동 주소정보 요청 및 메인 set
 		searchAddrFromCoords(locPosition, displayCenterInfo);
 		map.setCenter(locPosition);
-		
 		// locPosition을 ajax로 저장
-		var m_locate = locPosition.toString();
+		var m_locate_lat = locPosition.getLat()+"";
+		var m_locate_lng = locPosition.getLng()+"";
 		$.ajax({
             type: "post",
             async: "true",
             dataType: "text",
             data: {
                 id: m_id,
-                locate: m_locate
+                locate_lat: m_locate_lat,
+                locate_lng: m_locate_lng
                 //data로 넘겨주기
             },
-			//url: "saveLocation.do",
-            url: "http://localhost:8090/andOne/member/saveLocation.do",
+
+            url: "/andOne/member/saveLocate.do",
             success: function (data, textStatus) {
+	
             }
 		});
 	});

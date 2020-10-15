@@ -111,7 +111,7 @@
 	  	 ]]>
 	</select>
 	<!--회원주소 가져오기 -->
-	<select id="selectMemLocate" parameterType="String" resultType="String">
+	<select id="selectMemLocate" parameterType="String" resultType="java.util.HashMap">
 		<![CDATA[
 			select m_locate_lat, m_locate_lng
 			from member
