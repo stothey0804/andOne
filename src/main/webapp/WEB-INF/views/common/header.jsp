@@ -78,31 +78,13 @@
        	point = pointToNumFormat(point);
        	$("#point").text(point);
        	
-// 		// 프로필이미지 ->세션에서 읽기
-// 		$.ajax({
-//             type: "post",
-//             async: "true",
-//             dataType: "text",
-//             data: {
-//                 id: '${member.m_id}' //data로 넘겨주기
-//             },
-//             url: "${contextPath}/member/getByteImage",
-//             success: function (data, textStatus){
-//             	// 세션에서 이미지 읽기
-// 				var profile_img = '${profile_img}';
-// 		       	if(profile_img==null || profile_img==""){	
-// 		       		$(".profile").attr("src","${contextPath}/resources/image/user.png")
-// 		       	}else{	// null이 아닐경우
-// 		       		$(".profile").attr("src","data:image/png;base64, "+profile_img);
-// 		       	}
-//              }
-// 		});
 	});
 </script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	  <a class="navbar-brand logotype" href="${contextPath}/">&분의일 </a>
+	  <a class="navbar-brand logotype ml-3 text-primary" href="${contextPath}/">&분의일 </a>
+	  슬로건 넣으면 좋을거같아요
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
@@ -160,7 +142,7 @@
           </c:when>
           <c:otherwise>
           </ul>
-		  	<a class="btn btn-light" href="${contextPath}/member/login.do">회원가입/로그인</a>
+		  	<a class="btn btn-outline-secondary btn-sm" style="margin-top:-6px" href="${contextPath}/member/login.do">회원가입/로그인</a>
 	      </c:otherwise>
 	   </c:choose>     
 	   
