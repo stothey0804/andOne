@@ -16,4 +16,7 @@ public interface ShopP002_d001DAO {
 	public void updateShopImage(ShopP002ShopImageVO vo);
 	public void updateShopReviewImage(ShopP003ShopReviewImageVO vo);
 	public Map<String, Object> getShopImage();
+	public List<String> getAllHashtag();
+	public void updatePopularHashtag(String result);
+	public String getPopularHashtag();
 }

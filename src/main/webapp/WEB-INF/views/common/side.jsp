@@ -19,14 +19,14 @@
 		<li>포인트 관리</li>
 		<ul class="mb-3">
 			<a href="#"><li>요약</li></a>
-			<a href="#"><li>포인트 충전</li></a>
-			<a href="#"><li>포인트 사용이력</li></a>
+			<a href="${contextPath}/point/charge.do"><li>포인트 충전</li></a>
+			<a href="${contextPath}/point/pointDetail.do"><li>포인트 사용이력</li></a>
 			<a href="#"><li>포인트 환전</li></a>
 		</ul>
 		<li>서비스 문의/신고</li>
 		<ul class="mb-3">
 			<a href="${contextPath}/member/qna.do"><li>1:1 문의</li></a>
-			<a href="#"><li>문의 내역</li></a>
+			<a href="${contextPath}/member/searchQnA.do"><li>문의 내역</li></a>
 			<a href="#"><li>신고하기</li></a>
 			<a href="#"><li>문의 내역</li></a>
 		</ul>

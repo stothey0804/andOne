@@ -17,24 +17,18 @@ public class ClubArticleVO {
 	private String ca_date;
 	private String m_id;
 	private String m_nickname;
+	//이미지 첨부 List
 	private List<MultipartFile> ca_img;
 	private String ca_pin;
-	private List<byte[]> articleImg;
-	private List<String> resultArticleImg;
 	private byte[] userImg;
 	private String resultUserImg;
+	private List<ClubArticleImgVO> articleImgList;
 	
-	public List<byte[]> getArticleImg() {
-		return articleImg;
+	public List<ClubArticleImgVO> getArticleImgList() {
+		return articleImgList;
 	}
-	public void setArticleImg(List<byte[]> articleImg) {
-		this.articleImg = articleImg;
-	}
-	public List<String> getResultArticleImg() {
-		return resultArticleImg;
-	}
-	public void setResultArticleImg(List<String> resultArticleImg) {
-		this.resultArticleImg = resultArticleImg;
+	public void setArticleImgList(List<ClubArticleImgVO> articleImgList) {
+		this.articleImgList = articleImgList;
 	}
 	public List<MultipartFile> getCa_img() {
 		return ca_img;

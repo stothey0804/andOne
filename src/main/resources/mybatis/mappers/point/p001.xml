@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="point.p001">
+   <!-- QnA 테이블 -->
+   	<resultMap id="pointResult" type="pointP001VO">
+		<result property="p_id" column="p_id"  />
+		<result property="m_id" column="m_id"  />
+		<result property="p_date" column="p_date"  />
+		<result property="p_changepoint" column="p_changepoint"  />
+		<result property="p_currentpoint" column="p_currentpoint"  />
+		<result property="p_editor" column="p_editor"  />
+		<result property="p_editdate" column="p_editdate"  />
+		<result property="p_detail" column="p_detail"  />
+	</resultMap>
+	
+	<select id="selectPointDetailCntByMember" resultType="int" parameterType="String">
+		<![CDATA[
+			SELECT COUNT(p_id)
+			FROM point
+			WHERE m_id like #{m_id}
+		]]>
+	</select>
+	
+	<select id="searchPointListByMember" resultMap="pointResult" parameterType="java.util.HashMap">
+		<![CDATA[
+			SELECT *
+			FROM ( SELECT p_id, p_detail, 
+			p_changepoint,
+			TRIM(TO_CHAR(p_currentpoint,'999,999,999'))p_currentpoint,
+			p_date, ROW_NUMBER() OVER (ORDER BY p_id DESC) ROWNUMBER
+			FROM point WHERE m_id like #{m_id} )
+			WHERE ROWNUMBER BETWEEN #{startIndex} AND #{endIndex}
+			ORDER BY p_id DESC		
+		]]>
+	</select>
+	
+	<insert id="insertPoint" parameterType="pointP001VO">
+		<![CDATA[
+			INSERT INTO point(p_id, m_id, p_date, p_changepoint, p_currentpoint, p_detail, p_editor, p_editdate)
+    		VALUES(
+	    		(LPAD(POINT_SEQ.NEXTVAL, 10,'0')), #{m_id}, TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss'), 
+	    		#{p_changepoint},
+	    		#{p_currentpoint} + #{p_changepoint}, 
+	    		#{p_detail},
+	    		#{m_id}, TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss')
+    		)
+		]]>
+	</insert>
+	
+	
+	<select id="selectNowPointById" resultType="String" parameterType="String">
+		<![CDATA[
+			SELECT p_currentpoint
+			FROM ( SELECT p_currentpoint,
+			ROW_NUMBER() OVER (ORDER BY p_id DESC) ROWNUMBER
+			FROM point 
+			WHERE m_id like #{m_id})
+			WHERE ROWNUMBER = 1
+		]]>
+	</select>
+	
+	</mapper>

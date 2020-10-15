@@ -125,10 +125,10 @@
    	<!-- 회원추가  -->
    	<insert id="insertMember" parameterType="memberP001_MemberVO">
 		<![CDATA[
-			INSERT INTO member(m_id, m_email, m_pwd, m_phonenumber, m_nickname, m_gender, m_age, m_joindate, m_locate, m_editor, m_editdate)
+			INSERT INTO member(m_id, m_email, m_pwd, m_phonenumber, m_nickname, m_gender, m_age, m_joindate, m_locate_lat, m_locate_lng, m_editor, m_editdate)
     		VALUES(
 	    		LPAD(MEMBER_ID_SEQ.NEXTVAL,8,'0'),#{m_email},#{m_pwd},#{m_phonenumber},
-	    		#{m_nickname},#{m_gender},#{m_age}, TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss'),'0',
+	    		#{m_nickname},#{m_gender},#{m_age}, TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss'),'0','0',
 	    		LPAD(MEMBER_ID_SEQ.CURRVAL,8,'0'), TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
     		)
    		]]>
@@ -182,10 +182,11 @@
    	</select>
    	
    	<!-- 주소정보 업데이트  -->
-   	<update id="updateMemberLocate" parameterType="java.util.Map">
+   	<update id="updateMemberLocate" parameterType="java.util.HashMap">
 		<![CDATA[
 			UPDATE member
-    		SET m_locate = #{m_locate},
+    		SET m_locate_lat = #{m_locate_lat},
+    			m_locate_lng = #{m_locate_lng},
 	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
     		WHERE m_id = #{m_id}
    		]]>
@@ -201,9 +202,9 @@
    	</update>
    	
    	<!-- 주소정보 조회 -->
-   	<select id="selectMemberLocate" resultType="String" parameterType="String">
+   	<select id="selectMemberLocate" resultType="java.util.HashMap" parameterType="String">
  		<![CDATA[
-   			select m_locate
+   			select m_locate_lat, m_locate_lng
 			from member
 			where m_id like #{m_id}
  		]]>

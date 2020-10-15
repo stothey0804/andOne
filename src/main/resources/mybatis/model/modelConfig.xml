@@ -12,14 +12,20 @@
 	<typeAliases>
 		<typeAlias alias="memberP001_d006VO" type="project.member.p001.vo.MemberP001_d006VO"/>
 		<typeAlias alias="memberP001_d006ListVO" type="project.member.p001.vo.MemberP001_d006ListVO"/>
-		<typeAlias type="project.club.vo.ClubVO" alias="p001_d001VO"/>
-		<typeAlias type="project.club.vo.ClubArticleVO" alias="p001_d001articleVO"/>
-		<typeAlias type="project.club.vo.ClubMemberVO" alias="p001_d001MemberVO"/>
-		<typeAlias type="project.shop.p001.vo.ShopP001_d001VO" alias="shopP001_d001VO"/>
+		<typeAlias type="project.club.vo.ClubVO" alias="clubVO"/>
+		<typeAlias type="project.club.vo.ClubArticleVO" alias="clubArticleVO"/>
+		<typeAlias type="project.club.vo.ClubMemberVO" alias="clubMemberVO"/>
+		<typeAlias type="project.club.vo.ClubArticleImgVO" alias="clubArticleImgVO"/>
+<!-- 		<typeAlias type="project.shop.p001.vo.ShopP001_d001VO" alias="shopP001_d001VO"/> -->
+		<typeAlias type="project.and.vo.AndP001AndOneVO" alias="AndP001AndOneVO"/>
+		<typeAlias type="project.shop.p001.vo.ShopP001BmemberVO" alias="shopP001BMemberVO"/>
 	    <typeAlias type="project.shop.p002.vo.ShopP002ShopDetailVO" alias="ShopP002ShopDetailVO" />
 	    <typeAlias type="project.shop.p002.vo.ShopP002ShopImageVO" alias="ShopP002ShopImageVO" />
 	    <typeAlias type="project.shop.p003.vo.ShopP003ShopReviewImageVO" alias="ShopP003ShopReviewImageVO" />
 	    <typeAlias type="project.shop.p003.vo.ShopP003ShopReviewVO" alias="ShopP003ShopReviewVO" />
 		<typeAlias type="project.member.p001.vo.MemberP001_MemberVO" alias="memberP001_MemberVO" /> <!-- Member -->
+		<typeAlias type="project.member.p002.vo.MemberP002VO" alias="memberP002VO" /> <!-- QnA -->
+		<typeAlias type="project.root.p003.vo.RootP003VO" alias="rootP003VO" /> <!-- notice -->
+		<typeAlias type="project.point.p001.vo.PointP001VO" alias="pointP001VO" /> <!-- point -->
 	</typeAliases>
 </configuration>

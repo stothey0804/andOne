@@ -4,7 +4,7 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="club.p001">
-	<resultMap id="p001_d001Result01" type="p001_d001VO">
+	<resultMap id="p001_d001Result01" type="clubVO">
 		<result property="c_id" column="c_id" />
 		<result property="c_name" column="c_name" />
 		<result property="c_content" column="c_content" />
@@ -15,7 +15,7 @@
 		<result property="c_membermax" column="c_membermax" />
 		<result property="c_imgByte" column="c_img" javaType="[B" jdbcType="BLOB" />
 	</resultMap>
-	<resultMap id="p001_d001Result02" type="p001_d001VO">
+	<resultMap id="p001_d001Result02" type="clubVO">
 		<result property="c_id" column="c_id" />
 		<result property="c_name" column="c_name" />
 		<result property="c_content" column="c_content" />
@@ -26,10 +26,10 @@
 		<result property="c_membermax" column="c_membermax" />
 		<result property="c_imgByte" column="c_img" javaType="[B" jdbcType="BLOB" />
 		<collection property="articleList" column="c_id" javaType="java.util.ArrayList"
-					select="getArticleList" ofType="p001_d001ArticleVO" />
+					select="getArticleList" ofType="clubArticleVO" />
 	</resultMap>
 	
-	<resultMap id="member" type="p001_d001MemberVO">
+	<resultMap id="member" type="clubMemberVO">
 		<result property="m_id" column="m_id"/>
 		<result property="cm_rank" column="cm_rank"/>
 		<result property="userImg" column="m_img"/>
@@ -37,18 +37,18 @@
 		<result property="m_joindate" column="m_joindate"/>
 	</resultMap>
 	
-	<resultMap id="articleList" type="p001_d001ArticleVO">
+	<resultMap id="articleList" type="clubArticleVO">
 		<result property="ca_content" column="ca_content" />
 		<result property="ca_date" column="ca_date" />
 		<result property="m_nickname" column="m_nickname" />
 		<result property="ca_id" column="ca_id" />
 		<result property="userImg" column="m_img" javaType="[B" jdbcType="BLOB"/>
-		<collection property="articleImg" column="ca_id" javaType="java.util.ArrayList"
-					select="getArticleListImg" ofType="p001_d001ArticleVO"/>
+		<collection property="articleImgList" column="ca_id" javaType="java.util.ArrayList"
+					select="getArticleListImg" ofType="clubArticleImgVO"/>
 	</resultMap>
 	
-	<resultMap id="imgList" type="java.util.ArrayList">
-		<result property="a" column="ca_img" javaType="[B" jdbcType="BLOB"/>
+	<resultMap id="imgList" type="java.util.Map">
+		<result property="articleImg" column="ca_img" javaType="[B" jdbcType="BLOB"/>
 	</resultMap>
 	
 	<select id="clubList" resultMap="p001_d001Result01">

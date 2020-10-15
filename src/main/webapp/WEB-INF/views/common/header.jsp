@@ -52,6 +52,11 @@
 <!-- JQuery -->
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script>
+	// comma 
+	function pointToNumFormat(num) {
+    	return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+
 	function onProfile(){
 		var memberLayer = document.getElementById("memberLayer");
 		memberLayer.classList.add("visible");
@@ -68,6 +73,11 @@
        	}else{	// null이 아닐경우
        		$(".profile").attr("src","data:image/png;base64, "+profileImg);
        	}
+       	// 포인트 읽기
+       	var point = '${point}';
+       	point = pointToNumFormat(point);
+       	$("#point").text(point);
+       	
 // 		// 프로필이미지 ->세션에서 읽기
 // 		$.ajax({
 //             type: "post",
@@ -103,9 +113,9 @@
 	          &분의일
 	        </a>
 	        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-	         	<a class="dropdown-item" href="#">같이먹기</a>
-          		<a class="dropdown-item" href="#">같이사기</a>
-         		<a class="dropdown-item" href="#">같이하기</a>
+	         	<a class="dropdown-item" href="${contextPath}/andeat?g_id=010">같이먹기</a>
+          		<a class="dropdown-item" href="${contextPath}/andeat?g_id=011">같이사기</a>
+         		<a class="dropdown-item" href="${contextPath}/andeat?g_id=012">같이하기</a>
 	        </div>
 	      </li>
 	      <li class="nav-item h5">
@@ -137,8 +147,8 @@
 							</svg></a>
 			            </h5>
 						<div class="row mx-1">
-							<p class="point mb-0">000point</p>
-							<a class="btn btn-outline-primary btn-sm ml-auto">충전</a>
+							<p class="point mb-0"><span id="point" class="font-weight-bold"></span>point</p>
+							<a href="${contextPath}/point/charge.do" class="btn btn-outline-primary btn-sm ml-auto">충전</a>
 						</div>
 					</div>
 					<ul class="list-group list-group-horizontal">

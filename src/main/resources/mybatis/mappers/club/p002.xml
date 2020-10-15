@@ -4,7 +4,7 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="club.p002">
-	<resultMap id="result01" type="p001_d001VO">
+	<resultMap id="result01" type="clubVO">
 		<result property="c_id" column="c_id" />
 		<result property="c_name" column="c_name" />
 		<result property="c_content" column="c_content" />
@@ -13,7 +13,7 @@
 		<result property="c_hashtag" column="c_hashtag" />
 	</resultMap>
 	
-	<resultMap id="article" type="p001_d001ArticleVO">
+	<resultMap id="article" type="clubArticleVO">
 		<result property="ca_content" column="ca_content"/>
 		<result property="imgList" column="ca_img" javaType="[B"  jdbcType="BLOB"/>
 	</resultMap>

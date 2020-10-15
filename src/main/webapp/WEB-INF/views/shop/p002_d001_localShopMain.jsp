@@ -47,6 +47,14 @@ div.search {text-align =center;
 	
 }
 
+i.fa-star-half-alt{
+	color:rgb(255,234,0);
+}
+
+i.fa-star{
+	color:rgb(255,234,0);
+}
+
 img.noResult{
 	display:block; margin:0px auto;
 }
@@ -78,8 +86,54 @@ a:hover {
 <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
 <script>
 	$(document).ready(function(){
+		getPopularHashtag();
 		popularSearch();
 	})
+	
+	function printStar(score){
+		var calScore = score;
+		var resultStar = '';
+		while(true){
+			if(calScore>=2){
+				resultStar += '<i class="fas fa-star"></i>';
+				calScore -= 2;
+				continue;
+			}else if(calScore>0){
+				resultStar += '<i class="fas fa-star-half-alt"></i>';
+				break;
+			}else{
+				break;
+			}
+		}
+		return resultStar;
+	}
+	
+	function getPopularHashtag(){
+		$.ajax({
+			type: "post",
+			async: true,
+			url: "http://localhost:8090/andOne/shop/getPopularHashtag.do",
+			dataType: "text",
+			beforeSend:function(data, textStatus){
+				$('.hashtag').html("<img src='${contextPath}/resources/image/loading.gif' style='display: block; margin: 0 auto; width:30px; height:30px;'>");
+			},
+			success: function (data, textStatus) {
+				var hashtagArr = data.split(',');
+				var output = '';
+				for(let i=0; i<hashtagArr.length; i++){
+					output += '<a href="${contextPath }/shop/localShopSearch.do?searchCondition=SEARCHBYHASHTAG&searchKeyword='+hashtagArr[i]+'">#'+hashtagArr[i]+'</a>&nbsp;';
+				}
+				$('.hashtag').html(output);
+			},
+			error: function (data, textStatus) {
+				alert("에러가 발생했습니다.");
+			},
+			complete: function (data, textStatus) {
+				
+			}
+		});
+	}
+	
 	function popularSearch(){
 		$.ajax({
 			type: "post",
@@ -113,7 +167,7 @@ a:hover {
 						output += "<div class='card-body' id='review'>";
 						output += "<p class='card-text'>";
 						output += "<a href='#'>후기 "+jsonInfo[i].reviewCount+"건</a><br>";
-						output += "평점 : "+jsonInfo[i].s_score+" 점</p></div></div></div>";
+						output += ""+printStar(jsonInfo[i].s_score)+"</p></div></div></div>";
 					}
 					output += "</div>";
 				}
@@ -145,8 +199,9 @@ a:hover {
 				<input type="text" placeholder="검색" name="searchKeyword" style="width:400px; height:30px;"> <input
 					type="submit" value="&#xf002;">
 			</form>
-			<a href="#">#해쉬</a> <a href="#">#태그</a> <a href="#">#아직</a> <a
-				href="#">#미구현</a>
+			<div class="hashtag">
+			
+			</div>
 			<br>
 		</div>
 		<br><br>
