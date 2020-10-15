@@ -212,6 +212,15 @@
 	]]>
 </select>
 
+<select id="getMemberIdFromShopReview" parameterType="String" resultType="String">
+	<![CDATA[
+		SELECT M_ID
+		FROM S_REVIEW
+		WHERE S_ID = #{s_id}
+		ORDER BY SR_DATE DESC
+	]]>
+</select>
+
 <select id="getShopReview" resultMap="shop.p002.shopReview">
 	<![CDATA[
 		SELECT S_ID, SR.M_ID, SR_DATE, SR_CONTENT, SR_SCORE, SR_PUBLIC, SR_EDITOR, SR_EDITDATE, M.M_NICKNAME, M.M_IMG
@@ -240,6 +249,21 @@
 		INNER JOIN MEMBER M ON SR.M_ID = M.M_ID
 		WHERE S_ID = #{s_id}
 		ORDER BY SR_DATE DESC
+	]]>
+</select>
+
+<select id="getShopReviewListByPaging" resultMap="shop.p002.shopReview" parameterType="java.util.HashMap">
+	<![CDATA[
+		SELECT INN.S_ID, INN.M_ID, INN.SR_DATE, INN.SR_CONTENT, INN.SR_SCORE, INN.SR_PUBLIC, INN.SR_EDITOR, INN.SR_EDITDATE, INN.M_NICKNAME, INN.M_IMG
+		FROM
+		(
+		    SELECT S_ID, SR.M_ID, SR_DATE, SR_CONTENT, SR_SCORE, SR_PUBLIC, SR_EDITOR, SR_EDITDATE, M.M_NICKNAME, M.M_IMG, ROW_NUMBER()OVER(ORDER BY SR_DATE DESC) AS ROW_NUM
+		    FROM S_REVIEW SR
+		    INNER JOIN MEMBER M ON SR.M_ID = M.M_ID
+		    WHERE S_ID = #{s_id}
+		)INN
+		WHERE ROW_NUM BETWEEN #{startIndex} AND #{endIndex}
+		ORDER BY ROW_NUM
 	]]>
 </select>
 

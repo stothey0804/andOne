@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import project.club.p001.service.ClubP001_d001Service;
+import project.club.vo.ClubMemberVO;
 import project.club.vo.ClubVO;
 
 @Controller
@@ -80,10 +81,11 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		
 		//소모임 게시글 이미지 encoding
 		for(int i=0; i<vo.getArticleList().size();i++) {
-			if(vo.getArticleList().get(i).getArticleImg()!=null) {
-				encoded = Base64.getEncoder().encode(vo.getArticleList().get(i).getArticleImg());
-				String encodedString = new String(encoded);
-				vo.getArticleList().get(i).setResultArticleImg(encodedString);
+			if(vo.getArticleList().get(i).getArticleImgList()!=null) {
+				for(int j=0; j < vo.getArticleList().get(i).getArticleImgList().size();j++) {
+					encoded = Base64.getEncoder().encode((byte[]) vo.getArticleList().get(i).getArticleImgList().get(j).getArticleImg().get("ca_img"));
+					vo.getArticleList().get(i).getArticleImgList().get(j).setResultArticleImg(new String(encoded));
+				}
 			}
 			if(vo.getArticleList().get(i).getUserImg()!=null) {
 				encoded = Base64.getEncoder().encode(vo.getArticleList().get(i).getUserImg());
@@ -91,19 +93,40 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 			}
 		}
 	
+		//운영진 목록
+		List<ClubMemberVO> leader = clubP001_d001Service.getLeaderMember(searchMap);
+		//일반 회원 목록
+		List<ClubMemberVO> members = clubP001_d001Service.getClubMember(searchMap);
+		//회원 목록 이미지 encoding
+		getEncodedUser(members);
+		getEncodedUser(leader);
+		
 		ModelAndView mav = new ModelAndView("detailClub");
 		mav.addObject("clubInfo", vo);
 		mav.addObject("rank", rank);
 		mav.addObject("clubImg",clubImg);
+		mav.addObject("members", members);
+		mav.addObject("leader", leader);
 		return mav;
 	}
 	
+	//article encoding method
 	public void getEncoded(List<ClubVO> list) {
 		byte[] encoded = null;
 		for(int i=0; i < list.size();i++) {
 			if(list.get(i).getC_imgByte() != null) {
 				encoded = Base64.getEncoder().encode(list.get(i).getC_imgByte());
 				list.get(i).setResultImg(new String(encoded));	
+			}
+		}
+	}
+	//UserImg encoding method
+	public void getEncodedUser(List<ClubMemberVO> list) {
+		byte[] encoded = null;
+		for(int i=0; i < list.size();i++) {
+			if(list.get(i).getUserImg() != null) {
+				encoded = Base64.getEncoder().encode(list.get(i).getUserImg());
+				list.get(i).setResultUserImg(new String(encoded));	
 			}
 		}
 	}

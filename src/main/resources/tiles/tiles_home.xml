@@ -126,6 +126,11 @@
       <put-attribute name="body" value="/WEB-INF/views/shop/viewTest.jsp" />
    </definition>
    
+   <definition name="shopReviewList" extends="baseLayout">
+      <put-attribute name="title" value="리뷰 더보기 페이지" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/p003_d001_shopReviewList.jsp" />
+   </definition>
+   
 	<!-- 비밀번호찾기 -->
    <definition name="p001_d003_init" extends="baseLayout">
       <put-attribute name="title" value="비밀번호 찾기" />

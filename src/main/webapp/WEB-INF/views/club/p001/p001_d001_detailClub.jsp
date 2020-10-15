@@ -24,10 +24,14 @@
 	font-style: normal;
 }
 
-.left, .right {
+.left, .right{
 	display: inline-block;
 	margin: 0;
 	width: 500px;
+}
+
+.side{
+	display: relative;
 }
 
 .left {
@@ -61,7 +65,7 @@
 	margin-top: 10px;
 }
 
-.bi-bookmark-star-fill {
+.bi-bookmark-star-fill ,.side{
 	fill: #ffcc00;
 	display: inline-block;
 }
@@ -103,6 +107,9 @@
 	width: 60px;
 	height: 60px;
 }
+.bi-file-earmark-lock-fill,.c{
+	margin:auto;
+}
 </style>
 <script type="text/javascript">
 
@@ -135,9 +142,10 @@
 </head>
 <body>
 <!-- 	소모임 카드 -->
-	<div class="container my-5 center top">
+<div class="row">
+	<div class="container my-6 center top">
 		<div class="left">
-			<div class="card info" style="width: 18rem;">
+			<div class="card info" style="width: 18rem; margin-top:17px;">
 			<c:set var="c_img" value="${clubImg}"/>
 				<c:choose>
 					<c:when test="${c_img eq ''}">
@@ -154,8 +162,19 @@
 					<c:set var="cm_rank" value="${rank}"/>
 						<c:choose>
 							<c:when test="${rank eq 10}">
-								<a href="${contextPath }/club/introForm.do?c_id=${clubInfo.c_id}" class="btn btn-success btn-block"
-									style="margin-top: 3px;">소모임 관리</a>
+								<a href="${contextPath}/club/writeArticleForm.do?c_id=${clubInfo.c_id}" class="btn btn-success btn-block"
+									style="margin-top: 3px;">글쓰기</a>
+								<div class="btn-group" role="group">
+								<button id="btnGroupDrop1" type="button"
+									class="dropdown-toggle btn btn-success btn-block"
+									data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false" style="margin-top:10px">소모임 관리</button>
+								<div class="dropdown-menu btn btn-success btn-block" aria-labelledby="btnGroupDrop1">
+									<a class="dropdown-item" href="#">요청승인하기</a> 
+									<a class="dropdown-item" href="#">소모임 수정하기</a>
+									<button data-target="#staticBackdrop2" class="dropdown-item" data-toggle="modal">소모임 삭제하기</button>
+								</div>
+							</div>
 							</c:when>
 							<c:when test="${rank eq 20 or rank eq 30}">
 								<a href="${contextPath}/club/writeArticleForm.do?c_id=${clubInfo.c_id}" class="btn btn-success btn-block"
@@ -182,6 +201,8 @@
 			</div>
 
 			<!--소모임 게시글  -->
+			<c:choose>
+			<c:when test="${rank eq 10 or rank eq 20 or rank eq 30}">
 			<c:forEach var="club" items="${clubInfo.articleList }">
 			<c:set var="m_img" value="${club.resultUserImg }"/>
 				<div class="card article" style="width: 500px; height: auto;">
@@ -213,9 +234,11 @@
 						<c:set var="ca_img" value="${club.resultArticleImg}" />
 						<c:choose>
 							<c:when test="${ca_img ne null}">
+							<c:forEach var="ca_img" items="${club.resultArticleImg}">
 								<div class="ca_img_div">
 									<img src="data:image/jpg;base64, ${ca_img}" class="ca_img">
 								</div>
+							</c:forEach>
 							</c:when>
 						</c:choose>
 						<!--본인이 쓴 글일 경우 수정,삭제 메뉴 -->
@@ -241,12 +264,26 @@
 					</div>
 				</div>
 			</c:forEach>
-			<!-- delete Modal -->
+			</c:when>
+			<c:otherwise>
+					<div class="card bg-light text-secondary secret" style="text-align:center; height:400px; margin-top:20px;">
+					<div class="c">
+					<svg width="4em" height="4em" viewBox="0 0 16 16" class="bi bi-file-earmark-lock-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  						<path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zM7 7a1 1 0 0 1 2 0v1H7V7zm3 0v1.076c.54.166 1 .597 1 1.224v2.4c0 .816-.781 1.3-1.5 1.3h-3c-.719 0-1.5-.484-1.5-1.3V9.3c0-.627.46-1.058 1-1.224V7a2 2 0 1 1 4 0zM6 9.3c0-.042.02-.107.105-.175A.637.637 0 0 1 6.5 9h3a.64.64 0 0 1 .395.125c.085.068.105.133.105.175v2.4c0 .042-.02.107-.105.175A.637.637 0 0 1 9.5 12h-3a.637.637 0 0 1-.395-.125C6.02 11.807 6 11.742 6 11.7V9.3z"/>
+					</svg>
+					<h5 class="card-title">멤버만 게시글을 볼 수 있습니다.</h5>
+					<p class="card-text">소모임에 가입해보세요 :O)</p>
+					</div>
+					</div>
+				</c:otherwise>
+			</c:choose>
+			<!--article delete Modal -->
 			<div class="modal fade" id="staticBackdrop" data-backdrop="static"
 				data-keyboard="true" tabindex="-1"
 				aria-labelledby="staticBackdropLabel" aria-hidden="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
+					<h5 class="modal-title">소모임 게시글 삭제</h5>
 						<div class="modal-body">
 							<h6 style="text-align: center;">해당 게시물을 삭제하겠습니까?</h6>
 							<p class="aa"></p>
@@ -255,12 +292,62 @@
 							<button type="button" class="btn btn-secondary"
 								data-dismiss="modal">닫기</button>
 							<button type="button" class="btn btn-primary"
-								onclick="deleteArticle(${clubInfo.c_id})">삭제하기${club.ca_content}</button>
+								onclick="deleteArticle(${clubInfo.c_id})">삭제하기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!--club delete Modal -->
+			<div class="modal fade" id="staticBackdrop2" data-backdrop="static"
+				data-keyboard="true" tabindex
+				="-1"
+				aria-labelledby="staticBackdropLabel" aria-hidden="false">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<h5 class="modal-title">소모임 삭제</h5>
+						<div class="modal-body">
+							<h5 style="text-align: center;">해당 소모임을 삭제하겠습니까?</h5>
+							<p>삭제 후에는 복구가 불가능합니다.</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">닫기</button>
+							<button type="button" class ="btn btn-primary"
+								onclick="location.href='${contextPath}/deleteClub.do?c_id=${clubInfo.c_id}'">삭제하기</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div class="side">
+		<h5>리더</h5><br>
+		<c:forEach var="leader" items="${leader}">
+		<c:set var="leader" value="${leader.resultUserImg}"/>
+					<c:choose>
+						<c:when test="${leader eq null}">
+							<img src="${contextPath}/resources/image/user.png" class="userImg">
+						</c:when>
+						<c:otherwise>
+							<img src="data:image/jpg;base64, ${leader}" class="userImg">
+						</c:otherwise>
+					</c:choose>		
+		</c:forEach>
+		<br><br>
+		<h5>멤버(${clubInfo.c_membercnt}명)</h5><a href="#">모두 보기</a><br>
+		<c:forEach var="members" items="${members}">
+		<c:set var="members" value="${members.resultUserImg}"/>
+					<c:choose>
+						<c:when test="${members eq null}">
+							<img src="${contextPath}/resources/image/user.png" class="userImg">
+						</c:when>
+						<c:otherwise>
+							<img src="data:image/jpg;base64, ${members}" class="userImg">
+						</c:otherwise>
+					</c:choose>		
+		</c:forEach>
+		</div>
+	</div>
 	</div>
 </body>
 </html>
