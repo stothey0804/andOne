@@ -207,6 +207,32 @@ a:hover {
 		window.location.href='${contextPath }/shop/writeShopReview.do?s_id='+shopId;
 	}
 	
+	function modifyButton(){
+		window.location.href='${contextPath }/shop/modifyShopReview.do?m_id='+logonId+'&s_id='+shopId;
+	}
+	
+	function deleteButton(){
+		var checkPop = confirm('정말로 소중한 리뷰를 삭제하시겠어요?');
+		if(checkPop){
+			$.ajax({
+				type: "post",
+				async: true,
+				url: "http://localhost:8090/andOne/shop/deleteShopReview.do",
+				dataType: "text",
+				data: 'm_id='+logonId+'&s_id='+shopId,
+				success: function (data, textStatus) {
+					alert('리뷰 삭제가 완료되었습니다.')
+				},
+				error: function (data, textStatus) {
+					alert("에러가 발생했습니다.");
+				},
+				complete: function (data, textStatus) {
+					window.location.href='${contextPath }/shop/localShopDetail.do?s_id='+shopId;
+				}
+			})
+		}
+	}
+	
 	function popup(p1, p2){
 		$('#pop').show();
 		$.ajax({
@@ -266,12 +292,12 @@ a:hover {
 				output +=		'</td>';
 				if(logonId == p1){
 					output += '<td align="center">';
-					output += '<button onclick="location.href=\'${contextPath }/shop/checkReviewControll.do?command=modify&m_id='+p1+'&s_id='+shopId+'\'">수정</button>';
+					output += '<button onclick="modifyButton()">수정</button>';
 					output += '</td>';
 					output += '</tr>';
 					output += '<tr>';
 					output += '<td align="center">';
-					output += '<button onclick="location.href=\'${contextPath }/shop/checkReviewControll.do?command=delete&m_id='+p1+'&s_id='+shopId+'\'">삭제</button>';
+					output += '<button onclick="deleteButton()">삭제</button>';
 					output += '</td>';
 					output += '</tr>';
 				}else{

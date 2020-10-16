@@ -50,6 +50,23 @@ public class ShopP003_d001ControllerImpl implements ShopP003_d001Controller{
 		return path;
 	}
 	
+	@RequestMapping("/shop/modifyShopReview.do")
+	public String modifyShopReview(ShopP003ShopReviewVO vo, Model model) {
+		model.addAttribute("vo",vo);
+		return "modifyShopReview";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/shop/deleteShopReview.do")
+	public void deleteShopReview(ShopP003ShopReviewVO vo, Model model) {
+		ShopP003ShopReviewImageVO imageVO = new ShopP003ShopReviewImageVO();
+		imageVO.setM_id(vo.getM_id());
+		imageVO.setS_id(vo.getS_id());
+		shopP003_d001Service.deleteShopReviewImage(imageVO);
+		shopP003_d001Service.deleteShopReview(vo);
+		shopP003_d001Service.shopScoreCalculator(vo.getS_id());
+	}
+	
 	@RequestMapping("/shop/updateShopReview.do")
 	public String updateShopReview(MultipartHttpServletRequest mtfRequest, ShopP003ShopReviewVO reviewVO) {
 		List<MultipartFile> fileList = mtfRequest.getFiles("image");
@@ -156,29 +173,5 @@ public class ShopP003_d001ControllerImpl implements ShopP003_d001Controller{
 		mav.addObject("reviewCount",listCnt);
 		mav.setViewName("shopReviewList");
 		return mav;
-	}
-	
-	@RequestMapping("/shop/checkReviewControll.do")
-	public String checkReviewControll(@RequestParam(defaultValue="null") String command, ShopP003ShopReviewVO vo, Model model) {
-		System.out.println(vo.getM_id());
-		System.out.println(vo.getS_id());
-		String path = "";
-		switch(command) {
-			case "delete" :
-				ShopP003ShopReviewImageVO imageVO = new ShopP003ShopReviewImageVO();
-				imageVO.setM_id(vo.getM_id());
-				imageVO.setS_id(vo.getS_id());
-				shopP003_d001Service.deleteShopReviewImage(imageVO);
-				shopP003_d001Service.deleteShopReview(vo);
-				shopP003_d001Service.shopScoreCalculator(vo.getS_id());
-				path += "redirect:localShopDetail.do?s_id="+vo.getS_id(); break;
-			case "modify" : 
-				model.addAttribute("vo",vo);
-				path += "modifyShopReview"; break;
-			default : 
-				path += ""; break;
-		}
-		
-		return path;
 	}
 }

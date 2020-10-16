@@ -41,9 +41,11 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 	public String insertAndOne(@RequestParam Map<String,Object> Andone) {
 		System.out.println(">>>>>>"+Andone.get("one_locate_Lat"));
 		System.out.println(">>>>>>"+Andone.get("one_locate_Lng"));
+		String g_id = (String) Andone.get("one_type");
+		System.out.println(g_id);
 		p002_d001Service.insertAndOne(Andone); //글쓰기
 		
-		return "andOneMain";
+		return "redirect:/and?g_id="+g_id;
 	}
 	
 	

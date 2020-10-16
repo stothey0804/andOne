@@ -125,13 +125,13 @@
         <div class="form-row">
         <div class="form-group col-md-6 mx-auto">
        		<label for="one_content"></label>
-       		<textarea rows="15" cols="80" id="one_content" name="one_content"></textarea>
+       		<textarea rows="15" cols="80" id="one_content" class="form-control" name="one_content"></textarea>
        	</div>
        	</div>
        	<div class="form-row">
-       		<div class="form-group mx-auto">
+       		<div class="form-group col-md-6 mx-auto ">
 		       	<input type="text" class="form-control"  name="one_hashTag" placeholder="해쉬태그를 입력해주세요"><br><br>
-	        <input type="submit"  style="width:200px; margin:0 auto;" id="registerAndEat" class="btn btn-outline-dark mb-3 form-control"  value="새로운같이먹기 등록하기" >
+	        	<input type="submit" id="registerAndEat" class="btn btn-outline-dark btn-lg mb-3 form-control"  value="새로운같이먹기 등록하기" >
       		</div>
 		       	<input type="hidden" name="one_type" value="${g_id}">
         </div>
