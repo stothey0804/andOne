@@ -1,12 +1,20 @@
 package project.club.vo;
 
-import java.util.HashMap;
-
 import org.springframework.stereotype.Component;
 
 @Component
 public class ClubArticleImgVO {
-	private HashMap<String, Object> articleImg;
+	public ClubArticleImgVO(){
+		System.out.println("gg");
+	}
+	private byte[] articleImg;
+public byte[] getArticleImg() {
+		return articleImg;
+	}
+public void setArticleImg(byte[] articleImg) {
+		this.articleImg = articleImg;
+	}
+	//	private Map<String, Object> articleImg;
 	private String resultArticleImg;
 	public String getResultArticleImg() {
 		return resultArticleImg;
@@ -14,11 +22,11 @@ public class ClubArticleImgVO {
 	public void setResultArticleImg(String resultArticleImg) {
 		this.resultArticleImg = resultArticleImg;
 	}
-	public HashMap<String, Object> getArticleImg() {
-		return articleImg;
-	}
-	public void setArticleImg(HashMap<String, Object> articleImg) {
-		this.articleImg = articleImg;
-	}
+//	public Map<String, Object> getArticleImg() {
+//		return articleImg;
+//	}
+//	public void setArticleImg(Map<String, Object> articleImg) {
+//		this.articleImg = articleImg;
+//	}
 	
 }

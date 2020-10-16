@@ -11,26 +11,68 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/jquery.datetimepicker.css"/>
 	<!-- Perfect-DateTimePicker JS -->
 	<script type="text/javascript" src="${contextPath}/resources/js/jquery.datetimepicker.js"></script>
+	
+	<style>
+	.aa{
+		display: block;
+		text-align: center; 
+	 }
+	.and{
+		padding : 20px;
+		font-family: 'YanoljaYacheR' !important;
+		font-size: 70px;
+		text-align: center; 
+	}
+	.ctgbutton{
+		font-weight :bold;
+	}
+	.title{
+		padding-bottom : 20px
+	}
+	#map{
+		margin: 0 auto;
+	}
+	</style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-      <form method="post" name="insertAnd" action="${contextPath}/andeat/insertAndOne.do" >
-      	<input type="text" name="one_title" placeholder="제목을 입력해주세요">
+	<c:set var="g_id" value="${g_id}" />
+		<h1 class="and">
+		<c:choose>
+		<c:when test="${g_id == '010'}">
+			같이먹기 <i class="fas fa-utensils"></i>
+		</c:when>
+		<c:when test="${g_id == '011'}">
+			같이사기 <i class="fas fa-shopping-cart"></i>
+		</c:when>
+		<c:when test="${g_id == '012'}">
+			같이하기 <i class="fas fa-user-friends"></i>
+		</c:when>
+	</c:choose>
+		</h1>
+      <form method="post" name="insertAnd" action="${contextPath}/and/insertAndOne.do" >
+      <div class="col-lg-6 col-sm-10 mx-auto mt-5 ">
+      	<div class="form-row">
+            <div class="form-group col-md-6 mx-auto title">
+      				<input type="text" class="form-control" name="one_title" placeholder="제목을 입력해주세요">
+    		</div>
+      	</div>
       	<!-- 카테고리 -->
+      	<div class="aa">
       	<c:set var="g_id" value="${g_id}" />
       	<c:choose>
       		<c:when test="${g_id == '010'}">
 		      	<div id="category" style="width:650px; margin: 0 auto">
 						<c:forEach var ="ctg" items="${ctg_eat}" > 
-						<button type="button" id="category_sub" class="btn btn-outline-dark mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
+						<button type="button" id="category_sub" class="btn btn-outline-dark mb-3 ctgbutton" value="${ctg.gc_id}" >${ctg.gc_name}</button>
 						</c:forEach>
 				</div>
 			</c:when>
 		</c:choose>
 		<c:choose>
       		<c:when test="${g_id == '011'}">
-		      	<div id="category" style="width:650px; margin: 0 auto">
+		      	<div id="category" style="width:650px; margin: 0 auto; ">
 						<c:forEach var ="ctg" items="${ctg_eat}" > 
 						<button type="button" id="category_sub" class="btn btn-outline-dark mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
 						</c:forEach>
@@ -39,44 +81,61 @@
 		</c:choose>
 		<c:choose>
       		<c:when test="${g_id == '012'}">
-		      	<div id="category" style="width:650px; margin: 0 auto">
+		      	<div id="category" style="width:800px; margin: 0 auto">
 						<c:forEach var ="ctg" items="${ctg_eat}" > 
 						<button type="button" id="category_sub" class="btn btn-outline-dark mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
 						</c:forEach>
 				</div>
 			</c:when>
 		</c:choose>
-		<input type="hidden" name="one_category" value=""><br><br> <!-- 카테고리값 보내기 -->
-		주문금액 <br><input type="text" name="one_totalPrice"><br>
+						<input type="hidden" name="one_category" value=""> <!-- 카테고리값 보내기 -->
+		</div>
+		<div class="form-row">
+        	<div class="form-group col-md-6 mx-auto">
+				<input type="text" class="form-control" name="one_totalPrice" placeholder="주문금액을 입력해주세요">
+			</div>
+		</div>
 		<!--달력 -->
-		주문시간 <div id="orderDate">
-				<input name="one_date"/>		
-			   </div>
-			   <br>
+		<div class="form-row">
+        	<div class="form-group col-md-6 mx-auto" id="orderDate">
+			<input name="one_date" class="form-control" placeholder="주문시간을 입력해주세요"/>
+			</div>		
+		</div>
 	   <!-- 인원설정 -->
-		인원 <select id="memberCnt" class="custom-select" onChange="setValue()" >
+	   <div class="form-row">
+		 <select id="memberCnt" class="custom-select form-group col-md-6 mx-auto" onChange="setValue()" >
 			<option selected >인원을 선택하세요</option>
 			<c:forEach var="i" begin="2" end="10">
 				<option value="<c:out value='${i}'/>"><c:out value="${i}"/></option>
 			</c:forEach>
 			 </select>
 			 <input type="hidden" name="one_memberMax" value="">
-			 <br><br>	 
+	   </div>
 		<!-- 지도 -->
-        <button type="button" onclick="searchAddress()">위치선택하기</button><br><br>
-        <input type="text" id="inputAddress" readonly><br><br>
-        <div id="map" style="width:500px; height:400px"></div>
-        <input type="hidden" name="one_locate_Lat" value="">
-        <input type="hidden" name="one_locate_Lng" value=""><br> <!-- 맵 좌표값 보내기 -->
+		<div class="form-row">
+			<div class="form-group col-md-6 mx-auto">
+        		<button type="button" class="btn btn-outline-dark mb-3" onclick="searchAddress()">위치선택하기</button>
+        		<input type="text" id="inputAddress" class="form-control" placeholder="위치를선택해주세요" readonly><br>
+       		</div>
+      	</div>	
+        		<div id="map" style="width:500px; height:400px"></div>
+        		<input type="hidden" name="one_locate_Lat" value="">
+        		<input type="hidden" name="one_locate_Lng" value=""> <!-- 맵 좌표값 보내기 -->
         <!-- 내용 -->
-        <div class="form-group">
-        	<label for="one_content"></label>
-        	<textarea rows="15" cols="100" id="one_content" name="one_content"></textarea>
+        <div class="form-row">
+        <div class="form-group col-md-6 mx-auto">
+       		<label for="one_content"></label>
+       		<textarea rows="15" cols="80" id="one_content" class="form-control" name="one_content"></textarea>
        	</div>
-       	해쉬태그<br>
-       	<input type="text" name="one_hashTag"><br><br>
-       	<input type="hidden" name="one_type" value="${g_id}">
-        <input type="submit" id="registerAndEat" value="새로운같이먹기 등록하기" >
+       	</div>
+       	<div class="form-row">
+       		<div class="form-group col-md-6 mx-auto ">
+		       	<input type="text" class="form-control"  name="one_hashTag" placeholder="해쉬태그를 입력해주세요"><br><br>
+	        	<input type="submit" id="registerAndEat" class="btn btn-outline-dark btn-lg mb-3 form-control"  value="새로운같이먹기 등록하기" >
+      		</div>
+		       	<input type="hidden" name="one_type" value="${g_id}">
+        </div>
+       </div>
     </form>
     
     <!--우편번호 서비스-->

@@ -32,6 +32,9 @@
 
 .side{
 	display: relative;
+	position:absolute;
+	margin-left:20px;
+	margin-top:17px;
 }
 
 .left {
@@ -110,6 +113,7 @@
 .bi-file-earmark-lock-fill,.c{
 	margin:auto;
 }
+
 </style>
 <script type="text/javascript">
 
@@ -231,16 +235,18 @@
 						</c:choose>
 						<h6 class="card-subtitle mb-2 text-muted">${club.ca_date }</h6>
 						<p class="card-text" style="margin-top: 10px;">${club.ca_content }</p>
-						<c:set var="ca_img" value="${club.resultArticleImg}" />
+						<c:set var="ca_img" value="${club.articleImgList}" />
+							<c:forEach var="ca_img" items="${club.articleImgList}">
 						<c:choose>
-							<c:when test="${ca_img ne null}">
-							<c:forEach var="ca_img" items="${club.resultArticleImg}">
-								<div class="ca_img_div">
-									<img src="data:image/jpg;base64, ${ca_img}" class="ca_img">
-								</div>
-							</c:forEach>
+							<c:when test="${ca_img.resultArticleImg eq null}">
 							</c:when>
+							<c:otherwise>
+								<div class="ca_img_div">
+									<img src="data:image/jpg;base64, ${ca_img.resultArticleImg}" class="ca_img">
+								</div>
+							</c:otherwise>
 						</c:choose>
+							</c:forEach>
 						<!--본인이 쓴 글일 경우 수정,삭제 메뉴 -->
 						<c:set var="logOnId" value="${m_id }" />
 						<c:set var="writer" value="${club.m_id }" />
@@ -321,7 +327,7 @@
 			</div>
 		</div>
 		<div class="side">
-		<h5>리더</h5><br>
+		<h5>리더</h5>
 		<c:forEach var="leader" items="${leader}">
 		<c:set var="leader" value="${leader.resultUserImg}"/>
 					<c:choose>
