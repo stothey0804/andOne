@@ -11,6 +11,9 @@
 	<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
 	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 	
+	<!-- font awesome -->
+	<script src="https://kit.fontawesome.com/cdac256c63.js" crossorigin="anonymous"></script>
+	
 	<!--kakao map-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
 	<style>
@@ -30,6 +33,15 @@
 	 	width: 800px;
 	 	height : 800px;
 	 }
+	 .and{
+		padding : 20px;
+		font-family: 'YanoljaYacheR' !important;
+		font-size: 80px;
+		text-align: center; 
+	}
+	.searchInput{
+		padding-bottom : 10px;
+	}
 	</style>
 	<script>
 		function init(){
@@ -72,7 +84,9 @@
 		//console.log('${andOneLocate}');
 		//console.log('${memLocate}');
 		
-		var memLocate= ${memLocate};
+	/* 	var memLocate= '${memLocate[0].m_locate_Lat}';
+		var memLocate2= '${memLocate.m_locate_lat}';
+		console.log(memLocate2);
 		var andLocate = ${andOneLocate};
 		
 		console.log(andLocate);
@@ -83,9 +97,11 @@
 		let x_memLocate = memLocate.slice(1,andLocate[6].indexOf(","));
 		let y_memLocate = memLocate.slice(andLocate[6].indexOf(",")+1,andLocate[6].length-1);
 		
-		locPosition = new kakao.maps.LatLng(x_memLocate, y_memLocate);
+		locPosition = new kakao.maps.LatLng(x_memLocate, y_memLocate); */
 		//console.log(locPosition);
 		
+		var posi = $("#possible").text();
+		console.log(posi);
 		
 		
 		
@@ -96,17 +112,32 @@
 </head>
 <body onload="init()">
 	<c:set var="g_id" value="${g_id}" />
+	<h1 class="and">
+	<c:choose>
+		<c:when test="${g_id == '010'}">
+			같이먹기 <i class="fas fa-utensils"></i>
+		</c:when>
+		<c:when test="${g_id == '011'}">
+			같이사기 <i class="fas fa-shopping-cart"></i>
+		</c:when>
+		<c:when test="${g_id == '012'}">
+			같이하기 <i class="fas fa-user-friends"></i>
+		</c:when>
+	</c:choose>
+	</h1> 
 	<div style="width:350px; margin: 0 auto">
 	<c:choose>
 		<c:when test="${g_id == '010'}">
 			<form name="eat" class="form-inline" method="get" action="${contextPath}/andeat/searchAndOne.do">
-				<div class="form-group mx-sm-3 mb-2">
+				<div class="form-group mx-sm-3 mb-2 searchInput">
 					<input class="form-control" type ="text" name="totalSearch" placeholder="카테고리/지역/제목">
 					<input type ="hidden" name="g_id" value="${g_id}">
 				</div>
 					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
 			</form>
+				<div class="resisterBtn" style="width:200px; margin: 0 auto">
 					<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이먹기 등록하기 </button>
+				</div>
 		</c:when>
 		<c:when test="${g_id == '011'}">
 			<form name="eat" class="form-inline" method="get" action="${contextPath}/andbuy/searchAndOne.do">
@@ -116,7 +147,9 @@
 				</div>
 					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
 			</form>
+				<div class="resisterBtn" style="width:200px; margin: 0 auto">
 					<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이사기 등록하기 </button>
+				</div>
 		</c:when>
 		<c:when test="${g_id == '012'}">
 			<form name="eat" class="form-inline" method="get" action="${contextPath}/anddo/searchAndOne.do">
@@ -126,7 +159,9 @@
 				</div>
 					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
 			</form>
+				<div class="resisterBtn" style="width:200px; margin: 0 auto">
 					<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이하기 등록하기 </button>
+				</div>
 		</c:when>
 	</c:choose>
 	</div>
@@ -207,9 +242,10 @@
 			</div>
 		</div>
 		
-		<c:forEach var ="Alocate" items="${AndOneLocate}" > 
-		<h1>${Alocate} ${Alocate.one_locate}</h1>
-		</c:forEach>
+	<%-- 	<span id="possible">${memLocate.M_LOCATE_LNG}</span>
+		
+		${andOneLocate} --%>
+		
 		
 </body>
 </html>
