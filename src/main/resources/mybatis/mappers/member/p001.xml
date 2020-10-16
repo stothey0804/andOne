@@ -91,15 +91,13 @@
          (select count(m_id) 
 		from report_member
 		where m_id = #{m_id}) as reportCnt,
-		(select count(a.m_id)+count(b.m_id)
-		from qna a, report b
-		where a.m_id = b.m_id
-		and a.m_id =#{m_id}) as qnaCnt,
+		(SELECT (SELECT COUNT(m_id) FROM qna WHERE m_id = '00000121') + (SELECT COUNT(m_id) FROM report WHERE m_id = '00000121')
+		FROM DUAL) as qnaCnt,
 		(select count(m_id)
 		from c_member
 		where m_id = #{m_id}) as joinClubCnt,
 		(select count(m_id)
-		from m_review
+		from s_review
 		where m_id = #{m_id}) as reviewCnt
          FROM member
          where m_id = #{m_id}
