@@ -213,8 +213,8 @@ a:hover {
 				$('#pop table tr:nth-child(4) td:nth-child(2) img.3').attr("id",imgId3);
 			}
 			if(!isEmpty(logonId) && logonId == id){
-				$('#pop table tr:nth-child(4) td:nth-child(3)').html('<button onclick="location.href=\'${contextPath }/shop/checkReviewControll.do?command=modify&m_id='+id+'&s_id=${s_id }\'">수정</button>');
-				$('#pop table tr:nth-child(5) td:nth-child(1)').html('<button onclick="location.href=\'${contextPath }/shop/checkReviewControll.do?command=delete&m_id='+id+'&s_id=${s_id }\'">삭제</button>');
+				$('#pop table tr:nth-child(4) td:nth-child(3)').html('<button onclick="modifyButton()">수정</button>');
+				$('#pop table tr:nth-child(5) td:nth-child(1)').html('<button onclick="deleteButton()">삭제</button>');
 			}else{
 				$('#pop table tr:nth-child(4) td:nth-child(3)').html('');
 				$('#pop table tr:nth-child(5) td:nth-child(1)').html('');
@@ -226,6 +226,32 @@ a:hover {
 		})
 		
 	})
+	
+	function modifyButton(){
+		window.location.href='${contextPath }/shop/modifyShopReview.do?m_id='+logonId+'&s_id=${s_id }'
+	}
+	
+	function deleteButton(){
+		var checkPop = confirm('정말로 소중한 리뷰를 삭제하시겠어요?');
+		if(checkPop){
+			$.ajax({
+				type: "post",
+				async: true,
+				url: "http://localhost:8090/andOne/shop/deleteShopReview.do",
+				dataType: "text",
+				data: 'm_id='+logonId+'&s_id=${s_id }',
+				success: function (data, textStatus) {
+					alert('리뷰 삭제가 완료되었습니다.')
+				},
+				error: function (data, textStatus) {
+					alert("에러가 발생했습니다.");
+				},
+				complete: function (data, textStatus) {
+					window.location.href='${contextPath }/shop/getShopReviewList.do?s_id=${s_id }';
+				}
+			})
+		}
+	}
 	
 	function isEmpty(str){
 		if(typeof str == "undefined" || str == null || str == ""){

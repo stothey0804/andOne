@@ -84,53 +84,6 @@ a:hover {
 	color: black;
 }
 
-#pop {
-	background:#e6e6e6;
-	border:1px solid #000;
-	position: fixed;
-	top: 20%;
-	left: 25%;
-	width: 480px;
-	height: auto;
-	z-index: 10;
-}
-
-#imgPop {
-	background:#e6e6e6;
-	border:1px solid #000;
-	position: fixed;
-	top: 15%;
-	left: 25%;
-	width: auto;
-	height: auto;
-	z-index: 10;
-}
-
-#imgPop #close{
-	top:10px;
-	right: 10px;
-	position: absolute;
-	z-index:9999;
-}
-
-#imgPop #prev{
-  	top: 50%;
-	left: 10px;
-	position: absolute;
-	z-index:9999;
-	margin: 0;
-  	transform: translate(-50%, -50%)
-}
-
-#imgPop #next{
-	top: 50%;
-	right: -40px;
-	position: absolute;
-	z-index:9999;
-	margin: 0;
-  	transform: translate(-50%, -50%)
-}
-
 #image_container img{
 	max-width: 200px;
 	margin-top: 50px;
@@ -187,17 +140,41 @@ a:hover {
 <title>Insert title here</title>
 </head>
 <body>
-	리뷰작성페이지
-	
-	<hr>
-	<form action="/andOne/shop/insertShopReview.do" method="post" enctype="multipart/form-data">
-		<input type="file" id="image" name="image" accept="image/*" multiple />
-		<input type="text" name="sr_content" placeholder="리뷰 내용" />
-		<input type="text" name="sr_score" placeholder="가게 점수" />
-		<input type="hidden" name="m_id" value="${vo.m_id }" />
-		<input type="hidden" name="s_id" value="${vo.s_id }" />
-		<input type="submit" value="전송" />
-	</form>
-	<div id="image_container"></div>
+	<div class="container my-5 center">
+		<h3>지역업체 리뷰 작성</h3>
+		<div class="form">
+			<form action="/andOne/shop/insertShopReview.do" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="m_id" value="${vo.m_id }" />
+				<input type="hidden" name="s_id" value="${vo.s_id }" />
+				<div>
+					<textarea style="resize:none;" rows="5" cols="50" name="sr_content"></textarea>
+				</div>
+				<div>
+					가게점수
+					<select name="sr_score" id="sr_score">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+					</select>
+					<input type="file" id="image" name="image" accept="image/*" multiple />
+				</div>
+				<div>
+					<input type="submit" value="전송" />
+				</div>
+			</form>
+		</div>
+		<hr>
+		<h3>첨부파일 미리보기</h3>
+		<div id="image_container">
+		<h5>첨부된 파일이 없습니다.</h5>
+		</div>
+		</div>
 </body>
 </html>
