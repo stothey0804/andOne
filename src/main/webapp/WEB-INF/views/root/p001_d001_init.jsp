@@ -119,14 +119,14 @@
     }
  </style>
 </head>
-<body onload="init()">
+<body onload="init()" class="bg-light">
 <%
    request.setCharacterEncoding( "utf-8" );
 %>
 	<!-- 위치정보 -->
 	<div class="container my-5">
 		<p class="h5">
-			<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-geo-alt-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-geo-alt-fill text-primary" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 			  <path fill-rule="evenodd" d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
 			</svg>
 			내 위치
@@ -177,19 +177,25 @@
 		<div class="row">
 			<div class="col-lg-4">
 				<p class="text-center">
-					<a href="${contextPath}/andeat?g_id=010"><img src="https://via.placeholder.com/150"></a>
+					<a href="${contextPath}/andeat?g_id=010">
+					<img src="${contextPath}/resources/image/main/eat.png" width="150px" height="150px">
+					</a>
 				</p>
         		<p class="text-center"><a class="btn btn-link" href="${contextPath}/andeat?g_id=010" role="button">같이먹기</a></p>
       		</div>
 			<div class="col-lg-4">
 				<p class="text-center">
-					<a href="${contextPath}/andbuy?g_id=011"><img src="https://via.placeholder.com/150"></a>
+					<a href="${contextPath}/andbuy?g_id=011">
+					<img src="${contextPath}/resources/image/main/buy.png" width="150px" height="150px">
+					</a>
 				</p>
         		<p class="text-center"><a class="btn btn-link" href="${contextPath}/andbuy?g_id=011" role="button">같이사기</a></p>
       		</div>
 			<div class="col-lg-4">
 				<p class="text-center">
-					<a href="${contextPath}/anddo?g_id=012"><img src="https://via.placeholder.com/150"></a>
+					<a href="${contextPath}/anddo?g_id=012">
+					<img src="${contextPath}/resources/image/main/do.png" width="150px" height="150px">
+					</a>
 				</p>
         		<p class="text-center"><a class="btn btn-link" href="${contextPath}/anddo?g_id=012" role="button">같이하기</a></p>
       		</div>

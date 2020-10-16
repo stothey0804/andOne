@@ -58,7 +58,7 @@
    
 	<!-- 메인페이지 -->
    <definition name="main" extends="baseLayout">
-      <put-attribute name="title" value="관리자메인페이지" />
+      <put-attribute name="title" value="메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/root/p001_d001_init.jsp" />
    </definition>
 	<!-- 공지사항 -->
@@ -124,6 +124,11 @@
    <definition name="viewTest" extends="baseLayout">
       <put-attribute name="title" value="파일 출력 테스트" />
       <put-attribute name="body" value="/WEB-INF/views/shop/viewTest.jsp" />
+   </definition>
+   
+   <definition name="shopReviewList" extends="baseLayout">
+      <put-attribute name="title" value="리뷰 더보기 페이지" />
+      <put-attribute name="body" value="/WEB-INF/views/shop/p003_d001_shopReviewList.jsp" />
    </definition>
    
 	<!-- 비밀번호찾기 -->

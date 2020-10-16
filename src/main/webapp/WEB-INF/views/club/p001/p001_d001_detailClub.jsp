@@ -236,17 +236,17 @@
 						<h6 class="card-subtitle mb-2 text-muted">${club.ca_date }</h6>
 						<p class="card-text" style="margin-top: 10px;">${club.ca_content }</p>
 						<c:set var="ca_img" value="${club.articleImgList}" />
+							<c:forEach var="ca_img" items="${club.articleImgList}">
 						<c:choose>
-							<c:when test="${ca_img eq ''}">
+							<c:when test="${ca_img.resultArticleImg eq null}">
 							</c:when>
 							<c:otherwise>
-							<c:forEach var="ca_img" items="${club.articleImgList}">
 								<div class="ca_img_div">
 									<img src="data:image/jpg;base64, ${ca_img.resultArticleImg}" class="ca_img">
 								</div>
-							</c:forEach>
 							</c:otherwise>
 						</c:choose>
+							</c:forEach>
 						<!--본인이 쓴 글일 경우 수정,삭제 메뉴 -->
 						<c:set var="logOnId" value="${m_id }" />
 						<c:set var="writer" value="${club.m_id }" />

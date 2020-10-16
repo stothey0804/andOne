@@ -86,13 +86,13 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 				for(int j=0; j < vo.getArticleList().get(i).getArticleImgList().size();j++) {
 					if(vo.getArticleList().get(i).getArticleImgList().get(j) != null) {
 						System.out.println("낫널");
-						encoded = Base64.getEncoder().encode((byte[]) vo.getArticleList().get(i).getArticleImgList().get(j).getArticleImg().get("articleImg"));
+						encoded = Base64.getEncoder().encode((byte[]) vo.getArticleList().get(i).getArticleImgList().get(j).getArticleImg());
 						vo.getArticleList().get(i).getArticleImgList().get(j).setResultArticleImg(new String(encoded));
 						System.out.println(encoded);
 					}
 				}
 			}
-			if(vo.getArticleList().get(i).getUserImg() !=null) {
+			if(vo.getArticleList().get(i).getUserImg()!=null) {
 				encoded = Base64.getEncoder().encode(vo.getArticleList().get(i).getUserImg());
 				vo.getArticleList().get(i).setResultUserImg(new String(encoded));
 			}

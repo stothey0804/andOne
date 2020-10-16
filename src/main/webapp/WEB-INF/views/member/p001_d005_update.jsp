@@ -61,6 +61,29 @@
 		
 		loadProfileImage();
 		
+		// 프로피이미지 업로드 시
+		$('#inputFile').on("change",preview);
+		var sel_files = [];
+		function preview(e){
+			sel_files = [];
+			var files = e.target.files;
+			var filesArr = Array.prototype.slice.call(files);
+			filesArr.forEach(function(f){
+				if(!f.type.match("image.*")){
+					alert('잘못된 파일 형식');
+					return;
+				}
+				sel_files.push(f);
+				var reader = new FileReader();
+				reader.onload = function(e){
+					$(".input-profile").attr("src", e.target.result);
+				}
+				reader.readAsDataURL(f);
+			})
+			
+		}
+		
+		
 	});
 </script>
 </head>
@@ -311,7 +334,7 @@
 		// 이미지 삭제 클릭
 		$("#deleteFile").click(function(){
 			// 기본프로필 사진 적용
-			if(window.confirm("프로필이미지를 삭제하시겠어요?")){
+			if(window.confirm("프로필이미지는 바로 삭제됩니다. 삭제하시겠어요?")){
 				$(".input-profile").attr("src","${contextPath}/resources/image/user.png");
 				$.ajax({
 		            type: "post",

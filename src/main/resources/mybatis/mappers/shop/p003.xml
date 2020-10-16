@@ -34,4 +34,68 @@
 		]]>
 	</insert>
 	
+	<update id="updateShopReview" parameterType="ShopP003ShopReviewVO">
+		<![CDATA[
+			UPDATE S_REVIEW
+			SET SR_CONTENT = #{sr_content}, SR_DATE = SYSDATE, SR_SCORE = #{sr_score}
+			WHERE S_ID = #{s_id}
+			AND M_ID = #{m_id}
+		]]>
+	</update>
+	
+	<delete id="deleteShopReview" parameterType="ShopP003ShopReviewVO">
+		<![CDATA[
+			DELETE FROM S_REVIEW
+			WHERE S_ID = #{s_id}
+			AND M_ID = #{m_id}
+		]]>
+	</delete>
+	
+	<delete id="deleteShopReviewImage" parameterType="ShopP003ShopReviewImageVO">
+		<![CDATA[
+			DELETE FROM R_IMAGE
+			WHERE S_ID = #{s_id}
+			AND M_ID = #{m_id}
+		]]>
+	</delete>
+	
+	<update id="updateShopReviewImage" parameterType="ShopP003ShopReviewImageVO">
+		<![CDATA[
+			UPDATE R_IMAGE
+			SET RI_IMG = #{ri_imgEncoder.img} 
+			WHERE S_ID = #{s_id}
+			AND M_ID = #{m_id}
+			AND RI_IDX = #{ri_idx}
+		]]>
+	</update>
+	
+	<select id="selectShopReviewListCnt" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT COUNT(M_ID)
+			FROM S_REVIEW
+			WHERE S_ID = #{s_id}
+		]]>
+	</select>
+	
+	<update id="updateShopScore" parameterType="String">
+		<![CDATA[
+			UPDATE SHOP
+			SET S_SCORE = 
+			(
+				SELECT SUM(SR_SCORE)/COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+		    )
+			WHERE S_ID = #{s_id}
+		]]>
+	</update>
+	
+	<update id="initShopScore" parameterType="String">
+		<![CDATA[
+			UPDATE SHOP
+			SET S_SCORE = 'none'
+			WHERE S_ID = #{s_id}
+		]]>
+	</update>
+	
 </mapper>

@@ -16,200 +16,65 @@
 	<title>회원목록</title>
 	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 	<style>
-/* 		* { */
-/* 			margin: 0; */
-/* 			padding: 0; */
-/* 		} */
-
-		body {
-			scrollbar-face-color: #e8e7e3;
+		div.form-group{
+			width: 100%;
 		}
-
-		#layer1{
-			z-index: 9999;
+	 	.container{ 
+			margin: 0 auto;
 		}
-		.pop-layer .pop-container {
-			padding: 15px 25px;
+		
+		.searchValue{
+			width: 100px !important;
 		}
-
-		.pop-layer .btn-r {
-			margin: 10px 10px 10px;
-			text-align: right;
-			position: absolute;
-			top: 10px;
-			right: 0;
-		}
-
-		.pop-layer {
-			display: none;
-			position: relative;
-			top: 50%;
-			left: 50%;
-			width: 600px;
-			height: auto;
-			z-index: 10;
-		}
-
-		a.btn-layerClose {
-			float: right;
-			height: 25px;
-			padding: 0 14px 0;
-			font-size: 13px;
-		}
-
-		.btns {
-			float: right;
-		}
-
-		.btn {
-			font-size: 100%;
-		}
-		.fixed_top {
-			display:table;
-  			position:absolute;
-		}
+	
+	    .popup-container {
+	     	width: 800px;
+	    	z-index: 9999;
+	/*     	visibility: hidden; */
+	    	position: absolute;
+	    	left: 50%;
+	    	top: 100px;
+/* 	    	transform: translate(-50%, -50%); */
+	    	transform: translateX(-50%);
+	    	border: solid 2px black;
+	    }
+	    #popup-close{
+	    	font-size: 3.5em;
+	    	margin-top: -0.3em;
+	    	margin-right: -0.3em;
+	    	cursor: pointer;
+	    }
+	    .popup-display{
+	    	display: none;
+	    }
+		
 	</style>
-	<script>
-		$(function () {
-			$('.btn-example').click(function () {
-				var $href = $(this).attr('name');
-				layer_popup($href);
-				console.log($href);
-			});
-			$('.detail').click(function () {
-				var tdArr = new Array();
-				var checkBtn = $(this);
-				var tr = checkBtn.parent().parent();
-				var td = tr.children();
-				var userId = td.eq(1).text();
-				console.log(userId);
-
-				$.ajax({
-					type: "get",
-					dataType: "text",
-					async: true,
-					url: "http://localhost:8090/andOne/popup.do",
-					data: { m_id: userId },
-					success: function (data, texStatus) {
-						jsoninfo = JSON.parse(data);
-						$('td.id').html(jsoninfo.m_id);
-						$('td.phone').html(jsoninfo.m_phonenumber);
-						$('td.email').html(jsoninfo.m_email);
-						$('td.gender').html(jsoninfo.m_gender);
-						$('td.nickname').html(jsoninfo.m_nickname);
-						$('td.age').html(jsoninfo.m_age + "대");
-						$('td.m_score').html(jsoninfo.m_score);
-						$('td.reportCnt').html(jsoninfo.reportCnt);
-						if (jsoninfo.p_currentpoint != null) {
-							$('td.p_currentpoint').html(jsoninfo.p_currentpoint);
-						} else {
-							$('td.p_currentpoint').html("0");
-						}
-						$('td.qnaCnt').html(jsoninfo.qnaCnt);
-						$('td.joinClubCnt').html(jsoninfo.joinClubCnt);
-						$('td.reviewCnt').html(jsoninfo.reviewCnt);
-						$('.resultList').remove();
-						if (jsoninfo.list != "") {
-							for (var i in jsoninfo.list) {
-								$('table.pointList').append("<tr class='resultList'><td>" + jsoninfo.list[i].one_date + "</td><td>" + jsoninfo.list[i].one_title + "</td><td>" + jsoninfo.list[i].p_changepoint + "</td></tr>");
-							}
-						} else {
-							$('table.pointList').append("<p class='resultList'>포인트이력이 없습니다</p>");
-						}
-					}
-				});
-			})
-
-			function layer_popup(el) {
-				var $el = $(el);
-				console.log($el);
-				$el.fadeIn();
-				var $elWidth = ~~($el.outerWidth()),
-					$elHeight = ~~($el.outerHeight()),
-					docWidth = $(document).width(),
-					docHeight = $(document).height();
-				if ($elHeight < docHeight || $elWidth < docWidth) {
-					$el.css({
-						marginTop: -$elHeight / 2,
-						marginLeft: -$elWidth / 2
-					})
-				} else {
-					$el.css({ top: 0, left: 0 });
-				}
-				$el.find('a.btn-layerClose').click(function () {
-					$el.fadeOut();
-					return false;
-				});
-
-				$(document).keyup(function (e) {
-					if (e.keyCode == 27) {
-						$el.fadeOut();
-						return false;
-					}
-				})
-			}
-		})
-	</script>
+	<script src = "${contextPath}/resources/js/adminSearch.js"></script>
+	
 </head>
 
 <body>
-	<!-- 리스트영역  -->
-	<div class="p-3 pt-5">
-		<form action="searchMemberList.do" method="post">
-				<table border="0">
-					<tr>
-						<td width="500"></td>
-						<td align="right"><select name="searchCondition">
-								<c:forEach items="${conditionMap }" var="option">
-								<option value="${option.value }">${option.key }
-								</c:forEach>
-						</select> <input name="searchKeyword" type="text" /> <input type="submit"
-							value="검색" /></td>
-				</table>
-			</form>
-		<br>
-		<table class="table result">
-			<tr>
-				<th>번호</th>
-				<th>회원ID</th>
-				<th>이메일</th>
-				<th>닉네임</th>
-				<th>휴대폰번호</th>
-				<th>가입일시</th>
-				<th>상세정보</th>
-			</tr>
-			<c:forEach items="${memberList }" var="member" varStatus="status">
-			<tr>
-				<td>${status.count }</td>
-				<td>${member.m_id }</td>
-				<td>${member.m_email }</td>
-				<td>${member.m_nickname }</td>
-				<td>${member.m_phonenumber }</td>
-				<td>${member.m_joinDate }</td>
-				<td><button name="#layer1" class="btn-example btn btn-secondary detail">상세보기</button></td>
-			</tr>
-			</c:forEach>
-		</table>
-	</div>
 
-	<!-- 회원정보 상세 팝업 -->
-	<div id="layer1" class="pop-layer bg-light p-3">
-		<div class="pop-container">
-			<div class="pop-conts">
-				<h1 class="product-name"></h1>
-				<h1>회원정보 상세</h1>
-				<br>
-				<div class="btn-r">
-					<a href="#" class="btn-layerClose"><img src="${contextPath}/resources/image/x.png" width="20px"
-							height="20px"></a>
-				</div>
-				<h4>회원정보</h4>
+<!-- Popup START -->
+<div id="popup-container" class="popup-display">
+		<div class="popup-container p-5 bg-light m-auto">
+		<div class="row m-1">
+			<p class="h3 mb-3">
+			회원정보상세
+			</p>		
+			<div class="ml-auto">
+				<svg width="1em" height="1em" viewBox="0 0 16 16" id="popup-close" class="bi bi-x btn-layerClose" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+				  <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+				</svg>
+			</div>
+		</div>
+				<h5 class="mb-3">회원정보</h5>
 				<table class="table">
 					<tr>
-						<th>회원ID</th>
-						<td class="id"></td>
-						<th>휴대폰번호</th>
-						<td class="phone"></td>
+						<th width="25%">회원ID</th>
+						<td width="25%" class="id"></td>
+						<th width="25%">휴대폰번호</th>
+						<td width="25%" class="phone"></td>
 					</tr>
 					<tr>
 						<th>이메일</th>
@@ -225,13 +90,13 @@
 					</tr>
 				</table>
 				<br>
-				<h4>이용정보</h4>
+				<h5 class="mb-3">이용정보</h5>
 				<table class="table">
 					<tr>
-						<th>평점</th>
-						<td class="m_score"></td>
-						<th>신고받은 수</th>
-						<td class="reportCnt"></td>
+						<th width="25%">평점</th>
+						<td width="25%" class="m_score"></td>
+						<th width="25%">신고받은 수</th>
+						<td width="25%" class="reportCnt"></td>
 					</tr>
 					<tr>
 						<th>보유포인트</th>
@@ -247,32 +112,127 @@
 					</tr>
 				</table>
 				<br>
-				<h4>포인트이력</h4>
-				<table class="table">
+				<h5 class="mb-3">포인트이력</h5>
+				<table class="table" style="margin-bottom:-1px">
 				<thead>
 					<tr>
-						<th style="text-align: center;">날짜</th>
-						<th style="text-align: center;">내용</th>
-						<th style="text-align: center;">사용포인트</th>
+						<th style="text-align:center;width:20%">이력번호</th>
+						<th style="text-align:center;width:30%">날짜</th>
+						<th style="text-align:center;width:30%">내용</th>
+						<th style="text-align:center;width:20%">이용포인트</th>
 					</tr>
 				</thead>
 				</table>
-				<div style="overflow:auto; width:100%; height:150px">
+				<div style="overflow:auto; width:100%; height:150px" class="mt-0">
 				<table class="table pointList">
 					<tbody>
 					
 					</tbody>
 				</table>
 				</div>
-				<br> <br>
-				<button class="btn btn-primary">포인트 지급</button>
-				<div class="btns">
-					<button class="btn btn-secondary">알림전송</button>
-					<button class="btn btn-danger">회원삭제</button>
+				<div class="row mt-2">
+					<button class="btn btn-primary">포인트 지급</button>
+					<div class="ml-auto">
+						<button class="btn btn-secondary">알림전송</button>
+						<button class="btn btn-danger">회원삭제</button>
+					</div>
 				</div>
-			</div>
-		</div>
+<!-- 		</form> -->
 	</div>
+</div>
+<!-- Popup END -->
+
+<div class="container">
+	<h2 class="m-5">일반회원 조회</h2>
+	<div class="form-group col-sm-11 mx-auto p-0">
+		<!-- 검색폼 START -->
+		
+		<form action="searchMemberList.do" method="post">
+			<div class="input-group mb-3 col-6 ml-auto">
+			<!-- 구분  -->
+			 <div class="input-group-prepend">
+			      <label class="input-group-text" for="inputGroupSelect01">검색조건</label>
+		      </div>
+   		    <select class="custom-select" name="searchCondition">
+				<c:forEach items="${conditionMap }" var="option">
+				<option value="${option.value }">${option.key }
+				</c:forEach>
+		    </select>
+			  <input type="text" name="searchKeyword" class="form-control searchValue" aria-describedby="button-addon2">
+			  <div class="input-group-append">
+			    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">검색</button>
+			  </div>
+			</div>
+		</form><!-- 검색폼 END -->
+		<!-- 리스트영역  -->
+			<table class="table result">
+				<thead>
+				<tr class="text-center">
+	<!-- 				<th>번호</th> -->
+					<th>회원ID</th>
+					<th>이메일</th>
+					<th>닉네임</th>
+					<th>휴대폰번호</th>
+					<th>가입일시</th>
+					<th>상세정보</th>
+				</tr>
+				</thead>
+				<c:forEach items="${memberList }" var="member" varStatus="status">
+				<tr>
+	<%-- 				<td>${status.count }</td> --%>
+					<td>${member.m_id }</td>
+					<td>${member.m_email }</td>
+					<td class="text-center">${member.m_nickname }</td>
+					<td class="text-center">${member.m_phonenumber }</td>
+					<td>${member.m_joinDate }</td>
+					<td><button name="#layer1" class="searchCommonMemberDetail btn-sm btn btn-outline-secondary detail">상세보기</button></td>
+				</tr>
+				</c:forEach>
+			</table>
+			<!-- 페이징  -->
+			<nav aria-label="Page navigation example">
+			    <ul class="pagination justify-content-center">
+			        <c:if test="${pagination.curRange ne 1 }">
+			            <li class="page-item">
+			            <a class="page-link" href="?curPage=1">처음</a> 
+			            </li>
+			        </c:if>
+			        <c:if test="${pagination.curPage ne 1}">
+			            <li class="page-item">
+			                <a class="page-link" href="?curPage=${pagination.prevPage}">이전</a> 
+			                </li>
+			        </c:if>
+			        <c:forEach var="pageNum" begin="${pagination.startPage}" end="${pagination.endPage}">
+			            <c:choose>
+			                <c:when test="${pageNum eq  pagination.curPage}">
+			                    <li class="page-item active">
+			                        <a class="page-link" href="?curPage=${pageNum}">${pageNum }</a>
+			                    </li>
+			                </c:when>
+			                <c:otherwise>
+			                    <li class="page-item">
+			                        <a class="page-link" href="?curPage=${pageNum}">${pageNum }</a>
+			                    </li>
+			                </c:otherwise>
+			            </c:choose>
+			        </c:forEach>
+			        <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
+			            <li class="page-item">
+			                <a class="page-link" href="?curPage=${pagination.nextPage}">다음</a> 
+			                </li>	                        
+			        </c:if>
+			        <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
+			            <li class="page-item">
+			                <a class="page-link" href="#"  onClick="fn_paging('${pagination.pageCnt }')">끝</a> 
+			                </li>	                    
+			    </c:if>
+			    </ul>
+			</nav>
+			<!-- 페이징 END -->
+	</div>
+</div>
+
+
 
 </body>
 

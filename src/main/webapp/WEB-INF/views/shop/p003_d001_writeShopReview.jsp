@@ -190,7 +190,7 @@ a:hover {
 	리뷰작성페이지
 	
 	<hr>
-	<form action="/andOne/shop/updateTest.do" method="post" enctype="multipart/form-data">
+	<form action="/andOne/shop/insertShopReview.do" method="post" enctype="multipart/form-data">
 		<input type="file" id="image" name="image" accept="image/*" multiple />
 		<input type="text" name="sr_content" placeholder="리뷰 내용" />
 		<input type="text" name="sr_score" placeholder="가게 점수" />

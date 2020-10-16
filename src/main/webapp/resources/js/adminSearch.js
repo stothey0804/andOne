@@ -2,6 +2,53 @@
  * 
  */
 $(document).ready(function(){
+	// 멤버디테일 조회
+	$(".searchCommonMemberDetail").click(function(){
+		console.log("디테일조회!");
+		$("#popup-container").toggle();
+		var tdArr = new Array();
+		var checkBtn = $(this);
+		var tr = checkBtn.parent().parent();
+		var td = tr.children();
+		var userId = td.eq(0).text(); // 1->0 수정 (번호 바꿔서)
+		console.log(userId);
+		// ajax
+				$.ajax({
+					type: "get",
+					dataType: "text",
+					async: true,
+					url: "http://localhost:8090/andOne/popup.do",
+					data: { m_id: userId },
+					success: function (data, texStatus) {
+						jsoninfo = JSON.parse(data);
+						$('td.id').html(jsoninfo.m_id);
+						$('td.phone').html(jsoninfo.m_phonenumber);
+						$('td.email').html(jsoninfo.m_email);
+						$('td.gender').html(jsoninfo.m_gender);
+						$('td.nickname').html(jsoninfo.m_nickname);
+						$('td.age').html(jsoninfo.m_age + "대");
+						$('td.m_score').html(jsoninfo.m_score);
+						$('td.reportCnt').html(jsoninfo.reportCnt);
+						if (jsoninfo.p_currentpoint != null) {
+							$('td.p_currentpoint').html(jsoninfo.p_currentpoint);
+						} else {
+							$('td.p_currentpoint').html("0");
+						}
+						$('td.qnaCnt').html(jsoninfo.qnaCnt);
+						$('td.joinClubCnt').html(jsoninfo.joinClubCnt);
+						$('td.reviewCnt').html(jsoninfo.reviewCnt);
+						$('.resultList').remove();
+						if (jsoninfo.list != "") {
+							for (var i in jsoninfo.list) {
+								$('table.pointList').append("<tr class='resultList'><td style='text-align:center;width:20%'>" + jsoninfo.list[i].p_id + "<td style='text-align:center;width:30%'>" + jsoninfo.list[i].p_date + "</td><td style='text-align:center;width:30%'>" + jsoninfo.list[i].p_detail + "</td><td style='text-align:center;width:20%'>" + jsoninfo.list[i].p_changepoint + "</td></tr>");
+							}
+						} else {
+							$('table.pointList').append("<p class='resultList'>포인트이력이 없습니다</p>");
+						}
+					}
+				});
+		
+	});
 	$(".searchDetail").click(function(){
 		$("#popup-container").toggle();
 		// ajax
@@ -27,7 +74,7 @@ $(document).ready(function(){
             }
 		});
 		
-});
+	});
 	
 	$("#popup-close").click(function(){
 		$("#popup-container").toggle();

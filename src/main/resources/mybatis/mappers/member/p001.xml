@@ -48,16 +48,46 @@
 	<resultMap id="p001Result03" type="memberP001_d006ListVO">
 		<collection property="list" column ="p_id" select="getPointList"/>		
 	</resultMap>
+   	<resultMap id="pointResult" type="pointP001VO">
+		<result property="p_id" column="p_id"  />
+		<result property="m_id" column="m_id"  />
+		<result property="p_date" column="p_date"  />
+		<result property="p_changepoint" column="p_changepoint"  />
+		<result property="p_currentpoint" column="p_currentpoint"  />
+		<result property="p_editor" column="p_editor"  />
+		<result property="p_editdate" column="p_editdate"  />
+		<result property="p_detail" column="p_detail"  />
+	</resultMap>
 
 	<!-- 어드민 영역 START -->
+	
+	<select id="selectMemberCnt" resultType="int">
+	<![CDATA[
+		SELECT COUNT(m_id)
+		FROM member
+		WHERE 1=1 
+	]]>
+		<if test="searchCondition=='EMAIL'">
+		<![CDATA[
+			AND M_EMAIL LIKE '%'||#{searchKeyword}||'%'
+		]]>
+		</if>
+		<if test="searchCondition=='NICKNAME'">
+		<![CDATA[
+			AND M_NICKNAME LIKE '%'||#{searchKeyword}||'%'
+		]]>
+		</if>
+	</select>
+	
 	<select id="detailMember" resultMap="p001Result02">
       <![CDATA[
          SELECT m_id,m_phonenumber,m_email,m_gender,m_nickname,m_age,m_score,
-		(
- 		SELECT a.p_currentpoint
-		from point a
-		where a.m_id =#{m_id}
-		and a.p_date in (select max(p.p_date) from point p)) as p_currentpoint,
+		(TRIM(TO_CHAR((SELECT p_currentpoint
+			FROM ( SELECT p_currentpoint,
+			ROW_NUMBER() OVER (ORDER BY p_id DESC) ROWNUMBER
+			FROM point 
+			WHERE m_id like #{m_id})
+			WHERE ROWNUMBER = 1),'999,999,999'))) as p_currentpoint,
          (select count(m_id) 
 		from report_member
 		where m_id = #{m_id}) as reportCnt,
@@ -75,21 +105,33 @@
          where m_id = #{m_id}
           ]]>
 	</select>
-	<select id="getPointList" resultMap="p001Result03">
+<!-- 	<select id="getPointList" resultMap="p001Result03"> -->
+<!--            <![CDATA[ -->
+<!--          select a.one_date,a.one_title,b.p_changepoint,a.one_state -->
+<!--          from and_one a inner join point b -->
+<!--          on a.one_id = b.p_detail -->
+<!--          where b.m_id= #{m_id} -->
+<!--          order by b.p_date desc -->
+<!--       ]]> -->
+<!-- 	</select> -->
+	<select id="getPointList" resultMap="pointResult">
            <![CDATA[
-         select a.one_date,a.one_title,b.p_changepoint,a.one_state
-         from and_one a inner join point b
-         on a.one_id = b.p_detail
-         where b.m_id= #{m_id}
-         order by b.p_date desc
-      ]]>
+			select p_id, p_date, p_detail,
+            CASE WHEN SUBSTR(TRIM(TO_CHAR(p_changepoint,'999,999,999')),1,1)='-'
+            THEN TRIM(TO_CHAR(p_changepoint,'999,999,999')) ELSE '+'||TRIM(TO_CHAR(p_changepoint,'999,999,999')) END AS p_changepoint
+			FROM point
+			where m_id like #{m_id}
+			order by p_date desc
+     	 ]]>
 	</select>
 	
 	<select id="getMemberList" resultMap="p001Result02">
 		<![CDATA[
-			SELECT M_ID, M_EMAIL, M_NICKNAME, M_PHONENUMBER, M_JOINDATE
-			FROM MEMBER
-			WHERE 1=1
+			SELECT *
+            FROM (SELECT M_ID, M_EMAIL, M_NICKNAME, M_PHONENUMBER, M_JOINDATE,
+            ROW_NUMBER() OVER (ORDER BY m_id DESC) ROWNUMBER
+			FROM MEMBER)
+            WHERE ROWNUMBER BETWEEN #{startIndex} AND #{endIndex}
 		]]>
 		<if test="searchCondition=='EMAIL'">
 		<![CDATA[
@@ -102,7 +144,7 @@
 		]]>
 		</if>
 		<![CDATA[
-			ORDER BY M_JOINDATE DESC
+			ORDER BY M_ID DESC
 		]]>
 	</select>
 	<!-- 어드민영역 END  -->

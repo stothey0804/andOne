@@ -26,8 +26,13 @@ public class MemberP001_d006ServiceImpl implements MemberP001_d006Service{
 	}
 
 	@Override
-	public List<MemberP001_d006VO> getMemberList(MemberP001_d006VO vo) {
-		return memberP001_d006DAO.getMemberList(vo);
+	public List<MemberP001_d006VO> getMemberList(Map<String, String> param) {
+		return memberP001_d006DAO.getMemberList(param);
+	}
+
+	@Override
+	public int selectMemberCnt(Map<String, String> param) {
+		return memberP001_d006DAO.selectMemberCnt(param);
 	}
 	
 	
