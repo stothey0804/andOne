@@ -55,9 +55,10 @@
 	        font-weight: normal;
 	        font-style: normal;
       }
-	h1{
-		padding-left : 20px;
+	.and{
+		padding-left : 30px;
 		font-family: 'YanoljaYacheR' !important;
+		font-size: 50px;
 	}
 	.aa{
 		padding: 15px; 
@@ -77,7 +78,7 @@
 <body onload="init()">
 	<c:set var="g_id" value="${g_id}" />
 	<c:set var="size" value="${size}" />
-	<h1>
+	<h1 class="and">
 	<c:choose>
 		<c:when test="${g_id == '010'}">
 			같이먹기 검색결과  ${size}건
@@ -201,13 +202,13 @@
 	<div class="cc">
 	<c:choose>
 		<c:when test="${g_id == '010'}"> 
-		<a href='${url}' button class="btn btn-outline-dark btn-lg"> 같이먹기 등록하기 </a>
+		<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이먹기 등록하기 </button>
 		</c:when>
 		<c:when test="${g_id == '011'}"> 
-		<a href='${url}' button class="btn btn-outline-dark btn-lg"> 같이사기 등록하기 </a>
+		<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이먹기 등록하기 </button>
 		</c:when>
 		<c:when test="${g_id == '012'}"> 
-		<a href='${url}' button class="btn btn-outline-dark btn-lg"> 같이하기 등록하기 </a>
+		<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이먹기 등록하기 </button>
 		</c:when>
 	</c:choose>
 	</div>
