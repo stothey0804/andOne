@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,32 +59,55 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 	
 	// locate 저장
 	@RequestMapping(value="/member/saveLocate.do", method= {RequestMethod.POST, RequestMethod.GET})
-	public void saveMemberLocation(HttpServletRequest request) throws Exception {
+	public void saveMemberLocation(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String m_id = request.getParameter("id");
 		String locate_lat = request.getParameter("locate_lat");
 		String locate_lng = request.getParameter("locate_lng");
-		if(m_id!=null && locate_lat!=null && locate_lng!=null) {	// 
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("m_id", m_id);
-			map.put("m_locate_lat", locate_lat);
-			map.put("m_locate_lng", locate_lng);
-			System.out.println("========> " + map);
-			rootP001_d001Service.updateMemberLocate(map);
+		// locate 값 존재시
+		if(locate_lat!=null && locate_lng!=null) {
+			// locate 쿠키 저장
+			Cookie latCookie = new Cookie("locate_lat", locate_lat);
+			Cookie lngCookie = new Cookie("locate_lng", locate_lng);
+			latCookie.setMaxAge(60*60*24*7);	// 일주일
+			lngCookie.setMaxAge(60*60*24*7);
+			response.addCookie(latCookie);
+			response.addCookie(lngCookie);
+			// 로그인 중일 경우 DB저장
+			if(m_id!=null && m_id!="") {	
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("m_id", m_id);
+				map.put("m_locate_lat", locate_lat);
+				map.put("m_locate_lng", locate_lng);
+				rootP001_d001Service.updateMemberLocate(map);
+			}
 		}
+		
 	}
 	
 	// locate 조회
 	@RequestMapping(value="/member/selectLocate.do", method= {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
-	public String selectMemberLocate(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public String selectMemberLocate(@CookieValue(value="locate_lat", required = false) Cookie locate_lat,
+			@CookieValue(value="locate_lng", required = false) Cookie locate_lng,
+			HttpServletRequest request, HttpServletResponse response) throws Exception{
 //		response.setContentType("text/html;charset=utf-8");
 		String jsonStr = "";
+		Map<String, String> locate = new HashMap<String, String>();
+		ObjectMapper mapper = new ObjectMapper();
 		String m_id = request.getParameter("id");
-		if(m_id!=null && m_id!="") {
-			Map<String, String> m_locate = rootP001_d001Service.selectMemberLocate(m_id);
-			ObjectMapper mapper = new ObjectMapper();
-			jsonStr = mapper.writeValueAsString(m_locate);
+		if(m_id!=null && m_id!="") {	// 로그인시 DB조회
+			locate = rootP001_d001Service.selectMemberLocate(m_id);
+		}else {	// 비로그인 시 쿠키에서 조회
+			if(locate_lat == null || locate_lng == null) {
+				locate.put("M_LOCATE_LAT","0");
+				locate.put("M_LOCATE_LNG","0");
+			}else {
+				locate.put("M_LOCATE_LAT",locate_lat.getValue());
+				locate.put("M_LOCATE_LNG",locate_lng.getValue());
+			}
 		}
+		System.out.println("==========> locate" + locate);
+		jsonStr = mapper.writeValueAsString(locate);
 		return jsonStr;
 	}
 	
