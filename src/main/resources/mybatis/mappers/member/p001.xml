@@ -103,6 +103,8 @@
          where m_id = #{m_id}
           ]]>
 	</select>
+	
+	
 <!-- 	<select id="getPointList" resultMap="p001Result03"> -->
 <!--            <![CDATA[ -->
 <!--          select a.one_date,a.one_title,b.p_changepoint,a.one_state -->
