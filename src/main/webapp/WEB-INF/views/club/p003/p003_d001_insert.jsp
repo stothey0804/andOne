@@ -40,6 +40,14 @@ input[type="submit"] {
 	width: 100%;
 	object-fit: cover;
 }
+.btn-success:hover {
+    background-color: #00033D !important;
+}
+.btn-success{
+	background-color:#002A87 !important;
+	border-color:#002A87;
+	color:white;
+}
 </style>
 
 <body>

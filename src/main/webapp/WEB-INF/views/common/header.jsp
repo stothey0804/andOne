@@ -65,6 +65,22 @@
 		var memberLayer = document.getElementById("memberLayer");
 		memberLayer.classList.remove("visible");
 	}
+	
+   	// 테스트 ------------------------------ 추후삭제!
+	// 프로필 클릭 
+	function openMemberPopup(){
+// 			document.getElementById('amountResult').value = totalAmount;
+// 			let popTitle = "popupOpener";
+			let m_id = '${m_id}';
+			window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
+// 			let frmData = document.frmData;
+// 			frmData.target = popTitle;
+// 			frmData.action = "${contextPath}/member/searchMemberInfoPopup.do";
+// 			frmData.submit();
+
+	}
+   	// 테스트 ------------------------------ 추후삭제!
+	
 	$(document).ready(function(){
     	// 세션에서 이미지 읽기
 		var profileImg = '${profileImg}';
@@ -116,7 +132,7 @@
 	      	</li>
 	      	</ul>
           	<!-- 프로필사진 -->
-          	<div class="box" style="background: #BDBDBD;" onmouseover="onProfile()" onmouseout="outProfile()">
+          	<div class="box" style="background: #BDBDBD;" onmouseover="onProfile()" onmouseout="outProfile()" onClick="openMemberPopup()">
     			<img class="profile">
 			</div>
 			<div class="ml-3">

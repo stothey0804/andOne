@@ -9,8 +9,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"
 	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 @font-face {
 	font-family: 'YanoljaYacheR';
@@ -21,7 +20,7 @@
 	font-style: normal;
 }
 
-h3,.card-title {
+.card-title {
 	font-family: 'YanoljaYacheR' !important;
 	font-size: 250%;
 }
@@ -77,13 +76,67 @@ div.img{
 div.img > img{
 	vertical-align:middle;
 }
+* {box-sizing: border-box;}
+.mySlides {display: none;}
+.s {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+    html,
+    body {
+      position: relative;
+      height: 100%;
+    }
+
+    body {
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #000;
+      margin: 0;
+      padding: 0;
+    }
+
+    .swiper-container {
+/*     	margin-top:78px; */
+      width: 100%;
+      height: 500px;
+
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      
+    }
+    .swiper-slide > img{
+    		object-fit: contain;
+    		width: 100%;
+    }
 </style>
 	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script>
 function init(){
 	var txt = document.getElementsByClassName("str");
 	for(i=0;i<txt.length;i++){
-// 		txt[i] = removeHTML(txt[i].innerHTML);
 		console.log(txt[i]);
 		document.getElementsByClassName("str")[i].innerHTML = txt[i].innerText;
 	}
@@ -94,11 +147,56 @@ function removeHTML(text){
 	text = text.toString().replace(/<br\/>/ig, "\n");
 	return text;
 }
+
 </script>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+  <!-- Link Swiper's CSS -->
+	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
 </head>
+
 <body onload="init();">
+  <!-- Swiper -->
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img style=""src="https://media.istockphoto.com/photos/business-people-meeting-at-a-restaurant-bar-picture-id1156899951"></div>
+      <div class="swiper-slide"><img src="https://cdn.pixabay.com/photo/2014/11/17/13/17/crossfit-534615_1280.jpg"></div>
+      <div class="swiper-slide"><img src="https://cdn.pixabay.com/photo/2015/01/08/18/27/startup-593341_1280.jpg"></div>
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Add Arrows -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper('.swiper-container', {
+      spaceBetween: 30,
+      centeredSlides: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  </script>
+
+
+
 	<div class="container my-5 center">
 		<h3>인기 소모임></h3>
 		<br>
