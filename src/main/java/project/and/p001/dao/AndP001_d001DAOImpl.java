@@ -46,14 +46,15 @@ public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 	@Override
 	public Map<String, Object> selectMemLocate(String m_id) throws DataAccessException{
 		System.out.println(">>>>>>>>>>>>>>"+m_id);
-		 Map<String, Object> selectMemLocate = sqlSession.selectOne("and.p001.selectMemLocate",m_id);
+		 Map<String, Object> selectMemLocate = sqlSession.selectOne("and.p001.selectMemLocate", m_id);
+		 System.out.println("나왔니?"+selectMemLocate.get("m_locate_Lat"));
 		return selectMemLocate;
 	}
 	//엔분의일 위치 
 	@Override
-	public List<String> selectAndOneLocate(String g_id) throws DataAccessException{
+	public List<Map<String,Object>> selectAndOneLocate(String g_id) throws DataAccessException{
 		System.out.println(g_id);
-		List<String> selectAndOneLocate = sqlSession.selectList("and.p001.selectAndOneLocate",g_id);
+		List<Map<String,Object>> selectAndOneLocate = sqlSession.selectList("selectAndOneLocate", g_id);
 		return selectAndOneLocate;
 	}
 	

@@ -13,5 +13,5 @@ public interface AndP001_d001DAO {
 	public List<AndP001AndOneVO> selectCtgList(AndP001AndOneVO vo) throws DataAccessException;
 	public List<AndP001AndOneVO> selectTotalSearchList(AndP001AndOneVO vo) throws DataAccessException;
 	public Map<String, Object> selectMemLocate(String m_id) throws DataAccessException;
-	public List<String> selectAndOneLocate(String g_id) throws DataAccessException;
+	public List<Map<String,Object>> selectAndOneLocate(String g_id) throws DataAccessException;
 }

@@ -29,7 +29,6 @@ public class AndP001AndOneVO {
 	public AndP001AndOneVO() {
 	}
 	
-	
 	public String getTotalSearch() {
 		return totalSearch;
 	}

@@ -38,22 +38,23 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		
 		//회원 위치 가져오기
 		String m_id = (String) session.getAttribute("m_id");
-		System.out.println(m_id);
+		System.out.println("M_ID"+m_id);
 		Map<String, Object> memLocate = p001_d001Service.selectMemLocate(m_id);
-		System.out.println(memLocate);
+		System.out.println("LAT : "+memLocate.get("m_locate_Lat"));
 		
 		//AndOne 글 위치 가져오기
-		List<String> andOneLocate = p001_d001Service.selectAndOneLocate(g_id);
-		System.out.println(andOneLocate.toString());
-//		JSONArray jsonArray = new JSONArray();
+		List<Map<String,Object>> andOneLocate = p001_d001Service.selectAndOneLocate(g_id);
+		System.out.println("11"+andOneLocate.get(6));
+		System.out.println("22"+andOneLocate.get(9));
+		
+		JSONArray jsonArray = new JSONArray();
 		
 		ModelAndView mav = new ModelAndView("andOneMain");
 		mav.addObject("g_id",g_id);
-		mav.addObject("ctg_eat",ctg_eat);
-		mav.addObject("recentAndOneList", recentAndOneList);
-		mav.addObject("andOneLocate",andOneLocate);
-//		mav.addObject("AndOneLocate", JSONArray.fromObject(andOneLocate));
-		mav.addObject("memLocate",memLocate);
+		mav.addObject("ctg_eat",ctg_eat);//카테고리
+		mav.addObject("recentAndOneList", recentAndOneList);//최근 엔분의일
+		mav.addObject("memLocate",memLocate); //멤버위치
+		mav.addObject("andOneLocate",jsonArray.fromObject(andOneLocate)); //엔분의일 글 위치
 		
 		return mav;
 	}

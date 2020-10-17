@@ -81,8 +81,28 @@
 	    return Math.floor(betweenTimeDay / 365)+'년전';
 		}
 		//거리계산
-		//console.log('${andOneLocate}');
-		//console.log('${memLocate}');
+		
+		//회원이 설정한 위치
+		var memLocate_Lat = "${memLocate.m_locate_Lat}";
+		var memLocate_Lng = "${memLocate.m_locate_Lng}";
+		console.log(memLocate_Lat);
+		console.log(memLocate_Lng);
+		
+		
+		
+		var andOneLocate = JSON.parse('${andOneLocate}');
+		console.log("22222:"+andOneLocate);
+		
+		console.log(typeof andOneLocate);
+		
+		for(var i in andOneLocate){
+			console.log(andOneLocate[i]);
+			var aaa = andOneLocate[i].ONE_LOCATE_LAT;
+			console.log(aaa);
+			var bbb = andOneLocate[i].ONE_LOCATE_LNG;
+			console.log(bbb);
+		}
+		
 		
 	/* 	var memLocate= '${memLocate[0].m_locate_Lat}';
 		var memLocate2= '${memLocate.m_locate_lat}';
@@ -94,17 +114,12 @@
 		console.log(andLocate.indexOf(6));
 		console.log(memLocate);
 		
-		let x_memLocate = memLocate.slice(1,andLocate[6].indexOf(","));
-		let y_memLocate = memLocate.slice(andLocate[6].indexOf(",")+1,andLocate[6].length-1);
 		
 		locPosition = new kakao.maps.LatLng(x_memLocate, y_memLocate); */
 		//console.log(locPosition);
 		
-		var posi = $("#possible").text();
-		console.log(posi);
 		
-		
-		
+
 	   
 	</script>
 <meta charset="UTF-8">

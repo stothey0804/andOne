@@ -49,11 +49,12 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 	@Override
 	public Map<String, Object> selectMemLocate(String m_id) throws DataAccessException{
 		Map<String, Object> locate =  p001_d001DAO.selectMemLocate(m_id);
+		 System.out.println("나왔니,,,?"+locate.get("m_locate_Lat"));
 		return locate;
 	}
 	@Override
-	public List<String> selectAndOneLocate(String g_id) throws DataAccessException{
-		List<String> AndOneLocate =  p001_d001DAO.selectAndOneLocate(g_id);
+	public List<Map<String,Object>> selectAndOneLocate(String g_id) throws DataAccessException{
+		List<Map<String,Object>> AndOneLocate =  p001_d001DAO.selectAndOneLocate(g_id);
 		return AndOneLocate;
 	}
 	

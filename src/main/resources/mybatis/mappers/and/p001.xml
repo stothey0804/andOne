@@ -16,10 +16,14 @@
 		<result property="one_date" column="one_date" /> <!-- 실행날짜-->
 		<result property="one_time" column="one_time" /> <!-- 등록시간-->
 		<result property="one_hashTag" column="one_hashTag" /> 
-		<result property="one_locate_lat" column="one_locate_lat" /> 
-		<result property="one_locate_lng" column="one_locate_lng" /> 
+		<result property="one_locate_Lat" column="one_locate_Lat" /> 
+		<result property="one_locate_Lng" column="one_locate_Lng" /> 
 		<result property="gc_name" column="gc_name" />
 		<result property="gc_id" column="gc_id" />
+	</resultMap>
+	<resultMap id="p001_d001Result02" type="java.util.HashMap" >
+		<result property="m_locate_Lat" column="m_locate_Lat" /> 
+		<result property="m_locate_Lng" column="m_locate_Lng" /> 
 	</resultMap>
 	<!-- one_date 실행날짜 one_time 등록시간 -->
 	<!-- &분의일  최근등록된 같이먹기 -->
@@ -29,7 +33,7 @@
        	from (
 		      	select  a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
-		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, a.one_locate_lat, a.one_locate_lng,
+		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, a.one_locate_Lat, a.one_locate_Lng,
 		        		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
@@ -63,7 +67,7 @@
        	from (
 		      	select  a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
-		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, a.one_locate_lat, a.one_locate_lng,
+		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, a.one_locate_Lat, a.one_locate_Lng,
 		        		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
@@ -88,7 +92,7 @@
        from (
 	      	select  a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 	       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
-	       			substr(a.one_date,6,11) as one_date, a.one_hashTag, a.one_locate_lat, a.one_locate_lng,
+	       			substr(a.one_date,6,11) as one_date, a.one_hashTag, a.one_locate_Lat, a.one_locate_Lng,
 	        		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
 			from and_one a, 
 	       		 (select gc_name, gc_id, g_id
@@ -111,9 +115,9 @@
 	  	 ]]>
 	</select>
 	<!--회원주소 가져오기 -->
-	<select id="selectMemLocate" parameterType="String" resultType="java.util.HashMap">
+	<select id="selectMemLocate" parameterType="String" resultMap="p001_d001Result02">
 		<![CDATA[
-			select m_locate_lat, m_locate_lng
+			select m_locate_Lat, m_locate_Lng
 			from member
 			where m_id = #{m_id}
 		]]>
@@ -121,7 +125,7 @@
 	<!-- 글에 등록된 주소 -->
 	<select id="selectAndOneLocate" parameterType="String" resultType="java.util.HashMap">
 		<![CDATA[
-			select  a.one_locate_lat, a.one_locate_lng
+			select  a.one_locate_Lat, a.one_locate_Lng
 			from and_one a, 
 			     (select gc_name, gc_id, g_id
 			      from common_code 
