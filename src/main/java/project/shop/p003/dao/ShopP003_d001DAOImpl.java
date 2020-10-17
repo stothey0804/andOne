@@ -84,4 +84,14 @@ public class ShopP003_d001DAOImpl implements ShopP003_d001DAO{
 		sqlSession.update("shop.p003.initShopScore",s_id);
 	}
 
+	@Override
+	public int selectMyShopReviewListCnt(String m_id) {
+		return sqlSession.selectOne("shop.p003.selectMyShopReviewListCnt",m_id);
+	}
+
+	@Override
+	public List<ShopP003ShopReviewVO> getMyShopReviewListByPaging(Map<String, String> searchParam) {
+		return sqlSession.selectList("shop.p002.getMyShopReviewListByPaging",searchParam);
+	}
+
 }

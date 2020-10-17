@@ -292,12 +292,12 @@ a:hover {
 				output +=		'</td>';
 				if(logonId == p1){
 					output += '<td align="center">';
-					output += '<button onclick="modifyButton()">수정</button>';
+					output += '<button class="btn btn-primary btn-sm" onclick="modifyButton()">수정</button>';
 					output += '</td>';
 					output += '</tr>';
 					output += '<tr>';
 					output += '<td align="center">';
-					output += '<button onclick="deleteButton()">삭제</button>';
+					output += '<button class="btn btn-danger btn-sm" onclick="deleteButton()">삭제</button>';
 					output += '</td>';
 					output += '</tr>';
 				}else{
