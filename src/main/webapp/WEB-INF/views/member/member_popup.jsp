@@ -82,9 +82,9 @@ $(document).ready(function(){
 			<thead>
 				<tr>
 					<th>작성한 &분의일</th>
-					<th id="writedAndOne">${info.ANDONEPART}건</th>
+					<th id="writedAndOne">${info.ANDONELEADER}건</th>
 					<th class="border-left">참여한 &분의일</th>
-					<th id="attendedAndOne">${info.ANDONELEADER}건</th>
+					<th id="attendedAndOne">${info.ANDONEPART}건</th>
 				</tr>
 			</thead>
 		</table>

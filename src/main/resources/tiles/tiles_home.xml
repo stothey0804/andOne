@@ -24,6 +24,22 @@
       <put-attribute name="body" value="" />
       <put-attribute name="footer" value="/WEB-INF/views/common/admin/footer.jsp" />
    </definition>
+   <!-- 지역업체 layout -->
+   <definition name="shopLayout"  template="/WEB-INF/views/common/shop/layout.jsp">
+      <put-attribute name="title" value="" />
+      <put-attribute name="header" value="/WEB-INF/views/common/shop/header.jsp" />
+      <put-attribute name="side" value="/WEB-INF/views/common/shop/side.jsp" />
+      <put-attribute name="body" value="" />
+   </definition> 
+   <!-- Layout 끝 -->
+
+	<!-- 지역업체 어드민 START -->
+   <definition name="shopAdminMain" extends="shopLayout">
+      <put-attribute name="title" value="지역업체 메인" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p004_d001_init.jsp" />
+   </definition>
+	
+	<!-- 지역업체 어드민 END -->
 
 	<!-- 관리자 START -->
 	<!-- 관리자메인페이지 -->
