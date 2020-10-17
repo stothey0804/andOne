@@ -77,6 +77,14 @@
 		]]>
 	</select>
 	
+	<select id="selectMyShopReviewListCnt" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT COUNT(M_ID)
+			FROM S_REVIEW
+			WHERE M_ID = #{m_id}
+		]]>
+	</select>
+	
 	<update id="updateShopScore" parameterType="String">
 		<![CDATA[
 			UPDATE SHOP

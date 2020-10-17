@@ -25,6 +25,14 @@ h2{
 	font-size: 300%;
 	text-align:center;
 }
+.btn-success:hover {
+    background-color: #00033D !important;
+}
+.btn-success{
+	background-color:#002A87 !important;
+	border-color:#002A87;
+	color:white;
+}
 </style>
 <script>
 	

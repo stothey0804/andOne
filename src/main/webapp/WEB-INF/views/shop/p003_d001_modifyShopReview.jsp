@@ -84,53 +84,6 @@ a:hover {
 	color: black;
 }
 
-#pop {
-	background:#e6e6e6;
-	border:1px solid #000;
-	position: fixed;
-	top: 20%;
-	left: 25%;
-	width: 480px;
-	height: auto;
-	z-index: 10;
-}
-
-#imgPop {
-	background:#e6e6e6;
-	border:1px solid #000;
-	position: fixed;
-	top: 15%;
-	left: 25%;
-	width: auto;
-	height: auto;
-	z-index: 10;
-}
-
-#imgPop #close{
-	top:10px;
-	right: 10px;
-	position: absolute;
-	z-index:9999;
-}
-
-#imgPop #prev{
-  	top: 50%;
-	left: 10px;
-	position: absolute;
-	z-index:9999;
-	margin: 0;
-  	transform: translate(-50%, -50%)
-}
-
-#imgPop #next{
-	top: 50%;
-	right: -40px;
-	position: absolute;
-	z-index:9999;
-	margin: 0;
-  	transform: translate(-50%, -50%)
-}
-
 img.preview{
 	max-height: 50px;
 	max-width: 50px;
@@ -141,11 +94,28 @@ img.preview{
 	margin-top: 50px;
 }
 
+div#loadingImg{
+	position:absolute;
+	left:45%;
+	top:50%;
+	z-index:120;
+}
+
+#mask {  
+	position:absolute;  
+	left:0;
+	top:0;
+	z-index:100;  
+	background-color:#000;  
+	display:none;  
+}
+
 </style>
 
 <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
 <script>
 	$(document).ready(function(){
+		$('#loadingImg').hide();
 		getShopReview();
 		$('#image').on("change",preview);
 	})
@@ -209,6 +179,13 @@ img.preview{
 		});
 	}
 	
+	function wrapWindowByMask(){
+		var maskHeight = $(document).height();  
+		var maskWidth = $(window).width();  
+		$('#mask').css({'width':maskWidth,'height':maskHeight});  
+		$('#mask').fadeTo("slow",0.6);    
+	}
+	
 	function getShopReview(){
 		$.ajax({
 			type: "post",
@@ -216,7 +193,8 @@ img.preview{
 			url: 'http://localhost:8090/andOne/shop/shopReviewPopup.do',
 			dataType: "text",
 			beforeSend:function(data, textStatus){
-				
+				$('#loadingImg').show();
+				wrapWindowByMask();
 			},
 			data:"s_id=${vo.s_id}&m_id=${vo.m_id}",
 			success: function (data, textStatus) {
@@ -240,62 +218,68 @@ img.preview{
 				alert("에러가 발생했습니다.");
 			},
 			complete: function (data, textStatus) {
+				$('#loadingImg').hide();
+				$('#mask').hide();
 			}
 		});
 	}
 	
 </script>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>지역업체 리뷰 수정</title>
 </head>
 <body>
-	리뷰 수정 페이지
-	<div class="container">
-		<form action="/andOne/shop/updateShopReview.do" method="post" enctype="multipart/form-data">
-			<div>
-				<input type="text" id="s_id" name="s_id" readonly="readonly"/>
+	<div class="container my-5 center">
+	<h3>지역업체 리뷰 수정</h3>
+		<div class="form">
+			<form action="/andOne/shop/updateShopReview.do" method="post" enctype="multipart/form-data">
+				<div>
+					<input type="hidden" id="s_id" name="s_id"/>
+				</div>
+				<div>
+					<input type="hidden" id="m_id" name="m_id"/>
+				</div>
+				<div>
+					<textarea style="resize:none;" id="sr_content" name="sr_content" rows="5" cols="50"></textarea>
+				</div>
+				<div>
+					가게점수
+					<select name="sr_score" id="sr_score">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+					</select>
+					<input type="file" id="image" name="image" accept="image/*" multiple />
+				</div>
+				<div>
+					<input type="submit" value="전송" />
+				</div>
+			</form>
+			<hr>
+			<h3>등록된 이미지</h3>
+			<div id="regImageContainer">
+				<img class="preview" id="1st"/>
+				<img class="preview" id="2nd"/>
+				<img class="preview" id="3rd"/>
 			</div>
-			<div>
-				<input type="text" id="m_id" name="m_id" readonly="readonly"/>
+			<hr>
+			<h3>첨부파일 미리보기</h3>
+			<div id="image_container">
+			<h5>첨부된 파일이 없습니다.</h5>
 			</div>
-			<div>
-				<textarea style="resize:none;" id="sr_content" name="sr_content" rows="5" cols="50">
-				
-				</textarea>
-			</div>
-			<div>
-				<select name="sr_score" id="sr_score">
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4">4</option>
-					<option value="5">5</option>
-					<option value="6">6</option>
-					<option value="7">7</option>
-					<option value="8">8</option>
-					<option value="9">9</option>
-					<option value="10">10</option>
-				</select>
-			</div>
-			<div>
-				<input type="file" id="image" name="image" accept="image/*" multiple />
-			</div>
-			<div>
-				<input type="submit" value="전송" />
-			</div>
-		</form>
-		<hr>
-		<h3>등록된 이미지</h3>
-		<div id="regImageContainer">
-			<img class="preview" id="1st"/>
-			<img class="preview" id="2nd"/>
-			<img class="preview" id="3rd"/>
 		</div>
-		<hr>
-		<h3>첨부파일 미리보기</h3>
-		<div id="image_container">
-		<h5>첨부된 파일이 없습니다.</h5>
-		</div>
+	</div>
+	<div id="loadingImg">
+		<img src="${contextPath }/resources/image/loading.gif" width="100" height="100">
+	</div>
+	<div id="mask">
 	</div>
 </body>
 </html>

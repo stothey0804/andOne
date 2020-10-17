@@ -113,7 +113,17 @@
 .bi-file-earmark-lock-fill,.c{
 	margin:auto;
 }
-
+.btn-success:hover {
+    background-color: #00033D !important;
+}
+.btn-success{
+	background-color:#002A87 !important;
+	border-color:#002A87;
+	color:white;
+}
+.dropdown-item{
+	color:white;
+}
 </style>
 <script type="text/javascript">
 
@@ -146,7 +156,7 @@
 </head>
 <body>
 <!-- 	소모임 카드 -->
-<div class="row">
+<div class="row" style="clear:both;">
 	<div class="container my-6 center top">
 		<div class="left">
 			<div class="card info" style="width: 18rem; margin-top:17px;">
@@ -172,7 +182,7 @@
 								<button id="btnGroupDrop1" type="button"
 									class="dropdown-toggle btn btn-success btn-block"
 									data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false" style="margin-top:10px">소모임 관리</button>
+									aria-expanded="false" style="margin-top:10px;width:246px;">소모임 관리</button>
 								<div class="dropdown-menu btn btn-success btn-block" aria-labelledby="btnGroupDrop1">
 									<a class="dropdown-item" href="#">요청승인하기</a> 
 									<a class="dropdown-item" href="#">소모임 수정하기</a>

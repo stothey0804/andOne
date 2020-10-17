@@ -155,6 +155,11 @@ a:hover {
 		getShopDetail();
 	})
 	
+	function openMemberPopup(param){
+		let m_id = param+'';
+		window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
+	}
+	
 	function prev(){
 		let imgId = $('#imgPopContent img').attr('id');
 		let idArr = imgId.split('-split-');
@@ -205,6 +210,32 @@ a:hover {
 	
 	function writeButton(){
 		window.location.href='${contextPath }/shop/writeShopReview.do?s_id='+shopId;
+	}
+	
+	function modifyButton(){
+		window.location.href='${contextPath }/shop/modifyShopReview.do?m_id='+logonId+'&s_id='+shopId;
+	}
+	
+	function deleteButton(){
+		var checkPop = confirm('정말로 소중한 리뷰를 삭제하시겠어요?');
+		if(checkPop){
+			$.ajax({
+				type: "post",
+				async: true,
+				url: "http://localhost:8090/andOne/shop/deleteShopReview.do",
+				dataType: "text",
+				data: 'm_id='+logonId+'&s_id='+shopId,
+				success: function (data, textStatus) {
+					alert('리뷰 삭제가 완료되었습니다.')
+				},
+				error: function (data, textStatus) {
+					alert("에러가 발생했습니다.");
+				},
+				complete: function (data, textStatus) {
+					window.location.href='${contextPath }/shop/localShopDetail.do?s_id='+shopId;
+				}
+			})
+		}
 	}
 	
 	function popup(p1, p2){
@@ -266,12 +297,12 @@ a:hover {
 				output +=		'</td>';
 				if(logonId == p1){
 					output += '<td align="center">';
-					output += '<button onclick="location.href=\'${contextPath }/shop/checkReviewControll.do?command=modify&m_id='+p1+'&s_id='+shopId+'\'">수정</button>';
+					output += '<button class="btn btn-primary btn-sm" onclick="modifyButton()">수정</button>';
 					output += '</td>';
 					output += '</tr>';
 					output += '<tr>';
 					output += '<td align="center">';
-					output += '<button onclick="location.href=\'${contextPath }/shop/checkReviewControll.do?command=delete&m_id='+p1+'&s_id='+shopId+'\'">삭제</button>';
+					output += '<button class="btn btn-danger btn-sm" onclick="deleteButton()">삭제</button>';
 					output += '</td>';
 					output += '</tr>';
 				}else{
@@ -363,7 +394,7 @@ a:hover {
 					reviewList += '<table><tr><td rowspan="3" width="80">';
 					reviewList += '<div style="margin: 10px">';
 					reviewList += '<div class="card" style="width: 5rem;">';
-					reviewList += '<a href="#">';
+					reviewList += '<a href="javascript:void(0);" onclick="openMemberPopup(\''+jsonInfo.shopReviewList[i].m_id+'\')">';
 					if(jsonInfo.shopReviewList[i].m_encodedImg == null){
 						reviewList += '<img src="${contextPath }/resources/image/user.png" class="card-img-top" alt="...">';
 					}else{

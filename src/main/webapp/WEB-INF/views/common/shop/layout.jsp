@@ -36,22 +36,20 @@
         font-size: 2em;
       }
        #sidebar-left { 
-         width: 280px; 
+         width: 250px; 
          float: left; 
          position: sticky;
-/*          height: calc(100vh - 74px); */
          overflow-x: hidden;
-       } 
+       }
        #content-wrap{
-       	padding: 0;
-       	width: calc(100vw);
        	height: calc(100vh - 74px);
        }
       #content {
-      	margin: 0;
-        width: calc(100vw - 280px); 
+        width: calc(100vw - 250px);
        	height: calc(100vh - 74px);
-       	overflow-y: auto;
+        overflow-y: auto;
+/*         top: 6em; */
+/*     	position: relative; */
         float: left;
       }
      
@@ -60,7 +58,7 @@
     
     <title><tiles:insertAttribute name="title" /></title>
   </head>
-    <body class="bg-light">
+    <body>
     <div id="container">
       <div id="header" class="sticky-top">
          <tiles:insertAttribute name="header"/>
