@@ -12,9 +12,9 @@
 <body>
 	<div class="container text-center">
 		<!-- 닉네임,로그아웃 -->
-		<div>
-			님, 안녕하세요
-			<button class="btn btn-dark">로그아웃</button>
+		<div class="my-5">
+			<p>님, 안녕하세요</p>
+			<button class="btn btn-sm btn-dark">로그아웃</button>
 		</div>
 		<!--  메뉴그룹  -->
 		<ul class="nav flex-column nav-pills nav-fill">
@@ -36,9 +36,10 @@
 		</ul>
     <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script>
+    	// 메뉴 클릭시 active 클래스 적용.
         $(document).ready(function(){
-            $(".nav li").click(function()
-            	$(".nav li").removeClass();
+            $(".nav-link").click(function(){
+            	$(".nav-link").removeClass('active');
                 $(this).addClass('active');
             });
         });

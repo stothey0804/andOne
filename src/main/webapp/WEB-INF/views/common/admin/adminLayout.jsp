@@ -39,13 +39,19 @@
          width: 280px; 
          float: left; 
          position: sticky;
-         height: calc(100vh - 74px);
+/*          height: calc(100vh - 74px); */
          overflow-x: hidden;
        } 
+       #content-wrap{
+       	padding: 0;
+       	width: calc(100vw);
+       	height: calc(100vh - 74px);
+       }
       #content {
-        width: calc(100vw - 300px);
-/*         top: 6em; */
-/*     	position: relative; */
+      	margin: 0;
+        width: calc(100vw - 280px); 
+       	height: calc(100vh - 74px);
+       	overflow-y: auto;
         float: left;
       }
      
@@ -59,11 +65,13 @@
       <div id="header" class="sticky-top">
          <tiles:insertAttribute name="header"/>
       </div>
-      <div id="sidebar-left" class="bg-light p-2 pt-3">
-          <tiles:insertAttribute name="side"/>
-      </div>
-      <div id="content" class="bg-white">
-          <tiles:insertAttribute name="body"/>
+      <div id="content-wrap" class="bg-light">
+	      <div id="sidebar-left" class="p-2 pt-3">
+	          <tiles:insertAttribute name="side"/>
+	      </div>
+	      <div id="content" class="bg-white">
+	          <tiles:insertAttribute name="body"/>
+	      </div>
       </div>
     </div>
   </body>
