@@ -14,8 +14,7 @@
 	// 현재위치 좌표값
 	var locPosition;
 	
-	// m_id가 있을 때만
-	if(m_id!=null && m_id!=''){
+	// 현재위치 조회
 		$.ajax({
             type: "post",
             async: "true",
@@ -26,15 +25,15 @@
             },
             url: "/andOne/member/selectLocate.do",
             success: function (data, textStatus) {
-//				console.log(data);
-            	if(data=='0'){	// 회원가입 초기값
+				let latLng = JSON.parse(data);
+				console.log(latLng);
+            	if(latLng.M_LOCATE_LAT=='0' && latLng.M_LOCATE_LNG=='0'){	// 회원가입 초기값
             		locPosition = new kakao.maps.LatLng(37.570371, 126.985308)    // 기본위치 set
            			displayMarker(locPosition);
         			var infoDiv = document.getElementById('centerAddr');
         			document.getElementById('centerAddr').innerHTML = '저장된 위치가 없습니다.';
             	}else if(data!='' || data!=null){
             		//db에 저장된 위도,경도 값
-					let latLng = JSON.parse(data);
             		let lat = latLng.M_LOCATE_LAT;
             		let lng = latLng.M_LOCATE_LNG;
             		locPosition = new kakao.maps.LatLng(lat, lng);	// 자른 값으로 객체 생성
@@ -43,7 +42,6 @@
             	}
             }
 		});
-	}
 	
 	document.getElementById('selectGeoLocation').addEventListener("click", function(){
 		 //HTML5의 geolocation으로 사용할 수 있는지 확인합니다 

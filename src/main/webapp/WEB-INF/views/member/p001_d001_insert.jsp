@@ -199,6 +199,7 @@
                 url: "${contextPath}/member/confirmSMSCode.do",
                 success: function (data, textStatus) {
                 	authNum = data;	
+                	console.log(data);
                 }
 			});
 			

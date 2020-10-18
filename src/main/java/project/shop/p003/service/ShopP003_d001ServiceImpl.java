@@ -105,4 +105,14 @@ public class ShopP003_d001ServiceImpl implements ShopP003_d001Service{
 			updateShopScore(s_id);
 		}
 	}
+
+	@Override
+	public int selectMyShopReviewListCnt(String m_id) {
+		return shopP003_d001DAO.selectMyShopReviewListCnt(m_id);
+	}
+
+	@Override
+	public List<ShopP003ShopReviewVO> getMyShopReviewListByPaging(Map<String, String> searchParam) {
+		return shopP003_d001DAO.getMyShopReviewListByPaging(searchParam);
+	}
 }

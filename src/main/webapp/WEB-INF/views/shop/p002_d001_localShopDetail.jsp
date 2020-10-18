@@ -155,6 +155,11 @@ a:hover {
 		getShopDetail();
 	})
 	
+	function openMemberPopup(param){
+		let m_id = param+'';
+		window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
+	}
+	
 	function prev(){
 		let imgId = $('#imgPopContent img').attr('id');
 		let idArr = imgId.split('-split-');
@@ -292,12 +297,12 @@ a:hover {
 				output +=		'</td>';
 				if(logonId == p1){
 					output += '<td align="center">';
-					output += '<button onclick="modifyButton()">수정</button>';
+					output += '<button class="btn btn-primary btn-sm" onclick="modifyButton()">수정</button>';
 					output += '</td>';
 					output += '</tr>';
 					output += '<tr>';
 					output += '<td align="center">';
-					output += '<button onclick="deleteButton()">삭제</button>';
+					output += '<button class="btn btn-danger btn-sm" onclick="deleteButton()">삭제</button>';
 					output += '</td>';
 					output += '</tr>';
 				}else{
@@ -389,7 +394,7 @@ a:hover {
 					reviewList += '<table><tr><td rowspan="3" width="80">';
 					reviewList += '<div style="margin: 10px">';
 					reviewList += '<div class="card" style="width: 5rem;">';
-					reviewList += '<a href="#">';
+					reviewList += '<a href="javascript:void(0);" onclick="openMemberPopup(\''+jsonInfo.shopReviewList[i].m_id+'\')">';
 					if(jsonInfo.shopReviewList[i].m_encodedImg == null){
 						reviewList += '<img src="${contextPath }/resources/image/user.png" class="card-img-top" alt="...">';
 					}else{

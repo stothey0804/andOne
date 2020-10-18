@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="member.p004">
+   	<select id="searchMemberInfo" resultType="java.util.HashMap" parameterType="String">
+      <![CDATA[
+         SELECT m_id,m_nickname,m_score,
+		(SELECT count(m_id) FROM m_review where m_id like #{m_id}) as memberReviewCnt,
+        (SELECT count(m_id) FROM one_member 
+        WHERE m_id like #{m_id} AND om_leader = '10') as andOneLeader,
+        (SELECT count(m_id) FROM one_member 
+        WHERE m_id like #{m_id} AND om_leader = '20'
+        AND om_state IN ('20','30')) as andOnePart
+        FROM member
+        WHERE m_id like #{m_id}   
+      ]]>
+	</select>
+   </mapper>

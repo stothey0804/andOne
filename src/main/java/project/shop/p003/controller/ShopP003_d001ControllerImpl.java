@@ -1,5 +1,6 @@
 package project.shop.p003.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,15 +152,39 @@ public class ShopP003_d001ControllerImpl implements ShopP003_d001Controller{
 	}
 	
 	@RequestMapping("/shop/getShopReviewList.do")
-	public ModelAndView searchShopReview(@RequestParam(defaultValue="1")int curPage, @RequestParam String s_id, HttpServletRequest request) {
+	public ModelAndView searchShopReview(@RequestParam(defaultValue="1")int curPage, @RequestParam(defaultValue="nope") String s_id, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
-		int listCnt = shopP003_d001Service.selectShopReviewListCnt(s_id);
+		boolean isShopSearch = true;
+		String m_id = "";
+		if(s_id.equals("nope")) {
+			isShopSearch = false;
+			if(shopP003_d001Service.loginCheck(request)) {
+				HttpSession session = request.getSession(false);
+				m_id = (String)session.getAttribute("m_id");
+				System.out.println("=====> 로그인 중인 아이디 : "+m_id);
+			}else {
+				mav.setViewName("localShopMain");
+				return mav;
+			}
+		}
+		int listCnt = 0;
+		if(isShopSearch) {
+			listCnt = shopP003_d001Service.selectShopReviewListCnt(s_id);
+		}else {
+			listCnt = shopP003_d001Service.selectMyShopReviewListCnt(m_id);
+		}
 		Pagination pagination = new Pagination(listCnt, curPage);
 		Map<String, String> searchParam = new HashMap<>();
 		searchParam.put("s_id",s_id);
+		searchParam.put("m_id",m_id);
 		searchParam.put("startIndex",(pagination.getStartIndex()+1)+"");
 		searchParam.put("endIndex",(pagination.getStartIndex()+pagination.getPageSize())+"");
-		List<ShopP003ShopReviewVO> reviewList = shopP003_d001Service.getShopReviewListByPaging(searchParam);
+		List<ShopP003ShopReviewVO> reviewList = new ArrayList<>();
+		if(isShopSearch) {
+			reviewList = shopP003_d001Service.getShopReviewListByPaging(searchParam);
+		}else {
+			reviewList = shopP003_d001Service.getMyShopReviewListByPaging(searchParam);
+		}
 		for(int i=0; i<reviewList.size(); i++) {
 			shopP002_d001Service.reviewImageEncoder(reviewList.get(i));
 		}
@@ -170,8 +195,14 @@ public class ShopP003_d001ControllerImpl implements ShopP003_d001Controller{
 		mav.addObject("reviewList",reviewList);
 		mav.addObject("pagination",pagination);
 		mav.addObject("s_id",s_id);
+		mav.addObject("m_id",m_id);
 		mav.addObject("reviewCount",listCnt);
-		mav.setViewName("shopReviewList");
+		if(isShopSearch) {
+			mav.setViewName("shopReviewList");
+		}else {
+			mav.setViewName("myShopReviewList");
+		}
 		return mav;
 	}
+	
 }

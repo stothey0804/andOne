@@ -81,33 +81,6 @@ a {
 	text-decoration: none;
 }
 
-a:link {
-	color: black;
-}
-
-a:visited {
-	color: black;
-}
-
-a:active {
-	color: black;
-}
-
-a:hover {
-	color: black;
-}
-
-#pop {
-	background:#e6e6e6;
-	border:1px solid #000;
-	position: fixed;
-	top: 20%;
-	left: 25%;
-	width: 480px;
-	height: auto;
-	z-index: 10;
-}
-
 #imgPop {
 	background:#e6e6e6;
 	border:1px solid #000;
@@ -144,13 +117,14 @@ a:hover {
   	transform: translate(-50%, -50%)
 }
 
+div.topTitle{
+	margin-top: 60px;
+}
+
 </style>
 
 <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
 <script>
-	
-	var logonId = '${logonId }';
-	
 	$(document).ready(function(){
 		$('#imgPop').hide();
 		$('div#close').click(function(){
@@ -166,126 +140,11 @@ a:hover {
 			$('#imgPopContent').html('<img src="'+(this.src)+'" id="'+(this.id)+'" width="720">');
 			$('#imgPop').show();
 		})
-		$('#pop').hide();
-		$('td#close').click(function(){
-			$('#pop').hide();
-		})
-		
-		$('table .clickArea').click(function(){
-			$('#pop').show();
-			var id = $(this).attr("id");
-			var nickname = $('table#'+id+' tr:nth-child(1) td:nth-child(2)').text();
-			var score = $('table#'+id+' tr:nth-child(2) td:nth-child(1)').html();
-			var date = $('table#'+id+' tr:nth-child(3) td:nth-child(2)').text();
-			var content = $('table#'+id+' tr:nth-child(3) td:nth-child(1)').text();
-			var profileSrc = $('table#'+id+' tr:nth-child(1) td:nth-child(1) img').attr("src");
-			var imgSrc1 = $('table#'+id+' tr:nth-child(1) td:nth-child(3) img').attr("src");
-			var imgId1 = $('table#'+id+' tr:nth-child(1) td:nth-child(3) img').attr("id");
-			var imgSrc2 = $('table#'+id+' tr:nth-child(1) td:nth-child(4) img').attr("src");
-			var imgId2 = $('table#'+id+' tr:nth-child(1) td:nth-child(4) img').attr("id");
-			var imgSrc3 = $('table#'+id+' tr:nth-child(1) td:nth-child(5) img').attr("src");
-			var imgId3 = $('table#'+id+' tr:nth-child(1) td:nth-child(5) img').attr("id");
-			
-			$('#pop table tr:nth-child(1) td:nth-child(1) img').attr("src",profileSrc);
-			$('#pop table tr:nth-child(1) td:nth-child(2) h2').text(nickname);
-			$('#pop table tr:nth-child(2) td:nth-child(1)').html(score);
-			$('#pop table tr:nth-child(2) td:nth-child(2)').text(date);
-			$('#pop table tr:nth-child(3) td:nth-child(1)').text(content);
-			$('#pop table tr:nth-child(4) td:nth-child(2) img.1').attr("src",imgSrc1);
-			$('#pop table tr:nth-child(4) td:nth-child(2) img.2').attr("src",imgSrc2);
-			$('#pop table tr:nth-child(4) td:nth-child(2) img.3').attr("src",imgSrc3);
-			if(isEmpty(imgId1)){
-				$('#pop table tr:nth-child(4) td:nth-child(2) img.1').removeAttr("id");
-			}else{
-				$('#pop table tr:nth-child(4) td:nth-child(2) img.1').attr("class","card-img-top clickImg 1");
-				$('#pop table tr:nth-child(4) td:nth-child(2) img.1').attr("id",imgId1);
-			}
-			if(isEmpty(imgId2)){
-				$('#pop table tr:nth-child(4) td:nth-child(2) img.2').removeAttr("id");
-			}else{
-				$('#pop table tr:nth-child(4) td:nth-child(2) img.2').attr("class","card-img-top clickImg 2");
-				$('#pop table tr:nth-child(4) td:nth-child(2) img.2').attr("id",imgId2);
-			}
-			if(isEmpty(imgId3)){
-				$('#pop table tr:nth-child(4) td:nth-child(2) img.3').removeAttr("id");
-			}else{
-				$('#pop table tr:nth-child(4) td:nth-child(2) img.3').attr("class","card-img-top clickImg 3");
-				$('#pop table tr:nth-child(4) td:nth-child(2) img.3').attr("id",imgId3);
-			}
-			if(!isEmpty(logonId) && logonId == id){
-				$('#pop table tr:nth-child(4) td:nth-child(3)').html('<button class="btn btn-primary btn-sm" onclick="modifyButton()">수정</button>');
-				$('#pop table tr:nth-child(5) td:nth-child(1)').html('<button class="btn btn-danger btn-sm" onclick="deleteButton()">삭제</button>');
-			}else{
-				$('#pop table tr:nth-child(4) td:nth-child(3)').html('');
-				$('#pop table tr:nth-child(5) td:nth-child(1)').html('');
-			}
-			$('img.clickImg').click(function(){
-				$('#imgPopContent').html('<img src="'+(this.src)+'" id="'+(this.id)+'" width="720">');
-				$('#imgPop').show();
-			})
-		})
-		
 	})
 	
 	function openMemberPopup(param){
 		let m_id = param+'';
 		window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
-	}
-	
-	function writeButton(){
-		window.location.href='${contextPath }/shop/writeShopReview.do?s_id=${s_id }';
-	}
-	
-	function modifyButton(){
-		window.location.href='${contextPath }/shop/modifyShopReview.do?m_id='+logonId+'&s_id=${s_id }'
-	}
-	
-	function deleteButton(){
-		var checkPop = confirm('정말로 소중한 리뷰를 삭제하시겠어요?');
-		if(checkPop){
-			$.ajax({
-				type: "post",
-				async: true,
-				url: "http://localhost:8090/andOne/shop/deleteShopReview.do",
-				dataType: "text",
-				data: 'm_id='+logonId+'&s_id=${s_id }',
-				success: function (data, textStatus) {
-					alert('리뷰 삭제가 완료되었습니다.')
-				},
-				error: function (data, textStatus) {
-					alert("에러가 발생했습니다.");
-				},
-				complete: function (data, textStatus) {
-					window.location.href='${contextPath }/shop/getShopReviewList.do?s_id=${s_id }';
-				}
-			})
-		}
-	}
-	
-	function isEmpty(str){
-		if(typeof str == "undefined" || str == null || str == ""){
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
-	function printStar(score){
-		var calScore = score;
-		var resultStar = '';
-		while(true){
-			if(calScore>=2){
-				resultStar += '<i class="fas fa-star"></i>';
-				calScore -= 2;
-				continue;
-			}else if(calScore>0){
-				resultStar += '<i class="fas fa-star-half-alt"></i>';
-				break;
-			}else{
-				break;
-			}
-		}
-		return resultStar;
 	}
 	
 	function prev(){
@@ -318,22 +177,47 @@ a:hover {
 		}
 	}
 	
+	function modifyButton(param){
+		window.location.href='${contextPath }/shop/modifyShopReview.do?m_id=${m_id }&s_id='+param;
+	}
+	
+	function deleteButton(param){
+		var checkPop = confirm('정말로 소중한 리뷰를 삭제하시겠어요?');
+		if(checkPop){
+			$.ajax({
+				type: "post",
+				async: true,
+				url: "http://localhost:8090/andOne/shop/deleteShopReview.do",
+				dataType: "text",
+				data: 'm_id=${m_id }&s_id='+param,
+				success: function (data, textStatus) {
+					alert('리뷰 삭제가 완료되었습니다.')
+				},
+				error: function (data, textStatus) {
+					alert("에러가 발생했습니다.");
+				},
+				complete: function (data, textStatus) {
+					window.location.href='${contextPath }/shop/getShopReviewList.do';
+				}
+			})
+		}
+	}
 </script>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>내 지역업체 리뷰(${reviewCount })</title>
 </head>
 <body>
-	<div class="container my-5 center">
-	<div>
-	<h1>전체 리뷰 리스트</h1><br>
-	<h5><a href="${contextPath }/shop/localShopDetail.do?s_id=${s_id }">가게정보 페이지로 돌아가기>></a></h5>
-	<br><button id="all" type="button" class="btn btn-outline-info" onclick="writeButton()">리뷰 쓰기</button>
-	<hr>
-	<h3>후기(${reviewCount })</h3>
+	<div class="topTitle">
+		<h2>내 지역업체 리뷰</h2>
 	</div>
-	<div id="container">
+	<hr>
+	<div class="container my-5 center">
+		<div id="container">
 		<c:forEach var="list" items="${reviewList }">
 			<table id="${list.m_id }">
+			<tr>
+				<td align="right" colspan="5">이거 s_id인데 활용해서 해당 업체 정보로 넘기든가 해볼게요 ${list.s_id }</td>
+				<td></td>
 				<tr class="tr1">
 					<td rowspan="3" width="80">
 						<div style="margin: 10px">
@@ -372,6 +256,7 @@ a:hover {
 							</div>
 						</td>
 					</c:forEach>
+					<td align="center"><button class="btn btn-sm btn-primary" onclick="modifyButton('${list.s_id}')">수정</button></td>
 				</tr>
 				<tr class="tr2">
 					<td class="clickArea" id="${list.m_id }" width="80">
@@ -408,6 +293,7 @@ a:hover {
 							</c:when>
 						</c:choose>
 					</td>
+					<td align="center"><button class="btn btn-sm btn-danger" onclick="deleteButton('${list.s_id }')">삭제</button></td>
 				</tr>
 				<tr class="tr3">
 					<td class="clickArea" id="${list.m_id }" width="80">
@@ -471,53 +357,11 @@ a:hover {
 		<div id='next'><i class="fas fa-chevron-right"></i></div>
 	</div>
 	
-	<div id='pop'>
-		<div id='popContent' style="height:530px;">
-			<table>
-			<tr>
-			<td align="center" height="80" width="80">
-			<div style="margin: 2px">
-			<div class="card" style="width: 4rem;">
-			<img src="" class="card-img-top" alt="...">
-			</div>
-			</div>
-			</td>
-			<td align="left" height="80" width="350"><h2>&nbsp;&nbsp;닉네임</h2></td>
-			<td id="close" align="right" height="80" width="80" valign="top"><img src="${contextPath }/resources/image/close.png" height="40" width="40"></td>
-			</tr>
-			<tr>
-			<td colspan="2" align="left" height="40">별점</td>
-			<td align="right">날짜</td>
-			</tr>
-			<tr>
-			<td colspan="2" height="300" valign="top">내용</td>
-			<td></td>
-			</tr>
-			<tr>
-			<td rowspan="2"></td>
-			<td rowspan="2" align="center" height="110">
-			<div class="row">
-			<div style="margin: 5px">
-			<div class="card" style="width: 5rem;">
-			<img src="" class="card-img-top 1" alt="...">
-			</div></div>
-			<div style="margin: 5px">
-			<div class="card" style="width: 5rem;">
-			<img src="" class="card-img-top 2" alt="...">
-			</div></div>
-			<div style="margin: 5px">
-			<div class="card" style="width: 5rem;">
-			<img src="" class="card-img-top 3" alt="...">
-			</div></div>
-			</div>
-			</td>
-			<td align="center"></td>
-			</tr>
-			<tr>
-			<td align="center"></td>
-			</tr>
-			</table>
-		</div>
-	</div>
+	
+	
+	
+	
+	
+	
 </body>
 </html>
