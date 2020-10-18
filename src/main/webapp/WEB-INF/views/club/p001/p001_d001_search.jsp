@@ -78,7 +78,7 @@ img{
 </head>
 <body>
 	<form class="searchClub container center" name="searchFrm"
-		method="post" action="${contextPath}/searchClub.do">
+		method="post" action="${contextPath}/club/searchClub.do">
 <a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br>
 		<input type="text" value="${searchWord}" name="searchWord"> <input
 			type="submit" value="&#xf002;">
@@ -99,7 +99,7 @@ img{
 			<div class="card container my-3 center"
 				style="max-width: 540px;">
 				<div class="row no-gutters"
-					onclick="location.href='${contextPath }/detailClub.do?c_id=${club.c_id}'">
+					onclick="location.href='${contextPath }/club/detailClub.do?c_id=${club.c_id}'">
 					<div class="col-md-4" style="width: 500px">
 						<c:set var="c_img" value="${club.resultImg}" />
 						<c:choose>

@@ -19,12 +19,26 @@ public class ClubVO {
 	private String c_membermax;
 	private String c_category;
 	private String c_hashtag;
+	private String rc_type;
+	private String c_ask;
 	private MultipartFile c_img;
 	private byte[] c_imgByte;
 	private String resultImg;
 	private String c_openingdate;
 	private List<ClubArticleVO> articleList;
 	
+	public String getRc_type() {
+		return rc_type;
+	}
+	public void setRc_type(String rc_type) {
+		this.rc_type = rc_type;
+	}
+	public String getC_ask() {
+		return c_ask;
+	}
+	public void setC_ask(String c_ask) {
+		this.c_ask = c_ask;
+	}
 	public String getResultImg() {
 		return resultImg;
 	}

@@ -9,20 +9,21 @@ public class ClubMemberVO {
 	private byte[] userImg;
 	private String resultUserImg;
 	private String m_nickname;
-	private String m_joindate;
+	private String cm_joindate;
+	private String cm_intro;
 
-public String getResultUserImg() {
+	public String getCm_intro() {
+		return cm_intro;
+	}
+	public void setCm_intro(String cm_intro) {
+		this.cm_intro = cm_intro;
+	}
+	public String getResultUserImg() {
 		return resultUserImg;
 	}
 	public void setResultUserImg(String resultUserImg) {
 		this.resultUserImg = resultUserImg;
 	}
-	//	public String getStringUserImg() {
-//		return stringUserImg;
-//	}
-//	public void setStringUserImg(String stringUserImg) {
-//		this.stringUserImg = stringUserImg;
-//	}
 	public byte[] getUserImg() {
 		return userImg;
 	}
@@ -35,11 +36,11 @@ public String getResultUserImg() {
 	public void setM_nickname(String m_nickname) {
 		this.m_nickname = m_nickname;
 	}
-	public String getM_joindate() {
-		return m_joindate;
+	public String getCm_joindate() {
+		return cm_joindate;
 	}
-	public void setM_joindate(String m_joindate) {
-		this.m_joindate = m_joindate;
+	public void setCm_joindate(String cm_joindate) {
+		this.cm_joindate = cm_joindate;
 	}
 	public String getM_id() {
 		return m_id;

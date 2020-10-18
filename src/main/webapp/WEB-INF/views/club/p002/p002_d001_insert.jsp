@@ -39,7 +39,7 @@ h2{
 </script>
 </head>
 <body>
-<form action="${contextPath}/createClub.do" enctype="multipart/form-data" class="container my-5 center" method="post" style="width:600px">
+<form action="${contextPath}/club/createClub.do" enctype="multipart/form-data" class="container my-5 center" method="post" style="width:600px">
 <h2>소모임 만들기</h2><br>
  <div class="form-group">
     <label>소모임 이름</label>
@@ -64,6 +64,8 @@ h2{
 </div>
 <textarea name="c_content" id="c_content"></textarea>
 <script>CKEDITOR.replace('c_content')</script>
+가입인사시 짧은 소개글이나 가입 질문을 써주세요
+<textarea class="form-control"  name="c_ask" id="exampleFormControlTextarea1" rows="3"></textarea>
   <div class="form-group">
     <label>대표 이미지 첨부</label>
     <input type="file" class="form-control-file" accept="image/*" name="c_img">

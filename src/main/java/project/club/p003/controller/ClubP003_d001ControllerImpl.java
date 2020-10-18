@@ -35,7 +35,7 @@ public class ClubP003_d001ControllerImpl implements ClubP003_d001Controller{
 	ClubP003_d001DAO clubp003_d001DAO;
 	
 	@Override		//게시글 삭제
-	@RequestMapping(value="/deleteClubArticle.do",method= {RequestMethod.GET})
+	@RequestMapping(value="/club/deleteClubArticle.do",method= {RequestMethod.GET})
 	public void deleteClubArticle(@RequestParam(value="ca_id",required = false) String ca_id,@RequestParam(value="c_id",required = true) String c_id) throws Exception {
 		System.out.println(ca_id);
 		Map<String, Object> searchMap = new HashMap<String, Object>();
@@ -65,7 +65,7 @@ public class ClubP003_d001ControllerImpl implements ClubP003_d001Controller{
 	}
 	
 	@Override		//게시글 작성
-	@RequestMapping(value="/writeArticle.do", method= {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value="/club/writeArticle.do", method= {RequestMethod.GET,RequestMethod.POST})
 	public String writeArticle(ClubArticleVO vo, HttpServletRequest request, HttpSession session, MultipartHttpServletRequest mtfRequest) throws Exception{
 		String m_id = (String) session.getAttribute("m_id");
 		List<MultipartFile> mf = mtfRequest.getFiles("ca_img");
@@ -82,7 +82,7 @@ public class ClubP003_d001ControllerImpl implements ClubP003_d001Controller{
 	}
 	
 	@Override		//게시글 수정
-	@RequestMapping(value="/editClubArticle.do", method= {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value="/club/editClubArticle.do", method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView editArticle(@RequestParam(value="ca_id", required=true) String ca_id) throws Exception{
 		Map<String, Object> searchMap = new HashMap<String, Object>();
 		searchMap.put("ca_id", ca_id);
