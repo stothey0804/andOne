@@ -53,7 +53,7 @@ input[type="submit"] {
 <body>
 <div class="container my-5 center">
 		<div class="left">
-			<div class="card info" style="width: 18rem;" onclick="location.href='${contextPath }/detailClub.do?c_id=${clubInfo.c_id}'">
+			<div class="card info" style="width: 18rem;" onclick="location.href='${contextPath}/club/detailClub.do?c_id=${clubInfo.c_id}'">
 			<c:set var="c_img" value="${clubImg}"/>
 			<c:choose>
 			<c:when test="${c_img eq ''}">
@@ -72,7 +72,7 @@ input[type="submit"] {
 		</div>
 </div>
 <div class="container my-5 center">
-<form action="${contextPath}/writeArticle.do" method="post" enctype="multipart/form-data">
+<form action="${contextPath}/club/writeArticle.do" method="post" enctype="multipart/form-data">
 	<textarea class="form-control col-sm-5" rows="13" name="ca_content">${articleInfo.ca_content }</textarea><br>
 	<script>CKEDITOR.replace('ca_content')</script>
 	<div class="btn" style="width:462px;">

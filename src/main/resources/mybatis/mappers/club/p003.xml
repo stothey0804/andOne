@@ -4,39 +4,11 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="club.p003">
-	<resultMap id="p001_d001Result01" type="clubVO">
-		<result property="c_id" column="c_id" />
-		<result property="c_name" column="c_name" />
-		<result property="c_content" column="c_content" />
-		<result property="c_category" column="c_category" />
-		<result property="c_membercnt" column="c_membercnt" />
-		<result property="c_hashtag" column="c_hashtag" />
-		<collection property="articleList" column="c_id" javaType="java.util.ArrayList"
-					select="getArticleList" ofType="p001_d001ArticleVO" />
-	</resultMap>
-	
-	<resultMap id="articleList" type="clubArticleVO">
-		<result property="ca_content" column="ca_content" />
-		<result property="ca_date" column="ca_date" />
-		<result property="m_id" column="m_id" />
-		<result property="ca_id" column="ca_id" />
-		<result property="imgList" column="ca_img" javaType="[B"  jdbcType="BLOB"/>
-	</resultMap>
-	
 	<resultMap id="article" type="clubArticleVO">
 		<result property="ca_content" column="ca_content"/>
 		<result property="imgList" column="ca_img" javaType="[B"  jdbcType="BLOB"/>
 	</resultMap>
-	
-	<select id="getArticleList" resultMap="club.p001.articleList">
-		<![CDATA[
-		 	select ca_content,ca_date,m_id,ca_img,ca_id,ca_pin
-		 	from c_article
-		 	where c_id = #{c_id}
-            order by ca_pin desc, ca_date desc
-		]]>
-	</select>
-	
+		
 	<delete id="deleteClubArticle">
 		<![CDATA[
 			delete from c_article
@@ -56,5 +28,29 @@
 			where ca_id = #{ca_id}
 		]]>
 	</select>
+	
+	<insert id="joinClubMember" parameterType="java.util.Map">
+		INSERT INTO c_member(c_id,cm_intro,m_id,cm_joindate,cm_rank)
+		values(#{c_id},#{cm_intro},#{m_id},to_char(sysdate,'YYYY-MM-DD hh:mm:ss'),40)
+	</insert>
+	
+	<delete id="leaveClub">
+		{call
+           declare
+           begin
+              	DELETE from c_member
+				WHERE c_id = #{c_id}
+				AND m_id = #{m_id};
+               	UPDATE club
+               	SET c_membercnt = c_membercnt -1
+               	WHERE c_id =#{c_id};
+           end
+       }
+	</delete>
+	
+	<insert id="reportClub" parameterType="java.util.Map">
+		INSERT INTO report_club(c_id,r_id,r_date,rc_type)
+		VALUES(#{c_id},1,to_char(sysdate,'YYYY-MM-DD hh:mm:ss'),#{rc_type})
+	</insert>
 	
 </mapper>
