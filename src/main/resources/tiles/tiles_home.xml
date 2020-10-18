@@ -36,9 +36,9 @@
 	<!-- 지역업체 어드민 START -->
    <definition name="shopAdminMain" extends="shopLayout">
       <put-attribute name="title" value="지역업체 메인" />
-       <put-attribute name="body" value="/WEB-INF/views/shop/p004_d001_init.jsp" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d004_shopAdminMain.jsp" />
    </definition>
-	
+   
 	<!-- 지역업체 어드민 END -->
 
 	<!-- 관리자 START -->

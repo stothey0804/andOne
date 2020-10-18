@@ -80,7 +80,7 @@ public class ShopP001_d002ControllerImpl implements ShopP001_d002Controller {
 	@Override
 	@RequestMapping(value="loginOk.do")
 	public String loginOk() {
-		return "shop/p001_d004_shopAdminMain"; //업체 관리자 페이지이동
+		return "shopAdminMain"; //업체 관리자 페이지이동
 	}
 	
 	//로그아웃
