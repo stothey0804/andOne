@@ -13,7 +13,7 @@
 	<div class="container text-center">
 		<!-- 닉네임,로그아웃 -->
 		<div class="my-5">
-			<p>님, 안녕하세요</p>
+			<p>${bMember.bm_name }님, 안녕하세요</p>
 			<button class="btn btn-sm btn-dark">로그아웃</button>
 		</div>
 		<!--  메뉴그룹  -->
