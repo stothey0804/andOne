@@ -362,7 +362,7 @@ $("input:radio[name=reportRadio]").click(function(){
 				<br>
 				<br>
 				<h5>멤버(${clubInfo.c_membercnt}명)</h5>
-				<a href="#">모두 보기</a><br>
+				<a href="${contextPath}/club/clubMemberList.do?c_id=${clubInfo.c_id}">모두 보기</a><br>
 				<c:forEach var="members" items="${members}">
 					<c:set var="members" value="${members.resultUserImg}" />
 					<c:choose>

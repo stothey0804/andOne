@@ -30,4 +30,25 @@ public class ClubP002_d002ServiceImpl implements ClubP002_d002Service{
 		clubP002_d002DAO.denyMember(deleteMap);
 	}
 
+	@Override
+	public List<ClubMemberVO> getClubMemberList(Map<String, Object> searchMap) {
+		List<ClubMemberVO> list = clubP002_d002DAO.clubMemberList(searchMap);
+		return list;
+	}
+
+	@Override
+	public void qualifyMember(Map<String, Object> searchMap) {
+		clubP002_d002DAO.qualifyMember(searchMap);
+	}
+
+	@Override
+	public void kickMember(Map<String, Object> searchMap) {
+		clubP002_d002DAO.kickMember(searchMap);
+	}
+
+	@Override
+	public void usurpMember(Map<String, Object> searchMap) {
+		clubP002_d002DAO.usurpMember(searchMap);
+	}
+
 }

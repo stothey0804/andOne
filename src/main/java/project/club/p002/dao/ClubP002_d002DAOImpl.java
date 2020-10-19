@@ -29,4 +29,25 @@ public class ClubP002_d002DAOImpl implements ClubP002_d002DAO{
 	public void denyMember(Map<String, Object> deleteMap) {
 		sqlSession.delete("club.p002.denyMember", deleteMap);
 	}
+
+	@Override
+	public List<ClubMemberVO> clubMemberList(Map<String, Object> searchMap) {
+		List<ClubMemberVO> list = sqlSession.selectList("club.p002.clubMemberList",searchMap);
+		return list;
+	}
+
+	@Override
+	public void qualifyMember(Map<String, Object> searchMap) {
+		sqlSession.update("club.p002.qualifyMember",searchMap);
+	}
+
+	@Override
+	public void kickMember(Map<String, Object> searchMap) {
+		sqlSession.update("club.p002.kickMember", searchMap);
+	}
+
+	@Override
+	public void usurpMember(Map<String, Object> searchMap) {
+		sqlSession.update("club.p002.usurpMember", searchMap);
+	}
 }
