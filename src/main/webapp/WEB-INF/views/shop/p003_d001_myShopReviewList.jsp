@@ -142,7 +142,7 @@ div.topTitle{
 		})
 	})
 	
-	function openMemberPopup(param){
+	function openMemberPopup2(param){
 		let m_id = param+'';
 		window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
 	}
@@ -222,7 +222,7 @@ div.topTitle{
 					<td rowspan="3" width="80">
 						<div style="margin: 10px">
 							<div class="card" style="width: 5rem;">
-								<a href="javascript:void(0);" onclick="openMemberPopup('${list.m_id }')">
+								<a href="javascript:void(0);" onclick="openMemberPopup2('${list.m_id }')">
 									<c:choose>
 										<c:when test="${empty list.m_encodedImg }">
 											<img src="${contextPath }/resources/image/user.png" class="card-img-top" alt="...">
