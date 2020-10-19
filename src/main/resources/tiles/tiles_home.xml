@@ -179,7 +179,7 @@
        <put-attribute name="body" value="/WEB-INF/views/member/p001_d001_insert_sub01.jsp" />
    </definition>
    
-   
+   <!-- 마이페이지 영역 START -->
    <!-- 마이페이지 -->
 	<definition name="mypage" extends="mypageLayout">
 		<put-attribute name="title" value="마이페이지"/>
@@ -197,12 +197,16 @@
 		<put-attribute name="body" value="/WEB-INF/views/point/p001_d001_search.jsp"/>
 	</definition>
 	
-
-	
 	<!-- 회원정보조회 -->
 	<definition name="p001_d005_update" extends="mypageLayout">
 		<put-attribute name="title" value="내 정보 변경"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p001_d005_update.jsp"/>
+	</definition>
+	
+	<!-- 회원정보조회 -->
+	<definition name="MemberP004_d001_init" extends="mypageLayout">
+		<put-attribute name="title" value="내 매너점수"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p004_d001_init.jsp"/>
 	</definition>
 	<!-- 문의하기 -->
 	<definition name="p002_d001_insert" extends="mypageLayout">
@@ -214,6 +218,8 @@
 		<put-attribute name="title" value="문의하기"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p002_d001_search.jsp"/>
 	</definition>
+	
+   <!-- 마이페이지 영역 END -->
 	
 	<!-- 소모임 메인-->
 	<definition name="clubMain"  template="/WEB-INF/views/common/layout.jsp">

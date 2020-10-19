@@ -11,7 +11,7 @@
 			<a href="#"><li>내 &분의일 내역</li></a>
 			<a href="#"><li>최근조회한 &분의일</li></a>
 			<a href="${contextPath}/shop/getShopReviewList.do"><li>내 지역업체 리뷰</li></a>
-			<a href="#"><li>내 매너점수</li></a>
+			<a href="${contextPath}/member/score.do"><li>내 매너점수</li></a>
 			<a href="#"><li>내가 쓴 회원평가</li></a>
 			<a href="#"><li>내가 받은 회원평가</li></a>
 			<a href="${contextPath}/member/updateMember.do"><li>내 정보 변경</li></a>

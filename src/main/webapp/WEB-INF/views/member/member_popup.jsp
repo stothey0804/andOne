@@ -14,6 +14,10 @@
 <script>
 
 $(document).ready(function(){
+	var warning = '${warning}';
+	if(warning!=null && warning!=''){
+		alert(warning);
+	}
 	var profileImg = '${info.m_img}';
 		if(profileImg==null || profileImg==""){	
 			$(".profile").attr("src","${contextPath}/resources/image/user.png")
@@ -72,7 +76,7 @@ $(document).ready(function(){
 		<div class="ml-auto mr-3">
 <!-- 			<i class="fas fa-bullhorn report text-danger"></i> -->
 			<button class="btn btn-block btn-outline-danger">신고하기</button>	
-			<button class="btn btn-outline-primary mt-2">평가남기기</button>	
+			<a class="btn btn-outline-primary mt-2" href="${contextPath}/member/writeReview.do?target=${info.M_ID}">평가남기기</a>	
 		</div>
 	</div>
 		
@@ -94,14 +98,20 @@ $(document).ready(function(){
 		<p class="h5 my-3">받은 평가(<span id="mReviewCnt">${info.MEMBERREVIEWCNT}</span>)</p>
 		<table class="table table-borderless border-top border-bottom">
 		<tbody>
-			<tr>
-				<td width="30%">닉네임</td>
-				<td width="50%">평가상세~</td>
-				<td width="20%">10점</td>
-			</tr>
+			<c:forEach var="receivedList" items="${receivedList}">
+				<tr>
+					<td >${receivedList.m_nickname}</td>
+					<td width="50%">
+						<div class="text-over-cut">${receivedList.mr_content}</div>
+					</td>
+					<td class="text-center">${receivedList.mr_score}점</td>
+				</tr>
+			</c:forEach>
 		</tbody>
 		</table>
-		<p class="text-right">더보기</p>
+		<div class="clearfix">
+		<a class="btn btn-sm btn-secondary float-right">더 보기 </a>
+		</div>
 	</div>
 </div>
 </body>

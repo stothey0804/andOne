@@ -27,5 +27,6 @@
 		<typeAlias type="project.member.p002.vo.MemberP002VO" alias="memberP002VO" /> <!-- QnA -->
 		<typeAlias type="project.root.p003.vo.RootP003VO" alias="rootP003VO" /> <!-- notice -->
 		<typeAlias type="project.point.p001.vo.PointP001VO" alias="pointP001VO" /> <!-- point -->
+		<typeAlias type="project.member.p004.vo.MemberP004VO" alias="memberP004VO" /> <!-- 멤버리뷰 -->
 	</typeAliases>
 </configuration>
