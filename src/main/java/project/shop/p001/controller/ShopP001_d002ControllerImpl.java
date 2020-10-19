@@ -47,7 +47,15 @@ public class ShopP001_d002ControllerImpl implements ShopP001_d002Controller {
 		//로그인 체크
 		ShopP001BmemberVO bmemberVO = shopP001_d002Service.loginCheck(id);
 		//로그인성공ㅣ
-		if(bmemberVO != null && BCrypt.checkpw(pwd, bmemberVO.getBm_pwd())) {
+		if(bmemberVO == null) {
+			//로그인 실패, 아이디 틀림
+			System.out.println(">>>>>>>>로그인실패");
+			result = 0;
+		}else if(!BCrypt.checkpw(pwd, bmemberVO.getBm_pwd())) {
+			//로그인 실패, 비밀번호 틀림
+			System.out.println(">>>>>>>>로그인실패");
+			result = 0;
+		}else{
 			System.out.println(">>>>>>>>로그인성공");
 			//아이디 기억 위한 쿠키생성 및 설정
 			Cookie cookie = new Cookie("id_check", id); //jsp에서 id_check로 쿠키 사용가능
@@ -64,10 +72,6 @@ public class ShopP001_d002ControllerImpl implements ShopP001_d002Controller {
 			session.setAttribute("bMember", bmemberVO);
 			session.setAttribute("isLogOn", true);
 			result = 1; 
-		}else if(BCrypt.checkpw(pwd, bmemberVO.getBm_pwd()) == false || bmemberVO == null) {
-			//로그인 실패
-			System.out.println(">>>>>>>>로그인실패");
-			result = 0;
 		}
 		return result;
 	}
@@ -76,7 +80,7 @@ public class ShopP001_d002ControllerImpl implements ShopP001_d002Controller {
 	@Override
 	@RequestMapping(value="loginOk.do")
 	public String loginOk() {
-		return "shop/p001_d004_shopAdminMain"; //업체 관리자 페이지이동
+		return "shopAdminMain"; //업체 관리자 페이지이동
 	}
 	
 	//로그아웃

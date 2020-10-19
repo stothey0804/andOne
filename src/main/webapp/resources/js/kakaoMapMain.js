@@ -14,8 +14,7 @@
 	// 현재위치 좌표값
 	var locPosition;
 	
-	// m_id가 있을 때만
-	if(m_id!=null && m_id!=''){
+	// 현재위치 조회
 		$.ajax({
             type: "post",
             async: "true",
@@ -43,7 +42,6 @@
             	}
             }
 		});
-	}
 	
 	document.getElementById('selectGeoLocation').addEventListener("click", function(){
 		 //HTML5의 geolocation으로 사용할 수 있는지 확인합니다 

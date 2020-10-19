@@ -28,7 +28,7 @@ public class ClubP002_d001ControllerImpl implements ClubP002_d001Controller{
 	CommonDAO commonDAO;
 	
 	@Override
-	@RequestMapping(value="/createClubForm.do",method= {RequestMethod.GET})
+	@RequestMapping(value="/club/createClubForm.do",method= {RequestMethod.GET})
 	public ModelAndView createClubForm() throws Exception {
 		ModelAndView mav = new ModelAndView("createClub");
 		List<HashMap<String, String>> category = commonDAO.searchCommonCodeList("019");
@@ -37,7 +37,7 @@ public class ClubP002_d001ControllerImpl implements ClubP002_d001Controller{
 	}
 	
 	@Override
-	@RequestMapping(value="/createClub.do",method= {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value="/club/createClub.do",method= {RequestMethod.POST,RequestMethod.GET})
 	public String createClub(ClubVO vo, HttpSession session) throws Exception {
 		Map<String, Object> insertMap = new HashMap<String, Object>();
 		insertMap.put("c_name", vo.getC_name());
@@ -47,6 +47,7 @@ public class ClubP002_d001ControllerImpl implements ClubP002_d001Controller{
 		insertMap.put("c_membermax", vo.getC_membermax());
 		insertMap.put("c_content", vo.getC_content());
 		insertMap.put("c_img",vo.getC_img().getBytes());
+		insertMap.put("c_ask",vo.getC_ask());
 		String c_id = clubP002_d001Service.nextC_id();
 		insertMap.put("c_id", c_id);
 		clubP002_d001Service.createClub(insertMap);
@@ -60,7 +61,7 @@ public class ClubP002_d001ControllerImpl implements ClubP002_d001Controller{
 	}
 	
 	@Override
-	@RequestMapping(value="/deleteClub.do",method= {RequestMethod.GET})
+	@RequestMapping(value="/club/deleteClub.do",method= {RequestMethod.GET})
 	public String deleteClub(@RequestParam(value="c_id",required = true) String c_id, HttpSession session) {
 		String m_id = (String)session.getAttribute("m_id");
 		Map<String, Object> searchMap = new HashMap<String, Object>();

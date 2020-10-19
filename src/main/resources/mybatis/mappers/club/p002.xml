@@ -12,10 +12,17 @@
 		<result property="c_membercnt" column="c_membercnt" />
 		<result property="c_hashtag" column="c_hashtag" />
 	</resultMap>
-	
 	<resultMap id="article" type="clubArticleVO">
 		<result property="ca_content" column="ca_content"/>
 		<result property="imgList" column="ca_img" javaType="[B"  jdbcType="BLOB"/>
+	</resultMap>
+	
+	<resultMap id="member" type="clubMemberVO">
+		<result property="cm_intro" column="cm_intro"/>
+		<result property="cm_joindate" column="cm_joindate"/>
+		<result property="userImg" column="m_img" javaType="[B"  jdbcType="BLOB"/>
+		<result property="m_nickname" column="m_nickname"/>
+		<result property="m_id" column="m_id"/>
 	</resultMap>
 	
 	<select id="nextC_id" resultType="string">
@@ -26,8 +33,8 @@
 	
 	<insert id="insertClub">
 		<![CDATA[
-			insert into club (c_id,c_name,c_content,c_category,c_membercnt,c_membermax,c_hashtag,c_img,c_openingdate)
-			values(#{c_id},#{c_name},#{c_content},#{c_category},1,#{c_membermax},#{c_hashtag},#{c_img},to_char(sysdate,'YYYY-MM-DD hh:mm'))
+			insert into club (c_id,c_name,c_content,c_category,c_membercnt,c_membermax,c_hashtag,c_img,c_openingdate,c_ask)
+			values(#{c_id},#{c_name},#{c_content},#{c_category},1,#{c_membermax},#{c_hashtag},#{c_img},to_char(sysdate,'YYYY-MM-DD hh:mm'),#{c_ask})
 		]]>
 	</insert>
 	
@@ -48,4 +55,62 @@
 			end
 		}	
 	</delete>
+	
+	<select id="waitMemberList" resultMap="member">
+		SELECT a.cm_intro,a.cm_joindate,b.m_nickname,b.m_img,a.m_id
+		FROM c_member a, member b
+		WHERE a.cm_rank = 40
+		AND a.c_id = #{c_id}
+		AND a.m_id = b.m_id
+	</select>
+	
+	<update id="permitMember">
+		{call
+			declare
+			begin
+				UPDATE c_member
+				SET cm_rank = 30, cm_joindate = to_char(sysdate,'YYYY-MM-DD hh:mm')
+				WHERE m_id = #{m_id}
+				AND c_id = #{c_id};
+				UPDATE club
+				SET c_membercnt = c_membercnt + 1
+				WHERE c_id = #{c_id};
+			end
+		}
+	</update>
+	
+	<delete id="denyMember">
+		DELETE from c_member
+		WHERE m_id = #{m_id}
+	</delete>
+	
+	<select id="clubMemberList" resultMap="member">
+		SELECT a.c_id,a.cm_intro,b.m_nickname,a.cm_joindate,a.cm_rank,b.m_img,a.m_id
+		FROM c_member a, member b 
+		WHERE c_id=#{c_id}
+		AND a.m_id = b.m_id
+		AND a.cm_rank in (10,20,30)
+		ORDER BY cm_rank
+	</select>
+	
+	<update id="qualifyMember">
+		UPDATE c_member
+		SET cm_rank = 20
+		WHERE c_id = #{c_id}
+		AND m_id = #{m_id}
+	</update>
+	
+	<update id="kickMember">
+		UPDATE c_member
+		SET cm_rank = 99
+		WHERE c_id = #{c_id}
+		AND m_id = #{m_id}
+	</update>
+	
+	<update id="usurpMember">
+		UPDATE c_member
+		SET cm_rank = 30
+		WHERE c_id = #{c_id}
+		AND m_id = #{m_id}
+	</update>
 </mapper>
