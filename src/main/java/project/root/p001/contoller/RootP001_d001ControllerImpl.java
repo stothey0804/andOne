@@ -98,6 +98,7 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 		if(m_id!=null && m_id!="") {	// 로그인시 DB조회
 			locate = rootP001_d001Service.selectMemberLocate(m_id);
 		}else {	// 비로그인 시 쿠키에서 조회
+			System.out.println("쿠키조회!!!!!!!!!!!");
 			if(locate_lat == null || locate_lng == null) {
 				locate.put("M_LOCATE_LAT","0");
 				locate.put("M_LOCATE_LNG","0");

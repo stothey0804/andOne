@@ -7,5 +7,6 @@ import org.springframework.dao.DataAccessException;
 
 public interface AndP002_d001Service {
 	public List<Map<String, Object>> insertAndOne(Map<String,Object> Andone) throws DataAccessException;
+	public void insertOneMem(Map<String, Object> andone);
 
 }

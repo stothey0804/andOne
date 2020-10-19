@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,19 +32,25 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 		List<AndP001AndOneVO> ctg_eat = p001_d001Service.searchCtg(g_id); //카테고리설정
 		
 		ModelAndView mav = new ModelAndView("insertAndOnePage");
-		mav.addObject("g_id",g_id);
+		mav.addObject("g_id",g_id);//구분
 		mav.addObject("ctg_eat",ctg_eat);
 		return mav;
 	}
 	//글쓰기 내용 DB저장
 	@Override
 	@RequestMapping(value="/and*/insertAndOne.do")
-	public String insertAndOne(@RequestParam Map<String,Object> Andone) {
+	public String insertAndOne(@RequestParam Map<String,Object> Andone, HttpSession session) {
 		System.out.println(">>>>>>"+Andone.get("one_locate_Lat"));
 		System.out.println(">>>>>>"+Andone.get("one_locate_Lng"));
 		String g_id = (String) Andone.get("one_type");
 		System.out.println(g_id);
+		
+		String m_id = (String) session.getAttribute("m_id");
+		System.out.println("M_ID :"+m_id); //회원아이디 가져오기
+		Andone.put("m_id", m_id);//m_id 추가
+		
 		p002_d001Service.insertAndOne(Andone); //글쓰기
+		p002_d001Service.insertOneMem(Andone); //참가자 테이블 추가하기
 		
 		return "redirect:/and?g_id="+g_id;
 	}

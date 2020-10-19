@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,17 +33,31 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	//&분의일 먹기 사기 하기 메인
 	@Override
 	@RequestMapping(value="/and*")
-	public ModelAndView andOneMain(@RequestParam("g_id") String g_id, HttpSession session) throws Exception {
+	public ModelAndView andOneMain(@RequestParam("g_id") String g_id, 
+			@CookieValue(value="locate_lat", required = false) Cookie locate_lat, 
+			@CookieValue(value="locate_lng", required = false) Cookie locate_lng, HttpSession session) throws Exception {
 		System.out.println("111111g_id: "+g_id);
 		
-		//회원 위치 가져오기
 		String m_id = (String) session.getAttribute("m_id");
 		System.out.println("M_IDM_IDM_ID :"+m_id);
+		
+		String m_locate_Lat ="";
+		String m_locate_Lng ="";
+		
+		//회원 위치 가져오기
+		if(m_id != null && m_id !="" ) {
 		Map<String, Object> memLocate = p001_d001Service.selectMemLocate(m_id);
-		String m_locate_Lat = (String) memLocate.get("m_locate_Lat");
-		String m_locate_Lng = (String) memLocate.get("m_locate_Lng");
+		m_locate_Lat = (String) memLocate.get("m_locate_Lat");
+		m_locate_Lng = (String) memLocate.get("m_locate_Lng");
 		System.out.println("m_locate_Lat: " +m_locate_Lat);
 		System.out.println("m_locate_Lng: " +m_locate_Lng);
+		}else if(m_id == null) {//쿠키에 저장된 비회원 위치 가져오기
+			String one_locate_lat = locate_lat.getValue();
+			String one_locate_lng = locate_lng.getValue();
+			
+			System.out.println("123123: "+locate_lat);
+			System.out.println("123123: "+locate_lng);
+		}
 		
 		Map<String,Object> param = new HashMap<String,Object>(); 
 		param.put("m_id", m_id);
@@ -57,15 +73,15 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		//AndOne 글 위치 가져오기
 //		List<Map<String,Object>> andOneLocate = p001_d001Service.selectAndOneLocate(g_id);
 //		System.out.println("11"+andOneLocate.get(6));
-//		System.out.println("22"+andOneLocate.get(9));
-//		
+//		System.out.println("22"+andOneLocate.get(9));	
 //		JSONArray jsonArray = new JSONArray();
 		
 		ModelAndView mav = new ModelAndView("andOneMain");
 		mav.addObject("g_id",g_id);
 		mav.addObject("ctg_eat",ctg_eat);//카테고리
 		mav.addObject("recentAndOneList", recentAndOneList);//최근 엔분의일
-		mav.addObject("memLocate",memLocate); //멤버위치
+		//mav.addObject("memLocate",memLocate); //멤버위치
+		
 		//mav.addObject("andOneLocate",jsonArray.fromObject(andOneLocate)); //엔분의일 글 위치
 		
 		return mav;
