@@ -25,10 +25,22 @@ public class AndP001AndOneVO {
 	private String gc_name;
 	private String gc_id;
 	private String totalSearch; //총검색
+	private String distance;
 	
 	public AndP001AndOneVO() {
 	}
 	
+	
+	public String getDistance() {
+		return distance;
+	}
+
+
+	public void setDistance(String distance) {
+		this.distance = distance;
+	}
+
+
 	public String getTotalSearch() {
 		return totalSearch;
 	}

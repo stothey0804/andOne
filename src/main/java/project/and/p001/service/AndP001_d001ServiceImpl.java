@@ -18,10 +18,11 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 	
 	//메인 최근등록같이먹기
 	@Override
-	public List recentAndOneList(String g_id) throws DataAccessException{
+	public List recentAndOneList(Map<String, Object> param) throws DataAccessException{
 		List<AndP001AndOneVO> recentAndOneList = null;
+		String g_id = (String) param.get("g_id");
 		System.out.println("service찍혀라ㅠㅠㅠㅠ"+g_id);
-		recentAndOneList = p001_d001DAO.selectRecentList(g_id);
+		recentAndOneList = p001_d001DAO.selectRecentList(param);
 		return recentAndOneList;
 	}
 	//카테고리(이름/번호)
@@ -33,16 +34,16 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 	}
 	//카테고리검색
 	@Override
-	public List ctgSearchList(AndP001AndOneVO vo) throws DataAccessException{
+	public List ctgSearchList(Map<String, Object> searchMap) throws DataAccessException{
 		List<AndP001AndOneVO> ctgSearchList = null;
-		ctgSearchList = p001_d001DAO.selectCtgList(vo);
+		ctgSearchList = p001_d001DAO.selectCtgList(searchMap);
 		return ctgSearchList;
 	}
 	//전체검색
 	@Override
-	public List totalSearchList(AndP001AndOneVO vo) throws DataAccessException{
+	public List totalSearchList(Map<String, Object> searchMap) throws DataAccessException{
 		List<AndP001AndOneVO> totalSearchList = null;
-		totalSearchList = p001_d001DAO.selectTotalSearchList(vo);
+		totalSearchList = p001_d001DAO.selectTotalSearchList(searchMap);
 		return totalSearchList;
 	}
 	//회원위치가져오기

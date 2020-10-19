@@ -1,5 +1,7 @@
 package project.and.p001.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,6 +14,5 @@ import project.and.vo.AndP001AndOneVO;
 
 public interface AndP001_d001Controller{
 	public ModelAndView andOneMain(String g_id, HttpSession session)  throws Exception;
-	public ModelAndView searchAndOneList(AndP001AndOneVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public String selectMemLocate(HttpSession session);
+	public ModelAndView searchAndOneList(Map<String, Object> searchMap, HttpSession session) throws Exception;
 }

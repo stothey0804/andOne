@@ -16,9 +16,9 @@ public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 	private SqlSession sqlSession;
 	//최근 등록된 같이먹기/사기/하기
 	@Override
-	public List<AndP001AndOneVO> selectRecentList(String g_id) throws DataAccessException{
+	public List<AndP001AndOneVO> selectRecentList(Map<String, Object> param) throws DataAccessException{
 		List<AndP001AndOneVO> selectRecentList = null;
-		selectRecentList = sqlSession.selectList("and.p001.selectRecentList",g_id);
+		selectRecentList = sqlSession.selectList("and.p001.selectRecentList",param);
 		return selectRecentList;
 	}
 	//카테고리(이름/번호)
@@ -30,16 +30,16 @@ public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 	}
 	//카테고리 검색
 	@Override
-	public List<AndP001AndOneVO> selectCtgList(AndP001AndOneVO vo) throws DataAccessException{
+	public List<AndP001AndOneVO> selectCtgList(Map<String, Object> searchMap) throws DataAccessException{
 		List<AndP001AndOneVO> selectCtgList = null;
-		selectCtgList = sqlSession.selectList("and.p001.selectCtgList",vo);
+		selectCtgList = sqlSession.selectList("and.p001.selectCtgList",searchMap);
 		return selectCtgList;
 	}
 	//전체검색
 	@Override
-	public List<AndP001AndOneVO> selectTotalSearchList(AndP001AndOneVO vo) throws DataAccessException{
+	public List<AndP001AndOneVO> selectTotalSearchList(Map<String, Object> searchMap) throws DataAccessException{
 		List<AndP001AndOneVO> selectTotalSearchList = null;
-		selectTotalSearchList = sqlSession.selectList("and.p001.selectTotalSearchList",vo);
+		selectTotalSearchList = sqlSession.selectList("and.p001.selectTotalSearchList",searchMap);
 		return selectTotalSearchList;
 	}
 	//회원위치가져오기

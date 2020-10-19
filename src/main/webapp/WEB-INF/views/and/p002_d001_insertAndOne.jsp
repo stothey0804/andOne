@@ -176,7 +176,7 @@
                             
 							//해당 주소에 대한 좌표를 받아서	
                             var coords = new daum.maps.LatLng(result.y, result.x);
-                            var one_locate_Lat = coords.getLat();//주소 객체 . getlat
+                            var one_locate_Lat = coords.getLat();
                             var one_locate_Lng = coords.getLng()
                             
                             console.log(coords);
