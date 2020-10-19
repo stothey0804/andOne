@@ -14,6 +14,16 @@
 		<result property="bm_phoneNumber" column="bm_phoneNumber" /> <!-- 모집인원 -->
 	</resultMap>
 	
+	<resultMap id="shopStatistics" type="shopP001StatisticsVO">
+		<result property="six" column="SIX" />
+		<result property="five" column="FIVE" />
+		<result property="four" column="FOUR" />
+		<result property="three" column="THREE" />
+		<result property="two" column="TWO" />
+		<result property="one" column="ONE" />
+		<result property="recent" column="RECENT" />
+	</resultMap>
+	
 	<!-- 아이디 중복체크 -->
 	<select id="checkId" parameterType="String" resultType="int"> 
       <![CDATA[
@@ -53,6 +63,111 @@
      	WHERE bm_name = #{bm_name} 
      	AND bm_phoneNumber = #{bm_phoneNumber}
       ]]>
+	</select>
+	
+	<select id="sixMonthScoreStatistics" parameterType="String" resultMap="shop.p001.shopStatistics">
+		<![CDATA[
+	     	SELECT
+			(
+			    SELECT DECODE(COUNT(M_ID),0,'0',SUM(SR_SCORE) / COUNT(S_ID)) AS SCORE
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-6))
+			) AS SIX,
+			(
+			    SELECT DECODE(COUNT(M_ID),0,'0',SUM(SR_SCORE) / COUNT(S_ID)) AS SCORE
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-5))
+			) AS FIVE,
+			(
+			    SELECT DECODE(COUNT(M_ID),0,'0',SUM(SR_SCORE) / COUNT(S_ID)) AS SCORE
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-4))
+			) AS FOUR,
+			(
+			    SELECT DECODE(COUNT(M_ID),0,'0',SUM(SR_SCORE) / COUNT(S_ID)) AS SCORE
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-3))
+			) AS THREE,
+			(
+			    SELECT DECODE(COUNT(M_ID),0,'0',SUM(SR_SCORE) / COUNT(S_ID)) AS SCORE
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-2))
+			) AS TWO,
+			(
+			    SELECT DECODE(COUNT(M_ID),0,'0',SUM(SR_SCORE) / COUNT(S_ID)) AS SCORE
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-1))
+			) AS ONE,
+			(
+			    SELECT DECODE(COUNT(M_ID),0,'0',SUM(SR_SCORE) / COUNT(S_ID)) AS SCORE
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,0))
+			) AS RECENT
+			FROM DUAL
+    	]]>
+	</select>
+	
+	<select id="sixMonthReviewStatistics" parameterType="String" resultMap="shop.p001.shopStatistics">
+		<![CDATA[
+			SELECT
+			(
+			    SELECT COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-6))
+			    AND SR_DATE > TO_CHAR(ADD_MONTHS(SYSDATE,-7))
+			) AS SIX,
+			(
+			    SELECT COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-5))
+			    AND SR_DATE > TO_CHAR(ADD_MONTHS(SYSDATE,-6))
+			) AS FIVE,
+			(
+			    SELECT COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-4))
+			    AND SR_DATE > TO_CHAR(ADD_MONTHS(SYSDATE,-5))
+			) AS FOUR,
+			(
+			    SELECT COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-3))
+			    AND SR_DATE > TO_CHAR(ADD_MONTHS(SYSDATE,-4))
+			) AS THREE,
+			(
+			    SELECT COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-2))
+			    AND SR_DATE > TO_CHAR(ADD_MONTHS(SYSDATE,-3))
+			) AS TWO,
+			(
+			    SELECT COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-1))
+			    AND SR_DATE > TO_CHAR(ADD_MONTHS(SYSDATE,-2))
+			) AS ONE,
+			(
+			    SELECT COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,0))
+			    AND SR_DATE > TO_CHAR(ADD_MONTHS(SYSDATE,-1))
+			) AS RECENT
+			FROM DUAL
+		]]>
 	</select>
 	
 </mapper>
