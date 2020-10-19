@@ -89,5 +89,8 @@
 </tbody>
 		</c:forEach>
 </table>
+<div class="container center">
+		<button type="button" style="margin:0 auto;float:none;"class="btn btn-info" onclick="location.href='${contextPath}/club/detailClub.do?c_id=${c_id}'">
+		소모임으로 돌아가기</button></div>
 </body>
 </html>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import common.Common;
 import common.dao.CommonDAO;
 import project.club.p001.service.ClubP001_d001Service;
 import project.club.vo.ClubMemberVO;
@@ -106,8 +107,8 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		//일반 회원 목록
 		List<ClubMemberVO> members = clubP001_d001Service.getClubMember(searchMap);
 		//회원 목록 이미지 encoding
-		getEncodedUser(members);
-		getEncodedUser(leader);
+		Common.getEncodedUser(members);
+		Common.getEncodedUser(leader);
 		
 		List<HashMap<String, String>> reportType = commonDAO.searchCommonCodeList("014");
 		
@@ -131,14 +132,5 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 			}
 		}
 	}
-	//UserImg encoding method
-	public void getEncodedUser(List<ClubMemberVO> list) {
-		byte[] encoded = null;
-		for(int i=0; i < list.size();i++) {
-			if(list.get(i).getUserImg() != null) {
-				encoded = Base64.getEncoder().encode(list.get(i).getUserImg());
-				list.get(i).setResultUserImg(new String(encoded));	
-			}
-		}
-	}
+
 }

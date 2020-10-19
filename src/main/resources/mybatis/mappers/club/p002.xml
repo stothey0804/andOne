@@ -83,4 +83,34 @@
 		DELETE from c_member
 		WHERE m_id = #{m_id}
 	</delete>
+	
+	<select id="clubMemberList" resultMap="member">
+		SELECT a.c_id,a.cm_intro,b.m_nickname,a.cm_joindate,a.cm_rank,b.m_img,a.m_id
+		FROM c_member a, member b 
+		WHERE c_id=#{c_id}
+		AND a.m_id = b.m_id
+		AND a.cm_rank in (10,20,30)
+		ORDER BY cm_rank
+	</select>
+	
+	<update id="qualifyMember">
+		UPDATE c_member
+		SET cm_rank = 20
+		WHERE c_id = #{c_id}
+		AND m_id = #{m_id}
+	</update>
+	
+	<update id="kickMember">
+		UPDATE c_member
+		SET cm_rank = 99
+		WHERE c_id = #{c_id}
+		AND m_id = #{m_id}
+	</update>
+	
+	<update id="usurpMember">
+		UPDATE c_member
+		SET cm_rank = 30
+		WHERE c_id = #{c_id}
+		AND m_id = #{m_id}
+	</update>
 </mapper>

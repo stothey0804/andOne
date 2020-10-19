@@ -270,6 +270,14 @@
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
    
+   <!-- 소모임 회원 목록 페이지-->
+   <definition name="clubMemberList"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 전체 회원 목록" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p002/p002_d002_search.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+   
 	<definition name="p001_d005_init" extends="mypageLayout">
 		<put-attribute name="title" value="내 정보 변경"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p001_d005_init.jsp"/>
