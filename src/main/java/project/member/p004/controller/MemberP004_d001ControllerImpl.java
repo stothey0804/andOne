@@ -14,6 +14,12 @@ import common.Common;
 import project.member.p001.service.MemberP001_d005Service;
 import project.member.p004.service.MemberP004_d001Service;
 
+/*
+ * 회원 평가
+ * 작성자 : 김세영
+ * */
+
+
 @Controller
 @RequestMapping("/member")
 public class MemberP004_d001ControllerImpl implements MemberP004_d001Controller{
@@ -22,8 +28,9 @@ public class MemberP004_d001ControllerImpl implements MemberP004_d001Controller{
 	MemberP004_d001Service memberP004_d001Service;
 	
 	@Autowired
-	MemberP001_d005Service memberP001_d005Service;	// 프로피 조회용
+	MemberP001_d005Service memberP001_d005Service;	// 프로필 조회용
 	
+	@Override
 	@RequestMapping("/searchMemberInfoPopup.do")
 	public ModelAndView searchMemberInfoPopup(HttpServletRequest request, @RequestParam String m_id) {
 		ModelAndView mav = new ModelAndView("member/member_popup");
@@ -35,4 +42,13 @@ public class MemberP004_d001ControllerImpl implements MemberP004_d001Controller{
 		// 평가조회도 넘겨야함.
 		return mav;
 	}
+	
+	// 회원등급 메인
+	
+	
+	// 내가 받은 평가
+	
+	// 내가 남긴 평가
+	
+	
 }
