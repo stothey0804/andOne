@@ -146,6 +146,11 @@
 		AND S.S_ID = #{s_id}
 	]]>
 	</if>
+	<if test="searchCondition=='SEARCHBYBMID'">
+	<![CDATA[
+		AND S.BM_ID = #{bm_id}
+	]]>
+	</if>
 	<if test="searchCondition=='POPULAR'">
 	<![CDATA[
 		AND S.S_SCORE > 4

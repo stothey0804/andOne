@@ -13,8 +13,8 @@
 	<div class="container text-center">
 		<!-- 닉네임,로그아웃 -->
 		<div class="my-5">
-			<p>${bMember.bm_name }님, 안녕하세요</p>
-			<button class="btn btn-sm btn-dark">로그아웃</button>
+			<p>${bm_name }님, 안녕하세요</p>
+			<button class="btn btn-sm btn-dark" onclick="window.location.href='${contextPath}/biz/logout.do'">로그아웃</button>
 		</div>
 		<!--  메뉴그룹  -->
 		<ul class="nav flex-column nav-pills nav-fill">

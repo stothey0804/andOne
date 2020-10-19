@@ -27,7 +27,7 @@ public class ShopP001_d002ControllerImpl implements ShopP001_d002Controller {
 	public String loginPage(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		//중복 로그인 체크
-		if(session != null && session.getAttribute("bMember") != null) {
+		if(session != null && session.getAttribute("bm_id") != null) {
 			return "shop/p001_d004_shopAdminMain"; //업체 메인페이지로 이동
 			}
 		return "shop/p001_d002_login";
@@ -69,18 +69,12 @@ public class ShopP001_d002ControllerImpl implements ShopP001_d002Controller {
 				response.addCookie(cookie);
 			}
 			//세션에 vo객체 저장
-			session.setAttribute("bMember", bmemberVO);
+			session.setAttribute("bm_id", bmemberVO.getBm_id());
+			session.setAttribute("bm_name", bmemberVO.getBm_name());
 			session.setAttribute("isLogOn", true);
 			result = 1; 
 		}
 		return result;
-	}
-	
-	//로그인성공
-	@Override
-	@RequestMapping(value="loginOk.do")
-	public String loginOk() {
-		return "shopAdminMain"; //업체 관리자 페이지이동
 	}
 	
 	//로그아웃
@@ -88,7 +82,8 @@ public class ShopP001_d002ControllerImpl implements ShopP001_d002Controller {
 	@RequestMapping(value="logout.do")
 	public String logout(HttpSession session) {
 		System.out.println(">>>>>>>>logout!!!!!!!!!");
-		session.removeAttribute("bMember");
+		session.removeAttribute("bm_id");
+		session.removeAttribute("bm_name");
 		session.removeAttribute("isLogOn");
 		session.invalidate();
 		return "main"; //로그아웃후 메인으로 이동
