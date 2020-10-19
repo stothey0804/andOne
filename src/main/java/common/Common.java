@@ -2,11 +2,13 @@ package common;
 
 import java.text.DecimalFormat;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import project.club.vo.ClubMemberVO;
 import project.member.p001.service.MemberP001_d005Service;
 
 public class Common {
@@ -56,5 +58,16 @@ public class Common {
 		 DecimalFormat df = new DecimalFormat("#,###");
 		 return df.format(Integer.parseInt(num));
 	 }
-	
+	 
+	 //ClubUserImg encoding method
+	 public static void getEncodedUser(List<ClubMemberVO> list) {
+		 byte[] encoded = null;
+		 for(int i=0; i < list.size();i++) {
+			 if(list.get(i).getUserImg() != null) {
+				 encoded = Base64.getEncoder().encode(list.get(i).getUserImg());
+				 list.get(i).setResultUserImg(new String(encoded));	
+			 }
+		 }
+	 }
+
 }

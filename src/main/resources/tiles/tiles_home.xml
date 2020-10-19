@@ -36,9 +36,9 @@
 	<!-- 지역업체 어드민 START -->
    <definition name="shopAdminMain" extends="shopLayout">
       <put-attribute name="title" value="지역업체 메인" />
-       <put-attribute name="body" value="/WEB-INF/views/shop/p004_d001_init.jsp" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d004_shopAdminMain.jsp" />
    </definition>
-	
+   
 	<!-- 지역업체 어드민 END -->
 
 	<!-- 관리자 START -->
@@ -259,6 +259,14 @@
       <put-attribute name="title" value="소모임 게시글 쓰기" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
       <put-attribute name="body" value="/WEB-INF/views/club/p003/p003_d001_update.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+   
+   <!-- 소모임 가입승인 목록 페이지-->
+   <definition name="p002_d002_approve"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 가입요청 승인 목록" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p002/p002_d002_approve.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
    

@@ -161,7 +161,7 @@ function removeHTML(text){
   <!-- Swiper -->
   <div class="swiper-container">
     <div class="swiper-wrapper">
-      <div class="swiper-slide"><img style=""src="https://media.istockphoto.com/photos/business-people-meeting-at-a-restaurant-bar-picture-id1156899951"></div>
+      <div class="swiper-slide"><img style=""src="https://cdn.pixabay.com/photo/2015/09/02/13/26/glasses-919071_1280.jpg"></div>
       <div class="swiper-slide"><img src="https://cdn.pixabay.com/photo/2014/11/17/13/17/crossfit-534615_1280.jpg"></div>
       <div class="swiper-slide"><img src="https://cdn.pixabay.com/photo/2015/01/08/18/27/startup-593341_1280.jpg"></div>
     </div>
@@ -202,7 +202,7 @@ function removeHTML(text){
 		<br>
 		<div class="row">
 			<c:forEach var="club" items="${clubList}">
-				<div class="col-sm-6 mb-3 mainClub" onclick="location.href='${contextPath }/detailClub.do?c_id=${club.c_id}'"
+				<div class="col-sm-6 mb-3 mainClub" onclick="location.href='${contextPath}/club/detailClub.do?c_id=${club.c_id}'"
 					style="max-width: 540px; margin-left: 25px;padding:0">
 					<div class="row no-gutters">
 						<div class="col-sm-6 img">
@@ -239,7 +239,7 @@ function removeHTML(text){
 		<div class="search">
 			<a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br>
 			<form name="searchFrm" method="post"
-				action="${contextPath }/searchClub.do">
+				action="${contextPath}/club/searchClub.do">
 				<input type="text" placeholder="검색" name="searchWord"> <input
 					type="submit" value="&#xf002;">
 			</form>
@@ -248,7 +248,7 @@ function removeHTML(text){
 			<button type="button"
 				class="btn btn-outline-info btn-block search create"
 				style="font-size: 18px;"
-				onclick="location.href='${contextPath}/createClubForm.do'">소모임 만들기</button>
+				onclick="location.href='${contextPath}/club/createClubForm.do'">소모임 만들기</button>
 		</div>
 		<br>
 
@@ -265,7 +265,7 @@ function removeHTML(text){
 				<div class="row">
 					<c:forEach var="club" items="${myClubList}">
 						<div class="club"
-							style="margin-left: 45px; margin-right: 45px; margin-top: 20px" onclick="location.href='${contextPath }/detailClub.do?c_id=${club.c_id}'">
+							style="margin-left: 45px; margin-right: 45px; margin-top: 20px" onclick="location.href='${contextPath}/club/detailClub.do?c_id=${club.c_id}'">
 							<div class="card" style="width: 18rem;">
 							<div class="img">
 								<c:choose>

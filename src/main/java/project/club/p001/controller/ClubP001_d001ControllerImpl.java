@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import common.dao.CommonDAO;
 import project.club.p001.service.ClubP001_d001Service;
 import project.club.vo.ClubMemberVO;
 import project.club.vo.ClubVO;
@@ -24,6 +25,8 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 	ClubP001_d001Service clubP001_d001Service;
 	@Autowired
 	ClubVO p001_d001;
+	@Autowired
+	CommonDAO commonDAO;
 	
 	@Override      //소모임 메인페이지
 	@RequestMapping(value="/club/clubMain.do",method= {RequestMethod.GET,RequestMethod.POST})
@@ -45,7 +48,7 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 	}
 	
 	@Override		//소모임 검색결과 페이지
-	@RequestMapping(value="/searchClub.do",method= {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value="/club/searchClub.do",method= {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView searchClubList(@RequestParam(value="searchWord", required=false) String searchWord) throws Exception{
 		Map<String, Object> searchMap = new HashMap<String, Object>();
 		searchMap.put("searchWord", "%"+searchWord+"%");
@@ -61,7 +64,7 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 	}
 	
 	@Override		//소모임 상세페이지
-	@RequestMapping(value="/detailClub.do",method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/club/detailClub.do",method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView detailClub(@RequestParam(value="c_id",required = true) String c_id, HttpSession session) throws Exception{
 		String m_id = (String)session.getAttribute("m_id");
 		Map<String, Object> searchMap = new HashMap<String, Object>();
@@ -106,12 +109,15 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		getEncodedUser(members);
 		getEncodedUser(leader);
 		
+		List<HashMap<String, String>> reportType = commonDAO.searchCommonCodeList("014");
+		
 		ModelAndView mav = new ModelAndView("detailClub");
 		mav.addObject("clubInfo", vo);
 		mav.addObject("rank", rank);
 		mav.addObject("clubImg",clubImg);
 		mav.addObject("members", members);
 		mav.addObject("leader", leader);
+		mav.addObject("reportType", reportType);
 		return mav;
 	}
 	

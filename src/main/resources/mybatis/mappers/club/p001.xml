@@ -24,6 +24,7 @@
 		<result property="c_hashtag" column="c_hashtag" />
 		<result property="c_openingdate" column="c_openingdate" />
 		<result property="c_membermax" column="c_membermax" />
+		<result property="c_ask" column="c_ask" />
 		<result property="c_imgByte" column="c_img" javaType="[B" jdbcType="BLOB" />
 		<collection property="articleList" column="c_id" javaType="java.util.ArrayList"
 					select="getArticleList" ofType="clubArticleVO" />
@@ -72,6 +73,7 @@
          from club a, c_member b
          where a.c_id = b.c_id
          and m_id=#{m_id}
+         and cm_rank in (10,20,30)
 		]]>
 	</select>
 	
@@ -103,7 +105,7 @@
 
 	<select id="detailClub" resultMap="p001_d001Result02">
 		<![CDATA[
-		 	select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id,c_openingdate,c_membermax,c_img
+		 	select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id,c_openingdate,c_membermax,c_img,c_ask
         from
         (
             select *

@@ -124,6 +124,9 @@
 .dropdown-item{
 	color:white;
 }
+.reportTXT{
+	display:none;
+}
 </style>
 <script type="text/javascript">
 
@@ -147,11 +150,17 @@
 			type: "get",
 			dataType: "text",
 			async: true,
-			url:"${contextPath}/deleteClubArticle.do?ca_id="+ca_id+"&c_id="+p_c_id
+			url:"${contextPath}/club/deleteClubArticle.do?ca_id="+ca_id+"&c_id="+p_c_id
 		});
 		location.reload();
 	}
 
+// 	신고 기타 선택시 textarea 활성화
+$("input:radio[name=reportRadio]").click(function(){
+	if($("input[name=reportRadio]:checked").val()=="80"){
+		$(".reportTXT").css("display","block");
+	}
+})
 </script>
 </head>
 <body>
@@ -184,7 +193,7 @@
 									data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false" style="margin-top:10px;width:246px;">소모임 관리</button>
 								<div class="dropdown-menu btn btn-success btn-block" aria-labelledby="btnGroupDrop1">
-									<a class="dropdown-item" href="#">요청승인하기</a> 
+									<a class="dropdown-item" href="${contextPath}/club/waitMemberList.do?c_id=${clubInfo.c_id}">요청승인하기</a> 
 									<a class="dropdown-item" href="#">소모임 수정하기</a>
 									<button data-target="#staticBackdrop2" class="dropdown-item" data-toggle="modal">소모임 삭제하기</button>
 								</div>
@@ -199,8 +208,8 @@
 									style="margin-top: 3px;">가입승인 대기중</a>
 							</c:when>
 							<c:otherwise>
-								<a href="${contextPath }/club/introForm.do?c_id=${clubInfo.c_id}" class="btn btn-success btn-block"
-									style="margin-top: 3px;">함께하기</a>
+								<button type="button" class="btn btn-success btn-block"
+									style="margin-top: 3px;" data-toggle="modal" data-target="#introModal">함께하기</button>
 							</c:otherwise>
 						</c:choose>
 				</div>
@@ -270,7 +279,7 @@
 							</svg>
 								<div class="sub ${club.ca_id}">
 									<button type="button" class="btn btn-outline-secondary"
-										onclick="location.href='editClubArticle.do?ca_id=${club.ca_id}'">수정</button>
+										onclick="location.href='${contextPath }/club/editClubArticle.do?ca_id=${club.ca_id}'">수정</button>
 									<button type="button" class="btn btn-outline-danger delete"
 										onclick="send(${club.ca_id})" data-toggle="modal"
 										data-target="#staticBackdrop">삭제</button>
@@ -330,40 +339,119 @@
 							<button type="button" class="btn btn-secondary"
 								data-dismiss="modal">닫기</button>
 							<button type="button" class ="btn btn-primary"
-								onclick="location.href='${contextPath}/deleteClub.do?c_id=${clubInfo.c_id}'">삭제하기</button>
+								onclick="location.href='${contextPath}/club/deleteClub.do?c_id=${clubInfo.c_id}'">삭제하기</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="side">
-		<h5>리더</h5>
-		<c:forEach var="leader" items="${leader}">
-		<c:set var="leader" value="${leader.resultUserImg}"/>
+			<div class="side">
+				<h5>리더</h5>
+				<c:forEach var="leader" items="${leader}">
+					<c:set var="leader" value="${leader.resultUserImg}" />
 					<c:choose>
 						<c:when test="${leader eq null}">
-							<img src="${contextPath}/resources/image/user.png" class="userImg">
+							<img src="${contextPath}/resources/image/user.png"
+								class="userImg">
 						</c:when>
 						<c:otherwise>
 							<img src="data:image/jpg;base64, ${leader}" class="userImg">
 						</c:otherwise>
-					</c:choose>		
-		</c:forEach>
-		<br><br>
-		<h5>멤버(${clubInfo.c_membercnt}명)</h5><a href="#">모두 보기</a><br>
-		<c:forEach var="members" items="${members}">
-		<c:set var="members" value="${members.resultUserImg}"/>
+					</c:choose>
+				</c:forEach>
+				<br>
+				<br>
+				<h5>멤버(${clubInfo.c_membercnt}명)</h5>
+				<a href="#">모두 보기</a><br>
+				<c:forEach var="members" items="${members}">
+					<c:set var="members" value="${members.resultUserImg}" />
 					<c:choose>
 						<c:when test="${members eq null}">
-							<img src="${contextPath}/resources/image/user.png" class="userImg">
+							<img src="${contextPath}/resources/image/user.png"
+								class="userImg">
 						</c:when>
 						<c:otherwise>
 							<img src="data:image/jpg;base64, ${members}" class="userImg">
 						</c:otherwise>
-					</c:choose>		
-		</c:forEach>
+					</c:choose>
+				</c:forEach>
+				<c:choose>
+					<c:when test="${rank eq 20 or rank eq 30}">
+						<button class="btn btn-link" data-toggle="modal" data-target="#leaveClub">소모임 탈퇴하기</button>
+						<button class="btn btn-link" data-toggle="modal" data-target="#reportClub">소모임 신고하기</button>
+					</c:when>
+				</c:choose>
+			</div>
 		</div>
 	</div>
+	<!--Intro Modal -->
+	<div class="modal fade" id="introModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">소모임 가입하기</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form action="${contextPath}/club/joinClub.do?c_id=${clubInfo.c_id}" method="post">
+				<div class="modal-body">
+					<h6 style="text-align:center;">${clubInfo.c_ask}</h6>
+					<textarea class="form-control col-sm-55" rows="5" name="cm_intro"></textarea></div>
+				<div class="modal-footer" style="margin-top:5px;">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+					<input type="submit" class="btn btn-primary" value="가입인사 보내기">
+				</div>
+				</form>
+			</div>
+		</div>
 	</div>
+	<!--leaveClub Modal -->
+<div class="modal fade" id="leaveClub" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">소모임 탈퇴하기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        	소모임을 탈퇴하시겠어요?o(TヘTo) </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='${contextPath}/club/leaveClub.do?c_id=${clubInfo.c_id}'">탈퇴하기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--reportClub Modal -->
+<div class="modal fade" id="reportClub" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">소모임 신고하기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="${contextPath}/club/reportClub.do?c_id=${clubInfo.c_id}" method="post">
+      <div class="modal-body">
+      	<c:forEach var="c" items="${reportType}">
+			<input type="radio" name="rc_type" value="${c.gc_id}">${c.gc_name}<br>
+		</c:forEach>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        <input type="submit" class="btn btn-primary" value="신고하기">
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 </body>
 </html>
