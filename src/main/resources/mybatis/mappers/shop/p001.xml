@@ -52,7 +52,7 @@
       <![CDATA[
      	select * 
      	from b_member
-     	where bm_id = #{id}
+     	where bm_id = #{bm_id}
       ]]>
 	</select>
 	<!--아이디찾기 -->
@@ -64,6 +64,86 @@
      	AND bm_phoneNumber = #{bm_phoneNumber}
       ]]>
 	</select>
+	
+	<select id="selectPwdById" parameterType="String" resultType="String">
+		<![CDATA[
+     		SELECT BM_PWD
+     		FROM B_MEMBER
+     		WHERE BM_ID = #{bm_id}
+		]]>
+	</select>
+	
+	<select id="selectOverlapEmail" resultType="String" parameterType="String">
+   		<![CDATA[
+   			SELECT BM_EMAIL
+			FROM B_MEMBER
+			WHERE BM_EMAIL LIKE #{email}
+   		]]>
+   	</select>
+   	
+   	<select id="selectOverlapPhone" resultType="String" parameterType="String">
+ 		<![CDATA[
+   			SELECT BM_PHONENUMBER
+			FROM B_MEMBER
+			WHERE BM_PHONENUMBER LIKE #{phone}
+ 		]]>
+   	</select>
+   	
+   	<update id="updateBmember" parameterType="shopP001BMemberVO">
+   		<![CDATA[
+   			UPDATE B_MEMBER
+   			SET BM_EMAIL = #{bm_email}, BM_PWD = #{bm_pwd}, BM_PHONENUMBER = #{bm_phoneNumber}
+   			WHERE BM_ID = #{bm_id}
+ 		]]>
+   	</update>
+   	
+   	<select id="getShopIdByBmemberId" parameterType="String" resultType="String">
+   		<![CDATA[
+   			SELECT S_ID
+   			FROM SHOP
+   			WHERE BM_ID = #{bm_id}
+ 		]]>
+   	</select>
+   	
+   	<delete id="deleteBmember" parameterType="String">
+   		<![CDATA[
+   			DELETE
+   			FROM B_MEMBER
+   			WHERE BM_ID = #{bm_id}
+ 		]]>
+   	</delete>
+   	
+   	<delete id="deleteShop" parameterType="String">
+   		<![CDATA[
+   			DELETE
+   			FROM SHOP
+   			WHERE S_ID = #{s_id}
+ 		]]>
+   	</delete>
+   	
+   	<delete id="deleteShopImage" parameterType="String">
+   		<![CDATA[
+   			DELETE
+   			FROM S_IMAGE
+   			WHERE S_ID = #{s_id}
+ 		]]>
+   	</delete>
+   	
+   	<delete id="deleteShopReview" parameterType="String">
+   		<![CDATA[
+   			DELETE
+   			FROM S_REVIEW
+   			WHERE S_ID = #{s_id}
+ 		]]>
+   	</delete>
+   	
+   	<delete id="deleteShopReviewImage" parameterType="String">
+   		<![CDATA[
+   			DELETE
+   			FROM R_IMAGE
+   			WHERE S_ID = #{s_id}
+ 		]]>
+   	</delete>
 	
 	<select id="sixMonthScoreStatistics" parameterType="String" resultMap="shop.p001.shopStatistics">
 		<![CDATA[

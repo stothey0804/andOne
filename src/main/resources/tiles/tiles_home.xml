@@ -39,6 +39,16 @@
        <put-attribute name="body" value="/WEB-INF/views/shop/p001_d004_shopAdminMain.jsp" />
    </definition>
    
+   <definition name="modifyBmember" extends="shopLayout">
+      <put-attribute name="title" value="업체회원 정보수정" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d005_modifyBmember.jsp" />
+   </definition>
+   
+   <definition name="bMemberDelete" extends="shopLayout">
+      <put-attribute name="title" value="업체회원 탈퇴" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d005_bMemberDelete.jsp" />
+   </definition>
+   
 	<!-- 지역업체 어드민 END -->
 
 	<!-- 관리자 START -->

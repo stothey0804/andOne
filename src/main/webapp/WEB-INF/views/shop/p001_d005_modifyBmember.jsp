@@ -44,45 +44,6 @@
 <script>
 	// 초기화시, 선택정보 영역 set
 	$(document).ready(function(){
-		var gender = '${member.m_gender}';
-		var age = '${member.m_age}';
-		// gender 정보 존재시 체크
-		if(gender!=null || gender!=''){
-			if(gender==10){
-				$("#male").attr('checked',true);
-			}else if(gender==20){
-				$("#female").attr('checked',true);
-			}
-		}
-		// age 정보 존재시 체크
-		if(age!=null || age!=''){
-			$("#age"+age).attr('selected',true);
-		}
-		
-		loadProfileImage();
-		
-		// 프로피이미지 업로드 시
-		$('#inputFile').on("change",preview);
-		var sel_files = [];
-		function preview(e){
-			sel_files = [];
-			var files = e.target.files;
-			var filesArr = Array.prototype.slice.call(files);
-			filesArr.forEach(function(f){
-				if(!f.type.match("image.*")){
-					alert('잘못된 파일 형식');
-					return;
-				}
-				sel_files.push(f);
-				var reader = new FileReader();
-				reader.onload = function(e){
-					$(".input-profile").attr("src", e.target.result);
-				}
-				reader.readAsDataURL(f);
-			})
-			
-		}
-		
 		
 	});
 </script>
@@ -94,19 +55,19 @@
 			<hr class="m-5">
 			<div class="form-group col-sm-10 mx-auto mt-5 p-0">
 			<p class="h4 mb-3">필수정보</p>
-			<input type="hidden" name="m_id" value="${member.m_id}">
+			<input type="hidden" name="bm_id" value="${bMember.bm_id}">
 				<!-- 이메일 -->
 				<div class="mb-2 row">
 				    <label for="inputEmail" class="col-lg-3 col-sm-12 col-form-label">이메일</label>
 				    <div class="col-lg-7 col-sm-12">
-				      <input type="email" class="form-control" id="inputEmail" name="m_email" value="${member.m_email}">
+				      <input type="email" class="form-control" id="inputEmail" name="bm_email" value="${bMember.bm_email}">
 		    		</div>
 		    	</div>
 		    	<!-- 비밀번호  -->
 				<div class="mb-2 row">
 				    <label for="inputPassword" class="col-lg-3 col-sm-12 col-form-label">비밀번호</label>
 				    <div class="col-lg-7 col-sm-12">
-				      <input type="password" class="form-control" id="inputPassword" name="m_pwd" >
+				      <input type="password" class="form-control" id="inputPassword" name="bm_pwd" >
 		    		</div>
 		    	</div>
 		    	<!-- 비밀번호 확인 -->
@@ -117,77 +78,14 @@
 		    		</div>
 		    	</div>
 		    		    	<!-- 휴대폰번호 -->
-			<div class="mb-2 row">
-			    <label for="inputPhoneNumber" class="col-lg-3 col-12 col-form-label">휴대폰번호</label>
-			    <div class="col-lg-7 col-7 col-sm-9">
-				      <input type="tel" class="form-control" id="inputPhoneNumber" name="m_phonenumber"
-				      value="${member.m_phonenumber}" placeholder="010-0000-0000" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" >
+				<div class="mb-2 row">
+				    <label for="inputPhoneNumber" class="col-lg-3 col-12 col-form-label">휴대폰번호</label>
+				    <div class="col-lg-7 col-7 col-sm-9">
+				      <input type="tel" class="form-control" id="inputPhoneNumber" name="bm_phoneNumber"
+				      value="${bMember.bm_phoneNumber}" placeholder="010-0000-0000" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" >
 				      <div class='invalid-feedback phone-feedback'>유효하지 않은 번호 입니다.</div>
+	    			</div>
 	    		</div>
-		    	<input type="button" class="btn btn-primary col-lg-2 col-5 col-sm-3" id="sendSMS" value="인증번호발송"></input>
-	    	</div>
-			<div class="mb-2 row">
-				<div class="col-lg-7 col-7 col-sm-9 ml-auto">
-			      <input type="text" class="form-control" name="confirmSMS" placeholder="인증번호입력" id="inputConfirmSMS">
-			      <div class='invalid-feedback'>인증번호가 일치하지 않습니다.</div>
-			      <div class="valid-feedback">인증번호 확인완료</div>
-	    		</div>
-		    	<input type="button" class="btn btn-secondary col-lg-2 col-5 col-sm-3" id="confirmSMS" style="height:38px" value="인증번호확인"></input>
-	    	</div>
-			<!-- 필수정보 끝 -->
-			<hr>
-			<p class="h4 mb-3">선택정보</p>
-			<!-- 성별 -->
-				<div class="mb-2 row">
-				    <label for="selectGender" class="col-lg-3 col-sm-12 col-form-label">성별</label>
-				    <div class="col-lg-7 col-sm-12">
-					    <div class="form-check form-check-inline">
-						  <input class="form-check-input" type="radio" name="m_gender" id="male" value="10">
-						  <label class="form-check-label" for="male">남자</label>
-						</div>
-						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="radio" name="m_gender" id="female" value="20">
-						  <label class="form-check-label" for="female">여자</label>
-						</div>
-		    		</div>
-		    	</div>
-		    	<!-- 나이대 -->
-				<div class="mb-2 row">
-				    <label for="selectAge" class="col-lg-3 col-sm-12 col-form-label">나이대</label>
-			    	  <div class="form-group col-lg-7 col-sm-12">
-					    <select class="form-control " id="selectAge" name="m_age">
-					      <option value="">선택</option>
-					      <option id="age10" value="10">10대</option>
-					      <option id="age20" value="20">20대</option>
-					      <option id="age30" value="30">30대</option>
-					      <option id="age40" value="40">40대</option>
-					      <option id="age50" value="50">50대이상</option>
-					    </select>
-					  </div>
-		    	</div>
-				<!-- 닉네임 -->
-				<div class="mb-2 row">
-				    <label for="inputEmail" class="col-lg-3 col-sm-12 col-form-label">닉네임</label>
-				    <div class="col-lg-7 col-sm-12">
-				      <input type="text" class="form-control" id="inputEmail" name="m_nickname" value="${member.m_nickname}">
-		    		</div>
-		    	</div>
-		    	<div class="mb-2 row">
-		    		<label for="profileImage" class="col-lg-3 col-sm-12 col-form-label">프로필이미지</label>
-		    		<div class="form-group col-lg-7 col-sm-12">
-   		          		<div class="input-box my-3" style="background: #BDBDBD;">
-<%--    		          		  <img alt="" src="data:image/jpg;base64, ${data}" /> --%>
-<%--     						<img class="profile" src="${contextPath}/member/getByteImage"> --%>
-    						<img class="input-profile">
-						</div>
-						<div class="filebox">
-							<label for="inputFile" class="btn btn-primary my-0">업로드</label>
-		    				<input class="btn btn-danger" id="deleteFile"type="button" value="삭제">
-		    				<input class="form-control" id="inputFile" type="file" name="m_img">
-							<input class="upload-name form-control-plaintext" value="" readonly>
-						</div>
-		    		</div>
-		    	</div>
 			<input type="button" class="btn btn-primary btn-lg btn-block mt-4" value="수정" id="sendForm"></input>
 			</div>
 		</form>
@@ -208,7 +106,7 @@
 	                data: {
 	                    email: _email //data로 넘겨주기
 	                },
-	                url: "${contextPath}/member/searchOverlapEmail.do",
+	                url: "${contextPath}/biz/searchOverlapEmail.do",
 	                success: function (data, textStatus) {
 	                	if(data=="true"){	// 중복일경우
 	                		$(".email-feedback").text("중복되는 이메일입니다.");
@@ -261,7 +159,7 @@
 	                data: {
 	                    phone: _phone //data로 넘겨주기
 	                },
-	                url: "${contextPath}/member/searchOverlapPhone.do",
+	                url: "${contextPath}/biz/searchOverlapPhone.do",
 	                success: function (data, textStatus) {
 	                	if(data=="true"){	// 중복일경우
 							$("#inputPhoneNumber").removeClass("is-valid");
@@ -273,106 +171,12 @@
 			}
 		});
 		
-		// 인증번호 저장 변수
-		var authNum = 0;
-		
-		// SMS 전송 클릭시
-		$("#sendSMS").click(function(){
-			alert("인증번호가 발송되었습니다.");
-			var _phone = $("#inputPhoneNumber").val();
-			// ajax로 인증번호 받기
-			$.ajax({
-                type: "post",
-                async: "true",
-                dataType: "text",
-                data: {
-                    phone: _phone //data로 넘겨주기
-                },
-                url: "${contextPath}/member/confirmSMSCode.do",
-                success: function (data, textStatus) {
-                	authNum = data;	
-                }
-			});
-			
-		});
-		
-		// SMS 확인 클릭시, 인증번호 검증
-		$("#confirmSMS").click(function(){
-			let inputAuthNum = $("#inputConfirmSMS").val();
-			if(authNum==0 || authNum==null){
-				alert("인증번호발송을 누르세요.");
-			}else if(authNum==inputAuthNum){
-				$("#inputConfirmSMS").removeClass("is-invalid");
-				$("#inputConfirmSMS").addClass("is-valid");
-				$("#inputConfirmSMS").attr("readonly",true);
-			}else{
-				$("#inputConfirmSMS").removeClass("is-valid");
-				$("#inputConfirmSMS").addClass("is-invalid");
-			}
-		});
-		
-		function loadProfileImage(){
-			// 프로필이미지
-			$.ajax({
-	            type: "post",
-	            async: "true",
-	            dataType: "text",
-	            data: {
-	                id: '${member.m_id}' //data로 넘겨주기
-	            },
-	            url: "${contextPath}/member/getByteImage",
-	            success: function (data, textStatus) {
-	            	if(data==null || data==""){	
-	            		$(".input-profile").attr("src","${contextPath}/resources/image/user.png")
-	            	}else{	// null이 아닐경우
-	            		$(".input-profile").attr("src","data:image/png;base64, "+data);
-	            	}
-	            }
-			});
-		}
-		
-		// 이미지 삭제 클릭
-		$("#deleteFile").click(function(){
-			// 기본프로필 사진 적용
-			if(window.confirm("프로필이미지는 바로 삭제됩니다. 삭제하시겠어요?")){
-				$(".input-profile").attr("src","${contextPath}/resources/image/user.png");
-				$.ajax({
-		            type: "post",
-		            async: "true",
-		            dataType: "text",
-		            data: {
-		                id: '${member.m_id}' //data로 넘겨주기
-		            },
-		            url: "${contextPath}/member/deleteUserImage.do",
-		            success: function (data, textStatus) {
-		            	
-		            }
-				});
-			}
-			
-		});
-		
-		// 파일수정시 upload-name 업데이트
-		$("#inputFile").on('change',function(){
-			  var fileName = $("#inputFile").val();
-			  $(".upload-name").val(fileName);
-		});
-		
 		// 수정 클릭 시 *
 		$("#sendForm").click(function(){
 			var email = $("#inputEmail").val();
 			var pwd = $("#inputPassword").val();
 			var phoneNum = $("#inputPhoneNumber").val();
 			
-			// 전화번호가 member객체가 가지고 있는 값과 일치하지 않을경우
-			if(phoneNum != '${member.m_phonenumber}'){
-				var isConfirmSmS = $("#inputConfirmSMS").attr("readonly");
-				if(!isConfirmSmS){
-					alert("휴대폰인증을 완료해주세요.");
-					return;
-				}
-			}
-
 			// 필수입력조건 체크(pwd제외)
 			if(email=='' || email==null
 					|| phoneNum=='' || phoneNum==null){
@@ -384,7 +188,7 @@
 			}else{
 				//모든 조건 통과시 saveMember로 보내기
 				var frmMemberInfo = document.frmMemberInfo;
-				frmMemberInfo.action = "${contextPath}/member/saveMember.do";
+				frmMemberInfo.action = "${contextPath}/biz/saveMember.do";
 				frmMemberInfo.submit();
 			}
 		});

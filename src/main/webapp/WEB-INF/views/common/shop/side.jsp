@@ -28,10 +28,10 @@
 		    <a class="nav-link" href="#">리뷰 관리</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" href="#">업주 정보 수정</a>
+		    <a class="nav-link" href="${contextPath}/biz/updateForm.do">업주 정보 수정</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" href="#">업주 탈퇴</a>
+		    <a class="nav-link" href="${contextPath}/biz/deleteMember.do">업주 탈퇴</a>
 		  </li>
 		</ul>
     <script src="http://code.jquery.com/jquery-1.10.2.js"></script>

@@ -12,9 +12,9 @@ public class ShopP001_d002DAOImpl implements ShopP001_d002DAO {
 	private SqlSession sqlSession;
 	
 	@Override
-	public ShopP001BmemberVO loginCheck(String id) {
+	public ShopP001BmemberVO loginCheck(String bm_id) {
 		System.out.println(">>>>>>loginDAO");
-		ShopP001BmemberVO bMember = sqlSession.selectOne("shop.p001.loginCheck", id);
+		ShopP001BmemberVO bMember = sqlSession.selectOne("shop.p001.loginCheck", bm_id);
 		return bMember;
 	}
 
