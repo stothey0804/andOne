@@ -43,5 +43,20 @@ public class MemberP004_d001ServiceImpl implements MemberP004_d001Service{
 	public List<MemberP004VO> searchWroteMemberReview(Map<String, String> param) {
 		return memberP004_d001DAO.searchWroteMemberReview(param);
 	}
+
+	@Override
+	public int selectMemberReviewCnt(Map<String, String> param) {
+		return memberP004_d001DAO.selectMemberReviewCnt(param);
+	}
+
+	@Override
+	public MemberP004VO searchReviewContent(String mr_id) {
+		return memberP004_d001DAO.searchReviewContent(mr_id);
+	}
+
+	@Override
+	public int deleteMemberReview(String mr_id) {
+		return memberP004_d001DAO.deleteMemberReview(mr_id);
+	}
 	
 }

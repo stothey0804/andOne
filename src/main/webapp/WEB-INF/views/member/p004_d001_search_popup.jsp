@@ -1,88 +1,72 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>    
-<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />  
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<title>회원정보조회</title>
+
+<!-- JQuery -->
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+<script>
+
+</script>
 <style type="text/css">
-	div.form-group{
-		width: 100%;
+	div.memberInfo{
+	    padding: 1.5em;
+	    width: 450px;
+	    height: 500px;
 	}
-/* 	@media screen and (max-width: 1000px){ */
-/* 		div.form-group{ */
-/* 			width: 90%; */
-/* 		} */
-/* 	} */
- 	.container{ 
-		margin: 0 auto;
+
+	.profile {
+	    width: 100%;
+	    height: 100%;
+	    object-fit: cover;
 	}
 	
 	.arcticleSubject{
 		cursor: pointer;
 	}
 	
-	tbody{
-		border-top-width: 0px !important;
-	}
 	.text-over-cut {
 	  display: block;
-	  width: 300px;
+	  width: 150px;
 	  white-space: nowrap;
 	  overflow: hidden;
 	  text-overflow: ellipsis;
 	  margin: 0;
 	}
-
 </style>
-
-<!-- JQuery -->
-<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-<script src = "${contextPath}/resources/js/ckeditor/ckeditor.js"></script>
-
+<!-- CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<link rel="stylesheet" href="${contextPath}/resources/css/font.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/common.css">
+<!-- font Awesome -->
+<script src="https://kit.fontawesome.com/cdac256c63.js" crossorigin="anonymous"></script>
 <script>
-	// 초기화시, 선택정보 영역 set
-	$(document).ready(function(){
-		$(".arcticleSubject div").click(function(){
-		  	let id = getArticleId(this);
-		    $("#"+id + " .arcticleBody").toggle();	// id get
-		});
-		
-		// 수정
-		$(".editContent").click(function(){
-			let id = getArticleId(this);	
-			editReview(id);
-		});
-		
-		// 삭제
-		$(".deleteArticle").click(function(){
-			let id = getArticleId(this);	
-			if(confirm("삭제 하시겠습니까?")){
-				let frm = document.createElement('form');
-				// 동적 form 생성
-				frm.action = "${contextPath}/member/deleteReview.do";
-				// form에 연결
-				let input = document.createElement('input');
-				input.setAttribute("type","hidden");
-				input.setAttribute("name","mr_id");
-				input.setAttribute("value", id);
-				frm.appendChild(input);	// append id
-				document.body.appendChild(frm);	// append form
-				frm.submit();
-			}
-		});
-		
-		function getArticleId(elem){
-			let result =  $("tbody").has(elem);
-			return result.attr("id");
-		}
-		
-		function editReview(id){
+// 초기화시, 선택정보 영역 set
+$(document).ready(function(){
+	$(".arcticleSubject div").click(function(){
+	  	let id = getArticleId(this);
+	    $("#"+id + " .arcticleBody").toggle();	// id get
+	});
+	
+	// 수정
+	$(".editContent").click(function(){
+		let id = getArticleId(this);	
+		editReview(id);
+	});
+	
+	// 삭제
+	$(".deleteArticle").click(function(){
+		let id = getArticleId(this);	
+		if(confirm("삭제 하시겠습니까?")){
 			let frm = document.createElement('form');
-			window.open("${contextPath}/member/editReview.do", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
-			frm.target = "popupOpener";// target설정
 			// 동적 form 생성
-			frm.action = "${contextPath}/member/editReview.do";
+			frm.action = "${contextPath}/member/deleteReview.do";
 			// form에 연결
 			let input = document.createElement('input');
 			input.setAttribute("type","hidden");
@@ -93,19 +77,43 @@
 			frm.submit();
 		}
 	});
+	
+	function getArticleId(elem){
+		let result =  $("tbody").has(elem);
+		return result.attr("id");
+	}
+	
+	function editReview(id){
+		let frm = document.createElement('form');
+		window.open("${contextPath}/member/editReview.do", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
+		frm.target = "popupOpener";// target설정
+		// 동적 form 생성
+		frm.action = "${contextPath}/member/editReview.do";
+		// form에 연결
+		let input = document.createElement('input');
+		input.setAttribute("type","hidden");
+		input.setAttribute("name","mr_id");
+		input.setAttribute("value", id);
+		frm.appendChild(input);	// append id
+		document.body.appendChild(frm);	// append form
+		frm.submit();
+	}
+	
+});
 </script>
 </head>
-<body>
-<div class="container">
-			<h2 class="m-5">
-			<c:if test="${flag eq 'recieve'}">내가 받은 회원평가</c:if>
-			<c:if test="${flag eq 'write'}">내가 쓴 회원평가</c:if>
-			</h2>
-			<div class="form-group col-sm-10 mx-auto p-0">
-				<table class="table">
+<body class="bg-light">
+<div class="m-0 memberInfo">
+	<!-- 받은 평가 -->
+	<div>
+	<div class="row mx-1">
+		<p class="h5 mb-3">받은평가 조회</p>
+		<a href="${contextPath}/member/searchMemberInfoPopup.do?m_id=${target}" class="ml-auto"><i class="fas fa-arrow-left mr-1"></i>돌아가기</a>	
+	</div>
+					<table class="table">
 					<thead>
 						<tr class="text-center">
-							<th>No.</th><th>닉네임</th><th>점수</th><th style="width:400px;">제목</th><th>날짜</th>
+							<th>No.</th><th>닉네임</th><th>점수</th><th style="width:200px;">제목</th>
 						</tr>
 					</thead>
 					<c:forEach var="list" items="${articleList}">
@@ -113,25 +121,18 @@
 						<tr class="arcticleSubject text-center">
 							<td>${list.r_num}</td>
 							<td>
-								<c:if test="${flag eq 'recieve'}">
-									<a href="${contextPath}/member/searchMemberInfoPopup.do?m_id=${list.m_id}" onclick="window.open(this.href,'_blank','resizable=no,top=0,left=0,width=450,height=500');return false">
-									${list.m_nickname}
-									</a>
-								</c:if>
-								<c:if test="${flag eq 'write'}">
-									<a href="${contextPath}/member/searchMemberInfoPopup.do?m_id=${list.mr_target}" onclick="window.open(this.href,'_blank','resizable=no,top=0,left=0,width=450,height=500');return false">
-									${list.target_nickname}
-									</a>
-								</c:if>
+							<a href="${contextPath}/member/searchMemberInfoPopup.do?m_id=${list.m_id}" onclick="window.open(this.href,'_blank','resizable=no,top=0,left=460,width=450,height=500');return false">
+								${list.m_nickname}
+							</a>
 							</td>
 							<td class="text-center">${list.mr_score}점</td>
 							<td class="text-left"><div class="text-over-cut">${list.mr_content}</div></td>
-							<td>${list.mr_date}</td>
 						</tr>
 						<!-- 내용영역 -->
 						<tr style="display:none;" class="arcticleBody">
 							<td colspan="5" class="p-3">
 								${list.mr_content}
+							<p class="mt-2 text-right">작성일시: ${list.mr_date}</p>
 							<c:if test="${m_id eq list.m_id}">
 							<div class="form-inline">
 								<div class="mt-2 ml-auto">
@@ -186,6 +187,7 @@
 				  </ul>
 				</nav>
 				<!-- 페이징 END -->
-			</div>
+	</div>
 </div>
 </body>
+</html>

@@ -35,12 +35,19 @@
 </head>
 <body class="bg-light">
 	<div class="container p-4">
-		<p class="h3">회원 평가 남기기</p>
+		<p class="h3">
+			<c:if test="${empty content}">
+			 회원 평가 남기기
+			</c:if>
+			<c:if test="${not empty content}">
+			회원 평가 수정
+			</c:if>
+		</p>
 		<hr class="my-3">
 		<form action="${contextPath}/member/insertMemberReview.do" method="post">
 		  <div class="form-group">
 		    <label for="formControlRange">점수를 선택해주세요.</label>
-		    <input type="range" class="form-control-range" name="mr_score" min="1" max="10" step="1" list="score" />
+		    <input type="range" class="form-control-range" name="mr_score" value="${content.mr_score}" min="1" max="10" step="1" list="score" />
              <datalist id="score">
                 <option value="1" label="1">
                 <option value="2" label="2">
@@ -56,10 +63,11 @@
           </div>
           <div class="form-group mt-4">
 		   <label for="exampleFormControlTextarea1">평가내용</label>
-		   <textarea class="form-control" name="mr_content" rows="7"></textarea>
-		 </div>  
+		   <textarea class="form-control" name="mr_content" rows="7">${content.mr_content}</textarea>
+		 </div> 
 		 <input type="hidden" name="mr_target" value="${mr_target}">
 		 <input type="hidden" name="m_id" value="${sessionScope.m_id}">
+		 <input type="hidden" name="mr_id" value="${mr_id}">
          <button type="submit" class="btn btn-primary btn-block">평가남기기</button>   
 		</form>
   	</div>
