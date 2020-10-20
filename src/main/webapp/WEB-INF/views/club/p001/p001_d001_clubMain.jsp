@@ -42,7 +42,10 @@ input[type="submit"] {
 body{
 	background: white;
 }
-.card,.mainClub{
+/* .card,.mainClub{ */
+/* 	background:#f5f7f8; */
+/* } */
+.mainClub{
 	background:#f5f7f8;
 }
 
@@ -74,7 +77,9 @@ div.img{
 	background-color: #f5f7f8;
 }
 div.img > img{
-	vertical-align:middle;
+	object-fit: cover;
+	height: 270px 
+/* 	vertical-align:middle; */
 }
 * {box-sizing: border-box;}
 .mySlides {display: none;}
@@ -202,8 +207,8 @@ function removeHTML(text){
 		<br>
 		<div class="row">
 			<c:forEach var="club" items="${clubList}">
-				<div class="col-sm-6 mb-3 mainClub" onclick="location.href='${contextPath}/club/detailClub.do?c_id=${club.c_id}'"
-					style="max-width: 540px; margin-left: 25px;padding:0">
+				<div class="col-sm-6 mb-3 card" onclick="location.href='${contextPath}/club/detailClub.do?c_id=${club.c_id}'"
+					style="max-width: 540px; max-height:270px; margin-left: 25px;padding:0">
 					<div class="row no-gutters">
 						<div class="col-sm-6 img">
 						<c:choose>
