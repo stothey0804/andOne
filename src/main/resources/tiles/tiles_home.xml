@@ -64,6 +64,16 @@
        <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_addShop.jsp" />
    </definition>
    
+   <definition name="deleteShop" extends="shopLayout">
+      <put-attribute name="title" value="지역업체 삭제" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_deleteShop.jsp" />
+   </definition>
+   
+   <definition name="deleteShopComplete" extends="shopLayout">
+      <put-attribute name="title" value="지역업체 삭제완료" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_deleteShopComplete.jsp" />
+   </definition>
+   
 	<!-- 지역업체 어드민 END -->
 
 	<!-- 관리자 START -->

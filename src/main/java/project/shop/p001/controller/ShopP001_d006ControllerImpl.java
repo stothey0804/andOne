@@ -53,6 +53,12 @@ public class ShopP001_d006ControllerImpl implements ShopP001_d006Controller{
 		return path;
 	}
 	
+	@RequestMapping("biz/deleteShopComplete.do")
+	public String deleteMemberComplete(@RequestParam String s_id) {
+		shopP001_d005Service.deleteShop(s_id);
+		return "deleteShopComplete";
+	}
+	
 	@RequestMapping("biz/insertShop.do")
 	public String insertShop(MultipartHttpServletRequest mtfRequest, ShopP002ShopDetailVO shopVO) {
 		List<MultipartFile> fileList = mtfRequest.getFiles("image");
