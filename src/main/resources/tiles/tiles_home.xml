@@ -54,6 +54,16 @@
        <put-attribute name="body" value="/WEB-INF/views/shop/p001_d005_pwdCheck.jsp" />
    </definition>
    
+   <definition name="crudInit" extends="shopLayout">
+      <put-attribute name="title" value="지역업체 초기" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_crudInit.jsp" />
+   </definition>
+   
+   <definition name="addShop" extends="shopLayout">
+      <put-attribute name="title" value="지역업체 등록" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_addShop.jsp" />
+   </definition>
+   
 	<!-- 지역업체 어드민 END -->
 
 	<!-- 관리자 START -->

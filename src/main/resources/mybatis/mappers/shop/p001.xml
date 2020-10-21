@@ -89,6 +89,22 @@
  		]]>
    	</select>
    	
+   	<select id="selectOverlapShopPhone" resultType="String" parameterType="String">
+ 		<![CDATA[
+   			SELECT S_PHONENUMBER
+			FROM SHOP
+			WHERE S_PHONENUMBER LIKE #{phone}
+ 		]]>
+   	</select>
+   	
+   	<select id="selectOverlapShopId" resultType="String" parameterType="String">
+ 		<![CDATA[
+   			SELECT S_ID
+			FROM SHOP
+			WHERE S_ID LIKE #{shopId}
+ 		]]>
+   	</select>
+   	
    	<update id="updateBmember" parameterType="shopP001BMemberVO">
    		<![CDATA[
    			UPDATE B_MEMBER
@@ -112,6 +128,20 @@
    			WHERE BM_ID = #{bm_id}
  		]]>
    	</delete>
+   	
+   	<insert id="insertShop" parameterType="ShopP002ShopDetailVO">
+   		<![CDATA[
+   			INSERT INTO SHOP (S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, S_LOCATE, S_PHONENUMBER, S_HASHTAG)
+   			VALUES (#{s_id},#{s_category},#{s_name},#{s_score},#{s_content},#{bm_id},#{s_locate},#{s_phoneNumber},#{s_hashtag})
+ 		]]>
+   	</insert>
+   	
+   	<insert id="insertShopImage" parameterType="ShopP002ShopImageVO">
+		<![CDATA[
+			INSERT INTO S_IMAGE (S_ID,SI_IMG,SI_IDX)
+			VALUES (#{s_id},#{si_imgEncoder.img},#{si_idx})
+		]]>
+	</insert>
    	
    	<delete id="deleteShop" parameterType="String">
    		<![CDATA[
