@@ -15,7 +15,6 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 <!-- JQuery -->
-<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 
  <script type="text/javascript">
  

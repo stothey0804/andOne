@@ -76,14 +76,14 @@
 	</beans:bean>
  
     <!-- websocket -->
-<!--     <beans:bean id="chatHandler" class="exam.chat.ChatWebSocketHandler" /> -->
-    
-<!--  	<websocket:handlers> -->
-<!-- 		<websocket:mapping handler="chatHandler" path="/chat-ws" /> -->
-<!-- 		<websocket:handshake-interceptors> -->
-<!-- 		  <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" /> -->
-<!-- 		</websocket:handshake-interceptors>	 -->
-<!-- 	</websocket:handlers> -->
+    <beans:bean id="echoHandler" class="common.socket.EchoHandler" />
+ 	<websocket:handlers>
+		<websocket:mapping handler="echoHandler" path="/echo-ws" />
+		<websocket:handshake-interceptors>
+		  <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>	
+		<websocket:sockjs />
+	</websocket:handlers>
 	
     <!-- batch -->
     <!-- 

@@ -137,7 +137,6 @@ div.img > img{
     		width: 100%;
     }
 </style>
-	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script>
 function init(){
 	var txt = document.getElementsByClassName("str");
