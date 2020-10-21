@@ -3,10 +3,22 @@
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
    <mapper namespace="member.p004">
+   <resultMap type="memberP004VO" id="memberReview">
+   		<result property="m_id" column="m_id"/>
+   		<result property="mr_target" column="mr_target"/>
+   		<result property="mr_date" column="mr_date"/>
+   		<result property="mr_score" column="mr_score"/>
+   		<result property="mr_content" column="mr_content"/>
+   		<result property="mr_editor" column="mr_editor"/>
+   		<result property="mr_editdate" column="mr_editdate"/>
+   		<result property="m_nickname" column="m_nickname"/>
+   		<result property="target_nickname" column="target_nickname"/>
+   		<result property="r_num" column="r_num"/>
+   </resultMap>
    	<select id="searchMemberInfo" resultType="java.util.HashMap" parameterType="String">
       <![CDATA[
          SELECT m_id,m_nickname,m_score,
-		(SELECT count(m_id) FROM m_review where m_id like #{m_id}) as memberReviewCnt,
+		(SELECT count(m_id) FROM m_review where mr_target like #{m_id}) as memberReviewCnt,
         (SELECT count(m_id) FROM one_member 
         WHERE m_id like #{m_id} AND om_leader = '10') as andOneLeader,
         (SELECT count(m_id) FROM one_member 
@@ -15,5 +27,89 @@
         FROM member
         WHERE m_id like #{m_id}   
       ]]>
+    <!-- 멤버점수 조회 -->
 	</select>
+   	<select id="selectMemberScore" resultType="String" parameterType="String">
+      <![CDATA[
+         SELECT m_score FROM member WHERE m_id like #{m_id}   
+      ]]>
+	</select>
+	<!-- 내가 쓴 평가  -->
+	<select id="searchWroteMemberReview" resultMap="memberReview" parameterType="java.util.HashMap">
+	 <![CDATA[
+	 	SELECT *
+		FROM (SELECT mr_id, m_id, mr_target, SUBSTR(mr_date,1,16)mr_date, mr_score, mr_content, 
+				(SELECT m_nickname FROM member WHERE member.m_id like m_review.mr_target)target_nickname, 
+		        (ROW_NUMBER() OVER(ORDER BY mr_date DESC))r_num
+		        FROM m_review
+		        WHERE m_id like #{m_id})
+		WHERE r_num between #{startIndex} AND #{endIndex}
+	 ]]>
+	</select>	
+	<!-- 내가 받은 평가  -->
+	<select id="searchReceivedMemberReview" resultMap="memberReview" parameterType="java.util.HashMap">
+	 <![CDATA[
+	 	SELECT *
+		FROM (SELECT mr_id, m_id, mr_target, mr_date, mr_score, mr_content,
+				(SELECT m_nickname FROM member WHERE member.m_id like m_review.m_id)m_nickname,
+				(ROW_NUMBER() OVER(ORDER BY mr_date DESC))r_num
+		        FROM m_review
+		        WHERE mr_target like #{m_id})
+		WHERE r_num between #{startIndex} AND #{endIndex}
+	 ]]>
+	</select>
+	
+	<!-- 내가쓴, 받은 카운트-->
+	<select id="selectMemberReviewCnt" resultType="int">
+		<if test="flag=='recieve'">
+		<![CDATA[
+			SELECT count(m_id) FROM m_review where mr_target like #{m_id} 
+		]]>
+		</if>
+		<if test="flag=='write'">
+		<![CDATA[
+			SELECT count(m_id) FROM m_review where m_id like #{m_id} 
+		]]>
+		</if>
+	</select> 
+	<!-- 평가 작성 / 수정-->
+	<update id="insertMemberReview" parameterType="java.util.HashMap">
+	<![CDATA[
+	MERGE INTO m_review
+		USING DUAL
+		ON (mr_id = #{mr_id})
+		WHEN MATCHED THEN
+			UPDATE SET
+			mr_score = #{mr_score}, mr_content = #{mr_content}, mr_editor = #{m_id},
+			mr_editdate = TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss')
+	 	WHEN NOT MATCHED THEN
+			INSERT (mr_id, m_id, mr_target, mr_date, mr_score, mr_content, mr_editor, mr_editdate)
+			VALUES( LPAD(M_REVIEW_SEQ.NEXTVAL,6,'0'), #{m_id}, #{mr_target}, TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss'),
+			#{mr_score}, #{mr_content}, #{m_id}, TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss'))
+	]]>
+	</update>
+	<!-- 수정 시 조회 -->
+	<select id="searchReviewContent" resultMap="memberReview" parameterType="String">
+	<![CDATA[
+		SELECT mr_score, mr_content, mr_target
+		FROM m_review
+		WHERE mr_id = #{mr_id}
+	]]>
+	</select>
+	<!-- 리뷰 삭제 -->
+	<delete id="deleteReview" parameterType="String">
+	<![CDATA[
+		DELETE FROM m_review
+		WHERE mr_id = #{mr_id}	
+	]]>
+	</delete>
+	<!-- 작성시 평점 업데이트 -->
+	<update id="updateMemberScore" parameterType="String">
+	<![CDATA[
+		UPDATE member
+		SET m_score = (SELECT TO_CHAR(AVG(mr_score),'FM99.0') FROM m_review WHERE mr_target like #{m_id})
+		WHERE m_id like #{m_id}
+	]]>
+	</update>
+	
    </mapper>

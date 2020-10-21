@@ -65,7 +65,7 @@ public class ShopP001_d001ControllerImpl implements ShopP001_d001Controller {
 		if(result == 1) {
 			return "shop/p001_d001_insertBmember_sub01";
 		}else {
-			return "shop/p001_d001_inserBmember";
+			return "shop/p001_d001_insertBmember";
 		}
 	}
 	 

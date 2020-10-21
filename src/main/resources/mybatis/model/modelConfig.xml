@@ -19,6 +19,7 @@
 <!-- 		<typeAlias type="project.shop.p001.vo.ShopP001_d001VO" alias="shopP001_d001VO"/> -->
 		<typeAlias type="project.and.vo.AndP001AndOneVO" alias="AndP001AndOneVO"/>
 		<typeAlias type="project.shop.p001.vo.ShopP001BmemberVO" alias="shopP001BMemberVO"/>
+		<typeAlias type="project.shop.p001.vo.ShopP001StatisticsVO" alias="shopP001StatisticsVO"/>
 	    <typeAlias type="project.shop.p002.vo.ShopP002ShopDetailVO" alias="ShopP002ShopDetailVO" />
 	    <typeAlias type="project.shop.p002.vo.ShopP002ShopImageVO" alias="ShopP002ShopImageVO" />
 	    <typeAlias type="project.shop.p003.vo.ShopP003ShopReviewImageVO" alias="ShopP003ShopReviewImageVO" />
@@ -27,5 +28,6 @@
 		<typeAlias type="project.member.p002.vo.MemberP002VO" alias="memberP002VO" /> <!-- QnA -->
 		<typeAlias type="project.root.p003.vo.RootP003VO" alias="rootP003VO" /> <!-- notice -->
 		<typeAlias type="project.point.p001.vo.PointP001VO" alias="pointP001VO" /> <!-- point -->
+		<typeAlias type="project.member.p004.vo.MemberP004VO" alias="memberP004VO" /> <!-- 멤버리뷰 -->
 	</typeAliases>
 </configuration>

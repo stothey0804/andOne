@@ -14,8 +14,8 @@ public class ShopP001_d002ServiceImpl implements ShopP001_d002Service {
 	private ShopP001_d002DAO shopP001_d002DAO;
 	
 	@Override
-	public ShopP001BmemberVO loginCheck(String id) {
+	public ShopP001BmemberVO loginCheck(String bm_id) {
 		System.out.println(">>>>>>loginService");
-		return shopP001_d002DAO.loginCheck(id);
+		return shopP001_d002DAO.loginCheck(bm_id);
 	}
 }
