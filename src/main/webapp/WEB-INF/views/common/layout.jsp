@@ -29,8 +29,8 @@
         float: left;
       }
       #footer {
-        clear: both;
-        padding: 1.25em;
+      	clear: both;
+      	padding: 1.25em;
       }
     </style>
     

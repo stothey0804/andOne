@@ -13,6 +13,7 @@
 		<result property="c_hashtag" column="c_hashtag" />
 		<result property="c_openingdate" column="c_openingdate" />
 		<result property="c_membermax" column="c_membermax" />
+		<result property="gc_name" column="gc_name"/>
 		<result property="c_imgByte" column="c_img" javaType="[B" jdbcType="BLOB" />
 	</resultMap>
 	<resultMap id="p001_d001Result02" type="clubVO">
@@ -77,6 +78,15 @@
 		]]>
 	</select>
 	
+	<select id="categoryClubList" resultMap="p001_d001Result01">
+		SELECT c_name,c_content,c_membercnt,c_id,c_img,(select c.gc_name
+       	from club a, common_code c
+       	where a.c_category= c.gc_id
+       	and c.g_id = '019'
+       	and b.c_id = a.c_id) as c_category
+		FROM club b
+		WHERE c_category = #{c_category}
+	</select>
 	<select id = "memberCheck" resultMap="member">
 		<![CDATA[
 			select m_id,cm_rank
@@ -86,6 +96,12 @@
 		]]>
 	</select>
 	
+	<select id="categoryName" resultType="string">
+		SELECT gc_name as c_category
+		FROM common_code
+		WHERE g_id ='019'
+		AND gc_id =#{c_category}
+	</select>
 	<select id="searchClubList" resultMap="p001_d001Result01">
 		<![CDATA[
 		 select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id,c_img
@@ -128,9 +144,8 @@
 	<select id="getArticleListImg" resultMap="club.p001.imgList">
 		<![CDATA[
 		 	select ca_img
-		 	from c_article
+		 	from ca_image
 		 	where ca_id = #{c_id}
-            order by ca_pin desc, ca_date desc
 		]]>
 	</select>
 	

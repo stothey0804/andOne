@@ -68,17 +68,21 @@ public class ClubP003_d001ControllerImpl implements ClubP003_d001Controller{
 	@RequestMapping(value="/club/writeArticle.do", method= {RequestMethod.GET,RequestMethod.POST})
 	public String writeArticle(ClubArticleVO vo, HttpServletRequest request, HttpSession session, MultipartHttpServletRequest mtfRequest) throws Exception{
 		String m_id = (String) session.getAttribute("m_id");
+		System.out.println(vo.getC_id());
 		List<MultipartFile> mf = mtfRequest.getFiles("ca_img");
 		Map<String, Object> insertMap = new HashMap<String, Object>();
-		System.out.println(vo.getCa_img().size());
-		for(int i=0; i<vo.getCa_img().size();i++) {
-			insertMap.put("ca_img", mf.get(i).getBytes());
-		}
 		insertMap.put("ca_content", vo.getCa_content());
 		insertMap.put("m_id", m_id);
 		insertMap.put("c_id", vo.getC_id());
 		clubP003_d001Service.writeArticle(insertMap);
-		return "redirect:/detailClub.do?c_id="+vo.getC_id();
+		if(mf != null) {
+			for(int i=0; i<vo.getCa_img().size();i++) {
+				System.out.println(i);
+				insertMap.put("ca_img", mf.get(i).getBytes());
+				clubp003_d001DAO.insertClubArticleImg(insertMap);
+			}
+		}
+		return "redirect:/club/detailClub.do?c_id="+vo.getC_id();
 	}
 	
 	@Override		//게시글 수정

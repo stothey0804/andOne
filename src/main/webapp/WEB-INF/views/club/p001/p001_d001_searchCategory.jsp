@@ -11,7 +11,6 @@
 	rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
 @font-face {
 	font-family: 'YanoljaYacheR';
 	src:
@@ -20,11 +19,10 @@
 	font-weight: normal;
 	font-style: normal;
 }
-@font-face {
-  font-family:'Nanum Myeongjo', serif;
-}
-.card_img{
+.card-img{
+	width: 100%;
 	object-fit: cover;
+	height: 270px;
 }
 input[type="submit"] {
 	font-family: FontAwesome;
@@ -34,22 +32,9 @@ input[type="submit"] {
 	text-align: center;
 }
 
-.create {
-	width: 350px;
-	margin: auto;
-}
 body{
 	background: white;
 }
-<<<<<<< HEAD
-=======
-/* .card,.mainClub{ */
-/* 	background:#f5f7f8; */
-/* } */
-.mainClub{
-	background:#f5f7f8;
-}
->>>>>>> branch 'master' of https://github.com/stothey0804/andOne.git
 
 .mainClub:hover{
 	top: -2px;
@@ -66,6 +51,8 @@ body{
 .btn-outline-info{
     border-color: #002A87;
     color: #002A87;
+    width:300px;
+    margin:0 auto;
 }
 
 .btn-outline-info:hover,
@@ -73,75 +60,21 @@ body{
     border-color: #002A87;
     background-color: #002A87;
     color: #FFF; }
-    
-div.img{
-	line-height:225px;
-}
+   
 div.img > img{
-	object-fit: cover;
-<<<<<<< HEAD
-    height: 270px 
-=======
-	height: 270px 
-/* 	vertical-align:middle; */
->>>>>>> branch 'master' of https://github.com/stothey0804/andOne.git
+	vertical-align:middle;
 }
 * {box-sizing: border-box;}
 .mySlides {display: none;}
 .s {vertical-align: middle;}
 
-/* Slideshow container */
-.slideshow-container {
-  max-width: 1000px;
-  position: relative;
-  margin: auto;
-}
-
-    html,
-    body {
-      position: relative;
-      height: 100%;
-    }
-
-    body {
-      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-      font-size: 14px;
-      color: #000;
-      margin: 0;
-      padding: 0;
-    }
-
-    .swiper-container {
-      width: 100%;
-      height: 500px;
-    }
-
-    .swiper-slide {
-      text-align: center;
-      font-size: 18px;
-      background: #fff;
-      /* Center slide text vertically */
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      -webkit-box-pack: center;
-      -ms-flex-pack: center;
-      -webkit-justify-content: center;
-      justify-content: center;
-      -webkit-box-align: center;
-      -ms-flex-align: center;
-      -webkit-align-items: center;
-      align-items: center;
-      
-    }
-    .swiper-slide > img{
-    	object-fit: contain;
-    	width: 100%;
-    }
     #search{
     	display:inline-block;
     	width:650px;
+    }
+    .category{
+     	border:0; 
+    	background-color:white;
     }
     .category{
     	border:0;
@@ -149,41 +82,21 @@ div.img > img{
     	margin-right:5px;
     	margin-left:10px;
     	width:13rem;
-    	border-radius: 13px 13px 0px 0px;
     }
     .category > img{
-    	border-radius: 13px;
-		-moz-border-radius: 13px;
-		-khtml-border-radius: 13px;
-		-webkit-border-radius: 13px;
+    	border-radius: 20px;
+		-moz-border-radius: 20px;
+		-khtml-border-radius: 20px;
+		-webkit-border-radius: 20px;
     }
-    .category > .card-body{
-    	padding-left:10px;
-    	padding-top:10px;
-    }
-.btn-success:hover {
-    background-color: #00033D !important;
-}
-.btn-success{
-	background-color:#002A87 !important;
-	border-color:#002A87;
-	color:white;
-}
-.swiper-text{
-	font-family: 'NanumSquare', sans-serif;
-	position: absolute;
- 	font-weight:bold;
- 	background-color: rgba(0,0,0,0.3);
- 	height:100%;
- 	width:100%; 
-}
-
- 	
+  
 </style>
+	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script>
 function init(){
 	var txt = document.getElementsByClassName("str");
 	for(i=0;i<txt.length;i++){
+		console.log(txt[i]);
 		document.getElementsByClassName("str")[i].innerHTML = txt[i].innerText;
 	}
 }
@@ -204,60 +117,9 @@ function removeHTML(text){
 </head>
 
 <body onload="init();">
-  <!-- Swiper -->
-  <div class="swiper-container">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide">
-      	<img src="https://cdn.pixabay.com/photo/2015/09/02/13/26/glasses-919071_1280.jpg">
-      	<div class="swiper-text">
-      		<h1 class="display-4" style="color:white;margin-top:180px;">&분의 일 사람들과 <br>꾸준히 함께하고 싶나요?</h1>
-      	</div>
-      </div>
-      <div class="swiper-slide">
-      	<img src="https://cdn.pixabay.com/photo/2014/11/17/13/17/crossfit-534615_1280.jpg">
-      	<div class="swiper-text">
-      		<h1 class="display-4" style="color:white;margin-top:180px;">&분의 일 사람들과<br> 꾸준히 함께하고 싶나요?</h1>
-      	</div>
-      </div>
-      <div class="swiper-slide">
-      	<img src="https://cdn.pixabay.com/photo/2015/01/08/18/27/startup-593341_1280.jpg">
-      	<div class="swiper-text">
-      		<h1 class="display-4" style="color:white;margin-top:180px;">&분의 일 사람들과<br> 꾸준히 함께하고 싶나요?</h1>
-      	</div>
-      </div>
-    </div>
-    <!-- Add Pagination -->
-    <div class="swiper-pagination"></div>
-    <!-- Add Arrows -->
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-  </div>
-
-  <!-- Swiper JS -->
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
-  <!-- Initialize Swiper -->
-  <script>
-    var swiper = new Swiper('.swiper-container', {
-      spaceBetween: 30,
-      centeredSlides: true,
-      autoplay: {
-        delay: 2500,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    });
-  </script>
 	<div class="container my-5 center">
 		<h3>카테고리</h3>
-		<p>관심있는 소모임을 주제별로  찾아보세요</p>
+		<p>관심있는 주제별로 소모임을 찾아보세요</p>
 		<div class="row">
 			<div class="card category" onclick="location.href='${contextPath}/club/searchClubCategory.do?c_category=10'">
 				<img
@@ -340,15 +202,14 @@ function removeHTML(text){
 				</div>
 			</div>
 		</div>
-		<div style="margin-top:10px;margin-bottom:4px;">
-			<h3 style="display:inline-block">인기 소모임</h3>
-			<button onclick="location.href='#myList'" class="btn btn-success" style="float:right;">나의 소모임</button>
-		</div>
+		<h3>${gc_name} 검색결과</h3>
 		<br>
 		<div class="row">
-			<c:forEach var="club" items="${clubList}">
+			<c:forEach var="club" items="${categoryClubList}">
+				<c:choose>
+				<c:when test="${club ne null}">
 				<div class="col-sm-6 mb-3 card" onclick="location.href='${contextPath}/club/detailClub.do?c_id=${club.c_id}'"
-					style="max-width: 540px; max-height:270px; margin-left: 25px;padding:0">
+					style="max-width: 540px; margin-left: 25px;padding:0">
 					<div class="row no-gutters">
 						<div class="col-sm-6 img">
 						<c:choose>
@@ -377,6 +238,11 @@ function removeHTML(text){
 						</div>
 					</div>
 				</div>
+				</c:when>
+				<c:otherwise>
+					검색결과가 없습니다. 다른 카테고리로 찾아보세요(ノω<。)ノ))☆.。
+				</c:otherwise>
+				</c:choose>
 			</c:forEach>
 		</div>
 	</div>
@@ -387,7 +253,7 @@ function removeHTML(text){
 				action="${contextPath}/club/searchClub.do">
 				<div>
 				<input type="text" class="form-control" placeholder="검색" name="searchWord" id="search"> 
-				<input class="btn btn-secondary" type="submit" value="&#xf002;" style="margin-top:-6px;margin-left:-4px;width:80px;">
+				<input class="btn btn-light" type="submit" value="&#xf002;">
 				</div>
 			</form>
 			<br>
@@ -398,42 +264,6 @@ function removeHTML(text){
 				onclick="location.href='${contextPath}/club/createClubForm.do'">소모임 만들기</button>
 		</div>
 		<br>
-
-		<div id="myList"><h3>나의 소모임</h3></div>
-		<c:set var="myClubCnt" value="${myClubCnt}" />
-		<c:choose>
-			<c:when test="${myClubCnt eq 0}">
-				<div class="card">
-					<div class="card-body" style="text-align: center;">
-					가입된 소모임이 없습니다. 함께 해봐요!</div>
-				</div>
-			</c:when>
-			<c:otherwise>
-				<div class="row">
-					<c:forEach var="club" items="${myClubList}">
-						<div class="club"
-							style="margin-left: 45px; margin-right: 45px; margin-top: 20px" onclick="location.href='${contextPath}/club/detailClub.do?c_id=${club.c_id}'">
-							<div class="card" style="width: 18rem;">
-							<div class="img">
-								<c:choose>
-								<c:when test="${club.resultImg eq null}">
-									<img src="https://cdn.pixabay.com/photo/2014/07/08/10/47/team-386673_1280.jpg" class="card-img" alt="...">
-								</c:when>
-								<c:otherwise>
-									<img src="data:image/jpg;base64,${club.resultImg}" class="card-img" alt="...">
-								</c:otherwise>
-								</c:choose>
-							</div>
-								<div class="card-body">
-									<h5 class="card-title">${club.c_name }</h5>
-									<p class="card-text">함께하는 사람 ${club.c_membercnt }</p>
-								</div>
-							</div>
-						</div>
-					</c:forEach>
-				</div>
-			</c:otherwise>
-		</c:choose>
 	</div>
 </body>
 </html>
