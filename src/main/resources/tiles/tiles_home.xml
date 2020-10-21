@@ -49,6 +49,11 @@
        <put-attribute name="body" value="/WEB-INF/views/shop/p001_d005_bMemberDelete.jsp" />
    </definition>
    
+   <definition name="pwdCheck" extends="shopLayout">
+      <put-attribute name="title" value="비밀번호 확인" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d005_pwdCheck.jsp" />
+   </definition>
+   
 	<!-- 지역업체 어드민 END -->
 
 	<!-- 관리자 START -->

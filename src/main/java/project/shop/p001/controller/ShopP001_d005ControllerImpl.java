@@ -28,10 +28,18 @@ public class ShopP001_d005ControllerImpl implements ShopP001_d005Controller{
 	ShopP001_d002Service shopP001_d002Service;
 	
 	
-	@RequestMapping("biz/updateForm.do")
-	public String updateForm(HttpServletRequest request, Model model) {
+	@RequestMapping("biz/modifyBmember.do")
+	public String modifyBmember(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession(false);
 		String bm_id = (String)session.getAttribute("bm_id");
+		model.addAttribute("bm_id",bm_id);
+		model.addAttribute("path","/biz/updateForm.do");
+		return "pwdCheck";
+	}
+	
+	
+	@RequestMapping("biz/updateForm.do")
+	public String updateForm(@RequestParam String bm_id, Model model) {
 		ShopP001BmemberVO vo = shopP001_d002Service.loginCheck(bm_id);
 		model.addAttribute("bMember",vo);
 		return "modifyBmember";
