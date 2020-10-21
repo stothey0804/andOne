@@ -12,8 +12,8 @@ public class ClubP002_d001DAOImpl implements ClubP002_d001DAO{
 	private SqlSession sqlSession;
 
 	@Override
-	public void insertClub(Map<String, Object> insertMap) {
-		sqlSession.insert("club.p002.insertClub",insertMap);
+	public void mergeClub(Map<String, Object> insertMap) {
+		sqlSession.insert("club.p002.mergeClub",insertMap);
 	}
 	
 	@Override
@@ -29,6 +29,11 @@ public class ClubP002_d001DAOImpl implements ClubP002_d001DAO{
 	@Override
 	public void deleteClub(Map<String, Object> searchMap) {
 		sqlSession.delete("club.p002.deleteClub",searchMap);
+	}
+
+	@Override
+	public void updateClub(Map<String, Object> insertMap) {
+		sqlSession.update("club.p002.updateClub",insertMap);
 	}
 
 }

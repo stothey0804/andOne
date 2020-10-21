@@ -21,6 +21,13 @@ public class ClubP003_d001DAOImpl implements ClubP003_d001DAO{
 	@Override
 	public void insertClubArticle(Map<String, Object> insertMap) {
 		sqlSession.insert("club.p003.insertClubArticle", insertMap);
+		System.out.println("들어와봐");
+	}
+
+	@Override
+	public void insertClubArticleImg(Map<String, Object> insertMap) {
+		sqlSession.insert("club.p003.insertClubArticleImg", insertMap);
+		System.out.println("zz22");
 	}
 
 	@Override
