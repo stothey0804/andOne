@@ -21,7 +21,7 @@ public class MemberP004_d001DAOImpl implements MemberP004_d001DAO{
 
 	@Override
 	public int insertMemberReview(Map<String, String> param) {
-		return sqlSession.insert("member.p004.insertMemberReview", param);
+		return sqlSession.update("member.p004.insertMemberReview", param);
 	}
 
 	@Override
@@ -42,6 +42,21 @@ public class MemberP004_d001DAOImpl implements MemberP004_d001DAO{
 	@Override
 	public List<MemberP004VO> searchWroteMemberReview(Map<String, String> param) {
 		return sqlSession.selectList("member.p004.searchWroteMemberReview", param);
+	}
+
+	@Override
+	public int selectMemberReviewCnt(Map<String, String> param) {
+		return sqlSession.selectOne("member.p004.selectMemberReviewCnt", param);
+	}
+
+	@Override
+	public MemberP004VO searchReviewContent(String mr_id) {
+		return sqlSession.selectOne("member.p004.searchReviewContent", mr_id);
+	}
+
+	@Override
+	public int deleteMemberReview(String mr_id) {
+		return sqlSession.delete("member.p004.deleteReview", mr_id);
 	}
 	
 	

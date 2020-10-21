@@ -13,6 +13,7 @@
    		<result property="mr_editdate" column="mr_editdate"/>
    		<result property="m_nickname" column="m_nickname"/>
    		<result property="target_nickname" column="target_nickname"/>
+   		<result property="r_num" column="r_num"/>
    </resultMap>
    	<select id="searchMemberInfo" resultType="java.util.HashMap" parameterType="String">
       <![CDATA[
@@ -37,24 +38,24 @@
 	<select id="searchWroteMemberReview" resultMap="memberReview" parameterType="java.util.HashMap">
 	 <![CDATA[
 	 	SELECT *
-		FROM (SELECT m_id, mr_target, mr_date, mr_score, mr_content, 
+		FROM (SELECT mr_id, m_id, mr_target, SUBSTR(mr_date,1,16)mr_date, mr_score, mr_content, 
 				(SELECT m_nickname FROM member WHERE member.m_id like m_review.mr_target)target_nickname, 
-		        (ROW_NUMBER() OVER(ORDER BY mr_date DESC))ROWNUMBER
+		        (ROW_NUMBER() OVER(ORDER BY mr_date DESC))r_num
 		        FROM m_review
 		        WHERE m_id like #{m_id})
-		WHERE ROWNUMBER between #{startIndex} AND #{endIndex}
+		WHERE r_num between #{startIndex} AND #{endIndex}
 	 ]]>
 	</select>	
 	<!-- 내가 받은 평가  -->
 	<select id="searchReceivedMemberReview" resultMap="memberReview" parameterType="java.util.HashMap">
 	 <![CDATA[
 	 	SELECT *
-		FROM (SELECT m_id, mr_target, mr_date, mr_score, mr_content,
+		FROM (SELECT mr_id, m_id, mr_target, mr_date, mr_score, mr_content,
 				(SELECT m_nickname FROM member WHERE member.m_id like m_review.m_id)m_nickname,
-				(ROW_NUMBER() OVER(ORDER BY mr_date DESC))ROWNUMBER
+				(ROW_NUMBER() OVER(ORDER BY mr_date DESC))r_num
 		        FROM m_review
 		        WHERE mr_target like #{m_id})
-		WHERE ROWNUMBER between #{startIndex} AND #{endIndex}
+		WHERE r_num between #{startIndex} AND #{endIndex}
 	 ]]>
 	</select>
 	
@@ -71,15 +72,37 @@
 		]]>
 		</if>
 	</select> 
-	
-	<!-- 평가 작성 -->
-	<insert id="insertMemberReview" parameterType="java.util.HashMap">
+	<!-- 평가 작성 / 수정-->
+	<update id="insertMemberReview" parameterType="java.util.HashMap">
 	<![CDATA[
-		INSERT INTO m_review(m_id, mr_target, mr_date, mr_score, mr_content, mr_editor, mr_editdate)
-		VALUES( #{m_id}, #{mr_target}, TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss'),
-		#{mr_score}, #{mr_content}, #{m_id}, TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss'))
+	MERGE INTO m_review
+		USING DUAL
+		ON (mr_id = #{mr_id})
+		WHEN MATCHED THEN
+			UPDATE SET
+			mr_score = #{mr_score}, mr_content = #{mr_content}, mr_editor = #{m_id},
+			mr_editdate = TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss')
+	 	WHEN NOT MATCHED THEN
+			INSERT (mr_id, m_id, mr_target, mr_date, mr_score, mr_content, mr_editor, mr_editdate)
+			VALUES( LPAD(M_REVIEW_SEQ.NEXTVAL,6,'0'), #{m_id}, #{mr_target}, TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss'),
+			#{mr_score}, #{mr_content}, #{m_id}, TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss'))
 	]]>
-	</insert>
+	</update>
+	<!-- 수정 시 조회 -->
+	<select id="searchReviewContent" resultMap="memberReview" parameterType="String">
+	<![CDATA[
+		SELECT mr_score, mr_content, mr_target
+		FROM m_review
+		WHERE mr_id = #{mr_id}
+	]]>
+	</select>
+	<!-- 리뷰 삭제 -->
+	<delete id="deleteReview" parameterType="String">
+	<![CDATA[
+		DELETE FROM m_review
+		WHERE mr_id = #{mr_id}	
+	]]>
+	</delete>
 	<!-- 작성시 평점 업데이트 -->
 	<update id="updateMemberScore" parameterType="String">
 	<![CDATA[

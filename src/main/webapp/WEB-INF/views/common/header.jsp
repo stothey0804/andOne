@@ -71,8 +71,9 @@
 	function openMemberPopup(){
 // 			document.getElementById('amountResult').value = totalAmount;
 // 			let popTitle = "popupOpener";
+			var popupOpener;
 			let m_id = '${m_id}';
-			window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
+			popupOpener = window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
 // 			let frmData = document.frmData;
 // 			frmData.target = popTitle;
 // 			frmData.action = "${contextPath}/member/searchMemberInfoPopup.do";

@@ -3,7 +3,25 @@ package project.member.p004.vo;
 // 멤버 리뷰 테이블
 public class MemberP004VO {
 	private String m_id, mr_target, mr_date, mr_score, mr_content, mr_editor, mr_editdate,
-				m_nickname, target_nickname;
+				m_nickname, target_nickname, r_num, mr_id;
+
+	
+	
+	public String getMr_id() {
+		return mr_id;
+	}
+
+	public void setMr_id(String mr_id) {
+		this.mr_id = mr_id;
+	}
+
+	public String getR_num() {
+		return r_num;
+	}
+
+	public void setR_num(String r_num) {
+		this.r_num = r_num;
+	}
 
 	public String getM_nickname() {
 		return m_nickname;

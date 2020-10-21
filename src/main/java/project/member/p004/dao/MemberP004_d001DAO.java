@@ -12,4 +12,7 @@ public interface MemberP004_d001DAO {
 	public int updateMemberScore(String m_id);// 평점 업데이트
 	public List<MemberP004VO> searchReceivedMemberReview(Map<String, String> param); // 작성리뷰 조회
 	public List<MemberP004VO> searchWroteMemberReview(Map<String, String> param); // 받은리뷰 조회
+	public int selectMemberReviewCnt(Map<String, String> param);// 카운트
+	public MemberP004VO searchReviewContent(String mr_id);	// 내용수정시 조회
+	public int deleteMemberReview(String mr_id);	//삭제
 }

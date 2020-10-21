@@ -33,11 +33,6 @@ $(document).ready(function(){
 	    width: 450px;
 	    height: 500px;
 	}
-/* 	i.report{ */
-/* 		font-size: 30px; */
-/* 		display: block; */
-/* 		text-align: right; */
-/* 	} */
 	.box {
 	    width: 75px;
 	    height: 75px; 
@@ -49,6 +44,14 @@ $(document).ready(function(){
 	    width: 100%;
 	    height: 100%;
 	    object-fit: cover;
+	}
+	.text-over-cut {
+	  display: block;
+	  width: 150px;
+	  white-space: nowrap;
+	  overflow: hidden;
+	  text-overflow: ellipsis;
+	  margin: 0;
 	}
 </style>
 <!-- CSS -->
@@ -110,7 +113,7 @@ $(document).ready(function(){
 		</tbody>
 		</table>
 		<div class="clearfix">
-		<a class="btn btn-sm btn-secondary float-right">더 보기 </a>
+		<a href="${contextPath}/member/receivedReview.do?target=${info.M_ID}" target="_top" class="btn btn-sm btn-secondary float-right">더 보기 </a>
 		</div>
 	</div>
 </div>

@@ -228,10 +228,15 @@
 		<put-attribute name="body" value="/WEB-INF/views/member/p001_d005_update.jsp"/>
 	</definition>
 	
-	<!-- 회원정보조회 -->
+	<!-- 매너점수 -->
 	<definition name="MemberP004_d001_init" extends="mypageLayout">
 		<put-attribute name="title" value="내 매너점수"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p004_d001_init.jsp"/>
+	</definition>
+	<!-- 평가조회리스트 -->
+	<definition name="MemberP004_d001_search" extends="mypageLayout">
+		<put-attribute name="title" value="내 매너점수"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p004_d001_search.jsp"/>
 	</definition>
 	<!-- 문의하기 -->
 	<definition name="p002_d001_insert" extends="mypageLayout">

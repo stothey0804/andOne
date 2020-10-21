@@ -33,7 +33,7 @@
 	</div>
 	<!-- 작성평가/받은평가 최근리스트 조회 -->
 	<div class="row mx-5">
-		<div class="col-6 mt-3 border-left">
+		<div class="col-6 mt-3">
 			<h5 class="my-3">최근 쓴 평가</h5>
 			<table class="table">
 			<thead>
@@ -56,11 +56,11 @@
 			</tbody>
 			</table>
 			<div class="clearfix">
-			<a class="more float-right">더 보기 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
+			<a href="${contextPath}/member/wroteReview.do" class="more float-right">더 보기 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
 			</a>
 			</div>
 		</div>
-		<div class="col-6 mt-3">
+		<div class="col-6 mt-3 border-left">
 			<h5 class="my-3">최근 받은 평가</h5>
 			<table class="table">
 			<thead>
@@ -83,7 +83,7 @@
 			</tbody>
 			</table>
 			<div class="clearfix">
-			<a class="more float-right">더 보기 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
+			<a href="${contextPath}/member/receivedReview.do" class="more float-right">더 보기 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
 			</a>
 			</div>
 		</div>
