@@ -160,4 +160,59 @@
 			order by a.one_id DESC
 		]]>
 	</select>
+	<!-- 글상세조회 -->
+	<select id="selectAndOneDetailList" parameterType="java.util.HashMap" resultType="AndP001AndOneVO">
+	<![CDATA[
+		select a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
+       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax)) END as one_price,
+       			substr(a.one_date,6,11) as one_date, a.one_hashTag, a.one_locate_Lat, a.one_locate_Lng, one_addr,
+        		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
+		from and_one a, 
+		     (select gc_name, gc_id, g_id
+		      from common_code 
+		      where g_id='017') b,
+		     (select gc_name, gc_id, g_id
+		      from common_code 
+		      where g_id =  #{g_id} ) c
+		where a.one_state = b.gc_id
+		and a.one_category = c.gc_id
+		and a.one_type=  #{g_id} 
+		and one_id = #{one_id}
+	]]>
+	</select>
+	<!-- 작성자/참가자조회 -->
+	<select id="selectOneMem" parameterType="String" resultType="AndOneMemberVO">
+		<![CDATA[
+			select b.m_nickname, b.m_img as userImg, a.om_leader, a.om_state, a.m_id
+			from one_member a, member b
+			where a.m_id = b.m_id
+			and a.one_id = #{one_id}
+		]]>
+	</select>
+	<!-- 작성자인지 참가자인지 확인 -->
+	<select id="selectOmLeader" parameterType="java.util.HashMap" resultType="String">
+		<![CDATA[
+			select om_leader
+			from one_member 
+			where m_id = #{m_id}
+			and one_id = #{one_id}
+		]]>
+	</select>
+	<!-- 참가자 신청 -->
+	<insert id="insertOneMember" parameterType="java.util.HashMap">
+		<![CDATA[
+			insert into one_member (one_type, one_id, m_id, om_leader, om_state, om_date, om_editor, om_editdate)
+			values (#{one_type}, #{one_id},#{m_id}, '20', '10', to_char(sysdate,'yyyy-mm-dd hh:mi:ss'), #{m_id}, to_char(sysdate,'yyyy-mm-dd hh:mi:ss'))
+		]]>
+	</insert>
+	<!-- 포인트확인 -->
+	<select id="selectPoint" parameterType="String" resultType="String">
+		<![CDATA[
+			select p_detail
+			from point p, member m
+			where p.m_id = m_m_id
+			and m_id = #{m_id}
+		]]>
+	</select>
+	
 </mapper>

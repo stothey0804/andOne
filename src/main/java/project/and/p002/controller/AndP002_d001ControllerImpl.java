@@ -44,6 +44,8 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 		System.out.println(">>>>>>"+Andone.get("one_locate_Lng"));
 		String g_id = (String) Andone.get("one_type");
 		System.out.println(g_id);
+		String one_addr = (String) Andone.get("one_addr");
+		System.out.println("한글주소:"+one_addr);
 		
 		String m_id = (String) session.getAttribute("m_id");
 		System.out.println("M_ID :"+m_id); //회원아이디 가져오기

@@ -104,7 +104,16 @@
       <put-attribute name="title" value="메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/and/p002_d001_insertAndOne.jsp" />
    </definition>
-
+   <!-- 같이 상세조회 -->
+	<definition name="andOneDetail" extends="baseLayout">
+      <put-attribute name="title" value="메인페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_andOneDetail.jsp" />
+   </definition>
+    <!-- 같이 테스트 페이지 -->
+	<definition name="test" extends="baseLayout">
+      <put-attribute name="title" value="메인페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/and/test.jsp" />
+   </definition>
 
    <!-- 지역업체 페이지 -->
    <definition name="localShopMain" extends="baseLayout">

@@ -103,6 +103,7 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 				locate.put("M_LOCATE_LAT","0");
 				locate.put("M_LOCATE_LNG","0");
 			}else {
+				System.out.println("쿠키조회22222");
 				locate.put("M_LOCATE_LAT",locate_lat.getValue());
 				locate.put("M_LOCATE_LNG",locate_lng.getValue());
 			}

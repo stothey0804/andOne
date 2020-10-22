@@ -51,8 +51,8 @@
 	  		for(let i=0; i<times.length; i++){
 	  			var result = times[i].textContent;
 	  			timeResults[i].innerHTML = timeForToday(result);
-	  		// 주소-좌표 변환 객체를 생성합니다
 	  		}
+	  		// 주소-좌표 변환 객체를 생성합니다
 	  		var geocoder = new kakao.maps.services.Geocoder();
 	  		
 	  		
@@ -272,7 +272,7 @@
 			<c:forEach var ="andone" items="${recentAndOneList}" > 
 				<div class="col-sm-6 mb-3">
 					<div class="card">
-						<a href="#"><div class="card-body">
+						<a href="${contextPath}/and/detailAndOne.do?one_id=${andone.one_id}&g_id=${andone.one_type}"><div class="card-body">
 				<c:choose>
 					<c:when test="${g_id == '010'}"> 
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>

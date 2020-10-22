@@ -115,7 +115,7 @@
 		<div class="form-row">
 			<div class="form-group col-md-6 mx-auto">
         		<button type="button" class="btn btn-outline-dark mb-3" onclick="searchAddress()">위치선택하기</button>
-        		<input type="text" id="inputAddress" class="form-control" placeholder="위치를선택해주세요" readonly><br>
+        		<input type="text" id="inputAddress" name ="one_addr" class="form-control" placeholder="위치를선택해주세요" readonly><br>
        		</div>
       	</div>	
         		<div id="map" style="width:500px; height:400px"></div>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import project.and.vo.AndOneMemberVO;
 import project.and.vo.AndP001AndOneVO;
 
 @Repository
@@ -56,6 +57,36 @@ public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 		System.out.println(g_id);
 		List<Map<String,Object>> selectAndOneLocate = sqlSession.selectList("selectAndOneLocate", g_id);
 		return selectAndOneLocate;
+	}
+	//엔분의일 상세보기
+	@Override
+	public List<AndP001AndOneVO> selectAndOneDetailList(Map<String, Object> detailMap) {
+		List<AndP001AndOneVO> selectAndOneDetailList = null;
+		selectAndOneDetailList = sqlSession.selectList("and.p001.selectAndOneDetailList",detailMap);
+		return selectAndOneDetailList;
+	}
+	//엔분의일 작성자정보
+	@Override
+	public List<AndOneMemberVO> selectOneMem(String one_id) {
+		List<AndOneMemberVO> selectOneMem = null;
+		selectOneMem = sqlSession.selectList("and.p001.selectOneMem",one_id);
+		return selectOneMem;
+	}
+	//참가자 신청
+	@Override
+	public void addOneMember(Map<String, Object> addMemMap) {
+		sqlSession.selectList("and.p001.insertOneMember",addMemMap);
+	}
+	@Override
+	public String omLeaderCheck(Map<String,Object> omCheckMap) {
+		String omLeaderCheck = sqlSession.selectOne("and.p001.selectOmLeader",omCheckMap);
+		System.out.println("dao체크   :"+omLeaderCheck);
+		return omLeaderCheck;
+	}
+	@Override
+	public String checkPoint(String m_id) {
+		String point = sqlSession.selectOne("and.p001.selectPoint",m_id);
+		return point;
 	}
 	
 	

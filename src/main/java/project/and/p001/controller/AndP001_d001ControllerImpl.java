@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sound.midi.Soundbank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,15 +21,21 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonArray;
 
+import common.Common;
 import net.sf.json.JSONArray;
 import project.and.p001.service.AndP001_d001Service;
+import project.and.vo.AndOneMemberVO;
 import project.and.vo.AndP001AndOneVO;
+import project.member.p001.vo.MemberP001_MemberVO;
+import project.point.p001.service.PointP001_d001Service;
 
 
 @Controller
 public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	@Autowired
 	private AndP001_d001Service p001_d001Service;
+	@Autowired
+	PointP001_d001Service pointP001_d001Service; //포인트조회
 	
 	//&분의일 먹기 사기 하기 메인
 	@Override
@@ -46,17 +53,19 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		
 		//회원 위치 가져오기
 		if(m_id != null && m_id !="" ) {
-		Map<String, Object> memLocate = p001_d001Service.selectMemLocate(m_id);
-		m_locate_Lat = (String) memLocate.get("m_locate_Lat");
-		m_locate_Lng = (String) memLocate.get("m_locate_Lng");
-		System.out.println("m_locate_Lat: " +m_locate_Lat);
-		System.out.println("m_locate_Lng: " +m_locate_Lng);
-		}else if(m_id == null) {//쿠키에 저장된 비회원 위치 가져오기
-			String one_locate_lat = locate_lat.getValue();
-			String one_locate_lng = locate_lng.getValue();
+			Map<String, Object> memLocate = p001_d001Service.selectMemLocate(m_id);
+			m_locate_Lat = (String) memLocate.get("m_locate_Lat");
+			m_locate_Lng = (String) memLocate.get("m_locate_Lng");
+			System.out.println("m_locate_Lat: " +m_locate_Lat);
+			System.out.println("m_locate_Lng: " +m_locate_Lng);
 			
-			System.out.println("123123: "+locate_lat);
-			System.out.println("123123: "+locate_lng);
+		}else if(m_id == null) {//쿠키에 저장된 비회원 위치 가져오기
+			System.out.println("쿠키 fkfdslhsfdgkldfj받아먹어ㅓㅓㅓㅓㅓ");
+			m_locate_Lat = locate_lat.getValue();
+			m_locate_Lng = locate_lng.getValue();
+			
+			System.out.println("123123: "+m_locate_Lat);
+			System.out.println("123123: "+m_locate_Lng);
 		}
 		
 		Map<String,Object> param = new HashMap<String,Object>(); 
@@ -88,9 +97,9 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	}
 	
 	//&분의 일 같이먹기 List
-	//1.전체검색
-	//2.카테고리검색
-	//3.해쉬태그검색
+	//1.전체검색 O
+	//2.카테고리검색 O
+	//3.해쉬태그검색 
 	//4.거리순정렬
 	//5.마감순정렬
 	@Override
@@ -138,6 +147,63 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		
 		return mav;
 	}
+	//엔분의일 상세조회
+	@Override
+	@RequestMapping(value="/and*/detailAndOne.do")
+	public ModelAndView andOneDetail(@RequestParam Map<String, Object> detailMap, HttpSession session) throws Exception {
+		String one_id = (String) detailMap.get("one_id");
+		System.out.println("상세조회용  one_id: "+one_id);
+		System.out.println(">>>>oneType:"+detailMap.get("g_id"));
+		
+		String m_id = (String) session.getAttribute("m_id");
+		String m_nickname = (String) session.getAttribute("m_nickname");
+		
+		System.out.println("참가자신청용 m_id :"+m_id);
+		
+		List<AndP001AndOneVO> andOneDetailList = p001_d001Service.andOneDetailList(detailMap);//글 상세조회
+		List<AndOneMemberVO> oneMemList = p001_d001Service.oneMemList(one_id); //작성자 참가자 사진 닉네임
+		Common.getEncodedAndUser(oneMemList);//작성자 사진 인코딩
+		
+		Map<String, Object> omCheckMap = new HashMap<String, Object>();
+		omCheckMap.put("one_id", one_id);
+		omCheckMap.put("m_id", m_id);
+		String omLeaderCheck = p001_d001Service.omLeaderCheck(omCheckMap);//작성자 참가자 확인
+		System.out.println("힘들다ㅏㅏㅏㅏㅏㅏ"+omLeaderCheck);
+		
+		ModelAndView mav = new ModelAndView("andOneDetail");
+		mav.addObject("andOneDetailList",andOneDetailList);
+		mav.addObject("oneMemList",oneMemList);
+		mav.addObject("omLeaderCheck",omLeaderCheck);
+		mav.addObject("m_nickname",m_nickname);
+		return mav;
+	}
+	//oneMember update
+	@Override
+	@ResponseBody
+	@RequestMapping(value="/and*/addOneMember.do")
+	public String addOneMember(@RequestParam Map<String, Object> addMemMap, HttpSession session) throws Exception {
 
+		System.out.println(addMemMap.get("one_type")); 
+		System.out.println(addMemMap.get("one_id"));
+		String one_price = (String) addMemMap.get("one_price"); // 글에 있는 가격
+		
+		
+		String m_id = (String) session.getAttribute("m_id");
+		System.out.println("참가자신청용 m_id :"+m_id);
+		
+		addMemMap.put("m_id", m_id);
+		
+		//포인트 확인
+		String point = pointP001_d001Service.selectNowPointById(m_id);
+		point = point==null? "0": point;
+		System.out.println("포인트나와"+point);
+		
+		if(one_price.compareTo(point)>0) { //포인트부족(1) 
+			return point;
+		}else { //결제가능(0)
+			//p001_d001Service.addOneMember(addMemMap);
+			return "true";
+		}
+	}
 }
 
