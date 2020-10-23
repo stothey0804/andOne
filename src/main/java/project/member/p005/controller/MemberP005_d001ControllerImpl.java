@@ -45,14 +45,14 @@ public class MemberP005_d001ControllerImpl implements MemberP005_d001Controller{
 			Map<String, String> searchParam = new HashMap<String, String>();
 //			int listCnt = memberP005_d001Service.selectOldNotifyCnt(m_id);
 //			Pagination pagination = new Pagination(listCnt, curPage);
-			searchParam.put("startIndex", "1");	// 시작 index는 1부터 이므로 1을 더해줌.
-			searchParam.put("endIndex", "5");	// 5개씩 조회
-			searchParam.put("m_id", m_id);
-			List<MemberP005VO> oldList = memberP005_d001Service.searchOldNotifyList(searchParam);
+//			searchParam.put("startIndex", "1");	// 시작 index는 1부터 이므로 1을 더해줌.
+//			searchParam.put("endIndex", "5");	// 5개씩 조회
+//			searchParam.put("m_id", m_id);
+//			List<MemberP005VO> oldList = memberP005_d001Service.searchOldNotifyList(searchParam);
 			// 정보 전달
 //			mav.addObject("pagination", pagination);
 			mav.addObject("newList", newList);
-			mav.addObject("oldList", oldList);
+//			mav.addObject("oldList", oldList);
 			mav.addObject("oldListCnt", memberP005_d001Service.selectOldNotifyCnt(m_id));
 		}
 		return mav;
