@@ -1,15 +1,22 @@
 package project.member.p005.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.http.HttpResponse;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -59,16 +66,18 @@ public class MemberP005_d001ControllerImpl implements MemberP005_d001Controller{
 	}
 	
 	// 더보기 요청
-	@RequestMapping("/member/searchMoreNotify.do")
+	@RequestMapping(value = "/member/searchMoreNotify.do", produces = "application/text;charset=UTF-8", method=RequestMethod.POST)
 	@ResponseBody
-	public String searchMoreNotify(@RequestParam String m_id, @RequestParam int startIndex) {
+	public String searchMoreNotify(@RequestParam String m_id, @RequestParam int startIndex) throws Exception {
 		Map<String, String> searchParam = new HashMap<String, String>();
 		searchParam.put("startIndex", startIndex+"");	// 시작 index는 1부터 이므로 1을 더해줌.
-		searchParam.put("endIndex", startIndex+5+"" );	// 5개씩 조회
+		searchParam.put("endIndex", startIndex+4+"" );	// 5개씩 조회
 		searchParam.put("m_id", m_id);
 		List<MemberP005VO> addList = memberP005_d001Service.searchOldNotifyList(searchParam);
-		String result = "";
-		return result;
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonStr = mapper.writeValueAsString(addList);
+		System.out.println("==============>"+jsonStr);
+		return jsonStr;
 	}
 	
 	// 읽음상태 변경 

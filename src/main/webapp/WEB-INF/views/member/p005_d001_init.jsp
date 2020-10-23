@@ -20,27 +20,24 @@
 </style>
 <script type="text/javascript">
 	$(document).ready(function(){
-		// 읽은 알림 수 얻기
+		// 읽은알림 카운트 얻기
 		var oldListCnt = '${oldListCnt}';
+		// 조회 인덱스
+		var startIndex = 1;
 		
-		$.ajax({
-			type: "post",
-			async: "true",
-			dataType: "json",
-			data: {
-				m_id: '${m_id}',
-				startIndex: 1
-			},
-			url: "${contextPath}/member/searchMoreNotify.do",
-            success: function (data, textStatus) { 
-//             	let targetElem = document.getElementById('oldList').firstChild;
-//             	console.log(notifyElem);
-            	$("#oldList").append(notifyElem);
-            	let newCnt = $('#newNoticeCnt').text()-1;
-            	if(newCnt!='0'){
-                	$('#newNoticeCnt').text(newCnt);
-            	}
-            }
+		// 로딩시 실행 - 읽은 알림 5개 얻기 
+		readOldNotify(startIndex);
+		if(startIndex + 4 >= oldListCnt){
+			$('#searchMoreNotify').remove();
+		}
+		
+		// 더보기 클릭시
+		$('#searchMoreNotify').click(function(){
+			startIndex += 5;
+			readOldNotify(startIndex);
+			if(startIndex + 4 >= oldListCnt){
+				$('#searchMoreNotify').remove();
+			}
 			
 		});
 		
@@ -48,8 +45,7 @@
 		$('.readNotifyBtn').click(function(e){
 			e.stopPropagation();	// 부모 이벤트 끊기
 			let _n_id = $(this).next().text();
-             let notifyElem = $(this).parent().parent().parent();
-// 			console.log();
+            let notifyElem = $(this).parent().parent().parent();
 			// 읽기로 보내주기!
 			$.ajax({
                 type: "post",
@@ -61,8 +57,9 @@
                 url: "${contextPath}/member/readNotify.do",
                 success: function (data, textStatus) { 
                 	let targetElem = document.getElementById('oldList').firstChild;
-                	console.log(notifyElem);
                 	$(targetElem).before(notifyElem);
+                	$(e.target).remove();
+                	// 안읽은 알림 카운트 줄이기
                 	let newCnt = $('#newNoticeCnt').text()-1;
                 	if(newCnt!='0'){
 	                	$('#newNoticeCnt').text(newCnt);
@@ -71,6 +68,32 @@
 			});
 
 		})
+		
+		// 더보기 실행함수
+		function readOldNotify(index){
+			$.ajax({
+				type: "post",
+				async: "true",
+				dataType: "json",
+				data: {
+					m_id: '${m_id}',
+					startIndex: index
+				},
+				url: "${contextPath}/member/searchMoreNotify.do",
+	            success: function (data, textStatus) { 
+					for(i = 0; i < data.length; i++){
+						let newNode = "<div class='card form-group col-sm-10 mx-auto p-0' onClick='location.href='"+data[i].n_url+"''>";
+						newNode += "<div class='card-body pt-3'><div class='row px-3 mb-2'>";
+						newNode += "<strong class='d-block text-gray-dark'>"+data[i].n_type+"</strong>";
+						newNode += "<span class='text-muted ml-auto'>"+data[i].n_time+"</span>";
+						newNode += "</div><span>"+data[i].n_content+"</span></div></div>";
+		            	$(newNode).appendTo($("#oldList"));				
+					}
+	            }
+			});
+		}
+		
+		
 	});
 
 </script>
