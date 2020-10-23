@@ -56,7 +56,7 @@ public class PointP001_d001ControllerImpl implements PointP001_d001Controller{
 	@ResponseBody
 	public String selectNowPoint(@RequestParam String m_id) {
 		String point = pointP001_d001Service.selectNowPointById(m_id);	// 포인트 조회
-		return point==null? "0": point;	// 포인트 리턴
+		return point;	// 포인트 리턴
 	}
 
 }

@@ -124,8 +124,10 @@
                },
                url: "${contextPath}/point/selectNowPoint.do",
                success: function (data, textStatus) {
-            	   if(data!='0'){
+            	   if(data!=''){
 		       			$("#point").text(pointToNumFormat(data));
+            	   }else{
+            		   $("#point").text(0);
             	   }
                }
 		});
