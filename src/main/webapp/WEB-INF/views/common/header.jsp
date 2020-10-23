@@ -55,6 +55,17 @@
 		position: fixed;
 		z-index: 9999;
 	}
+	
+	.toast{
+		cursor: pointer;
+	}
+	
+	.badge{
+		font-size: 10px;
+    	height: 15px;
+    	margin-left: -24px;
+	}
+	
 </style>
 <!-- sockJS -->
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
@@ -102,10 +113,39 @@
        	}else{	// null이 아닐경우
        		$(".profile").attr("src","data:image/png;base64, "+profileImg);
        	}
+       	
        	// 포인트 읽기
-       	var point = '${point}';
-       	point = pointToNumFormat(point);
-       	$("#point").text(point);
+   		$.ajax({
+               type: "post",
+               async: "true",
+               dataType: "text",
+               data: {
+                   m_id: '${m_id}' //data로 넘겨주기
+               },
+               url: "${contextPath}/point/selectNowPoint.do",
+               success: function (data, textStatus) {
+            	   if(data!='0'){
+		       			$("#point").text(pointToNumFormat(data));
+            	   }
+               }
+		});
+       	
+       	// 알림 카운트 받아오기
+   		$.ajax({
+               type: "post",
+               async: "true",
+               dataType: "text",
+               data: {
+                   m_id: '${m_id}' //data로 넘겨주기
+               },
+               url: "${contextPath}/member/selectNewNoticeCnt.do",
+               success: function (data, textStatus) {
+            	   if(data!='0'){
+		       			$("#newNoticeCnt").text(data);
+            	   }
+               }
+		});
+
        	
        	
 	});
@@ -115,12 +155,13 @@
 		var data = evt.data;
 		// 데이터 보여줄 방법...
 		let toast = "<div class='toast' role='alert' aria-live='assertive' aria-atomic='true'>";
-		toast += "<div class='toast-header'><strong class='mr-auto'>알림</strong>";
+		toast += "<div class='toast-header'><i class='fas fa-bell mr-2'></i><strong class='mr-auto'>알림</strong>";
 		toast += "<small class='text-muted'>just now</small><button type='button' class='ml-2 mb-1 close' data-dismiss='toast' aria-label='Close'>";
 		toast += "<span aria-hidden='true'>&times;</span></button>";
 		toast += "</div> <div class='toast-body'>" + data + "</div></div>";
 		$("#msgStack").append(toast);
-		$(".toast").toast({"animation": true, "autohide": true, "delay": 5000});
+		$(".toast").toast({"animation": true, "autohide": false});
+// 		$(".toast").toast({"animation": true, "autohide": true, "delay": 5000});
 		$('.toast').toast('show');
 	};	
 </script>
@@ -158,6 +199,13 @@
       		<li class="nav-item h5">
 	       		<a class="nav-link" href="#">메시지</a>
 	      	</li>
+      		<li class="nav-item h3">
+	       		<a class="nav-link py-0" href="${contextPath}/member/notify.do"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bell" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+				  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2z"/>
+				  <path fill-rule="evenodd" d="M8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
+				</svg></a>
+	      	</li>
+	      	<span id="newNoticeCnt" class="badge badge-pill badge-primary"></span>
 	      	</ul>
           	<!-- 프로필사진 -->
           	<div class="box" style="background: #BDBDBD;" onmouseover="onProfile()" onmouseout="outProfile()" onClick="openMemberPopup()">
@@ -192,7 +240,7 @@
 	   
 	  </div>
 	</nav>
-    <div id="msgStack">
+    <div id="msgStack" onClick="location.href='${contextPath}/member/notify.do'">
 	</div>
 
 </body>
