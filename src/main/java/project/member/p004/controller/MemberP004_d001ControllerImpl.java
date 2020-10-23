@@ -172,7 +172,10 @@ public class MemberP004_d001ControllerImpl implements MemberP004_d001Controller{
 	@RequestMapping(value="/deleteReview.do", method = {RequestMethod.POST, RequestMethod.GET})
 	public String deleteReview(@RequestParam String mr_id, HttpServletRequest request) throws Exception {
 		if(mr_id != null) {
+			MemberP004VO content = memberP004_d001Service.searchReviewContent(mr_id);	// 평점업데이트를 위한 정보 조회
 			memberP004_d001Service.deleteMemberReview(mr_id);
+			// 평점 업데이트
+			memberP004_d001Service.updateMemberScore(content.getMr_target()); 
 		}
 		// 팝업에서 접근시
 		return "redirect:"+ request.getHeader("Referer");	

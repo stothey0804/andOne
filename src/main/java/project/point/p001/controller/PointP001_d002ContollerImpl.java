@@ -54,17 +54,13 @@ public class PointP001_d002ContollerImpl implements PointP001_d002Controller{
 			pointVO.setM_id(m_id);
 			pointVO.setP_changepoint(chargeAmount);
 			pointVO.setP_detail("포인트 충전");
-			
-			// 현재 포인트 조회
-			String nowPoint = pointP001_d001Service.selectNowPointById(m_id);
+			String nowPoint = pointP001_d001Service.selectNowPointById(m_id);	// 현재 포인트 조회
 			pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint);	// 적용		
-			pointP001_d002Service.insertPoint(pointVO);	// 포인트 입력
-			nowPoint = pointP001_d001Service.selectNowPointById(m_id); // 입력 후 값 갱신
-			// view에 전달할 정보
+			// 포인트 입력
+			pointP001_d002Service.insertPoint(pointVO);	
+			// 충전 결과 view에 전달할 정보
 			mav.addObject("chargeAmount", chargeAmount);
-			mav.addObject("nowPoint", nowPoint);
-			// session에 포인트 값 저장
-			session.setAttribute("point", nowPoint);
+			mav.addObject("nowPoint", pointP001_d001Service.selectNowPointById(m_id));
 			
 		} catch (NullPointerException e) {
 			e.printStackTrace();

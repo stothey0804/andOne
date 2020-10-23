@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import common.Common;
@@ -43,9 +44,19 @@ public class PointP001_d001ControllerImpl implements PointP001_d001Controller{
 		searchParam.put("m_id", m_id);
 		// List 조회
 		List<PointP001VO> list = pointP001_d001Service.searchPointListByMember(searchParam);
+		mav.addObject("point", pointP001_d001Service.selectNowPointById(m_id));
 		mav.addObject("pointList", list);
 		mav.addObject("pagination", pagination);	//페이지네이션
 		return mav;
+	}
+	
+	// 현재 포인트 조회
+	@Override
+	@RequestMapping("/selectNowPoint.do")
+	@ResponseBody
+	public String selectNowPoint(@RequestParam String m_id) {
+		String point = pointP001_d001Service.selectNowPointById(m_id);	// 포인트 조회
+		return point==null? "0": point;	// 포인트 리턴
 	}
 
 }
