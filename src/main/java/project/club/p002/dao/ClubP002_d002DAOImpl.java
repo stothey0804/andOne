@@ -44,6 +44,7 @@ public class ClubP002_d002DAOImpl implements ClubP002_d002DAO{
 	@Override
 	public void kickMember(Map<String, Object> searchMap) {
 		sqlSession.update("club.p002.kickMember", searchMap);
+		sqlSession.update("club.p002.kickMemberCnt", searchMap);
 	}
 
 	@Override

@@ -47,11 +47,21 @@
 		margin-right: 0.5em;
 		color:gray;
 	}
+	
+	#msgStack{
+		width: 280px;
+		right: 10px;
+		bottom: 10px;
+		position: fixed;
+		z-index: 9999;
+	}
 </style>
-
-<!-- JQuery -->
-<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<!-- sockJS -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script>
+	// 웹소켓 연결
+	var socket  = null;
+
 	// comma 
 	function pointToNumFormat(num) {
     	return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -69,19 +79,22 @@
    	// 테스트 ------------------------------ 추후삭제!
 	// 프로필 클릭 
 	function openMemberPopup(){
-// 			document.getElementById('amountResult').value = totalAmount;
-// 			let popTitle = "popupOpener";
+			var popupOpener;
 			let m_id = '${m_id}';
-			window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
-// 			let frmData = document.frmData;
-// 			frmData.target = popTitle;
-// 			frmData.action = "${contextPath}/member/searchMemberInfoPopup.do";
-// 			frmData.submit();
-
+			popupOpener = window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
 	}
    	// 테스트 ------------------------------ 추후삭제!
 	
 	$(document).ready(function(){
+		 sock = new SockJS("<c:url value="/echo-ws"/>");
+		 socket = sock;
+// 		wsocket = new WebSocket("ws://localhost:8090/andOne/echo-ws");
+
+		// 데이터를 전달 받았을때 
+		sock.onmessage = onMessage;
+		
+		// 데이터를 보냈을 때
+		
     	// 세션에서 이미지 읽기
 		var profileImg = '${profileImg}';
        	if(profileImg==null || profileImg==""){	
@@ -94,7 +107,22 @@
        	point = pointToNumFormat(point);
        	$("#point").text(point);
        	
+       	
 	});
+   	
+   	// 알림창
+	function onMessage(evt){
+		var data = evt.data;
+		// 데이터 보여줄 방법...
+		let toast = "<div class='toast' role='alert' aria-live='assertive' aria-atomic='true'>";
+		toast += "<div class='toast-header'><strong class='mr-auto'>알림</strong>";
+		toast += "<small class='text-muted'>just now</small><button type='button' class='ml-2 mb-1 close' data-dismiss='toast' aria-label='Close'>";
+		toast += "<span aria-hidden='true'>&times;</span></button>";
+		toast += "</div> <div class='toast-body'>" + data + "</div></div>";
+		$("#msgStack").append(toast);
+		$(".toast").toast({"animation": true, "autohide": true, "delay": 5000});
+		$('.toast').toast('show');
+	};	
 </script>
 </head>
 <body>
@@ -164,24 +192,8 @@
 	   
 	  </div>
 	</nav>
-
-<!-- <table border=0  width="100%"> -->
-<!--   <tr> -->
-<!--      <td> -->
-<%-- 		<a href="${contextPath}/main.do"> --%>
-<%-- 			<img src="${contextPath}/resources/image/duke_swing.gif"  /> --%>
-<!-- 		</a> -->
-<!--      </td> -->
-<!--      <td> -->
-<!--        <h1><font size=30>스프링실습 홈페이지!!</font></h1> -->
-<!--      </td> -->
-     
-<!--      <td> -->
-
-<!--      </td> -->
-<!--   </tr> -->
-<!-- </table> -->
-
+    <div id="msgStack">
+	</div>
 
 </body>
 </html>

@@ -33,9 +33,38 @@ h2{
 	border-color:#002A87;
 	color:white;
 }
+#preview > img{
+	margin-top :8px;
+	width:300px;
+	height:300px;
+	object-fit:cover;
+}
+#preTXT{
+	margin-bottom:0px;
+	margin-top:5px;
+}
+.fileDelete{
+	margin-top:-8px;
+}
+/* .btn-primary:hover { */
+/*     background-color: #00033D !important; */
+/* } */
+/* .btn-primary{ */
+/* 	background-color:#002A87 !important; */
+/* 	border-color:#002A87; */
+/* 	color:white; */
+/* } */
 </style>
 <script>
-	
+function fileReset(){
+	document.getElementById("c_img").value = "";
+	var el = document.getElementById('preImg');
+	if(el != null){
+		el.remove();
+	}
+	var txt = document.getElementById('preTXT');
+	txt.innerText = "선택된 이미지가 없습니다.";
+}
 </script>
 </head>
 <body>
@@ -67,10 +96,47 @@ h2{
 가입인사시 짧은 소개글이나 가입 질문을 써주세요
 <textarea class="form-control"  name="c_ask" id="exampleFormControlTextarea1" rows="3"></textarea>
   <div class="form-group">
-    <label>대표 이미지 첨부</label>
-    <input type="file" class="form-control-file" accept="image/*" name="c_img">
+    <label>대표 이미지 첨부</label><br>
+    <label class="btn btn-outline-primary btn-file">이미지 선택
+    	<input type="file" class="form-control-file" accept="image/*" name="c_img" id="c_img" style="display:none;">
+    </label>
+    <input type="button" value=삭제 class="btn btn-outline-danger fileDelete" onclick="fileReset()">
+    <div id="preview">
+    	<p id="preTXT"></p>
+    </div>
   </div>
-<input class="btn btn-primary btn-block" type="submit" value="소모임 만들기">
+<input class="btn btn-primary btn-lg btn-block" type="submit" value="소모임 만들기">
 </form>
 </body>
+<script>
+// 대표이미지 preview
+var upload = document.querySelector('#c_img');
+var preview = document.querySelector('#preview');
+
+upload.addEventListener('change',function(e){
+	var el = document.getElementById('preImg');
+	if(el != null){
+		el.remove();
+	}
+	var get_file = e.target.files;
+	var image = document.createElement('img');
+	var txt = document.getElementById('preTXT');
+	txt.innerHTML="대표이미지 미리보기";
+	image.id='preImg';
+// 	FileReader 객체 생성
+	var reader = new FileReader();
+// 	reader 시작시 함수 구현
+	reader.onload = (function(aImg){
+		return function(e){
+			aImg.src = e.target.result
+		}
+	})(image)
+	
+	if(get_file){
+		reader.readAsDataURL(get_file[0]);
+	}
+	preview.appendChild(txt);
+	preview.appendChild(image);
+})
+</script>
 </html>

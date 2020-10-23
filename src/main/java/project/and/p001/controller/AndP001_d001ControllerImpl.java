@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sound.midi.Soundbank;
 
+import org.aspectj.org.eclipse.jdt.core.dom.ParenthesizedExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -155,9 +156,8 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		System.out.println("상세조회용  one_id: "+one_id);
 		System.out.println(">>>>oneType:"+detailMap.get("g_id"));
 		
-		String m_id = (String) session.getAttribute("m_id");
-		String m_nickname = (String) session.getAttribute("m_nickname");
-		
+		String m_id = (String) session.getAttribute("m_id");//아이디조회
+		String m_nickname = (String) session.getAttribute("m_nickname");//닉네임조회
 		System.out.println("참가자신청용 m_id :"+m_id);
 		
 		List<AndP001AndOneVO> andOneDetailList = p001_d001Service.andOneDetailList(detailMap);//글 상세조회
@@ -167,6 +167,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		Map<String, Object> omCheckMap = new HashMap<String, Object>();
 		omCheckMap.put("one_id", one_id);
 		omCheckMap.put("m_id", m_id);
+		
 		String omLeaderCheck = p001_d001Service.omLeaderCheck(omCheckMap);//작성자 참가자 확인
 		System.out.println("힘들다ㅏㅏㅏㅏㅏㅏ"+omLeaderCheck);
 		
@@ -177,7 +178,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		mav.addObject("m_nickname",m_nickname);
 		return mav;
 	}
-	//oneMember update
+	//oneMember update+포인트충전
 	@Override
 	@ResponseBody
 	@RequestMapping(value="/and*/addOneMember.do")
@@ -193,13 +194,16 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		
 		addMemMap.put("m_id", m_id);
 		
-		//포인트 확인
-		String point = pointP001_d001Service.selectNowPointById(m_id);
-		point = point==null? "0": point;
-		System.out.println("포인트나와"+point);
+		String beforePoint = pointP001_d001Service.selectNowPointById(m_id);//보유 포인트 확인
+		beforePoint = beforePoint==null? "0": beforePoint;
 		
-		if(one_price.compareTo(point)>0) { //포인트부족(1) 
-			return point;
+		int afterPoint = Integer.parseInt(beforePoint);//보유포인트
+		int price = Integer.parseInt(one_price);//가격
+//		System.out.println("포인트나와"+afterPoint);
+//		System.out.println(">>>>>>>결제금액:"+price);
+		
+		if(price>afterPoint) { //포인트부족(1) 
+			return beforePoint;
 		}else { //결제가능(0)
 			//p001_d001Service.addOneMember(addMemMap);
 			return "true";

@@ -95,6 +95,7 @@
 	height: 100%;
 	width: 100%;
 	object-fit: cover;
+	height: 270px 
 }
 
 .aa {
@@ -127,9 +128,41 @@
 .reportTXT{
 	display:none;
 }
-</style>
-<script type="text/javascript">
 
+  .swiper-container {
+      width: 100%;
+      height:auto;
+    }
+    .swiper-container .swiper-slide {
+      height: 300px;
+      line-height: 300px;
+    }
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+    
+</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+  <!-- Link Swiper's CSS -->
+	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+<script type="text/javascript">
 	function menuTap(ca_id){
 		$('.'+ca_id).slideToggle();
 	};
@@ -194,7 +227,7 @@ $("input:radio[name=reportRadio]").click(function(){
 									aria-expanded="false" style="margin-top:10px;width:246px;">소모임 관리</button>
 								<div class="dropdown-menu btn btn-success btn-block" aria-labelledby="btnGroupDrop1">
 									<a class="dropdown-item" href="${contextPath}/club/waitMemberList.do?c_id=${clubInfo.c_id}">요청승인하기</a> 
-									<a class="dropdown-item" href="#">소모임 수정하기</a>
+									<a class="dropdown-item" href="${contextPath}/club/updateClubForm.do?c_id=${clubInfo.c_id}">소모임 수정하기</a>
 									<button data-target="#staticBackdrop2" class="dropdown-item" data-toggle="modal">소모임 삭제하기</button>
 								</div>
 							</div>
@@ -254,18 +287,27 @@ $("input:radio[name=reportRadio]").click(function(){
 						</c:choose>
 						<h6 class="card-subtitle mb-2 text-muted">${club.ca_date }</h6>
 						<p class="card-text" style="margin-top: 10px;">${club.ca_content }</p>
+						<div class="swiper-container">
+						<div class="swiper-wrapper">
 						<c:set var="ca_img" value="${club.articleImgList}" />
 							<c:forEach var="ca_img" items="${club.articleImgList}">
 						<c:choose>
 							<c:when test="${ca_img.resultArticleImg eq null}">
 							</c:when>
 							<c:otherwise>
-								<div class="ca_img_div">
+								<div class="swiper-slide">
 									<img src="data:image/jpg;base64, ${ca_img.resultArticleImg}" class="ca_img">
 								</div>
 							</c:otherwise>
 						</c:choose>
 							</c:forEach>
+								</div>
+							<!-- Add Pagination -->
+					    <div class="swiper-pagination"></div>
+					    <!-- Add Arrows -->
+					    <div class="swiper-button-next"></div>
+					    <div class="swiper-button-prev"></div>
+					    </div>
 						<!--본인이 쓴 글일 경우 수정,삭제 메뉴 -->
 						<c:set var="logOnId" value="${m_id }" />
 						<c:set var="writer" value="${club.m_id }" />
@@ -345,7 +387,7 @@ $("input:radio[name=reportRadio]").click(function(){
 				</div>
 			</div>
 		</div>
-			<div class="side">
+			<div class="side" style="height:80%;">
 				<h5>리더</h5>
 				<c:forEach var="leader" items="${leader}">
 					<c:set var="leader" value="${leader.resultUserImg}" />
@@ -377,8 +419,10 @@ $("input:radio[name=reportRadio]").click(function(){
 				</c:forEach>
 				<c:choose>
 					<c:when test="${rank eq 20 or rank eq 30}">
+					<div style="float:bottom;">
 						<button class="btn btn-link" data-toggle="modal" data-target="#leaveClub">소모임 탈퇴하기</button>
 						<button class="btn btn-link" data-toggle="modal" data-target="#reportClub">소모임 신고하기</button>
+					</div>
 					</c:when>
 				</c:choose>
 			</div>
@@ -453,5 +497,24 @@ $("input:radio[name=reportRadio]").click(function(){
     </div>
   </div>
 </div>
+ <!-- Swiper JS -->
+ <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+  var swiper = new Swiper('.swiper-container', {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  </script>
 </body>
 </html>

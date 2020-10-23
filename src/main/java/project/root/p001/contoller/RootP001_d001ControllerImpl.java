@@ -1,14 +1,11 @@
 package project.root.p001.contoller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.JsonObject;
 
 import common.Common;
-import common.Pagination;
 import project.root.p001.service.RootP001_d001Service;
-import project.root.p003.vo.RootP003VO;
 
 
 
@@ -87,8 +81,8 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 	// locate 조회
 	@RequestMapping(value="/member/selectLocate.do", method= {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
-	public String selectMemberLocate(@CookieValue(value="locate_lat", required = false) Cookie locate_lat,
-			@CookieValue(value="locate_lng", required = false) Cookie locate_lng,
+	public String selectMemberLocate(@CookieValue(value="locate_lat", required = false) Cookie latCookie,
+			@CookieValue(value="locate_lng", required = false) Cookie lngCookie,
 			HttpServletRequest request, HttpServletResponse response) throws Exception{
 //		response.setContentType("text/html;charset=utf-8");
 		String jsonStr = "";
@@ -97,15 +91,19 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 		String m_id = request.getParameter("id");
 		if(m_id!=null && m_id!="") {	// 로그인시 DB조회
 			locate = rootP001_d001Service.selectMemberLocate(m_id);
+			// 쿠키갱신
+			latCookie = new Cookie("locate_lat", locate.get("M_LOCATE_LAT"));
+			lngCookie = new Cookie("locate_lng", locate.get("M_LOCATE_LNG"));
+			response.addCookie(latCookie);
+			response.addCookie(lngCookie);
 		}else {	// 비로그인 시 쿠키에서 조회
-			System.out.println("쿠키조회!!!!!!!!!!!");
-			if(locate_lat == null || locate_lng == null) {
+			if(latCookie == null || lngCookie == null) {
 				locate.put("M_LOCATE_LAT","0");
 				locate.put("M_LOCATE_LNG","0");
 			}else {
-				System.out.println("쿠키조회22222");
-				locate.put("M_LOCATE_LAT",locate_lat.getValue());
-				locate.put("M_LOCATE_LNG",locate_lng.getValue());
+				locate.put("M_LOCATE_LAT",latCookie.getValue());
+				locate.put("M_LOCATE_LNG",lngCookie.getValue());
+
 			}
 		}
 		System.out.println("==========> locate" + locate);

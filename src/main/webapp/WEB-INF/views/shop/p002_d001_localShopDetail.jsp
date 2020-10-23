@@ -155,7 +155,7 @@ a:hover {
 		getShopDetail();
 	})
 	
-	function openMemberPopup(param){
+	function openMemberPopup2(param){
 		let m_id = param+'';
 		window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
 	}
@@ -394,7 +394,7 @@ a:hover {
 					reviewList += '<table><tr><td rowspan="3" width="80">';
 					reviewList += '<div style="margin: 10px">';
 					reviewList += '<div class="card" style="width: 5rem;">';
-					reviewList += '<a href="javascript:void(0);" onclick="openMemberPopup(\''+jsonInfo.shopReviewList[i].m_id+'\')">';
+					reviewList += '<a href="javascript:void(0);" onclick="openMemberPopup2(\''+jsonInfo.shopReviewList[i].m_id+'\')">';
 					if(jsonInfo.shopReviewList[i].m_encodedImg == null){
 						reviewList += '<img src="${contextPath }/resources/image/user.png" class="card-img-top" alt="...">';
 					}else{

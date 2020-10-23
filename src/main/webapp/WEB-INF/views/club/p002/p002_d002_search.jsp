@@ -31,14 +31,22 @@
 .fa-crown{
 	color:#ffcc00;
 }
+.second{
+	color:#C6C4C4;
+}
+
+.font { 
+	font-family: 'YanoljaYacheR' !important; 
+	font-size: 250%; 
+} 
 </style>
 <script>
 	
 </script>
 </head>
 <body>
-<h3>전체 회원</h3>
-	<table class="table table-hover">
+<h3 style="margin:20px auto;width:200px;" class="font">전체 회원</h3>
+	<table class="table table-hover" style="width:1000px;margin:0 auto;">
 		<thead>
 			<tr>
 				<th scope="col">순번</th>
@@ -46,7 +54,7 @@
 				<th scope="col">가입날짜</th>
 				<c:set var="rank" value="${rank}" />
 				<c:choose>
-					<c:when test="${rank eq 10}">
+					<c:when test="${rank eq 10 or rank eq 20}">
 						<th scope="col">회원관리</th>
 					</c:when>
 				</c:choose>
@@ -69,7 +77,7 @@
 						<c:set var="cm_rank" value="${members.cm_rank}" /> 
 						<c:choose>
 							<c:when test="${cm_rank eq '20'}">
-								<i class="fas fa-user-secret"></i>
+								<i class="fas fa-crown second"></i>
 							</c:when>
 							<c:when test="${cm_rank eq '10'}">
 								<i class="fas fa-crown"></i>

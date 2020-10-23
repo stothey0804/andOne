@@ -14,6 +14,16 @@
 		<result property="bm_phoneNumber" column="bm_phoneNumber" /> <!-- 모집인원 -->
 	</resultMap>
 	
+	<resultMap id="shopStatistics" type="shopP001StatisticsVO">
+		<result property="six" column="SIX" />
+		<result property="five" column="FIVE" />
+		<result property="four" column="FOUR" />
+		<result property="three" column="THREE" />
+		<result property="two" column="TWO" />
+		<result property="one" column="ONE" />
+		<result property="recent" column="RECENT" />
+	</resultMap>
+	
 	<!-- 아이디 중복체크 -->
 	<select id="checkId" parameterType="String" resultType="int"> 
       <![CDATA[
@@ -42,7 +52,7 @@
       <![CDATA[
      	select * 
      	from b_member
-     	where bm_id = #{id}
+     	where bm_id = #{bm_id}
       ]]>
 	</select>
 	<!--아이디찾기 -->
@@ -53,6 +63,221 @@
      	WHERE bm_name = #{bm_name} 
      	AND bm_phoneNumber = #{bm_phoneNumber}
       ]]>
+	</select>
+	
+	<select id="selectPwdById" parameterType="String" resultType="String">
+		<![CDATA[
+     		SELECT BM_PWD
+     		FROM B_MEMBER
+     		WHERE BM_ID = #{bm_id}
+		]]>
+	</select>
+	
+	<select id="selectOverlapEmail" resultType="String" parameterType="String">
+   		<![CDATA[
+   			SELECT BM_EMAIL
+			FROM B_MEMBER
+			WHERE BM_EMAIL LIKE #{email}
+   		]]>
+   	</select>
+   	
+   	<select id="selectOverlapPhone" resultType="String" parameterType="String">
+ 		<![CDATA[
+   			SELECT BM_PHONENUMBER
+			FROM B_MEMBER
+			WHERE BM_PHONENUMBER LIKE #{phone}
+ 		]]>
+   	</select>
+   	
+   	<select id="selectOverlapShopPhone" resultType="String" parameterType="String">
+ 		<![CDATA[
+   			SELECT S_PHONENUMBER
+			FROM SHOP
+			WHERE S_PHONENUMBER LIKE #{phone}
+ 		]]>
+   	</select>
+   	
+   	<select id="selectOverlapShopId" resultType="String" parameterType="String">
+ 		<![CDATA[
+   			SELECT S_ID
+			FROM SHOP
+			WHERE S_ID LIKE #{shopId}
+ 		]]>
+   	</select>
+   	
+   	<update id="updateBmember" parameterType="shopP001BMemberVO">
+   		<![CDATA[
+   			UPDATE B_MEMBER
+   			SET BM_EMAIL = #{bm_email}, BM_PWD = #{bm_pwd}, BM_PHONENUMBER = #{bm_phoneNumber}
+   			WHERE BM_ID = #{bm_id}
+ 		]]>
+   	</update>
+   	
+   	<select id="getShopIdByBmemberId" parameterType="String" resultType="String">
+   		<![CDATA[
+   			SELECT S_ID
+   			FROM SHOP
+   			WHERE BM_ID = #{bm_id}
+ 		]]>
+   	</select>
+   	
+   	<delete id="deleteBmember" parameterType="String">
+   		<![CDATA[
+   			DELETE
+   			FROM B_MEMBER
+   			WHERE BM_ID = #{bm_id}
+ 		]]>
+   	</delete>
+   	
+   	<insert id="insertShop" parameterType="ShopP002ShopDetailVO">
+   		<![CDATA[
+   			INSERT INTO SHOP (S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, S_LOCATE, S_PHONENUMBER, S_HASHTAG)
+   			VALUES (#{s_id},#{s_category},#{s_name},#{s_score},#{s_content},#{bm_id},#{s_locate},#{s_phoneNumber},#{s_hashtag})
+ 		]]>
+   	</insert>
+   	
+   	<insert id="insertShopImage" parameterType="ShopP002ShopImageVO">
+		<![CDATA[
+			INSERT INTO S_IMAGE (S_ID,SI_IMG,SI_IDX)
+			VALUES (#{s_id},#{si_imgEncoder.img},#{si_idx})
+		]]>
+	</insert>
+   	
+   	<delete id="deleteShop" parameterType="String">
+   		<![CDATA[
+   			DELETE
+   			FROM SHOP
+   			WHERE S_ID = #{s_id}
+ 		]]>
+   	</delete>
+   	
+   	<delete id="deleteShopImage" parameterType="String">
+   		<![CDATA[
+   			DELETE
+   			FROM S_IMAGE
+   			WHERE S_ID = #{s_id}
+ 		]]>
+   	</delete>
+   	
+   	<delete id="deleteShopReview" parameterType="String">
+   		<![CDATA[
+   			DELETE
+   			FROM S_REVIEW
+   			WHERE S_ID = #{s_id}
+ 		]]>
+   	</delete>
+   	
+   	<delete id="deleteShopReviewImage" parameterType="String">
+   		<![CDATA[
+   			DELETE
+   			FROM R_IMAGE
+   			WHERE S_ID = #{s_id}
+ 		]]>
+   	</delete>
+	
+	<select id="sixMonthScoreStatistics" parameterType="String" resultMap="shop.p001.shopStatistics">
+		<![CDATA[
+	     	SELECT
+			(
+			    SELECT DECODE(COUNT(M_ID),0,'0',SUM(SR_SCORE) / COUNT(S_ID)) AS SCORE
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-6))
+			) AS SIX,
+			(
+			    SELECT DECODE(COUNT(M_ID),0,'0',SUM(SR_SCORE) / COUNT(S_ID)) AS SCORE
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-5))
+			) AS FIVE,
+			(
+			    SELECT DECODE(COUNT(M_ID),0,'0',SUM(SR_SCORE) / COUNT(S_ID)) AS SCORE
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-4))
+			) AS FOUR,
+			(
+			    SELECT DECODE(COUNT(M_ID),0,'0',SUM(SR_SCORE) / COUNT(S_ID)) AS SCORE
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-3))
+			) AS THREE,
+			(
+			    SELECT DECODE(COUNT(M_ID),0,'0',SUM(SR_SCORE) / COUNT(S_ID)) AS SCORE
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-2))
+			) AS TWO,
+			(
+			    SELECT DECODE(COUNT(M_ID),0,'0',SUM(SR_SCORE) / COUNT(S_ID)) AS SCORE
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-1))
+			) AS ONE,
+			(
+			    SELECT DECODE(COUNT(M_ID),0,'0',SUM(SR_SCORE) / COUNT(S_ID)) AS SCORE
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,0))
+			) AS RECENT
+			FROM DUAL
+    	]]>
+	</select>
+	
+	<select id="sixMonthReviewStatistics" parameterType="String" resultMap="shop.p001.shopStatistics">
+		<![CDATA[
+			SELECT
+			(
+			    SELECT COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-6))
+			    AND SR_DATE > TO_CHAR(ADD_MONTHS(SYSDATE,-7))
+			) AS SIX,
+			(
+			    SELECT COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-5))
+			    AND SR_DATE > TO_CHAR(ADD_MONTHS(SYSDATE,-6))
+			) AS FIVE,
+			(
+			    SELECT COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-4))
+			    AND SR_DATE > TO_CHAR(ADD_MONTHS(SYSDATE,-5))
+			) AS FOUR,
+			(
+			    SELECT COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-3))
+			    AND SR_DATE > TO_CHAR(ADD_MONTHS(SYSDATE,-4))
+			) AS THREE,
+			(
+			    SELECT COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-2))
+			    AND SR_DATE > TO_CHAR(ADD_MONTHS(SYSDATE,-3))
+			) AS TWO,
+			(
+			    SELECT COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,-1))
+			    AND SR_DATE > TO_CHAR(ADD_MONTHS(SYSDATE,-2))
+			) AS ONE,
+			(
+			    SELECT COUNT(M_ID)
+			    FROM S_REVIEW
+			    WHERE S_ID = #{s_id}
+			    AND SR_DATE < TO_CHAR(ADD_MONTHS(SYSDATE,0))
+			    AND SR_DATE > TO_CHAR(ADD_MONTHS(SYSDATE,-1))
+			) AS RECENT
+			FROM DUAL
+		]]>
 	</select>
 	
 </mapper>

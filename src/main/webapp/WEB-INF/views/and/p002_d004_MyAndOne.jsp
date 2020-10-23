@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	신청이 완료되었습니다
-	
+우와
 </body>
 </html>

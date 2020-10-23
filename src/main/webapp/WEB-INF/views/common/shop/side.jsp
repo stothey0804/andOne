@@ -13,25 +13,25 @@
 	<div class="container text-center">
 		<!-- 닉네임,로그아웃 -->
 		<div class="my-5">
-			<p>${bMember.bm_name }님, 안녕하세요</p>
-			<button class="btn btn-sm btn-dark">로그아웃</button>
+			<p>${bm_name }님, 안녕하세요</p>
+			<button class="btn btn-sm btn-dark" onclick="window.location.href='${contextPath}/biz/logout.do'">로그아웃</button>
 		</div>
 		<!--  메뉴그룹  -->
 		<ul class="nav flex-column nav-pills nav-fill">
 		  <li class="nav-item">
-		    <a class="nav-link" href="#">메인</a>
+		    <a class="nav-link" href="${contextPath}/biz/loginOk.do">메인</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" href="#">가게 추가하기</a>
+		    <a class="nav-link" href="${contextPath}/biz/crudInit.do">업체 관리</a>
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link" href="#">리뷰 관리</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" href="#">업주 정보 수정</a>
+		    <a class="nav-link" href="${contextPath}/biz/modifyBmember.do">업주 정보 수정</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" href="#">업주 탈퇴</a>
+		    <a class="nav-link" href="${contextPath}/biz/deleteMember.do">업주 탈퇴</a>
 		  </li>
 		</ul>
     <script src="http://code.jquery.com/jquery-1.10.2.js"></script>

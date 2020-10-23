@@ -39,6 +39,31 @@
        <put-attribute name="body" value="/WEB-INF/views/shop/p001_d004_shopAdminMain.jsp" />
    </definition>
    
+   <definition name="modifyBmember" extends="shopLayout">
+      <put-attribute name="title" value="업체회원 정보수정" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d005_modifyBmember.jsp" />
+   </definition>
+   
+   <definition name="bMemberDelete" extends="shopLayout">
+      <put-attribute name="title" value="업체회원 탈퇴" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d005_bMemberDelete.jsp" />
+   </definition>
+   
+   <definition name="pwdCheck" extends="shopLayout">
+      <put-attribute name="title" value="비밀번호 확인" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d005_pwdCheck.jsp" />
+   </definition>
+   
+   <definition name="crudInit" extends="shopLayout">
+      <put-attribute name="title" value="지역업체 초기" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_crudInit.jsp" />
+   </definition>
+   
+   <definition name="addShop" extends="shopLayout">
+      <put-attribute name="title" value="지역업체 등록" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_addShop.jsp" />
+   </definition>
+   
 	<!-- 지역업체 어드민 END -->
 
 	<!-- 관리자 START -->
@@ -188,7 +213,7 @@
        <put-attribute name="body" value="/WEB-INF/views/member/p001_d001_insert_sub01.jsp" />
    </definition>
    
-   
+   <!-- 마이페이지 영역 START -->
    <!-- 마이페이지 -->
 	<definition name="mypage" extends="mypageLayout">
 		<put-attribute name="title" value="마이페이지"/>
@@ -206,12 +231,21 @@
 		<put-attribute name="body" value="/WEB-INF/views/point/p001_d001_search.jsp"/>
 	</definition>
 	
-
-	
 	<!-- 회원정보조회 -->
 	<definition name="p001_d005_update" extends="mypageLayout">
 		<put-attribute name="title" value="내 정보 변경"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p001_d005_update.jsp"/>
+	</definition>
+	
+	<!-- 매너점수 -->
+	<definition name="MemberP004_d001_init" extends="mypageLayout">
+		<put-attribute name="title" value="내 매너점수"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p004_d001_init.jsp"/>
+	</definition>
+	<!-- 평가조회리스트 -->
+	<definition name="MemberP004_d001_search" extends="mypageLayout">
+		<put-attribute name="title" value="내 매너점수"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p004_d001_search.jsp"/>
 	</definition>
 	<!-- 문의하기 -->
 	<definition name="p002_d001_insert" extends="mypageLayout">
@@ -223,6 +257,12 @@
 		<put-attribute name="title" value="문의하기"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p002_d001_search.jsp"/>
 	</definition>
+	<!--내 &분의일 내역-->
+	<definition name="MyAndOne" extends="mypageLayout">
+		<put-attribute name="title" value="문의하기"/>
+		<put-attribute name="body" value="/WEB-INF/views/and/p002_d004_MyAndOne.jsp"/>
+	</definition>
+   <!-- 마이페이지 영역 END -->
 	
 	<!-- 소모임 메인-->
 	<definition name="clubMain"  template="/WEB-INF/views/common/layout.jsp">
@@ -236,7 +276,7 @@
       <put-attribute name="title" value="소모임 상세" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
       <put-attribute name="body" value="/WEB-INF/views/club/p001/p001_d001_detailClub.jsp" />
-      <put-attribute name="footer" value="/WEB-INF/views/common/footer2.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
    
 	<!-- 소모임 검색결과-->
@@ -252,6 +292,14 @@
       <put-attribute name="title" value="소모임 만들기" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
       <put-attribute name="body" value="/WEB-INF/views/club/p002/p002_d001_insert.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+   
+	<!-- 소모임 수정하기-->
+   <definition name="updateClubForm"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 수정하기" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p002/p002_d001_update.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
    
@@ -284,6 +332,14 @@
       <put-attribute name="title" value="소모임 전체 회원 목록" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
       <put-attribute name="body" value="/WEB-INF/views/club/p002/p002_d002_search.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+   
+   <!-- 소모임 카테고리 검색 페이지-->
+   <definition name="categorySearchList"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 카테고리 검색 페이지" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p001/p001_d001_searchCategory.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
    

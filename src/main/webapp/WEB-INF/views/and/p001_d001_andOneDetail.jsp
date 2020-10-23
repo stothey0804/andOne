@@ -21,7 +21,7 @@
 </head>
 <body>
 상세조회!<br>
-	 <!-- Modal영역 -->
+	
 	 <div class="modal fade" id="pointModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
 	 	<div class="modal-dialog">
                 <div class="modal-content">
@@ -29,19 +29,45 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h6>보유하신 포인트가 부족합니다</h6> 
-                        <h5>${m_nickname}님의포인트:</h5><h5 id="point_value"></h5>
+                        <h6>보유하신 포인트가 부족합니다.<br> 부족한 포인트를 충전하신 후에 신청하실 수 있습니다.</h6> 
+                        <h5 id="point_value3"></h5>
+                        <h5>${m_nickname}님의 현재 보유 포인트:</h5>
+                        <h5 id="point_value"></h5>
+                        <h5 id="point_value2"></h5>
                     </div>
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="pwdFind_Btn" >포인트충전하기</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+	                    <form name="frmData" method="post">
+	                    	<input type="hidden" id="amountResult" name="amount" /> <!-- 충전할금액 전달 -->
+	                    	<button type="button" class="btn btn-primary" onClick="openPopup()">결제하기</button>
+	                    	<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+	                    </form>
+                    </div>
+                </div>
+                </div>
+	 </div>
+	  <!-- 결제 진행 Modal영역 -->
+	 <div class="modal fade" id="chargeModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+	 	<div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" id="ModalLabel">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h6>결제 후 신청이 완료됩니다</h6> 
+                        <h5 id="charge_value"></h5>
+                    </div>
+                    <div class="modal-footer">
+	                    <form name="payData" method="post">
+	                    	<input type="hidden" id="payResult" name="payPoint" /> <!-- 충전할금액 전달 -->
+	                    	<button type="submit" class="btn btn-primary" onClick="openPayPopup()">결제하기</button>
+	                    	<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+	                    </form>
                     </div>
                 </div>
                 </div>
 	 </div>
 <div>
-	<c:forEach var ="andoneDetail" items="${andOneDetailList}" > 
-		
+	<c:forEach var ="andoneDetail" items="${andOneDetailList}" > 	
 		제목  ${andoneDetail.one_title} <br>
 		 카테고리 ${andoneDetail.one_category}<br>
 		 해쉬태그 ${andoneDetail.one_hashTag}<br>
@@ -49,7 +75,7 @@
 		 상태 ${andoneDetail.one_state}<br>
 		<c:forEach var ="oneMemList" items="${oneMemList}" > 
 			<c:set var="mem_img" value="${oneMemList.resultUserImg}"/>
-				<c:if test="${oneMemList.om_leader eq '10'}">
+				<c:if test="${oneMemList.om_leader eq '10'}"> <!-- 작성자 구분 -->
 		 			작성자 닉네임${oneMemList.m_nickname} <img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img"><br>
 				</c:if>
 		</c:forEach>
@@ -59,7 +85,7 @@
 		 <div id="map" style="width:500px; height:400px"></div> 
 		 <c:forEach var ="oneMemList" items="${oneMemList}" > 
 			<c:set var="mem_img" value="${oneMemList.resultUserImg}"/>
-				<c:if test="${oneMemList.om_leader eq '20' and oneMemList.om_state eq '30'}">
+				<c:if test="${oneMemList.om_leader eq '20' and oneMemList.om_state eq '30'}"> <!-- 결제완료한 참가자 -->
 		 			 참가자 닉네임${oneMemList.m_nickname} <img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img">
 				</c:if>
 		</c:forEach><br>
@@ -81,6 +107,7 @@
 		 <span class="one_id invisible">${andoneDetail.one_id}</span>
 	</c:forEach>
 </div>
+
   	<!--kakao map-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
 	<script>
@@ -103,28 +130,24 @@
 		geocoder.addressSearch(addr, function(result, status){
 			 // 정상적으로 검색이 완료됐으면 
 		     if (status === kakao.maps.services.Status.OK) {
-
-		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-		        
-		        // 결과값으로 받은 위치를 마커로 표시합니다
-		        var marker = new kakao.maps.Marker({
-		            map: map,
-		            position: coords
-		        });
-		        map.setCenter(coords);
-				}
-	     }); 
-        //금액
-       	var inputprice = document.querySelector("span.price");
+		    	 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		    	 // 결과값으로 받은 위치를 마커로 표시합니다
+		    	 var marker = new kakao.maps.Marker({
+		    		 map: map,
+		    		 position: coords
+		    		 });
+		    	 map.setCenter(coords);
+		    	 }
+			 }); 
+		
+       	var inputprice = document.querySelector("span.price");//금액
         var price = inputprice.innerHTML;
-        //글번호
-       	var inputType = document.querySelector("span.type");
+       	var inputType = document.querySelector("span.type");//글번호 
         var one_type = inputType.innerHTML;
-        //타입
-       	var inputOneid = document.querySelector("span.one_id");
+       	var inputOneid = document.querySelector("span.one_id");//타입
         var one_id = inputOneid.innerHTML;
         
-       //onetype one_id보내고 m_id는 세션에서 받아서 쓰기 
+       //신청하기 클릭시 진행
         $(document).ready(function(){
         	$('#submit').click(function(){
 		        console.log(price);
@@ -144,15 +167,40 @@
         				console.log("결과 :"+data);
         				if(data == "true"){
         					console.log("결제가능");
+        					$('#chargeModal').modal("show");
+        					$('#charge_value').text("결제금액:"+price+"원");
+        					document.getElementById('payResult').value = price;
         				}else{
         					console.log("포인트부족" +data);
+        					var finalPrice = Math.ceil((price-data)/1000)*1000;
+        					console.log("됨?"+finalPrice);
         					$('#pointModal').modal("show");
-        					$('#point_value').text(data);
+        					$('#point_value3').text("결제요청금액"+price+"원");
+        					$('#point_value').text(data+"p");
+        					$('#point_value2').text("충전할 포인트"+finalPrice+"P");
+        					document.getElementById('amountResult').value = finalPrice;
         				}
         			}
         		})
         	})
         })
+    // 포인트충전하기 클릭
+	function openPopup(){
+			let popTitle = "popupOpener";
+			window.open("", popTitle, "resizable=yes,top=0,left=0,width=450,height=500");
+			let frmData = document.frmData;
+			frmData.target = popTitle;
+			frmData.action = "${contextPath}/point/kakaoPay.do";
+			frmData.submit();
+       }
+    function openPayPopup(){
+    	let popTitle = "payPopupOpener";
+    	window.open("", popTitle, "resizable=yes,top=0,left=0,width=450,height=500");
+    	let payData = document.payData;
+    	payData.target = popTitle;
+    	payData.action = "${contextPath}/point/pay.do";
+    	payData.submit();
+     }  
 	</script>
 </body>
 </html>

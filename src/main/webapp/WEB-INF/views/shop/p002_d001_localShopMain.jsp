@@ -83,7 +83,6 @@ a:hover {
 	color: black;
 }
 </style>
-<script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
 <script>
 	$(document).ready(function(){
 		getPopularHashtag();

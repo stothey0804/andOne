@@ -56,5 +56,16 @@ public class ClubP001_d001ServiceImpl implements ClubP001_d001Service{
 	public List<ClubMemberVO> getClubMember(Map<String, Object> searchMap) {
 		return clubP001_d001DAO.getClubMember(searchMap);
 	}
+
+	@Override
+	public List<ClubVO> categoryClubList(Map<String, Object> searchMap) {
+		List<ClubVO> categoryClubList = clubP001_d001DAO.categoryClubList(searchMap);
+		return categoryClubList;
+	}
+
+	@Override
+	public String categoryName(Map<String, Object> searchMap) {
+		return clubP001_d001DAO.categoryName(searchMap);
+	}
 	
 }

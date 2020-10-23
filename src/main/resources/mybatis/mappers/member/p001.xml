@@ -104,16 +104,6 @@
           ]]>
 	</select>
 	
-	
-<!-- 	<select id="getPointList" resultMap="p001Result03"> -->
-<!--            <![CDATA[ -->
-<!--          select a.one_date,a.one_title,b.p_changepoint,a.one_state -->
-<!--          from and_one a inner join point b -->
-<!--          on a.one_id = b.p_detail -->
-<!--          where b.m_id= #{m_id} -->
-<!--          order by b.p_date desc -->
-<!--       ]]> -->
-<!-- 	</select> -->
 	<select id="getPointList" resultMap="pointResult">
            <![CDATA[
 			select p_id, p_date, p_detail,
@@ -170,8 +160,8 @@
 			INSERT INTO member(m_id, m_email, m_pwd, m_phonenumber, m_nickname, m_gender, m_age, m_joindate, m_locate_lat, m_locate_lng, m_editor, m_editdate)
     		VALUES(
 	    		LPAD(MEMBER_ID_SEQ.NEXTVAL,8,'0'),#{m_email},#{m_pwd},#{m_phonenumber},
-	    		#{m_nickname},#{m_gender},#{m_age}, TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss'),'0','0',
-	    		LPAD(MEMBER_ID_SEQ.CURRVAL,8,'0'), TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+	    		#{m_nickname},#{m_gender},#{m_age}, TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss'),'0','0',
+	    		LPAD(MEMBER_ID_SEQ.CURRVAL,8,'0'), TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss')
     		)
    		]]>
    	</insert>
@@ -182,7 +172,7 @@
 			UPDATE member
     		SET m_email = #{m_email}, m_pwd = #{m_pwd}, m_phonenumber = #{m_phonenumber}, m_nickname= #{m_nickname},
 	    		m_gender = #{m_gender}, m_age = #{m_age},
-	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss')
     		WHERE m_id = #{m_id}
    		]]>
    	</update>
@@ -229,7 +219,7 @@
 			UPDATE member
     		SET m_locate_lat = #{m_locate_lat},
     			m_locate_lng = #{m_locate_lng},
-	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss')
     		WHERE m_id = #{m_id}
    		]]>
    	</update>
@@ -238,7 +228,7 @@
 		<![CDATA[
 			UPDATE member
     		SET m_pwd = #{m_pwd},
-	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss')
     		WHERE m_id = #{m_id}
    		]]>
    	</update>
@@ -257,7 +247,7 @@
 		<![CDATA[
 			UPDATE member
     		SET m_img = #{m_img},
-	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy/mm/dd hh24:mi:ss')
+	    		m_editor = #{m_id}, m_editdate = TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss')
     		WHERE m_id = #{m_id}
    		]]>
    	</update>
