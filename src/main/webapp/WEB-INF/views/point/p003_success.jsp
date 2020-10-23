@@ -48,7 +48,7 @@
 		document.getElementById('nowPoint').innerHTML = pointToNumFormat(nowPoint);
 		
 		function checkAndOnePage(){
-			opener.location.href="${contextPath}/and/MyAndOne";
+			opener.location.href="${contextPath}/and/MyAndOnePage.do";
 			window.close();
 		}
 		

@@ -49,5 +49,4 @@ public class PointP001_d003ControllerImpl implements PointP001_d003Controller{
 		mav.addObject("m_nickname",m_nickname);
 		return mav;
 	}
-	
 }
