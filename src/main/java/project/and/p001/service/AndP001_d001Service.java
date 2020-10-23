@@ -5,13 +5,18 @@ import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
+import project.and.vo.AndOneMemberVO;
 import project.and.vo.AndP001AndOneVO;
 
 public interface AndP001_d001Service {
-	public List recentAndOneList(String g_id) throws DataAccessException;
+	public List recentAndOneList(Map<String, Object> param) throws DataAccessException;
 	public List searchCtg(String g_id) throws DataAccessException;
-	public List ctgSearchList(AndP001AndOneVO vo) throws DataAccessException;
-	public List totalSearchList(AndP001AndOneVO vo) throws DataAccessException;
-	public  Map<String, Object> selectMemLocate(String m_id) throws DataAccessException;
-	public List<String> selectAndOneLocate(String g_id) throws DataAccessException;
+	public List ctgSearchList(Map<String, Object> searchMap) throws DataAccessException;
+	public List totalSearchList(Map<String, Object> searchMap) throws DataAccessException;
+	public Map<String, Object> selectMemLocate(String m_id) throws DataAccessException;
+	public List<AndP001AndOneVO> andOneDetailList(Map<String, Object> detailMap);
+	public List<AndOneMemberVO> oneMemList(String one_id);
+	public void addOneMember(Map<String, Object> addMemMap);
+	public String omLeaderCheck(Map<String, Object> omCheckMap);
+	public String checkPoint(String m_id);
 }
