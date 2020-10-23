@@ -8,7 +8,8 @@
 	<ul>
 		<li>나의 정보</li>
 		<ul class="mb-3">
-			<a href="#"><li>내 &분의일 내역</li></a>
+			<a href="#"><li>내가 쓴 &분의일</li></a>
+			<a href="#"><li>내가 참가한 &분의일</li></a>
 			<a href="#"><li>최근조회한 &분의일</li></a>
 			<a href="${contextPath}/shop/getShopReviewList.do"><li>내 지역업체 리뷰</li></a>
 			<a href="${contextPath}/member/score.do"><li>내 매너점수</li></a>
