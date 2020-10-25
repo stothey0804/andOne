@@ -50,12 +50,6 @@ public class MemberP005_d001ControllerImpl implements MemberP005_d001Controller{
 			List<MemberP005VO> newList = memberP005_d001Service.searchNewNotifyList(m_id);
 			// 이전 알람 조회
 			Map<String, String> searchParam = new HashMap<String, String>();
-//			int listCnt = memberP005_d001Service.selectOldNotifyCnt(m_id);
-//			Pagination pagination = new Pagination(listCnt, curPage);
-//			searchParam.put("startIndex", "1");	// 시작 index는 1부터 이므로 1을 더해줌.
-//			searchParam.put("endIndex", "5");	// 5개씩 조회
-//			searchParam.put("m_id", m_id);
-//			List<MemberP005VO> oldList = memberP005_d001Service.searchOldNotifyList(searchParam);
 			// 정보 전달
 //			mav.addObject("pagination", pagination);
 			mav.addObject("newList", newList);
@@ -97,4 +91,17 @@ public class MemberP005_d001ControllerImpl implements MemberP005_d001Controller{
 		return memberP005_d001Service.selectNewNotifyCnt(m_id)+"";
 	}
 	
+	// notify DB저장
+	@RequestMapping("member/saveNotify.do")
+	@ResponseBody
+	public void saveNotify(@RequestParam Map<String,String> param) throws Exception {
+		MemberP005VO vo = new MemberP005VO();
+		vo.setN_target(param.get("target"));
+		vo.setN_content(param.get("content"));
+		vo.setN_type(param.get("type"));
+		vo.setN_url(param.get("url"));
+		memberP005_d001Service.insertNotify(vo);
+	}
+	
+		
 }

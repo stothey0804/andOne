@@ -242,7 +242,7 @@
 	   
 	  </div>
 	</nav>
-    <div id="msgStack" onClick="location.href='${contextPath}/member/notify.do'">
+    <div id="msgStack">
 	</div>
 
 </body>
