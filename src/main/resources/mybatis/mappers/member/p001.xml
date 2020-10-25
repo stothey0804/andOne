@@ -120,20 +120,22 @@
 			SELECT *
             FROM (SELECT M_ID, M_EMAIL, M_NICKNAME, M_PHONENUMBER, M_JOINDATE,
             ROW_NUMBER() OVER (ORDER BY m_id DESC) ROWNUMBER
-			FROM MEMBER)
-            WHERE ROWNUMBER BETWEEN #{startIndex} AND #{endIndex}
+			FROM MEMBER
+            
 		]]>
 		<if test="searchCondition=='EMAIL'">
 		<![CDATA[
-			AND M_EMAIL LIKE '%'||#{searchKeyword}||'%'
+			WHERE M_EMAIL LIKE '%'||#{searchKeyword}||'%'
 		]]>
 		</if>
 		<if test="searchCondition=='NICKNAME'">
 		<![CDATA[
-			AND M_NICKNAME LIKE '%'||#{searchKeyword}||'%'
+			WHERE M_NICKNAME LIKE '%'||#{searchKeyword}||'%'
 		]]>
 		</if>
 		<![CDATA[
+			)
+			WHERE ROWNUMBER BETWEEN #{startIndex} AND #{endIndex}
 			ORDER BY M_ID DESC
 		]]>
 	</select>

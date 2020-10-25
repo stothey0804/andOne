@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import project.and.vo.AndOneMemberVO;
 import project.and.vo.AndP001AndOneVO;
 
 @Repository
@@ -16,9 +17,9 @@ public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 	private SqlSession sqlSession;
 	//최근 등록된 같이먹기/사기/하기
 	@Override
-	public List<AndP001AndOneVO> selectRecentList(String g_id) throws DataAccessException{
+	public List<AndP001AndOneVO> selectRecentList(Map<String, Object> param) throws DataAccessException{
 		List<AndP001AndOneVO> selectRecentList = null;
-		selectRecentList = sqlSession.selectList("and.p001.selectRecentList",g_id);
+		selectRecentList = sqlSession.selectList("and.p001.selectRecentList",param);
 		return selectRecentList;
 	}
 	//카테고리(이름/번호)
@@ -30,31 +31,62 @@ public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 	}
 	//카테고리 검색
 	@Override
-	public List<AndP001AndOneVO> selectCtgList(AndP001AndOneVO vo) throws DataAccessException{
+	public List<AndP001AndOneVO> selectCtgList(Map<String, Object> searchMap) throws DataAccessException{
 		List<AndP001AndOneVO> selectCtgList = null;
-		selectCtgList = sqlSession.selectList("and.p001.selectCtgList",vo);
+		selectCtgList = sqlSession.selectList("and.p001.selectCtgList",searchMap);
 		return selectCtgList;
 	}
 	//전체검색
 	@Override
-	public List<AndP001AndOneVO> selectTotalSearchList(AndP001AndOneVO vo) throws DataAccessException{
+	public List<AndP001AndOneVO> selectTotalSearchList(Map<String, Object> searchMap) throws DataAccessException{
 		List<AndP001AndOneVO> selectTotalSearchList = null;
-		selectTotalSearchList = sqlSession.selectList("and.p001.selectTotalSearchList",vo);
+		selectTotalSearchList = sqlSession.selectList("and.p001.selectTotalSearchList",searchMap);
 		return selectTotalSearchList;
 	}
 	//회원위치가져오기
 	@Override
 	public Map<String, Object> selectMemLocate(String m_id) throws DataAccessException{
 		System.out.println(">>>>>>>>>>>>>>"+m_id);
-		 Map<String, Object> selectMemLocate = sqlSession.selectOne("and.p001.selectMemLocate",m_id);
+		 Map<String, Object> selectMemLocate = sqlSession.selectOne("and.p001.selectMemLocate", m_id);
+		 System.out.println("나왔니?"+selectMemLocate.get("m_locate_Lat"));
 		return selectMemLocate;
 	}
 	//엔분의일 위치 
 	@Override
-	public List<String> selectAndOneLocate(String g_id) throws DataAccessException{
+	public List<Map<String,Object>> selectAndOneLocate(String g_id) throws DataAccessException{
 		System.out.println(g_id);
-		List<String> selectAndOneLocate = sqlSession.selectList("and.p001.selectAndOneLocate",g_id);
+		List<Map<String,Object>> selectAndOneLocate = sqlSession.selectList("selectAndOneLocate", g_id);
 		return selectAndOneLocate;
+	}
+	//엔분의일 상세보기
+	@Override
+	public List<AndP001AndOneVO> selectAndOneDetailList(Map<String, Object> detailMap) {
+		List<AndP001AndOneVO> selectAndOneDetailList = null;
+		selectAndOneDetailList = sqlSession.selectList("and.p001.selectAndOneDetailList",detailMap);
+		return selectAndOneDetailList;
+	}
+	//엔분의일 작성자정보
+	@Override
+	public List<AndOneMemberVO> selectOneMem(String one_id) {
+		List<AndOneMemberVO> selectOneMem = null;
+		selectOneMem = sqlSession.selectList("and.p001.selectOneMem",one_id);
+		return selectOneMem;
+	}
+	//참가자 신청
+	@Override
+	public void addOneMember(Map<String, Object> addMemMap) {
+		sqlSession.selectList("and.p001.insertOneMember",addMemMap);
+	}
+	@Override
+	public String omLeaderCheck(Map<String,Object> omCheckMap) {
+		String omLeaderCheck = sqlSession.selectOne("and.p001.selectOmLeader",omCheckMap);
+		System.out.println("dao체크   :"+omLeaderCheck);
+		return omLeaderCheck;
+	}
+	@Override
+	public String checkPoint(String m_id) {
+		String point = sqlSession.selectOne("and.p001.selectPoint",m_id);
+		return point;
 	}
 	
 	

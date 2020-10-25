@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import project.and.vo.AndOneMemberVO;
 import project.club.vo.ClubMemberVO;
 import project.member.p001.service.MemberP001_d005Service;
 
@@ -66,6 +67,16 @@ public class Common {
 			 if(list.get(i).getUserImg() != null) {
 				 encoded = Base64.getEncoder().encode(list.get(i).getUserImg());
 				 list.get(i).setResultUserImg(new String(encoded));	
+			 }
+		 }
+	 }
+	 //AndOneUserImg encoding method
+	 public static void getEncodedAndUser(List<AndOneMemberVO> andOneList) {
+		 byte[] encoded = null;
+		 for(int i=0; i < andOneList.size();i++) {
+			 if(andOneList.get(i).getUserImg() != null) {
+				 encoded = Base64.getEncoder().encode(andOneList.get(i).getUserImg());
+				 andOneList.get(i).setResultUserImg(new String(encoded));
 			 }
 		 }
 	 }

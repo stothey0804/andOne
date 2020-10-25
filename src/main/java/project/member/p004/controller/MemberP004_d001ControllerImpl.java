@@ -52,7 +52,6 @@ public class MemberP004_d001ControllerImpl implements MemberP004_d001Controller{
 		// 전달 값
 		mav.addObject("info", result);
 		mav.addObject("receivedList", receivedList);
-		System.out.println("============>info " + result);
 		// 평가조회도 넘겨야함.
 		return mav;
 	}
@@ -130,7 +129,7 @@ public class MemberP004_d001ControllerImpl implements MemberP004_d001Controller{
 		Map<String, String> searchParam = new HashMap<String, String>();
 		String flag = "recieve";	// 플래그 설정
 		searchParam.put("flag", flag);
-		if(target!=null) {	// 남의 평가 조회시
+		if(target!=null) {	// 남의 평가 조회시(팝업)
 			mav.setViewName("member/p004_d001_search_popup");
 			searchParam.put("m_id", target );
 			mav.addObject("target", target);
@@ -173,8 +172,10 @@ public class MemberP004_d001ControllerImpl implements MemberP004_d001Controller{
 	@RequestMapping(value="/deleteReview.do", method = {RequestMethod.POST, RequestMethod.GET})
 	public String deleteReview(@RequestParam String mr_id, HttpServletRequest request) throws Exception {
 		if(mr_id != null) {
-			System.out.println("==========> mr_id : " + mr_id);
+			MemberP004VO content = memberP004_d001Service.searchReviewContent(mr_id);	// 평점업데이트를 위한 정보 조회
 			memberP004_d001Service.deleteMemberReview(mr_id);
+			// 평점 업데이트
+			memberP004_d001Service.updateMemberScore(content.getMr_target()); 
 		}
 		// 팝업에서 접근시
 		return "redirect:"+ request.getHeader("Referer");	

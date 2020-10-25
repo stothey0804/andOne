@@ -25,12 +25,22 @@
 			WHERE g_id like #{g_id}
    		]]>
    	</select>
+   	
    <!-- 분류 그룹명 내의 분류 리스트 조회  -->
    	<select id="selectCommonCodeNameList" resultMap="commonCodeMap" parameterType="String">
    		<![CDATA[
 			SELECT gc_id, gc_name 
 			FROM common_code
 			WHERE g_id like #{g_id}
+   		]]>
+   	</select>
+   	
+   <!-- 상세분류 이름 조회  -->
+   	<select id="selectCommonCodeName" resultType="String" parameterType="java.util.List">
+   		<![CDATA[
+			SELECT gc_name 
+			FROM common_code
+			WHERE g_id = #{g_id} AND gc_id = #{gc_id};
    		]]>
    	</select>
    	

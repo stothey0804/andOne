@@ -39,7 +39,9 @@
 	</svg>
 	<h2>카카오페이 결제가 정상적으로 완료되었습니다.</h2><br>
 	<h4>충전포인트  <span id="chargeAmount"></span>P</h4>
-	<h4>보유포인트  <span id="nowPoint"></span>P</h4>
+	<h4>보유포인트  <span id="nowPoint"></span>P</h4><br>
+	<a class="btn btn-large btn-primary text-center" onClick='window.close()'>닫기</a>
+	
 </div>
 	<script type="text/javascript">
 		document.getElementById('chargeAmount').innerHTML = pointToNumFormat(chargeAmount);

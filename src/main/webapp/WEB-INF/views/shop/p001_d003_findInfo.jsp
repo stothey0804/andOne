@@ -25,6 +25,7 @@
         }
 	    //아이디찾기
       	var id_value = "";
+	    
       	function sendFindId(){
 	  	var name = $("#inputName").val();
 	  	var phoneNum = $("#inputPhoneNumber").val();

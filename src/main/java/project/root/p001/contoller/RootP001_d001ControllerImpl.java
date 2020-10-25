@@ -103,6 +103,7 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 			}else {
 				locate.put("M_LOCATE_LAT",latCookie.getValue());
 				locate.put("M_LOCATE_LNG",lngCookie.getValue());
+
 			}
 		}
 		System.out.println("==========> locate" + locate);

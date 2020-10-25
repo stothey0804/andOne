@@ -19,5 +19,11 @@ public class AndP002_d001DAOImpl implements AndP002_d001DAO {
 		sqlSession.insert("and.p002.insertAndOne",Andone);
 		return null;
 	}
+	public List<Map<String,Object>> insertOneMem(Map<String,Object> Andone) throws DataAccessException{
+		System.out.println(">>>>>>"+Andone.get("one_locate_Lat"));
+		System.out.println(">>>>>>"+Andone.get("one_locate_Lng"));
+		sqlSession.insert("and.p002.insertOneMem",Andone);
+		return null;
+	}
 
 }
