@@ -98,7 +98,6 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		//소모임 게시글 이미지 encoding
 		for(int i=0; i<vo.getArticleList().size();i++) {
 			if(vo.getArticleList().get(i).getArticleImgList()!=null) {
-				System.out.println("낫널");
 				for(int j=0; j < vo.getArticleList().get(i).getArticleImgList().size();j++) {
 					if(vo.getArticleList().get(i).getArticleImgList().get(j) != null) {
 						System.out.println("낫널");
@@ -128,8 +127,8 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		mav.addObject("clubInfo", vo);
 		mav.addObject("rank", rank);
 		mav.addObject("clubImg",clubImg);
-		mav.addObject("members", members);
-		mav.addObject("leader", leader);
+//		mav.addObject("members", members);
+//		mav.addObject("leader", leader);
 		mav.addObject("reportType", reportType);
 		return mav;
 	}

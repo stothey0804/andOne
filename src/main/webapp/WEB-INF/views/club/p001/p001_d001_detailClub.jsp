@@ -188,12 +188,6 @@
 		location.reload();
 	}
 
-// 	신고 기타 선택시 textarea 활성화
-$("input:radio[name=reportRadio]").click(function(){
-	if($("input[name=reportRadio]:checked").val()=="80"){
-		$(".reportTXT").css("display","block");
-	}
-})
 </script>
 </head>
 <body>
@@ -321,7 +315,7 @@ $("input:radio[name=reportRadio]").click(function(){
 							</svg>
 								<div class="sub ${club.ca_id}">
 									<button type="button" class="btn btn-outline-secondary"
-										onclick="location.href='${contextPath }/club/editClubArticle.do?ca_id=${club.ca_id}'">수정</button>
+										onclick="location.href='${contextPath }/club/editClubArticleForm.do?ca_id=${club.ca_id}&&c_id=${clubInfo.c_id}'">수정</button>
 									<button type="button" class="btn btn-outline-danger delete"
 										onclick="send(${club.ca_id})" data-toggle="modal"
 										data-target="#staticBackdrop">삭제</button>

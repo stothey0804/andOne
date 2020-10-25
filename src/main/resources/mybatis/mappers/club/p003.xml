@@ -5,14 +5,26 @@
 
 <mapper namespace="club.p003">
 	<resultMap id="article" type="clubArticleVO">
+		<result property="ca_id" column="ca_id"/>
 		<result property="ca_content" column="ca_content"/>
-		<result property="imgList" column="ca_img" javaType="[B"  jdbcType="BLOB"/>
 	</resultMap>
-		
+	
+	<resultMap id="imgList" type="clubArticleImgVO">
+		<result property="cai_id" column="cai_id"/>
+		<collection property="articleImg" column="ca_img" javaType="[B" jdbcType="BLOB"/>
+	</resultMap>
+	
 	<delete id="deleteClubArticle">
 		<![CDATA[
 			delete from c_article
 			where ca_id = #{ca_id}
+		]]>
+	</delete>
+
+	<delete id="deleteArticleImg">
+		<![CDATA[
+			delete from ca_image
+			where cai_id = #{cai_id}
 		]]>
 	</delete>
 	
@@ -25,12 +37,25 @@
 			INSERT INTO ca_image(cai_id,ca_img,ca_id)
 			values(LPAD(c_articleImg_SEQ.NEXTVAL,6,'0'),#{ca_img},art_SEQ.CURRVAL)
 	</insert>
+
+	<insert id="updateArticleImg" parameterType="java.util.Map">
+			INSERT INTO ca_image(cai_id,ca_img,ca_id)
+			values(LPAD(c_articleImg_SEQ.NEXTVAL,6,'0'),#{ca_img},#{ca_id})
+	</insert>
 	
-	<select id="editArticleView" resultMap="article">
+	<select id="getArticle" resultMap="article" parameterType="java.util.Map">
 		<![CDATA[
-			select ca_content,ca_img
+			select ca_content,ca_id
 			from c_article
 			where ca_id = #{ca_id}
+		]]>
+	</select>
+	
+	<select id="getArticleListImg" resultMap="club.p003.imgList" parameterType="java.util.Map">
+		<![CDATA[
+		 	select ca_img,cai_id
+		 	from ca_image
+		 	where ca_id = #{ca_id}
 		]]>
 	</select>
 	
@@ -39,6 +64,11 @@
 		values(#{c_id},#{cm_intro},#{m_id},to_char(sysdate,'YYYY-MM-DD hh:mm:ss'),40)
 	</insert>
 	
+	<update id="updateArticle">
+		UPDATE c_article
+		SET ca_content = #{ca_content}
+		WHERE ca_id = #{ca_id}
+	</update>
 	<delete id="leaveClub">
 		{call
            declare

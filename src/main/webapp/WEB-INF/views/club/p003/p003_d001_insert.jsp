@@ -24,32 +24,108 @@
 	font-weight: normal;
 	font-style: normal;
 }
-.left{
-	float:left;
-	cursor:pointer;
+
+.left {
+	float: left;
+	cursor: pointer;
 }
-.info{
-	margin-right:15px;
+
+.info {
+	margin-right: 15px;
 }
 
 input[type="submit"] {
 	margin: 0 auto;
 }
+
 .c_img {
 	height: 100%;
 	width: 100%;
 	object-fit: cover;
 }
+
 .btn-success:hover {
-    background-color: #00033D !important;
+	background-color: #00033D !important;
 }
-.btn-success{
-	background-color:#002A87 !important;
-	border-color:#002A87;
-	color:white;
+
+.btn-success {
+	background-color: #002A87 !important;
+	border-color: #002A87;
+	color: white;
+}
+
+.fileDelete {
+	margin-top: -8px;
+}
+
+.zz>img {
+	object-fit: contain;
+	width: 100%;
+}
+
+.zz {
+	width: 270px;
+}
+
+.none {
+	display: none;
 }
 </style>
+<script>
+function fileReset() {
+	document.getElementById('ca_img').value = "";
+	for (var i = 0; i < index; i++) {
+		var el = document.getElementById('preImg');
+		if (el != null) {
+			el.remove();
+		}
+	}
+	index = 0;
+}
 
+$(document).ready(function() {
+	$('#ca_img').on("change", preview);
+})
+
+var sel_files = [];
+var index = 0;
+
+function preview(e) {
+	sel_files = [];
+	$('.swiper-slide').empty();
+	$('.swiper-container').removeClass('none');
+
+	var files = e.target.files;
+	var filesArr = Array.prototype.slice.call(files);
+
+	filesArr
+			.forEach(function(f) {
+
+				if (!f.type.match("image.*")) {
+					alert('잘못된 파일 형식');
+					return;
+				}
+
+				sel_files.push(f);
+
+				var reader = new FileReader();
+				reader.onload = function(e){
+					if(index > 50){
+						sel_files = [];
+						$('.swiper-container').empty();
+						$('.swiper-container').html("<h4>사진은 최대 50장까지 첨부 가능합니다</h4>");
+						$('#ca_img').val("");
+						return;
+					}else{
+						var output = "<div class='zz'><img src='"+e.target.result+"' id='preImg'/></div>";
+						$('.swiper-wrapper').append(output);
+						index++;
+					}
+				}
+				reader.readAsDataURL(f);
+				})
+			}
+</script>
 <body>
 <div class="container my-5 center">
 		<div class="left">
@@ -75,15 +151,25 @@ input[type="submit"] {
 <form action="${contextPath}/club/writeArticle.do" method="post" enctype="multipart/form-data">
 	<textarea class="form-control col-sm-5" rows="13" name="ca_content">${articleInfo.ca_content }</textarea><br>
 	<script>CKEDITOR.replace('ca_content')</script>
-	<div class="btn" style="width:462px;">
-	<input multiple="multiple" type="file" accept="image/*" name="ca_img"/>
+	<div class="btn" id="a"style="width:462px;">
+	
+	<div id="label">이미지 첨부<br>
+    <label class="btn btn-outline-primary btn-file" id="label">이미지 선택
+    	<input type="file" class="form-control-file" accept="image/*" name="ca_img" id="ca_img" multiple style="display:none;">
+    </label>
+    	<input type="button" value=삭제 class="btn btn-outline-danger fileDelete" onclick="fileReset()">
+    </div>
 	<br>
 	<br>
-	<input type="hidden" name="c_id" value="${clubInfo.c_id }">
-	<input type="hidden" name="m_id" value="${member.m_id }">
+<div class="swiper-container none">
+	<p>첨부파일 미리보기</p>
+    <div class="swiper-wrapper">
+    </div>
+</div>
+	<input type="hidden" name="c_id" value="${clubInfo.c_id}">
+	<input type="hidden" name="m_id" value="${member.m_id}">
 	<input type="submit" class="btn btn-success btn-block"></div>
 </form>
 </div>
-
 </body>
 </html>

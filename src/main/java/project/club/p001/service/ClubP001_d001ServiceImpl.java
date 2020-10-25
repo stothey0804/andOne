@@ -67,5 +67,11 @@ public class ClubP001_d001ServiceImpl implements ClubP001_d001Service{
 	public String categoryName(Map<String, Object> searchMap) {
 		return clubP001_d001DAO.categoryName(searchMap);
 	}
+
+	@Override
+	public ClubVO detailClubCard(Map<String, Object> searchMap) {
+		ClubVO vo = clubP001_d001DAO.detailClubCard(searchMap);
+		return vo;
+	}
 	
 }

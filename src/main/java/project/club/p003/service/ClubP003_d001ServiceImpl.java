@@ -1,5 +1,6 @@
 package project.club.p003.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import project.club.p003.dao.ClubP003_d001DAO;
+import project.club.vo.ClubArticleImgVO;
 import project.club.vo.ClubArticleVO;
 
 
@@ -31,6 +33,22 @@ public class ClubP003_d001ServiceImpl implements ClubP003_d001Service{
 	public ClubArticleVO editArticle(Map<String, Object> searchMap) {
 		ClubArticleVO articleVO = clubP003_d001DAO.editClubArticle(searchMap);
 		return articleVO;
+	}
+
+	@Override
+	public List<ClubArticleImgVO> editArticleImg(Map<String, Object> searchMap) {
+		List<ClubArticleImgVO> list = clubP003_d001DAO.editClubArticleImg(searchMap);
+		return list;
+	}
+
+	@Override
+	public void deleteClubArticleImg(Map<String, Object> deleteMap) {
+		clubP003_d001DAO.deleteClubArticleImg(deleteMap);
+	}
+
+	@Override
+	public void updateArticle(Map<String, Object> updateMap) {
+		clubP003_d001DAO.updateClubArticle(updateMap);
 	}
 
 	
