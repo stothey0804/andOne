@@ -10,4 +10,5 @@ public interface ShopP001_d005Service {
 	public void deleteBmember(String bm_id);
 	public void deleteShop(String s_id);
 	public String getShopIdByBmemberId(String bm_id);
+	public void deleteShopImage(String s_id);
 }

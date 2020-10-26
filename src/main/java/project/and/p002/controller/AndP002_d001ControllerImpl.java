@@ -39,7 +39,7 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 	//글쓰기 내용 DB저장
 	@Override
 	@RequestMapping(value="/and*/insertAndOne.do")
-	public String insertAndOne(@RequestParam Map<String,Object> Andone, HttpSession session) {
+	public String insertAndOne(@RequestParam Map<String,Object> Andone, HttpServletRequest request) {
 		System.out.println(">>>>>>"+Andone.get("one_locate_Lat"));
 		System.out.println(">>>>>>"+Andone.get("one_locate_Lng"));
 		String g_id = (String) Andone.get("one_type");
@@ -47,6 +47,7 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 		String one_addr = (String) Andone.get("one_addr");
 		System.out.println("한글주소:"+one_addr);
 		
+		HttpSession session = request.getSession(false);
 		String m_id = (String) session.getAttribute("m_id");
 		System.out.println("M_ID :"+m_id); //회원아이디 가져오기
 		Andone.put("m_id", m_id);//m_id 추가

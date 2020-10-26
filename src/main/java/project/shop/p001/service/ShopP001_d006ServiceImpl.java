@@ -33,4 +33,14 @@ public class ShopP001_d006ServiceImpl implements ShopP001_d006Service{
 		shopP001_d006DAO.insertShopImage(vo);
 	}
 
+	@Override
+	public void updateShop(ShopP002ShopDetailVO vo) {
+		shopP001_d006DAO.updateShop(vo);
+	}
+
+	@Override
+	public void updateShopImage(ShopP002ShopImageVO vo) {
+		shopP001_d006DAO.updateShopImage(vo);
+	}
+
 }

@@ -64,6 +64,26 @@
        <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_addShop.jsp" />
    </definition>
    
+   <definition name="modifyShop" extends="shopLayout">
+      <put-attribute name="title" value="지역업체 수정" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_modifyShop.jsp" />
+   </definition>
+   
+   <definition name="deleteShop" extends="shopLayout">
+      <put-attribute name="title" value="지역업체 삭제" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_deleteShop.jsp" />
+   </definition>
+   
+   <definition name="deleteShopComplete" extends="shopLayout">
+      <put-attribute name="title" value="지역업체 삭제완료" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_deleteShopComplete.jsp" />
+   </definition>
+   
+   <definition name="bizShopReviewList" extends="shopLayout">
+      <put-attribute name="title" value="지역업체 리뷰리스트" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_shopReviewList.jsp" />
+   </definition>
+   
 	<!-- 지역업체 어드민 END -->
 
 	<!-- 관리자 START -->
@@ -265,7 +285,7 @@
 	<!--내 &분의일 내역-->
 	<definition name="MyAndOne" extends="mypageLayout">
 		<put-attribute name="title" value="문의하기"/>
-		<put-attribute name="body" value="/WEB-INF/views/and/p002_d004_MyAndOne.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/and/p002_d003_MyAndOne.jsp"/>
 	</definition>
    <!-- 마이페이지 영역 END -->
 	

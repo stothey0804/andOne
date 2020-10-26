@@ -3,6 +3,7 @@ package project.shop.p003.dao;
 import java.util.List;
 import java.util.Map;
 
+import project.shop.p002.vo.ShopP002ShopImageVO;
 import project.shop.p003.vo.ShopP003ShopReviewImageVO;
 import project.shop.p003.vo.ShopP003ShopReviewVO;
 
@@ -13,6 +14,7 @@ public interface ShopP003_d001DAO {
 	public void insertShopReviewImage(ShopP003ShopReviewImageVO vo);
 	public void deleteShopReviewImage(ShopP003ShopReviewImageVO vo);
 	public boolean isDuplicate(ShopP003ShopReviewImageVO vo);
+	public boolean isDuplicate(ShopP002ShopImageVO vo);
 	public void updateShopReviewImage(ShopP003ShopReviewImageVO vo);
 	public int selectShopReviewListCnt(String s_id);
 	public int selectMyShopReviewListCnt(String m_id);
