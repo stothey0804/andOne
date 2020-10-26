@@ -17,8 +17,9 @@
 		<typeAlias type="project.club.vo.ClubMemberVO" alias="clubMemberVO"/>
 		<typeAlias type="project.club.vo.ClubArticleImgVO" alias="clubArticleImgVO"/>
 <!-- 		<typeAlias type="project.shop.p001.vo.ShopP001_d001VO" alias="shopP001_d001VO"/> -->
-		<typeAlias type="project.and.vo.AndP001AndOneVO" alias="AndP001AndOneVO"/>
-		<typeAlias type="project.and.vo.AndOneMemberVO" alias="AndOneMemberVO"/>
+		<typeAlias type="project.and.vo.AndP001AndOneVO" alias="AndP001AndOneVO"/><!-- 엔분의일 -->
+		<typeAlias type="project.and.vo.AndP002AndOneVO" alias="AndP002AndOneVO"/><!-- 엔분의일 -->
+		<typeAlias type="project.and.vo.AndOneMemberVO" alias="AndOneMemberVO"/><!-- 엔분의일 -->
 		<typeAlias type="project.shop.p001.vo.ShopP001BmemberVO" alias="shopP001BMemberVO"/>
 		<typeAlias type="project.shop.p001.vo.ShopP001StatisticsVO" alias="shopP001StatisticsVO"/>
 	    <typeAlias type="project.shop.p002.vo.ShopP002ShopDetailVO" alias="ShopP002ShopDetailVO" />

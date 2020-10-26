@@ -265,7 +265,7 @@
 	<!--내 &분의일 내역-->
 	<definition name="MyAndOne" extends="mypageLayout">
 		<put-attribute name="title" value="문의하기"/>
-		<put-attribute name="body" value="/WEB-INF/views/and/p002_d004_MyAndOne.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/and/p002_d003_MyAndOne.jsp"/>
 	</definition>
    <!-- 마이페이지 영역 END -->
 	

@@ -21,25 +21,96 @@
 		<result property="gc_name" column="gc_name" />
 		<result property="gc_id" column="gc_id" />
 	</resultMap>
-	
 	<!-- one_date 실행날짜 one_time 등록시간 -->
 	<!-- &분의일  최근등록된 같이먹기 -->
 	<insert id="insertAndOne" parameterType="java.util.HashMap">
       <![CDATA[
-       	insert into and_one(one_type, one_id, one_state, one_category, one_title, one_memberMax, 
+       	INSERT INTO and_one(one_type, one_id, one_state, one_category, one_title, one_memberMax, 
 		       			    one_totalPrice, one_date, one_hashTag, one_time, one_locate_lat, one_locate_lng, one_content, 
 		       			    one_addr, one_editor, one_editdate )
-		values (#{one_type}, LPAD(andone_SEQ.NEXTVAL,6,'0'), '10', #{one_category}, #{one_title}, #{one_memberMax},
+		VALUES (#{one_type}, LPAD(andone_SEQ.NEXTVAL,6,'0'), '10', #{one_category}, #{one_title}, #{one_memberMax},
 				#{one_totalPrice}, #{one_date}, #{one_hashTag}, to_char(sysdate,'yyyy-mm-dd hh:mi:ss'), #{one_locate_Lat}, #{one_locate_Lng},
 				#{one_content}, #{one_addr}, #{m_id}, to_char(sysdate,'yyyy-mm-dd hh:mi:ss') )
       ]]>
 	</insert>
 	<insert id="insertOneMem" parameterType="java.util.HashMap">
 	  <![CDATA[
-	  	insert into one_member(one_type, one_id, m_id, om_leader, om_state, om_date, om_editor, om_editdate)
-	  	values (#{one_type}, LPAD(andone_SEQ.CURRVAL,6,'0') ,#{m_id}, 10, 30,to_char(sysdate,'yyyy-mm-dd hh:mi:ss'), 
+	  	INSERT INTO one_member(one_type, one_id, m_id, om_leader, om_state, om_date, om_editor, om_editdate)
+	  	VALUES (#{one_type}, LPAD(andone_SEQ.CURRVAL,6,'0') ,#{m_id}, 10, 30,to_char(sysdate,'yyyy-mm-dd hh:mi:ss'), 
 	  			#{m_id}, to_char(sysdate,'yyyy-mm-dd hh:mi:ss'))
 	   ]]>
 	</insert>
-	
+	<!-- 내가작성한 엔분의일 -->
+	<select id="selectWroteAndOne" parameterType="java.util.HashMap" resultType="AndP002AndOneVO">
+	  <![CDATA[
+	  	SELECT *
+		FROM
+		(
+		SELECT (ROW_NUMBER() OVER(ORDER BY om_date DESC))om_num, a.one_type, a.one_id, a.m_id, d.one_title, a.om_leader, a.om_state, a.om_date, 
+			  			substr(b.g_name,6,9) as g_name, c.gc_name as one_state, e.m_nickname,
+		    			CASE WHEN to_char(d.one_totalPrice/d.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(d.one_totalPrice/d.one_memberMax))||'원' END as one_price
+		FROM one_member a, (SELECT g_name, g_id FROM code_group) b,(SELECT gc_name, gc_id, g_id FROM common_code WHERE g_id='017') c, 
+		    		 and_one d, member e
+		    
+		WHERE a.one_type = b.g_id
+		AND d.one_id = a.one_id
+		AND d.one_state = c.gc_id
+		AND a.m_id = e.m_id		
+		AND a.m_id = #{m_id}
+		AND a.om_leader = '10'  
+		)
+		WHERE om_num between #{startIndex} AND #{endIndex}
+	   ]]>
+	</select>
+	<!-- 참가한 엔분의일 -->
+	<select id="selectParticiateAndOne" parameterType="java.util.HashMap" resultType="AndP002AndOneVO">
+	  <![CDATA[
+	  	SELECT OM_NUM, ONE_TITLE, ONE_STATE, OM_DATE, G_NAME, ONE_PRICE, ONE_ID, M_ID, WRITER_NICKNAME
+		FROM
+		(
+   			SELECT (ROW_NUMBER() OVER(ORDER BY OM_DATE DESC))OM_NUM, A.ONE_TYPE, A.ONE_ID, A.M_ID, D.ONE_TITLE, A.OM_LEADER, A.OM_STATE, A.OM_DATE,
+            SUBSTR(B.G_NAME,6,9) AS G_NAME, C.GC_NAME AS ONE_STATE, E.M_NICKNAME,
+            CASE WHEN TO_CHAR(D.ONE_TOTALPRICE/D.ONE_MEMBERMAX) = 0 THEN '비용없음' ELSE TO_CHAR(TRUNC(D.ONE_TOTALPRICE/D.ONE_MEMBERMAX))||'원' END AS ONE_PRICE
+            ,WRITER_NICKNAME
+    		FROM ONE_MEMBER A, (SELECT G_NAME, G_ID FROM CODE_GROUP) B,(SELECT GC_NAME, GC_ID, G_ID FROM COMMON_CODE WHERE G_ID='017') C,
+         AND_ONE D, MEMBER E,
+         (
+            SELECT M_NICKNAME AS WRITER_NICKNAME,WRITER_ID,ONE_ID
+            FROM
+            (
+               SELECT B.M_ID AS WRITER_ID, A.ONE_ID
+               FROM AND_ONE A INNER JOIN ONE_MEMBER B ON A.ONE_ID = B.ONE_ID
+               WHERE B.OM_LEADER = '10'
+            )A INNER JOIN MEMBER B ON WRITER_ID = B.M_ID
+         ) F
+    	WHERE A.ONE_TYPE = B.G_ID
+    	AND D.ONE_ID = A.ONE_ID
+    	AND D.ONE_STATE = C.GC_ID
+    	AND A.M_ID = E.M_ID
+    	AND F.ONE_ID = A.ONE_ID
+    	AND A.M_ID = #{m_id}
+    	AND A.OM_LEADER = '20'
+		)
+		WHERE OM_NUM BETWEEN #{startIndex}  AND #{endIndex}
+	   ]]>
+	</select>
+	<!-- 작성/참가 페이징 카운트 -->
+	<select id="selectAndOneCnt" parameterType="String" resultType="int">
+		<if test="flag=='participate'">
+		<![CDATA[
+			SELECT count(m_id) 
+			FROM one_member 
+			WHERE m_id like #{m_id}
+			AND om_leader = '20' 
+		]]>
+		</if>
+		<if test="flag=='write'">
+		<![CDATA[
+			SELECT count(m_id) 
+			FROM one_member 
+			WHERE m_id like #{m_id}
+			AND om_leader = '10' 
+		]]>
+		</if>
+	</select>
 </mapper>
