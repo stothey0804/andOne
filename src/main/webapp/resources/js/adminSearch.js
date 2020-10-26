@@ -49,7 +49,10 @@ $(document).ready(function(){
 				});
 		
 	});
-	$(".searchDetail").click(function(){
+	
+
+	
+	$(".searchDetail").click(function(){	// QNA
 		$("#popup-container").toggle();
 		// ajax
 		let _q_id = (event.target).parentNode.parentNode.getAttribute("id");

@@ -41,15 +41,9 @@ input[type="submit"] {
 body{
 	background: white;
 }
-<<<<<<< HEAD
-=======
-/* .card,.mainClub{ */
-/* 	background:#f5f7f8; */
-/* } */
 .mainClub{
 	background:#f5f7f8;
 }
->>>>>>> branch 'master' of https://github.com/stothey0804/andOne.git
 
 .mainClub:hover{
 	top: -2px;
@@ -79,12 +73,7 @@ div.img{
 }
 div.img > img{
 	object-fit: cover;
-<<<<<<< HEAD
     height: 270px 
-=======
-	height: 270px 
-/* 	vertical-align:middle; */
->>>>>>> branch 'master' of https://github.com/stothey0804/andOne.git
 }
 * {box-sizing: border-box;}
 .mySlides {display: none;}

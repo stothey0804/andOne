@@ -64,6 +64,26 @@
        <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_addShop.jsp" />
    </definition>
    
+   <definition name="modifyShop" extends="shopLayout">
+      <put-attribute name="title" value="지역업체 수정" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_modifyShop.jsp" />
+   </definition>
+   
+   <definition name="deleteShop" extends="shopLayout">
+      <put-attribute name="title" value="지역업체 삭제" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_deleteShop.jsp" />
+   </definition>
+   
+   <definition name="deleteShopComplete" extends="shopLayout">
+      <put-attribute name="title" value="지역업체 삭제완료" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_deleteShopComplete.jsp" />
+   </definition>
+   
+   <definition name="bizShopReviewList" extends="shopLayout">
+      <put-attribute name="title" value="지역업체 리뷰리스트" />
+       <put-attribute name="body" value="/WEB-INF/views/shop/p001_d006_shopReviewList.jsp" />
+   </definition>
+   
 	<!-- 지역업체 어드민 END -->
 
 	<!-- 관리자 START -->
@@ -318,7 +338,7 @@
    
    <!-- 소모임  게시글 수정 페이지-->
    <definition name="editArticle"  template="/WEB-INF/views/common/layout.jsp">
-      <put-attribute name="title" value="소모임 게시글 쓰기" />
+      <put-attribute name="title" value="소모임 게시글 수정하기" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
       <put-attribute name="body" value="/WEB-INF/views/club/p003/p003_d001_update.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />

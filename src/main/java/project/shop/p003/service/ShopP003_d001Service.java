@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import project.shop.p002.vo.ShopP002ShopImageVO;
 import project.shop.p003.vo.ShopP003ShopReviewImageVO;
 import project.shop.p003.vo.ShopP003ShopReviewVO;
 
@@ -15,6 +16,7 @@ public interface ShopP003_d001Service {
 	public void insertShopReviewImage(ShopP003ShopReviewImageVO vo);
 	public void deleteShopReviewImage(ShopP003ShopReviewImageVO vo);
 	public boolean isDuplicate(ShopP003ShopReviewImageVO vo);
+	public boolean isDuplicate(ShopP002ShopImageVO vo);
 	public void updateShopReviewImage(ShopP003ShopReviewImageVO vo);
 	public int selectShopReviewListCnt(String s_id);
 	public int selectMyShopReviewListCnt(String m_id);

@@ -4,17 +4,11 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<!-- jQuery -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-		crossorigin="anonymous"></script>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<title>회원목록</title>
-	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 	<style>
 		div.form-group{
 			width: 100%;
@@ -29,7 +23,7 @@
 	
 	    .popup-container {
 	     	width: 800px;
-	    	z-index: 9999;
+	    	z-index: 9990;
 	/*     	visibility: hidden; */
 	    	position: absolute;
 	    	left: 50%;
@@ -47,13 +41,152 @@
 	    .popup-display{
 	    	display: none;
 	    }
+	    
+	    .modal{
+	    	z-index: 9999;
+	    }
 		
 	</style>
 	<script src = "${contextPath}/resources/js/adminSearch.js"></script>
 	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		// 버튼 클릭시 
+		$('#notifyModalBtn').click(function(e) {
+			  var modal = $('.modal');
+			  modal.find('.modal-body #notifyId').val($('td.id').text());
+		});
+		$('#pointModalBtn').click(function(e) {
+			  var modal = $('.modal');
+			  modal.find('.modal-body #pointTargetId').val($('td.id').text());
+		});
+		
+		// notifySend
+		$('#notifySendBtn').click(function(e){
+			let modal = $('.modal-content').has(e.target);
+// 			let cmd = 'adminMsg';
+			let type = '70';
+			let target = modal.find('.modal-body input').val();
+			let content = modal.find('.modal-body textarea').val();
+			let url = '${contextPath}/member/notify.do';
+			// db저장	
+			$.ajax({
+				type: 'post',
+				url: '${contextPath}/member/saveNotify.do',
+				dataType: 'text',
+				data: {
+					target: target,
+					content: content,
+					type: type,
+					url: url
+				},
+				success: function(){
+					socket.send("관리자,"+target+","+content+","+url);	// 소켓에 전달
+				}
+			});
+			modal.find('.modal-body textarea').val('');	// textarea 지우기
+		});
+
+		// pointSend
+		$('#pointSendBtn').click(function(e){
+			let modal = $('.modal-content').has(e.target);
+// 			let cmd = 'pointSendMsg';
+			let type = '50';	// 분류코드
+			let target = modal.find('.modal-body #pointTargetId').val();	// 받을 멤버 ID
+			let amount = modal.find('.modal-body #point').val();	// 포인트량
+			let content = '관리자님이 ' + amount + '포인트를 지급하였습니다.';		// 알림메시지
+			console.log(content);
+			let url = '${contextPath}/point/pointDetail.do';		// url
+			// 포인트 insert
+			$.ajax({
+				type: 'post',
+				url: '${contextPath}/point/insertPointFromAdmin.do',
+				dataType: 'text',
+				data: {
+					target: target,
+					amount: amount
+				},
+				success: function(){
+					// db저장	
+					$.ajax({
+						type: 'post',
+						url: '${contextPath}/member/saveNotify.do',
+						dataType: 'text',
+						data: {
+							target: target,
+							content: content,
+							type: type,
+							url: url
+						},
+						success: function(){
+							socket.send("포인트,"+target+","+content+","+url);	// 소켓에 전달
+						}
+					});
+				}
+			});
+
+			modal.find('.modal-body #point').val('');	// textarea 지우기
+		});
+	});
+	</script>
 </head>
 
 <body>
+
+<!-- Notify Modal START -->
+<div class="modal fade" id="notifyModal" tabindex="-1" aria-labelledby="notifyModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pointModalLabel">알림전송</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input type="hidden" class="form-control" id="notifyId">
+            <label for="message-text" class="col-form-label">내용</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        <button id="notifySendBtn" type="button" class="btn btn-primary">알림전송</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- NOtify Modal END -->
+<!-- Point Modal START -->
+<div class="modal fade" id="pointModal" tabindex="-1" aria-labelledby="notifyModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="notifyModalLabel">포인트지급</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input type="hidden" class="form-control" id="pointTargetId">
+            <label for="point" class="col-form-label">지급포인트</label>
+            <input class="form-control" id="point" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        <button id="pointSendBtn" type="button" class="btn btn-primary">포인트지급</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Point Modal END -->
 
 <!-- Popup START -->
 <div id="popup-container" class="popup-display">
@@ -131,9 +264,9 @@
 				</table>
 				</div>
 				<div class="row mt-2">
-					<button class="btn btn-primary">포인트 지급</button>
+					<button id="pointModalBtn" class="btn btn-primary" data-toggle="modal" data-target="#pointModal">포인트 지급</button>
 					<div class="ml-auto">
-						<button class="btn btn-secondary">알림전송</button>
+						<button id="notifyModalBtn" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#notifyModal">알림전송</button>
 						<button class="btn btn-danger">회원삭제</button>
 					</div>
 				</div>
@@ -154,8 +287,8 @@
 			      <label class="input-group-text" for="inputGroupSelect01">검색조건</label>
 		      </div>
    		    <select class="custom-select" name="searchCondition">
-				<c:forEach items="${conditionMap }" var="option">
-				<option value="${option.value }">${option.key }
+				<c:forEach items="${conditionMap}" var="option">
+				<option value="${option.value}">${option.key }
 				</c:forEach>
 		    </select>
 			  <input type="text" name="searchKeyword" class="form-control searchValue" aria-describedby="button-addon2">

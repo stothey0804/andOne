@@ -34,4 +34,14 @@ public class ShopP001_d006DAOImpl implements ShopP001_d006DAO{
 		
 	}
 
+	@Override
+	public void updateShop(ShopP002ShopDetailVO vo) {
+		sqlSession.update("shop.p001.updateShop",vo);
+	}
+
+	@Override
+	public void updateShopImage(ShopP002ShopImageVO vo) {
+		sqlSession.update("shop.p001.updateShopImage",vo);
+	}
+
 }

@@ -66,7 +66,7 @@
 			if(s_id == 'isNull'){
 				alert('업체가 없다능');
 			}else{
-				window.location.href="${contextPath}/biz/crudController.do?bm_id=${bm_id }&s_id=${s_id }&deleteShop";
+				window.location.href="${contextPath}/biz/crudController.do?bm_id=${bm_id }&s_id=${s_id }&path=deleteShop";
 			}
 		})
 	})

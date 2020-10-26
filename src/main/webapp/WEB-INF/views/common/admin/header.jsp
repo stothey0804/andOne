@@ -24,14 +24,14 @@
 		 socket = sock;
 		 
 		 // send 클릭시
-		 $("#sendBtn").click(function(){
-			 sendMessage();
-		 })
+// 		 $("#sendBtn").click(function(){
+// 			 sendMessage();
+// 		 })
 	});
 	
-	function sendMessage(){
-		sock.send($("#inputMsg").val());	// 소켓으로 전송
-	}
+// 	function sendMessage(){
+// 		sock.send($("#inputMsg").val());	// 소켓으로 전송
+// 	}
 	
 </script>
 <style type="text/css">
@@ -41,10 +41,10 @@
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	  <a class="navbar-brand logotype" href="#">&분의일 </a>
 	  <span class="navbar-brand mb-0">관리자페이지</span>
-	  	<form class="form-inline msg">
-		  	<input type="text" class="form-control mb-2 mr-sm-2" id="inputMsg" placeholder="메시지 입력">
-		  	<button type="button" class="btn btn-primary mb-2" id="sendBtn">Send</button>
-	  	</form>
+<!-- 	  	<form class="form-inline msg"> -->
+<!-- 		  	<input type="text" class="form-control mb-2 mr-sm-2" id="inputMsg" placeholder="메시지 입력"> -->
+<!-- 		  	<button type="button" class="btn btn-primary mb-2" id="sendBtn">Send</button> -->
+<!-- 	  	</form> -->
  		<a class="btn btn-dark ml-auto" href="${contextPath}/member/logout.do">로그아웃</a>
 	</nav>
 

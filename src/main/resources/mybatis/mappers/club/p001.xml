@@ -132,6 +132,18 @@
 		]]>
 	</select>
 
+	<select id="detailClubCard" resultMap="p001_d001Result01">
+		<![CDATA[
+		 	select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id,c_openingdate,c_img
+        from
+        (
+            select *
+            from common_code a inner join club b on a.gc_id = b.c_category
+            where g_id=019
+        )
+        where c_id = #{c_id}
+		]]>
+	</select>
 	<select id="getArticleList" resultMap="club.p001.articleList">
 		<![CDATA[
 		 	select a.ca_content,a.ca_date,b.m_nickname,a.ca_img,a.ca_id,a.ca_pin,b.m_img,a.m_id

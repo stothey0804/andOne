@@ -46,14 +46,6 @@ h2{
 .fileDelete{
 	margin-top:-8px;
 }
-/* .btn-primary:hover { */
-/*     background-color: #00033D !important; */
-/* } */
-/* .btn-primary{ */
-/* 	background-color:#002A87 !important; */
-/* 	border-color:#002A87; */
-/* 	color:white; */
-/* } */
 </style>
 <script>
 function fileReset(){
