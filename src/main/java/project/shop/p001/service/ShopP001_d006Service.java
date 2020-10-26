@@ -8,5 +8,7 @@ public interface ShopP001_d006Service {
 	public String searchOverlapShopPhone(String phone);
 	public void insertShop(ShopP002ShopDetailVO vo);
 	public void insertShopImage(ShopP002ShopImageVO vo);
+	public void updateShop(ShopP002ShopDetailVO vo);
+	public void updateShopImage(ShopP002ShopImageVO vo);
 
 }

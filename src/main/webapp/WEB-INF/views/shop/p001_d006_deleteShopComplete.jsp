@@ -10,7 +10,7 @@
 <style type="text/css">
 	div.inner{
 		margin-top:	6em;
-		margin-bottom: 10em;
+		margin-bottom: 10em;	
 	}
 </style>
 <!-- Custom Source CSS -->

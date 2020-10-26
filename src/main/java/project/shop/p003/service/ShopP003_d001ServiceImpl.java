@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import project.shop.p002.vo.ShopP002ShopImageVO;
 import project.shop.p003.dao.ShopP003_d001DAO;
 import project.shop.p003.vo.ShopP003ShopReviewImageVO;
 import project.shop.p003.vo.ShopP003ShopReviewVO;
@@ -47,6 +48,11 @@ public class ShopP003_d001ServiceImpl implements ShopP003_d001Service{
 
 	@Override
 	public boolean isDuplicate(ShopP003ShopReviewImageVO vo) {
+		return shopP003_d001DAO.isDuplicate(vo);
+	}
+	
+	@Override
+	public boolean isDuplicate(ShopP002ShopImageVO vo) {
 		return shopP003_d001DAO.isDuplicate(vo);
 	}
 
@@ -115,4 +121,6 @@ public class ShopP003_d001ServiceImpl implements ShopP003_d001Service{
 	public List<ShopP003ShopReviewVO> getMyShopReviewListByPaging(Map<String, String> searchParam) {
 		return shopP003_d001DAO.getMyShopReviewListByPaging(searchParam);
 	}
+
+	
 }

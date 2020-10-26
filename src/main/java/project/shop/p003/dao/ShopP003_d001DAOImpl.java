@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import project.shop.p002.vo.ShopP002ShopImageVO;
 import project.shop.p003.vo.ShopP003ShopReviewImageVO;
 import project.shop.p003.vo.ShopP003ShopReviewVO;
 
@@ -53,6 +54,15 @@ public class ShopP003_d001DAOImpl implements ShopP003_d001DAO{
 		}
 		return result;
 	}
+	
+	@Override
+	public boolean isDuplicate(ShopP002ShopImageVO vo) {
+		boolean result = true;
+		if(sqlSession.selectOne("shop.p002.getShopImage",vo)==null) {
+			result = false;
+		}
+		return result;
+	}
 
 	@Override
 	public void updateShopReviewImage(ShopP003ShopReviewImageVO vo) {
@@ -93,5 +103,7 @@ public class ShopP003_d001DAOImpl implements ShopP003_d001DAO{
 	public List<ShopP003ShopReviewVO> getMyShopReviewListByPaging(Map<String, String> searchParam) {
 		return sqlSession.selectList("shop.p002.getMyShopReviewListByPaging",searchParam);
 	}
+
+	
 
 }

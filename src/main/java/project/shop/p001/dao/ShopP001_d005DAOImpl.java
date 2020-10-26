@@ -44,6 +44,10 @@ public class ShopP001_d005DAOImpl implements ShopP001_d005DAO{
 		sqlSession.delete("shop.p001.deleteShopReview",s_id);
 		sqlSession.delete("shop.p001.deleteShopReviewImage",s_id);
 	}
+	
+	public void deleteShopImage(String s_id) {
+		sqlSession.delete("shop.p001.deleteShopImage",s_id);
+	}
 
 	@Override
 	public String getShopIdByBmemberId(String bm_id) {
