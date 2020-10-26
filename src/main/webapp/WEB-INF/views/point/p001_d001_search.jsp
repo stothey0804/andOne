@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <script>
-	var point = '${point}';
+	var point = '${point}'!=''?'${point}':'0';
 	
 	function pointToNumFormat(num) {
 		return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

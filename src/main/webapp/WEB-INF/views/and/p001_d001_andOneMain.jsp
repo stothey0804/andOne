@@ -47,29 +47,81 @@
 		function init(){
 			let times = document.querySelectorAll("span.time");
 			let timeResults = document.querySelectorAll("span.timeResult");
-	  		console.log(times);
 	  		
 	  		for(let i=0; i<times.length; i++){
 	  			var result = times[i].textContent;
 	  			timeResults[i].innerHTML = timeForToday(result);
 	  		}
+	  		// 주소-좌표 변환 객체를 생성합니다
+	  		var geocoder = new kakao.maps.services.Geocoder();
+	  		
+	  		
+	  		let distane01 = document.querySelectorAll("span.addr");
+	  		let addrResults = document.querySelectorAll("span.addrResult");
+	  		
+	  		var distances = [];
+	  		var ti = [];
+	  		for(let i=0; i<distane01.length; i++){
+	  			distances[i] = distane01[i].textContent;
+	  			var x_memLocate = distances[i].slice(0,distances[i].indexOf(","));
+	  			console.log(">>>x_memLocate "+x_memLocate);
+	  			var y_memLocate = distances[i].slice(distances[i].indexOf(",")+1,distances[i].length-1);
+	  			console.log(">>>y_memLocate "+y_memLocate );
+	  			ti[i] = new daum.maps.LatLng(x_memLocate,y_memLocate);
+	  		}
+	  		var detail = [];
+	  		
+	  		for(i=0; i<ti.length; i++){
+	  			searchDetailAddrFromCoords(ti[i], function(result, status) {
+	  				if (status === kakao.maps.services.Status.OK) {
+			  			var detailAddr = result[0].address.address_name;
+			  			detail = detailAddr;
+			  			console.log(detail);
+	  				}
+		  		})
+			  			addrResults[i].innerHTML = detail[i];
+	  		}
+	  		
+	  		function searchDetailAddrFromCoords(coords, callback) {
+			    // 좌표로 법정동 상세 주소 정보를 요청합니다
+			    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback(detail));
+			}
+	  		
+	  		/* ti.forEach(function (andOnePosition){
+				var polyline = new daum.maps.Polyline({
+					path: [
+						memPosition,
+						andOnePosition
+					]
+				});
+				console.log("길이>>>>"+polyline.getLength());
+				var leng = [];
+				leng = polyline.getLength();
+				console.log(leng[1]);
+				}) */
+	  		
+	  		/* var distance = [];
+			for(var i in andOneLocate){
+				/* one_locate_Lat = andOneLocate[i].ONE_LOCATE_LAT;
+				one_locate_Lng = andOneLocate[i].ONE_LOCATE_LNG;
+				console.log("1111"+one_locate_Lat);
+				console.log("2222"+one_locate_Lng);
+				console.log(typeof one_locate_Lng); 
+				pathh[i] = new daum.maps.LatLng(andOneLocate[i].ONE_LOCATE_LAT,andOneLocate[i].ONE_LOCATE_LNG);
+				} */
 		}
 		//글 올라온시점 계산 함수
 	    function timeForToday(value) {
 	    const today = new Date();
-	    console.log(today);
 	    const timeValue = new Date(value);
-	    console.log(timeValue);
 	
 	    const betweenTime = Math.floor((today.getTime() - timeValue.getTime())/1000/60);
-	    console.log(betweenTime);
 	        if (betweenTime < 1) return '방금전';
 	        if (betweenTime < 60) {
 	            return betweenTime+'분전';
 	        }
 	
 	    const betweenTimeHour = Math.floor(betweenTime / 60);
-	    console.log(betweenTimeHour);
 	        if (betweenTimeHour < 24) {
 	            return betweenTimeHour+'시간전';
 	        }
@@ -81,31 +133,39 @@
 	    return Math.floor(betweenTimeDay / 365)+'년전';
 		}
 		//거리계산
-		//console.log('${andOneLocate}');
-		//console.log('${memLocate}');
 		
-	/* 	var memLocate= '${memLocate[0].m_locate_Lat}';
-		var memLocate2= '${memLocate.m_locate_lat}';
-		console.log(memLocate2);
-		var andLocate = ${andOneLocate};
+		//회원이 설정한 위치
+		/* var memLocate_Lat = "${memLocate.m_locate_Lat}";
+		var memLocate_Lng = "${memLocate.m_locate_Lng}";
+		console.log(memLocate_Lat);
+		console.log(memLocate_Lng);
 		
-		console.log(andLocate);
- 		console.log(typeof andLocate);
-		console.log(andLocate.indexOf(6));
-		console.log(memLocate);
+		var andOneLocate = JSON.parse('${andOneLocate}');
+		console.log(andOneLocate[6].ONE_LOCATE_LAT,andOneLocate[6].ONE_LOCATE_LNG)
 		
-		let x_memLocate = memLocate.slice(1,andLocate[6].indexOf(","));
-		let y_memLocate = memLocate.slice(andLocate[6].indexOf(",")+1,andLocate[6].length-1);
+		var memPosition = new kakao.maps.LatLng(memLocate_Lat, memLocate_Lng); 
+		console.log("멤버위치:"+memPosition); */
+	
+	    /* var pathh = [];
+		for(var i in andOneLocate){
+			one_locate_Lat = andOneLocate[i].ONE_LOCATE_LAT;
+			one_locate_Lng = andOneLocate[i].ONE_LOCATE_LNG;
+			console.log("1111"+one_locate_Lat);
+			console.log("2222"+one_locate_Lng);
+			console.log(typeof one_locate_Lng); 
+			pathh[i] = new daum.maps.LatLng(andOneLocate[i].ONE_LOCATE_LAT,andOneLocate[i].ONE_LOCATE_LNG);
+			}
 		
-		locPosition = new kakao.maps.LatLng(x_memLocate, y_memLocate); */
-		//console.log(locPosition);
-		
-		var posi = $("#possible").text();
-		console.log(posi);
-		
-		
-		
-	   
+		pathh.forEach(function (andOnePosition){
+			var polyline = new daum.maps.Polyline({
+				path: [
+					memPosition,
+					andOnePosition
+				]
+			});
+			console.log("길이>>>>"+polyline.getLength());
+			}) */
+
 	</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -207,25 +267,26 @@
 	</c:choose>
 		</h4><br>
 	<div class="container">
+		<h5 style="text-align: right;"><span class="sortDistance">거리순</span>/<span class="sortDay">마감순</span></h5><br>
 		<div class="row">
 			<c:forEach var ="andone" items="${recentAndOneList}" > 
 				<div class="col-sm-6 mb-3">
 					<div class="card">
-						<a href="#"><div class="card-body">
+						<a href="${contextPath}/and/detailAndOne.do?one_id=${andone.one_id}&g_id=${andone.one_type}"><div class="card-body">
 				<c:choose>
 					<c:when test="${g_id == '010'}"> 
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
-						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}수령예정 </h5>
+						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state}<span class="date">${andone.one_date}수령예정</span></h5>
 						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
 						<p class="card-text"> #${andone.one_hashTag}  </p>
-						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}  </span></p>
+						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
+						<p class="card-text"><span class="addrResult"></span><span class="addr">${andone.one_locate_Lat},${andone.one_locate_Lng} </span></p>
 					</c:when>
 					<c:when test="${g_id == '011'}">
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
 						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}수령예정</h5>
 						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
 						<p class="card-text"> #${andone.one_hashTag}  </p>
-						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
 					</c:when>
 					<c:when test="${g_id == '012'}">
 						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
@@ -240,12 +301,6 @@
 				</div>
 			</c:forEach>
 			</div>
-		</div>
-		
-	<%-- 	<span id="possible">${memLocate.M_LOCATE_LNG}</span>
-		
-		${andOneLocate} --%>
-		
-		
+		</div>	
 </body>
 </html>

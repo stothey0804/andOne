@@ -16,20 +16,25 @@
 		<result property="one_date" column="one_date" /> <!-- 실행날짜-->
 		<result property="one_time" column="one_time" /> <!-- 등록시간-->
 		<result property="one_hashTag" column="one_hashTag" /> 
-		<result property="one_locate_lat" column="one_locate_lat" /> 
-		<result property="one_locate_lng" column="one_locate_lng" /> 
+		<result property="one_locate_Lat" column="one_locate_Lat" /> 
+		<result property="one_locate_Lng" column="one_locate_Lng" /> 
 		<result property="gc_name" column="gc_name" />
 		<result property="gc_id" column="gc_id" />
+		<result property="distance" column="distance" />
+	</resultMap>
+	<resultMap id="p001_d001Result02" type="java.util.HashMap" >
+		<result property="m_locate_Lat" column="m_locate_Lat" /> 
+		<result property="m_locate_Lng" column="m_locate_Lng" /> 
 	</resultMap>
 	<!-- one_date 실행날짜 one_time 등록시간 -->
 	<!-- &분의일  최근등록된 같이먹기 -->
-	<select id="selectRecentList" parameterType="String" resultType="AndP001AndOneVO">
+	<select id="selectRecentList" parameterType="map" resultType="AndP001AndOneVO">
       <![CDATA[
        	select *
        	from (
-		      	select  a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
+		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
-		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, a.one_locate_lat, a.one_locate_lng,
+		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, d.distance, a.one_locate_Lat, a.one_locate_Lng,
 		        		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
@@ -37,14 +42,20 @@
 		              where g_id='017') b,
 		             (select gc_name, gc_id, g_id
 		              from common_code 
-		              where g_id = #{g_id} ) c
+		              where g_id = #{g_id} ) c,
+		              (select tmp.DISTANCE as distance, one_id
+					   from ( 
+    						select one_id, DISTNACE_WGS84(#{m_locate_Lat}, #{m_locate_Lng}, one_locate_Lat, one_locate_Lng) as DISTANCE
+    						from and_one
+    						where (one_locate_Lat between #{m_locate_Lat}-0.019 and #{m_locate_Lat}+0.019)
+   							and (one_locate_Lng between #{m_locate_Lng}-0.022 and #{m_locate_Lng}+0.022) ) TMP) d
 			    where a.one_state = b.gc_id
 				and a.one_category = c.gc_id
+                and a.one_id = d.one_id
 				and a.one_type= #{g_id}
-				order by a.one_id desc
-		)
-		where rownum <=6
-		
+				order by d.one_id desc
+			)
+			where rownum <=6
       ]]>
 	</select>
 	<!-- 카테고리 이름 번호 -->
@@ -57,13 +68,13 @@
       ]]>
 	</select>
 	<!-- 카테고리별 검색 -->
-	<select id="selectCtgList" parameterType="String" resultType="AndP001AndOneVO">
+	<select id="selectCtgList" parameterType="map" resultType="AndP001AndOneVO">
       <![CDATA[
-       	select *
+		select *
        	from (
-		      	select  a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
+		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
-		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, a.one_locate_lat, a.one_locate_lng,
+		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, d.distance,
 		        		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
@@ -71,49 +82,63 @@
 		              where g_id='017') b,
 		             (select gc_name, gc_id, g_id
 		              from common_code 
-		              where g_id = #{g_id}
-		              and gc_id= #{one_category} ) c
+		              where g_id = #{g_id} 
+		              and gc_id= #{one_category}) c,
+		              (select tmp.DISTANCE as distance, one_id
+					   from ( 
+    						select one_id, DISTNACE_WGS84(#{m_locate_Lat}, #{m_locate_Lng}, one_locate_Lat, one_locate_Lng) as DISTANCE
+    						from and_one
+    						where (one_locate_Lat between #{m_locate_Lat}-0.019 and #{m_locate_Lat}+0.019)
+   							and (one_locate_Lng between #{m_locate_Lng}-0.022 and #{m_locate_Lng}+0.022) ) TMP) d
 			    where a.one_state = b.gc_id
 				and a.one_category = c.gc_id
+                and a.one_id = d.one_id
 				and a.one_type= #{g_id}
-				order by a.one_id desc
-		)
-		where rownum <=6
+				order by d.one_id desc
+			)
+			where rownum <=6
       ]]>
 	</select>
 	<!-- 전체검색  추후 지역추가해야함-->
-	<select id="selectTotalSearchList" parameterType="AndP001AndOneVO" resultType="AndP001AndOneVO">
-      <![CDATA[
-      select *
-       from (
-	      	select  a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
-	       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
-	       			substr(a.one_date,6,11) as one_date, a.one_hashTag, a.one_locate_lat, a.one_locate_lng,
-	        		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
-			from and_one a, 
-	       		 (select gc_name, gc_id, g_id
-	              from common_code 
-	              where g_id='017') b,
-	             (select gc_name, gc_id, g_id
-	              from common_code 
-	              where g_id = #{g_id} ) c       
-      ]]>
-	      <where>
-		    a.one_state = b.gc_id
-			and a.one_category = c.gc_id
-			and a.one_type= #{g_id}
-			and(one_category like '%' ||#{totalSearch}|| '%' or a.one_title like '%' ||#{totalSearch}|| '%' or a.one_hashTag like '%' ||#{totalSearch} || '%')
-	      </where>
-			order by a.one_id DESC
-		)
-		<![CDATA[
-	  	where ROWNUM <= 6
-	  	 ]]>
+	<select id="selectTotalSearchList" parameterType="map" resultType="AndP001AndOneVO">
+	  	 <![CDATA[
+	  	 select *
+       	from (
+		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
+		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
+		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, d.distance,
+		        		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
+				from and_one a, 
+		       		 (select gc_name, gc_id, g_id
+		              from common_code 
+		              where g_id='017') b,
+		             (select gc_name, gc_id, g_id
+		              from common_code 
+		              where g_id = #{g_id} ) c,
+		              (select tmp.DISTANCE as distance, one_id
+					   from ( 
+    						select one_id, DISTNACE_WGS84(#{m_locate_Lat}, #{m_locate_Lng}, one_locate_Lat, one_locate_Lng) as DISTANCE
+    						from and_one
+    						where (one_locate_Lat between #{m_locate_Lat}-0.019 and #{m_locate_Lat}+0.019)
+   							and (one_locate_Lng between #{m_locate_Lng}-0.022 and #{m_locate_Lng}+0.022) ) TMP) d
+ 				]]>
+				<where>
+			    a.one_state = b.gc_id
+				and a.one_category = c.gc_id
+                and a.one_id = d.one_id
+				and a.one_type= #{g_id}
+				and(one_category like '%' ||#{totalSearch}|| '%' or a.one_title like '%' ||#{totalSearch}|| '%' or a.one_hashTag like '%' ||#{totalSearch} || '%')
+				</where>
+				order by d.one_id DESC
+			)
+			<![CDATA[
+	  		where ROWNUM <= 6
+	  	 	]]>
 	</select>
 	<!--회원주소 가져오기 -->
-	<select id="selectMemLocate" parameterType="String" resultType="java.util.HashMap">
+	<select id="selectMemLocate" parameterType="String" resultMap="p001_d001Result02">
 		<![CDATA[
-			select m_locate_lat, m_locate_lng
+			select m_locate_Lat, m_locate_Lng
 			from member
 			where m_id = #{m_id}
 		]]>
@@ -121,7 +146,7 @@
 	<!-- 글에 등록된 주소 -->
 	<select id="selectAndOneLocate" parameterType="String" resultType="java.util.HashMap">
 		<![CDATA[
-			select  a.one_locate_lat, a.one_locate_lng
+			select  a.one_locate_Lat, a.one_locate_Lng
 			from and_one a, 
 			     (select gc_name, gc_id, g_id
 			      from common_code 
@@ -132,6 +157,62 @@
 			where a.one_state = b.gc_id
 			and a.one_category = c.gc_id
 			and a.one_type=  #{g_id} 
+			order by a.one_id DESC
 		]]>
 	</select>
+	<!-- 글상세조회 -->
+	<select id="selectAndOneDetailList" parameterType="java.util.HashMap" resultType="AndP001AndOneVO">
+	<![CDATA[
+		select a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
+       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax)) END as one_price,
+       			substr(a.one_date,6,11) as one_date, a.one_hashTag, a.one_locate_Lat, a.one_locate_Lng, one_addr,
+        		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
+		from and_one a, 
+		     (select gc_name, gc_id, g_id
+		      from common_code 
+		      where g_id='017') b,
+		     (select gc_name, gc_id, g_id
+		      from common_code 
+		      where g_id =  #{g_id} ) c
+		where a.one_state = b.gc_id
+		and a.one_category = c.gc_id
+		and a.one_type=  #{g_id} 
+		and one_id = #{one_id}
+	]]>
+	</select>
+	<!-- 작성자/참가자조회 -->
+	<select id="selectOneMem" parameterType="String" resultType="AndOneMemberVO">
+		<![CDATA[
+			select b.m_nickname, b.m_img as userImg, a.om_leader, a.om_state, a.m_id
+			from one_member a, member b
+			where a.m_id = b.m_id
+			and a.one_id = #{one_id}
+		]]>
+	</select>
+	<!-- 작성자인지 참가자인지 확인 -->
+	<select id="selectOmLeader" parameterType="java.util.HashMap" resultType="String">
+		<![CDATA[
+			select om_leader
+			from one_member 
+			where m_id = #{m_id}
+			and one_id = #{one_id}
+		]]>
+	</select>
+	<!-- 참가자 신청 -->
+	<insert id="insertOneMember" parameterType="java.util.HashMap">
+		<![CDATA[
+			insert into one_member (one_type, one_id, m_id, om_leader, om_state, om_date, om_editor, om_editdate)
+			values (#{one_type}, #{one_id},#{m_id}, '20', '10', to_char(sysdate,'yyyy-mm-dd hh:mi:ss'), #{m_id}, to_char(sysdate,'yyyy-mm-dd hh:mi:ss'))
+		]]>
+	</insert>
+	<!-- 포인트확인 -->
+	<select id="selectPoint" parameterType="String" resultType="String">
+		<![CDATA[
+			select p_detail
+			from point p, member m
+			where p.m_id = m_m_id
+			and m_id = #{m_id}
+		]]>
+	</select>
+	
 </mapper>

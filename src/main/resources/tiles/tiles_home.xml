@@ -127,6 +127,11 @@
       <put-attribute name="title" value="공지사항" />
        <put-attribute name="body" value="/WEB-INF/views/root/p003_d001_search.jsp" />
    </definition>
+	<!-- 알림 -->
+   <definition name="MemberP005_d001_init" extends="baseLayout">
+      <put-attribute name="title" value="알림" />
+       <put-attribute name="body" value="/WEB-INF/views/member/p005_d001_init.jsp" />
+   </definition>
    
 	<!-- 비밀번호찾기 -->
    <definition name="p001_d003_init" extends="baseLayout">
@@ -149,7 +154,16 @@
       <put-attribute name="title" value="메인페이지" />
        <put-attribute name="body" value="/WEB-INF/views/and/p002_d001_insertAndOne.jsp" />
    </definition>
-
+   <!-- 같이 상세조회 -->
+	<definition name="andOneDetail" extends="baseLayout">
+      <put-attribute name="title" value="메인페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_andOneDetail.jsp" />
+   </definition>
+    <!-- 같이 테스트 페이지 -->
+	<definition name="test" extends="baseLayout">
+      <put-attribute name="title" value="메인페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/and/test.jsp" />
+   </definition>
 
    <!-- 지역업체 페이지 -->
    <definition name="localShopMain" extends="baseLayout">
@@ -268,7 +282,11 @@
 		<put-attribute name="title" value="문의하기"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p002_d001_search.jsp"/>
 	</definition>
-	
+	<!--내 &분의일 내역-->
+	<definition name="MyAndOne" extends="mypageLayout">
+		<put-attribute name="title" value="문의하기"/>
+		<put-attribute name="body" value="/WEB-INF/views/and/p002_d004_MyAndOne.jsp"/>
+	</definition>
    <!-- 마이페이지 영역 END -->
 	
 	<!-- 소모임 메인-->
@@ -283,7 +301,7 @@
       <put-attribute name="title" value="소모임 상세" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
       <put-attribute name="body" value="/WEB-INF/views/club/p001/p001_d001_detailClub.jsp" />
-      <put-attribute name="footer" value="/WEB-INF/views/common/footer2.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
    
 	<!-- 소모임 검색결과-->
@@ -302,6 +320,14 @@
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
    
+	<!-- 소모임 수정하기-->
+   <definition name="updateClubForm"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 수정하기" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p002/p002_d001_update.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+   
    <!-- 소모임  게시글 쓰기-->
    <definition name="writeArticleForm"  template="/WEB-INF/views/common/layout.jsp">
       <put-attribute name="title" value="소모임 게시글 쓰기" />
@@ -312,7 +338,7 @@
    
    <!-- 소모임  게시글 수정 페이지-->
    <definition name="editArticle"  template="/WEB-INF/views/common/layout.jsp">
-      <put-attribute name="title" value="소모임 게시글 쓰기" />
+      <put-attribute name="title" value="소모임 게시글 수정하기" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
       <put-attribute name="body" value="/WEB-INF/views/club/p003/p003_d001_update.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
@@ -331,6 +357,14 @@
       <put-attribute name="title" value="소모임 전체 회원 목록" />
       <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
       <put-attribute name="body" value="/WEB-INF/views/club/p002/p002_d002_search.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+   
+   <!-- 소모임 카테고리 검색 페이지-->
+   <definition name="categorySearchList"  template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute name="title" value="소모임 카테고리 검색 페이지" />
+      <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/club/p001/p001_d001_searchCategory.jsp" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
    

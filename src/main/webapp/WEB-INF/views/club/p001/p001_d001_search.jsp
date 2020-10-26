@@ -46,14 +46,12 @@ h3 {
 	cursor: pointer;
 }
 
-.card{
-	width:800px;
+.c_img{
+	width: 100%;
+	object-fit: cover;
+	height: 270px;
 }
-img{
-	height:100%;
-	width:100%;
-	object-fit:cover;
-}
+
 </style>
 
 <meta charset="UTF-8">
@@ -96,7 +94,7 @@ img{
 			</c:otherwise>
 		</c:choose>
 		<c:forEach var="club" items="${resultList}">
-			<div class="card container my-3 center"
+			<div class="card my-3 center"
 				style="max-width: 540px;">
 				<div class="row no-gutters"
 					onclick="location.href='${contextPath }/club/detailClub.do?c_id=${club.c_id}'">

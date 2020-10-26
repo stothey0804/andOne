@@ -47,7 +47,19 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		mav.addObject("myClubCnt", myClubList.size());
 		return mav;
 	}
-	
+	@Override	//카테고리 검색결과
+	@RequestMapping(value="/club/searchClubCategory.do",method= {RequestMethod.GET})
+	public ModelAndView searchClubCategory(@RequestParam(value="c_category",required = true) String c_category) throws Exception{
+		Map<String, Object> searchMap = new HashMap<String, Object>();
+		searchMap.put("c_category", c_category);
+		List<ClubVO> categoryClubList = clubP001_d001Service.categoryClubList(searchMap);
+		String category_name = clubP001_d001Service.categoryName(searchMap);
+		getEncoded(categoryClubList);
+		ModelAndView mav = new ModelAndView("categorySearchList");
+		mav.addObject("categoryClubList", categoryClubList);
+		mav.addObject("gc_name", category_name);
+		return mav;
+	}
 	@Override		//소모임 검색결과 페이지
 	@RequestMapping(value="/club/searchClub.do",method= {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView searchClubList(@RequestParam(value="searchWord", required=false) String searchWord) throws Exception{
@@ -86,7 +98,6 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		//소모임 게시글 이미지 encoding
 		for(int i=0; i<vo.getArticleList().size();i++) {
 			if(vo.getArticleList().get(i).getArticleImgList()!=null) {
-				System.out.println("낫널");
 				for(int j=0; j < vo.getArticleList().get(i).getArticleImgList().size();j++) {
 					if(vo.getArticleList().get(i).getArticleImgList().get(j) != null) {
 						System.out.println("낫널");
@@ -116,8 +127,8 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		mav.addObject("clubInfo", vo);
 		mav.addObject("rank", rank);
 		mav.addObject("clubImg",clubImg);
-		mav.addObject("members", members);
-		mav.addObject("leader", leader);
+//		mav.addObject("members", members);
+//		mav.addObject("leader", leader);
 		mav.addObject("reportType", reportType);
 		return mav;
 	}
@@ -125,10 +136,12 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 	//article encoding method
 	public void getEncoded(List<ClubVO> list) {
 		byte[] encoded = null;
-		for(int i=0; i < list.size();i++) {
-			if(list.get(i).getC_imgByte() != null) {
-				encoded = Base64.getEncoder().encode(list.get(i).getC_imgByte());
-				list.get(i).setResultImg(new String(encoded));	
+		if(list!=null) {
+			for(int i=0; i < list.size();i++) {
+				if(list.get(i).getC_imgByte() != null) {
+					encoded = Base64.getEncoder().encode(list.get(i).getC_imgByte());
+					list.get(i).setResultImg(new String(encoded));	
+				}
 			}
 		}
 	}

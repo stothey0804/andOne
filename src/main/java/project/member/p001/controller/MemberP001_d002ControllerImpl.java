@@ -29,8 +29,9 @@ public class MemberP001_d002ControllerImpl implements MemberP001_d002Controller{
 	@Autowired
 	MemberP001_d005Service memberP001_d005Service;	// profile img set
 	
-	@Autowired
-	PointP001_d001Service pointP001_d001Service; 	// 포인트조회
+//	
+//	@Autowired
+//	PointP001_d001Service pointP001_d001Service; 	// 포인트조회
 	
 	@Override
 	@RequestMapping(value="/login.do")	// 로그인 화면
@@ -52,13 +53,9 @@ public class MemberP001_d002ControllerImpl implements MemberP001_d002Controller{
 			 //user 정보가 있고 비밀번호가 일치하는 경우
 			if(memberVO!=null && BCrypt.checkpw(inputPwd,memberVO.getM_pwd())) {
 				// 로그인 성공~!
-//				session.setAttribute("member", memberVO);
 				session.setAttribute("m_id", memberVO.getM_id());	// 아이디조회
 				session.setAttribute("m_nickname", memberVO.getM_nickname());	// 닉네임조회
 				session.setAttribute("isLogOn", true);
-				String point = pointP001_d001Service.selectNowPointById(memberVO.getM_id());	// 포인트 조회
-				session.setAttribute("point", point==null? "0": point);	// 포인트 저장
-				
 				// 세션 프로필 이미지 set
 				String profileImg = Common.encodeBlobImage(memberVO.getM_id(), memberP001_d005Service);
 				session.setAttribute("profileImg", profileImg);
@@ -66,7 +63,12 @@ public class MemberP001_d002ControllerImpl implements MemberP001_d002Controller{
 				if(memberVO.getM_id().equals("00000001")) {	// 관리자일시
 					returnView = "adminMain"; // 어드민화면으로 이동
 				}else {
-					returnView = "main"; // 메인화면으로 이동
+					System.out.println("=============>>>>" + request.getHeader("Referer"));
+					if("http://localhost:8090/andOne/member/login.do".equals(request.getHeader("Referer"))) {
+						returnView = "main";
+					}else {
+						returnView = "redirect:"+ request.getHeader("Referer"); // 최근요청화면으로 이동
+					}
 				}
 			}else{	// 정보불일치
 				request.setAttribute("warning", "이메일과 비밀번호를 확인해주세요.");

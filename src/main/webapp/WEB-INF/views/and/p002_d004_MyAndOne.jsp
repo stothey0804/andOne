@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	
-	
+우와
 </body>
 </html>

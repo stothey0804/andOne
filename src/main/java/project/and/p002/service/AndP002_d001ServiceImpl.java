@@ -18,9 +18,10 @@ public class AndP002_d001ServiceImpl implements AndP002_d001Service {
 		System.out.println(">>>>>>"+Andone.get("one_locate_Lat"));
 		System.out.println(">>>>>>"+Andone.get("one_locate_Lng"));
 		List<Map<String, Object>> insertAndOne = p002_d001DAO.insertAndOne(Andone);
-		return insertAndOne;
-		
-		
+		return insertAndOne;	
+	}
+	public void insertOneMem(Map<String,Object> Andone) throws DataAccessException {
+		List<Map<String, Object>> insertOneMem = p002_d001DAO.insertOneMem(Andone);
 	}
 	
 

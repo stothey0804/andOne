@@ -50,7 +50,7 @@ public class MemberP001_d006ControllerImpl implements MemberP001_d006Controller{
 	@Override
 	@RequestMapping("/admin/searchMemberList.do")
 	public String searchMemberList(@RequestParam(defaultValue = "1") int curPage, @RequestParam Map<String, String> param, Model model) {
-		System.out.println("===>회원목록 조회");
+		System.out.println("===>회원목록 조회 " + param );
 		if(param.get("searchCondition") == null) {
 			param.put("searchCondition","EMAIL");
 		}

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="member.p005">
+	   <resultMap type="memberP005VO" id="notify">
+	   		<result property="n_id" column="n_id"/>
+	   		<result property="n_target" column="n_target"/>
+	   		<result property="n_type" column="n_type"/>
+	   		<result property="n_time" column="n_time"/>
+	   		<result property="n_content" column="n_content"/>
+	   		<result property="n_checked" column="n_checked"/>
+	   		<result property="n_url" column="n_url"/>
+	   		<result property="n_editor" column="n_editor"/>
+	   		<result property="n_editdate" column="n_editdate"/>
+	   </resultMap>
+	   
+      	<!-- 새로운 알람 수 카운트 -->
+   		<select id="selectNewNotifyCnt" resultType="int">
+   		<![CDATA[
+   			SELECT COUNT(n_id)
+			FROM notify
+			WHERE n_target like #{m_id} AND n_checked like '0'
+   		]]>
+   		</select>
+   		
+      	<!-- 읽은 알람 수 카운트 -->
+   		<select id="selectOldNotifyCnt" resultType="int">
+   		<![CDATA[
+   			SELECT COUNT(n_id)
+			FROM notify
+			WHERE n_target like #{m_id} AND n_checked like '1'
+   		]]>
+   		</select>
+   		
+   		<!-- 새로운 알람 조회 -->
+   		<select id="searchNewNotifyList" resultMap="notify">
+   		<![CDATA[
+   			SELECT (SELECT gc_name FROM common_code WHERE g_id like '001' AND gc_id like n_type)n_type, 
+			    n_content, n_time, n_checked, n_id, n_url
+			FROM notify
+			WHERE n_target like #{m_id} AND n_checked like '0'
+			ORDER BY n_id desc
+   		]]>
+   		</select>
+   		
+   		<!-- 이전 알림 목록 -->
+   		<select id="searchOldNotifyList" resultMap="notify"  parameterType="java.util.HashMap">
+   		<![CDATA[
+   			SELECT *
+   			FROM ( SELECT (SELECT gc_name FROM common_code WHERE g_id like '001' AND gc_id like n_type)n_type, 
+			    n_content, n_time, n_checked, n_id, n_url,
+			    (ROW_NUMBER() OVER(ORDER BY n_id DESC))r_num
+				FROM notify
+				WHERE n_target like #{m_id} AND n_checked like '1' )
+			WHERE r_num BETWEEN #{startIndex} AND #{endIndex}
+   		]]>
+   		</select>
+   		
+   		<!-- 읽음 체크 업데이트 -->
+   		<update id="updateNotifyChecked" parameterType="java.util.HashMap">
+   		<![CDATA[
+	   		UPDATE notify
+			SET n_checked = '1', n_editor = #{m_id}, n_editdate = TO_CHAR(sysdate, 'yyyy-mm-dd hh24:mi:ss')
+			WHERE n_target like #{m_id} AND n_id like #{n_id}
+   		]]>
+   		</update>   
+   		
+   		<!-- 알람 입력 -->   				
+   		<insert id="insertNotify" parameterType="memberP005VO">
+   		<![CDATA[
+   			INSERT INTO notify(n_id, n_target, n_content, n_time, n_checked, n_type, n_url)
+			VALUES(LPAD(NOTIFY_SEQ.NEXTVAL,10,'0'), #{n_target},#{n_content},TO_CHAR(sysdate, 'yyyy-mm-dd hh24:mi:ss'),'0',#{n_type},#{n_url})
+   		]]>
+   		</insert>
+   </mapper>

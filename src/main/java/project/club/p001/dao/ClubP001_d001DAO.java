@@ -14,4 +14,7 @@ public interface ClubP001_d001DAO {
 	public String memberCheck(Map<String, Object> searchMap);
 	public List<ClubMemberVO> getClubMember(Map<String, Object> searchMap);
 	public List<ClubMemberVO> getLeaderMember(Map<String, Object> searchMap);
+	public List<ClubVO> categoryClubList(Map<String, Object> searchMap);
+	public String categoryName(Map<String, Object> searchMap);
+	public ClubVO detailClubCard(Map<String, Object> searchMap);
 }

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import common.Common;
@@ -41,7 +42,6 @@ public class PointP001_d002ContollerImpl implements PointP001_d002Controller{
 //		System.out.println("======pg_token : "+pg_token);
 		ModelAndView mav = new ModelAndView("point/p001_success");
 		KakaoPayApprovalVO info = pointP001_d002Service.kakaoPayInfo(pg_token);
-
 		try {
 			// 충전포인트 값
 			String chargeAmount = (info.getAmount().getTotal()).toString();
@@ -54,17 +54,13 @@ public class PointP001_d002ContollerImpl implements PointP001_d002Controller{
 			pointVO.setM_id(m_id);
 			pointVO.setP_changepoint(chargeAmount);
 			pointVO.setP_detail("포인트 충전");
-			
-			// 현재 포인트 조회
-			String nowPoint = pointP001_d001Service.selectNowPointById(m_id);
+			String nowPoint = pointP001_d001Service.selectNowPointById(m_id);	// 현재 포인트 조회
 			pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint);	// 적용		
-			pointP001_d002Service.insertPoint(pointVO);	// 포인트 입력
-			nowPoint = pointP001_d001Service.selectNowPointById(m_id); // 입력 후 값 갱신
-			// view에 전달할 정보
+			// 포인트 입력
+			pointP001_d002Service.insertPoint(pointVO);	
+			// 충전 결과 view에 전달할 정보
 			mav.addObject("chargeAmount", chargeAmount);
-			mav.addObject("nowPoint", nowPoint);
-			// session에 포인트 값 저장
-			session.setAttribute("point", nowPoint);
+			mav.addObject("nowPoint", pointP001_d001Service.selectNowPointById(m_id));
 			
 		} catch (NullPointerException e) {
 			e.printStackTrace();
@@ -82,7 +78,21 @@ public class PointP001_d002ContollerImpl implements PointP001_d002Controller{
 	@Override
 	public void setChargePoint() {
 		// TODO Auto-generated method stub
-		
+		// Point VO 값 set
+					
+	}
+	
+	@RequestMapping("/insertPointFromAdmin.do")
+	@ResponseBody
+	public void insertPointFromAdmin(@RequestParam Map<String,String> param) {
+		PointP001VO pointVO = new PointP001VO();
+		pointVO.setM_id(param.get("target"));
+		pointVO.setP_changepoint(param.get("amount"));
+		pointVO.setP_detail("관리자 지급");
+		String nowPoint = pointP001_d001Service.selectNowPointById(param.get("target"));	// 현재 포인트 조회
+		pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint);	// 적용		
+		// 포인트 입력
+		pointP001_d002Service.insertPoint(pointVO);	
 	}
 
 }

@@ -13,8 +13,8 @@ public class ClubP002_d001ServiceImpl implements ClubP002_d001Service{
 	private ClubP002_d001DAO clubP002_d001DAO;
 
 	@Override
-	public void createClub(Map<String, Object> insertMap) {
-		clubP002_d001DAO.insertClub(insertMap);
+	public void mergeClub(Map<String, Object> insertMap) {
+		clubP002_d001DAO.mergeClub(insertMap);
 	}
 
 	@Override
@@ -30,6 +30,11 @@ public class ClubP002_d001ServiceImpl implements ClubP002_d001Service{
 	@Override
 	public void deleteClub(Map<String, Object> searchMap) {
 		clubP002_d001DAO.deleteClub(searchMap);
+	}
+
+	@Override
+	public void updateClub(Map<String, Object> insertMap) {
+		clubP002_d001DAO.updateClub(insertMap);
 	}
 	
 }

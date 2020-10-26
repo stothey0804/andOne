@@ -25,11 +25,30 @@ public class AndP001AndOneVO {
 	private String gc_name;
 	private String gc_id;
 	private String totalSearch; //총검색
+	private String distance;
+	private String one_addr;
 	
 	public AndP001AndOneVO() {
 	}
 	
-	
+	public String getOne_addr() {
+		return one_addr;
+	}
+
+	public void setOne_addr(String one_addr) {
+		this.one_addr = one_addr;
+	}
+
+	public String getDistance() {
+		return distance;
+	}
+
+
+	public void setDistance(String distance) {
+		this.distance = distance;
+	}
+
+
 	public String getTotalSearch() {
 		return totalSearch;
 	}

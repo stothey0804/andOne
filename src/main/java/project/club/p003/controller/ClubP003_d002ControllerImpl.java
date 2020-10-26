@@ -32,7 +32,7 @@ public class ClubP003_d002ControllerImpl implements ClubP003_d002Controller{
 		insertMap.put("m_id", m_id);
 		insertMap.put("c_id", c_id);
 		clubP003_d002Service.joinClub(insertMap);
-		return "redirect:/detailClub.do?c_id="+c_id;
+		return "redirect:/club/detailClub.do?c_id="+c_id;
 	}
 	
 	@Override

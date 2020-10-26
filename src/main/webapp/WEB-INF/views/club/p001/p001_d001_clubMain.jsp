@@ -11,6 +11,7 @@
 	rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
 @font-face {
 	font-family: 'YanoljaYacheR';
 	src:
@@ -19,10 +20,8 @@
 	font-weight: normal;
 	font-style: normal;
 }
-
-.card-title {
-	font-family: 'YanoljaYacheR' !important;
-	font-size: 250%;
+@font-face {
+  font-family:'Nanum Myeongjo', serif;
 }
 .card_img{
 	object-fit: cover;
@@ -42,9 +41,6 @@ input[type="submit"] {
 body{
 	background: white;
 }
-/* .card,.mainClub{ */
-/* 	background:#f5f7f8; */
-/* } */
 .mainClub{
 	background:#f5f7f8;
 }
@@ -74,12 +70,10 @@ body{
     
 div.img{
 	line-height:225px;
-	background-color: #f5f7f8;
 }
 div.img > img{
 	object-fit: cover;
-	height: 270px 
-/* 	vertical-align:middle; */
+    height: 270px 
 }
 * {box-sizing: border-box;}
 .mySlides {display: none;}
@@ -107,10 +101,8 @@ div.img > img{
     }
 
     .swiper-container {
-/*     	margin-top:78px; */
       width: 100%;
       height: 500px;
-
     }
 
     .swiper-slide {
@@ -133,16 +125,54 @@ div.img > img{
       
     }
     .swiper-slide > img{
-    		object-fit: contain;
-    		width: 100%;
+    	object-fit: contain;
+    	width: 100%;
     }
+    #search{
+    	display:inline-block;
+    	width:650px;
+    }
+    .category{
+    	border:0;
+    	background-color:white;
+    	margin-right:5px;
+    	margin-left:10px;
+    	width:13rem;
+    	border-radius: 13px 13px 0px 0px;
+    }
+    .category > img{
+    	border-radius: 13px;
+		-moz-border-radius: 13px;
+		-khtml-border-radius: 13px;
+		-webkit-border-radius: 13px;
+    }
+    .category > .card-body{
+    	padding-left:10px;
+    	padding-top:10px;
+    }
+.btn-success:hover {
+    background-color: #00033D !important;
+}
+.btn-success{
+	background-color:#002A87 !important;
+	border-color:#002A87;
+	color:white;
+}
+.swiper-text{
+	font-family: 'NanumSquare', sans-serif;
+	position: absolute;
+ 	font-weight:bold;
+ 	background-color: rgba(0,0,0,0.3);
+ 	height:100%;
+ 	width:100%; 
+}
+
+ 	
 </style>
-	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script>
 function init(){
 	var txt = document.getElementsByClassName("str");
 	for(i=0;i<txt.length;i++){
-		console.log(txt[i]);
 		document.getElementsByClassName("str")[i].innerHTML = txt[i].innerText;
 	}
 }
@@ -166,9 +196,24 @@ function removeHTML(text){
   <!-- Swiper -->
   <div class="swiper-container">
     <div class="swiper-wrapper">
-      <div class="swiper-slide"><img style=""src="https://cdn.pixabay.com/photo/2015/09/02/13/26/glasses-919071_1280.jpg"></div>
-      <div class="swiper-slide"><img src="https://cdn.pixabay.com/photo/2014/11/17/13/17/crossfit-534615_1280.jpg"></div>
-      <div class="swiper-slide"><img src="https://cdn.pixabay.com/photo/2015/01/08/18/27/startup-593341_1280.jpg"></div>
+      <div class="swiper-slide">
+      	<img src="https://cdn.pixabay.com/photo/2015/09/02/13/26/glasses-919071_1280.jpg">
+      	<div class="swiper-text">
+      		<h1 class="display-4" style="color:white;margin-top:180px;">&분의 일 사람들과 <br>꾸준히 함께하고 싶나요?</h1>
+      	</div>
+      </div>
+      <div class="swiper-slide">
+      	<img src="https://cdn.pixabay.com/photo/2014/11/17/13/17/crossfit-534615_1280.jpg">
+      	<div class="swiper-text">
+      		<h1 class="display-4" style="color:white;margin-top:180px;">&분의 일 사람들과<br> 꾸준히 함께하고 싶나요?</h1>
+      	</div>
+      </div>
+      <div class="swiper-slide">
+      	<img src="https://cdn.pixabay.com/photo/2015/01/08/18/27/startup-593341_1280.jpg">
+      	<div class="swiper-text">
+      		<h1 class="display-4" style="color:white;margin-top:180px;">&분의 일 사람들과<br> 꾸준히 함께하고 싶나요?</h1>
+      	</div>
+      </div>
     </div>
     <!-- Add Pagination -->
     <div class="swiper-pagination"></div>
@@ -199,11 +244,95 @@ function removeHTML(text){
       },
     });
   </script>
-
-
-
 	<div class="container my-5 center">
-		<h3>인기 소모임></h3>
+		<h3>카테고리</h3>
+		<p>관심있는 소모임을 주제별로  찾아보세요</p>
+		<div class="row">
+			<div class="card category" onclick="location.href='${contextPath}/club/searchClubCategory.do?c_category=10'">
+				<img
+					src="https://cdn.pixabay.com/photo/2017/06/05/11/01/airport-2373727_1280.jpg"
+					class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">아웃도어/여행</p>
+				</div>
+			</div>
+			<div class="card category" onclick="location.href='${contextPath}/club/searchClubCategory.do?c_category=20'">
+				<img
+					src="https://cdn.pixabay.com/photo/2017/01/20/11/44/yoga-1994667_1280.jpg"
+					class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">운동/스포츠</p>
+				</div>
+			</div>
+			<div class="card category" onclick="location.href='${contextPath}/club/searchClubCategory.do?c_category=30'">
+				<img
+					src="https://cdn.pixabay.com/photo/2015/05/15/14/21/books-768426_1280.jpg"
+					class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">인문학/책/글</p>
+				</div>
+			</div>
+			<div class="card category" onclick="location.href='${contextPath}/club/searchClubCategory.do?c_category=40'">
+				<img
+					src="https://cdn.pixabay.com/photo/2018/07/08/08/45/abc-3523453_1280.jpg"
+					class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">외국/언어</p>
+				</div>
+			</div>
+			<div class="card category" onclick="location.href='${contextPath}/club/searchClubCategory.do?c_category=50'">
+				<img
+					src="https://cdn.pixabay.com/photo/2016/11/29/06/17/audience-1867754_1280.jpg"
+					class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">문화/공연</p>
+				</div>
+			</div>
+			<div class="card category" onclick="location.href='${contextPath}/club/searchClubCategory.do?c_category=60'">
+				<img
+					src="https://cdn.pixabay.com/photo/2016/03/26/22/36/music-1281642_1280.jpg"
+					class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">음악/악기</p>
+				</div>
+			</div>
+			<div class="card category" onclick="location.href='${contextPath}/club/searchClubCategory.do?c_category=70'">
+				<img
+					src="https://cdn.pixabay.com/photo/2019/12/08/21/10/potter-4682257_1280.jpg"
+					class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">공예/만들기</p>
+				</div>
+			</div>
+			<div class="card category" onclick="location.href='${contextPath}/club/searchClubCategory.do?c_category=80'">
+				<img
+					src="https://cdn.pixabay.com/photo/2016/03/09/09/22/workplace-1245776_1280.jpg"
+					class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">사교/인맥</p>
+				</div>
+			</div>
+			<div class="card category" onclick="location.href='${contextPath}/club/searchClubCategory.do?c_category=90'">
+				<img
+					src="https://cdn.pixabay.com/photo/2017/01/16/09/49/greek-dancing-at-sunset-1983650_1280.jpg"
+					class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">댄스/무용</p>
+				</div>
+			</div>
+			<div class="card category" onclick="location.href='${contextPath}/club/searchClubCategory.do?c_category=100'">
+				<img
+					src="https://media.istockphoto.com/photos/small-group-of-people-working-on-humanitarian-aid-project-picture-id1218067733?b=1&k=6&m=1218067733&s=170667a&w=0&h=KfFISXayvV6KJfNnVsgT0d4cTSd9MzeOc81l3DSfsuI="
+					class="card-img-top" alt="...">
+				<div class="card-body">
+					<p class="card-text">봉사활동</p>
+				</div>
+			</div>
+		</div>
+		<div style="margin-top:10px;margin-bottom:4px;">
+			<h3 style="display:inline-block">인기 소모임</h3>
+			<button onclick="location.href='#myList'" class="btn btn-success" style="float:right;">나의 소모임</button>
+		</div>
 		<br>
 		<div class="row">
 			<c:forEach var="club" items="${clubList}">
@@ -245,8 +374,10 @@ function removeHTML(text){
 			<a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br>
 			<form name="searchFrm" method="post"
 				action="${contextPath}/club/searchClub.do">
-				<input type="text" placeholder="검색" name="searchWord"> <input
-					type="submit" value="&#xf002;">
+				<div>
+				<input type="text" class="form-control" placeholder="검색" name="searchWord" id="search"> 
+				<input class="btn btn-secondary" type="submit" value="&#xf002;" style="margin-top:-6px;margin-left:-4px;width:80px;">
+				</div>
 			</form>
 			<br>
 			<p style="font-size: 18px;">원하시는 소모임이 없나요? 한번 만들어보세요!</p>
@@ -257,7 +388,7 @@ function removeHTML(text){
 		</div>
 		<br>
 
-		<h3>나의 소모임></h3>
+		<div id="myList"><h3>나의 소모임</h3></div>
 		<c:set var="myClubCnt" value="${myClubCnt}" />
 		<c:choose>
 			<c:when test="${myClubCnt eq 0}">

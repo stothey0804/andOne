@@ -56,4 +56,18 @@ public class ClubP001_d001DAOImpl implements ClubP001_d001DAO{
 		List<ClubMemberVO> list = sqlSession.selectList("club.p001.getLeaderMember",searchMap);
 		return list;
 	}
+	@Override
+	public List<ClubVO> categoryClubList(Map<String, Object> searchMap) {
+		List<ClubVO> categoryClubList = sqlSession.selectList("club.p001.categoryClubList",searchMap);
+		return categoryClubList;
+	}
+	@Override
+	public String categoryName(Map<String, Object> searchMap) {
+		return sqlSession.selectOne("club.p001.categoryName", searchMap);
+	}
+	@Override
+	public ClubVO detailClubCard(Map<String, Object> searchMap) {
+		ClubVO vo = sqlSession.selectOne("club.p001.detailClubCard",searchMap);
+		return vo;
+	}
 }

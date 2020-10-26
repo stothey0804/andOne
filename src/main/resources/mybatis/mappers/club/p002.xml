@@ -30,7 +30,24 @@
 			select club_seq.nextval from dual
            ]]> 
 	</select>
-	
+	<update id="mergeClub" parameterType="java.util.HashMap">
+		<![CDATA[
+			MERGE INTO club
+				USING DUAL
+				ON (c_id = #{c_id})
+				WHEN MATCHED THEN
+					UPDATE SET
+					c_name=#{c_name},c_content=#{c_content},c_category=#{c_category},c_membermax=#{c_membermax},c_hashtag=#{c_hashtag},c_img=#{c_img},c_ask=#{c_ask}
+				WHEN NOT MATCHED THEN
+					INSERT (c_id,c_name,c_content,c_category,c_membercnt,c_membermax,c_hashtag,c_img,c_openingdate,c_ask)
+					VALUES(#{c_id},#{c_name},#{c_content},#{c_category},1,#{c_membermax},#{c_hashtag},#{c_img},to_char(sysdate,'YYYY-MM-DD hh:mm'),#{c_ask})
+		]]>
+	</update>
+	<update id="updateClub">
+		UPDATE club 
+		SET c_name=#{c_name},c_content=#{c_content},c_category=#{c_category},c_membermax=#{c_membermax},c_hashtag=#{c_hashtag},c_img=#{c_img},c_ask=#{c_ask}
+		where c_id = #{c_id}
+	</update>
 	<insert id="insertClub">
 		<![CDATA[
 			insert into club (c_id,c_name,c_content,c_category,c_membercnt,c_membermax,c_hashtag,c_img,c_openingdate,c_ask)
@@ -107,6 +124,11 @@
 		AND m_id = #{m_id}
 	</update>
 	
+	<update id="kickMemberCnt">
+		UPDATE club
+		SET c_membercnt = c_membercnt - 1
+		WHERE c_id = #{c_id}
+	</update>
 	<update id="usurpMember">
 		UPDATE c_member
 		SET cm_rank = 30

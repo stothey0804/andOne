@@ -18,6 +18,7 @@
 		<typeAlias type="project.club.vo.ClubArticleImgVO" alias="clubArticleImgVO"/>
 <!-- 		<typeAlias type="project.shop.p001.vo.ShopP001_d001VO" alias="shopP001_d001VO"/> -->
 		<typeAlias type="project.and.vo.AndP001AndOneVO" alias="AndP001AndOneVO"/>
+		<typeAlias type="project.and.vo.AndOneMemberVO" alias="AndOneMemberVO"/>
 		<typeAlias type="project.shop.p001.vo.ShopP001BmemberVO" alias="shopP001BMemberVO"/>
 		<typeAlias type="project.shop.p001.vo.ShopP001StatisticsVO" alias="shopP001StatisticsVO"/>
 	    <typeAlias type="project.shop.p002.vo.ShopP002ShopDetailVO" alias="ShopP002ShopDetailVO" />
@@ -29,5 +30,6 @@
 		<typeAlias type="project.root.p003.vo.RootP003VO" alias="rootP003VO" /> <!-- notice -->
 		<typeAlias type="project.point.p001.vo.PointP001VO" alias="pointP001VO" /> <!-- point -->
 		<typeAlias type="project.member.p004.vo.MemberP004VO" alias="memberP004VO" /> <!-- 멤버리뷰 -->
+		<typeAlias type="project.member.p005.vo.MemberP005VO" alias="memberP005VO" /> <!-- 알림 -->
 	</typeAliases>
 </configuration>

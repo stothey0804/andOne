@@ -12,41 +12,41 @@
 <html>
 <head>
   <meta charset="UTF-8">
-<title>헤더</title>
+<!-- sockJS -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<!-- JQuery -->
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+	// 웹소켓 연결
+	var socket  = null;
+	$(document).ready(function(){
+		 sock = new SockJS("<c:url value="/echo-ws"/>");
+		 socket = sock;
+		 
+		 // send 클릭시
+// 		 $("#sendBtn").click(function(){
+// 			 sendMessage();
+// 		 })
+	});
+	
+// 	function sendMessage(){
+// 		sock.send($("#inputMsg").val());	// 소켓으로 전송
+// 	}
+	
+</script>
+<style type="text/css">
+</style>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	  <a class="navbar-brand logotype" href="#">&분의일 </a>
 	  <span class="navbar-brand mb-0">관리자페이지</span>
-  		<a class="btn btn-dark ml-auto" href="${contextPath}/member/logout.do">로그아웃</a>
+<!-- 	  	<form class="form-inline msg"> -->
+<!-- 		  	<input type="text" class="form-control mb-2 mr-sm-2" id="inputMsg" placeholder="메시지 입력"> -->
+<!-- 		  	<button type="button" class="btn btn-primary mb-2" id="sendBtn">Send</button> -->
+<!-- 	  	</form> -->
+ 		<a class="btn btn-dark ml-auto" href="${contextPath}/member/logout.do">로그아웃</a>
 	</nav>
-
-<!-- <table border=0  width="100%"> -->
-<!--   <tr> -->
-<!--      <td> -->
-<%-- 		<a href="${contextPath}/main.do"> --%>
-<%-- 			<img src="${contextPath}/resources/image/duke_swing.gif"  /> --%>
-<!-- 		</a> -->
-<!--      </td> -->
-<!--      <td> -->
-<!--        <h1><font size=30>스프링실습 홈페이지!!</font></h1> -->
-<!--      </td> -->
-     
-<!--      <td> -->
-<!--        <a href="#"><h3>로그인</h3></a> -->
-<%--        <c:choose> --%>
-<%--           <c:when test="${isLogOn == true  && member!= null}"> --%>
-<%--             <h3>환영합니다. ${member.name }님!</h3> --%>
-<%--             <a href="${contextPath}/member/logout.do"><h3>로그아웃</h3></a> --%>
-<%--           </c:when> --%>
-<%--           <c:otherwise> --%>
-<%-- 	        <a href="${contextPath}/member/loginForm.do"><h3>로그인</h3></a> --%>
-<%-- 	      </c:otherwise> --%>
-<%-- 	   </c:choose>      --%>
-<!--      </td> -->
-<!--   </tr> -->
-<!-- </table> -->
-
 
 </body>
 </html>

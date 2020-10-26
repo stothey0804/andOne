@@ -1,5 +1,7 @@
 package project.club.p002.controller;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,14 +52,12 @@ public class ClubP002_d001ControllerImpl implements ClubP002_d001Controller{
 		insertMap.put("c_ask",vo.getC_ask());
 		String c_id = clubP002_d001Service.nextC_id();
 		insertMap.put("c_id", c_id);
-		clubP002_d001Service.createClub(insertMap);
+		clubP002_d001Service.mergeClub(insertMap);
 		String m_id = (String) session.getAttribute("m_id");
 		System.out.println("==========="+m_id);
 		insertMap.put("m_id", m_id);
 		clubP002_d001Service.insertLeader(insertMap);
-		ModelAndView mav = new ModelAndView("createClubResult");
-		mav.addObject("c_id", c_id);
-		return "forward:/detailClub.do?c_id="+c_id;
+		return "forward:/club/detailClub.do?c_id="+c_id;
 	}
 	
 	@Override
@@ -75,5 +75,44 @@ public class ClubP002_d001ControllerImpl implements ClubP002_d001Controller{
 			System.out.println("nono");
 		}
 		return "redirect:/club/clubMain.do";
+	}
+	
+	@Override
+	@RequestMapping(value="/club/updateClubForm.do",method= {RequestMethod.GET})
+	public ModelAndView updateClubForm(@RequestParam(value="c_id",required = true)String c_id) {
+		Map<String, Object> searchMap = new HashMap<String, Object>();
+		searchMap.put("c_id", c_id);
+		//카테고리 목록 가져오기
+		List<HashMap<String, String>> category = commonDAO.searchCommonCodeList("019");
+		ClubVO vo = clubP001_d001Service.detailClub(searchMap);
+		//소모임 대표 이미지 encoding
+		byte[] encoded = null;
+		String clubImg = "";
+		if(vo.getC_imgByte() != null) {
+			encoded = Base64.getEncoder().encode(vo.getC_imgByte());
+			clubImg = new String(encoded);	
+		}
+		ModelAndView mav = new ModelAndView("updateClubForm");
+		mav.addObject("category", category);
+		mav.addObject("clubInfo", vo);
+		mav.addObject("clubImg", clubImg);
+		return mav;
+	}
+	
+	@Override
+	@RequestMapping(value="/club/updateClub.do",method= {RequestMethod.GET,RequestMethod.POST})
+	public String updateClub(@RequestParam(value="c_id",required = true)String c_id, ClubVO vo) throws IOException {
+		Map<String, Object> insertMap = new HashMap<String, Object>();
+		insertMap.put("c_name", vo.getC_name());
+		insertMap.put("c_category", vo.getC_category());
+		insertMap.put("c_hashtag", vo.getC_hashtag());
+		insertMap.put("c_membermax", vo.getC_membermax());
+		insertMap.put("c_content", vo.getC_content());
+		insertMap.put("c_img",vo.getC_img().getBytes());
+		insertMap.put("c_ask",vo.getC_ask());
+		insertMap.put("c_id", c_id);
+//		clubP002_d001Service.mergeClub(insertMap);
+		clubP002_d001Service.updateClub(insertMap);
+		return "redirect:/club/detailClub.do?c_id="+c_id;
 	}
 }
