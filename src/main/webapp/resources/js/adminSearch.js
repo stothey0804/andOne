@@ -88,6 +88,7 @@ $(document).ready(function(){
 		// ajax
 		let _q_id = $("#detail_q_id").text();
 		let _q_state = $("#edit_q_state").val();
+		let _m_id = $("#detail_m_id").text();
 		$.ajax({
             type: "post",
             async: "true",
@@ -99,7 +100,27 @@ $(document).ready(function(){
             },
             url: "saveQnAState.do",
             success: function (data, textStatus) {
-            	alert("변경완료");
+				alert("변경완료");
+				// 알림
+				let type = '70';
+				let target = _m_id;
+				let content = '['+_q_id+'] 문의사항 상태가 변경되었습니다.' ;
+				let url = '/andOne/member/searchQnA.do';
+				// db저장	
+				$.ajax({
+					type: 'post',
+					url: '/andOne/member/saveNotify.do',
+					dataType: 'text',
+					data: {
+						target: target,
+						content: content,
+						type: type,
+						url: url
+					},
+					success: function(){
+						socket.send("관리자,"+target+","+content+","+url);	// 소켓에 전달
+					}
+				});
             	location.reload();	// 새로고침
             }
 		});
@@ -109,6 +130,7 @@ $(document).ready(function(){
 		// ajax
 		let _q_id = $("#detail_q_id").text();
 		let _q_reply =	CKEDITOR.instances.detail_q_reply.getData();
+		let _m_id = $("#detail_m_id").text();
 		$.ajax({
 			type: "post",
 			async: "true",
@@ -120,7 +142,26 @@ $(document).ready(function(){
 			},
 			url: "sendReplyQnA.do",
 			success: function (data, textStatus) {
-				alert(data);
+				// 알림
+				let type = '70';
+				let target = _m_id;
+				let content = '['+_q_id+'] 문의사항 답변이 등록되었습니다.' ;
+				let url = '/andOne/member/searchQnA.do';
+				// db저장	
+				$.ajax({
+					type: 'post',
+					url: '/andOne/member/saveNotify.do',
+					dataType: 'text',
+					data: {
+						target: target,
+						content: content,
+						type: type,
+						url: url
+					},
+					success: function(){
+						socket.send("관리자,"+target+","+content+","+url);	// 소켓에 전달
+					}
+				});
 			}
 		});
 		// let frmDetail = document.frmDetail;
