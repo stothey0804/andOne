@@ -13,6 +13,8 @@ public class CommonController {
 	@Autowired
 	CommonService commonService;
 	
+
+	
 	@RequestMapping("/selectCommonCodeName.do")
 	@ResponseBody
 	public String selectCommonCodeName() {

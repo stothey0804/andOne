@@ -36,8 +36,6 @@
 
 </style>
 
-<!-- JQuery -->
-<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script src = "${contextPath}/resources/js/ckeditor/ckeditor.js"></script>
 
 <script>

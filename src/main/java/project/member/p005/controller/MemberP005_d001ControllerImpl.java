@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import common.Common;
 import common.Pagination;
+import common.service.CommonService;
 import project.member.p005.service.MemberP005_d001Service;
 import project.member.p005.vo.MemberP005VO;
 
@@ -39,6 +40,9 @@ public class MemberP005_d001ControllerImpl implements MemberP005_d001Controller{
 	@Autowired
 	MemberP005_d001Service memberP005_d001Service;
 	
+	@Autowired
+	CommonService commonService;	// 날짜변환
+	
 	// 알림조회 (전체)
 	@RequestMapping("/member/notify.do")
 	public ModelAndView notifyInit(@RequestParam(defaultValue = "1") int curPage, HttpServletRequest request) throws Exception{
@@ -48,8 +52,11 @@ public class MemberP005_d001ControllerImpl implements MemberP005_d001Controller{
 		if(m_id != null && !"".equals(m_id)){
 			// 새로운 알람 조회
 			List<MemberP005VO> newList = memberP005_d001Service.searchNewNotifyList(m_id);
+			for(MemberP005VO vo : newList) {	// 날짜 포맷 변경
+				vo.setN_time(Common.formatTimeString(vo.getN_time(), commonService));
+			}
 			// 이전 알람 조회
-			Map<String, String> searchParam = new HashMap<String, String>();
+//			Map<String, String> searchParam = new HashMap<String, String>();
 			// 정보 전달
 //			mav.addObject("pagination", pagination);
 			mav.addObject("newList", newList);
@@ -68,6 +75,9 @@ public class MemberP005_d001ControllerImpl implements MemberP005_d001Controller{
 		searchParam.put("endIndex", startIndex+4+"" );	// 5개씩 조회
 		searchParam.put("m_id", m_id);
 		List<MemberP005VO> addList = memberP005_d001Service.searchOldNotifyList(searchParam);
+		for(MemberP005VO vo : addList) {	// 날짜 포맷 변경
+			vo.setN_time(Common.formatTimeString(vo.getN_time(), commonService));
+		}
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = mapper.writeValueAsString(addList);
 		System.out.println("==============>"+jsonStr);

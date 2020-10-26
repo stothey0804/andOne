@@ -44,4 +44,13 @@
    		]]>
    	</select>
    	
+   	<!-- 시간 방금전... 표시 -->
+   	<select id="selectCompareTime" resultType="int" parameterType="String">
+   		<![CDATA[
+   			SELECT ((SELECT SYSDATE FROM DUAL) 
+   			- (SELECT TO_DATE(#{regTime},'YYYY-MM-DD hh24:mi:ss') FROM DUAL ))*24*60*60
+			FROM DUAL
+   		]]>
+   	</select>
+   	
 	</mapper>

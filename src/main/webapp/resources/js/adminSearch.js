@@ -22,7 +22,6 @@ $(document).ready(function(){
 					success: function (data, texStatus) {
 						jsoninfo = JSON.parse(data);
 						$('td.id').html(jsoninfo.m_id);
-						$('#notifyModalBtn').attr("data-whatever",jsoninfo.m_id);
 						$('td.phone').html(jsoninfo.m_phonenumber);
 						$('td.email').html(jsoninfo.m_email);
 						$('td.gender').html(jsoninfo.m_gender);
