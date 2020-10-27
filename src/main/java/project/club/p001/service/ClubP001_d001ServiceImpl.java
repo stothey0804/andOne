@@ -73,5 +73,4 @@ public class ClubP001_d001ServiceImpl implements ClubP001_d001Service{
 		ClubVO vo = clubP001_d001DAO.detailClubCard(searchMap);
 		return vo;
 	}
-	
 }

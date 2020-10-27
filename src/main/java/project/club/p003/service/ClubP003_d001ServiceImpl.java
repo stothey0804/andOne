@@ -25,8 +25,8 @@ public class ClubP003_d001ServiceImpl implements ClubP003_d001Service{
 	}
 
 	@Override
-	public void writeArticle(Map<String, Object> insertMap) {
-		clubP003_d001DAO.insertClubArticle(insertMap);
+	public String writeArticle(Map<String, Object> insertMap) {
+		return clubP003_d001DAO.insertClubArticle(insertMap);
 	}
 
 	@Override
@@ -51,5 +51,9 @@ public class ClubP003_d001ServiceImpl implements ClubP003_d001Service{
 		clubP003_d001DAO.updateClubArticle(updateMap);
 	}
 
+	@Override
+	public String nextCa_id() {
+		return clubP003_d001DAO.nextCa_id();
+	}
 	
 }

@@ -23,7 +23,14 @@ public class ClubArticleVO {
 	private byte[] userImg;
 	private String resultUserImg;
 	private List<ClubArticleImgVO> articleImgList;
+	private List<ClubArticleReplyVO> articleReplyList;
 	
+	public List<ClubArticleReplyVO> getArticleReplyList() {
+		return articleReplyList;
+	}
+	public void setArticleReplyList(List<ClubArticleReplyVO> articleReplyList) {
+		this.articleReplyList = articleReplyList;
+	}
 	public List<ClubArticleImgVO> getArticleImgList() {
 		return articleImgList;
 	}
