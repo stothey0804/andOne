@@ -72,6 +72,7 @@ input[type="submit"] {
 }
 </style>
 <script>
+
 function deleteArticleImg(cai_id){
 	var el = document.getElementById(cai_id);
 	el.remove();
@@ -88,12 +89,7 @@ function deleteArticleImg(cai_id){
 
 function fileReset() {
 	document.getElementById('ca_img').value = "";
-	for (var i = 0; i < index; i++) {
-		var el = document.getElementById('pre');
-		if (el != null) {
-			el.remove();
-		}
-	}
+	$('.pre').empty();
 	index = 0;
 }
 
@@ -102,34 +98,46 @@ $(document).ready(function() {
 })
 
 
+
+var click = new Array();
+var remain = new Array();
+
 function deleteArticlePreImg(index){
-	const input = document.getElementById('ca_img')
-	// as an array, u have more freedom to transform the file list using array functions.
-	const fileListArr = Array.from(input.files)
-	var data = new FormData();
-	
-	fileListArr.forEach(function(input,i){
-		data.append('input_'+i,input);
-	});
-	$.ajax({
-	    url: '${contextPath}/club/editArticle.do',
-	    type: 'post',
-	    data: data,
-	    contentType: false,
-	    processData: false,
-	    success: function(data) {
-	       console.log(data);
-	       location.reload();
-	    }
-	});
-
-
+	click.push(index);
 	$('.file'+index).remove();
 }
 
+
+function sort(){
+	click.sort(function(a, b) {
+		return a - b;
+	});
+	for(let i=0;i<index;i++){
+		remain.push(i);
+	}
+	for(let i=0;i<click.length;i++){
+		const idx = click[i];
+		for(let j=0;j<remain.length;j++){
+			if(idx == remain.indexOf(j)) remain[j] = null;
+		}
+	}
+	console.log(remain);
+	const dt = new DataTransfer()
+	const input = document.getElementById('ca_img')
+	const {files} = input;
+	for(let i=0;i<files.length;i++){
+		const file = files[i]
+		if(remain[i] == i) dt.items.add(file)
+		input.files = dt.files;
+	}
+	
+}
 var sel_files = [];
 var index = 0;
 function preview(e) {
+	click = [];
+	remain = [];
+	index = 0;
 	var newFileList = Array.from(e.target.files);
 	
 	console.log(newFileList.splice(index,1))
@@ -139,8 +147,8 @@ function preview(e) {
 
 	var files = e.target.files;
 	var filesArr = Array.prototype.slice.call(files);
-	$('.pre').empty();
-	console.log(filesArr);
+	$('.pre').remove();
+// 	console.log(filesArr);
 	filesArr
 			.forEach(function(f) {
 
@@ -160,8 +168,7 @@ function preview(e) {
 						$('#ca_img').val("");
 						return;
 					}else{
-// 						var output = "<div class='zz pre file"+index+"' id='pre'><div style='position:absolute'><button type='button' class='btn btn-outline-danger' style='cursor:hand;float:right' onclick='deleteArticlePreImg("+index+")'>X</button></div><img src='"+e.target.result+"'id='preImg'/></div>";
-						var output = "<div class='zz pre file"+index+"' id='pre'><img src='"+e.target.result+"'id='preImg'/></div>";
+						var output = "<div class='zz pre file"+index+"'><div style='position:absolute'><button type='button' class='btn btn-outline-danger' style='cursor:hand;float:right' onclick='deleteArticlePreImg("+index+")'>X</button></div><img src='"+e.target.result+"'id='preImg'/></div>";
 						$('.swiper-wrapper').append(output);
 						index++;
 					}
@@ -199,7 +206,7 @@ function preview(e) {
 	
 	<div id="label">이미지 첨부<br>
     <label class="btn btn-outline-primary btn-file" id="label">이미지 선택
-    	<input type="file" class="form-control-file" accept="image/*" name="ca_img" id="ca_img" multiple>
+    	<input type="file" class="form-control-file" accept="image/*" name="ca_img" id="ca_img" multiple style="display:none;">
     </label>
     	<input type="button" value=삭제 class="btn btn-outline-danger fileDelete" onclick="fileReset()">
     </div>
@@ -222,7 +229,7 @@ function preview(e) {
 </div>
 	<input type="hidden" name="ca_id" value="${articleInfo.ca_id}">
 	<input type="hidden" name="c_id" value="${clubInfo.c_id}">
-	<input type="submit" class="btn btn-success btn-block"></div>
+	<input type="submit" class="btn btn-success btn-block" onclick="sort()" value="게시글 수정하기"></div>
 </form>
 </div>
 </body>

@@ -136,6 +136,10 @@ a:hover {
 	
 	$(document).ready(function(){
 		$('#imgPop').hide();
+		if('${reviewCount}'==0){
+			alert('등록된 리뷰가 없습니다.');
+			window.location.href='${contextPath}/biz/loginOk.do';
+		}
 		$('div#close').click(function(){
 			$('#imgPop').hide();
 		})

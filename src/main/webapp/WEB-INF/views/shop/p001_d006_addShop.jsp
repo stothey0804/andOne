@@ -58,6 +58,49 @@
 	})
 	
 	var sel_files = [];
+	var hashtag = '';
+	var hashtagArr = new Array();
+	
+	function characterCheck() {
+		var RegExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-+┼<>@\#$%&\'\"\\\(\=]/gi;
+		var space = / /gi;
+		var obj = document.getElementsByName("inputHashtag")[0]
+		if (RegExp.test(obj.value)) {
+			alert("특수문자는 언더바(_)만 사용 가능합니다.");
+			obj.value = obj.value.substring(0, obj.value.length - 1);
+		}else if(space.test(obj.value)){
+			add();
+		}
+	}
+	
+	function deleteValue(param){
+		hashtagArr.splice(hashtagArr.indexOf(param),1);
+		// $('.displayArea #'+param).remove();
+		$('.btn-group').has('#'+param).remove();
+	}
+	
+	function add(){
+		let inputValue = $('#inputHashtag').val();
+		if(isEmpty(inputValue)){
+			alert('키워드를 입력해주세요.');
+			$('#inputHashtag').val('');
+		}else{
+			inputValue = inputValue.slice(0,-1);
+			hashtagArr.push(inputValue);
+			$('.displayArea').append('<div class="btn-group mr-1 btn-group-sm" role="group">'
+					+'<button class="btn btn-sm btn-light">#'+inputValue+'</button>'
+					+'<button id="'+inputValue+'" class="btn btn-sm btn-light" onclick="deleteValue(this.id)">&times;</button>'+'</div>');
+			$('#inputHashtag').val('');
+		}
+	}
+	
+	function isEmpty(str){
+		if(typeof str == "undefined" || str == null || str == "" || str == " "){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 	function uploadCancle(){
 		sel_files = [];
@@ -112,6 +155,7 @@
 			<input type="hidden" name="bm_id" value="${bm_id }">
 			<input type="hidden" name="s_locate" value="123">
 			<input type="hidden" name="s_score" value="0">
+			<input type="hidden" name="s_hashtag" id="s_hashtag">
 				<!-- 사업자번호 -->
 				<div class="mb-2 row">
 				    <label for="inputShopId" class="col-lg-3 col-sm-12 col-form-label">사업자번호</label>
@@ -162,10 +206,14 @@
 	    		<br><hr><br>
 	    		<p class="h4 mb-3">선택정보</p>
 	    		<!-- 해시태그 -->
+	    		<div class="displayArea">
+
+				</div><br>
 	    		<div class="mb-2 row">
 				    <label for="inputHashtag" class="col-lg-3 col-sm-12 col-form-label">해시태그</label>
 				    <div class="col-lg-7 col-sm-12">
-				      <input type="text" class="form-control" id="inputHashtag" name="s_hashtag">
+				     <input type="text" class="form-control" id="inputHashtag" name="inputHashtag" 
+				      placeholder="키워드 입력 후 스페이스바로 등록" onkeyup="characterCheck()" onkeydown="characterCheck()" />
 		    		</div>
 		    	</div>
 		    	<!-- 가게 이미지 -->
@@ -268,6 +316,14 @@
 			}else{
 				alert('보낼거얌');
 				//모든 조건 통과시 saveMember로 보내기
+				hashtag = '';
+				for(let i=0; i<hashtagArr.length; i++){
+					hashtag += hashtagArr[i] + ','
+				}
+				hashtag = hashtag.slice(0,-1);
+				$('#s_hashtag').val(hashtag);
+				$('#inputHashtag').remove();
+				alert(hashtag);
 				var frmShopInfo = document.frmShopInfo;
 				frmShopInfo.action = "${contextPath}/biz/insertShop.do";
 				frmShopInfo.submit();
