@@ -25,4 +25,9 @@ public class CommonServiceImpl implements CommonService{
 		return commonDAO.selectCommonCodeName(param);
 	}
 
+	@Override
+	public int selectCompareTime(String regTime) {
+		return commonDAO.selectCompareTime(regTime);
+	}
+
 }

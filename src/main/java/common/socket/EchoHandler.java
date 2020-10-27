@@ -54,18 +54,19 @@ public class EchoHandler extends TextWebSocketHandler{
 		if(msg != null) {
 			String[] strs = msg.split(",");
 			log(strs.toString());
-			if(strs != null && strs.length == 5) {
-				String cmd = strs[0];	// 삭제 필요할 시 삭제
-				String type = strs[1];
-				String target = strs[2]; 
-				String content = strs[3];
-				String url = strs[4];
+			if(strs != null && strs.length == 4) {
+//				String cmd = strs[0];	// 삭제 필요할 시 삭제
+				String type = strs[0];
+				String target = strs[1]; 
+				String content = strs[2];
+				String url = strs[3];
 				WebSocketSession targetSession = users.get(target);  // 타겟세션 조회
 				System.out.println("=========targetSession " + targetSession);
 				
 				// 실시간 접속시
 				// 어드민 메시지 받을 때 (분기처리 필요할 경우)
-				if("adminMsg".equals(cmd) && targetSession!=null) {
+//				if("adminMsg".equals(cmd) && targetSession!=null) {
+				if(targetSession!=null) {
 					// ex: [&분의일] 신청이 들어왔습니다.
 					TextMessage tmpMsg = new TextMessage("<a target='_blank' href='"+ url +"'>[<b>" + type + "</b>] " + content + "</a>" );
 					targetSession.sendMessage(tmpMsg);

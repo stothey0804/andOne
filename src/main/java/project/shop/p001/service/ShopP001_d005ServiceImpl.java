@@ -47,4 +47,10 @@ public class ShopP001_d005ServiceImpl implements ShopP001_d005Service{
 		return shopP001_d005DAO.getShopIdByBmemberId(bm_id);
 	}
 
+	@Override
+	public void deleteShopImage(String s_id) {
+		shopP001_d005DAO.deleteShopImage(s_id);
+		
+	}
+
 }

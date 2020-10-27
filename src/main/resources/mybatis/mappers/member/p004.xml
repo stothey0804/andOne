@@ -60,7 +60,7 @@
 	</select>
 	
 	<!-- 내가쓴, 받은 카운트-->
-	<select id="selectMemberReviewCnt" resultType="int">
+	<select id="selectMemberReviewCnt" parameterType="java.util.HashMap" resultType="int">
 		<if test="flag=='recieve'">
 		<![CDATA[
 			SELECT count(m_id) FROM m_review where mr_target like #{m_id} 

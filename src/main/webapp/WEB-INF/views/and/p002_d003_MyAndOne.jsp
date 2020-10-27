@@ -5,114 +5,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style type="text/css">
-	div.form-group{
-		width: 100%;
-	}
-/* 	@media screen and (max-width: 1000px){ */
-/* 		div.form-group{ */
-/* 			width: 90%; */
-/* 		} */
-/* 	} */
-/* 	.container{ */
-		margin: 0 auto;
-	}
-	#cke_q_content{
-		width: 95%;
-		margin: 0 auto;
-	}
-	.arcticleSubject{
-		cursor: pointer;
-	}
-	tbody{
-		border-top-width: 0px !important;
-	}
-
-</style>
-
-
-<script>
-	// 초기화시, 선택정보 영역 set
-	$(document).ready(function(){
-		$(".arcticleSubject").click(function(){
-		  	let id = getArticleId(this);
-		    $("#"+id + " .arcticleBody").toggle();	// q_id get
-		});
-		
-		// 수정
-		$(".editContent").click(function(){
-			let id = getArticleId(this);	// q_id get
-			dynamicFormInsert(id,"qna");
-		});
-		
-		// 삭제
-		$(".deleteArticle").click(function(){
-			let id = getArticleId(this);	// q_id get
-			if(confirm("삭제 하시겠습니까?")){
-				dynamicFormInsert(id, "deleteMemberQnA");
-			}
-		});
-		
-		function getArticleId(elem){
-			let result =  $("tbody").has(elem);
-			return result.attr("id");
-		}
-		
-		function dynamicFormInsert(id, dest){
-			// 동적 form 생성
-			let frm = document.createElement('form');
-			frm.name = "frmQnA";				
-			frm.action = "${contextPath}/member/"+dest+".do";
-			// form에 연결
-			let input = document.createElement('input');
-			input.setAttribute("type","hidden");
-			input.setAttribute("name","q_id");
-			input.setAttribute("value",id);
-			frm.appendChild(input);	// append q_id
-			document.body.appendChild(frm);	// append form
-			frm.submit();
-		}
-	});
-</script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 </head>
 <body>
 <div class="container">
-			<h2 class="m-5">문의내역</h2>
+			<h2 class="m-5">
+			<c:if test="${flag eq 'participate'}">내가 참가한 &분의일</c:if>
+			<c:if test="${flag eq 'write'}">내가 쓴 &분의일</c:if>
+			</h2>
 			<div class="form-group col-sm-10 mx-auto p-0">
 				<table class="table">
 					<thead>
 						<tr class="text-center">
-							<th>문의번호</th><th>분류</th><th style="width:400px;">제목</th><th>날짜</th><th>처리상태</th>
+							<th>No.</th><th>엔분의일</th><th style="width:350px;">제목</th><th>상태</th><th>금액</th><th>날짜</th>
+							<c:if test="${flag eq 'write'}"><th>수정/삭제</th></c:if>
+							<c:if test="${flag eq 'participate'}"><th>작성자</th></c:if>
+							
 						</tr>
 					</thead>
-					<c:forEach var="list" items="${articleList}">
-					<tbody id="${list.q_id}">
+					<c:forEach var="list" items="${searchAndOneList}">
+					<c:if test="${flag eq 'write'}">
+					<tbody>
 						<tr class="arcticleSubject text-center">
-							<td>${list.q_id}</td><td>${list.q_type}</td><td class="text-left">${list.q_subject}</td><td>${list.q_date}</td><td>${list.q_state}</td>
+							<td>${list.om_num}</td>
+							<td>${list.g_name}</td> <!-- 같이먹기/하기/사기 -->
+							<td>${list.one_title}</td> <!-- 제목 -->
+							<td>${list.one_state}</td> <!-- 상태 -->
+							<td>${list.one_price}</td>
+							<td>${list.om_date}</td>
+							<td>수정/삭제</td>
 						</tr>
-						<!-- 내용영역 -->
-						<tr style="display:none;" class="arcticleBody">
-							<td colspan="5" class="p-3">
-								${list.q_content}
-							<div class="form-inline">
-								<div class="mt-2 ml-auto">
-									<button type="button" class="editContent btn btn-primary mr-1">수정</button>
-									<button type="button" class="deleteArticle btn btn-danger">삭제</button>
-								</div>
-							</div>
-							</td>
-						</tr>
-						<!-- 내용영역 END -->
-						<tr style="display:none;" class="arcticleBody">
-							<td colspan="5" class="p-3 bg-light">
-							관리자답변: <br>
-								${list.q_reply}
-							</td>
-						</tr>					
 					</tbody>
+					</c:if>
+					<c:if test="${flag eq 'participate'}">
+					<tbody>
+						<tr class="arcticleSubject text-center">
+							<td>${list.om_num}</td>
+							<td>${list.g_name}</td> <!-- 같이먹기/하기/사기 -->
+							<td>${list.one_title}</td> <!-- 제목 -->
+							<td>${list.one_state}</td> <!-- 상태 -->
+							<td>${list.one_price}</td>
+							<td>${list.om_date}</td>
+							<td>${list.WRITER_NICKNAME}</td>
+						</tr>
+					</tbody>
+					</c:if>
 					</c:forEach>
-				</table>
-				<!-- 페이징  -->
+					</table>
+					</div>
+			<!-- 페이징  -->
 				<nav aria-label="Page navigation example">
 				  <ul class="pagination justify-content-center">
 					  <c:if test="${pagination.curRange ne 1 }">
@@ -153,5 +95,5 @@
 				</nav>
 				<!-- 페이징 END -->
 			</div>
-</div>
 </body>
+</html>

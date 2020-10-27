@@ -38,7 +38,7 @@ public class PointP001_d003ControllerImpl implements PointP001_d003Controller{
 		pointVO.setP_changepoint(p_changepoint);
 		pointVO.setP_detail("포인트 사용");
 		String nowPoint = pointP001_d001Service.selectNowPointById(m_id);
-		pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint);
+		pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint); //포인트 null값 0으로 변경
 		
 		pointP001_d002Service.insertPoint(pointVO);//포인트 사용
 		nowPoint = pointP001_d001Service.selectNowPointById(m_id); // 사용 후 값 갱신

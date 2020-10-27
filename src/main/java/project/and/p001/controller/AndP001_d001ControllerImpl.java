@@ -43,9 +43,10 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	@RequestMapping(value="/and*")
 	public ModelAndView andOneMain(@RequestParam("g_id") String g_id, 
 			@CookieValue(value="locate_lat", required = false) Cookie locate_lat, 
-			@CookieValue(value="locate_lng", required = false) Cookie locate_lng, HttpSession session) throws Exception {
+			@CookieValue(value="locate_lng", required = false) Cookie locate_lng, HttpServletRequest request) throws Exception {
 		System.out.println("111111g_id: "+g_id);
 		
+		HttpSession session = request.getSession(false);
 		String m_id = (String) session.getAttribute("m_id");
 		System.out.println("M_IDM_IDM_ID :"+m_id);
 		
@@ -105,7 +106,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	//5.마감순정렬
 	@Override
 	@RequestMapping(value="/and*/searchAndOne.do")
-	public ModelAndView searchAndOneList(@RequestParam Map<String, Object> searchMap , HttpSession session) throws Exception {
+	public ModelAndView searchAndOneList(@RequestParam Map<String, Object> searchMap , HttpServletRequest request) throws Exception {
 		//1.전체검색
 		String one_category = (String)searchMap.get("one_category");
 		String g_id = (String)searchMap.get("g_id");
@@ -117,6 +118,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		List<AndP001AndOneVO> ctg_eat = p001_d001Service.searchCtg(g_id); //카테고리 설정
 		
 		//회원 위치 가져오기
+		HttpSession session = request.getSession(false);
 		String m_id = (String) session.getAttribute("m_id");
 		System.out.println("M_IDM_IDM_ID :"+m_id);
 		Map<String, Object> memLocate = p001_d001Service.selectMemLocate(m_id);
@@ -151,11 +153,12 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	//엔분의일 상세조회
 	@Override
 	@RequestMapping(value="/and*/detailAndOne.do")
-	public ModelAndView andOneDetail(@RequestParam Map<String, Object> detailMap, HttpSession session) throws Exception {
+	public ModelAndView andOneDetail(@RequestParam Map<String, Object> detailMap, HttpServletRequest request) throws Exception {
 		String one_id = (String) detailMap.get("one_id");
 		System.out.println("상세조회용  one_id: "+one_id);
 		System.out.println(">>>>oneType:"+detailMap.get("g_id"));
 		
+		HttpSession session = request.getSession(false);
 		String m_id = (String) session.getAttribute("m_id");//아이디조회
 		String m_nickname = (String) session.getAttribute("m_nickname");//닉네임조회
 		System.out.println("참가자신청용 m_id :"+m_id);
@@ -182,13 +185,13 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	@Override
 	@ResponseBody
 	@RequestMapping(value="/and*/addOneMember.do")
-	public String addOneMember(@RequestParam Map<String, Object> addMemMap, HttpSession session) throws Exception {
+	public String addOneMember(@RequestParam Map<String, Object> addMemMap, HttpServletRequest request) throws Exception {
 
 		System.out.println(addMemMap.get("one_type")); 
 		System.out.println(addMemMap.get("one_id"));
 		String one_price = (String) addMemMap.get("one_price"); // 글에 있는 가격
 		
-		
+		HttpSession session = request.getSession(false);
 		String m_id = (String) session.getAttribute("m_id");
 		System.out.println("참가자신청용 m_id :"+m_id);
 		

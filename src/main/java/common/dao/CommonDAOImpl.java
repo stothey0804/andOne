@@ -23,6 +23,11 @@ public class CommonDAOImpl implements CommonDAO{
 	public String selectCommonCodeName(Map<String, String> param) {
 		return sqlSession.selectOne("common.selectCommonCodeName", param);
 	}
+
+	@Override
+	public int selectCompareTime(String regTime) {
+		return sqlSession.selectOne("common.selectCompareTime", regTime);
+	}
 	
 	
 }

@@ -110,7 +110,7 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 	@RequestMapping("/shop/getShopDetailByAjax.do")
 	public ShopP002ShopDetailVO getShopDetailByAjax(ShopP002ShopDetailVO vo, Model model) {
 		vo.setSearchCondition("SEARCHBYSHOPID");
-		ShopP002ShopDetailVO resultVO = getShopDetail(vo);
+		ShopP002ShopDetailVO resultVO = shopP002_d001Service.getShopDetail(vo);
 		String s_id = resultVO.getS_id();
 		List<String> memberIdList = shopP002_d001Service.getMemberIdFromShopReview(s_id);
 		int count = memberIdList.size();
@@ -136,7 +136,7 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 	public List<ShopP002ShopDetailVO> popularSearchByAjax(ShopP002ShopDetailVO vo, Model model) {
 		vo.setSearchCondition("POPULAR");
 		vo.setStatus("REVIEW");
-		List<ShopP002ShopDetailVO> resultList = getShopList(vo);
+		List<ShopP002ShopDetailVO> resultList = shopP002_d001Service.getShopList(vo);
 		for(int i=0; i<resultList.size(); i++) {
 			shopP002_d001Service.shopImageEncoder(resultList.get(i));
 		}
@@ -159,7 +159,7 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 		if(vo.getStatus()==null) {
 			vo.setStatus("SCORE");
 		}
-		List<ShopP002ShopDetailVO> resultList = getShopList(vo);
+		List<ShopP002ShopDetailVO> resultList = shopP002_d001Service.getShopList(vo);
 		for(int i=0; i<resultList.size(); i++) {
 			shopP002_d001Service.shopImageEncoder(resultList.get(i));
 		}
@@ -169,7 +169,7 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 	@ResponseBody
 	@RequestMapping("/shop/shopReviewPopup.do")
 	public ShopP003ShopReviewVO shopReviewPopup(ShopP003ShopReviewVO vo, Model model) {
-		ShopP003ShopReviewVO resultVO = getShopReview(vo);
+		ShopP003ShopReviewVO resultVO = shopP002_d001Service.getShopReview(vo);
 		shopP002_d001Service.reviewImageEncoder(resultVO);
 		return resultVO;
 	}
@@ -217,22 +217,9 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 	@RequestMapping("/shop/viewTest.do")
 	public ShopP002ShopDetailVO viewTest(ShopP002ShopDetailVO vo, Model model) {
 		vo.setSearchCondition("SEARCHBYSHOPID");
-		ShopP002ShopDetailVO resultVO = getShopDetail(vo);
+		ShopP002ShopDetailVO resultVO = shopP002_d001Service.getShopDetail(vo);
 		byte[] encoded = Base64.getEncoder().encode((byte[])resultVO.getShopImage().get(0).getSi_imgEncoder().get("si_imgEncoder"));
 		resultVO.getShopImage().get(0).setSi_encodedImg(new String(encoded));
 		return resultVO;
 	}
-	
-	public ShopP003ShopReviewVO getShopReview(ShopP003ShopReviewVO vo) {
-		return shopP002_d001Service.getShopReview(vo);
-	}
-	
-	public List<ShopP002ShopDetailVO> getShopList(ShopP002ShopDetailVO vo){
-		return shopP002_d001Service.getShopList(vo);
-	}
-	
-	public ShopP002ShopDetailVO getShopDetail(ShopP002ShopDetailVO vo) {
-		return shopP002_d001Service.getShopDetail(vo);
-	}
-	
 }

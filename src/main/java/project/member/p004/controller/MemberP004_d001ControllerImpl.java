@@ -111,14 +111,19 @@ public class MemberP004_d001ControllerImpl implements MemberP004_d001Controller{
 	
 	// 평가 입력,수정
 	@RequestMapping(value="/insertMemberReview.do", method = RequestMethod.POST)
-	public String insertMemberReview(@RequestParam Map<String, String> param) throws Exception{
+	public ModelAndView insertMemberReview(@RequestParam Map<String, String> param) throws Exception{
+		ModelAndView mav = new ModelAndView();
 		System.out.println("======================>>>>>  "+param);
 		if(memberP004_d001Service.insertMemberReview(param) == 1) {
 			memberP004_d001Service.updateMemberScore(param.get("mr_target"));	// 평점업뎃
-			return "member/p004_d001_insert_success";	// 결과창
-		}else {
-			return null;	// 입력실패
+			mav.setViewName("member/p004_d001_insert_success"); 	// 결과창
+			// 신규 등록시 알림 정보 전달
+			if(param.get("mr_id")==null || "".equals(param.get("mr_id"))) {
+				mav.addObject("mr_target", param.get("mr_target"));
+				mav.addObject("mr_score", param.get("mr_score"));
+			}
 		}
+		return mav;
 	}
 	
 	// 받은 평가 조회
