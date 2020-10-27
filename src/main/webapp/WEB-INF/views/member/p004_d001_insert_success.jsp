@@ -24,9 +24,44 @@
 </style>
 <!-- CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-
 <link rel="stylesheet" href="${contextPath}/resources/css/font.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
+<!-- sockJS -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		// 소켓연결
+		sock = new SockJS("<c:url value="/echo-ws"/>");
+		socket = sock;
+		
+		let mr_target = '${mr_target}';
+		let mr_score = '${mr_score}';
+		if(mr_target!=null && mr_target!=''){
+			let type = '60';	// 유저평가
+			let target = mr_target;
+			let content = '유저평가를 받았습니다. - ' + mr_score + '점';
+			let url = '${contextPath}/member/receivedReview.do';
+			// db저장	
+			$.ajax({
+				type: 'post',
+				url: '${contextPath}/member/saveNotify.do',
+				dataType: 'text',
+				data: {
+					target: target,
+					content: content,
+					type: type,
+					url: url
+				},
+				success: function(){
+					socket.send("유저평가,"+target+","+content+","+url);	// 소켓에 전달
+				}
+			});
+		}
+		
+	});
+</script>	
 </head>
 <body>
 <div>

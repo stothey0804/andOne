@@ -205,14 +205,5 @@
 			values (#{one_type}, #{one_id},#{m_id}, '20', '10', to_char(sysdate,'yyyy-mm-dd hh:mi:ss'), #{m_id}, to_char(sysdate,'yyyy-mm-dd hh:mi:ss'))
 		]]>
 	</insert>
-	<!-- 포인트확인 -->
-	<select id="selectPoint" parameterType="String" resultType="String">
-		<![CDATA[
-			select p_detail
-			from point p, member m
-			where p.m_id = m_m_id
-			and m_id = #{m_id}
-		]]>
-	</select>
 	
 </mapper>
