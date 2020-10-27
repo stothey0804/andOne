@@ -17,7 +17,5 @@ public interface AndP001_d001DAO {
 	public List<Map<String,Object>> selectAndOneLocate(String g_id) throws DataAccessException;
 	public List<AndP001AndOneVO> selectAndOneDetailList(Map<String, Object> detailMap);
 	public List<AndOneMemberVO> selectOneMem(String one_id);
-	public void addOneMember(Map<String, Object> addMemMap);
 	public String omLeaderCheck(Map<String, Object> omCheckMap);
-	public String checkPoint(String m_id);
 }

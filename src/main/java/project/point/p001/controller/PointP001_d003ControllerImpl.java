@@ -1,5 +1,7 @@
 package project.point.p001.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import project.point.p001.service.PointP001_d001Service;
 import project.point.p001.service.PointP001_d002Service;
+import project.point.p001.service.PointP001_d003Service;
 import project.point.p001.vo.PointP001VO;
 
 @Controller
@@ -20,15 +23,26 @@ public class PointP001_d003ControllerImpl implements PointP001_d003Controller{
 	PointP001_d002Service pointP001_d002Service; // 포인트 사용
 	@Autowired
 	PointP001_d001Service pointP001_d001Service; // 포인트조회용
+	@Autowired
+	PointP001_d003Service pointP001_d003Service; // one_member 추가용
 	
+	//oneMember update+결제완료
 	@Override
 	@RequestMapping(value="pay.do")
-	public ModelAndView pointPay(@RequestParam("payPoint") String payPoint, HttpServletRequest request) {
+	public ModelAndView pointPay(@RequestParam Map<String, Object> payMap , HttpServletRequest request) {
 		// Session 얻기
 		HttpSession session = request.getSession(false);
 		String m_id = (String) session.getAttribute("m_id");
 		String m_nickname = (String) session.getAttribute("m_nickname");
+		
+		//맵확인용
+		System.out.println("pay one_type:"+payMap.get("one_type")); 
+		System.out.println("pay one_id:"+payMap.get("one_id"));
+		payMap.put("m_id", m_id);
+		pointP001_d003Service.addOneMember(payMap);//one_member 추가
+		
 		//사용포인트 -로 변경
+		String payPoint = (String) payMap.get("payPoint");
 		String minus = "-";
 		String p_changepoint = minus.concat(payPoint);
 		System.out.println(p_changepoint);

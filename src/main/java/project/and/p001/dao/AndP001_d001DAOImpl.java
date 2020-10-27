@@ -72,22 +72,12 @@ public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 		selectOneMem = sqlSession.selectList("and.p001.selectOneMem",one_id);
 		return selectOneMem;
 	}
-	//참가자 신청
-	@Override
-	public void addOneMember(Map<String, Object> addMemMap) {
-		sqlSession.selectList("and.p001.insertOneMember",addMemMap);
-	}
+	//om_leader체크
 	@Override
 	public String omLeaderCheck(Map<String,Object> omCheckMap) {
 		String omLeaderCheck = sqlSession.selectOne("and.p001.selectOmLeader",omCheckMap);
 		System.out.println("dao체크   :"+omLeaderCheck);
 		return omLeaderCheck;
 	}
-	@Override
-	public String checkPoint(String m_id) {
-		String point = sqlSession.selectOne("and.p001.selectPoint",m_id);
-		return point;
-	}
-	
 	
 }
