@@ -25,7 +25,7 @@
 		    <a class="nav-link" href="${contextPath}/biz/crudInit.do">업체 관리</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" href="#">리뷰 관리</a>
+		    <a class="nav-link" href="${contextPath }/biz/shopReviewList.do">리뷰 관리</a>
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link" href="${contextPath}/biz/modifyBmember.do">업주 정보 수정</a>
