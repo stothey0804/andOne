@@ -28,7 +28,10 @@
 	width: 60px;
 	height: 60px;
 }
-
+.font { 
+	font-family: 'YanoljaYacheR' !important; 
+	font-size: 250%; 
+} 
 </style>
 <script>
 	$(document).ready(function(){
@@ -43,11 +46,31 @@
 			return result.attr("id");
 		}
 	})
+	
+	function permit(c_id,m_id,idx){
+		$(".cnt"+idx).html("가입승인 완료");
+		$.ajax({
+			type:"get",
+			dataType:"text",
+			url:"${contextPath}/club/permitMember.do",
+			data:{c_id:c_id,m_id:m_id}
+		})
+	}
+	
+	function deny(c_id,m_id,idx){
+		$("#"+idx).remove();
+		$.ajax({
+			type:"get",
+			dataType:"text",
+			url:"${contextPath}/club/denyMember.do",
+			data:{c_id:c_id,m_id:m_id}
+		})
+	}
 </script>
 </head>
 <body>
-<h3>가입 요청 멤버 목록</h3>
-<table class="table table-hover">
+<h3 style="margin:20px auto;width:300px;" class="font">가입 요청 멤버 목록</h3>
+<table class="table table-hover" style="width:1000px;margin:0 auto;">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -59,7 +82,7 @@
 		<c:forEach var="waitMember" items="${waitMember}" varStatus="status">
 <tbody id="${status.count}">
 		<tr class="userList">
-		<th scope="row">${status.count}</th>
+		<th>${status.count}</th>
 			<c:set var="memImg" value="${waitMember.resultUserImg}" />
 			<td>
 			<c:choose>
@@ -73,24 +96,24 @@
 			${waitMember.m_nickname}
 			</td>
 			<td>${waitMember.cm_joindate}</td>
-			<td onclick="event.cancelBubble=true">
+			<td onclick="event.cancelBubble=true" class="cnt${status.count}">
 				<button type="button" class="btn btn-outline-danger"
-				onclick="location.href='${contextPath}/club/permitMember.do?c_id=${c_id}&m_id=${waitMember.m_id}'">수락</button>
+				onclick="permit(${c_id},'${waitMember.m_id}',${status.count})">수락</button>
 				<button type="button" class="btn btn-outline-dark"
-				onclick="location.href='${contextPath}/club/denyMember.do?c_id=${c_id}&m_id=${waitMember.m_id}'">거절</button>
+				onclick="deny(${c_id},'${waitMember.m_id}',${status.count})">거절</button>
 			</td>
 			</tr>
 		<tr style="display:none;" class="intro">
-		<td></td>
-		<td></td>
-		<td><p style="font-weight:bold">가입인사<p><br>${waitMember.cm_intro}</td>
-		<td></td>
+			<td></td>
+			<td></td>
+			<td><p style="font-weight:bold">가입인사<p><br>${waitMember.cm_intro}</td>
+			<td></td>
 		</tr>
 </tbody>
 		</c:forEach>
 </table>
 <div class="container center">
-		<button type="button" style="margin:0 auto;float:none;"class="btn btn-info" onclick="location.href='${contextPath}/club/detailClub.do?c_id=${c_id}'">
+		<button type="button" style="margin:0 auto;" class="btn btn-info" onclick="location.href='${contextPath}/club/detailClub.do?c_id=${c_id}'">
 		소모임으로 돌아가기</button></div>
 </body>
 </html>

@@ -188,6 +188,26 @@
 		location.reload();
 	}
 
+	function joinClub(c_id){
+		var form = $(".intro")[0];
+		var formData = new FormData(form);
+		
+		$.ajax({
+			cache : false,
+            url : "${contextPath}/club/joinClub.do?c_id="+c_id, // 요기에
+            processData: false,
+            contentType: false,
+            type : 'POST', 
+            data : formData, 
+            success : function(data) {
+                alert("보냇음");
+                location.reload();
+            },
+            error:function(data){
+            	alert("error");
+            }
+		})
+	}
 </script>
 </head>
 <body>
@@ -434,14 +454,14 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form action="${contextPath}/club/joinClub.do?c_id=${clubInfo.c_id}" method="post">
+				<form class="intro" method="post">
 				<div class="modal-body">
 					<h6 style="text-align:center;">${clubInfo.c_ask}</h6>
 					<textarea class="form-control col-sm-55" rows="5" name="cm_intro"></textarea></div>
 				<div class="modal-footer" style="margin-top:5px;">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
-					<input type="submit" class="btn btn-primary" value="가입인사 보내기">
+					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="joinClub(${clubInfo.c_id});">가입하기</button>
 				</div>
 				</form>
 			</div>
