@@ -21,4 +21,5 @@ public interface ShopP002_d001Service {
 	public List<String> getMemberIdFromShopReview(String s_id);
 	public void shopImageEncoder(ShopP002ShopDetailVO vo);
 	public void reviewImageEncoder(ShopP003ShopReviewVO vo);
+	public void popularHashtagUpdate();
 }

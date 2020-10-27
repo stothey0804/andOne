@@ -159,7 +159,11 @@ a:hover {
 			$('#imgPopContent').html('<img src="'+(this.src)+'" id="'+(this.id)+'" width="720">');
 			$('#imgPop').show();
 		})
-		
+		var hashtag = '${resultVO.s_hashtag }';
+		var hashtagArr = hashtag.split(',');
+		for(let i=0; i<hashtagArr.length; i++){
+			$('#hashtag').append('#'+hashtagArr[i]+'&nbsp;');
+		}
 	})
 	function prev(){
 		let imgId = $('#imgPopContent img').attr('id');
@@ -227,7 +231,7 @@ a:hover {
 				<button id="all" type="button" class="btn btn-outline-info" onclick="writeButton()">수정하기</button>
 				</td></tr><tr><td colspan="3" height="30">${resultVO.s_score }</td>
 				</tr><tr><td colspan="3" height="30">${resultVO.gc_name }</td>
-				</tr><tr><td colspan="3" height="30">
+				</tr><tr><td id="hashtag" colspan="3" height="30">
 				</td></tr><tr>
 				<td valign="top" colspan="3" height="100">${resultVO.s_content }</td>
 				</tr></table>
