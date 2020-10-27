@@ -23,13 +23,13 @@ public class ShopP002_d001ServiceImpl implements ShopP002_d001Service {
 	private ShopP002_d001DAO shopP002_d001DAO;
 	
 	@Override
-	public List<ShopP002ShopDetailVO> getShopList(ShopP002ShopDetailVO vo) {
-		return shopP002_d001DAO.getShopList(vo);
+	public List<ShopP002ShopDetailVO> getShopList(Map<String,Object> param) {
+		return shopP002_d001DAO.getShopList(param);
 	}
 
 	@Override
-	public ShopP002ShopDetailVO getShopDetail(ShopP002ShopDetailVO vo) {
-		return shopP002_d001DAO.getShopDetail(vo);
+	public ShopP002ShopDetailVO getShopDetail(Map<String,Object> param) {
+		return shopP002_d001DAO.getShopDetail(param);
 	}
 
 	@Override
@@ -71,6 +71,11 @@ public class ShopP002_d001ServiceImpl implements ShopP002_d001Service {
 	@Override
 	public List<String> getMemberIdFromShopReview(String s_id) {
 		return shopP002_d001DAO.getMemberIdFromShopReview(s_id);
+	}
+	
+	@Override
+	public int getShopListCnt(Map<String, Object> param) {
+		return shopP002_d001DAO.getShopListCnt(param);
 	}
 	
 	@Override
@@ -144,5 +149,7 @@ public class ShopP002_d001ServiceImpl implements ShopP002_d001Service {
 		System.out.println(result);
 		updatePopularHashtag(result);
 	}
+
+	
 
 }

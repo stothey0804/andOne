@@ -179,7 +179,9 @@ public class ShopP001_d006ControllerImpl implements ShopP001_d006Controller{
 	@RequestMapping("/biz/getShopByAjax.do")
 	public ShopP002ShopDetailVO getShopByAjax(ShopP002ShopDetailVO vo, Model model) {
 		vo.setSearchCondition("SEARCHBYSHOPID");
-		ShopP002ShopDetailVO resultVO = shopP002_d001Service.getShopDetail(vo);
+		Map<String,Object> param = new HashMap<>();
+		param.put("vo", vo);
+		ShopP002ShopDetailVO resultVO = shopP002_d001Service.getShopDetail(param);
 		shopP002_d001Service.shopImageEncoder(resultVO);
 		return resultVO;
 	}

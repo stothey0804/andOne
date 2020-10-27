@@ -226,16 +226,15 @@ a:hover {
 					</c:forEach>
 				</div>
 				<table><tr><td width="500" height="70">
-				<h1><a href="${contextPath }/shop/localShopDetail.do?s_id=${resultVO.s_id }">${resultVO.s_name }</a></h1></td><td width="350" height="70"></td>
+				<h1>${resultVO.s_name }</h1></td><td width="350" height="70"></td>
 				<td align="right" width="150" height="70">
-				<button id="all" type="button" class="btn btn-outline-info" onclick="writeButton()">수정하기</button>
 				</td></tr><tr><td colspan="3" height="30">${resultVO.s_score }</td>
 				</tr><tr><td colspan="3" height="30">${resultVO.gc_name }</td>
 				</tr><tr><td id="hashtag" colspan="3" height="30">
 				</td></tr><tr>
 				<td valign="top" colspan="3" height="100">${resultVO.s_content }</td>
 				</tr></table>
-				<h3><a href="${contextPath }/shop/getShopReviewList.do?s_id=${resultVO.s_id }">후기(${resultVO.reviewCount })</a></h3>
+				<h3><a href="${contextPath }/biz/shopReviewList.do">후기(${resultVO.reviewCount })</a></h3>
 				<hr>
 				<c:forEach var="list" items="${resultVO.shopReviewList }">
 				<table id="${list.m_id }">

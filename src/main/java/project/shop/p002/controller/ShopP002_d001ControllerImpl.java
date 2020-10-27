@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import common.Pagination;
 import project.shop.p002.service.ShopP002_d001Service;
 import project.shop.p002.vo.ShopP002ShopDetailVO;
 import project.shop.p002.vo.ShopP002ShopImageVO;
@@ -66,7 +68,9 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 	@RequestMapping("/shop/getShopDetailByAjax.do")
 	public ShopP002ShopDetailVO getShopDetailByAjax(ShopP002ShopDetailVO vo, Model model) {
 		vo.setSearchCondition("SEARCHBYSHOPID");
-		ShopP002ShopDetailVO resultVO = shopP002_d001Service.getShopDetail(vo);
+		Map<String,Object> param = new HashMap<>();
+		param.put("vo", vo);
+		ShopP002ShopDetailVO resultVO = shopP002_d001Service.getShopDetail(param);
 		String s_id = resultVO.getS_id();
 		List<String> memberIdList = shopP002_d001Service.getMemberIdFromShopReview(s_id);
 		int count = memberIdList.size();
@@ -87,12 +91,18 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 		}
 		return resultVO;
 	}
+	
+	//todo - 가상 페이징 처리
 	@ResponseBody
 	@RequestMapping("/shop/popularSearchByAjax.do")
 	public List<ShopP002ShopDetailVO> popularSearchByAjax(ShopP002ShopDetailVO vo, Model model) {
 		vo.setSearchCondition("POPULAR");
 		vo.setStatus("REVIEW");
-		List<ShopP002ShopDetailVO> resultList = shopP002_d001Service.getShopList(vo);
+		Map<String,Object> param = new HashMap<>();
+		param.put("vo",vo);
+		param.put("startIndex",1);
+		param.put("endIndex",3);
+		List<ShopP002ShopDetailVO> resultList = shopP002_d001Service.getShopList(param);
 		for(int i=0; i<resultList.size(); i++) {
 			shopP002_d001Service.shopImageEncoder(resultList.get(i));
 		}
@@ -101,9 +111,9 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 	
 	@ResponseBody
 	@RequestMapping("/shop/searchByAjax.do")
-	public List<ShopP002ShopDetailVO> searchByAjax(ShopP002ShopDetailVO vo, Model model) {
+	public Map<String, Object> searchByAjax(@RequestParam(defaultValue="1")int curPage, ShopP002ShopDetailVO vo, Model model) {
 		if(vo.getSearchCondition()==null) {
-			if(vo.getFilter().equals("all") ||  vo.getFilter().equals("") || vo.getFilter()==null) {
+			if(vo.getFilter()==null || vo.getFilter().equals("all") ||  vo.getFilter().equals("")) {
 				vo.setSearchCondition("ALLSEARCH");
 			}else {
 				vo.setSearchCondition("SEARCHBYFILTER");
@@ -115,11 +125,20 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 		if(vo.getStatus()==null) {
 			vo.setStatus("SCORE");
 		}
-		List<ShopP002ShopDetailVO> resultList = shopP002_d001Service.getShopList(vo);
+		Map<String,Object> param = new HashMap<>();
+		param.put("vo",vo);
+		int listCnt = shopP002_d001Service.getShopListCnt(param);
+		Pagination pagination = new Pagination(listCnt, curPage, 4);
+		param.put("startIndex",(pagination.getStartIndex()+1)+"");
+		param.put("endIndex",(pagination.getStartIndex()+pagination.getPageSize())+"");
+		List<ShopP002ShopDetailVO> resultList = shopP002_d001Service.getShopList(param);
 		for(int i=0; i<resultList.size(); i++) {
 			shopP002_d001Service.shopImageEncoder(resultList.get(i));
 		}
-		return resultList;
+		Map<String, Object> result = new HashMap<>();
+		result.put("resultList", resultList);
+		result.put("pagination", pagination);
+		return result;
 	}
 	
 	@ResponseBody
@@ -130,52 +149,4 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 		return resultVO;
 	}
 	
-	
-	@RequestMapping("/shop/fileTest.do")
-	public String fileTest() {
-		return "fileTest";
-	}
-	
-	@RequestMapping("/shop/getFile.do")
-	public String getFile(ShopP002ShopImageVO vo) {
-		try {
-			vo.setS_id("20200917-1");
-			vo.setSi_idx("3");
-			Map<String,Object> map = new HashMap<String,Object>();
-			map.put("img",vo.getSi_img().getBytes());
-			vo.setSi_imgEncoder(map);
-			shopP002_d001Service.updateShopImage(vo);
-		}catch(Exception e){
-			e.printStackTrace();	
-		}
-		
-		return "redirect:fileTest.do";
-	}
-	
-	@RequestMapping("/shop/updateShopReviewImage.do")
-	public String updateShopReviewImage(ShopP003ShopReviewImageVO vo) {
-		try {
-			vo.setS_id("20200917-2");
-			vo.setM_id("test2");
-			vo.setRi_idx("1");
-			Map<String,Object> map = new HashMap<String,Object>();
-			map.put("img",vo.getRi_img().getBytes());
-			vo.setRi_imgEncoder(map);
-			shopP002_d001Service.updateShopReviewImage(vo);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		return "redirect:fileTest.do";
-	}
-	
-	@ResponseBody
-	@RequestMapping("/shop/viewTest.do")
-	public ShopP002ShopDetailVO viewTest(ShopP002ShopDetailVO vo, Model model) {
-		vo.setSearchCondition("SEARCHBYSHOPID");
-		ShopP002ShopDetailVO resultVO = shopP002_d001Service.getShopDetail(vo);
-		byte[] encoded = Base64.getEncoder().encode((byte[])resultVO.getShopImage().get(0).getSi_imgEncoder().get("si_imgEncoder"));
-		resultVO.getShopImage().get(0).setSi_encodedImg(new String(encoded));
-		return resultVO;
-	}
 }
