@@ -194,7 +194,7 @@
 		
 		$.ajax({
 			cache : false,
-            url : "${contextPath}/club/joinClub.do?c_id="+c_id, // 요기에
+            url : "${contextPath}/club/joinClub.do?c_id="+c_id,
             processData: false,
             contentType: false,
             type : 'POST', 

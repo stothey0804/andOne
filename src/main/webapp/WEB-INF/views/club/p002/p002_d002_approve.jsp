@@ -97,7 +97,7 @@
 			</td>
 			<td>${waitMember.cm_joindate}</td>
 			<td onclick="event.cancelBubble=true" class="cnt${status.count}">
-				<button type="button" class="btn btn-outline-danger"
+				<button type="button" class="btn btn-outline-primary"
 				onclick="permit(${c_id},'${waitMember.m_id}',${status.count})">수락</button>
 				<button type="button" class="btn btn-outline-dark"
 				onclick="deny(${c_id},'${waitMember.m_id}',${status.count})">거절</button>

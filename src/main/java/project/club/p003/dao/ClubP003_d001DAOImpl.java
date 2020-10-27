@@ -21,9 +21,10 @@ public class ClubP003_d001DAOImpl implements ClubP003_d001DAO{
 	}
 
 	@Override
-	public void insertClubArticle(Map<String, Object> insertMap) {
+	public String insertClubArticle(Map<String, Object> insertMap) {
 		sqlSession.insert("club.p003.insertClubArticle", insertMap);
-		System.out.println("들어와봐");
+		String ca_id = sqlSession.selectOne("club.p003.nextCa_id");
+		return ca_id;
 	}
 
 	@Override
@@ -55,5 +56,11 @@ public class ClubP003_d001DAOImpl implements ClubP003_d001DAO{
 	@Override
 	public void updateClubArticleImg(Map<String, Object> updateMap) {
 		sqlSession.insert("club.p003.updateArticleImg", updateMap);
+	}
+
+	@Override
+	public String nextCa_id() {
+		String ca_id = sqlSession.selectOne("club.p003.nextCa_id");
+		return ca_id;
 	}
 }
