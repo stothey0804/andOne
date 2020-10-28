@@ -44,6 +44,7 @@ public class MemberP005_d001ControllerImpl implements MemberP005_d001Controller{
 	CommonService commonService;	// 날짜변환
 	
 	// 알림조회 (전체)
+	@Override
 	@RequestMapping("/member/notify.do")
 	public ModelAndView notifyInit(@RequestParam(defaultValue = "1") int curPage, HttpServletRequest request) throws Exception{
 		ModelAndView mav = new ModelAndView(Common.checkLoginDestinationView("MemberP005_d001_init", request));
@@ -67,24 +68,26 @@ public class MemberP005_d001ControllerImpl implements MemberP005_d001Controller{
 	}
 	
 	// 더보기 요청
+	@Override
 	@RequestMapping(value = "/member/searchMoreNotify.do", produces = "application/text;charset=UTF-8", method=RequestMethod.POST)
 	@ResponseBody
-	public String searchMoreNotify(@RequestParam String m_id, @RequestParam int startIndex) throws Exception {
-		Map<String, String> searchParam = new HashMap<String, String>();
-		searchParam.put("startIndex", startIndex+"");	// 시작 index는 1부터 이므로 1을 더해줌.
-		searchParam.put("endIndex", startIndex+4+"" );	// 5개씩 조회
-		searchParam.put("m_id", m_id);
+	public String searchMoreNotify(@RequestParam Map<String,String> param) throws Exception {
+		Map<String, String> searchParam = new HashMap<String, String>();	// search 파라미터 생성
+		searchParam.put("startIndex", param.get("startIndex"));	
+		searchParam.put("endIndex", param.get("endIndex"));
+		searchParam.put("m_id", param.get("m_id"));
+		// startIndex ~ endIndex 범위에 해당하는 list 조회 
 		List<MemberP005VO> addList = memberP005_d001Service.searchOldNotifyList(searchParam);
 		for(MemberP005VO vo : addList) {	// 날짜 포맷 변경
 			vo.setN_time(Common.formatTimeString(vo.getN_time(), commonService));
 		}
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = mapper.writeValueAsString(addList);
-		System.out.println("==============>"+jsonStr);
 		return jsonStr;
 	}
 	
 	// 읽음상태 변경 
+	@Override
 	@RequestMapping("/member/readNotify.do")
 	@ResponseBody
 	public void readNotify(@RequestParam String n_id, HttpServletRequest request) {
@@ -95,6 +98,7 @@ public class MemberP005_d001ControllerImpl implements MemberP005_d001Controller{
 	}
 	
 	// 새 알림 조회
+	@Override
 	@RequestMapping("member/selectNewNoticeCnt.do")
 	@ResponseBody
 	public String selectNewNoticeCnt(@RequestParam String m_id) {
@@ -102,6 +106,7 @@ public class MemberP005_d001ControllerImpl implements MemberP005_d001Controller{
 	}
 	
 	// notify DB저장
+	@Override
 	@RequestMapping("member/saveNotify.do")
 	@ResponseBody
 	public void saveNotify(@RequestParam Map<String,String> param) throws Exception {

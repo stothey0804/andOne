@@ -7,9 +7,27 @@ public class AndOneMemberVO {
 	private String om_leader;
 	private String om_state;
 	private String m_id;
+	private String one_id;
+	private String om_date;
 	
 	public AndOneMemberVO() {
 		System.out.println("AndOneMemberVO");
+	}
+
+	public String getOne_id() {
+		return one_id;
+	}
+
+	public void setOne_id(String one_id) {
+		this.one_id = one_id;
+	}
+
+	public String getOm_date() {
+		return om_date;
+	}
+
+	public void setOm_date(String om_date) {
+		this.om_date = om_date;
 	}
 
 	public String getM_id() {
