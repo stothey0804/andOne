@@ -131,4 +131,24 @@
 		]]>
 	</select>
 	
+	<update id="updateOkOneMember" parameterType="java.util.HashMap">
+		<![CDATA[
+			update one_member
+			set om_state = '20'
+			where one_id = #{one_id}
+			and m_id = #{m_id}
+			and om_leader = '20'
+		]]>
+	</update>
+	
+	<update id="updateDenyOneMember" parameterType="java.util.HashMap">
+		<![CDATA[
+			update one_member
+			set om_state = '30'
+			where one_id = #{one_id}
+			and m_id = #{m_id}
+			and om_leader = '20'
+		]]>
+	</update>
+	
 </mapper>

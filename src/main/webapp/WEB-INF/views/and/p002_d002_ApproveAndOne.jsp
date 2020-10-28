@@ -17,26 +17,38 @@
 				}
 	</style>
 	<script>
-		function okAndOne(){
+		function okAndOne(m_id,one_id,idx){
+			console.log("m_id>>"+m_id);
+			console.log("one_id>>"+one_id);
 			$.ajax({
 				type : "post",
     			dataType: "text",
     			async: "true",
     			url:"${contextPath}/and/okOneMember.do",
     			data:{
-    				//글번호랑  m_id보내야함
+    				"m_id" : m_id,
+    				"one_id":one_id
     			},
+    			success:function(data,textSataus){
+    				$(".check"+idx).html("&분의일 신청 수락완료:)");
+    			}
 			})
 		}
-		function denyAndOne(){
+		function denyAndOne(m_id,one_id,idx){
+			console.log("m_id>>"+m_id);
+			console.log("one_id>>"+one_id);
 			$.ajax({
 				type : "post",
     			dataType: "text",
     			async: "true",
     			url:"${contextPath}/and/denyOneMember.do",
     			data:{
-    				"one_price" : price,
+    				"m_id" : m_id,
+    				"one_id":one_id
     			},
+    			success:function(data,textSataus){
+    				$("#"+idx).remove();
+    			}
 			})
 		}
 	</script>
@@ -55,7 +67,7 @@
 					</thead>
 					<c:forEach var="list" items="${AndOnewaitMemList}" varStatus="status">
 						<c:set var="mem_img" value="${list.resultUserImg}"/>
-					<tbody>
+					<tbody id="${status.count}">
 						<tr class="arcticleSubject text-center">
 						<td scope="row">${status.count}</td>
 						<td>
@@ -70,13 +82,11 @@
 						${list.m_nickname} 
 						</td>
 						<td>${list.om_date}</td>
-						<td onclick="event.cancelBubble=true">
-							<button type="button" class="btn btn-outline-danger" onclick="okAndOne">수락</button>
-							<button type="button" class="btn btn-outline-dark" onclick="denyAndOne">거절</button>
+						<td onclick="event.cancelBubble=true" class="check${status.count}">
+							<button type="button" class="btn btn-outline-danger" onclick="okAndOne('${list.m_id}','${list.one_id}','${status.count}')">수락</button>
+							<button type="button" class="btn btn-outline-dark" onclick="denyAndOne('${list.m_id}','${list.one_id}','${status.count}')">거절</button>
 						</td>
 					</tbody>
-					<span class="m_id invisible">${list.m_id}</span>
-					<span class="one_id invisible">${list.one_id}</span>
 					</c:forEach>
 				</table>
 			</div>

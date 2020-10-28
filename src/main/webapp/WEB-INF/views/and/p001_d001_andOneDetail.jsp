@@ -93,10 +93,10 @@
 		 			 	<c:when test="${mem_img eq null}">
 		 			 		<img src="${contextPath}/resources/image/user.png" class="m_img">
 		 			 	</c:when>
+			 			 <c:otherwise>
+			 			 	<img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img"> 
+			 			 </c:otherwise>
 		 			 </c:choose> 
-		 			 <c:otherwise>
-		 			 	<img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img"> 
-		 			 </c:otherwise>
 	 			 	${oneMemList.m_nickname}
 				</c:if>
 		</c:forEach><br>
@@ -106,21 +106,18 @@
 		 		<c:when test="${omLeaderCheck eq '10'}"> <!-- 작성자 -->
 				 	<br><button id="edit">수정하기</button>	 	 
 				 	<br><button id="delete">삭제하기</button>
-				 	<br><button onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">${andoneDetail.one_id}</button>				 	
+				 	<br><button onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button>				 	
 	 			</c:when>
 	 			<c:when test="${omLeaderCheck eq '20'}"> <!-- 참가자 -->
 				 	<button id="cancle">취소하기</button>
 				</c:when>
 				<c:otherwise>
-			 		<button id="submit">신청하기</button><br>
+			 		<button onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
 			 		<button type="button">신고하기</button>
 				</c:otherwise>
 			</c:choose>
-		 <span class="type invisible">${andoneDetail.one_type}</span>
-		 <span class="one_id invisible">${andoneDetail.one_id}</span>
 	</c:forEach>
 </div>
-
   	<!--kakao map-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
 	<script>
@@ -151,27 +148,19 @@
 		    	 map.setCenter(coords);
 		    	 }
 			 }); 
-		
-       	var inputprice = document.querySelector("span.price");//금액
-        var price = inputprice.innerHTML;
-       	var inputType = document.querySelector("span.type");//글번호 
-        var one_type = inputType.innerHTML;
-       	var inputOneid = document.querySelector("span.one_id");//타입
-        var one_id = inputOneid.innerHTML;
-        
+
        //신청하기 클릭시 진행
-        $(document).ready(function(){
-        	$('#submit').click(function(){
+		function submitAndOne(price,one_id,one_type){
 		        console.log(price);
-		        console.log(one_type);
 		        console.log(one_id);
+		        console.log(one_type);
         		$.ajax({
         			type : "post",
         			dataType: "text",
         			async: "true",
         			url:"${contextPath}/and/addOneMember.do",
         			data:{
-        				"one_price" : price,
+        				"one_price" : price
         			},
         			success:function(data,textSataus){
         				console.log("결과 :"+data);
@@ -194,8 +183,7 @@
         				}
         			}
         		})
-        	})
-        })
+       		}
    		 // 포인트충전하기 클릭
 		function openPopup(){
 			let popTitle = "popupOpener";
@@ -205,6 +193,8 @@
 			frmData.action = "${contextPath}/point/kakaoPay.do";
 			frmData.submit();
 	       }
+   		 
+   		 //결제하기 클릭
 	    function openPayPopup(){
 	    	let popTitle = "payPopupOpener";
 	    	window.open("", popTitle, "resizable=yes,top=0,left=0,width=450,height=500");

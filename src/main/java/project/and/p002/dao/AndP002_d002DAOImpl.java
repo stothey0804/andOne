@@ -1,6 +1,7 @@
 package project.and.p002.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +19,17 @@ public class AndP002_d002DAOImpl implements AndP002_d002DAO {
 	public List<AndOneMemberVO> selectAndOnewaitMemList(String one_id){
 		List<AndOneMemberVO> selectAndOnewaitMemList = sqlSession.selectList("and.p002.selectAndOneWaitMem",one_id);
 		return selectAndOnewaitMemList;
+	}
+
+	@Override
+	public void updateOkOneMember(Map<String, Object> okMap) {
+		sqlSession.update("and.p002.updateOkOneMember",okMap);
+		
+	}
+
+	@Override
+	public void updateDenyOneMember(Map<String, Object> denyMap) {
+		sqlSession.update("and.p002.updateDenyOneMember",denyMap);
+		
 	}
 }

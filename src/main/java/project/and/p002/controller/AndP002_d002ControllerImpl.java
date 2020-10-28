@@ -1,11 +1,13 @@
 package project.and.p002.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import common.Common;
@@ -29,6 +31,28 @@ public class AndP002_d002ControllerImpl implements AndP002_d002Controller {
 		ModelAndView mav = new ModelAndView("approveAndOne");
 		mav.addObject("AndOnewaitMemList",AndOnewaitMemList);
 		return mav;
+	}
+	//신청 수락
+	@Override
+	@ResponseBody
+	@RequestMapping(value="okOneMember.do")
+	public String okOneMember(@RequestParam Map<String, Object> okMap) {
+		System.out.println("m_id"+okMap.get("m_id"));
+		System.out.println("one"+okMap.get("one_id"));
+		p002_d002Service.okOneMember(okMap);
+		return "성공";
+		
+	}
+	//신청 거절
+	@Override
+	@ResponseBody
+	@RequestMapping(value="denyOneMember.do")
+	public String denyOneMember(@RequestParam Map<String, Object> denyMap) {
+		System.out.println("m_id"+denyMap.get("m_id"));
+		System.out.println("one"+denyMap.get("one_id"));
+		p002_d002Service.denyOneMember(denyMap);
+		return "성공";
+		
 	}
 
 }
