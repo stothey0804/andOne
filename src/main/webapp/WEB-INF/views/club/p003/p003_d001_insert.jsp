@@ -72,14 +72,19 @@ input[type="submit"] {
 }
 </style>
 <script>
+//삭제할 사진 index 배열
+var click = new Array();
+//저장할 사진 index 배열
+var remain = new Array();
+
+function deleteArticlePreImg(index){
+	$('.file'+index).remove();
+	click.push(index);
+}
+
 function fileReset() {
 	document.getElementById('ca_img').value = "";
-	for (var i = 0; i < index; i++) {
-		var el = document.getElementById('preImg');
-		if (el != null) {
-			el.remove();
-		}
-	}
+	$('.pre').empty();
 	index = 0;
 }
 
@@ -87,44 +92,72 @@ $(document).ready(function() {
 	$('#ca_img').on("change", preview);
 })
 
+function sort(){
+	click.sort(function(a, b) {
+		return a - b;
+	});
+	for(let i=0;i<index;i++){
+		remain.push(i);
+	}
+	for(let i=0;i<click.length;i++){
+		const idx = click[i];
+		for(let j=0;j<remain.length;j++){
+			//삭제할 사진 index와 같을 경우 remain 배열에 null값 넣음
+			if(idx == remain.indexOf(j)) remain[j] = null;
+		}
+	}
+	console.log(remain);
+	const dt = new DataTransfer();
+	const input = document.getElementById('ca_img');
+	const {files} = input;
+	for(let i=0;i<files.length;i++){
+		const file = files[i];
+		//삭제할 사진 뺀 remain 배열 index만 input.file로 보냄
+		if(remain[i] == i) dt.items.add(file);
+		input.files = dt.files;
+	}
+}
+	
+
 var sel_files = [];
 var index = 0;
 
 function preview(e) {
+	click = [];
+	remain = [];
+	index = 0;
 	sel_files = [];
-	$('.swiper-slide').empty();
+	$('.swiper-wrapper').empty();
 	$('.swiper-container').removeClass('none');
 
 	var files = e.target.files;
 	var filesArr = Array.prototype.slice.call(files);
 
-	filesArr
-			.forEach(function(f) {
+filesArr.forEach(function(f) {
+	if (!f.type.match("image.*")) {
+		alert('잘못된 파일 형식');
+		return;
+	}
 
-				if (!f.type.match("image.*")) {
-					alert('잘못된 파일 형식');
-					return;
-				}
+	sel_files.push(f);
 
-				sel_files.push(f);
-
-				var reader = new FileReader();
-				reader.onload = function(e){
-					if(index > 50){
-						sel_files = [];
-						$('.swiper-container').empty();
-						$('.swiper-container').html("<h4>사진은 최대 50장까지 첨부 가능합니다</h4>");
-						$('#ca_img').val("");
-						return;
-					}else{
-						var output = "<div class='zz'><img src='"+e.target.result+"' id='preImg'/></div>";
-						$('.swiper-wrapper').append(output);
-						index++;
-					}
-				}
-				reader.readAsDataURL(f);
-				})
-			}
+	var reader = new FileReader();
+	reader.onload = function(e){
+		if(index > 50){
+			sel_files = [];
+			$('.swiper-container').empty();
+			$('.swiper-container').html("<h4>사진은 최대 50장까지 첨부 가능합니다</h4>");
+			$('#ca_img').val("");
+			return;
+		}else{
+			var output = "<div class='zz file"+index+"'><div style='position:absolute'><button type='button' class='btn btn-outline-danger' style='cursor:hand;float:right' onclick='deleteArticlePreImg("+index+")'>X</button></div><img src='"+e.target.result+"'/></div>";
+			$('.swiper-wrapper').append(output);
+			index++;
+		}
+	}
+	reader.readAsDataURL(f);
+	})
+}
 </script>
 <body>
 <div class="container my-5 center">
@@ -168,7 +201,7 @@ function preview(e) {
 </div>
 	<input type="hidden" name="c_id" value="${clubInfo.c_id}">
 	<input type="hidden" name="m_id" value="${member.m_id}">
-	<input type="submit" class="btn btn-success btn-block"></div>
+	<input type="submit" class="btn btn-success btn-block" onclick="sort();" value="글쓰기"></div>
 </form>
 </div>
 </body>

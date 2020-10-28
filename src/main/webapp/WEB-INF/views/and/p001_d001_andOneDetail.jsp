@@ -38,7 +38,7 @@
                     <div class="modal-footer">
 	                    <form name="frmData" method="post">
 	                    	<input type="hidden" id="amountResult" name="amount" /> <!-- 충전할금액 전달 -->
-	                    	<button type="button" class="btn btn-primary" onClick="openPopup()">결제하기</button>
+	                    	<button type="button" class="btn btn-primary" onClick="openPopup()">충전하기</button>
 	                    	<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 	                    </form>
                     </div>
@@ -58,7 +58,9 @@
                     </div>
                     <div class="modal-footer">
 	                    <form name="payData" method="post">
-	                    	<input type="hidden" id="payResult" name="payPoint" /> <!-- 충전할금액 전달 -->
+	                    	<input type="hidden" id="payResult" name="payPoint" /> <!-- 결제할금액 전달 -->
+	                    	<input type="hidden" id="pay_One_id" name="one_id" /> <!-- 글번호-->
+	                    	<input type="hidden" id="pay_one_type" name="one_type" /> <!-- 엔분의일타입 -->
 	                    	<button type="submit" class="btn btn-primary" onClick="openPayPopup()">결제하기</button>
 	                    	<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 	                    </form>
@@ -86,7 +88,16 @@
 		 <c:forEach var ="oneMemList" items="${oneMemList}" > 
 			<c:set var="mem_img" value="${oneMemList.resultUserImg}"/>
 				<c:if test="${oneMemList.om_leader eq '20' and oneMemList.om_state eq '30'}"> <!-- 결제완료한 참가자 -->
-		 			 참가자 닉네임${oneMemList.m_nickname} <img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img">
+		 			 참가자 닉네임 
+		 			 <c:choose>
+		 			 	<c:when test="${mem_img eq null}">
+		 			 		<img src="${contextPath}/resources/image/user.png" class="m_img">
+		 			 	</c:when>
+			 			 <c:otherwise>
+			 			 	<img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img"> 
+			 			 </c:otherwise>
+		 			 </c:choose> 
+	 			 	${oneMemList.m_nickname}
 				</c:if>
 		</c:forEach><br>
 		 금액<span class="price">${andoneDetail.one_price}</span>원<br>
@@ -94,20 +105,19 @@
 		 	<c:choose>
 		 		<c:when test="${omLeaderCheck eq '10'}"> <!-- 작성자 -->
 				 	<br><button id="edit">수정하기</button>	 	 
-				 	<br><button id="delete">삭제하기</button>	 	
+				 	<br><button id="delete">삭제하기</button>
+				 	<br><button onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button>				 	
 	 			</c:when>
 	 			<c:when test="${omLeaderCheck eq '20'}"> <!-- 참가자 -->
 				 	<button id="cancle">취소하기</button>
 				</c:when>
 				<c:otherwise>
-			 		<button id="submit">신청하기</button>
+			 		<button onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
+			 		<button type="button">신고하기</button>
 				</c:otherwise>
 			</c:choose>
-		 <span class="type invisible">${andoneDetail.one_type}</span>
-		 <span class="one_id invisible">${andoneDetail.one_id}</span>
 	</c:forEach>
 </div>
-
   	<!--kakao map-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
 	<script>
@@ -115,7 +125,6 @@
         var inputAddr = document.querySelector("div.addr");
         var addr = inputAddr.innerHTML
         console.log(addr);
-        
 		//주소-> 지도표시
 		 var container = document.getElementById("map"),
         	option = {
@@ -139,29 +148,19 @@
 		    	 map.setCenter(coords);
 		    	 }
 			 }); 
-		
-       	var inputprice = document.querySelector("span.price");//금액
-        var price = inputprice.innerHTML;
-       	var inputType = document.querySelector("span.type");//글번호 
-        var one_type = inputType.innerHTML;
-       	var inputOneid = document.querySelector("span.one_id");//타입
-        var one_id = inputOneid.innerHTML;
-        
+
        //신청하기 클릭시 진행
-        $(document).ready(function(){
-        	$('#submit').click(function(){
+		function submitAndOne(price,one_id,one_type){
 		        console.log(price);
-		        console.log(one_type);
 		        console.log(one_id);
+		        console.log(one_type);
         		$.ajax({
         			type : "post",
         			dataType: "text",
         			async: "true",
         			url:"${contextPath}/and/addOneMember.do",
         			data:{
-        				"one_price" : price,
-        				"one_type" : one_type,
-        				"one_id" : one_id
+        				"one_price" : price
         			},
         			success:function(data,textSataus){
         				console.log("결과 :"+data);
@@ -169,7 +168,9 @@
         					console.log("결제가능");
         					$('#chargeModal').modal("show");
         					$('#charge_value').text("결제금액:"+price+"원");
-        					document.getElementById('payResult').value = price;
+        					document.getElementById('payResult').value = price;//결제금액전달
+        					document.getElementById('pay_One_id').value = one_id;//글번호 전달
+        					document.getElementById('pay_one_type').value = one_type;//엔분의일 타입전달
         				}else{
         					console.log("포인트부족" +data);
         					var finalPrice = Math.ceil((price-data)/1000)*1000;
@@ -182,25 +183,26 @@
         				}
         			}
         		})
-        	})
-        })
-    // 포인트충전하기 클릭
-	function openPopup(){
+       		}
+   		 // 포인트충전하기 클릭
+		function openPopup(){
 			let popTitle = "popupOpener";
 			window.open("", popTitle, "resizable=yes,top=0,left=0,width=450,height=500");
 			let frmData = document.frmData;
 			frmData.target = popTitle;
 			frmData.action = "${contextPath}/point/kakaoPay.do";
 			frmData.submit();
-       }
-    function openPayPopup(){
-    	let popTitle = "payPopupOpener";
-    	window.open("", popTitle, "resizable=yes,top=0,left=0,width=450,height=500");
-    	let payData = document.payData;
-    	payData.target = popTitle;
-    	payData.action = "${contextPath}/point/pay.do";
-    	payData.submit();
-     }  
+	       }
+   		 
+   		 //결제하기 클릭
+	    function openPayPopup(){
+	    	let popTitle = "payPopupOpener";
+	    	window.open("", popTitle, "resizable=yes,top=0,left=0,width=450,height=500");
+	    	let payData = document.payData;
+	    	payData.target = popTitle;
+	    	payData.action = "${contextPath}/point/pay.do";
+	    	payData.submit();
+     		}  
 	</script>
 </body>
 </html>

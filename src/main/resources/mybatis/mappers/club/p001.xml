@@ -47,10 +47,21 @@
 		<result property="userImg" column="m_img" javaType="[B" jdbcType="BLOB"/>
 		<collection property="articleImgList" column="ca_id" javaType="java.util.ArrayList"
 					select="getArticleListImg" ofType="byte[]"/>
+<!-- 		<collection property="articleReplyList" column="ca_id" javaType="java.util.ArrayList" -->
+<!-- 					select="getArticleReply" ofType="clubArticleReplyVO"></collection> -->
 	</resultMap>
 	
 	<resultMap id="imgList" type="clubArticleImgVO">
 		<collection property="articleImg" column="ca_img" javaType="[B" jdbcType="BLOB"/>
+	</resultMap>
+	
+	<resultMap id="replyList" type="clubAricleReplyVO">
+		<collection property="car_id" column="car_id"></collection>
+		<collection property="car_content" column="car_content"></collection>
+		<collection property="m_nickname" column="m_nickname"></collection>
+		<collection property="m_img" column="m_img"></collection>
+		<collection property="articleReplyList" column="ca_id" javaType="java.util.ArrayList"
+					select="getArticle_Child_Reply" ofType="Map"></collection>
 	</resultMap>
 	
 	<select id="clubList" resultMap="p001_d001Result01">
@@ -77,7 +88,9 @@
          and cm_rank in (10,20,30)
 		]]>
 	</select>
-	
+	<select id="getArticle_Child_Reply" resultType="hashmap">
+		
+	</select>
 	<select id="categoryClubList" resultMap="p001_d001Result01">
 		SELECT c_name,c_content,c_membercnt,c_id,c_img,(select c.gc_name
        	from club a, common_code c

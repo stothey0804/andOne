@@ -462,7 +462,7 @@ a:hover {
 				console.log(s_category);
 				var jsonStr = data;
 				var jsonInfo = JSON.parse(jsonStr);
-				var shopCount = Object.keys(jsonInfo).length;
+				var shopCount = Object.keys(jsonInfo.resultList).length;
 				var output = "";
 				if(shopCount == 0){
 					output += "<h3>저런~ 추천 가게가 없습니다.</h3>";
@@ -472,22 +472,22 @@ a:hover {
 					}
 					output += "<div class='row'>";
 					for (let i=0; i<shopCount; i++) {
-						console.log(jsonInfo[i].s_name);
+						console.log(jsonInfo.resultList[i].s_name);
 						output += "<div style='margin: 20px'>";
 						output += "<div class='card' style='width: 18rem;'>";
-						output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
-						if(Object.keys(jsonInfo[i].shopImage).length != 0){
-							output += "<img src='data:image/jpg;base64,"+jsonInfo[i].shopImage[0].si_encodedImg+"' class='card-img-top'alt='...'>";
+						output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo.resultList[i].s_id+"'>";
+						if(Object.keys(jsonInfo.resultList[i].shopImage).length != 0){
+							output += "<img src='data:image/jpg;base64,"+jsonInfo.resultList[i].shopImage[0].si_encodedImg+"' class='card-img-top'alt='...'>";
 						}else{
 							output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top'alt='...'>";
 						}
 						output += "</a>";
-						output += "<div class='card-body'><h5 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>"+jsonInfo[i].s_name+"</a></h5>";
-						output += "<p class='card-text'>"+jsonInfo[i].s_locate+"</p></div>";
+						output += "<div class='card-body'><h5 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo.resultList[i].s_id+"'>"+jsonInfo.resultList[i].s_name+"</a></h5>";
+						output += "<p class='card-text'>"+jsonInfo.resultList[i].s_locate+"</p></div>";
 						output += "<div class='card-body' id='review'>";
 						output += "<p class='card-text'>";
-						output += "<a href='#'>후기 "+jsonInfo[i].reviewCount+"건</a><br>";
-						output += "별점 : "+printStar(jsonInfo[i].s_score)+"</p></div></div></div>";
+						output += "<a href='#'>후기 "+jsonInfo.resultList[i].reviewCount+"건</a><br>";
+						output += "별점 : "+printStar(jsonInfo.resultList[i].s_score)+"</p></div></div></div>";
 					}
 					output += "</div>";
 				}

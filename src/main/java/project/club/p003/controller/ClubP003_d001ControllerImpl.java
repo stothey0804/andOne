@@ -86,9 +86,10 @@ public class ClubP003_d001ControllerImpl implements ClubP003_d001Controller{
 		insertMap.put("ca_content", vo.getCa_content());
 		insertMap.put("m_id", m_id);
 		insertMap.put("c_id", vo.getC_id());
-		clubP003_d001Service.writeArticle(insertMap);
+		String ca_id = clubP003_d001Service.writeArticle(insertMap);
+		insertMap.put("ca_id", ca_id);
 		if(!mf.get(0).isEmpty()) {
-			System.out.println("이미지 갯수ㅜㅜㅜㅜㅜㅜㅜ"+vo.getCa_img().size());
+			System.out.println("이미지 갯수!!!!!!!!!!!"+vo.getCa_img().size());
 			for(int i=0; i<vo.getCa_img().size();i++) {
 				System.out.println(i);
 				insertMap.put("ca_img", mf.get(i).getBytes());

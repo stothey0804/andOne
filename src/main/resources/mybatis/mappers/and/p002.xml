@@ -21,8 +21,8 @@
 		<result property="gc_name" column="gc_name" />
 		<result property="gc_id" column="gc_id" />
 	</resultMap>
-	<!-- one_date 실행날짜 one_time 등록시간 -->
-	<!-- &분의일  최근등록된 같이먹기 -->
+	
+	<!-- 엔분의일 글쓰기 -->
 	<insert id="insertAndOne" parameterType="java.util.HashMap">
       <![CDATA[
        	INSERT INTO and_one(one_type, one_id, one_state, one_category, one_title, one_memberMax, 
@@ -33,13 +33,15 @@
 				#{one_content}, #{one_addr}, #{m_id}, to_char(sysdate,'yyyy-mm-dd hh:mi:ss') )
       ]]>
 	</insert>
+	<!-- 엔분의일 작성자 등록 -->
 	<insert id="insertOneMem" parameterType="java.util.HashMap">
 	  <![CDATA[
 	  	INSERT INTO one_member(one_type, one_id, m_id, om_leader, om_state, om_date, om_editor, om_editdate)
-	  	VALUES (#{one_type}, LPAD(andone_SEQ.CURRVAL,6,'0') ,#{m_id}, 10, 30,to_char(sysdate,'yyyy-mm-dd hh:mi:ss'), 
+	  	VALUES (#{one_type}, LPAD(andone_SEQ.CURRVAL,6,'0') ,#{m_id}, '10', '20', to_char(sysdate,'yyyy-mm-dd hh:mi:ss'), 
 	  			#{m_id}, to_char(sysdate,'yyyy-mm-dd hh:mi:ss'))
 	   ]]>
 	</insert>
+	
 	<!-- 내가작성한 엔분의일 -->
 	<select id="selectWroteAndOne" parameterType="java.util.HashMap" resultType="AndP002AndOneVO">
 	  <![CDATA[
@@ -62,13 +64,14 @@
 		WHERE om_num between #{startIndex} AND #{endIndex}
 	   ]]>
 	</select>
+	
 	<!-- 참가한 엔분의일 -->
 	<select id="selectParticiateAndOne" parameterType="java.util.HashMap" resultType="AndP002AndOneVO">
 	  <![CDATA[
-	  	SELECT OM_NUM, ONE_TITLE, ONE_STATE, OM_DATE, G_NAME, ONE_PRICE, ONE_ID, M_ID, WRITER_NICKNAME
+	  	SELECT OM_NUM, ONE_TITLE, ONE_STATE, OM_DATE, G_NAME, ONE_PRICE, ONE_ID, M_ID, WRITER_NICKNAME, OM_STATE
 		FROM
 		(
-   			SELECT (ROW_NUMBER() OVER(ORDER BY OM_DATE DESC))OM_NUM, A.ONE_TYPE, A.ONE_ID, A.M_ID, D.ONE_TITLE, A.OM_LEADER, A.OM_STATE, A.OM_DATE,
+   			SELECT (ROW_NUMBER() OVER(ORDER BY OM_DATE DESC))OM_NUM, A.ONE_TYPE, A.ONE_ID, A.M_ID, D.ONE_TITLE, A.OM_LEADER, G.GC_NAME AS OM_STATE, A.OM_DATE,
             SUBSTR(B.G_NAME,6,9) AS G_NAME, C.GC_NAME AS ONE_STATE, E.M_NICKNAME,
             CASE WHEN TO_CHAR(D.ONE_TOTALPRICE/D.ONE_MEMBERMAX) = 0 THEN '비용없음' ELSE TO_CHAR(TRUNC(D.ONE_TOTALPRICE/D.ONE_MEMBERMAX))||'원' END AS ONE_PRICE
             ,WRITER_NICKNAME
@@ -82,18 +85,20 @@
                FROM AND_ONE A INNER JOIN ONE_MEMBER B ON A.ONE_ID = B.ONE_ID
                WHERE B.OM_LEADER = '10'
             )A INNER JOIN MEMBER B ON WRITER_ID = B.M_ID
-         ) F
+         ) F, (SELECT GC_NAME, GC_ID, G_ID FROM COMMON_CODE WHERE G_ID='018') G
     	WHERE A.ONE_TYPE = B.G_ID
     	AND D.ONE_ID = A.ONE_ID
     	AND D.ONE_STATE = C.GC_ID
     	AND A.M_ID = E.M_ID
     	AND F.ONE_ID = A.ONE_ID
+    	AND G.GC_ID = A.OM_STATE
     	AND A.M_ID = #{m_id}
     	AND A.OM_LEADER = '20'
 		)
-		WHERE OM_NUM BETWEEN #{startIndex}  AND #{endIndex}
+		WHERE OM_NUM BETWEEN #{startIndex} AND #{endIndex}
 	   ]]>
 	</select>
+	
 	<!-- 작성/참가 페이징 카운트 -->
 	<select id="selectAndOneCnt" parameterType="String" resultType="int">
 		<if test="flag=='participate'">
@@ -113,4 +118,37 @@
 		]]>
 		</if>
 	</select>
+	
+	<!-- 엔분의일 신청멤버 -->
+	<select id="selectAndOneWaitMem" parameterType="String" resultType="AndOneMemberVO">
+		<![CDATA[
+			select a.m_id, a.one_id, b.m_nickname, a.om_date, b.m_img as userImg
+			from one_member a , member b
+			where om_leader = '20'
+			and om_state = '10'
+			and a.m_id = b.m_id 
+			and one_id = #{one_id}
+		]]>
+	</select>
+	
+	<update id="updateOkOneMember" parameterType="java.util.HashMap">
+		<![CDATA[
+			update one_member
+			set om_state = '20'
+			where one_id = #{one_id}
+			and m_id = #{m_id}
+			and om_leader = '20'
+		]]>
+	</update>
+	
+	<update id="updateDenyOneMember" parameterType="java.util.HashMap">
+		<![CDATA[
+			update one_member
+			set om_state = '30'
+			where one_id = #{one_id}
+			and m_id = #{m_id}
+			and om_leader = '20'
+		]]>
+	</update>
+	
 </mapper>
