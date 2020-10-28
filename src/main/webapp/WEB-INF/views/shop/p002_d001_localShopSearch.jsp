@@ -81,12 +81,15 @@ a:hover {
 <script>
 		var usedFilter = '${filter}';
 		var usedKeyword = '${usedKeyword}';
+		var lat = '';
+		var lng = '';
+		var isLimited = true;
 		
 		$(document).ready(function () {
 			console.log(usedKeyword);
 			console.log(usedFilter);
 			$('#searchWindow').val(usedKeyword);
-			search(1);
+			getUserLocation();
 			$('button#10').click(function () {
 				usedFilter = '10';
 				search(1);
@@ -155,7 +158,38 @@ a:hover {
 			search(1);
 		}
 		
+		function getUserLocation(){
+			$.ajax({
+				type: "post",
+				async: true,
+				url: "http://localhost:8090/andOne/member/selectLocate.do",
+				dataType: "text",
+				success: function (data, textStatus) {
+					var jsonStr = data;
+					var jsonInfo = JSON.parse(jsonStr);
+					console.log(jsonInfo.M_LOCATE_LAT);
+					lat = jsonInfo.M_LOCATE_LAT;
+					console.log(jsonInfo.M_LOCATE_LNG);
+					lng = jsonInfo.M_LOCATE_LNG;
+					if(lat == 0 && lng == 0){
+						lat = '37.57045622903788';
+						lng = '126.98529300126489';
+					}
+				},
+				error: function (data, textStatus) {
+					alert("에러가 발생했습니다.");
+				},
+				complete: function (data, textStatus) {
+					search(1);
+				}
+			});
+		}
+		
 		function search(param){
+			var searchParameter = "curPage=" + param + "&searchKeyword=" + usedKeyword + "&filter=" + usedFilter + "&status=" + $('#sel').val();
+			if(isLimited){
+				searchParameter += "&limit=30&M_LOCATE_LAT=" + lat + "&M_LOCATE_LNG=" + lng;
+			}
 			$.ajax({
 				type: "post",
 				async: true,
@@ -165,7 +199,7 @@ a:hover {
 					$('.pg').html('');
 					$('#result').html("<img src='${contextPath}/resources/image/loading.gif' style='display: block; margin: 0 auto; width:100px; height:100px;'>");
 				},
-				data: "curPage=" + param + "&searchKeyword=" + usedKeyword + "&filter=" + usedFilter +"&status=" + $('#sel').val(),
+				data: searchParameter,
 				success: function (data, textStatus) {
 					var jsonStr = data;
 					var jsonInfo = JSON.parse(jsonStr);
