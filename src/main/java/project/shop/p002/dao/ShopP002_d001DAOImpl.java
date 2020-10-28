@@ -19,13 +19,13 @@ public class ShopP002_d001DAOImpl implements ShopP002_d001DAO {
 	private SqlSession sqlSession;
 
 	@Override
-	public List<ShopP002ShopDetailVO> getShopList(ShopP002ShopDetailVO vo) {
-		return sqlSession.selectList("shop.p002.getShopShort",vo);
+	public List<ShopP002ShopDetailVO> getShopList(Map<String,Object> param) {
+		return sqlSession.selectList("shop.p002.getShopShort",param);
 	}
 
 	@Override
-	public ShopP002ShopDetailVO getShopDetail(ShopP002ShopDetailVO vo) {
-		return sqlSession.selectOne("shop.p002.getShopShort",vo);
+	public ShopP002ShopDetailVO getShopDetail(Map<String,Object> param) {
+		return sqlSession.selectOne("shop.p002.getShopShort",param);
 	}
 	
 	@Override
@@ -66,6 +66,11 @@ public class ShopP002_d001DAOImpl implements ShopP002_d001DAO {
 	@Override
 	public List<String> getMemberIdFromShopReview(String s_id) {
 		return sqlSession.selectList("shop.p002.getMemberIdFromShopReview",s_id);
+	}
+
+	@Override
+	public int getShopListCnt(Map<String, Object> param) {
+		return sqlSession.selectOne("shop.p002.getShopListCnt",param);
 	}
 
 }

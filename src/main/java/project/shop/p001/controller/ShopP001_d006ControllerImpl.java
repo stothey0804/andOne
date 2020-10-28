@@ -67,6 +67,7 @@ public class ShopP001_d006ControllerImpl implements ShopP001_d006Controller{
 	@RequestMapping("biz/deleteShopComplete.do")
 	public String deleteMemberComplete(@RequestParam String s_id) {
 		shopP001_d005Service.deleteShop(s_id);
+		shopP002_d001Service.popularHashtagUpdate();
 		return "deleteShopComplete";
 	}
 	
@@ -108,6 +109,7 @@ public class ShopP001_d006ControllerImpl implements ShopP001_d006Controller{
 			shopVO.setS_hashtag("");
 		}
 		shopP001_d006Service.insertShop(shopVO);
+		shopP002_d001Service.popularHashtagUpdate();
 		if(fileList.get(0).getSize()!=0) {
 			ShopP002ShopImageVO imageVO = new ShopP002ShopImageVO();
 			imageVO.setS_id(shopVO.getS_id());
@@ -149,6 +151,7 @@ public class ShopP001_d006ControllerImpl implements ShopP001_d006Controller{
 			shopVO.setS_hashtag("");
 		}
 		shopP001_d006Service.updateShop(shopVO);
+		shopP002_d001Service.popularHashtagUpdate();
 		if(fileList.get(0).getSize()!=0) {
 			ShopP002ShopImageVO imageVO = new ShopP002ShopImageVO();
 			imageVO.setS_id(shopVO.getS_id());
@@ -176,7 +179,9 @@ public class ShopP001_d006ControllerImpl implements ShopP001_d006Controller{
 	@RequestMapping("/biz/getShopByAjax.do")
 	public ShopP002ShopDetailVO getShopByAjax(ShopP002ShopDetailVO vo, Model model) {
 		vo.setSearchCondition("SEARCHBYSHOPID");
-		ShopP002ShopDetailVO resultVO = shopP002_d001Service.getShopDetail(vo);
+		Map<String,Object> param = new HashMap<>();
+		param.put("vo", vo);
+		ShopP002ShopDetailVO resultVO = shopP002_d001Service.getShopDetail(param);
 		shopP002_d001Service.shopImageEncoder(resultVO);
 		return resultVO;
 	}

@@ -50,6 +50,18 @@ public class Pagination {
         /** DB 질의를 위한 startIndex 설정 **/
         setStartIndex(curPage);
     }
+    
+    //사전에 페이지 사이즈를 임의로 결정하는 생성자 오버로딩
+    public Pagination(int listCnt, int curPage, int pageSize){
+        
+    	this.pageSize = pageSize;
+        setCurPage(curPage);
+        setListCnt(listCnt);
+        setPageCnt(listCnt);
+        setRangeCnt(pageCnt);
+        rangeSetting(curPage);
+        setStartIndex(curPage);
+    }
  
     public void setPageCnt(int listCnt) {
         this.pageCnt = (int) Math.ceil(listCnt*1.0/pageSize);
