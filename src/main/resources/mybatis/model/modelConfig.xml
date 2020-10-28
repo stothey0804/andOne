@@ -32,5 +32,6 @@
 		<typeAlias type="project.point.p001.vo.PointP001VO" alias="pointP001VO" /> <!-- point -->
 		<typeAlias type="project.member.p004.vo.MemberP004VO" alias="memberP004VO" /> <!-- 멤버리뷰 -->
 		<typeAlias type="project.member.p005.vo.MemberP005VO" alias="memberP005VO" /> <!-- 알림 -->
+		<typeAlias type="project.member.p003.vo.MemberP003VO" alias="memberP003VO" /> <!-- 신고하기-->
 	</typeAliases>
 </configuration>

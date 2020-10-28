@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="member.p003">
+   <!-- 신고하기 테이블 -->
+   	<resultMap id="report" type="memberP003VO">
+   		<result column="r_id" property="r_id"/>
+   		<result column="r_category" property="r_category"/>
+   		<result column="r_target" property="r_target"/>
+   		<result column="r_type" property="r_type"/>
+   		<result column="m_id" property="m_d"/>
+   		<result column="r_subject" property="r_subject"/>
+   		<result column="r_date" property="r_date"/>
+   		<result column="r_content" property="r_content"/>
+   		<result column="r_state" property="r_state"/>
+   		<result column="r_reply" property="r_reply"/>
+   		<result column="r_editor" property="r_editor"/>
+   		<result column="r_editdate" property="r_editdate"/>
+	</resultMap>
+
+	<!-- 신고하기 저장 -->
+	<insert id="saveReport" parameterType="memberP003VO">
+		<![CDATA[
+		MERGE INTO report
+			USING DUAL
+			ON (r_id = #{r_id})
+			WHEN MATCHED THEN
+				UPDATE SET
+				r_type = #{r_type}, r_content = #{r_content}, r_editor = #{m_id},
+				r_editdate = TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss')
+			WHEN NOT MATCHED THEN
+				INSERT (r_id, r_category, r_type, r_target, m_id, r_subject, r_date, r_content, r_state, r_reply, r_editor, r_editdate)
+    			VALUES(	(LPAD(REPORT_SEQ.NEXTVAL, 6,'0')), #{r_category}, #{r_type}, #{r_target}, #{m_id}, #{r_subject},
+	    		TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss'), #{r_content}, '10', '', #{m_id}, TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss') )
+		]]>
+	</insert>
+
+	
+	
+	<delete id="deleteReport" parameterType="String">
+		<![CDATA[
+			DELETE FROM report
+			WHERE r_id = #{r_id}
+		]]>
+	</delete>
+	
+
+	<select id="selectReportListById" resultMap="report" parameterType="java.util.HashMap">
+		<![CDATA[
+			SELECT * 
+			FROM(
+			SELECT r_id,
+			(SELECT g_name FROM code_group WHERE g_id like #{r_category})r_category, 
+			(SELECT gc_name FROM common_code WHERE g_id like #{r_category} AND gc_id like r_type)r_type,
+			r_subject, r_date, r_content, 
+			(SELECT gc_name FROM common_code WHERE g_id like '003' AND gc_id like r_state)r_state, 
+			ROW_NUMBER() OVER (ORDER BY r_id DESC) ROWNUMBER,
+			r_reply
+			FROM report
+			WHERE m_id like #{m_id})
+			WHERE ROWNUMBER BETWEEN #{startIndex} AND #{endIndex}
+			ORDER BY r_id desc
+		]]>
+	</select>
+	<select id="selectReportListByIdCnt" resultType="int" parameterType="String">
+		<![CDATA[
+			SELECT COUNT(r_id)
+			FROM report
+			WHERE m_id like #{m_id}
+		]]>
+	</select>
+	
+	<select id="selectReportDetailByRID" resultMap="report" parameterType="String">
+		<![CDATA[
+			SELECT r_id,
+			(SELECT g_name FROM code_group WHERE g_id like #{r_category})r_category, 
+			(SELECT gc_name FROM common_code WHERE g_id like #{r_category} AND gc_id like r_type)r_type,
+			r_subject, r_date, 
+			REPLACE(r_content, CHR(13)||CHR(10), '')r_content,
+			(SELECT gc_name FROM common_code WHERE g_id like '003' AND gc_id like r_state)r_state, m_id,
+			REPLACE(r_reply, CHR(13)||CHR(10), '')r_reply
+			FROM report
+			WHERE r_id like #{r_id}
+			ORDER BY r_id desc
+		]]>
+	</select>
+	
+	<!-- 상태변경 -->
+	<update id="saveReportState" parameterType="java.util.HashMap">
+		<![CDATA[
+			UPDATE report
+			SET r_state = #{r_state}, r_reply = #{r_reply}, r_editor = '00000001', r_editdate = TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss')
+			WHERE r_id = #{r_id}
+		]]>	
+	</update>
+	
+	<!-- 전체리스트 -->
+	<select id="selectAllReportList" resultMap="report" parameterType="java.util.HashMap">
+		<![CDATA[
+			SELECT * FROM (
+			SELECT q_id, 
+			(SELECT gc_name FROM common_code WHERE g_id like '016' AND gc_id like q_type)q_type, 
+			q_subject, REPLACE(SUBSTR(q_date,1,10),'/','-')q_date,  
+			(SELECT gc_name FROM common_code WHERE g_id like '004' AND gc_id like q_state)q_state, m_id,
+			ROW_NUMBER() OVER (ORDER BY q_id DESC) ROWNUMBER
+			FROM qna
+		]]>
+		<where>
+		<choose>
+			<when test="m_id!='' and m_id!=null">
+				m_id like '%'||#{m_id}||'%'
+			</when>
+			<when test="q_id!='' and q_id!=null">
+				q_id like '%'||#{q_id}||'%'
+			</when>
+			<when test="q_state!='' and q_state!=null">
+				q_state like #{q_state}
+			</when>
+			<when test="q_type!='' and q_type!=null">
+				q_type like #{q_type}
+			</when>
+			<when test="q_state!='' and q_state!=null and m_id!='' and m_id!=null">
+				q_state like #{q_state} AND m_id like '%'||#{m_id}||'%'
+			</when>
+			<when test="q_state!='' and q_state!=null and q_id!='' and q_id!=null">
+				q_state like #{q_state} AND q_id like '%'||#{q_id}||'%'
+			</when>
+			<when test="q_type!='' and q_type!=null	and m_id!='' and m_id!=null">
+				m_id like '%'||#{m_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null	and q_id!='' and q_id!=null">
+				q_id like '%'||#{q_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and m_id!='' and m_id!=null and q_state!='' and q_state!=null">
+				m_id like '%'||#{m_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and q_id!='' and q_id!=null and q_state!='' and q_state!=null">
+				q_id like '%'||#{q_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
+			</when>
+			<when test="q_state!='' and q_state!=null and q_type!='' and q_type!=null">
+				q_state like #{q_state} AND q_type like #{q_type}
+			</when>
+		</choose>
+		</where>
+		<![CDATA[
+			)
+			WHERE ROWNUMBER BETWEEN #{startIndex} AND #{endIndex}
+			ORDER BY q_id desc
+		]]>
+	</select><!-- 전체리스트 END -->
+	
+	<!-- 전체리스트 -->
+	<select id="selectAllReportListCnt" resultType="int" parameterType="java.util.HashMap">
+		<![CDATA[
+			SELECT COUNT(q_id) FROM qna
+		]]>
+		<where>
+		<choose>
+			<when test="m_id!='' and m_id!=null">
+				and m_id like '%'||#{m_id}||'%'
+			</when>
+			<when test="q_id!='' and q_id!=null">
+				and q_id like '%'||#{q_id}||'%'
+			</when>
+			<when test="q_state!='' and q_state!=null">
+				and q_state like #{q_state}
+			</when>
+			<when test="q_type!='' and q_type!=null">
+				and q_type like #{q_type}
+			</when>
+			<when test="q_state!='' and q_state!=null and m_id!='' and m_id!=null">
+				and q_state like #{q_state} AND m_id like '%'||#{m_id}||'%'
+			</when>
+			<when test="q_state!='' and q_state!=null and q_id!='' and q_id!=null">
+				and q_state like #{q_state} AND q_id like '%'||#{q_id}||'%'
+			</when>
+			<when test="q_type!='' and q_type!=null	and m_id!='' and m_id!=null">
+				and m_id like '%'||#{m_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null	and q_id!='' and q_id!=null">
+				and q_id like '%'||#{q_id}||'%' AND q_type like #{q_type}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and m_id!='' and m_id!=null and q_state!='' and q_state!=null">
+				and m_id like '%'||#{m_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
+			</when>
+			<when test="q_type!='' and q_type!=null
+				and q_id!='' and q_id!=null and q_state!='' and q_state!=null">
+				and q_id like '%'||#{q_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
+			</when>
+			<when test="q_state!='' and q_state!=null and q_type!='' and q_type!=null">
+				and q_state like #{q_state} AND q_type like #{q_type}
+			</when>
+		</choose>
+		</where>
+	</select><!-- 전체리스트 END -->
+	
+	</mapper>

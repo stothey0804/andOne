@@ -187,6 +187,12 @@
 		});
 		location.reload();
 	}
+	
+	$(document).ready(function(){
+		$('#joinClubBtn').click(function(){
+			
+		});
+	});
 
 </script>
 </head>
@@ -441,7 +447,8 @@
 				<div class="modal-footer" style="margin-top:5px;">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
-					<input type="submit" class="btn btn-primary" value="가입인사 보내기">
+<!-- 					<input type="submit" class="btn btn-primary" value="가입인사 보내기"> -->
+					<input id="joinClubBtn" type="button" class="btn btn-primary" value="가입인사 보내기">
 				</div>
 				</form>
 			</div>
