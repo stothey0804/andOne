@@ -17,7 +17,6 @@ import common.Common;
 import project.member.p001.service.MemberP001_d002Service;
 import project.member.p001.service.MemberP001_d005Service;
 import project.member.p001.vo.MemberP001_MemberVO;
-import project.point.p001.service.PointP001_d001Service;
 
 @Controller
 @RequestMapping("/member")

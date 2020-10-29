@@ -83,11 +83,15 @@ a:hover {
 	color: black;
 }
 </style>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
 <script>
 	$(document).ready(function(){
+		getUserLocation();
 		getPopularHashtag();
-		popularSearch();
 	})
+	
+	var lat = '';
+	var lng = '';
 	
 	function printStar(score){
 		var calScore = score;
@@ -133,7 +137,7 @@ a:hover {
 		});
 	}
 	
-	function popularSearch(){
+	function popularSearch(lat, lng){
 		$.ajax({
 			type: "post",
 			async: true,
@@ -142,6 +146,7 @@ a:hover {
 			beforeSend:function(data, textStatus){
 				$('.popular').html("<img src='${contextPath}/resources/image/loading.gif' style='display: block; margin: 0 auto; width:100px; height:100px;'>");
 			},
+			data:"M_LOCATE_LAT="+lat+"&M_LOCATE_LNG="+lng,
 			success: function (data, textStatus) {
 				var jsonStr = data;
 				var jsonInfo = JSON.parse(jsonStr);
@@ -150,7 +155,7 @@ a:hover {
 					output += '<img class="noResult" src="${contextPath }/resources/image/no_result.png">';
 				}else{
 					output += "<div class='row'>";
-					for (let i=0; i<3; i++) {
+					for (let i=0; i<Object.keys(jsonInfo).length; i++) {
 						console.log(jsonInfo[i].s_name);
 						output += "<div style='margin: 20px'>";
 						output += "<div class='card' style='width: 18rem;'>";
@@ -162,15 +167,40 @@ a:hover {
 						}
 						output += "</a>";
 						output += "<div class='card-body'><h5 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>"+jsonInfo[i].s_name+"</a></h5>";
-						output += "<p class='card-text'>"+jsonInfo[i].s_locate+"</p></div>";
+						output += "<div id='popularAddr"+i+"'></div>";
+						if(jsonInfo[i].distance<1){
+							output += (jsonInfo[i].distance * 1000) + "m";
+						}else{
+							output += jsonInfo[i].distance + "km";
+						}
+						output += "</div>";
 						output += "<div class='card-body' id='review'>";
 						output += "<p class='card-text'>";
 						output += "<a href='#'>후기 "+jsonInfo[i].reviewCount+"건</a><br>";
 						output += ""+printStar(jsonInfo[i].s_score)+"</p></div></div></div>";
 					}
 					output += "</div>";
+					
 				}
 				$('.popular').html(output);
+				
+				//위치정보 입력
+				for(let i=0; i<Object.keys(jsonInfo).length; i++){
+					//위도, 경도
+					var x = jsonInfo[i].s_locate_lat;
+					var y = jsonInfo[i].s_locate_lng;
+					//좌표로 주소 받아오기
+					var geocoder = new kakao.maps.services.Geocoder();
+					var coord = new kakao.maps.LatLng(x, y);
+					var callback = function(result, status) {
+					    if (status === kakao.maps.services.Status.OK) {
+					        console.log('그런 너를 마주칠까 ' + result[0].address_name + '을 못가');
+					        var infoDiv = document.getElementById('popularAddr'+i);
+					        infoDiv.innerHTML = "<p class='card-text'>" + result[0].address_name + "</p>"
+					    }
+					};
+					geocoder.coord2RegionCode(coord.getLng(), coord.getLat(), callback);
+				}
 			},
 			error: function (data, textStatus) {
 				alert("에러가 발생했습니다.");
@@ -181,7 +211,32 @@ a:hover {
 		});
 	}
 
-
+	function getUserLocation(){
+		$.ajax({
+			type: "post",
+			async: true,
+			url: "http://localhost:8090/andOne/member/selectLocate.do",
+			dataType: "text",
+			success: function (data, textStatus) {
+				var jsonStr = data;
+				var jsonInfo = JSON.parse(jsonStr);
+				console.log(jsonInfo.M_LOCATE_LAT);
+				lat = jsonInfo.M_LOCATE_LAT;
+				console.log(jsonInfo.M_LOCATE_LNG);
+				lng = jsonInfo.M_LOCATE_LNG;
+				if(lat == 0 && lng == 0){
+					lat = '37.57045622903788';
+					lng = '126.98529300126489';
+				}
+			},
+			error: function (data, textStatus) {
+				alert("에러가 발생했습니다.");
+			},
+			complete: function (data, textStatus) {
+				popularSearch(lat, lng);
+			}
+		});
+	}
 
 
 </script>

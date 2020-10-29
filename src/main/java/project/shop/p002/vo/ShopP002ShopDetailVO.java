@@ -15,6 +15,9 @@ public class ShopP002ShopDetailVO {
 		private String s_content;
 		private String bm_id;
 		private String s_locate;
+		private String s_locate_lat;
+		private String s_locate_lng;
+		private String distance;
 		private String s_phoneNumber;
 		private String s_hashtag;
 		private String reviewCount;
@@ -27,6 +30,25 @@ public class ShopP002ShopDetailVO {
 		private List<ShopP002ShopImageVO> shopImage;
 		
 		
+		
+		public String getDistance() {
+			return distance;
+		}
+		public void setDistance(String distance) {
+			this.distance = distance;
+		}
+		public String getS_locate_lat() {
+			return s_locate_lat;
+		}
+		public void setS_locate_lat(String s_locate_lat) {
+			this.s_locate_lat = s_locate_lat;
+		}
+		public String getS_locate_lng() {
+			return s_locate_lng;
+		}
+		public void setS_locate_lng(String s_locate_lng) {
+			this.s_locate_lng = s_locate_lng;
+		}
 		public String getFilter() {
 			return filter;
 		}

@@ -133,13 +133,22 @@ a:hover {
   	transform: translate(-50%, -50%)
 }
 
-</style>
+.map_wrap {position:relative;width:100%;height:350px;}
+.map_title {font-weight:bold;display:block;}
+.hAddr {position:absolute;left:10px;top:10px;border-radius: 2px;background:#fff;background:rgba(255,255,255,0.8);z-index:1;padding:5px;}
+#centerAddr {display:block;margin-top:2px;font-weight: normal;}
+.bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
 
+</style>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
 <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
 <script>
 	var shopId = '${shopId}';
 	var logonId = '${logonId }';
 	var s_category = '';
+	var lat = '';
+	var lng = '';
+
 	$(document).ready(function(){
 		$('#pop').hide();
 		$('#imgPop').hide();
@@ -152,7 +161,7 @@ a:hover {
 		$('div#next').click(function(){
 			next();
 		})
-		getShopDetail();
+		getUserLocation();
 	})
 	
 	function openMemberPopup2(param){
@@ -326,6 +335,33 @@ a:hover {
 		});
 	}
 	
+	function getUserLocation(){
+		$.ajax({
+			type: "post",
+			async: true,
+			url: "http://localhost:8090/andOne/member/selectLocate.do",
+			dataType: "text",
+			success: function (data, textStatus) {
+				var jsonStr = data;
+				var jsonInfo = JSON.parse(jsonStr);
+				console.log(jsonInfo.M_LOCATE_LAT);
+				lat = jsonInfo.M_LOCATE_LAT;
+				console.log(jsonInfo.M_LOCATE_LNG);
+				lng = jsonInfo.M_LOCATE_LNG;
+				if(lat == 0 && lng == 0){
+					lat = '37.57045622903788';
+					lng = '126.98529300126489';
+				}
+			},
+			error: function (data, textStatus) {
+				alert("에러가 발생했습니다.");
+			},
+			complete: function (data, textStatus) {
+				getShopDetail();
+			}
+		});
+	}
+	
 	function getShopDetail(){
 		$.ajax({
 			type: "post",
@@ -373,19 +409,21 @@ a:hover {
 // 				}
 				shopImage += '</div>';
 				
-				shopInformation += '<table><tr><td width="500" height="70">';
+				shopInformation += '<table><tr><td width="600" height="70">';
 				shopInformation += '<h1>'+jsonInfo.s_name+'</h1></td><td width="350" height="70"></td>';
-				shopInformation += '<td align="right" width="150" height="70">';
+				shopInformation += '<td align="right" width="170" height="70">';
 				shopInformation += '<button id="all" type="button" class="btn btn-outline-info" onclick="writeButton()">리뷰 쓰기</button>';
-				shopInformation += '</td></tr><tr><td colspan="3" height="30">'+printStar(jsonInfo.s_score)+'</td>';
-				shopInformation += '</tr><tr><td colspan="3" height="30"><a href="${contextPath }/shop/localShopSearch.do?filter='+jsonInfo.s_category+'">'+jsonInfo.gc_name+'</a></td>';
-				shopInformation += '</tr><tr><td colspan="3" height="30">'
+				shopInformation += '</td></tr><tr><td height="30">'+printStar(jsonInfo.s_score)+'</td>';
+				//지도
+				shopInformation += '<td align="left" colspan="2" rowspan="4"><div class="map_wrap"><div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div><div class="hAddr"><span class="map_title">업체 상세 주소</span> <span id="centerAddr"></span></div></div></td>';
+				shopInformation += '</tr><tr><td height="30"><a href="${contextPath }/shop/localShopSearch.do?filter='+jsonInfo.s_category+'">'+jsonInfo.gc_name+'</a></td>';
+				shopInformation += '</tr><tr><td height="30">'
 				var hashtagArr = jsonInfo.s_hashtag.split(',');
 				for(let i=0; i<hashtagArr.length; i++){
 					shopInformation += '<a href="${contextPath }/shop/localShopSearch.do?searchCondition=SEARCHBYHASHTAG&searchKeyword='+hashtagArr[i]+'">#'+hashtagArr[i]+'</a>&nbsp;';
 				}
 				shopInformation += '</td></tr><tr>';
-				shopInformation += '<td valign="top" colspan="3" height="100">'+jsonInfo.s_content+'</td>';
+				shopInformation += '<td valign="top" height="300">'+jsonInfo.s_content+'</td>';
 				shopInformation += '</tr></table>';
 				
 				
@@ -432,6 +470,44 @@ a:hover {
 					let m_id = $(this).attr('id');
 					popup(m_id, shopId);
 				})
+				//지도생성
+				//위도, 경도
+				var x = jsonInfo.s_locate_lat;
+				var y = jsonInfo.s_locate_lng;
+				console.log(x);
+				console.log(y);
+				//지도 그리기
+				var container = document.getElementById('map');
+				var options = {
+					center: new kakao.maps.LatLng(x, y),
+					level: 3
+				};
+				var map = new kakao.maps.Map(container, options);
+				//마커 생성
+				var markerPosition  = new kakao.maps.LatLng(x, y);
+				var marker = new kakao.maps.Marker({
+				    position: markerPosition
+				});
+				marker.setMap(map);
+				//좌표로 주소 받아오기
+				var geocoder = new kakao.maps.services.Geocoder();
+				var coord = new kakao.maps.LatLng(x, y);
+				var callback = function(result, status) {
+				    if (status === kakao.maps.services.Status.OK) {
+				        console.log('그런 너를 마주칠까 ' + result[0].address.address_name + '을 못가');
+				        var infoDiv = document.getElementById('centerAddr');
+				        infoDiv.innerHTML = result[0].address.address_name;
+				    }
+				};
+				geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+				//인포윈도우
+				var iwContent = '<div style="padding:5px;">'+jsonInfo.s_name+'</div>';
+				var iwPosition = new kakao.maps.LatLng(x, y);
+				var infowindow = new kakao.maps.InfoWindow({
+				    position : iwPosition, 
+				    content : iwContent 
+				});
+				infowindow.open(map, marker);
 			},
 			error: function (data, textStatus) {
 				alert("에러가 발생했습니다.");
@@ -456,7 +532,7 @@ a:hover {
 			beforeSend:function(data, textStatus){
 				$('div#recommendShopList').html("<img src='${contextPath}/resources/image/loading.gif' style='display: block; margin: 0 auto; width:100px; height:100px;'>");
 			},
-			data:"filter="+s_category+"&searchCondition=GETRECOMMENDLIST&s_id="+shopId,
+			data:"M_LOCATE_LAT="+lat+"&M_LOCATE_LNG="+lng+"&limit=30&filter="+s_category+"&searchCondition=GETRECOMMENDLIST&s_id="+shopId,
 			success: function (data, textStatus) {
 				console.log('======>추천 아작스');
 				console.log(s_category);
@@ -483,7 +559,13 @@ a:hover {
 						}
 						output += "</a>";
 						output += "<div class='card-body'><h5 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo.resultList[i].s_id+"'>"+jsonInfo.resultList[i].s_name+"</a></h5>";
-						output += "<p class='card-text'>"+jsonInfo.resultList[i].s_locate+"</p></div>";
+						output += "<div id='recommendAddr"+i+"'></div>";
+						if(jsonInfo.resultList[i].distance<1){
+							output += (jsonInfo.resultList[i].distance * 1000) + "m";
+						}else{
+							output += jsonInfo.resultList[i].distance + "km";
+						}
+						output += "</div>";
 						output += "<div class='card-body' id='review'>";
 						output += "<p class='card-text'>";
 						output += "<a href='#'>후기 "+jsonInfo.resultList[i].reviewCount+"건</a><br>";
@@ -492,6 +574,23 @@ a:hover {
 					output += "</div>";
 				}
 				$('div#recommendShopList').html(output);
+				//위치정보 입력
+				for(let i=0; i<shopCount; i++){
+					//위도, 경도
+					var x = jsonInfo.resultList[i].s_locate_lat;
+					var y = jsonInfo.resultList[i].s_locate_lng;
+					//좌표로 주소 받아오기
+					var geocoder = new kakao.maps.services.Geocoder();
+					var coord = new kakao.maps.LatLng(x, y);
+					var callback = function(result, status) {
+					    if (status === kakao.maps.services.Status.OK) {
+					        console.log('그런 너를 마주칠까 ' + result[0].address_name + '을 못가');
+					        var infoDiv = document.getElementById('recommendAddr'+i);
+					        infoDiv.innerHTML = "<p class='card-text'>" + result[0].address_name + "</p>"
+					    }
+					};
+					geocoder.coord2RegionCode(coord.getLng(), coord.getLat(), callback);
+				}
 			},
 			error: function (data, textStatus) {
 				alert("에러가 발생했습니다.");

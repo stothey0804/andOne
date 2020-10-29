@@ -187,6 +187,12 @@
 		});
 		location.reload();
 	}
+	
+	$(document).ready(function(){
+		$('#joinClubBtn').click(function(){
+			
+		});
+	});
 
 	function joinClub(c_id){
 		var form = $(".intro")[0];
@@ -207,6 +213,12 @@
             	alert("error");
             }
 		})
+	}
+	
+	// 신고하기 연결
+	function openReportPopup(){
+		var popupOpener;
+		popupOpener = window.open("${contextPath}/member/reportInit.do?target=${clubInfo.c_id}&flag=club", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
 	}
 </script>
 </head>
@@ -435,7 +447,7 @@
 					<c:when test="${rank eq 20 or rank eq 30}">
 					<div style="float:bottom;">
 						<button class="btn btn-link" data-toggle="modal" data-target="#leaveClub">소모임 탈퇴하기</button>
-						<button class="btn btn-link" data-toggle="modal" data-target="#reportClub">소모임 신고하기</button>
+						<button class="btn btn-link" onClick='openReportPopup()'>소모임 신고하기</button>
 					</div>
 					</c:when>
 				</c:choose>
@@ -488,29 +500,29 @@
 </div>
 
 <!--reportClub Modal -->
-<div class="modal fade" id="reportClub" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">소모임 신고하기</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="${contextPath}/club/reportClub.do?c_id=${clubInfo.c_id}" method="post">
-      <div class="modal-body">
-      	<c:forEach var="c" items="${reportType}">
-			<input type="radio" name="rc_type" value="${c.gc_id}">${c.gc_name}<br>
-		</c:forEach>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-        <input type="submit" class="btn btn-primary" value="신고하기">
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
+<!-- <div class="modal fade" id="reportClub" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> -->
+<!--   <div class="modal-dialog"> -->
+<!--     <div class="modal-content"> -->
+<!--       <div class="modal-header"> -->
+<!--         <h5 class="modal-title" id="exampleModalLabel">소모임 신고하기</h5> -->
+<!--         <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+<!--           <span aria-hidden="true">&times;</span> -->
+<!--         </button> -->
+<!--       </div> -->
+<%--       <form action="${contextPath}/club/reportClub.do?c_id=${clubInfo.c_id}" method="post"> --%>
+<!--       <div class="modal-body"> -->
+<%--       	<c:forEach var="c" items="${reportType}"> --%>
+<%-- 			<input type="radio" name="rc_type" value="${c.gc_id}">${c.gc_name}<br> --%>
+<%-- 		</c:forEach> --%>
+<!--       </div> -->
+<!--       <div class="modal-footer"> -->
+<!--         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> -->
+<!--         <input type="submit" class="btn btn-primary" value="신고하기"> -->
+<!--       </div> -->
+<!--       </form> -->
+<!--     </div> -->
+<!--   </div> -->
+<!-- </div> -->
  <!-- Swiper JS -->
  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 

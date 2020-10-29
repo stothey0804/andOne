@@ -7,13 +7,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -66,10 +70,13 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 	
 	@ResponseBody
 	@RequestMapping("/shop/getShopDetailByAjax.do")
-	public ShopP002ShopDetailVO getShopDetailByAjax(ShopP002ShopDetailVO vo, Model model) {
+	public ShopP002ShopDetailVO getShopDetailByAjax(@RequestParam(defaultValue="0") String M_LOCATE_LAT, 
+			@RequestParam(defaultValue="0") String M_LOCATE_LNG, ShopP002ShopDetailVO vo, Model model) {
 		vo.setSearchCondition("SEARCHBYSHOPID");
 		Map<String,Object> param = new HashMap<>();
 		param.put("vo", vo);
+		param.put("M_LOCATE_LAT",M_LOCATE_LAT);
+		param.put("M_LOCATE_LNG",M_LOCATE_LNG);
 		ShopP002ShopDetailVO resultVO = shopP002_d001Service.getShopDetail(param);
 		String s_id = resultVO.getS_id();
 		List<String> memberIdList = shopP002_d001Service.getMemberIdFromShopReview(s_id);
@@ -92,16 +99,19 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 		return resultVO;
 	}
 	
-	//todo - 가상 페이징 처리
 	@ResponseBody
 	@RequestMapping("/shop/popularSearchByAjax.do")
-	public List<ShopP002ShopDetailVO> popularSearchByAjax(ShopP002ShopDetailVO vo, Model model) {
+	public List<ShopP002ShopDetailVO> popularSearchByAjax(@RequestParam(defaultValue="0") String M_LOCATE_LAT, 
+			@RequestParam(defaultValue="0") String M_LOCATE_LNG, ShopP002ShopDetailVO vo, Model model) {
 		vo.setSearchCondition("POPULAR");
 		vo.setStatus("REVIEW");
 		Map<String,Object> param = new HashMap<>();
 		param.put("vo",vo);
 		param.put("startIndex",1);
 		param.put("endIndex",3);
+		param.put("limit",30);
+		param.put("M_LOCATE_LAT",M_LOCATE_LAT);
+		param.put("M_LOCATE_LNG",M_LOCATE_LNG);
 		List<ShopP002ShopDetailVO> resultList = shopP002_d001Service.getShopList(param);
 		for(int i=0; i<resultList.size(); i++) {
 			shopP002_d001Service.shopImageEncoder(resultList.get(i));
@@ -111,7 +121,9 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 	
 	@ResponseBody
 	@RequestMapping("/shop/searchByAjax.do")
-	public Map<String, Object> searchByAjax(@RequestParam(defaultValue="1")int curPage, ShopP002ShopDetailVO vo, Model model) {
+	public Map<String, Object> searchByAjax(@RequestParam(defaultValue="1")int curPage, @RequestParam(defaultValue="0") String M_LOCATE_LAT,
+			@RequestParam(defaultValue="0") String M_LOCATE_LNG, @RequestParam(defaultValue="none") String limit, 
+			ShopP002ShopDetailVO vo, Model model) {
 		if(vo.getSearchCondition()==null) {
 			if(vo.getFilter()==null || vo.getFilter().equals("all") ||  vo.getFilter().equals("")) {
 				vo.setSearchCondition("ALLSEARCH");
@@ -127,10 +139,16 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 		}
 		Map<String,Object> param = new HashMap<>();
 		param.put("vo",vo);
+		param.put("M_LOCATE_LAT",M_LOCATE_LAT);
+		param.put("M_LOCATE_LNG",M_LOCATE_LNG);
+		if(!limit.equals("none")) {
+			param.put("limit",limit);
+		}
 		int listCnt = shopP002_d001Service.getShopListCnt(param);
 		Pagination pagination = new Pagination(listCnt, curPage, 4);
 		param.put("startIndex",(pagination.getStartIndex()+1)+"");
 		param.put("endIndex",(pagination.getStartIndex()+pagination.getPageSize())+"");
+		
 		List<ShopP002ShopDetailVO> resultList = shopP002_d001Service.getShopList(param);
 		for(int i=0; i<resultList.size(); i++) {
 			shopP002_d001Service.shopImageEncoder(resultList.get(i));

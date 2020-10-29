@@ -35,6 +35,9 @@
 		<result property="s_content" column="S_CONTENT" />
 		<result property="bm_id" column="BM_ID" />
 		<result property="s_locate" column="S_LOCATE" />
+		<result property="s_locate_lat" column="S_LOCATE_LAT" />
+		<result property="s_locate_lng" column="S_LOCATE_LNG" />
+		<result property="distance" column="DISTANCE" />
 		<result property="s_phoneNumber" column="S_PHONENUMBER" />
 		<result property="s_hashtag" column="S_HASHTAG" />
 		<result property="reviewCount" column="REVIEWCOUNT" />
@@ -106,11 +109,11 @@
 	
 <select id="getShopShort" resultMap="shop.p002.shopShort" parameterType="java.util.HashMap">
 	<![CDATA[
-		SELECT S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, S_LOCATE, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME
+		SELECT S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, S_LOCATE, S_LOCATE_LNG, S_LOCATE_LAT, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME, DISTANCE
 		FROM
 		(
 			SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
-	        S_LOCATE, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME
+	        S_LOCATE, S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME, ROUND(DISTANCE_WGS84(#{M_LOCATE_LAT}, #{M_LOCATE_LNG}, S_LOCATE_LAT, S_LOCATE_LNG) , 2) as DISTANCE
 	]]>
 	<choose>
 		<when test="vo.status=='SCORE'">
@@ -190,48 +193,74 @@
 			AND S.S_HASHTAG LIKE '%'||#{vo.searchKeyword}||'%'
 		]]>
 	</if>
+		<![CDATA[
+			)
+			WHERE 1=1
+		]]>
 	<choose>
-		<when test="startIndex == null and endIndex == null">
+		<when test="limit == null">
 			<![CDATA[
-				)
+				AND DISTANCE < 999999
 			]]>
 		</when>
 		<otherwise>
 			<![CDATA[
-				)
-				WHERE ROW_NUM BETWEEN #{startIndex} AND #{endIndex}
-				ORDER BY ROW_NUM	
+				AND DISTANCE < #{limit}
 			]]>
 		</otherwise>
 	</choose>
+	<if test="startIndex != null and endIndex != null">
+		<![CDATA[
+			AND ROW_NUM BETWEEN #{startIndex} AND #{endIndex}
+			ORDER BY ROW_NUM
+		]]>
+	</if>	
 	
 </select>
 
 <select id="getShopListCnt" parameterType="java.util.HashMap" resultType="int">
 	<![CDATA[
-		SELECT COUNT(S.S_ID)
-		FROM SHOP S 
-		INNER JOIN
+		SELECT COUNT(S_ID)
+		FROM
 		(
-		    SELECT COUNT(*) AS REVIEWCOUNT, INS.S_ID
-		    FROM SHOP INS 
-		    INNER JOIN S_REVIEW INSR ON INS.S_ID=INSR.S_ID
-		    GROUP BY INS.S_ID
-		    UNION
-		    SELECT COUNT(*)-1 AS REVIEWCOUNT, INS.S_ID
-		    FROM SHOP INS 
-		    LEFT OUTER JOIN S_REVIEW INSR ON INS.S_ID=INSR.S_ID
-		    WHERE INSR.S_ID IS NULL
-		    GROUP BY INS.S_ID
-		)CNT ON S.S_ID = CNT.S_ID
-		INNER JOIN
-		(
-		    SELECT GC_ID, GC_NAME
-		    FROM COMMON_CODE
-		    WHERE G_ID=009
-		)CODE ON S.S_CATEGORY = CODE.GC_ID
-		WHERE 1=1
+			SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
+	        S_LOCATE, S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME, ROUND(DISTANCE_WGS84(#{M_LOCATE_LAT}, #{M_LOCATE_LNG}, S_LOCATE_LAT, S_LOCATE_LNG) , 2) as DISTANCE
 	]]>
+	<choose>
+		<when test="vo.status=='SCORE'">
+			<![CDATA[
+				, ROW_NUMBER()OVER(ORDER BY S.S_SCORE DESC) AS ROW_NUM	
+			]]>
+		</when>
+		<when test="vo.status=='REVIEW'">
+			<![CDATA[
+				, ROW_NUMBER()OVER(ORDER BY REVIEWCOUNT DESC) AS ROW_NUM	
+			]]>
+		</when>
+	</choose>
+		<![CDATA[         
+			FROM SHOP S 
+			INNER JOIN
+			(
+				SELECT COUNT(*) AS REVIEWCOUNT, INS.S_ID
+				FROM SHOP INS 
+				INNER JOIN S_REVIEW INSR ON INS.S_ID=INSR.S_ID
+				GROUP BY INS.S_ID
+				UNION
+	            SELECT COUNT(*)-1 AS REVIEWCOUNT, INS.S_ID
+				FROM SHOP INS 
+				LEFT OUTER JOIN S_REVIEW INSR ON INS.S_ID=INSR.S_ID
+	            WHERE INSR.S_ID IS NULL
+				GROUP BY INS.S_ID
+			)CNT ON S.S_ID = CNT.S_ID
+			INNER JOIN
+			(
+				SELECT GC_ID, GC_NAME
+				FROM COMMON_CODE
+				WHERE G_ID=009
+			)CODE ON S.S_CATEGORY = CODE.GC_ID
+			WHERE 1=1
+		]]>
 	<if test="vo.searchCondition=='ALLSEARCH'">
 		<![CDATA[
 			AND (S.S_NAME LIKE '%'||#{vo.searchKeyword}||'%' 
@@ -275,13 +304,35 @@
 			AND S.S_HASHTAG LIKE '%'||#{vo.searchKeyword}||'%'
 		]]>
 	</if>
+		<![CDATA[
+			)
+			WHERE 1=1
+		]]>
+	<choose>
+		<when test="limit == null">
+			<![CDATA[
+				AND DISTANCE < 999999
+			]]>
+		</when>
+		<otherwise>
+			<![CDATA[
+				AND DISTANCE < #{limit}
+			]]>
+		</otherwise>
+	</choose>
+	<if test="startIndex != null and endIndex != null">
+		<![CDATA[
+			AND ROW_NUM BETWEEN #{startIndex} AND #{endIndex}
+			ORDER BY ROW_NUM
+		]]>
+	</if>	
 </select>
 
 
 <select id="getShopDetail" resultMap="shop.p002.shopDetail">
 	<![CDATA[
 		SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
-        S_LOCATE, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME
+        S_LOCATE, S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME
 		FROM SHOP S 
 		INNER JOIN
 		(
