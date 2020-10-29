@@ -14,7 +14,6 @@ public class ShopP002ShopDetailVO {
 		private String s_score;
 		private String s_content;
 		private String bm_id;
-		private String s_locate;
 		private String s_locate_lat;
 		private String s_locate_lng;
 		private String distance;
@@ -120,12 +119,6 @@ public class ShopP002ShopDetailVO {
 		}
 		public void setBm_id(String bm_id) {
 			this.bm_id = bm_id;
-		}
-		public String getS_locate() {
-			return s_locate;
-		}
-		public void setS_locate(String s_locate) {
-			this.s_locate = s_locate;
 		}
 		public String getS_phoneNumber() {
 			return s_phoneNumber;
