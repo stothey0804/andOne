@@ -36,4 +36,9 @@ public class ClubP002_d001DAOImpl implements ClubP002_d001DAO{
 		sqlSession.update("club.p002.updateClub",insertMap);
 	}
 
+	@Override
+	public void inserClub(Map<String, Object> insertMap) {
+		sqlSession.insert("club.p002.insertClub", insertMap);
+	}
+
 }

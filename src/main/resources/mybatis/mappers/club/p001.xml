@@ -47,8 +47,8 @@
 		<result property="userImg" column="m_img" javaType="[B" jdbcType="BLOB"/>
 		<collection property="articleImgList" column="ca_id" javaType="java.util.ArrayList"
 					select="getArticleListImg" ofType="byte[]"/>
-<!-- 		<collection property="articleReplyList" column="ca_id" javaType="java.util.ArrayList" -->
-<!-- 					select="getArticleReply" ofType="clubArticleReplyVO"></collection> -->
+		<collection property="articleReplyList" column="ca_id" javaType="java.util.ArrayList"
+					select="getArticleReply" ofType="clubArticleReplyVO"></collection>
 	</resultMap>
 	
 	<resultMap id="imgList" type="clubArticleImgVO">
@@ -56,14 +56,23 @@
 	</resultMap>
 	
 	<resultMap id="replyList" type="clubAricleReplyVO">
-		<collection property="car_id" column="car_id"></collection>
-		<collection property="car_content" column="car_content"></collection>
-		<collection property="m_nickname" column="m_nickname"></collection>
-		<collection property="m_img" column="m_img"></collection>
-		<collection property="articleReplyList" column="ca_id" javaType="java.util.ArrayList"
-					select="getArticle_Child_Reply" ofType="Map"></collection>
+		<result property="ca_id" column="ca_id"></result>
+		<result property="car_id" column="car_id"></result>
+		<result property="car_content" column="car_content"></result>
+		<result property="car_date" column="car_date"></result>
+		<result property="m_id" column="m_id"></result>
+		<result property="m_nickname" column="m_nickname"></result>
+		<result property="m_img" column="m_img"></result>
 	</resultMap>
 	
+	<select id="getArticleReply" resultMap="club.p001.replyList" parameterType="java.util.Map">
+		<![CDATA[
+			SELECT a.ca_id,a.car_id,a.car_content,a.car_date,b.m_nickname,b.m_img,b.m_id
+			FROM ca_reply a, member b
+			WHERE a.ca_id = #{c_id}
+			AND a.m_id = b.m_id
+		]]>
+	</select>
 	<select id="clubList" resultMap="p001_d001Result01">
       <![CDATA[
         SELECT b.c_name,b.c_content,b.c_membercnt,b.c_id,b.c_img,
@@ -88,9 +97,9 @@
          and cm_rank in (10,20,30)
 		]]>
 	</select>
-	<select id="getArticle_Child_Reply" resultType="hashmap">
+<!-- 	<select id="getArticle_Child_Reply" resultType="hashmap"> -->
 		
-	</select>
+<!-- 	</select> -->
 	<select id="categoryClubList" resultMap="p001_d001Result01">
 		SELECT c_name,c_content,c_membercnt,c_id,c_img,(select c.gc_name
        	from club a, common_code c
@@ -186,11 +195,11 @@
 	
 	<select id="getClubMember" resultMap="member">
 		<![CDATA[
-		 	select a.m_img
-			from member a, c_member b
-			where a.m_id = b.m_id
-			and cm_rank in (20,30)
-			and c_id = #{c_id}
+		 	SELECT a.m_img
+			FROM member a, c_member b
+			WHERE a.m_id = b.m_id
+			AND cm_rank in (20,30)
+			AND c_id = #{c_id}
 		]]>
 	</select>
 	

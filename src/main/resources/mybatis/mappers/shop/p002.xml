@@ -12,7 +12,6 @@
 		<result property="s_score" column="S_SCORE" />
 		<result property="s_content" column="S_CONTENT" />
 		<result property="bm_id" column="BM_ID" />
-		<result property="s_locate" column="S_LOCATE" />
 		<result property="s_phoneNumber" column="S_PHONENUMBER" />
 		<result property="s_hashtag" column="S_HASHTAG" />
 		<result property="reviewCount" column="REVIEWCOUNT" />
@@ -34,7 +33,6 @@
 		<result property="s_score" column="S_SCORE" />
 		<result property="s_content" column="S_CONTENT" />
 		<result property="bm_id" column="BM_ID" />
-		<result property="s_locate" column="S_LOCATE" />
 		<result property="s_locate_lat" column="S_LOCATE_LAT" />
 		<result property="s_locate_lng" column="S_LOCATE_LNG" />
 		<result property="distance" column="DISTANCE" />
@@ -109,12 +107,24 @@
 	
 <select id="getShopShort" resultMap="shop.p002.shopShort" parameterType="java.util.HashMap">
 	<![CDATA[
-		SELECT S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, S_LOCATE, S_LOCATE_LNG, S_LOCATE_LAT, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME, DISTANCE
+		SELECT S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, S_LOCATE_LNG, S_LOCATE_LAT, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME, DISTANCE
 		FROM
 		(
 			SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
-	        S_LOCATE, S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME, ROUND(DISTANCE_WGS84(#{M_LOCATE_LAT}, #{M_LOCATE_LNG}, S_LOCATE_LAT, S_LOCATE_LNG) , 2) as DISTANCE
+	        S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME,
 	]]>
+	<choose>
+		<when test="M_LOCATE_LAT == null or M_LOCATE_LNG == null">
+			<![CDATA[
+				'0' as DISTANCE
+			]]>
+		</when>
+		<otherwise>
+			<![CDATA[
+				ROUND(DISTANCE_WGS84(#{M_LOCATE_LAT}, #{M_LOCATE_LNG}, S_LOCATE_LAT, S_LOCATE_LNG) , 2) as DISTANCE
+			]]>
+		</otherwise>
+	</choose>
 	<choose>
 		<when test="vo.status=='SCORE'">
 			<![CDATA[
@@ -224,8 +234,20 @@
 		FROM
 		(
 			SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
-	        S_LOCATE, S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME, ROUND(DISTANCE_WGS84(#{M_LOCATE_LAT}, #{M_LOCATE_LNG}, S_LOCATE_LAT, S_LOCATE_LNG) , 2) as DISTANCE
+	        S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME, 
 	]]>
+	<choose>
+		<when test="M_LOCATE_LAT == null or M_LOCATE_LNG == null">
+			<![CDATA[
+				'0' as DISTANCE
+			]]>
+		</when>
+		<otherwise>
+			<![CDATA[
+				ROUND(DISTANCE_WGS84(#{M_LOCATE_LAT}, #{M_LOCATE_LNG}, S_LOCATE_LAT, S_LOCATE_LNG) , 2) as DISTANCE
+			]]>
+		</otherwise>
+	</choose>
 	<choose>
 		<when test="vo.status=='SCORE'">
 			<![CDATA[
@@ -332,7 +354,7 @@
 <select id="getShopDetail" resultMap="shop.p002.shopDetail">
 	<![CDATA[
 		SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
-        S_LOCATE, S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME
+        S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME
 		FROM SHOP S 
 		INNER JOIN
 		(
