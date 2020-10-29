@@ -30,6 +30,7 @@ public class PointP001_d003ControllerImpl implements PointP001_d003Controller{
 	@Override
 	@RequestMapping(value="pay.do")
 	public ModelAndView pointPay(@RequestParam Map<String, Object> payMap , HttpServletRequest request) {
+		System.out.println(">>>>>>>>>>>>>>>>확인");
 		// Session 얻기
 		HttpSession session = request.getSession(false);
 		String m_id = (String) session.getAttribute("m_id");

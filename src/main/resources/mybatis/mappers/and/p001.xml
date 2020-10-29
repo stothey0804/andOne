@@ -36,7 +36,7 @@
 		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
 		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, d.distance, a.one_locate_Lat, a.one_locate_Lng,
-		        		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
+		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
 		              from common_code 
@@ -78,7 +78,7 @@
 		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
 		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, d.distance,
-		        		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
+		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
 		              from common_code 
@@ -111,7 +111,7 @@
 		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
 		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, d.distance,
-		        		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
+		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
 		              from common_code 
@@ -155,7 +155,7 @@
 		select a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
        			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax)) END as one_price,
        			substr(a.one_date,6,11) as one_date, a.one_hashTag, a.one_locate_Lat, a.one_locate_Lng, one_addr,
-        		to_date(a.one_time,'yyyy-mm-dd hh:mi:ss') as one_time
+        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time
 		from and_one a, 
 		     (select gc_name, gc_id, g_id
 		      from common_code 

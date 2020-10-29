@@ -29,16 +29,16 @@
 		       			    one_totalPrice, one_date, one_hashTag, one_time, one_locate_lat, one_locate_lng, one_content, 
 		       			    one_addr, one_editor, one_editdate )
 		VALUES (#{one_type}, LPAD(andone_SEQ.NEXTVAL,6,'0'), '10', #{one_category}, #{one_title}, #{one_memberMax},
-				#{one_totalPrice}, #{one_date}, #{one_hashTag}, to_char(sysdate,'yyyy-mm-dd hh:mi:ss'), #{one_locate_Lat}, #{one_locate_Lng},
-				#{one_content}, #{one_addr}, #{m_id}, to_char(sysdate,'yyyy-mm-dd hh:mi:ss') )
+				#{one_totalPrice}, #{one_date}, #{one_hashTag}, to_char(sysdate,'yyyy-mm-dd HH24:mi:ss'), #{one_locate_Lat}, #{one_locate_Lng},
+				#{one_content}, #{one_addr}, #{m_id}, to_char(sysdate,'yyyy-mm-dd HH24:mi:ss') )
       ]]>
 	</insert>
 	<!-- 엔분의일 작성자 등록 -->
 	<insert id="insertOneMem" parameterType="java.util.HashMap">
 	  <![CDATA[
 	  	INSERT INTO one_member(one_type, one_id, m_id, om_leader, om_state, om_date, om_editor, om_editdate)
-	  	VALUES (#{one_type}, LPAD(andone_SEQ.CURRVAL,6,'0') ,#{m_id}, '10', '20', to_char(sysdate,'yyyy-mm-dd hh:mi:ss'), 
-	  			#{m_id}, to_char(sysdate,'yyyy-mm-dd hh:mi:ss'))
+	  	VALUES (#{one_type}, (SELECT MAX(ONE_ID) FROM AND_ONE) ,#{m_id}, '10', '20', to_char(sysdate,'yyyy-mm-dd HH24:mi:ss'), 
+	  			#{m_id}, to_char(sysdate,'yyyy-mm-dd HH24:mi:ss'))
 	   ]]>
 	</insert>
 	
@@ -131,6 +131,7 @@
 		]]>
 	</select>
 	
+	<!-- 엔분의일 신청 수락-->
 	<update id="updateOkOneMember" parameterType="java.util.HashMap">
 		<![CDATA[
 			update one_member
@@ -141,6 +142,7 @@
 		]]>
 	</update>
 	
+	<!-- 엔분의일 신청 거절 -->
 	<update id="updateDenyOneMember" parameterType="java.util.HashMap">
 		<![CDATA[
 			update one_member
@@ -150,5 +152,24 @@
 			and om_leader = '20'
 		]]>
 	</update>
+	
+	<!-- 취소 시간계산 -->
+	<select id="selectCancelTime" resultType="int" parameterType="String">
+	<![CDATA[
+		SELECT ((SELECT TO_DATE(one_date,'YYYY-MM-DD hh24:mi:ss') FROM and_one where one_id = #{one_id}) 
+        -(SELECT SYSDATE FROM DUAL))*24*60 as one_time
+		FROM DUAL
+	]]>
+	</select>
+	
+	<!-- 엔분의일 신청 취소 -->
+	<delete id="updateCancelOneMember" parameterType="java.util.HashMap">
+		<![CDATA[
+			delete from one_member
+			where one_id = #{one_id}
+			and m_id = #{m_id}
+			and om_leader = '20'
+		]]>
+	</delete>
 	
 </mapper>

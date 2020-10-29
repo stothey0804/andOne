@@ -220,7 +220,7 @@
                         viewMode: 'YMDHM',
                         onDateChange: function(){
                             //debugger;
-                            $d7input.val(this.getText('YYYY-MM-DD hh:mm'));
+                            $d7input.val(this.getText()); //24시간기준
                             $d7input.data('value', this.getValue());
                         },
                         //ok button click event
