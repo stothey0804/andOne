@@ -20,25 +20,19 @@
 </style>
 <script type="text/javascript">
 	$(document).ready(function(){
-		// 읽은알림 카운트 얻기
+		// 읽은 알림 총 갯수
 		var oldListCnt = '${oldListCnt}';
 		// 조회 인덱스
-		var startIndex = 1;
+		var startIndex = 1;	// 인덱스 초기값
+		var searchStep = 5;	// 5걔씩 로딩
 		
 		// 로딩시 실행 - 읽은 알림 5개 얻기 
 		readOldNotify(startIndex);
-		if(startIndex + 4 >= oldListCnt){
-			$('#searchMoreNotify').remove();
-		}
-		
+
 		// 더보기 클릭시
 		$('#searchMoreNotify').click(function(){
-			startIndex += 5;
+			startIndex += searchStep;
 			readOldNotify(startIndex);
-			if(startIndex + 4 >= oldListCnt){
-				$('#searchMoreNotify').remove();
-			}
-			
 		});
 		
 		// 클릭 시
@@ -48,6 +42,7 @@
 			// 읽기로 보내주기!
 			readNewNotifyElem(_n_id, notifyElem);
 		});
+		
 		// 읽기버튼 클릭시 
 		$('.readNotifyBtn').click(function(e){
 			e.stopPropagation();	// 부모 이벤트 끊기
@@ -56,6 +51,7 @@
 			readNewNotifyElem(_n_id, notifyElem);
 			$(e.target).remove();	// 읽기버튼 삭제
 		});
+		
 		// 읽기 ajax
 		function readNewNotifyElem(_n_id, notifyElem){
 			$.ajax({
@@ -81,28 +77,35 @@
 		
 		// 더보기 실행함수
 		function readOldNotify(index){
+			let _endIndex = index+searchStep-1;	// endIndex설정
 			$.ajax({
 				type: "post",
 				async: "true",
 				dataType: "json",
 				data: {
 					m_id: '${m_id}',
-					startIndex: index
+					startIndex: index,
+					endIndex: _endIndex
 				},
 				url: "${contextPath}/member/searchMoreNotify.do",
-	            success: function (data, textStatus) { 
+	            success: function (data, textStatus) {
+	            	let NodeList = "";
 					for(i = 0; i < data.length; i++){
-						let newNode = "<div class='card form-group col-sm-10 mx-auto p-0' onClick='window.open('"+data[i].n_url+"')>";
+						let newNode = "<div style='display: none;' class='card form-group col-sm-10 mx-auto p-0' onClick='window.open('"+data[i].n_url+"')>";
 						newNode += "<div class='card-body pt-3'><div class='row px-3 mb-2'>";
 						newNode += "<strong class='d-block text-gray-dark'>"+data[i].n_type+"</strong>";
 						newNode += "<span class='text-muted ml-auto'>"+data[i].n_time+"</span>";
 						newNode += "</div><span>"+data[i].n_content+"</span></div></div>";
-		            	$(newNode).appendTo($("#oldList"));				
+						NodeList += newNode;
 					}
+	            	$(NodeList).appendTo($("#oldList")).slideDown();
+	        		// 더보기 버튼 삭제
+	            	if(startIndex + searchStep > oldListCnt){
+	        			$('#searchMoreNotify').remove();
+	        		}
 	            }
 			});
 		}
-		
 		
 	});
 

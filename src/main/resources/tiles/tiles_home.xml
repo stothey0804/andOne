@@ -139,32 +139,34 @@
        <put-attribute name="body" value="/WEB-INF/views/member/p001_d003_init.jsp" />
    </definition>
 	
+	<!-- 엔분의일 -->
    <!-- 같이 메인 -->
    <definition name="andOneMain" extends="baseLayout">
-      <put-attribute name="title" value="메인페이지" />
+      <put-attribute name="title" value="엔분의일 메인" />
        <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_andOneMain.jsp" />
    </definition> 
    <!-- 같이 리스트 -->
    <definition name="andOneSearch" extends="baseLayout">
-      <put-attribute name="title" value="메인페이지" />
+      <put-attribute name="title" value="엔분의일 조회" />
        <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_andOneSearch.jsp" />
    </definition>
    <!--같이 글쓰기 -->
    <definition name="insertAndOnePage" extends="baseLayout">
-      <put-attribute name="title" value="메인페이지" />
+      <put-attribute name="title" value="엔분의일 글쓰기" />
        <put-attribute name="body" value="/WEB-INF/views/and/p002_d001_insertAndOne.jsp" />
    </definition>
    <!-- 같이 상세조회 -->
 	<definition name="andOneDetail" extends="baseLayout">
-      <put-attribute name="title" value="메인페이지" />
+      <put-attribute name="title" value="엔분의일 상세조회" />
        <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_andOneDetail.jsp" />
    </definition>
-    <!-- 같이 테스트 페이지 -->
-	<definition name="test" extends="baseLayout">
-      <put-attribute name="title" value="메인페이지" />
-       <put-attribute name="body" value="/WEB-INF/views/and/test.jsp" />
+    <!-- &분의일 신청 승인거절 -->
+	<definition name="approveAndOne" extends="baseLayout">
+      <put-attribute name="title" value="엔분의일  승인거절" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p002_d002_ApproveAndOne.jsp" />
    </definition>
-
+	<!-- 엔분의일 끝-->
+	
    <!-- 지역업체 페이지 -->
    <definition name="localShopMain" extends="baseLayout">
       <put-attribute name="title" value="지역업체 메인페이지" />
@@ -279,12 +281,17 @@
 	</definition>
 	<!-- 문의하기리스트 -->
 	<definition name="p002_d001_search" extends="mypageLayout">
-		<put-attribute name="title" value="문의하기"/>
+		<put-attribute name="title" value="문의하기 리스트"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p002_d001_search.jsp"/>
+	</definition>
+	<!-- 문의하기리스트 -->
+	<definition name="MemberP003_d001_search" extends="mypageLayout">
+		<put-attribute name="title" value="신고하기 리스트"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p003_d001_search.jsp"/>
 	</definition>
 	<!--내 &분의일 내역-->
 	<definition name="MyAndOne" extends="mypageLayout">
-		<put-attribute name="title" value="문의하기"/>
+		<put-attribute name="title" value="엔분의일 내역"/>
 		<put-attribute name="body" value="/WEB-INF/views/and/p002_d003_MyAndOne.jsp"/>
 	</definition>
    <!-- 마이페이지 영역 END -->

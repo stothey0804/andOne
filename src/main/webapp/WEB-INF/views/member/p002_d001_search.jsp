@@ -82,7 +82,7 @@
 				<table class="table">
 					<thead>
 						<tr class="text-center">
-							<th>문의번호</th><th>분류</th><th style="width:400px;">제목</th><th>날짜</th><th>처리상태</th>
+							<th>문의번호</th><th>사유</th><th style="width:400px;">제목</th><th>날짜</th><th>처리상태</th>
 						</tr>
 					</thead>
 					<c:forEach var="list" items="${articleList}">

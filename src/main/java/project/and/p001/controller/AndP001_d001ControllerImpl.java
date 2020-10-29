@@ -155,6 +155,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	@RequestMapping(value="/and*/detailAndOne.do")
 	public ModelAndView andOneDetail(@RequestParam Map<String, Object> detailMap, HttpServletRequest request) throws Exception {
 		String one_id = (String) detailMap.get("one_id");
+		String g_id = (String) detailMap.get("g_id");
 		System.out.println("상세조회용  one_id: "+one_id);
 		System.out.println(">>>>oneType:"+detailMap.get("g_id"));
 		
@@ -179,23 +180,18 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		mav.addObject("oneMemList",oneMemList);
 		mav.addObject("omLeaderCheck",omLeaderCheck);
 		mav.addObject("m_nickname",m_nickname);
+		mav.addObject("g_id",g_id);
 		return mav;
 	}
-	//oneMember update+포인트충전
+	//포인트충전
 	@Override
 	@ResponseBody
 	@RequestMapping(value="/and*/addOneMember.do")
-	public String addOneMember(@RequestParam Map<String, Object> addMemMap, HttpServletRequest request) throws Exception {
-
-		System.out.println(addMemMap.get("one_type")); 
-		System.out.println(addMemMap.get("one_id"));
-		String one_price = (String) addMemMap.get("one_price"); // 글에 있는 가격
+	public String addOneMember(@RequestParam("one_price") String one_price, HttpServletRequest request) throws Exception {
 		
 		HttpSession session = request.getSession(false);
 		String m_id = (String) session.getAttribute("m_id");
 		System.out.println("참가자신청용 m_id :"+m_id);
-		
-		addMemMap.put("m_id", m_id);
 		
 		String beforePoint = pointP001_d001Service.selectNowPointById(m_id);//보유 포인트 확인
 		beforePoint = beforePoint==null? "0": beforePoint;
@@ -208,7 +204,6 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		if(price>afterPoint) { //포인트부족(1) 
 			return beforePoint;
 		}else { //결제가능(0)
-			//p001_d001Service.addOneMember(addMemMap);
 			return "true";
 		}
 	}

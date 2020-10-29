@@ -194,6 +194,12 @@
 		});
 		location.reload();
 	}
+	
+	$(document).ready(function(){
+		$('#joinClubBtn').click(function(){
+			
+		});
+	});
 
 	function joinClub(c_id){
 		var form = $(".intro")[0];
@@ -215,6 +221,7 @@
 		})
 	}
 	
+<<<<<<< HEAD
 	function insertReply(ca_id){
 		const car_content = document.getElementById('comment'+ca_id).value;
 		$.ajax({
@@ -247,6 +254,10 @@
 			})
 		}
 		
+	// 신고하기 연결
+	function openReportPopup(){
+		var popupOpener;
+		popupOpener = window.open("${contextPath}/member/reportInit.do?target=${clubInfo.c_id}&flag=club", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
 	}
 </script>
 </head>
@@ -559,7 +570,7 @@
 					<c:when test="${rank eq 20 or rank eq 30}">
 					<div style="float:bottom;">
 						<button class="btn btn-link" data-toggle="modal" data-target="#leaveClub">소모임 탈퇴하기</button>
-						<button class="btn btn-link" data-toggle="modal" data-target="#reportClub">소모임 신고하기</button>
+						<button class="btn btn-link" onClick='openReportPopup()'>소모임 신고하기</button>
 					</div>
 					</c:when>
 				</c:choose>

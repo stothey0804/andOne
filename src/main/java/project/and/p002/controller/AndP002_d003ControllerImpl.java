@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import common.Pagination;
 import project.and.p002.service.AndP002_d003Service;
-import project.and.vo.AndP001AndOneVO;
 import project.and.vo.AndP002AndOneVO;
 
 @Controller
@@ -71,7 +69,6 @@ public class AndP002_d003ControllerImpl implements AndP002_d003Controller {
 		searchMap.put("endIndex", (pagination.getStartIndex()+pagination.getPageSize())+"");	// 끝 index
 
 		List<AndP002AndOneVO> searchAndOneList = p002_d003Service.selectParticiateAndOneList(searchMap); //엔분의일 가져오기
-		
 		
 		ModelAndView mav = new ModelAndView("MyAndOne");
 		mav.addObject("searchAndOneList",searchAndOneList);

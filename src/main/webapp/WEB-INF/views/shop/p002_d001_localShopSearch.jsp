@@ -81,53 +81,57 @@ a:hover {
 <script>
 		var usedFilter = '${filter}';
 		var usedKeyword = '${usedKeyword}';
+		var lat = '';
+		var lng = '';
+		var isLimited = true;
+		
 		$(document).ready(function () {
 			console.log(usedKeyword);
 			console.log(usedFilter);
 			$('#searchWindow').val(usedKeyword);
-			search();
+			getUserLocation();
 			$('button#10').click(function () {
 				usedFilter = '10';
-				search();
+				search(1);
 			})
 			$('button#20').click(function () {
 				usedFilter = '20';
-				search();
+				search(1);
 			})
 			$('button#30').click(function () {
 				usedFilter = '30';
-				search();
+				search(1);
 			})
 			$('button#40').click(function () {
 				usedFilter = '40';
-				search();
+				search(1);
 			})
 			$('button#50').click(function () {
 				usedFilter = '50';
-				search();
+				search(1);
 			})
 			$('button#60').click(function () {
 				usedFilter = '60';
-				search();
+				search(1);
 			})
 			$('button#70').click(function () {
 				usedFilter = '70';
-				search();
+				search(1);
 			})
 			$('button#80').click(function () {
 				usedFilter = '80';
-				search();
+				search(1);
 			})
 			$('button#90').click(function () {
 				usedFilter = '90';
-				search();
+				search(1);
 			})
 			$('button#all').click(function () {
 				usedFilter = '';
-				search();
+				search(1);
 			})
 			$('#sel').change(function () {
-				search();
+				search(1);
 			})
 		})
 		
@@ -151,34 +155,71 @@ a:hover {
 		
 		function searchButton(){
 			usedKeyword = $('#searchWindow').val();
-			search();
+			search(1);
 		}
 		
-		function search(){
+		function getUserLocation(){
+			$.ajax({
+				type: "post",
+				async: true,
+				url: "http://localhost:8090/andOne/member/selectLocate.do",
+				dataType: "text",
+				success: function (data, textStatus) {
+					var jsonStr = data;
+					var jsonInfo = JSON.parse(jsonStr);
+					console.log(jsonInfo.M_LOCATE_LAT);
+					lat = jsonInfo.M_LOCATE_LAT;
+					console.log(jsonInfo.M_LOCATE_LNG);
+					lng = jsonInfo.M_LOCATE_LNG;
+					if(lat == 0 && lng == 0){
+						lat = '37.57045622903788';
+						lng = '126.98529300126489';
+					}
+				},
+				error: function (data, textStatus) {
+					alert("에러가 발생했습니다.");
+				},
+				complete: function (data, textStatus) {
+					search(1);
+				}
+			});
+		}
+		
+		function search(param){
+			var searchParameter = "curPage=" + param + "&searchKeyword=" + usedKeyword + "&filter=" + usedFilter + "&status=" + $('#sel').val();
+			if(isLimited){
+				searchParameter += "&limit=30&M_LOCATE_LAT=" + lat + "&M_LOCATE_LNG=" + lng;
+			}
 			$.ajax({
 				type: "post",
 				async: true,
 				url: "http://localhost:8090/andOne/shop/searchByAjax.do",
 				dataType: "text",
 				beforeSend:function(data, textStatus){
+					$('.pg').html('');
 					$('#result').html("<img src='${contextPath}/resources/image/loading.gif' style='display: block; margin: 0 auto; width:100px; height:100px;'>");
 				},
-				data: "searchKeyword=" + usedKeyword + "&filter=" + usedFilter +"&status=" + $('#sel').val(),
+				data: searchParameter,
 				success: function (data, textStatus) {
 					var jsonStr = data;
 					var jsonInfo = JSON.parse(jsonStr);
+					//html 태그 들어갈 스트링 변수
 					var output = "";
-					if(Object.keys(jsonInfo).length == 0){
+					var paging = "";
+					//검색결과 없음
+					if(Object.keys(jsonInfo.resultList).length == 0){
 						output += '<img class="noResult" src="${contextPath }/resources/image/no_result.png">';
+					//검색결과 있음	
 					}else{
-						for (var i in jsonInfo) {
-							console.log(jsonInfo[i].s_name);
+						for (var i in jsonInfo.resultList) {
+							console.log(jsonInfo.resultList[i].s_name);
 							output += "<div class='col-sm-6 mb-3' style='max-width: 540px;'>";
 							output += "<div class='row no-gutters'>";
 							output += "<div class='col-sm-6'>";
-							output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
-							if(Object.keys(jsonInfo[i].shopImage).length != 0){
-								output += "<img src='data:image/jpg;base64,"+jsonInfo[i].shopImage[0].si_encodedImg+"' class='card-img-top'alt='...'>";
+							output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo.resultList[i].s_id+"'>";
+							//가게 이미지
+							if(Object.keys(jsonInfo.resultList[i].shopImage).length != 0){
+								output += "<img src='data:image/jpg;base64,"+jsonInfo.resultList[i].shopImage[0].si_encodedImg+"' class='card-img-top'alt='...'>";
 							}else{
 								output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top'alt='...'>";
 							}
@@ -186,28 +227,70 @@ a:hover {
 							output += "</div>";
 							output += "<div class='col-sm-6'>";
 							output += "<div class='card-body' style='height: 225px'>";
-							output += "<h5 class='card-title' style='height: 20%'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>" + jsonInfo[i].s_name + "</a></h5>";
-							output += "<p class='card-text' style='height: 40%'>" + jsonInfo[i].s_content + "</p>";
+							//가게 이름
+							output += "<h5 class='card-title' style='height: 20%'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo.resultList[i].s_id+"'>" + jsonInfo.resultList[i].s_name + "</a></h5>";
+							//가게 소개
+							output += "<p class='card-text' style='height: 40%'>" + jsonInfo.resultList[i].s_content + "</p>";
 							output += "<p class='card-text'>";
-							output += "<small class='text-muted' style='height: 14px'>리뷰 " + jsonInfo[i].reviewCount + "건</small>";
+							//후기 숫자
+							output += "<small class='text-muted' style='height: 14px'>리뷰 " + jsonInfo.resultList[i].reviewCount + "건</small>";
 							output += "</p>";
 							output += "<p class='card-text'>";
 							output += "<small class='text-muted' style='height: 14px'>";
-							output += printStar(jsonInfo[i].s_score) + "</small>";
+							//별점
+							output += printStar(jsonInfo.resultList[i].s_score) + "</small>";
 							output += "</p>";
 							output += "</div>";
 							output += "</div>";
 							output += "</div>";
 							output += "</div>";
 						}
+						paging += '<nav aria-label="Page navigation example">';
+						paging += '<ul class="pagination justify-content-center">';
+						if(jsonInfo.pagination.curRange != 1){
+							paging += '<li class="page-item">';
+							paging += '<a class="page-link" href="javascript:void(0);" id="1">처음</a>';
+							paging += '</li>';
+						}
+						if(jsonInfo.pagination.curPage != 1){
+							paging += '<li class="page-item">';
+							paging += '<a class="page-link" href="javascript:void(0);" id="'+jsonInfo.pagination.prevPage+'">이전</a>';
+							paging += '</li>';
+						}
+						for(let i=jsonInfo.pagination.startPage; i<=jsonInfo.pagination.endPage; i++){
+							if(i==jsonInfo.pagination.curPage){
+								paging += '<li class="page-item active">';
+								paging += '<a class="page-link" id="'+i+'" href="javascript:void(0);">'+i+'</a>';
+								paging += '</li>';
+							}else{
+								paging += '<li class="page-item">';
+								paging += '<a class="page-link" id="'+i+'" href="javascript:void(0);">'+i+'</a>';
+								paging += '</li>';
+							}
+						}
+						if(jsonInfo.pagination.curPage != jsonInfo.pagination.pageCnt && jsonInfo.pagination.pageCnt > 0){
+							paging += '<li class="page-item">';
+							paging += '<a class="page-link" href="javascript:void(0);" id="'+jsonInfo.pagination.nextPage+'">다음</a>';
+							paging += '</li>';
+						}
+						if(jsonInfo.pagination.curPage != jsonInfo.pagination.rangeCnt && jsonInfo.pagination.rangeCnt > 0){
+							paging += '<li class="page-item">';
+							paging += '<a class="page-link" href="javascript:void(0);">끝</a>';
+							paging += '</li>';
+						}
+						paging += '</ul>';
+						paging += '</nav>';
 					}
 					$('div.row#result').html(output);
+					$('div.pg').html(paging);
 				},
 				error: function (data, textStatus) {
 					alert("에러가 발생했습니다.");
 				},
 				complete: function (data, textStatus) {
-					
+					$('.page-link').click(function(){
+						search(this.id);
+					})
 				}
 			});
 		}
@@ -245,6 +328,8 @@ a:hover {
 			<option value="REVIEW">후기많은순</option>
 		</select> <br><br>
 		<div class="row" id="result"></div>
+		<br><br><br>
+		<div class="pg"></div>
 	</div>
 	<br>
 

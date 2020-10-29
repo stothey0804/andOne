@@ -68,23 +68,12 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 		oneMemList = p001_d001DAO.selectOneMem(one_id);
 		return oneMemList;
 	}
-	//참가자 신청
-	@Override
-	public void addOneMember(Map<String, Object> addMemMap) {
-		p001_d001DAO.addOneMember(addMemMap);
-	}
+	//작성자 참가자 확인
 	@Override
 	public String omLeaderCheck(Map<String,Object> omCheckMap) {
 		String omLeaderCheck = p001_d001DAO.omLeaderCheck(omCheckMap);
 		System.out.println("서비스체크   :"+omLeaderCheck);
 		return omLeaderCheck;
 	}
-	@Override
-	public String checkPoint(String m_id) {
-		String point = p001_d001DAO.checkPoint(m_id);
-		return point;
-	}
-	
-	
 	
 }

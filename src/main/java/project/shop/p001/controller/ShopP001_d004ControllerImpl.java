@@ -1,7 +1,9 @@
 package project.shop.p001.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -40,7 +42,9 @@ public class ShopP001_d004ControllerImpl implements ShopP001_d004Controller{
 				ShopP002ShopDetailVO resultVO = new ShopP002ShopDetailVO();
 				resultVO.setSearchCondition("SEARCHBYBMID");
 				resultVO.setBm_id((String)session.getAttribute("bm_id"));
-				resultVO = shopP002_d001Service.getShopDetail(resultVO);
+				Map<String,Object> param = new HashMap<>();
+				param.put("vo", resultVO);
+				resultVO = shopP002_d001Service.getShopDetail(param);
 				if(resultVO == null) {
 					model.addAttribute("isNull",true);
 				}else {

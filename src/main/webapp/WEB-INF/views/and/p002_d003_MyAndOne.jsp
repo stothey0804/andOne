@@ -5,6 +5,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script type="text/javascript">
+		//취소하기 클릭
+		function cancelAndOne(one_id){
+			console.log("one_id>>"+one_id);
+			$.ajax({
+				type : "post",
+    			dataType: "text",
+    			async: "true",
+    			url:"${contextPath}/and/cancelOneMember.do",
+    			data:{
+    				"one_id":one_id
+    			},
+    			success:function(data,textSataus){
+    			}
+			})
+		}
+	</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -14,13 +31,13 @@
 			<c:if test="${flag eq 'participate'}">내가 참가한 &분의일</c:if>
 			<c:if test="${flag eq 'write'}">내가 쓴 &분의일</c:if>
 			</h2>
-			<div class="form-group col-sm-10 mx-auto p-0">
+			<div class="form-group col-sm-12 mx-auto p-0">
 				<table class="table">
 					<thead>
 						<tr class="text-center">
-							<th>No.</th><th>엔분의일</th><th style="width:350px;">제목</th><th>상태</th><th>금액</th><th>날짜</th>
-							<c:if test="${flag eq 'write'}"><th>수정/삭제</th></c:if>
-							<c:if test="${flag eq 'participate'}"><th>작성자</th></c:if>
+							<th>No.</th><th>엔분의일</th><th style="width:350px;">제목</th><th>진행상태</th><th>금액</th><th>날짜</th>
+							<c:if test="${flag eq 'write'}"><th>수정/삭제</th><th>신청확인</th></c:if>
+							<c:if test="${flag eq 'participate'}"><th>참가자상태</th><th>작성자</th><th>취소</th></c:if>
 							
 						</tr>
 					</thead>
@@ -34,7 +51,8 @@
 							<td>${list.one_state}</td> <!-- 상태 -->
 							<td>${list.one_price}</td>
 							<td>${list.om_date}</td>
-							<td>수정/삭제</td>
+							<td><button type="button" class="btn btn-link">수정</button><button type="button" class="btn btn-link">삭제</button></td>
+							<td><button type="button" class="btn btn-link" onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${list.one_id}'">참가신청확인</button></td>
 						</tr>
 					</tbody>
 					</c:if>
@@ -47,7 +65,9 @@
 							<td>${list.one_state}</td> <!-- 상태 -->
 							<td>${list.one_price}</td>
 							<td>${list.om_date}</td>
+							<td>${list.om_state}</td>							
 							<td>${list.WRITER_NICKNAME}</td>
+							<td><button type="button" class="btn btn-link" onclick="cancelAndOne('${list.one_id}')">취소</button></td>		
 						</tr>
 					</tbody>
 					</c:if>

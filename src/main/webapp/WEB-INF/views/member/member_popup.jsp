@@ -78,7 +78,7 @@ $(document).ready(function(){
 		<!-- 신고아이콘 -->
 		<div class="ml-auto mr-3">
 <!-- 			<i class="fas fa-bullhorn report text-danger"></i> -->
-			<button class="btn btn-block btn-outline-danger">신고하기</button>	
+			<a class="btn btn-block btn-outline-danger" href="${contextPath}/member/reportInit.do?target=${info.M_ID}&flag=member">신고하기</a>	
 			<a class="btn btn-outline-primary mt-2" href="${contextPath}/member/writeReview.do?target=${info.M_ID}">평가남기기</a>	
 		</div>
 	</div>

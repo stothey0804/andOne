@@ -53,6 +53,7 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 		Andone.put("m_id", m_id);//m_id 추가
 		
 		p002_d001Service.insertAndOne(Andone); //글쓰기
+		System.out.println(">>>>>>>>>>>>>>>>글쓰기 성공<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		p002_d001Service.insertOneMem(Andone); //참가자 테이블 추가하기
 		
 		return "redirect:/and?g_id="+g_id;

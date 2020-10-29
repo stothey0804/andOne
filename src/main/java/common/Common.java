@@ -63,13 +63,17 @@ public class Common {
 	 }
 	 
 	 //ClubUserImg encoding method
-	 public static void getEncodedUser(List<ClubMemberVO> list) {
+	 public static void getEncodedUser(List<ClubMemberVO> list){
 		 byte[] encoded = null;
 		 for(int i=0; i < list.size();i++) {
-			 if(list.get(i).getUserImg() != null) {
-				 encoded = Base64.getEncoder().encode(list.get(i).getUserImg());
-				 list.get(i).setResultUserImg(new String(encoded));	
-			 }
+			try {
+				 if(list.get(i).getUserImg() != null) {
+					 encoded = Base64.getEncoder().encode(list.get(i).getUserImg());
+					 list.get(i).setResultUserImg(new String(encoded));	
+				 }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		 }
 	 }
 	 //AndOneUserImg encoding method
@@ -92,8 +96,6 @@ public class Common {
 	 }
 
 	public static String formatTimeString(String regTime, CommonService commonService) {
-		// 비교시간
-//			long regTime = 0;
 		// 비교시간 생성 쿼리
 		int diffTime = commonService.selectCompareTime(regTime);
 		String msg = null;
@@ -110,9 +112,10 @@ public class Common {
 			// day
 			msg = (diffTime) + "일 전";
 		} else if ((diffTime /= TIME_MAXIMUM.DAY) < TIME_MAXIMUM.MONTH) {
-			// day
+			// month
 			msg = (diffTime) + "달 전";
 		} else {
+			// year
 			msg = (diffTime) + "년 전";
 		}
 		return msg;
