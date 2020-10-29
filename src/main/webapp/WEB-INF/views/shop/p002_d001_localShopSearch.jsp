@@ -75,6 +75,28 @@ a:active {
 a:hover {
 	color: black;
 }
+
+.headTable{
+	width:100%;
+}
+
+.toggleBG{
+	background: #CCCCCC; 
+	width: 70px; 
+	height: 30px; 
+	border: 1px solid #CCCCCC; 
+	border-radius: 15px;
+}
+
+.toggleFG{
+	background: #FFFFFF;
+	width: 30px; 
+	height: 30px; 
+	border: none; 
+	border-radius: 15px; 
+	position: relative; 
+	left: 0px;
+}
 </style>
 
 <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
@@ -83,7 +105,7 @@ a:hover {
 		var usedKeyword = '${usedKeyword}';
 		var lat = '';
 		var lng = '';
-		var isLimited = true;
+		var isLimited = false;
 		
 		$(document).ready(function () {
 			console.log(usedKeyword);
@@ -135,6 +157,39 @@ a:hover {
 			})
 		})
 		
+		$(document).on('click', '.toggleBG', function () {
+	        var toggleBG = $(this);
+	        var toggleFG = $(this).find('.toggleFG');
+	        var left = toggleFG.css('left');
+	        if(left == '40px') {
+	            toggleBG.css('background', '#CCCCCC');
+	            toggleActionStart(toggleFG, 'TO_LEFT');
+	        }else if(left == '0px') {
+	            toggleBG.css('background', '#4cbdff');
+	            toggleActionStart(toggleFG, 'TO_RIGHT');
+	        }
+	        isLimited = !isLimited;
+	        search(1);
+	    });
+	    
+	    // 토글 버튼 이동 모션 함수
+	    function toggleActionStart(toggleBtn, LR) {
+	        // 0.01초 단위로 실행
+	        var intervalID = setInterval(
+	            function() {
+	                // 버튼 이동
+	                var left = parseInt(toggleBtn.css('left'));
+	                left += (LR == 'TO_RIGHT') ? 5 : -5;
+	                if(left >= 0 && left <= 40) {
+	                    left += 'px';
+	                    toggleBtn.css('left', left);
+	                }
+	            }, 10);
+	        setTimeout(function(){
+	            clearInterval(intervalID);
+	        }, 201);
+	    }
+			
 		function printStar(score){
 			var calScore = score;
 			var resultStar = '';
@@ -322,11 +377,26 @@ a:hover {
 			<button id="90" type="button" class="btn btn-outline-info" onclick="">부동산</button>
 		</div>
 		<hr>
-		<h3>업체 리스트</h3>
-		<select id="sel">
+		<table class="headTable">
+		<tr>
+		<td width="90%" align="left"><h3>업체 리스트</h3>
+		</td>
+		</tr>	
+		<tr>
+		<td>
+		<div class='toggleBG'>
+        <button class='toggleFG'></button>
+   		</div>
+   		</td>
+   		<td>
+   		<select id="sel">
 			<option value="SCORE" selected>평점순</option>
 			<option value="REVIEW">후기많은순</option>
-		</select> <br><br>
+		</select>
+   		</td>
+   		</tr>
+		</table>
+		 <br><br>
 		<div class="row" id="result"></div>
 		<br><br><br>
 		<div class="pg"></div>
