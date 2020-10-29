@@ -118,7 +118,7 @@
 					// 신고하기 연결
 					function openReportPopup(){
 						var popupOpener;
-						popupOpener = window.open("${contextPath}/member/reportInit.do?target=${andoneDetail.one_id}&flag=one", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
+						popupOpener = window.open("${contextPath}/member/reportInit.do?target=${andoneDetail.one_id}&type=${andoneDetail.one_type}&flag=one", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
 					}
 			 		</script>
 				</c:otherwise>

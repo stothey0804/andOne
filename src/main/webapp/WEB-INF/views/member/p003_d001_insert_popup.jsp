@@ -22,6 +22,20 @@
 	}
 	
 </style>
+<script type="text/javascript">
+$(document).ready(function(){
+	// 에디터 set
+	let r_contentVal = '${article.r_content}';
+	CKEDITOR.replace('r_content',{filebrowserUploadUrl:'${contextPath}/editorFileUpload.do'});
+	CKEDITOR.instances["r_content"].setData(r_contentVal);
+	
+	var r_type = '${article.r_type_id}';
+	if(r_type!=null && r_type!=''){
+		console.log($("#selectType #" + r_type).val());
+		$("#selectType #" + r_type).attr('selected',true);
+	}
+});
+</script>
 </head>
 <body class="bg-light">
 	<div class="container p-4">
@@ -29,10 +43,10 @@
 		<c:if test="${flag eq '014'}">소모임 </c:if>
 		<c:if test="${flag eq '013'}">회원 </c:if>
 		<c:if test="${flag eq '015'}">&분의일 </c:if>
-			<c:if test="${empty content}">
+			<c:if test="${empty article}">
 			신고하기 작성
 			</c:if>
-			<c:if test="${not empty content}">
+			<c:if test="${not empty article}">
 			신고내용 수정
 			</c:if>
 		</p>
@@ -54,7 +68,7 @@
 					    <select class="form-control " id="selectType" name="r_type" required>
 					      <option value="">선택</option>
 					      <c:forEach var="list" items="${rTypeList}">
-						      <option value="${list.gc_id}">${list.gc_name}</option>
+						      <option id="${list.gc_id}" value="${list.gc_id}">${list.gc_name}</option>
 					      </c:forEach>
 					    </select>
 					  </div>
@@ -64,8 +78,10 @@
 					<textarea class="form-control" id="r_content" name="r_content" rows="30">
 					내용을 입력해주세요.
 					</textarea>
-					<script>CKEDITOR.replace('r_content',{filebrowserUploadUrl:'${contextPath}/editorFileUpload.do'});</script>				
 				</div>
+				<c:if test="${not empty article}">
+			 	<input type="hidden" name="r_id" value="${article.r_id}">
+				</c:if>
 			 <input type="hidden" name="r_category" value="${flag}">
 			 <input type="hidden" name="r_target" value="${r_target}">
 			 <input type="hidden" name="m_id" value="${sessionScope.m_id}">
