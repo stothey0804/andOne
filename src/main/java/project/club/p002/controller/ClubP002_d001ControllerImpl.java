@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import common.Common;
 import common.dao.CommonDAO;
 import project.club.p001.service.ClubP001_d001Service;
 import project.club.p002.service.ClubP002_d001Service;
@@ -31,8 +33,9 @@ public class ClubP002_d001ControllerImpl implements ClubP002_d001Controller{
 	
 	@Override
 	@RequestMapping(value="/club/createClubForm.do",method= {RequestMethod.GET})
-	public ModelAndView createClubForm() throws Exception {
-		ModelAndView mav = new ModelAndView("createClub");
+	public ModelAndView createClubForm(HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(Common.checkLoginDestinationView("createClub", request));
 		List<HashMap<String, String>> category = commonDAO.searchCommonCodeList("019");
 		mav.addObject("category", category);
 		return mav;
@@ -52,7 +55,7 @@ public class ClubP002_d001ControllerImpl implements ClubP002_d001Controller{
 		insertMap.put("c_ask",vo.getC_ask());
 		String c_id = clubP002_d001Service.nextC_id();
 		insertMap.put("c_id", c_id);
-		clubP002_d001Service.mergeClub(insertMap);
+		clubP002_d001Service.insertClub(insertMap);
 		String m_id = (String) session.getAttribute("m_id");
 		System.out.println("==========="+m_id);
 		insertMap.put("m_id", m_id);

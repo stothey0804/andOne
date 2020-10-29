@@ -21,7 +21,8 @@
 </head>
 <body>
 상세조회!<br>
-	
+
+	 <!-- 포인트 충전 Modal영역 -->
 	 <div class="modal fade" id="pointModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
 	 	<div class="modal-dialog">
                 <div class="modal-content">
@@ -45,6 +46,7 @@
                 </div>
                 </div>
 	 </div>
+	 
 	  <!-- 결제 진행 Modal영역 -->
 	 <div class="modal fade" id="chargeModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
 	 	<div class="modal-dialog">
@@ -64,6 +66,42 @@
 	                    	<button type="submit" class="btn btn-primary" onClick="openPayPopup()">결제하기</button>
 	                    	<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 	                    </form>
+                    </div>
+                </div>
+                </div>
+	 </div>
+	 
+	 <!-- 취소성공 Modal영역 -->
+	 <div class="modal fade" id="cancleOkModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+	 	<div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" id="ModalLabel">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h6>신청하신 &의일 취소가 완료되었습니다</h6> 
+                    </div>
+                    <div class="modal-footer">
+                    	<button type="submit" class="btn btn-primary" 
+                    	onclick="location.href='${contextPath}/and?g_id=${g_id}'">확인 ${g_id}</button>
+                    	<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+        </div>
+	 </div>
+	 
+	 <!-- 취소불가 Modal영역 -->
+	 <div class="modal fade" id="cancleFailModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+	 	<div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" id="ModalLabel">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h6>수령시간 30분전까지만 취소가 가능합니다</h6> 
+                    </div>
+                    <div class="modal-footer">
+	                    	<button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
                     </div>
                 </div>
                 </div>
@@ -109,7 +147,7 @@
 				 	<br><button onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button>				 	
 	 			</c:when>
 	 			<c:when test="${omLeaderCheck eq '20'}"> <!-- 참가자 -->
-				 	<button id="cancle">취소하기</button>
+				 	<button onclick="CancelAndOne('${andoneDetail.one_id}')">취소하기</button>
 				</c:when>
 				<c:otherwise>
 			 		<button onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
@@ -118,7 +156,7 @@
 					// 신고하기 연결
 					function openReportPopup(){
 						var popupOpener;
-						popupOpener = window.open("${contextPath}/member/reportInit.do?target=${andoneDetail.one_id}&flag=one", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
+						popupOpener = window.open("${contextPath}/member/reportInit.do?target=${andoneDetail.one_id}&type=${andoneDetail.one_type}&flag=one", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
 					}
 			 		</script>
 				</c:otherwise>
@@ -191,7 +229,32 @@
         			}
         		})
        		}
-   		 // 포인트충전하기 클릭
+       //취소하기
+       function CancelAndOne(one_id){
+	        console.log(one_id);
+   			$.ajax({
+	   			type : "post",
+	   			dataType: "text",
+	   			async: "true",
+	   			url:"${contextPath}/and/cancelOneMember.do",
+	   			data:{
+	   				"one_id" : one_id
+   			},
+   			success:function(data,textSataus){
+   				console.log("확인: "+data);
+   				if(data == 'true'){
+   					console.log("취소성공");
+   					$('#cancleOkModal').modal("show");
+   					}else{
+   						console.log("취소불가");
+   						$('#cancleFailModal').modal("show");
+   					}
+			}
+		})
+		}
+       
+       
+	   // 포인트충전하기 클릭
 		function openPopup(){
 			let popTitle = "popupOpener";
 			window.open("", popTitle, "resizable=yes,top=0,left=0,width=450,height=500");
@@ -201,7 +264,7 @@
 			frmData.submit();
 	       }
    		 
-   		 //결제하기 클릭
+   	   //결제하기 클릭
 	    function openPayPopup(){
 	    	let popTitle = "payPopupOpener";
 	    	window.open("", popTitle, "resizable=yes,top=0,left=0,width=450,height=500");

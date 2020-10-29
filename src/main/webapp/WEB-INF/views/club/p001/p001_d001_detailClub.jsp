@@ -39,11 +39,12 @@
 
 .left {
 	margin-top: 0;
-	position: fixed;
+ 	position: absolute; 
+	width:17rem;
 }
 
 .right {
-	margin-left: 300px;
+	margin-left: 290px;
 	margin-top: 17px;
 }
 
@@ -71,10 +72,6 @@
 .bi-bookmark-star-fill ,.side{
 	fill: #ffcc00;
 	display: inline-block;
-}
-
-.show {
-	position: fixed;
 }
 
 .sub {
@@ -110,6 +107,16 @@
 	-webkit-border-radius: 70px;
 	width: 60px;
 	height: 60px;
+}
+
+.r_userImg {
+	position: relative;
+	border-radius: 70px;
+	-moz-border-radius: 70px;
+	-khtml-border-radius: 70px;
+	-webkit-border-radius: 70px;
+	width: 45px;
+	height: 45px;
 }
 .bi-file-earmark-lock-fill,.c{
 	margin:auto;
@@ -206,7 +213,6 @@
             type : 'POST', 
             data : formData, 
             success : function(data) {
-                alert("보냇음");
                 location.reload();
             },
             error:function(data){
@@ -215,6 +221,39 @@
 		})
 	}
 	
+<<<<<<< HEAD
+	function insertReply(ca_id){
+		const car_content = document.getElementById('comment'+ca_id).value;
+		$.ajax({
+			url:"${contextPath}/club/insertReply.do?ca_id"+ca_id,
+			type : "get",
+			async: true,
+			data : {ca_id:ca_id,car_content:car_content},
+			success : function(data){
+				location.reload();
+			},
+			error:function(data,textStatus){
+				alert("error");
+			}
+		})
+	}
+	
+	function deleteReply(car_id){
+		if (window.confirm("댓글을 삭제하시겠습니까?")) { 
+			$.ajax({
+				url:"${contextPath}/club/deleteReply.do",
+				type : "get",
+				data : {car_id : car_id},
+				async: true,
+				success : function(data){
+					location.reload();
+				},
+				error : function(data,textStatus){
+					alert("error");
+				}
+			})
+		}
+		
 	// 신고하기 연결
 	function openReportPopup(){
 		var popupOpener;
@@ -227,7 +266,7 @@
 <div class="row" style="clear:both;">
 	<div class="container my-6 center top">
 		<div class="left">
-			<div class="card info" style="width: 18rem; margin-top:17px;">
+			<div class="card info" style="width: 17rem; margin-top:17px;">
 			<c:set var="c_img" value="${clubImg}"/>
 				<c:choose>
 					<c:when test="${c_img eq ''}">
@@ -240,7 +279,9 @@
 				<div class="card-body">
 					<h5 class="card-title">${clubInfo.c_name }</h5>
 					<p class="card-text">함께하는 사람 ${clubInfo.c_membercnt }</p>
-					<small class="text-muted" style="height: 14px">#${clubInfo.c_hashtag}</small>
+					<c:if test="${clubInfo.c_hashtag ne null}">
+						<small class="text-muted" style="height: 14px">#${clubInfo.c_hashtag}</small>
+					</c:if>
 					<c:set var="cm_rank" value="${rank}"/>
 						<c:choose>
 							<c:when test="${rank eq 10}">
@@ -275,7 +316,7 @@
 			</div>
 		</div>
 		<div class="right">
-			<div class="card">
+			<div class="card" style="width: 700px;">
 				<div class="card-header">${clubInfo.c_name }</div>
 				<div class="card-body">
 					<h5>${clubInfo.c_content }</h5>
@@ -285,10 +326,10 @@
 			<!--소모임 게시글  -->
 			<c:choose>
 			<c:when test="${rank eq 10 or rank eq 20 or rank eq 30}">
-			<c:forEach var="club" items="${clubInfo.articleList }">
-			<c:set var="m_img" value="${club.resultUserImg }"/>
-				<div class="card article" style="width: 500px; height: auto;">
+			<c:forEach var="club" items="${clubInfo.articleList}">
+				<div class="card article" style="width: 700px; height: auto;">
 					<div class="card-body" style="height: auto">
+			<c:set var="m_img" value="${club.resultUserImg}"/>
 					<c:choose>
 						<c:when test="${m_img ne null}">
 							<img src="data:image/jpg;base64, ${club.resultUserImg}" class="userImg">
@@ -305,9 +346,9 @@
 									<svg width="1.5em" height="1.5em" viewBox="0 0 16 16"
 										class="bi bi-bookmark-star-fill" fill="currentColor"
 										xmlns="http://www.w3.org/2000/svg">
-  							<path fill-rule="evenodd"
+  										<path fill-rule="evenodd"
 											d="M4 0a2 2 0 0 0-2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4zm4.16 4.1a.178.178 0 0 0-.32 0l-.634 1.285a.178.178 0 0 1-.134.098l-1.42.206a.178.178 0 0 0-.098.303L6.58 6.993c.042.041.061.1.051.158L6.39 8.565a.178.178 0 0 0 .258.187l1.27-.668a.178.178 0 0 1 .165 0l1.27.668a.178.178 0 0 0 .257-.187L9.368 7.15a.178.178 0 0 1 .05-.158l1.028-1.001a.178.178 0 0 0-.098-.303l-1.42-.206a.178.178 0 0 1-.134-.098L8.16 4.1z" />
-						</svg>
+									</svg>
 								</div>
 							</c:when>
 						</c:choose>
@@ -317,40 +358,122 @@
 						<div class="swiper-wrapper">
 						<c:set var="ca_img" value="${club.articleImgList}" />
 							<c:forEach var="ca_img" items="${club.articleImgList}">
-						<c:choose>
-							<c:when test="${ca_img.resultArticleImg eq null}">
-							</c:when>
-							<c:otherwise>
-								<div class="swiper-slide">
-									<img src="data:image/jpg;base64, ${ca_img.resultArticleImg}" class="ca_img">
-								</div>
-							</c:otherwise>
-						</c:choose>
+								<c:if test="${ca_img.resultArticleImg ne null }">
+									<div class="swiper-slide">
+										<img src="data:image/jpg;base64, ${ca_img.resultArticleImg}" class="ca_img">
+									</div>
+								</c:if>
 							</c:forEach>
-								</div>
-							<!-- Add Pagination -->
+						</div>
+						<!-- Add Pagination -->
 					    <div class="swiper-pagination"></div>
 					    <!-- Add Arrows -->
 					    <div class="swiper-button-next"></div>
 					    <div class="swiper-button-prev"></div>
 					    </div>
+					    
+						<!--댓글 -->
+					    <a class="small text-decoration-none" data-toggle="collapse" href="#collapseExample${club.ca_id}" role="button" aria-expanded="false" aria-controls="collapseExample">
+							<svg width="1.6em" height="1.6em" viewBox="0 0 16 16" class="bi bi-chat-left-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							  <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v11.586l2-2A2 2 0 0 1 4.414 11H14a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+							  <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+							</svg>
+						<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+						<c:choose>
+							<c:when test="${fn:length(club.articleReplyList) ne 0}"> 
+							댓글 ${fn:length(club.articleReplyList)}개
+							</c:when>
+							<c:otherwise>
+								댓글 0개
+							</c:otherwise>
+						</c:choose>
+						</a>
+						<br>
+						<div class="collapse" id="collapseExample${club.ca_id}">
+								<div class="card border border-right-0 border-left-0 border-bottom-0">
+									<!-- new comment form -->
+									<section class="mt-3">
+										<form action="">
+											<div class="input-group input-group">
+												<input type="text" id="comment${club.ca_id}" class="form-control" placeholder="Write Comment" aria-label="Recipient's username" aria-describedby="basic-addon2">
+												<div class="input-group-append">
+													<a class="text-decoration-none text-white btn btn-primary" href='javascript:void(0);' onclick="insertReply(${club.ca_id});" role="button">Comment</a>
+												</div>
+											</div>
+										</form>
+									</section>
+									<!-- comment card bgins -->
+									<section>
+								<c:if test="${ca.reply eq null}">
+									<c:forEach var="ca_reply" items="${club.articleReplyList}">
+										<div class="card p-2 mt-3">
+											<!-- comment header -->
+											<div class="d-flex">
+												<div class="">
+													<a class="text-decoration-none" href="#">
+													<c:set var="m_img" value="${ca_reply.e_m_img}"/>
+														<c:choose>
+															<c:when test="${m_img ne null}">
+																<img src="data:image/jpg;base64, ${ca_reply.e_m_img}" class="r_userImg">
+															</c:when>
+															<c:otherwise>
+																<img src="${contextPath}/resources/image/user.png" class="r_userImg">
+															</c:otherwise>
+														</c:choose>
+													</a>
+												</div>
+												<div class="flex-grow-1 pl-2">
+													<a class="text-decoration-none text-capitalize h6 m-0" href="#">${ca_reply.m_nickname}</a>
+													<p class="small m-0 text-muted">${ca_reply.car_date}</p>
+												</div>
+												<!--댓글작성자 수정/삭제 -->
+												<c:set var="logOnId" value="${m_id}" />
+												<c:set var="reply_writer" value="${ca_reply.m_id}" />
+												<c:if test="${logOnId eq reply_writer}">
+												<div>
+													<div class="dropdown">
+														<a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+														<i class="fas fa-chevron-down"></i>
+														</a>
+
+														<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+															<a class="dropdown-item text-primary" href="#">Edit</a>
+														 	<a class="dropdown-item text-primary" onclick="deleteReply(${ca_reply.car_id});">Delete</a>
+														</div>
+													</div>
+												</div>
+												</c:if>
+											</div>
+											<!-- comment header -->
+											<!-- comment body -->
+											<div class="card-body p-0">
+												<p class="card-text h7 mb-1">${ca_reply.car_content}</p>
+											</div>
+										</div>
+										</c:forEach>
+										</c:if>
+									</section>
+									<!-- comment card ends -->
+
+								</div>
+							</div>
 						<!--본인이 쓴 글일 경우 수정,삭제 메뉴 -->
 						<c:set var="logOnId" value="${m_id }" />
 						<c:set var="writer" value="${club.m_id }" />
 						<c:choose>
 							<c:when test="${logOnId eq writer}">
-								<svg onclick="menuTap(${club.ca_id});" width="1em" height="1em"
+							<svg onclick="menuTap(${club.ca_id});" width="1em" height="1em"
 									viewBox="0 0 16 16" class="tap bi bi-three-dots"
-									fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="float:right">
   								<path fill-rule="evenodd"
 										d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
 							</svg>
 								<div class="sub ${club.ca_id}">
-									<button type="button" class="btn btn-outline-secondary"
-										onclick="location.href='${contextPath }/club/editClubArticleForm.do?ca_id=${club.ca_id}&&c_id=${clubInfo.c_id}'">수정</button>
-									<button type="button" class="btn btn-outline-danger delete"
+									<button type="button" class="btn btn-outline-danger delete" style="float:right"
 										onclick="send(${club.ca_id})" data-toggle="modal"
 										data-target="#staticBackdrop">삭제</button>
+									<button type="button" class="btn btn-outline-secondary" style="float:right"
+										onclick="location.href='${contextPath }/club/editClubArticleForm.do?ca_id=${club.ca_id}&&c_id=${clubInfo.c_id}'">수정</button>
 								</div>
 							</c:when>
 						</c:choose>
@@ -359,7 +482,7 @@
 			</c:forEach>
 			</c:when>
 			<c:otherwise>
-					<div class="card bg-light text-secondary secret" style="text-align:center; height:400px; margin-top:20px;">
+					<div class="card bg-light text-secondary secret" style="text-align:center; width:700px; height:500px; margin-top:20px;">
 					<div class="c">
 					<svg width="4em" height="4em" viewBox="0 0 16 16" class="bi bi-file-earmark-lock-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   						<path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zM7 7a1 1 0 0 1 2 0v1H7V7zm3 0v1.076c.54.166 1 .597 1 1.224v2.4c0 .816-.781 1.3-1.5 1.3h-3c-.719 0-1.5-.484-1.5-1.3V9.3c0-.627.46-1.058 1-1.224V7a2 2 0 1 1 4 0zM6 9.3c0-.042.02-.107.105-.175A.637.637 0 0 1 6.5 9h3a.64.64 0 0 1 .395.125c.085.068.105.133.105.175v2.4c0 .042-.02.107-.105.175A.637.637 0 0 1 9.5 12h-3a.637.637 0 0 1-.395-.125C6.02 11.807 6 11.742 6 11.7V9.3z"/>
@@ -413,7 +536,7 @@
 				</div>
 			</div>
 		</div>
-			<div class="side" style="height:80%;">
+			<div class="side" style="height:80%;margin-left:210px;">
 				<h5>리더</h5>
 				<c:forEach var="leader" items="${leader}">
 					<c:set var="leader" value="${leader.resultUserImg}" />
@@ -498,31 +621,6 @@
     </div>
   </div>
 </div>
-
-<!--reportClub Modal -->
-<!-- <div class="modal fade" id="reportClub" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> -->
-<!--   <div class="modal-dialog"> -->
-<!--     <div class="modal-content"> -->
-<!--       <div class="modal-header"> -->
-<!--         <h5 class="modal-title" id="exampleModalLabel">소모임 신고하기</h5> -->
-<!--         <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
-<!--           <span aria-hidden="true">&times;</span> -->
-<!--         </button> -->
-<!--       </div> -->
-<%--       <form action="${contextPath}/club/reportClub.do?c_id=${clubInfo.c_id}" method="post"> --%>
-<!--       <div class="modal-body"> -->
-<%--       	<c:forEach var="c" items="${reportType}"> --%>
-<%-- 			<input type="radio" name="rc_type" value="${c.gc_id}">${c.gc_name}<br> --%>
-<%-- 		</c:forEach> --%>
-<!--       </div> -->
-<!--       <div class="modal-footer"> -->
-<!--         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> -->
-<!--         <input type="submit" class="btn btn-primary" value="신고하기"> -->
-<!--       </div> -->
-<!--       </form> -->
-<!--     </div> -->
-<!--   </div> -->
-<!-- </div> -->
  <!-- Swiper JS -->
  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 

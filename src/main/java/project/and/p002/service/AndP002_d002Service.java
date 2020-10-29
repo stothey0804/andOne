@@ -9,5 +9,7 @@ public interface AndP002_d002Service {
 	public List<AndOneMemberVO> AndOnewaitMemList(String one_id);
 	public void okOneMember(Map<String, Object> okMap);
 	public void denyOneMember(Map<String, Object> denyMap);
+	public int CancelTime(String one_id);
+	public void cancelOneMember(Map<String, Object> cancelMap);
 
 }

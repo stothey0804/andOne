@@ -36,20 +36,20 @@
 	$(document).ready(function(){
 		$(".arcticleSubject").click(function(){
 		  	let id = getArticleId(this);
-		    $("#"+id + " .arcticleBody").toggle();	// q_id get
+		    $("#"+id + " .arcticleBody").toggle();	// r_id get
 		});
 		
 		// 수정
 		$(".editContent").click(function(){
-			let id = getArticleId(this);	// q_id get
-			dynamicFormInsert(id,"qna");
+			let id = getArticleId(this);	// r_id get
+			dynamicFormInsert(id,"reportInit");
 		});
 		
 		// 삭제
 		$(".deleteArticle").click(function(){
-			let id = getArticleId(this);	// q_id get
+			let id = getArticleId(this);	// r_id get
 			if(confirm("삭제 하시겠습니까?")){
-				dynamicFormInsert(id, "deleteMemberQnA");
+				dynamicFormInsert(id, "deleteReport");
 			}
 		});
 		
@@ -66,7 +66,7 @@
 			// form에 연결
 			let input = document.createElement('input');
 			input.setAttribute("type","hidden");
-			input.setAttribute("name","q_id");
+			input.setAttribute("name","r_id");
 			input.setAttribute("value",id);
 			frm.appendChild(input);	// append q_id
 			document.body.appendChild(frm);	// append form
@@ -77,23 +77,24 @@
 </head>
 <body>
 <div class="container">
-			<h2 class="m-5">문의내역</h2>
+			<h2 class="m-5">신고내역</h2>
 			<div class="form-group col-sm-10 mx-auto p-0">
 				<table class="table">
 					<thead>
 						<tr class="text-center">
-							<th>문의번호</th><th>사유</th><th style="width:400px;">제목</th><th>날짜</th><th>처리상태</th>
+							<th>신고번호</th><th>분류</th><th>사유</th><th style="width:400px;">제목</th><th>날짜</th><th>처리상태</th>
 						</tr>
 					</thead>
 					<c:forEach var="list" items="${articleList}">
-					<tbody id="${list.q_id}">
+					<tbody id="${list.r_id}">
 						<tr class="arcticleSubject text-center">
-							<td>${list.q_id}</td><td>${list.q_type}</td><td class="text-left">${list.q_subject}</td><td>${list.q_date}</td><td>${list.q_state}</td>
+							<td>${list.r_id}</td><td>${list.r_category}</td><td>${list.r_type}</td><td class="text-left">${list.r_subject}</td><td>${list.r_date}</td><td>${list.r_state}</td>
 						</tr>
 						<!-- 내용영역 -->
 						<tr style="display:none;" class="arcticleBody">
-							<td colspan="5" class="p-3">
-								${list.q_content}
+							<td colspan="6" class="p-3">
+								대상: ${list.r_target}<br>
+								${list.r_content}
 							<div class="form-inline">
 								<div class="mt-2 ml-auto">
 									<button type="button" class="editContent btn btn-primary mr-1">수정</button>
@@ -104,9 +105,9 @@
 						</tr>
 						<!-- 내용영역 END -->
 						<tr style="display:none;" class="arcticleBody">
-							<td colspan="5" class="p-3 bg-light">
+							<td colspan="6" class="p-3 bg-light">
 							관리자답변: <br>
-								${list.q_reply}
+								${list.r_reply}
 							</td>
 						</tr>					
 					</tbody>
