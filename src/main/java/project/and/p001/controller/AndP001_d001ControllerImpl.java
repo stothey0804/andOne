@@ -155,6 +155,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	@RequestMapping(value="/and*/detailAndOne.do")
 	public ModelAndView andOneDetail(@RequestParam Map<String, Object> detailMap, HttpServletRequest request) throws Exception {
 		String one_id = (String) detailMap.get("one_id");
+		String g_id = (String) detailMap.get("g_id");
 		System.out.println("상세조회용  one_id: "+one_id);
 		System.out.println(">>>>oneType:"+detailMap.get("g_id"));
 		
@@ -179,6 +180,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		mav.addObject("oneMemList",oneMemList);
 		mav.addObject("omLeaderCheck",omLeaderCheck);
 		mav.addObject("m_nickname",m_nickname);
+		mav.addObject("g_id",g_id);
 		return mav;
 	}
 	//포인트충전

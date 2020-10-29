@@ -28,6 +28,17 @@ public class AndP002_d002ServiceImpl implements AndP002_d002Service {
 	@Override
 	public void denyOneMember(Map<String, Object> denyMap) {
 		p002_d002DAO.updateDenyOneMember(denyMap);
+	}
+
+	@Override
+	public int CancelTime(String one_id) {
+		int CancelTime = p002_d002DAO.selectCancelTime(one_id);
+		return CancelTime;
+	}
+
+	@Override
+	public void cancelOneMember(Map<String, Object> cancelMap) {
+		p002_d002DAO.updateCancelOneMember(cancelMap);
 	} 
 
 }
