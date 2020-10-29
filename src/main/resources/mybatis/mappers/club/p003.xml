@@ -15,10 +15,13 @@
 	</resultMap>
 	
 	<delete id="deleteClubArticle">
-		<![CDATA[
-			delete from c_article
-			where ca_id = #{ca_id}
-		]]>
+		{call
+			declare
+			begin
+				DELETE FROM c_article WHERE ca_id = #{ca_id};
+				DELETE FROM ca_image WHERE ca_id = #{ca_id};
+			end
+		}	
 	</delete>
 
 	<delete id="deleteArticleImg">
@@ -68,6 +71,7 @@
 		SELECT art_SEQ.CURRVAL
 		FROM dual
 	</select>
+	
 	<update id="updateArticle">
 		UPDATE c_article
 		SET ca_content = #{ca_content}

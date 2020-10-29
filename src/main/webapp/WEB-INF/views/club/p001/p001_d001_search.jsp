@@ -38,6 +38,7 @@ h3 {
 
 .text-bold {
 	font-weight: bold;
+	color:navy;
 }
 
 .card:hover {
@@ -46,7 +47,7 @@ h3 {
 	cursor: pointer;
 }
 
-.c_img{
+img{
 	width: 100%;
 	object-fit: cover;
 	height: 270px;
@@ -72,9 +73,22 @@ h3 {
 													+ searchWord + "</span>"))
 						})
 			})
+function init(){
+	var txt = document.getElementsByClassName("str");
+	for(i=0;i<txt.length;i++){
+		document.getElementsByClassName("str")[i].innerHTML = txt[i].innerText;
+	}
+}
+ 
+function removeHTML(text){
+	text = text.toString().replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
+	text = text.toString().replace(/<br\/>/ig, "\n");
+	text.substring(0,200);
+	return text;
+}
 </script>
 </head>
-<body>
+<body onload="init();">
 	<form class="searchClub container center" name="searchFrm"
 		method="post" action="${contextPath}/club/searchClub.do">
 <a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br>
@@ -95,7 +109,7 @@ h3 {
 		</c:choose>
 		<c:forEach var="club" items="${resultList}">
 			<div class="card my-3 center"
-				style="max-width: 540px;">
+				style="max-width: 540px;margin-right:0;">
 				<div class="row no-gutters"
 					onclick="location.href='${contextPath }/club/detailClub.do?c_id=${club.c_id}'">
 					<div class="col-md-4" style="width: 500px">
@@ -114,15 +128,17 @@ h3 {
 					<div class="col-md-8">
 						<div class="card-body">
 							<h5 class="card-title result">${club.c_name}</h5>
-							<p class="card-text result">${club.c_content}</p>
+							<div class="str">
+								<p class="card-text result">${club.c_content}</p>
+							</div>
 							<p class="card-text result">
-								<small class="text-muted">카테고리 ${club.c_category }</small>
+								<small class="text-muted">카테고리 ${club.c_category}</small>
 							</p>
 							<p class="card-text result">
-								<small class="text-muted">#${club.c_hashtag }</small>
+								<small class="text-muted">#${club.c_hashtag}</small>
 							</p>
 							<p class="card-text">
-								<small class="text-muted">함께하는 사람 ${club.c_membercnt }</small>
+								<small class="text-muted">함께하는 사람 ${club.c_membercnt}</small>
 							</p>
 						</div>
 					</div>

@@ -354,7 +354,7 @@ function removeHTML(text){
 							<div class="card-body" style="height: 225px">
 								<h5 class="card-title" style="height: 20%">${club.c_name}</h5>
 								<div class="str">
-								<p class="card-text" style="height: 40%">${club.c_content}</p>
+									<p class="card-text" style="height: 40%">${club.c_content}</p>
 								</div>
 								<p class="card-text">
 									<small class="text-muted" style="height: 14px">${club.c_category}</small>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="club.p003_d003">
+	<insert id="insertReply">
+		INSERT INTO ca_reply(car_id,car_content,car_date,m_id,ca_id)
+		VALUES(CA_REPLY_SEQ.NEXTVAL,#{car_content},to_char(sysdate,'YYYY-MM-DD hh:mm'),#{m_id},#{ca_id})
+	</insert>
+	
+	<delete id="deleteReply">
+		DELETE FROM ca_reply
+		WHERE car_id = #{car_id}
+	</delete>
+</mapper>

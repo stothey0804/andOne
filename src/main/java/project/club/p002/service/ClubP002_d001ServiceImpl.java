@@ -36,5 +36,10 @@ public class ClubP002_d001ServiceImpl implements ClubP002_d001Service{
 	public void updateClub(Map<String, Object> insertMap) {
 		clubP002_d001DAO.updateClub(insertMap);
 	}
+
+	@Override
+	public void insertClub(Map<String, Object> insertMap) {
+		clubP002_d001DAO.inserClub(insertMap);
+	}
 	
 }
