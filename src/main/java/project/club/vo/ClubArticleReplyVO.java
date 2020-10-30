@@ -1,5 +1,7 @@
 package project.club.vo;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -7,6 +9,15 @@ public class ClubArticleReplyVO {
 	private String car_content,car_id,m_nickname,ca_id,car_date,m_id;
 	private byte[] m_img;
 	private String e_m_img;
+	private List<ClubArticleReplyVO> articleRe_replyList;
+
+	public List<ClubArticleReplyVO> getArticleRe_replyList() {
+		return articleRe_replyList;
+	}
+
+	public void setArticleRe_replyList(List<ClubArticleReplyVO> articleRe_replyList) {
+		this.articleRe_replyList = articleRe_replyList;
+	}
 
 	public String getM_id() {
 		return m_id;
