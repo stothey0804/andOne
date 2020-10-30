@@ -50,8 +50,6 @@ $(document).ready(function(){
 		
 	});
 	
-
-	
 	$(".searchDetail").click(function(){	// QNA
 		$("#popup-container").toggle();
 		// ajax
@@ -76,14 +74,84 @@ $(document).ready(function(){
 //            	$("#detail_q_reply").val(data.q_reply);
             }
 		});
-		
+	});
+
+	$(".searchReportDetail").click(function(){	// 신고하기
+		$("#popup-container").toggle();
+		// ajax
+		let _r_id = (event.target).parentNode.parentNode.getAttribute("id");
+		$.ajax({
+            type: "post",
+            async: "true",
+            dataType: "json",
+            data: {
+                r_id: _r_id //data로 넘겨주기
+            },
+            url: "popupReportDetail.do",
+            success: function (data, textStatus) {
+            	$("#detail_r_id").html(data.r_id);
+            	$("#detail_r_type").html(data.r_type);
+            	$("#detail_r_category").html(data.r_category);
+            	$("#detail_r_target").html(data.r_target);
+            	$("#detail_r_state").html(data.r_state);
+            	$("#detail_m_id").html(data.m_id);
+            	$("#detail_r_subject").html(data.r_subject);
+            	$("#detail_r_content").html(data.r_content);
+            	$("#detail_r_date").html(data.r_date);
+				CKEDITOR.instances.detail_r_reply.setData(data.r_reply);
+//            	$("#detail_q_reply").val(data.q_reply);
+            }
+		});
 	});
 	
 	$("#popup-close").click(function(){
 		$("#popup-container").toggle();
 	});
 	
-	//상태변경
+	//상태변경 report
+	$("#editReportState").click(function(){
+		// ajax
+		let _r_id = $("#detail_r_id").text();
+		let _r_state = $("#edit_r_state").val();
+		let _m_id = $("#detail_m_id").text();
+		$.ajax({
+            type: "post",
+            async: "true",
+            dataType: "text",
+            data: {
+                //data로 넘겨주기
+                r_id: _r_id,
+                r_state: _r_state
+            },
+            url: "saveReportState.do",
+            success: function (data, textStatus) {
+				alert("변경완료");
+				// 알림
+				let type = '70';
+				let target = _m_id;
+				let content = '['+_r_id+'] 신고내역의 상태가 변경되었습니다.' ;
+				let url = '/andOne/member/searchReport.do';
+				// db저장	
+				$.ajax({
+					type: 'post',
+					url: '/andOne/member/saveNotify.do',
+					dataType: 'text',
+					data: {
+						target: target,
+						content: content,
+						type: type,
+						url: url
+					},
+					success: function(){
+						socket.send("관리자,"+target+","+content+","+url);	// 소켓에 전달
+					}
+				});
+            	location.reload();	// 새로고침
+            }
+		});
+	});
+
+	//상태변경 QNA
 	$("#editState").click(function(){
 		// ajax
 		let _q_id = $("#detail_q_id").text();
@@ -125,7 +193,49 @@ $(document).ready(function(){
             }
 		});
 	});
-	//답변작성
+
+	//답변작성 Report
+	$("#saveReportReply").click(function(){
+		// ajax
+		let _r_id = $("#detail_r_id").text();
+		let _r_reply =	CKEDITOR.instances.detail_r_reply.getData();
+		let _m_id = $("#detail_m_id").text();
+		$.ajax({
+			type: "post",
+			async: "true",
+			dataType: "text",
+			data: {
+				//data로 넘겨주기
+				r_id: _r_id,
+				r_reply: _r_reply
+			},
+			url: "saveReportState.do",
+			success: function (data, textStatus) {
+				// 알림
+				let type = '70';
+				let target = _m_id;
+				let content = '['+_r_id+'] 신고내역 답변이 등록되었습니다.' ;
+				let url = '/andOne/member/searchReport.do';
+				// db저장	
+				$.ajax({
+					type: 'post',
+					url: '/andOne/member/saveNotify.do',
+					dataType: 'text',
+					data: {
+						target: target,
+						content: content,
+						type: type,
+						url: url
+					},
+					success: function(){
+						socket.send("관리자,"+target+","+content+","+url);	// 소켓에 전달
+					}
+				});
+			}
+		});
+	});
+	
+	//답변작성 Qna
 	$("#saveReply").click(function(){
 		// ajax
 		let _q_id = $("#detail_q_id").text();
@@ -164,15 +274,6 @@ $(document).ready(function(){
 				});
 			}
 		});
-		// let frmDetail = document.frmDetail;
-		// let q_idVal = $("#detail_q_id").text();
-		// let q_id = document.createElement('input');
-		// q_id.setAttribute("type","hidden");
-		// q_id.setAttribute("name","q_id");
-		// q_id.setAttribute("value",q_idVal);
-		// frmDetail.appendChild(q_id);
-		// frmDetail.action = "sendReplyQnA.do";
-		// frmDetail.submit();
 	});
 
 });

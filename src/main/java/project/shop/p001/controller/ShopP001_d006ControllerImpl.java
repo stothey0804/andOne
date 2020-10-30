@@ -61,6 +61,9 @@ public class ShopP001_d006ControllerImpl implements ShopP001_d006Controller{
 			@RequestParam String path, Model model) {
 		model.addAttribute("bm_id",bm_id);
 		model.addAttribute("s_id",s_id);
+		if(path.equals("modifyShop")) {
+			model.addAttribute("locate",shopP001_d006Service.getShopLocateByShopId(s_id));
+		}
 		return path;
 	}
 	
@@ -92,7 +95,7 @@ public class ShopP001_d006ControllerImpl implements ShopP001_d006Controller{
 		System.out.println("====> 가게점수 : "+shopVO.getS_score());
 		System.out.println("====> 가게소개 : "+shopVO.getS_content());
 		System.out.println("====> 업주 아이디 : "+shopVO.getBm_id());
-		System.out.println("====> 위치정보 : "+shopVO.getS_locate());
+		System.out.println("====> 위치정보 : "+shopVO.getS_locate_lat() + " // " + shopVO.getS_locate_lng());
 		System.out.println("====> 가게전화번호 : "+shopVO.getS_phoneNumber());
 		System.out.println("====> 해시태그 : "+shopVO.getS_hashtag());
 		/*	s_id : 입력받은 데이터 vo에서 get
@@ -101,7 +104,7 @@ public class ShopP001_d006ControllerImpl implements ShopP001_d006Controller{
 		 *	s_score : 입력받은 데이터 vo에서 get(타입 히든 - 0으로 고정)
 		 *	s_content : 입력받은 데이터 vo에서 get
 		 *	bm_id : 입력받은 데이터 vo에서 get(타입 히든 - 로그인중인 아이디)
-		 *	s_locate : 입력받은 데이터 vo에서 get(현재 임시로 더미값 히든으로 넣고있음)
+		 *	s_locate : 입력받은 데이터 vo에서 get
 		 *	s_phonenumber : 입력받은 데이터 vo에서 get
 		 *	s_hashtag : 입력받은 데이터 vo에서 get
 		 * */
@@ -143,7 +146,7 @@ public class ShopP001_d006ControllerImpl implements ShopP001_d006Controller{
 		System.out.println("====> 가게점수 : "+shopVO.getS_score());
 		System.out.println("====> 가게소개 : "+shopVO.getS_content());
 		System.out.println("====> 업주 아이디 : "+shopVO.getBm_id());
-		System.out.println("====> 위치정보 : "+shopVO.getS_locate());
+		System.out.println("====> 위치정보 : "+shopVO.getS_locate_lat() + " // " + shopVO.getS_locate_lng());
 		System.out.println("====> 가게전화번호 : "+shopVO.getS_phoneNumber());
 		System.out.println("====> 해시태그 : "+shopVO.getS_hashtag());
 	
@@ -197,6 +200,7 @@ public class ShopP001_d006ControllerImpl implements ShopP001_d006Controller{
 		Pagination pagination = new Pagination(listCnt, curPage);
 		Map<String, String> searchParam = new HashMap<>();
 		searchParam.put("s_id",s_id);
+		searchParam.put("isAll","true");
 		searchParam.put("startIndex",(pagination.getStartIndex()+1)+"");
 		searchParam.put("endIndex",(pagination.getStartIndex()+pagination.getPageSize())+"");
 		List<ShopP003ShopReviewVO> reviewList = new ArrayList<>();
@@ -210,6 +214,20 @@ public class ShopP001_d006ControllerImpl implements ShopP001_d006Controller{
 		mav.addObject("reviewCount",listCnt);
 		mav.setViewName("bizShopReviewList");
 		return mav;
+	}
+	
+	@ResponseBody
+	@RequestMapping("biz/updateReviewPublicStatus.do")
+	public void updateReviewPublicStatus(@RequestParam String s_id, @RequestParam String m_id, @RequestParam String sr_public){
+		Map<String,String> param = new HashMap<>();
+		param.put("s_id",s_id);
+		param.put("m_id",m_id);
+		if(sr_public.equals("1")) {
+			param.put("sr_public","0");
+		}else {
+			param.put("sr_public","1");
+		}
+		shopP001_d006Service.updateReviewPublicStatus(param);
 	}
 	
 	@RequestMapping(value="biz/searchOverlapShopId.do", method = { RequestMethod.GET, RequestMethod.POST })

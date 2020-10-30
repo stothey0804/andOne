@@ -28,6 +28,11 @@ public class CommonDAOImpl implements CommonDAO{
 	public int selectCompareTime(String regTime) {
 		return sqlSession.selectOne("common.selectCompareTime", regTime);
 	}
+
+	@Override
+	public String selectCommonGroupName(String g_id) {
+		return sqlSession.selectOne("common.selectCommonGroupName",g_id);
+	}
 	
 	
 }

@@ -12,7 +12,6 @@
 		<result property="s_score" column="S_SCORE" />
 		<result property="s_content" column="S_CONTENT" />
 		<result property="bm_id" column="BM_ID" />
-		<result property="s_locate" column="S_LOCATE" />
 		<result property="s_phoneNumber" column="S_PHONENUMBER" />
 		<result property="s_hashtag" column="S_HASHTAG" />
 		<result property="reviewCount" column="REVIEWCOUNT" />
@@ -34,7 +33,6 @@
 		<result property="s_score" column="S_SCORE" />
 		<result property="s_content" column="S_CONTENT" />
 		<result property="bm_id" column="BM_ID" />
-		<result property="s_locate" column="S_LOCATE" />
 		<result property="s_locate_lat" column="S_LOCATE_LAT" />
 		<result property="s_locate_lng" column="S_LOCATE_LNG" />
 		<result property="distance" column="DISTANCE" />
@@ -109,16 +107,16 @@
 	
 <select id="getShopShort" resultMap="shop.p002.shopShort" parameterType="java.util.HashMap">
 	<![CDATA[
-		SELECT S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, S_LOCATE, S_LOCATE_LNG, S_LOCATE_LAT, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME, DISTANCE
-		FROM
-		(
-			SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
-	        S_LOCATE, S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME, ROUND(DISTANCE_WGS84(#{M_LOCATE_LAT}, #{M_LOCATE_LNG}, S_LOCATE_LAT, S_LOCATE_LNG) , 2) as DISTANCE
+	SELECT S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, S_LOCATE_LNG, S_LOCATE_LAT, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME, DISTANCE
+	FROM
+	(
+	
+		SELECT S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, S_LOCATE_LNG, S_LOCATE_LAT, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME, DISTANCE
 	]]>
-	<choose>
+		<choose>
 		<when test="vo.status=='SCORE'">
 			<![CDATA[
-				, ROW_NUMBER()OVER(ORDER BY S.S_SCORE DESC) AS ROW_NUM	
+				, ROW_NUMBER()OVER(ORDER BY S_SCORE DESC) AS ROW_NUM	
 			]]>
 		</when>
 		<when test="vo.status=='REVIEW'">
@@ -126,6 +124,24 @@
 				, ROW_NUMBER()OVER(ORDER BY REVIEWCOUNT DESC) AS ROW_NUM	
 			]]>
 		</when>
+	</choose>
+	<![CDATA[
+		FROM
+		(
+			SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
+	        S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME,
+	]]>
+	<choose>
+		<when test="M_LOCATE_LAT == null or M_LOCATE_LNG == null">
+			<![CDATA[
+				'0' as DISTANCE
+			]]>
+		</when>
+		<otherwise>
+			<![CDATA[
+				ROUND(DISTANCE_WGS84(#{M_LOCATE_LAT}, #{M_LOCATE_LNG}, S_LOCATE_LAT, S_LOCATE_LNG) , 2) as DISTANCE
+			]]>
+		</otherwise>
 	</choose>
 		<![CDATA[         
 			FROM SHOP S 
@@ -209,11 +225,14 @@
 			]]>
 		</otherwise>
 	</choose>
+	<![CDATA[
+		)
+	]]>
 	<if test="startIndex != null and endIndex != null">
-		<![CDATA[
-			AND ROW_NUM BETWEEN #{startIndex} AND #{endIndex}
-			ORDER BY ROW_NUM
-		]]>
+	<![CDATA[
+		WHERE ROW_NUM BETWEEN #{startIndex} AND #{endIndex}
+		ORDER BY ROW_NUM
+	]]>
 	</if>	
 	
 </select>
@@ -224,8 +243,20 @@
 		FROM
 		(
 			SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
-	        S_LOCATE, S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME, ROUND(DISTANCE_WGS84(#{M_LOCATE_LAT}, #{M_LOCATE_LNG}, S_LOCATE_LAT, S_LOCATE_LNG) , 2) as DISTANCE
+	        S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME, 
 	]]>
+	<choose>
+		<when test="M_LOCATE_LAT == null or M_LOCATE_LNG == null">
+			<![CDATA[
+				'0' as DISTANCE
+			]]>
+		</when>
+		<otherwise>
+			<![CDATA[
+				ROUND(DISTANCE_WGS84(#{M_LOCATE_LAT}, #{M_LOCATE_LNG}, S_LOCATE_LAT, S_LOCATE_LNG) , 2) as DISTANCE
+			]]>
+		</otherwise>
+	</choose>
 	<choose>
 		<when test="vo.status=='SCORE'">
 			<![CDATA[
@@ -332,7 +363,7 @@
 <select id="getShopDetail" resultMap="shop.p002.shopDetail">
 	<![CDATA[
 		SELECT S.S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, 
-        S_LOCATE, S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME
+        S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG, REVIEWCOUNT, GC_NAME
 		FROM SHOP S 
 		INNER JOIN
 		(
@@ -408,6 +439,7 @@
 		FROM S_REVIEW SR
 		INNER JOIN MEMBER M ON SR.M_ID = M.M_ID
 		WHERE S_ID = #{s_id}
+		AND SR_PUBLIC = '1'
 		ORDER BY SR_DATE DESC
 	]]>
 </select>
@@ -421,6 +453,13 @@
 		    FROM S_REVIEW SR
 		    INNER JOIN MEMBER M ON SR.M_ID = M.M_ID
 		    WHERE S_ID = #{s_id}
+	]]>
+	<if test="isAll == null or isAll != 'true'">
+		<![CDATA[
+			AND SR_PUBLIC = '1'
+		]]>
+	</if>
+	<![CDATA[	    
 		)INN
 		WHERE ROW_NUM BETWEEN #{startIndex} AND #{endIndex}
 		ORDER BY ROW_NUM

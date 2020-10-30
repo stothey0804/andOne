@@ -39,12 +39,6 @@
 		    $("#"+id + " .arcticleBody").toggle();	// r_id get
 		});
 		
-		// 수정
-		$(".editContent").click(function(){
-			let id = getArticleId(this);	// r_id get
-			dynamicFormInsert(id,"reportInit");
-		});
-		
 		// 삭제
 		$(".deleteArticle").click(function(){
 			let id = getArticleId(this);	// r_id get
@@ -82,7 +76,7 @@
 				<table class="table">
 					<thead>
 						<tr class="text-center">
-							<th>신고번호</th><th>분류</th><th>사유</th><th style="width:400px;">제목</th><th>날짜</th><th>처리상태</th>
+							<th>신고번호</th><th>분류</th><th>사유</th><th style="width:300px;">제목</th><th>날짜</th><th>처리상태</th>
 						</tr>
 					</thead>
 					<c:forEach var="list" items="${articleList}">
@@ -93,11 +87,11 @@
 						<!-- 내용영역 -->
 						<tr style="display:none;" class="arcticleBody">
 							<td colspan="6" class="p-3">
-								대상: ${list.r_target}<br>
+								<b>신고대상</b> ${list.r_target}<br><br>
 								${list.r_content}
 							<div class="form-inline">
 								<div class="mt-2 ml-auto">
-									<button type="button" class="editContent btn btn-primary mr-1">수정</button>
+									<a href="${contextPath}/member/reportInit.do?r_id=${list.r_id}" onClick="window.open(this.href,'_blank','resizable=no,top=0,left=0,width=450,height=500');return false;" class="editContent btn btn-primary mr-1">수정</a>
 									<button type="button" class="deleteArticle btn btn-danger">삭제</button>
 								</div>
 							</div>

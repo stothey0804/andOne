@@ -78,19 +78,12 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 		param.put("M_LOCATE_LAT",M_LOCATE_LAT);
 		param.put("M_LOCATE_LNG",M_LOCATE_LNG);
 		ShopP002ShopDetailVO resultVO = shopP002_d001Service.getShopDetail(param);
+		Map<String,String> reviewParam = new HashMap<>();
 		String s_id = resultVO.getS_id();
-		List<String> memberIdList = shopP002_d001Service.getMemberIdFromShopReview(s_id);
-		int count = memberIdList.size();
-		if(count>3) {
-			count = 3;
-		}
-		List<ShopP003ShopReviewVO> reviewList = new ArrayList<>();
-		for(int i=0; i<count; i++) {
-			ShopP003ShopReviewVO reviewVO = new ShopP003ShopReviewVO();
-			reviewVO.setS_id(s_id);
-			reviewVO.setM_id(memberIdList.get(i));
-			reviewList.add(shopP002_d001Service.getShopReview(reviewVO));
-		}
+		reviewParam.put("s_id", s_id);
+		reviewParam.put("startIndex", "1");
+		reviewParam.put("endIndex", "3");
+		List<ShopP003ShopReviewVO> reviewList = shopP003_d001Service.getShopReviewListByPaging(reviewParam);
 		resultVO.setShopReviewList(reviewList);
 		shopP002_d001Service.shopImageEncoder(resultVO);
 		for(int i=0; i<resultVO.getShopReviewList().size();i++) {

@@ -14,6 +14,8 @@
 <!-- font Awesome -->
 <script src="https://kit.fontawesome.com/cdac256c63.js" crossorigin="anonymous"></script>
 <script src = "${contextPath}/resources/js/ckeditor/ckeditor.js"></script>
+<!-- JQuery -->
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 
 <style>
 	#cke_r_content{
@@ -58,7 +60,7 @@ $(document).ready(function(){
 				<div class="mb-2 row">
 				    <label for="inputSubject" class="col-lg-2 col-sm-12 col-form-label">제목</label>
 				    <div class="col-lg-10 col-sm-12">
-				      <input type="text" class="form-control" id="inputSubject" name="r_subject" required>
+				      <input type="text" class="form-control" id="inputSubject" name="r_subject" value="${article.r_subject}" required>
 		    		</div>
 		    	</div>
 		    	<!-- 문의유형 -->
@@ -80,10 +82,13 @@ $(document).ready(function(){
 					</textarea>
 				</div>
 				<c:if test="${not empty article}">
-			 	<input type="hidden" name="r_id" value="${article.r_id}">
+			 	 <input type="hidden" name="r_id" value="${article.r_id}">
+			 	 <input type="hidden" name="modify" value="true">
+				</c:if>
+				<c:if test="${empty article}">
+				 <input type="hidden" name="r_target" value="${r_target}">
 				</c:if>
 			 <input type="hidden" name="r_category" value="${flag}">
-			 <input type="hidden" name="r_target" value="${r_target}">
 			 <input type="hidden" name="m_id" value="${sessionScope.m_id}">
 	         <button type="submit" class="btn btn-primary btn-block">저장하기</button>   
 			</form>

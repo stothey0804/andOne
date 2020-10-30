@@ -46,20 +46,61 @@
 		max-width: 200px;
 		margin-top: 50px;
 	}
-
+	
+	#mapPop{
+		width:50%;
+		border:1px solid #000;
+		position: fixed;
+		top: 25%;
+		left: 25%;
+		height: auto;
+		z-index: 10;
+	}
+	
+	#mapPop #close{
+		top:10px;
+		right: 10px;
+		position: absolute;
+		z-index:9999;
+	}
+	
+.map_wrap {position:relative;width:100%;height:350px;}
+.map_title {font-weight:bold;display:block;}
+.hAddr {position:absolute;left:10px;top:10px;border-radius: 2px;background:#fff;background:rgba(255,255,255,0.8);z-index:1;padding:5px;}
+#centerAddr {display:block;margin-top:2px;font-weight: normal;}
+.bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
 </style>
 
 <!-- JQuery -->
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<!-- KakaoMap -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
 <script>
 	// 초기화시, 선택정보 영역 set
 	$(document).ready(function(){
 		$('#inputShopImage').on("change",preview);
+		$('#mapPop').hide();
+		$('#mapPop #close').click(function(){
+			$('#mapPop').hide();
+		})
 	})
 	
 	var sel_files = [];
 	var hashtag = '';
 	var hashtagArr = new Array();
+	var x = '';
+	var y = '';
+	
+	function openPop(){
+		$('#mapPop').show();
+	}
+	
+	function addLocate(){
+		$('#s_locate_lat').val(x);
+		$('#s_locate_lng').val(y);
+		$('.inputAddrs').text($('#centerAddr').text());
+		$('#mapPop').hide();
+	}
 	
 	function characterCheck() {
 		var RegExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-+┼<>@\#$%&\'\"\\\(\=]/gi;
@@ -153,9 +194,10 @@
 			<div class="form-group col-sm-10 mx-auto mt-5 p-0">
 			<p class="h4 mb-3">필수정보</p>
 			<input type="hidden" name="bm_id" value="${bm_id }">
-			<input type="hidden" name="s_locate" value="123">
 			<input type="hidden" name="s_score" value="0">
 			<input type="hidden" name="s_hashtag" id="s_hashtag">
+			<input type="hidden" name="s_locate_lat" id="s_locate_lat">
+			<input type="hidden" name="s_locate_lng" id="s_locate_lng">
 				<!-- 사업자번호 -->
 				<div class="mb-2 row">
 				    <label for="inputShopId" class="col-lg-3 col-sm-12 col-form-label">사업자번호</label>
@@ -202,7 +244,15 @@
 				      placeholder="010-0000-0000" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" >
 				      <div class='invalid-feedback phone-feedback'>유효하지 않은 번호 입니다.</div>
 	    			</div>
-	    		</div>
+				</div>
+				<!-- 위치정보-->
+				<div class="mb-2 row">
+				    <label for="inputLocate" class="col-lg-3 col-12 col-form-label">가게위치</label>
+				    <div class="col-lg-7 col-7 col-sm-9">
+						<div class="inputAddrs"></div><button class="btn btn-info btn-sm" type="button" onclick="openPop()">선택하기</button>
+	    			</div>
+				</div>
+
 	    		<br><hr><br>
 	    		<p class="h4 mb-3">선택정보</p>
 	    		<!-- 해시태그 -->
@@ -231,6 +281,72 @@
 			<input type="button" class="btn btn-primary btn-lg btn-block mt-4" value="등록" id="sendForm"></input>
 			</div>
 		</form>
+		<!-- 지도 팝업 -->
+		<div id="mapPop">
+			<div id="close"><img width='30' height='30' src='${contextPath }/resources/image/close2.png'></div>
+			<div class="map_wrap" style="width:100%;height:100%;">
+			<div id="map" style="width:100%;height:350px;position:relative;overflow:hidden;">
+			</div>
+			<div class="hAddr">
+			<span class="map_title">선택된 위치 주소</span>
+			<span id="centerAddr"></span>
+			</div>
+			</div>
+			<button class="btn btn-info btn-sm btn-block" onclick="addLocate()">위치정보 등록</button>
+		</div>
+		<!-- 지도 그리기 -->
+		<script>
+			// <!-- 위도, 경도 -->
+			x = '37.57045622903788';
+			y = '126.98529300126489';
+			console.log(x);
+			console.log(y);
+			// <!-- 지도 그리기 -->
+			var container = document.getElementById('map');
+			console.log(container);
+			var options = {
+				center: new kakao.maps.LatLng(x, y),
+				level: 3
+			};
+			var map = new kakao.maps.Map(container, options);
+			// <!-- 마커 생성 -->
+			var markerPosition  = new kakao.maps.LatLng(x, y);
+			var marker = new kakao.maps.Marker({
+				position: markerPosition
+			});
+			marker.setMap(map);
+			// <!-- 좌표로 주소 받아오기 -->
+			var geocoder = new kakao.maps.services.Geocoder();
+			var coord = new kakao.maps.LatLng(x, y);
+			var callback = function(result, status) {
+				if (status === kakao.maps.services.Status.OK) {
+					console.log('그런 너를 마주칠까 ' + result[0].address.address_name + '을 못가');
+					var infoDiv = document.getElementById('centerAddr');
+					infoDiv.innerHTML = result[0].address.address_name;
+				}
+			};
+			geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+			// 지도에 클릭 이벤트를 등록합니다
+			// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+			kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+				
+				// 클릭한 위도, 경도 정보를 가져옵니다 
+				var latlng = mouseEvent.latLng; 
+				
+				// 마커 위치를 클릭한 위치로 옮깁니다
+				marker.setPosition(latlng);
+				
+				// 좌측상단 표시 주소 변경
+				var coord = new kakao.maps.LatLng(latlng.getLat(), latlng.getLng());
+				geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+				
+				//전역변수에 좌표 설정 (등록 누르기 전엔 폼에 들어가지 않음)
+				x = latlng.getLat();
+				y = latlng.getLng();
+				
+				console.log(x + ' // ' + y);
+			});
+		</script>
 		<!-- 	// 자바스크립트 폼 양식 체크 영역 (중복 등 처리) -->
 	<script>
 		// 사업자번호 폼을 벗어났을때 중복체크
@@ -302,12 +418,15 @@
 			var phoneNum = $("#inputPhoneNumber").val();
 			var shopName = $("#inputShopName").val();
 			var shopContent = $("#inputShopContent").val();
-			
+			var lat = $('#s_locate_lat').val();
+			var lng = $('#s_locate_lng').val();
 			// 필수입력조건 체크(pwd제외)
 			if(shopId=='' || shopId==null
 					|| phoneNum=='' || phoneNum==null
 					|| shopName=='' || shopName==null
-					|| shopContent=='' || shopContent==null){
+					|| shopContent=='' || shopContent==null
+					|| lat=='' || lat==null
+					|| lng=='' || lng==null){
 				alert("필수정보를 입력해주세요.");
 			}
 			// input에 invalid 클래스가 존재할 때

@@ -91,6 +91,12 @@ a:hover {
 	color: black;
 }
 
+.map_wrap {position:relative;width:100%;height:350px;}
+.map_title {font-weight:bold;display:block;}
+.hAddr {position:absolute;left:10px;top:10px;border-radius: 2px;background:#fff;background:rgba(255,255,255,0.8);z-index:1;padding:5px;}
+#centerAddr {display:block;margin-top:2px;font-weight: normal;}
+.bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+
 #pop {
 	background:#e6e6e6;
 	border:1px solid #000;
@@ -137,12 +143,18 @@ a:hover {
 	margin: 0;
   	transform: translate(-50%, -50%)
 }
+
+table.shopInfo{
+	width:100%;
+}
 </style>
 
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <script src="https://kit.fontawesome.com/cdac256c63.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
 	$(document).ready(function(){
 		$('#imgPop').hide();
@@ -200,9 +212,32 @@ a:hover {
 		window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
 	}
 	
-	function blind(param1, param2){
-		alert('s_id : ' + param1 + ' / m_id : ' + param2);
+	function blind(param1, param2, param3){
+		if(param3 == 1){
+			var checkPop = confirm('해당 리뷰를 숨김처리 하시겠습니까?');
+		}else{
+			var checkPop = confirm('해당 리뷰의 숨김처리를 해제하시겠습니까?');
+		}
+		if(checkPop){
+			$.ajax({
+				type: "post",
+				async: true,
+				url: "http://localhost:8090/andOne/biz/updateReviewPublicStatus.do",
+				dataType: "text",
+				data: 'm_id='+param2+'&s_id='+param1+'&sr_public='+param3,
+				success: function (data, textStatus) {
+					alert('처리가 완료되었습니다.')
+				},
+				error: function (data, textStatus) {
+					alert("에러가 발생했습니다.");
+				},
+				complete: function (data, textStatus) {
+					window.location.href='${contextPath }/biz/loginOk.do';
+				}
+			})
+		}
 	}
+	
 </script>
 <meta charset="UTF-8">
 <title>업체관리자페이지</title>
@@ -225,14 +260,24 @@ a:hover {
 						</div>
 					</c:forEach>
 				</div>
-				<table><tr><td width="500" height="70">
+				<table class="shopInfo"><tr><td width="500" height="70">
 				<h1>${resultVO.s_name }</h1></td><td width="350" height="70"></td>
 				<td align="right" width="150" height="70">
-				</td></tr><tr><td colspan="3" height="30">${resultVO.s_score }</td>
-				</tr><tr><td colspan="3" height="30">${resultVO.gc_name }</td>
-				</tr><tr><td id="hashtag" colspan="3" height="30">
+				</td></tr><tr><td height="30">${resultVO.s_score }</td>
+				<td align="right" colspan="2" rowspan="4">
+				<div class="map_wrap" style="width:90%;height:90%;">
+				<div id="map" style="width:100%;height:350px;position:relative;overflow:hidden;">
+				</div>
+				<div class="hAddr">
+				<span class="map_title">업체 상세 주소</span>
+				<span id="centerAddr"></span>
+				</div>
+				</div>
+				</td>
+				</tr><tr><td height="30">${resultVO.gc_name }</td>
+				</tr><tr><td id="hashtag" height="30">
 				</td></tr><tr>
-				<td valign="top" colspan="3" height="100">${resultVO.s_content }</td>
+				<td valign="top" height="300">${resultVO.s_content }</td>
 				</tr></table>
 				<h3><a href="${contextPath }/biz/shopReviewList.do">후기(${resultVO.reviewCount })</a></h3>
 				<hr>
@@ -257,6 +302,7 @@ a:hover {
 					</td>
 					<td class="clickArea" id="${list.m_id }" width="680">
 						${list.m_nickname }
+						<c:if test="${list.sr_public eq 0 }"> (숨김 처리됨)</c:if>
 					</td>
 					<c:forEach var="i" begin="1" end="${3-(fn:length(list.shopReviewImage)) }">
 						<td rowspan="3" width="80">
@@ -276,7 +322,14 @@ a:hover {
 							</div>
 						</td>
 					</c:forEach>
-					<td rowspan="2" align="center"><button class="btn btn-sm btn-primary" onclick="blind('${list.s_id}','${list.m_id }')">숨기기</button></td>
+					<c:choose>
+						<c:when test="${list.sr_public eq 0 }">
+							<td rowspan="2" align="center"><button class="btn btn-sm btn-info" onclick="blind('${list.s_id}','${list.m_id }','${list.sr_public }')">보이기</button></td>
+						</c:when>
+						<c:otherwise>
+							<td rowspan="2" align="center"><button class="btn btn-sm btn-primary" onclick="blind('${list.s_id}','${list.m_id }','${list.sr_public }')">숨기기</button></td>
+						</c:otherwise>
+					</c:choose>
 				</tr>
 				<tr class="tr2">
 					<td class="clickArea" id="${list.m_id }" width="80">
@@ -331,9 +384,6 @@ a:hover {
 					<canvas id="myChart"></canvas>
 					<canvas id="myChart2"></canvas>
 				</div>
-				<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-					integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-					crossorigin="anonymous"></script>
 				<script
 					src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
 					integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
@@ -396,6 +446,47 @@ a:hover {
 						options : {}
 					});
 				</script>
+				<script>
+					//지도생성
+					//위도, 경도
+					var x = '${resultVO.s_locate_lat}';
+					var y = '${resultVO.s_locate_lng}';
+					console.log(x);
+					console.log(y);
+					//지도 그리기
+					var container = document.getElementById('map');
+					console.log(container);
+					var options = {
+						center: new kakao.maps.LatLng(x, y),
+						level: 3
+					};
+					var map = new kakao.maps.Map(container, options);
+					//마커 생성
+					var markerPosition  = new kakao.maps.LatLng(x, y);
+					var marker = new kakao.maps.Marker({
+					    position: markerPosition
+					});
+					marker.setMap(map);
+					//좌표로 주소 받아오기
+					var geocoder = new kakao.maps.services.Geocoder();
+					var coord = new kakao.maps.LatLng(x, y);
+					var callback = function(result, status) {
+					    if (status === kakao.maps.services.Status.OK) {
+					        console.log('그런 너를 마주칠까 ' + result[0].address.address_name + '을 못가');
+					        var infoDiv = document.getElementById('centerAddr');
+					        infoDiv.innerHTML = result[0].address.address_name;
+					    }
+					};
+					geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+					//인포윈도우
+					var iwContent = '<div style="padding:5px;">${resultVO.s_name}</div>';
+					var iwPosition = new kakao.maps.LatLng(x, y);
+					var infowindow = new kakao.maps.InfoWindow({
+					    position : iwPosition, 
+					    content : iwContent 
+					});
+					infowindow.open(map, marker);
+				</script>
 			</c:when>
 		</c:choose>
 	</div>
@@ -408,4 +499,5 @@ a:hover {
 		<div id='next'><i class="fas fa-chevron-right"></i></div>
 	</div>
 </body>
+	
 </html>

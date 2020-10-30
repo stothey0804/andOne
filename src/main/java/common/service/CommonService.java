@@ -8,4 +8,5 @@ public interface CommonService {
 	public int selectCompareTime(String regTime);	// 시간 비교
 	public List<HashMap<String, String>> searchCommonCodeList(String g_id);
 	public String selectCommonCodeName(Map<String, String> param);
+	public String selectCommonGroupName(String g_id);
 }

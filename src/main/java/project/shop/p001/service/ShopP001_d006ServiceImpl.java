@@ -1,5 +1,7 @@
 package project.shop.p001.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +43,16 @@ public class ShopP001_d006ServiceImpl implements ShopP001_d006Service{
 	@Override
 	public void updateShopImage(ShopP002ShopImageVO vo) {
 		shopP001_d006DAO.updateShopImage(vo);
+	}
+
+	@Override
+	public Map<String, String> getShopLocateByShopId(String s_id) {
+		return shopP001_d006DAO.getShopLocateByShopId(s_id);
+	}
+
+	@Override
+	public void updateReviewPublicStatus(Map<String, String> param) {
+		shopP001_d006DAO.updateReviewPublicStatus(param);
 	}
 
 }

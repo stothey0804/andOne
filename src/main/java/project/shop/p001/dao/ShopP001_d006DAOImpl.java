@@ -1,5 +1,7 @@
 package project.shop.p001.dao;
 
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -42,6 +44,17 @@ public class ShopP001_d006DAOImpl implements ShopP001_d006DAO{
 	@Override
 	public void updateShopImage(ShopP002ShopImageVO vo) {
 		sqlSession.update("shop.p001.updateShopImage",vo);
+	}
+	
+	@Override
+	public Map<String,String> getShopLocateByShopId(String s_id){
+		return sqlSession.selectOne("shop.p001.getShopLocateByShopId",s_id);
+	}
+
+	@Override
+	public void updateReviewPublicStatus(Map<String, String> param) {
+		sqlSession.update("shop.p001.updateReviewPublicStatus",param);
+		
 	}
 
 }

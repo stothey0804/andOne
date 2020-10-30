@@ -1,5 +1,6 @@
 package project.root.p001.contoller;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,11 +81,11 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 	
 	// locate 조회
 	@RequestMapping(value="/member/selectLocate.do", method= {RequestMethod.POST, RequestMethod.GET})
-	@ResponseBody
-	public String selectMemberLocate(@CookieValue(value="locate_lat", required = false) Cookie latCookie,
+	public void selectMemberLocate(@CookieValue(value="locate_lat", required = false) Cookie latCookie,
 			@CookieValue(value="locate_lng", required = false) Cookie lngCookie,
 			HttpServletRequest request, HttpServletResponse response) throws Exception{
-//		response.setContentType("text/html;charset=utf-8");
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
 		String jsonStr = "";
 		Map<String, String> locate = new HashMap<String, String>();
 		ObjectMapper mapper = new ObjectMapper();
@@ -108,7 +109,8 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 		}
 		System.out.println("==========> locate" + locate);
 		jsonStr = mapper.writeValueAsString(locate);
-		return jsonStr;
+		out.print(jsonStr);
+		out.close();
 	}
 	
 	// 어드민 연결

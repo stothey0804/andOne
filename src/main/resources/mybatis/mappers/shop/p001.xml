@@ -131,8 +131,8 @@
    	
    	<insert id="insertShop" parameterType="ShopP002ShopDetailVO">
    		<![CDATA[
-   			INSERT INTO SHOP (S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, S_LOCATE, S_PHONENUMBER, S_HASHTAG)
-   			VALUES (#{s_id},#{s_category},#{s_name},#{s_score},#{s_content},#{bm_id},#{s_locate},#{s_phoneNumber},#{s_hashtag})
+   			INSERT INTO SHOP (S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, BM_ID, S_LOCATE_LAT, S_LOCATE_LNG, S_PHONENUMBER, S_HASHTAG)
+   			VALUES (#{s_id},#{s_category},#{s_name},#{s_score},#{s_content},#{bm_id},#{s_locate_lat},#{s_locate_lng},#{s_phoneNumber},#{s_hashtag})
  		]]>
    	</insert>
    	
@@ -178,7 +178,7 @@
    	<update id="updateShop" parameterType="ShopP002ShopDetailVO">
    		<![CDATA[
    			UPDATE SHOP
-   			SET S_CATEGORY = #{s_category}, S_NAME = #{s_name}, S_CONTENT = #{s_content}, S_LOCATE = #{s_locate}, S_PHONENUMBER = #{s_phoneNumber},  S_HASHTAG = #{s_hashtag} 
+   			SET S_CATEGORY = #{s_category}, S_NAME = #{s_name}, S_CONTENT = #{s_content}, S_LOCATE_LAT = #{s_locate_lat}, S_LOCATE_LNG = #{s_locate_lng}, S_PHONENUMBER = #{s_phoneNumber},  S_HASHTAG = #{s_hashtag} 
    			WHERE S_ID = #{s_id}
  		]]>
    	</update>
@@ -189,6 +189,23 @@
    			SET SI_IMG = #{si_imgEncoder.img}
    			WHERE S_ID = #{s_id}
    			AND SI_IDX = #{si_idx}
+ 		]]>	
+   	</update>
+   	
+   	<select id="getShopLocateByShopId" resultType="java.util.HashMap" parameterType="String">
+   		<![CDATA[
+   			SELECT S_LOCATE_LAT, S_LOCATE_LNG
+   			FROM SHOP
+   			WHERE S_ID = #{s_id}
+ 		]]>	
+   	</select>
+   	
+   	<update id="updateReviewPublicStatus" parameterType="java.util.HashMap">
+   		<![CDATA[
+   			UPDATE S_REVIEW
+   			SET SR_PUBLIC = #{sr_public}
+   			WHERE S_ID = #{s_id}
+   			AND M_ID = #{m_id}
  		]]>	
    	</update>
 	
