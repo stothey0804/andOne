@@ -143,7 +143,7 @@
 		 	<c:choose>
 		 		<c:when test="${omLeaderCheck eq '10'}"> <!-- 작성자 -->
 				 	<br><button id="edit">수정하기</button>	 	 
-				 	<br><button id="delete">삭제하기</button>
+				 	<br><button onclick="deleteAndOne('${andoneDetail.one_id}')">삭제하기</button>
 				 	<br><button onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button>				 	
 	 			</c:when>
 	 			<c:when test="${omLeaderCheck eq '20'}"> <!-- 참가자 -->
@@ -152,13 +152,6 @@
 				<c:otherwise>
 			 		<button onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
 			 		<button type="button" onClick='openReportPopup()'>신고하기</button>
-			 		<script>
-					// 신고하기 연결
-					function openReportPopup(){
-						var popupOpener;
-						popupOpener = window.open("${contextPath}/member/reportInit.do?target=${andoneDetail.one_id}&flag=one", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
-					}
-			 		</script>
 				</c:otherwise>
 			</c:choose>
 	</c:forEach>
@@ -274,6 +267,25 @@
 	    	payData.submit();
      		}  
    		 
+		// 신고하기 연결
+		function openReportPopup(){
+			var popupOpener;
+			popupOpener = window.open("${contextPath}/member/reportInit.do?target=${andoneDetail.one_id}&flag=one", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
+		}
+		
+		function deleteAndOne(one_id){
+			if(window.confirm("&분의일을 삭제하겠습니까?")){
+				$.ajax({
+		   			type : "post",
+		   			dataType: "text",
+		   			async: "true",
+		   			url:"${contextPath}/and/deleteAndOne.do",
+		   			data:{
+		   				"one_id" : one_id
+	   			}
+			})
+		}
+	}
 		
 	</script>
 </body>

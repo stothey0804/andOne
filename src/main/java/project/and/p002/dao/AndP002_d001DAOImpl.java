@@ -25,5 +25,9 @@ public class AndP002_d001DAOImpl implements AndP002_d001DAO {
 		sqlSession.insert("and.p002.insertOneMem",Andone);
 		return null;
 	}
+	@Override
+	public void deleteAndOne(String one_id) {
+		sqlSession.delete("and.p002.deleteAndOne",one_id);
+	}
 
 }

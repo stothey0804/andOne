@@ -23,6 +23,10 @@ public class AndP002_d001ServiceImpl implements AndP002_d001Service {
 	public void insertOneMem(Map<String,Object> Andone) throws DataAccessException {
 		List<Map<String, Object>> insertOneMem = p002_d001DAO.insertOneMem(Andone);
 	}
+	@Override
+	public void deleteAndOne(String one_id) {
+		p002_d001DAO.deleteAndOne(one_id);
+	}
 	
 
 }
