@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import common.Common;
 import project.and.p001.service.AndP001_d001Service;
 import project.and.p002.service.AndP002_d001Service;
 import project.and.vo.AndP001AndOneVO;
@@ -31,7 +32,8 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+g_id);
 		List<AndP001AndOneVO> ctg_eat = p001_d001Service.searchCtg(g_id); //카테고리설정
 		
-		ModelAndView mav = new ModelAndView("insertAndOnePage");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(Common.checkLoginDestinationView("insertAndOnePage", request));
 		mav.addObject("g_id",g_id);//구분
 		mav.addObject("ctg_eat",ctg_eat);
 		return mav;
@@ -57,6 +59,13 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 		p002_d001Service.insertOneMem(Andone); //참가자 테이블 추가하기
 		
 		return "redirect:/and?g_id="+g_id;
+	}
+	//&분의일 삭제
+	@Override
+	@RequestMapping(value="/and*/deleteAndOne.do")
+	public String deleteAndOne(@RequestParam ("one_id") String one_id) {
+		p002_d001Service.deleteAndOne(one_id);
+		return null;
 	}
 	
 	

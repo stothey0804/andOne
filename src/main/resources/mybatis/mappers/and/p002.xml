@@ -172,4 +172,12 @@
 		]]>
 	</delete>
 	
+	<!-- 엔분의일 글 삭제-->
+	<delete id="deleteAndOne" parameterType="String">
+		<![CDATA[
+			delete from and_one
+			where one_id = #{one_id}
+		]]>
+	</delete>
+	
 </mapper>

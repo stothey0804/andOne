@@ -67,7 +67,7 @@
 							<td>${list.om_date}</td>
 							<td>${list.om_state}</td>							
 							<td>${list.WRITER_NICKNAME}</td>
-							<td><button type="button" class="btn btn-link" onclick="cancelAndOne('${list.one_id}')">취소</button></td>		
+							<td><button type="button" class="btn btn-link" onclick="cancelAndOne('${list.one_id}')">${list.one_id}</button></td>		
 						</tr>
 					</tbody>
 					</c:if>
