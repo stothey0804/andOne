@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import common.Common;
 import common.dao.CommonDAO;
 import project.club.p001.service.ClubP001_d001Service;
-import project.club.vo.ClubMemberVO;
 import project.club.vo.ClubVO;
 
 @Controller
@@ -77,11 +78,12 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 	
 	@Override		//소모임 상세페이지
 	@RequestMapping(value="/club/detailClub.do",method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView detailClub(@RequestParam(value="c_id",required = true) String c_id, HttpSession session) throws Exception{
+	public ModelAndView detailClub(@RequestParam(value="c_id",required = true) String c_id, HttpSession session,HttpServletRequest request) throws Exception{
 		String m_id = (String)session.getAttribute("m_id");
 		Map<String, Object> searchMap = new HashMap<String, Object>();
 		searchMap.put("c_id", c_id);
 		searchMap.put("m_id",m_id);
+			
 		ClubVO vo = clubP001_d001Service.detailClub(searchMap);
 		//회원 등급 확인
 		String rank = clubP001_d001Service.memberCheck(searchMap);
@@ -93,19 +95,30 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 			encoded = Base64.getEncoder().encode(vo.getC_imgByte());
 			clubImg = new String(encoded);	
 		}
-		
+//		System.out.println("========"+vo.getArticleList().get(0).getArticleReplyList().get(0).getCar_content());
 		//소모임 게시글 이미지 encoding
 		for(int i=0; i<vo.getArticleList().size();i++) {
 			if(vo.getArticleList().get(i).getArticleImgList()!=null) {
 				for(int j=0; j < vo.getArticleList().get(i).getArticleImgList().size();j++) {
 					if(vo.getArticleList().get(i).getArticleImgList().get(j) != null) {
-						System.out.println("낫널");
 						encoded = Base64.getEncoder().encode((byte[]) vo.getArticleList().get(i).getArticleImgList().get(j).getArticleImg());
 						vo.getArticleList().get(i).getArticleImgList().get(j).setResultArticleImg(new String(encoded));
-						System.out.println(encoded);
 					}
 				}
 			}
+			//댓글 멤버 이미지 encoding
+			if(vo.getArticleList().get(i).getArticleReplyList().size()!=0) {
+				for(int j=0; j < vo.getArticleList().get(i).getArticleReplyList().size();j++) {
+					if(vo.getArticleList().get(i).getArticleReplyList().get(j) !=null) {
+						if(vo.getArticleList().get(i).getArticleReplyList().get(j).getM_img() == null) {
+						} else {
+							encoded = Base64.getEncoder().encode((byte[])vo.getArticleList().get(i).getArticleReplyList().get(j).getM_img());
+							vo.getArticleList().get(i).getArticleReplyList().get(j).setE_m_img(new String(encoded));
+						}
+					}
+				}
+			}
+			//게시글 멤버 이미지 encoding
 			if(vo.getArticleList().get(i).getUserImg()!=null) {
 				encoded = Base64.getEncoder().encode(vo.getArticleList().get(i).getUserImg());
 				vo.getArticleList().get(i).setResultUserImg(new String(encoded));
@@ -113,22 +126,20 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		}
 	
 		//운영진 목록
-		List<ClubMemberVO> leader = clubP001_d001Service.getLeaderMember(searchMap);
+//		List<ClubMemberVO> leader = clubP001_d001Service.getLeaderMember(searchMap);
 		//일반 회원 목록
-		List<ClubMemberVO> members = clubP001_d001Service.getClubMember(searchMap);
+//		List<ClubMemberVO> members = clubP001_d001Service.getClubMember(searchMap);
 		//회원 목록 이미지 encoding
 //		Common.getEncodedUser(members);
 //		Common.getEncodedUser(leader);
 		
-		List<HashMap<String, String>> reportType = commonDAO.searchCommonCodeList("014");
-		
-		ModelAndView mav = new ModelAndView("detailClub");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(Common.checkLoginDestinationView("detailClub", request));
 		mav.addObject("clubInfo", vo);
 		mav.addObject("rank", rank);
 		mav.addObject("clubImg",clubImg);
 //		mav.addObject("members", members);
 //		mav.addObject("leader", leader);
-		mav.addObject("reportType", reportType);
 		return mav;
 	}
 	

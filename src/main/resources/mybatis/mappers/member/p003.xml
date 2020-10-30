@@ -9,7 +9,8 @@
    		<result column="r_category" property="r_category"/>
    		<result column="r_target" property="r_target"/>
    		<result column="r_type" property="r_type"/>
-   		<result column="m_id" property="m_d"/>
+   		<result column="r_type_id" property="r_type_id"/>
+   		<result column="m_id" property="m_id"/>
    		<result column="r_subject" property="r_subject"/>
    		<result column="r_date" property="r_date"/>
    		<result column="r_content" property="r_content"/>
@@ -36,8 +37,6 @@
 		]]>
 	</insert>
 
-	
-	
 	<delete id="deleteReport" parameterType="String">
 		<![CDATA[
 			DELETE FROM report
@@ -45,15 +44,14 @@
 		]]>
 	</delete>
 	
-
 	<select id="selectReportListById" resultMap="report" parameterType="java.util.HashMap">
 		<![CDATA[
 			SELECT * 
 			FROM(
 			SELECT r_id,
-			(SELECT g_name FROM code_group WHERE g_id like #{r_category})r_category, 
-			(SELECT gc_name FROM common_code WHERE g_id like #{r_category} AND gc_id like r_type)r_type,
-			r_subject, r_date, r_content, 
+			(SELECT g_name FROM code_group WHERE g_id like r_category)r_category, 
+			(SELECT gc_name FROM common_code WHERE g_id like r_category AND gc_id like r_type)r_type,
+			r_subject, r_date, r_content, r_target,
 			(SELECT gc_name FROM common_code WHERE g_id like '003' AND gc_id like r_state)r_state, 
 			ROW_NUMBER() OVER (ORDER BY r_id DESC) ROWNUMBER,
 			r_reply
@@ -76,7 +74,7 @@
 			SELECT r_id,
 			(SELECT g_name FROM code_group WHERE g_id like #{r_category})r_category, 
 			(SELECT gc_name FROM common_code WHERE g_id like #{r_category} AND gc_id like r_type)r_type,
-			r_subject, r_date, 
+			r_subject, r_date, (r_type)r_type_id,
 			REPLACE(r_content, CHR(13)||CHR(10), '')r_content,
 			(SELECT gc_name FROM common_code WHERE g_id like '003' AND gc_id like r_state)r_state, m_id,
 			REPLACE(r_reply, CHR(13)||CHR(10), '')r_reply

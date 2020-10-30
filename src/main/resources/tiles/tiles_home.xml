@@ -281,8 +281,13 @@
 	</definition>
 	<!-- 문의하기리스트 -->
 	<definition name="p002_d001_search" extends="mypageLayout">
-		<put-attribute name="title" value="문의하기"/>
+		<put-attribute name="title" value="문의하기 리스트"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/p002_d001_search.jsp"/>
+	</definition>
+	<!-- 문의하기리스트 -->
+	<definition name="MemberP003_d001_search" extends="mypageLayout">
+		<put-attribute name="title" value="신고하기 리스트"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/p003_d001_search.jsp"/>
 	</definition>
 	<!--내 &분의일 내역-->
 	<definition name="MyAndOne" extends="mypageLayout">

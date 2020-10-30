@@ -229,7 +229,7 @@ function preview(e) {
 </div>
 	<input type="hidden" name="ca_id" value="${articleInfo.ca_id}">
 	<input type="hidden" name="c_id" value="${clubInfo.c_id}">
-	<input type="submit" class="btn btn-success btn-block" onclick="sort()" value="게시글 수정하기"></div>
+	<input type="submit" class="btn btn-success btn-block" onclick="sort()" value="수정하기"></div>
 </form>
 </div>
 </body>
