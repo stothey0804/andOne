@@ -51,4 +51,10 @@ public class ShopP001_d006DAOImpl implements ShopP001_d006DAO{
 		return sqlSession.selectOne("shop.p001.getShopLocateByShopId",s_id);
 	}
 
+	@Override
+	public void updateReviewPublicStatus(Map<String, String> param) {
+		sqlSession.update("shop.p001.updateReviewPublicStatus",param);
+		
+	}
+
 }

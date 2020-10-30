@@ -50,4 +50,9 @@ public class ShopP001_d006ServiceImpl implements ShopP001_d006Service{
 		return shopP001_d006DAO.getShopLocateByShopId(s_id);
 	}
 
+	@Override
+	public void updateReviewPublicStatus(Map<String, String> param) {
+		shopP001_d006DAO.updateReviewPublicStatus(param);
+	}
+
 }

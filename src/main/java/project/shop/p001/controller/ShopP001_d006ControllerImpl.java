@@ -200,6 +200,7 @@ public class ShopP001_d006ControllerImpl implements ShopP001_d006Controller{
 		Pagination pagination = new Pagination(listCnt, curPage);
 		Map<String, String> searchParam = new HashMap<>();
 		searchParam.put("s_id",s_id);
+		searchParam.put("isAll","true");
 		searchParam.put("startIndex",(pagination.getStartIndex()+1)+"");
 		searchParam.put("endIndex",(pagination.getStartIndex()+pagination.getPageSize())+"");
 		List<ShopP003ShopReviewVO> reviewList = new ArrayList<>();
@@ -213,6 +214,20 @@ public class ShopP001_d006ControllerImpl implements ShopP001_d006Controller{
 		mav.addObject("reviewCount",listCnt);
 		mav.setViewName("bizShopReviewList");
 		return mav;
+	}
+	
+	@ResponseBody
+	@RequestMapping("biz/updateReviewPublicStatus.do")
+	public void updateReviewPublicStatus(@RequestParam String s_id, @RequestParam String m_id, @RequestParam String sr_public){
+		Map<String,String> param = new HashMap<>();
+		param.put("s_id",s_id);
+		param.put("m_id",m_id);
+		if(sr_public.equals("1")) {
+			param.put("sr_public","0");
+		}else {
+			param.put("sr_public","1");
+		}
+		shopP001_d006Service.updateReviewPublicStatus(param);
 	}
 	
 	@RequestMapping(value="biz/searchOverlapShopId.do", method = { RequestMethod.GET, RequestMethod.POST })

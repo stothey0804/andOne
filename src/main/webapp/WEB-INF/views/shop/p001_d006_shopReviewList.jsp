@@ -252,6 +252,32 @@ a:hover {
 		}
 	}
 	
+	function blind(param1, param2, param3){
+		if(param3 == 1){
+			var checkPop = confirm('해당 리뷰를 숨김처리 하시겠습니까?');
+		}else{
+			var checkPop = confirm('해당 리뷰의 숨김처리를 해제하시겠습니까?');
+		}
+		if(checkPop){
+			$.ajax({
+				type: "post",
+				async: true,
+				url: "http://localhost:8090/andOne/biz/updateReviewPublicStatus.do",
+				dataType: "text",
+				data: 'm_id='+param2+'&s_id='+param1+'&sr_public='+param3,
+				success: function (data, textStatus) {
+					alert('처리가 완료되었습니다.')
+				},
+				error: function (data, textStatus) {
+					alert("에러가 발생했습니다.");
+				},
+				complete: function (data, textStatus) {
+					window.location.href='${contextPath }/biz/shopReviewList.do';
+				}
+			})
+		}
+	}
+	
 </script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -285,6 +311,7 @@ a:hover {
 					</td>
 					<td class="clickArea" id="${list.m_id }" width="680">
 						${list.m_nickname }
+						<c:if test="${list.sr_public eq 0 }"> (숨김 처리됨)</c:if>
 					</td>
 					<c:forEach var="i" begin="1" end="${3-(fn:length(list.shopReviewImage)) }">
 						<td rowspan="3" width="80">
@@ -304,6 +331,14 @@ a:hover {
 							</div>
 						</td>
 					</c:forEach>
+					<c:choose>
+						<c:when test="${list.sr_public eq 0 }">
+							<td rowspan="2" align="center"><button class="btn btn-sm btn-info" onclick="blind('${list.s_id}','${list.m_id }','${list.sr_public }')">보이기</button></td>
+						</c:when>
+						<c:otherwise>
+							<td rowspan="2" align="center"><button class="btn btn-sm btn-primary" onclick="blind('${list.s_id}','${list.m_id }','${list.sr_public }')">숨기기</button></td>
+						</c:otherwise>
+					</c:choose>
 				</tr>
 				<tr class="tr2">
 					<td class="clickArea" id="${list.m_id }" width="80">
