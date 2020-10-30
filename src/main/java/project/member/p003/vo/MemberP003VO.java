@@ -5,7 +5,15 @@ package project.member.p003.vo;
  * @Title	신고내역(report) Table
  * */
 public class MemberP003VO {
-	String r_id, r_category, r_target, m_id, r_subject, r_date, r_content, r_state, r_type, r_reply, r_editor, r_editdate, r_type_id;
+	String r_id, r_category, r_category_id, r_target, m_id, r_subject, r_date, r_content, r_state, r_type, r_reply, r_editor, r_editdate, r_type_id;
+
+	public String getR_category_id() {
+		return r_category_id;
+	}
+
+	public void setR_category_id(String r_category_id) {
+		this.r_category_id = r_category_id;
+	}
 
 	public String getR_type_id() {
 		return r_type_id;

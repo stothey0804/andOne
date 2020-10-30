@@ -103,6 +103,11 @@
       <put-attribute name="title" value="문의조회" />
        <put-attribute name="body" value="/WEB-INF/views/member/p002_d002_search.jsp" />
    </definition>
+   <!-- 신고하기 조회 -->
+   <definition name="AdminP003_d002_search" extends="adminLayout">
+      <put-attribute name="title" value="신고조회" />
+       <put-attribute name="body" value="/WEB-INF/views/member/p003_d002_search.jsp" />
+   </definition>
    
    <!-- 공지사항 조회 -->
    <definition name="RootP003_d001_search" extends="adminLayout">
