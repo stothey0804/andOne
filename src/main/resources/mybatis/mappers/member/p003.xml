@@ -73,8 +73,8 @@
 	<select id="selectReportDetailByRID" resultMap="report" parameterType="String">
 		<![CDATA[
 			SELECT r_id,
-			(SELECT g_name FROM code_group WHERE g_id like #{r_category})r_category, 
-			(SELECT gc_name FROM common_code WHERE g_id like #{r_category} AND gc_id like r_type)r_type,
+			(SELECT g_name FROM code_group WHERE g_id like r_category)r_category, 
+			(SELECT gc_name FROM common_code WHERE g_id like r_category AND gc_id like r_type)r_type,
 			r_subject, r_date, (r_type)r_type_id, (r_category)r_category_id,
 			REPLACE(r_content, CHR(13)||CHR(10), '')r_content, r_target,
 			(SELECT gc_name FROM common_code WHERE g_id like '003' AND gc_id like r_state)r_state, m_id,
@@ -89,112 +89,53 @@
 	<update id="saveReportState" parameterType="java.util.HashMap">
 		<![CDATA[
 			UPDATE report
-			SET r_state = #{r_state}, r_reply = #{r_reply}, r_editor = '00000001', r_editdate = TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss')
+			SET r_editor = '00000001', r_editdate = TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss')
+		]]>
+		<if test="r_state != null">
+		<![CDATA[
+			,r_state = #{r_state}
+		]]>
+		</if>
+		<if test="r_reply != null">
+		<![CDATA[
+			,r_reply = #{r_reply}
+		]]>
+		</if>
+		<![CDATA[
 			WHERE r_id = #{r_id}
-		]]>	
+		]]>
 	</update>
 	
 	<!-- 전체리스트 -->
 	<select id="selectAllReportList" resultMap="report" parameterType="java.util.HashMap">
 		<![CDATA[
 			SELECT * FROM (
-			SELECT q_id, 
-			(SELECT gc_name FROM common_code WHERE g_id like '016' AND gc_id like q_type)q_type, 
-			q_subject, REPLACE(SUBSTR(q_date,1,10),'/','-')q_date,  
-			(SELECT gc_name FROM common_code WHERE g_id like '004' AND gc_id like q_state)q_state, m_id,
-			ROW_NUMBER() OVER (ORDER BY q_id DESC) ROWNUMBER
-			FROM qna
+			SELECT r_id,
+			(SELECT g_name FROM code_group WHERE g_id like r_category)r_category, 
+			(SELECT gc_name FROM common_code WHERE g_id like r_category AND gc_id like r_type)r_type,
+			r_subject, r_date, (r_type)r_type_id, (r_category)r_category_id,
+			REPLACE(r_content, CHR(13)||CHR(10), '')r_content, r_target,
+			(SELECT gc_name FROM common_code WHERE g_id like '003' AND gc_id like r_state)r_state, m_id,
+			REPLACE(r_reply, CHR(13)||CHR(10), '')r_reply,
+			ROW_NUMBER() OVER (ORDER BY r_id DESC) ROWNUMBER
+			FROM report
 		]]>
-		<where>
-		<choose>
-			<when test="m_id!='' and m_id!=null">
-				m_id like '%'||#{m_id}||'%'
-			</when>
-			<when test="q_id!='' and q_id!=null">
-				q_id like '%'||#{q_id}||'%'
-			</when>
-			<when test="q_state!='' and q_state!=null">
-				q_state like #{q_state}
-			</when>
-			<when test="q_type!='' and q_type!=null">
-				q_type like #{q_type}
-			</when>
-			<when test="q_state!='' and q_state!=null and m_id!='' and m_id!=null">
-				q_state like #{q_state} AND m_id like '%'||#{m_id}||'%'
-			</when>
-			<when test="q_state!='' and q_state!=null and q_id!='' and q_id!=null">
-				q_state like #{q_state} AND q_id like '%'||#{q_id}||'%'
-			</when>
-			<when test="q_type!='' and q_type!=null	and m_id!='' and m_id!=null">
-				m_id like '%'||#{m_id}||'%' AND q_type like #{q_type}
-			</when>
-			<when test="q_type!='' and q_type!=null	and q_id!='' and q_id!=null">
-				q_id like '%'||#{q_id}||'%' AND q_type like #{q_type}
-			</when>
-			<when test="q_type!='' and q_type!=null
-				and m_id!='' and m_id!=null and q_state!='' and q_state!=null">
-				m_id like '%'||#{m_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
-			</when>
-			<when test="q_type!='' and q_type!=null
-				and q_id!='' and q_id!=null and q_state!='' and q_state!=null">
-				q_id like '%'||#{q_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
-			</when>
-			<when test="q_state!='' and q_state!=null and q_type!='' and q_type!=null">
-				q_state like #{q_state} AND q_type like #{q_type}
-			</when>
-		</choose>
-		</where>
+		<if test="newList=='true'">
+			WHERE r_state like '10'
+		</if>
 		<![CDATA[
 			)
 			WHERE ROWNUMBER BETWEEN #{startIndex} AND #{endIndex}
-			ORDER BY q_id desc
+			ORDER BY r_id desc
 		]]>
-	</select><!-- 전체리스트 END -->
+	</select>
+	<!-- 전체리스트 END -->
 	
 	<!-- 전체리스트 -->
 	<select id="selectAllReportListCnt" resultType="int" parameterType="java.util.HashMap">
 		<![CDATA[
-			SELECT COUNT(q_id) FROM qna
+			SELECT COUNT(r_id) FROM report
 		]]>
-		<where>
-		<choose>
-			<when test="m_id!='' and m_id!=null">
-				and m_id like '%'||#{m_id}||'%'
-			</when>
-			<when test="q_id!='' and q_id!=null">
-				and q_id like '%'||#{q_id}||'%'
-			</when>
-			<when test="q_state!='' and q_state!=null">
-				and q_state like #{q_state}
-			</when>
-			<when test="q_type!='' and q_type!=null">
-				and q_type like #{q_type}
-			</when>
-			<when test="q_state!='' and q_state!=null and m_id!='' and m_id!=null">
-				and q_state like #{q_state} AND m_id like '%'||#{m_id}||'%'
-			</when>
-			<when test="q_state!='' and q_state!=null and q_id!='' and q_id!=null">
-				and q_state like #{q_state} AND q_id like '%'||#{q_id}||'%'
-			</when>
-			<when test="q_type!='' and q_type!=null	and m_id!='' and m_id!=null">
-				and m_id like '%'||#{m_id}||'%' AND q_type like #{q_type}
-			</when>
-			<when test="q_type!='' and q_type!=null	and q_id!='' and q_id!=null">
-				and q_id like '%'||#{q_id}||'%' AND q_type like #{q_type}
-			</when>
-			<when test="q_type!='' and q_type!=null
-				and m_id!='' and m_id!=null and q_state!='' and q_state!=null">
-				and m_id like '%'||#{m_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
-			</when>
-			<when test="q_type!='' and q_type!=null
-				and q_id!='' and q_id!=null and q_state!='' and q_state!=null">
-				and q_id like '%'||#{q_id}||'%' AND q_type like #{q_type} AND q_state like #{q_state}
-			</when>
-			<when test="q_state!='' and q_state!=null and q_type!='' and q_type!=null">
-				and q_state like #{q_state} AND q_type like #{q_type}
-			</when>
-		</choose>
-		</where>
 	</select><!-- 전체리스트 END -->
 	
 	</mapper>

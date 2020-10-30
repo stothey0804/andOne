@@ -30,4 +30,9 @@ public class CommonServiceImpl implements CommonService{
 		return commonDAO.selectCompareTime(regTime);
 	}
 
+	@Override
+	public String selectCommonGroupName(String g_id) {
+		return commonDAO.selectCommonGroupName(g_id);
+	}
+
 }

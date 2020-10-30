@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,8 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import common.Common;
 import common.Pagination;
 import common.service.CommonService;
-import project.member.p002.vo.MemberP002VO;
 import project.member.p003.service.MemberP003_d001Service;
+import project.member.p003.service.MemberP003_d002Service;
 import project.member.p003.vo.MemberP003VO;
 
 /*
@@ -40,13 +39,16 @@ public class MemberP003_d001ControllerImpl implements MemberP003_d001Controller{
 	@Autowired
 	MemberP003_d001Service memberP003_d001Service;
 	
+	@Autowired
+	MemberP003_d002Service memberP003_d002Servcie;
+	
 	// 회원신고
 	@RequestMapping("/reportInit.do")
 	public ModelAndView reportInit(@RequestParam Map<String, String> param) {
 		ModelAndView mav = new ModelAndView("member/p003_d001_insert_popup");
 		if(param.get("r_id")!=null) {	// 수정시
 			String r_id = param.get("r_id");
-			MemberP003VO vo = memberP003_d001Service.selectReportDetailByRID(r_id);
+			MemberP003VO vo = memberP003_d002Servcie.selectReportDetailByRID(r_id);
 			mav.addObject("article", vo);
 			mav.addObject("r_target", vo.getR_target());
 			mav.addObject("flag", vo.getR_category_id());

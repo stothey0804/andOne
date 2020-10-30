@@ -92,7 +92,7 @@
 	            </a>
 	          </li>
 	          <li class="nav-item">
-	            <a class="nav-link" href="#">
+	            <a class="nav-link" href="${contextPath}/admin/searchNewReport.do">
 	              	새로 접수된 신고
 	            </a>
 	          </li>
@@ -102,7 +102,7 @@
 	            </a>
 	          </li>
 	          <li class="nav-item">
-	            <a class="nav-link" href="#">
+	            <a class="nav-link" href="${contextPath}/admin/searchAllReport.do">
 	              	신고 리스트
 	            </a>
 	          </li>
