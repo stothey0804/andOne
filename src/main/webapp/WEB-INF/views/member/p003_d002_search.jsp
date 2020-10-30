@@ -40,6 +40,31 @@
 <!-- JQuery -->
 <script src = "${contextPath}/resources/js/ckeditor/ckeditor.js"></script>
 <script src = "${contextPath}/resources/js/adminSearch.js"></script>
+<script type="text/javascript">
+	// 카테고리 선택시
+	function selectedCategory(){
+		let g_id = $('#inputGroupSelect02').val();
+		console.log(g_id);
+		$.ajax({
+            type: "post",
+            async: "true",
+            dataType: "text",
+            data: {
+                g_id: g_id //data로 넘겨주기
+            },
+            url: "${contextPath}/admin/searchFormCategorySelected.do",
+            success: function (data, textStatus) {
+            	let list = JSON.parse(data);
+            	let optionList = "<option value='0'>사유</option>";
+            	for(let i in list){
+	            	optionList += "<option value='"+list[i].gc_id+"'>"+list[i].gc_name+"</option>";
+            	}
+            	$('#inputGroupSelect03').html(optionList);
+            }
+        });
+
+	}
+</script>
 </head>
 <body>
 <!-- Popup START -->
@@ -116,51 +141,57 @@
 <!-- Popup END -->
 
 <div class="container">
-			<h2 class="m-5">${title}</h2>
+			<h2 class="m-5">
+			<c:if test="${empty newList}">전체신고</c:if>
+			<c:if test="${!empty newList}">신규신고</c:if>
+			</h2>
 			<div class="form-group col-sm-11 mx-auto p-0">
-			<!-- 검색폼 START -->
-<!-- 			<form action="" method="post"> -->
-<!-- 			<div class="input-group mb-3 col-8 ml-auto"> -->
- 			<!-- 구분  --> 
-<!-- 			 <div class="input-group-prepend"> -->
-<!-- 			      <label class="input-group-text" for="inputGroupSelect01">검색조건</label> -->
-<!-- 		      </div> -->
-<%-- 				  <c:if test="${title eq '전체신고'}"> --%>
-<!-- 					  <select class="custom-select" id="inputGroupSelect01" name="searchOptionState"> -->
-<!-- 					    <option value="0">처리상태</option> -->
-<%-- 					      <c:forEach var="sList" items="${rStateList}"> --%>
-<%-- 						      <option value="${sList.gc_id}">${sList.gc_name}</option> --%>
-<%-- 					      </c:forEach> --%>
-<!-- 					  </select> -->
-<%-- 				  </c:if> --%>
-<!-- 				  <select class="custom-select" id="inputGroupSelect02" name="searchCategoryType"> -->
-<!-- 				    <option value="0">유형</option> -->
-<%-- 				      <c:forEach var="cList" items="${rCategoryList}"> --%>
-<%-- 					      <option value="${cList.g_id}">${cList.g_name}</option> --%>
-<%-- 				      </c:forEach> --%>
-<!-- 				  </select> -->
-<!-- 				  <select class="custom-select" id="inputGroupSelect03" name="searchOptionType"> -->
-<!-- 				    <option value="0">유형</option> -->
+<!-- 			검색폼 START -->
+			<form action="${contextPath}/admin/searchAllReport.do" method="post">
+			<div class="input-group mb-3 col-8 ml-auto">
+<!--  			구분   -->
+			 <div class="input-group-prepend">
+			      <label class="input-group-text" for="inputGroupSelect01">검색조건</label>
+		      </div>
+				  <c:if test="${empty newList}">
+					  <select class="custom-select" id="inputGroupSelect01" name="searchOptionState">
+					    <option value="0">처리상태</option>
+					      <c:forEach var="sList" items="${rStateList}">
+						      <option value="${sList.gc_id}">${sList.gc_name}</option>
+					      </c:forEach>
+					  </select>
+				  </c:if>
+				  <select class="custom-select" id="inputGroupSelect02" name="searchCategoryType" onchange="selectedCategory()">
+				    	<option value="0">분류</option>
+					    <option value="013">유저</option>
+					    <option value="014">소모임</option>
+					    <option value="015">&amp;분의일</option>
+				  </select>
+				  <select class="custom-select" id="inputGroupSelect03" name="searchOptionType">
+				    <option value="0">사유</option>
 <%-- 				      <c:forEach var="tList" items="${rTypeList}"> --%>
 <%-- 					      <option value="${tList.gc_id}">${tList.gc_name}</option> --%>
 <%-- 				      </c:forEach> --%>
-<!-- 				  </select> -->
-<!-- 			    <select class="custom-select" id="inputGroupSelect04" name="searchOptionIdOrUser"> -->
-<!-- 				    <option value="1">글번호</option> -->
-<!-- 				    <option value="2">작성자</option> -->
-<!-- 			    </select> -->
-<!-- 			  <input type="text" name="searchValue" class="form-control searchValue" placeholder="" aria-describedby="button-addon2"> -->
-<!-- 			  <div class="input-group-append"> -->
-<!-- 			    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">검색</button> -->
-<!-- 			  </div> -->
-<!-- 			</div> -->
-<!-- 			</form> -->
+				  </select>
+			    <select class="custom-select" id="inputGroupSelect04" name="searchOptionIdOrUser">
+				    <option value="1">글번호</option>
+				    <option value="2">작성자</option>
+			    </select>
+			  <input type="text" name="searchValue" class="form-control searchValue" placeholder="" aria-describedby="button-addon2">
+			  <div class="input-group-append">
+			    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">검색</button>
+			  </div>
+			</div>
+			<c:if test="${!empty newList}">
+			<input type="hidden" name="newList" value="true"/>					
+			</c:if>
+			</form>
 			<!-- 검색폼 END -->
 				<table class="table">
 					<thead>
 						<tr class="text-center">
 							<th>신고번호</th><th>분류</th><th>사유</th>
-							<c:if test="${title eq '전체신고'}">
+							<c:if test="${empty newList}">
 								<th>처리상태</th>
 							</c:if>
 							<th style="width:300px;">제목</th><th>작성자ID</th><th>날짜</th><th>내용보기</th>
@@ -169,10 +200,10 @@
 					<c:forEach var="list" items="${articleList}">
 						<tr class="text-center" id="${list.r_id}">
 							<td>${list.r_id}</td><td>${list.r_category}</td><td>${list.r_type}</td>
-							<c:if test="${title eq '전체신고'}">
+							<c:if test="${empty newList}">
 								<td>${list.r_state}</td>
 							</c:if>
-							<td class="text-left">${list.r_subject}</td><td>${list.r_id}</td><td>${list.r_date}</td>
+							<td class="text-left">${list.r_subject}</td><td>${list.m_id}</td><td>${list.r_date}</td>
 							<td><a class="btn btn-sm btn-outline-secondary searchReportDetail">확인</a></td>
 						</tr>
 					</c:forEach>

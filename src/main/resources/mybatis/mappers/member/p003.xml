@@ -119,9 +119,25 @@
 			REPLACE(r_reply, CHR(13)||CHR(10), '')r_reply,
 			ROW_NUMBER() OVER (ORDER BY r_id DESC) ROWNUMBER
 			FROM report
+			WHERE 1=1
 		]]>
-		<if test="newList=='true'">
-			WHERE r_state like '10'
+		<if test="newList == 'true'">
+			AND r_state like '10'
+		</if>
+		<if test="r_id != null">
+			<![CDATA[ AND r_id like '%'||#{r_id}||'%']]>
+		</if>
+		<if test="m_id != null">
+			<![CDATA[ AND m_id like '%'||#{m_id}||'%']]>
+		</if>
+		<if test="r_type != null">
+			<![CDATA[ AND r_type like #{r_type}]]>
+		</if>
+		<if test="r_category != null">
+			<![CDATA[ AND r_category like #{r_category}]]>
+		</if>
+		<if test="r_state != null">
+			<![CDATA[ AND r_state like #{r_state}]]>
 		</if>
 		<![CDATA[
 			)
@@ -131,11 +147,31 @@
 	</select>
 	<!-- 전체리스트 END -->
 	
-	<!-- 전체리스트 -->
+	<!-- 전체리스트 카운트-->
 	<select id="selectAllReportListCnt" resultType="int" parameterType="java.util.HashMap">
 		<![CDATA[
 			SELECT COUNT(r_id) FROM report
+			WHERE 1=1
 		]]>
-	</select><!-- 전체리스트 END -->
+		<if test="newList == 'true'">
+			AND r_state like '10'
+		</if>
+		<if test="r_id != null">
+			<![CDATA[ AND r_id like '%'||#{r_id}||'%']]>
+		</if>
+		<if test="m_id != null">
+			<![CDATA[ AND m_id like '%'||#{m_id}||'%']]>
+		</if>
+		<if test="r_type != null">
+			<![CDATA[ AND r_type like #{r_type}]]>
+		</if>
+		<if test="r_category != null">
+			<![CDATA[ AND r_category like #{r_category}]]>
+		</if>
+		<if test="r_state != null">
+			<![CDATA[ AND r_state like #{r_state}]]>
+		</if>
+	</select>
+	<!-- 전체리스트 카운트 END -->
 	
 	</mapper>

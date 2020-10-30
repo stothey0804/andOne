@@ -1,6 +1,8 @@
 package project.member.p003.controller;
 
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,13 +46,13 @@ public class MemberP003_d002ControllerImpl implements MemberP003_d002Controller{
 	CommonService commonService;
 	
 	//신규문의
-	@RequestMapping(value="/searchNewReport.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView searchNesearchNewReportwQnA(@RequestParam Map<String,String> param, @RequestParam(defaultValue="1") int curPage, HttpServletRequest request){
-//		List<HashMap<String, String>> qCategoryList = commonService.searchCommonCodeList(g_id);
+	@RequestMapping(value="/searchAllReport.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView esearchNewReport(@RequestParam Map<String,String> param, @RequestParam(defaultValue="1") int curPage, HttpServletRequest request){
+		
 //		List<HashMap<String, String>> qTypeList = commonService.searchCommonCodeList("016");	// 016 - 문의유형
 		List<HashMap<String, String>> rStateList = commonService.searchCommonCodeList("003");	// 003 - 신고내역_처리상태
 		ModelAndView mav = new ModelAndView(Common.checkAdminDestinationView("AdminP003_d002_search", request));
-		mav.addObject("title", "신규신고");
+//		mav.addObject("title", "신규신고");
 //		mav.addObject("qTypeList",qTypeList);
 		mav.addObject("rStateList",rStateList);
 		List<MemberP003VO> articleList = null;
@@ -56,17 +60,26 @@ public class MemberP003_d002ControllerImpl implements MemberP003_d002Controller{
 		// 파라미터 생성
 		Map<String, String> searchParam = new HashMap<String, String>();
 		// 글번호, 작성자 기준값 입력
-//		if("1".equals(param.get("searchOptionIdOrUser"))) {	//글번호기준
-//			searchParam.put("q_id",param.get("searchValue"));
-//		}else {	//작성자 기준
-//			searchParam.put("m_id",param.get("searchValue"));
-//		}
-//		// 유형구분 
-//		if(!"0".equals(param.get("searchOptionType"))) {
-//			searchParam.put("q_type", param.get("searchOptionType"));
-//		}
-		searchParam.put("newList","true");
-		
+		if("1".equals(param.get("searchOptionIdOrUser"))) {	//글번호기준
+			searchParam.put("r_id",param.get("searchValue"));
+		}else {	//작성자 기준
+			searchParam.put("m_id",param.get("searchValue"));
+		}
+		// 카테고리, 유형, 상태구분 
+		if(!"0".equals(param.get("searchOptionType"))) {
+			searchParam.put("r_type", param.get("searchOptionType"));
+		}
+		if(!"0".equals(param.get("searchCategoryType"))) {
+			searchParam.put("r_category", param.get("searchCategoryType"));
+		}
+		if(!"0".equals(param.get("searchOptionState"))) {
+			searchParam.put("r_state", param.get("searchOptionState"));
+		}
+		// 전체 / 신규 구분
+		if(param.get("newList")!=null) {
+			searchParam.put("newList", param.get("newList"));
+			mav.addObject("newList", param.get("newList"));
+		}
 		int listCnt = memberP003_d002Service.selectAllReportListCnt(searchParam);
 		Pagination pagination = new Pagination(listCnt, curPage);
 		searchParam.put("startIndex",(pagination.getStartIndex()+1)+"");
@@ -78,28 +91,39 @@ public class MemberP003_d002ControllerImpl implements MemberP003_d002Controller{
 		return mav;
 	}
 	
-	// 전체문의
-	@RequestMapping(value="/searchAllReport.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView searchAllQnA(@RequestParam Map<String,String> param, @RequestParam(defaultValue="1") int curPage, HttpServletRequest request){
-		ModelAndView mav = new ModelAndView(Common.checkAdminDestinationView("AdminP003_d002_search", request));
-		List<HashMap<String, String>> rStateList = commonService.searchCommonCodeList("003");	// 003 - 신고내역_처리상태
-		mav.addObject("title", "전체신고");
-//		mav.addObject("qTypeList",qTypeList);
-		mav.addObject("rStateList",rStateList);
-		List<MemberP003VO> articleList = null;
-		
-		// 파라미터 생성
-		Map<String, String> searchParam = new HashMap<String, String>();
-		int listCnt = memberP003_d002Service.selectAllReportListCnt(searchParam);
-		Pagination pagination = new Pagination(listCnt, curPage);
-		searchParam.put("startIndex",(pagination.getStartIndex()+1)+"");
-		searchParam.put("endIndex",(pagination.getStartIndex()+pagination.getPageSize())+"");
-		
-		articleList = memberP003_d002Service.selectAllReportList(searchParam);
-		mav.addObject("pagination", pagination);	//페이지네이션
-		mav.addObject("articleList", articleList);	// 전체리스트
-		return mav;
+	// 카테고리 조회시 ajax
+	@RequestMapping(value="/searchFormCategorySelected.do", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String searchFormCategorySelected(@RequestParam String g_id) throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		List<HashMap<String, String>> rTypeList = commonService.searchCommonCodeList(g_id);
+		String result = mapper.writeValueAsString(rTypeList);
+		System.out.println("==========" + result);
+		return result;
 	}
+	
+	// 전체문의
+//	@RequestMapping(value="/searchAllReport.do", method= {RequestMethod.GET, RequestMethod.POST})
+//	public ModelAndView searchAllQnA(@RequestParam Map<String,String> param, @RequestParam(defaultValue="1") int curPage, HttpServletRequest request){
+//		ModelAndView mav = new ModelAndView(Common.checkAdminDestinationView("AdminP003_d002_search", request));
+//		List<HashMap<String, String>> rStateList = commonService.searchCommonCodeList("003");	// 003 - 신고내역_처리상태
+//		mav.addObject("title", "전체신고");
+////		mav.addObject("qTypeList",qTypeList);
+//		mav.addObject("rStateList",rStateList);
+//		List<MemberP003VO> articleList = null;
+//		
+//		// 파라미터 생성
+//		Map<String, String> searchParam = new HashMap<String, String>();
+//		int listCnt = memberP003_d002Service.selectAllReportListCnt(searchParam);
+//		Pagination pagination = new Pagination(listCnt, curPage);
+//		searchParam.put("startIndex",(pagination.getStartIndex()+1)+"");
+//		searchParam.put("endIndex",(pagination.getStartIndex()+pagination.getPageSize())+"");
+//		
+//		articleList = memberP003_d002Service.selectAllReportList(searchParam);
+//		mav.addObject("pagination", pagination);	//페이지네이션
+//		mav.addObject("articleList", articleList);	// 전체리스트
+//		return mav;
+//	}
 	
 	// 팝업
 	@RequestMapping(value="/popupReportDetail.do", method= {RequestMethod.GET, RequestMethod.POST}, produces = "application/text;charset=UTF-8" )
