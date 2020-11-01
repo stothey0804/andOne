@@ -20,7 +20,6 @@
 		</layout>
 	</appender>
 	
-	
 	<!-- Application Loggers -->
 	<logger name="com.myspring.pro27">
 		<level value="debug" />

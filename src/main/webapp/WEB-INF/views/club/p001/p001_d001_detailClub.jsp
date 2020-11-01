@@ -221,7 +221,6 @@
 		})
 	}
 	
-<<<<<<< HEAD
 	function insertReply(ca_id){
 		const car_content = document.getElementById('comment'+ca_id).value;
 		$.ajax({

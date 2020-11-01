@@ -22,15 +22,25 @@
 		<result property="gc_id" column="gc_id" />
 	</resultMap>
 	
-	<!-- 엔분의일 글쓰기 -->
+	<!-- 엔분의일 글쓰기+수정 -->
 	<insert id="insertAndOne" parameterType="java.util.HashMap">
       <![CDATA[
-       	INSERT INTO and_one(one_type, one_id, one_state, one_category, one_title, one_memberMax, 
-		       			    one_totalPrice, one_date, one_hashTag, one_time, one_locate_lat, one_locate_lng, one_content, 
-		       			    one_addr, one_editor, one_editdate )
-		VALUES (#{one_type}, LPAD(andone_SEQ.NEXTVAL,6,'0'), '10', #{one_category}, #{one_title}, #{one_memberMax},
-				#{one_totalPrice}, #{one_date}, #{one_hashTag}, to_char(sysdate,'yyyy-mm-dd HH24:mi:ss'), #{one_locate_Lat}, #{one_locate_Lng},
-				#{one_content}, #{one_addr}, #{m_id}, to_char(sysdate,'yyyy-mm-dd HH24:mi:ss') )
+      MERGE INTO and_one
+	  	USING dual
+   	 	ON (one_id = #{one_id})
+      	WHEN MATCHED THEN
+      		UPDATE SET 
+		     one_category = #{one_category}, one_title = #{one_title}, one_memberMax = #{one_memberMax}, 
+		     one_totalPrice = #{one_totalPrice},one_date = #{one_date}, one_hashtag = #{one_hashtag}, 
+		     one_locate_lat = #{one_locate_Lat}, one_locate_lng = #{one_locate_Lng}, one_content = #{one_content}, 
+		     one_addr = #{one_addr}, one_editdate = to_char(sysdate,'yyyy-mm-dd HH24:mi:ss')
+		WHEN NOT MATCHED THEN
+			INSERT (one_type, one_id, one_state, one_category, one_title, one_memberMax, 
+       			    one_totalPrice, one_date, one_hashtag, one_time, one_locate_lat, one_locate_lng,
+       			    one_content, one_addr, one_editor, one_editdate )
+			VALUES ( #{one_type}, lpad(andone_seq.NEXTVAL,6,'0'), '10', #{one_category}, #{one_title}, #{one_memberMax},
+					#{one_totalPrice}, #{one_date}, #{one_hashtag}, to_char(sysdate,'yyyy-mm-dd HH24:mi:ss'), #{one_locate_Lat}, #{one_locate_Lng},
+					#{one_content}, #{one_addr}, #{m_id}, to_char(sysdate,'yyyy-mm-dd HH24:mi:ss'))
       ]]>
 	</insert>
 	<!-- 엔분의일 작성자 등록 -->
@@ -175,9 +185,23 @@
 	<!-- 엔분의일 글 삭제-->
 	<delete id="deleteAndOne" parameterType="String">
 		<![CDATA[
-			delete from and_one
-			where one_id = #{one_id}
+			{call
+				declare
+				 begin
+					delete from and_one where one_id = #{one_id};
+					delete from one_member where one_id = #{one_id};
+				end
+			}
 		]]>
 	</delete>
+	
+	<!-- 엔분의일 참가자 수 -->
+	<select id="selectCntOneMem" resultType="int" parameterType="String">
+	<![CDATA[
+		select count(m_id)
+		from one_member
+		where one_id = #{one_id}
+	]]>
+	</select>
 	
 </mapper>

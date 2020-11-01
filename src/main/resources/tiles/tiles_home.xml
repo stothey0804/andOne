@@ -165,6 +165,10 @@
       <put-attribute name="title" value="엔분의일  승인거절" />
        <put-attribute name="body" value="/WEB-INF/views/and/p002_d002_ApproveAndOne.jsp" />
    </definition>
+	<definition name="modifyAndOne" extends="baseLayout">
+      <put-attribute name="title" value="엔분의일 수정페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p002_d001_modifyAndOne.jsp" />
+   </definition>
 	<!-- 엔분의일 끝-->
 	
    <!-- 지역업체 페이지 -->

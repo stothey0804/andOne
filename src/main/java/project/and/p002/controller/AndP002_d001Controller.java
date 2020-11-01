@@ -10,5 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 public interface AndP002_d001Controller {
 	public ModelAndView insertAndOnePage(HttpServletRequest request);
 	public String insertAndOne(Map<String,Object> Andone, HttpServletRequest request);
-	public String deleteAndOne(String one_id);
+	public void deleteAndOne(String one_id);
+	public ModelAndView modifyAndOnePage(Map<String, Object> modifyMap);
 }

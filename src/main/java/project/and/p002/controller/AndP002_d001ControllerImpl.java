@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import common.Common;
@@ -20,7 +21,7 @@ import project.and.vo.AndP001AndOneVO;
 @Controller
 public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 	@Autowired
-	private AndP001_d001Service p001_d001Service;
+	private AndP001_d001Service p001_d001Service; //엔분의일 수정
 	@Autowired
 	private AndP002_d001Service p002_d001Service;
 	
@@ -35,7 +36,7 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(Common.checkLoginDestinationView("insertAndOnePage", request));
 		mav.addObject("g_id",g_id);//구분
-		mav.addObject("ctg_eat",ctg_eat);
+		mav.addObject("ctg_eat",ctg_eat);//카테고리
 		return mav;
 	}
 	//글쓰기 내용 DB저장
@@ -62,11 +63,36 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 	}
 	//&분의일 삭제
 	@Override
+	@ResponseBody
 	@RequestMapping(value="/and*/deleteAndOne.do")
-	public String deleteAndOne(@RequestParam ("one_id") String one_id) {
+	public void deleteAndOne(@RequestParam ("one_id") String one_id) {
 		p002_d001Service.deleteAndOne(one_id);
-		return null;
 	}
+	
+	//&분의일 수정조건확인 후 수정페이지로 이동
+	@Override
+	@RequestMapping(value="/and*/modifyAndOnePage.do")
+	public ModelAndView modifyAndOnePage(@RequestParam Map<String, Object> modifyMap) {
+		System.out.println("확인!!!!!!!!!!");
+		String one_id = (String) modifyMap.get("one_id");
+		System.out.println("one_id:::::::::"+one_id);
+		int countOneMem = p002_d001Service.countOneMem(one_id);//참가인원확인
+		System.out.println("참가자수"+countOneMem);
+		if(countOneMem > 1) { //참가자가 있을 경우
+			System.out.println("참가자있음");
+			ModelAndView mav = new ModelAndView("andOneDetail");
+			mav.addObject("msg","참가자가 존재해 수정이 불가능합니다");
+			return mav;
+		}else { //참가자가 없는 경우
+			System.out.println("참가자없음");
+			List<AndP001AndOneVO> andOneEditList = p001_d001Service.andOneDetailList(modifyMap);
+			ModelAndView mav = new ModelAndView("modifyAndOnePage");
+			mav.addObject("andOneEditList",andOneEditList);
+			//p002_d001Service.editAndOne(one_id);
+			return mav;
+		}
+	}
+	
 	
 	
 

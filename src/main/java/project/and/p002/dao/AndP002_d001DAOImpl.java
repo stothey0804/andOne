@@ -29,5 +29,14 @@ public class AndP002_d001DAOImpl implements AndP002_d001DAO {
 	public void deleteAndOne(String one_id) {
 		sqlSession.delete("and.p002.deleteAndOne",one_id);
 	}
+	@Override
+	public int countOneMem(String one_id) {
+		int countOneMem = sqlSession.selectOne("and.p002.selectCntOneMem", one_id);
+		return countOneMem;
+	}
+	@Override
+	public void editAndOne(String one_id) {
+		sqlSession.update("and.p002.insertAndOne", one_id);
+	}
 
 }
