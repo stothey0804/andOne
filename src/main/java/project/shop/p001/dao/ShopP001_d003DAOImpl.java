@@ -17,4 +17,9 @@ public class ShopP001_d003DAOImpl implements ShopP001_d003DAO{
 		String result = sqlSession.selectOne("shop.p001.findId",vo);
 		return result;
 	}
+
+	@Override
+	public String selectOverlapEmail(String email) {
+		return sqlSession.selectOne("shop.p001.selectOverlapEmail",email);
+	}
 }

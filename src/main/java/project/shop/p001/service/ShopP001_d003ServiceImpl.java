@@ -18,4 +18,9 @@ public class ShopP001_d003ServiceImpl implements ShopP001_d003Service {
 		return result;
 	}
 
+	@Override
+	public String selectOverlapEmail(String email) {
+		return shopP001_d003DAO.selectOverlapEmail(email);
+	}
+
 }
