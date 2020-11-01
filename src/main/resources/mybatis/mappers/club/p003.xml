@@ -33,7 +33,7 @@
 	
 	<insert id="insertClubArticle" parameterType="java.util.Map">
 		INSERT INTO c_article(ca_id,ca_content,c_id,ca_date,m_id,ca_pin)
-		values(art_SEQ.NEXTVAL,#{ca_content},#{c_id},to_char(sysdate,'YYYY-MM-DD hh:mm'),#{m_id},0)
+		values(art_SEQ.NEXTVAL,#{ca_content},#{c_id},to_char(sysdate,'YYYY-MM-DD HH24:MI'),#{m_id},0)
 	</insert>
 	
 	<insert id="insertClubArticleImg" parameterType="java.util.Map">
@@ -64,7 +64,7 @@
 	
 	<insert id="joinClubMember" parameterType="java.util.Map">
 		INSERT INTO c_member(c_id,cm_intro,m_id,cm_joindate,cm_rank)
-		values(#{c_id},#{cm_intro},#{m_id},to_char(sysdate,'YYYY-MM-DD hh:mm:ss'),40)
+		values(#{c_id},#{cm_intro},#{m_id},to_char(sysdate,'YYYY-MM-DD HH24:MI'),40)
 	</insert>
 	
 	<select id="nextCa_id" resultType="string">
@@ -90,10 +90,5 @@
            end
        }
 	</delete>
-	
-	<insert id="reportClub" parameterType="java.util.Map">
-		INSERT INTO report_club(c_id,r_id,r_date,rc_type)
-		VALUES(#{c_id},1,to_char(sysdate,'YYYY-MM-DD hh:mm:ss'),#{rc_type})
-	</insert>
 	
 </mapper>

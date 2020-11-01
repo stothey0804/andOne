@@ -267,13 +267,16 @@
 		$('#re_reply'+car_id).slideToggle();
 	}
 	
-	function insertReply(ca_id,car_id){
-		const re_car_content = document.getElementById('re_comment'+ca_id).value;
+	function insertRe_reply(ca_id,car_id){
+		console.log(ca_id);
+		console.log(car_id);
+		const re_car_content = document.getElementById('re_comment'+car_id).value;
+		console.log(re_car_content);
 		$.ajax({
 			url:"${contextPath}/club/insertReply.do?ca_id"+ca_id,
 			type : "get",
 			async: true,
-			data : {ca_id:ca_id,car_content:car_content},
+			data : {ca_id:ca_id,car_content:re_car_content,p_car_id:car_id},
 			success : function(data){
 				location.reload();
 			},
@@ -282,7 +285,39 @@
 			}
 		})
 	}
-// 	insertReply(${club.ca_id},${ca_reply.car_id});
+	
+	function editReplyInput(car_id,car_content){
+		$('#edit'+car_id).empty();
+		var date = document.getElementsByClassName("edit"+car_id)[0];
+		date.style.display = "none";
+		console.log(car_content);
+		let output = "<div class='input-group input-group' style='margin-left:50px;width:95%;'>"
+		+"<input type='text' id='editComment"+car_id+"' class='form-control' aria-label='Recipient's username' aria-describedby='basic-addon2'>"
+		+"<div class='input-group-append'>"
+		+"<a class='text-decoration-none text-white btn btn-primary' href='javascript:void(0);' onclick='editReply("+car_id+");' role='button'>Edit</a>"
+		+"</div></div?>";
+		$('#edit'+car_id).append(output);
+		$('#editComment'+car_id).val(car_content);
+	}
+	
+	function editReply(car_id){
+		console.log(car_id);
+		const edit_content = document.getElementById('editComment'+car_id).value;
+		console.log(edit_content);
+		$.ajax({
+			url:"${contextPath}/club/editReply.do",
+			type : "get",
+			async : true,
+			data : {car_id : car_id , car_content:edit_content},
+			success: function(data){
+				location.reload();
+			},
+			error:function(data){
+				alert("error");
+			}
+		})
+		
+	}
 </script>
 </head>
 <body>
@@ -430,7 +465,7 @@
 									<section>
 								<c:if test="${ca.reply eq null}">
 									<c:forEach var="ca_reply" items="${club.articleReplyList}">
-										<div class="card p-2 mt-3">
+										<div class="p-2 mt-3">
 											<!-- comment header -->
 											<div class="d-flex">
 												<div class="">
@@ -448,7 +483,7 @@
 												</div>
 												<div class="flex-grow-1 pl-2">
 													<a class="text-decoration-none text-capitalize h6 m-0" href="#">${ca_reply.m_nickname}</a>
-													<p class="small m-0 text-muted">${ca_reply.car_date}</p>
+													<p class="small m-0 text-muted edit${ca_reply.car_id}">${ca_reply.car_date}</p>
 												</div>
 												<a href='javascript:void(0);' onclick="re_reply(${ca_reply.car_id},${club.ca_id});" style="margin-right:5px;size:8px;">답글</a>
 												<!--댓글작성자 수정/삭제 -->
@@ -462,7 +497,7 @@
 															</a>
 	
 															<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-																<a class="dropdown-item text-primary" href="#">Edit</a>
+																<a class="dropdown-item text-primary" onclick="editReplyInput(${ca_reply.car_id},'${ca_reply.car_content}');">Edit</a>
 															 	<a class="dropdown-item text-primary" onclick="deleteReply(${ca_reply.car_id});">Delete</a>
 															</div>
 														</div>
@@ -472,15 +507,20 @@
 											</div>
 											<!-- comment header -->
 											<!-- comment body -->
-											<div class="card-body p-0">
-												<p class="card-text h7 mb-1">${ca_reply.car_content}</p>
+											<div class="card-body p-0"  id="edit${ca_reply.car_id}">
+												<p class="card-text h7 mb-1" style="margin-left:50px;">${ca_reply.car_content}</p>
 											</div>
 										</div>
 										<section>
-										
+										<c:if test="${fn:length(ca_reply.articleRe_replyList) ne 0}">
+										<a class="small text-decoration-none" style="margin-left:60px;" data-toggle="collapse" href="#collapseExample${ca_reply.car_id}" role="button" aria-expanded="false" aria-controls="collapseExample">
+										대댓글 ${fn:length(ca_reply.articleRe_replyList)}개
+										</a>
+										</c:if>
 										<!--대댓글 -->
+										<div class="collapse" id="collapseExample${ca_reply.car_id}">
 										<c:forEach var="re_ca_reply" items="${ca_reply.articleRe_replyList}">
-										<div class="card p-2 mt-3" style="margin-left:50px;">
+										<div class="p-2" style="margin-left:50px;">
 											<!-- comment header -->
 											<div class="d-flex">
 												<div class="">
@@ -498,20 +538,19 @@
 												</div>
 												<div class="flex-grow-1 pl-2">
 													<a class="text-decoration-none text-capitalize h6 m-0" href="#">${re_ca_reply.m_nickname}</a>
-													<p class="small m-0 text-muted">${re_ca_reply.car_date}</p>
+													<p class="small m-0 text-muted edit${re_ca_reply.car_id}">${re_ca_reply.car_date}</p>
 												</div>
 												<div>
-													<a href='javascript:void(0);' onclick="re_reply(${ca_reply.car_id},${club.ca_id});" style="margin-right:5px;size:8px;">답글</a>
-													<!--댓글 작성자 수정 / 삭제 -->
-													<c:set var="logOnId" value="${m_id}" />
-													<c:set var="re_reply_writer" value="${re_ca_reply.m_id}" />
-													<c:if test="${logOnId eq re_reply_writer}">
+												<!--댓글 작성자 수정 / 삭제 -->
+												<c:set var="logOnId" value="${m_id}" />
+												<c:set var="re_reply_writer" value="${re_ca_reply.m_id}" />
+												<c:if test="${logOnId eq re_reply_writer}">
 														<div class="dropdown">
 															<a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 															<i class="fas fa-chevron-down"></i>
 															</a>
 															<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-																<a class="dropdown-item text-primary" href="#">Edit</a>
+																<a class="dropdown-item text-primary" onclick="editReplyInput(${re_ca_reply.car_id},'${re_ca_reply.car_content}');">Edit</a>
 																<a class="dropdown-item text-primary" onclick="deleteReply(${re_ca_reply.car_id});">Delete</a>
 															</div>
 														</div>
@@ -520,19 +559,21 @@
 											</div>
 											<!-- comment header -->
 											<!-- comment body -->
-											<div class="card-body p-0">
-												<p class="card-text h7 mb-1">${re_ca_reply.car_content}</p>
+											<div class="card-body p-0" id="edit${re_ca_reply.car_id}">
+												<p class="card-text h7 mb-1" style="margin-left:50px;">${re_ca_reply.car_content}</p>
 											</div>
 										</div>
 										</c:forEach>
+										</div>
 										</section>
+										<!--대댓글 input -->
 										<div class="input-group input-group" id="re_reply${ca_reply.car_id}" style="display:none;">
 												<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-return-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 												  <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
 												</svg>				
-												<input type="text" id="re_comment${club.ca_id}" class="form-control" placeholder="Write Comment" aria-label="Recipient's username" aria-describedby="basic-addon2">
+												<input type="text" id="re_comment${ca_reply.car_id}" class="form-control" placeholder="Write Comment" aria-label="Recipient's username" aria-describedby="basic-addon2">
 												<div class="input-group-append">
-													<a class="text-decoration-none text-white btn btn-primary" href='javascript:void(0);' onclick="insertReply(${club.ca_id},${ca_reply.car_id});" role="button">Comment</a>
+													<a class="text-decoration-none text-white btn btn-primary" href='javascript:void(0);' onclick="insertRe_reply(${club.ca_id},${ca_reply.car_id});" role="button">Comment</a>
 												</div>
 										</div>
 										</c:forEach>

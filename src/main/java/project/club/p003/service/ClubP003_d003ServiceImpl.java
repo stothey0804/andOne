@@ -26,4 +26,9 @@ public class ClubP003_d003ServiceImpl implements ClubP003_d003Service{
 		clubP003_d003DAO.deleteReply(deleteMap);
 	}
 
+	@Override
+	public void updateReply(Map<String, Object> updateMap) {
+		clubP003_d003DAO.updateReply(updateMap);
+	}
+
 }
