@@ -35,4 +35,14 @@ public class CommonServiceImpl implements CommonService{
 		return commonDAO.selectCommonGroupName(g_id);
 	}
 
+	@Override
+	public String selectClubName(String c_id) {
+		return commonDAO.selectClubName(c_id);
+	}
+
+	@Override
+	public String selectClubManager(String param) {
+		return commonDAO.selectClubManager(param);
+	}
+
 }

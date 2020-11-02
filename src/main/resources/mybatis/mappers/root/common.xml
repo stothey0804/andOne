@@ -53,4 +53,25 @@
    		]]>
    	</select>
    	
+   	<!-- 소모임명 조회 -->
+   	<select id="selectClubName" resultType="String" parameterType="String">
+	<![CDATA[
+	   	SELECT c_name
+		FROM club
+		where c_id like #{c_id}
+	]]>
+   	</select>
+   	
+   	<!-- 소모임장 아이디 조회 -->
+   	<select id="selectClubManager" resultType="String" parameterType="String">
+	<![CDATA[
+	   	SELECT m_id
+		FROM c_member
+		where c_id like #{c_id} AND cm_rank like '10'
+	]]>
+   	</select>
+   	
+   	<!-- &분의일제목 조회 -->
+	
+
 	</mapper>

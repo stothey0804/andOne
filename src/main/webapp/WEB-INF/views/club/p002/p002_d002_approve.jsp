@@ -53,7 +53,37 @@
 			type:"get",
 			dataType:"text",
 			url:"${contextPath}/club/permitMember.do",
-			data:{c_id:c_id,m_id:m_id}
+			data:{c_id:c_id,m_id:m_id},
+			success: function (data, textStatus) {
+				// 승인성공 시 알림전송
+				let type = '40';	// 소모임
+				let target = m_id;	// 승인 멤버 아이디
+				let url = '/andOne/club/detailClub.do?c_id='+c_id;
+				
+				// 소모임 명 조회 ajax
+				$.ajax({
+					type: 'post',
+					url: '/andOne/selectClubName.do',
+					dataType: 'text',
+					data: {	c_id: c_id	},
+					success: function(data){
+						// 소모임명 저장
+						var content = '[' + data +'] 소모임 가입이 승인됐습니다.';
+						// db저장	
+						$.ajax({
+							type: 'post',
+							url: '/andOne/member/saveNotify.do',
+							dataType: 'text',
+							data: {
+								target: target,	content: content, type: type, url: url
+							},
+							success: function(){
+								socket.send("소모임,"+target+","+content+","+url);	// 소켓에 전달
+							}
+						});
+					}
+				});
+            }
 		})
 	}
 	
