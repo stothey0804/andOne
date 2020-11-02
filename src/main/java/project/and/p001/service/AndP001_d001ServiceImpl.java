@@ -56,10 +56,10 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 	}
 	//엔분의 일 상세보기
 	@Override
-	public List<AndP001AndOneVO> andOneDetailList(Map<String, Object> detailMap) {
-		List<AndP001AndOneVO> andOneDetailList = null;
-		andOneDetailList = p001_d001DAO.selectAndOneDetailList(detailMap);
-		return andOneDetailList;
+	public AndP001AndOneVO andOneDetail(Map<String, Object> detailMap) {
+		AndP001AndOneVO andOneDetail = null;
+		andOneDetail = p001_d001DAO.selectAndOneDetail(detailMap);
+		return andOneDetail;
 	}
 	//엔분의 작성자 
 	@Override

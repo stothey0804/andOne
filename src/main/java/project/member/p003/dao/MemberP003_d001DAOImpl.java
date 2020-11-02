@@ -35,24 +35,4 @@ public class MemberP003_d001DAOImpl implements MemberP003_d001DAO{
 		return sqlSession.selectOne("member.p003.selectReportListByIdCnt", m_id);
 	}
 
-	@Override
-	public MemberP003VO selectReportDetailByRID(String r_id) {
-		return sqlSession.selectOne("member.p003.selectReportDetailByRID", r_id);
-	}
-
-	@Override
-	public int saveReportState(Map<String, String> param) {
-		return sqlSession.update("member.p003.saveReportState", param);
-	}
-
-	@Override
-	public List<MemberP003VO> selectAllReportList(Map<String, String> param) {
-		return sqlSession.selectList("member.p003.selectAllReportList", param);
-	}
-
-	@Override
-	public int selectAllReportListCnt(Map<String, String> param) {
-		return sqlSession.selectOne("member.p003.selectAllReportListCnt", param);
-	}
-
 }

@@ -164,6 +164,10 @@
       align-items: center;
     }
     
+.re_comment{
+	display:none;
+}
+    
 </style>
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
@@ -252,11 +256,67 @@
 				}
 			})
 		}
-		
+	}
 	// 신고하기 연결
 	function openReportPopup(){
 		var popupOpener;
 		popupOpener = window.open("${contextPath}/member/reportInit.do?target=${clubInfo.c_id}&flag=club", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
+	}
+	
+	function re_reply(car_id,ca_id){
+		$('#re_reply'+car_id).slideToggle();
+	}
+	
+	function insertRe_reply(ca_id,car_id){
+		console.log(ca_id);
+		console.log(car_id);
+		const re_car_content = document.getElementById('re_comment'+car_id).value;
+		console.log(re_car_content);
+		$.ajax({
+			url:"${contextPath}/club/insertReply.do?ca_id"+ca_id,
+			type : "get",
+			async: true,
+			data : {ca_id:ca_id,car_content:re_car_content,p_car_id:car_id},
+			success : function(data){
+				location.reload();
+			},
+			error:function(data,textStatus){
+				alert("error");
+			}
+		})
+	}
+	
+	function editReplyInput(car_id,car_content){
+		$('#edit'+car_id).empty();
+		var date = document.getElementsByClassName("edit"+car_id)[0];
+		date.style.display = "none";
+		console.log(car_content);
+		let output = "<div class='input-group input-group' style='margin-left:50px;width:95%;'>"
+		+"<input type='text' id='editComment"+car_id+"' class='form-control' aria-label='Recipient's username' aria-describedby='basic-addon2'>"
+		+"<div class='input-group-append'>"
+		+"<a class='text-decoration-none text-white btn btn-primary' href='javascript:void(0);' onclick='editReply("+car_id+");' role='button'>Edit</a>"
+		+"</div></div?>";
+		$('#edit'+car_id).append(output);
+		$('#editComment'+car_id).val(car_content);
+	}
+	
+	function editReply(car_id){
+		console.log(car_id);
+		const edit_content = document.getElementById('editComment'+car_id).value;
+		console.log(edit_content);
+		$.ajax({
+			url:"${contextPath}/club/editReply.do",
+			type : "get",
+			async : true,
+			data : {car_id : car_id , car_content:edit_content},
+			success: function(data){
+				location.reload();
+			},
+			error:function(data){
+				alert("error");
+			}
+		})
+		
 	}
 </script>
 </head>
@@ -379,8 +439,8 @@
 							</svg>
 						<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 						<c:choose>
-							<c:when test="${fn:length(club.articleReplyList) ne 0}"> 
-							댓글 ${fn:length(club.articleReplyList)}개
+							<c:when test="${fn:length(club.articleReplyList) ne 0 or fn:length(ca_reply.articleRe_replyList) ne 0}"> 
+							댓글 ${fn:length(club.articleReplyList)+fn:length(ca_reply.articleRe_replyList)}개
 							</c:when>
 							<c:otherwise>
 								댓글 0개
@@ -401,11 +461,11 @@
 											</div>
 										</form>
 									</section>
-									<!-- comment card bgins -->
+									<!-- comment card -->
 									<section>
 								<c:if test="${ca.reply eq null}">
 									<c:forEach var="ca_reply" items="${club.articleReplyList}">
-										<div class="card p-2 mt-3">
+										<div class="p-2 mt-3">
 											<!-- comment header -->
 											<div class="d-flex">
 												<div class="">
@@ -423,37 +483,103 @@
 												</div>
 												<div class="flex-grow-1 pl-2">
 													<a class="text-decoration-none text-capitalize h6 m-0" href="#">${ca_reply.m_nickname}</a>
-													<p class="small m-0 text-muted">${ca_reply.car_date}</p>
+													<p class="small m-0 text-muted edit${ca_reply.car_id}">${ca_reply.car_date}</p>
 												</div>
+												<a href='javascript:void(0);' onclick="re_reply(${ca_reply.car_id},${club.ca_id});" style="margin-right:5px;size:8px;">답글</a>
 												<!--댓글작성자 수정/삭제 -->
 												<c:set var="logOnId" value="${m_id}" />
 												<c:set var="reply_writer" value="${ca_reply.m_id}" />
 												<c:if test="${logOnId eq reply_writer}">
-												<div>
-													<div class="dropdown">
-														<a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-														<i class="fas fa-chevron-down"></i>
-														</a>
-
-														<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-															<a class="dropdown-item text-primary" href="#">Edit</a>
-														 	<a class="dropdown-item text-primary" onclick="deleteReply(${ca_reply.car_id});">Delete</a>
+													<div>
+														<div class="dropdown">
+															<a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+															<i class="fas fa-chevron-down"></i>
+															</a>
+	
+															<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+																<a class="dropdown-item text-primary" onclick="editReplyInput(${ca_reply.car_id},'${ca_reply.car_content}');">Edit</a>
+															 	<a class="dropdown-item text-primary" onclick="deleteReply(${ca_reply.car_id});">Delete</a>
+															</div>
 														</div>
 													</div>
-												</div>
+													<br>
 												</c:if>
 											</div>
 											<!-- comment header -->
 											<!-- comment body -->
-											<div class="card-body p-0">
-												<p class="card-text h7 mb-1">${ca_reply.car_content}</p>
+											<div class="card-body p-0"  id="edit${ca_reply.car_id}">
+												<p class="card-text h7 mb-1" style="margin-left:50px;">${ca_reply.car_content}</p>
 											</div>
+										</div>
+										<section>
+										<c:if test="${fn:length(ca_reply.articleRe_replyList) ne 0}">
+										<a class="small text-decoration-none" style="margin-left:60px;" data-toggle="collapse" href="#collapseExample${ca_reply.car_id}" role="button" aria-expanded="false" aria-controls="collapseExample">
+										대댓글 ${fn:length(ca_reply.articleRe_replyList)}개
+										</a>
+										</c:if>
+										<!--대댓글 -->
+										<div class="collapse" id="collapseExample${ca_reply.car_id}">
+										<c:forEach var="re_ca_reply" items="${ca_reply.articleRe_replyList}">
+										<div class="p-2" style="margin-left:50px;">
+											<!-- comment header -->
+											<div class="d-flex">
+												<div class="">
+													<a class="text-decoration-none" href="#">
+													<c:set var="m_img" value="${re_ca_reply.e_m_img}"/>
+														<c:choose>
+															<c:when test="${m_img ne null}">
+																<img src="data:image/jpg;base64, ${re_ca_reply.e_m_img}" class="r_userImg">
+															</c:when>
+															<c:otherwise>
+																<img src="${contextPath}/resources/image/user.png" class="r_userImg">
+															</c:otherwise>
+														</c:choose>
+													</a>
+												</div>
+												<div class="flex-grow-1 pl-2">
+													<a class="text-decoration-none text-capitalize h6 m-0" href="#">${re_ca_reply.m_nickname}</a>
+													<p class="small m-0 text-muted edit${re_ca_reply.car_id}">${re_ca_reply.car_date}</p>
+												</div>
+												<div>
+												<!--댓글 작성자 수정 / 삭제 -->
+												<c:set var="logOnId" value="${m_id}" />
+												<c:set var="re_reply_writer" value="${re_ca_reply.m_id}" />
+												<c:if test="${logOnId eq re_reply_writer}">
+														<div class="dropdown">
+															<a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+															<i class="fas fa-chevron-down"></i>
+															</a>
+															<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+																<a class="dropdown-item text-primary" onclick="editReplyInput(${re_ca_reply.car_id},'${re_ca_reply.car_content}');">Edit</a>
+																<a class="dropdown-item text-primary" onclick="deleteReply(${re_ca_reply.car_id});">Delete</a>
+															</div>
+														</div>
+													</c:if>
+												</div>
+											</div>
+											<!-- comment header -->
+											<!-- comment body -->
+											<div class="card-body p-0" id="edit${re_ca_reply.car_id}">
+												<p class="card-text h7 mb-1" style="margin-left:50px;">${re_ca_reply.car_content}</p>
+											</div>
+										</div>
+										</c:forEach>
+										</div>
+										</section>
+										<!--대댓글 input -->
+										<div class="input-group input-group" id="re_reply${ca_reply.car_id}" style="display:none;">
+												<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-return-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+												  <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
+												</svg>				
+												<input type="text" id="re_comment${ca_reply.car_id}" class="form-control" placeholder="Write Comment" aria-label="Recipient's username" aria-describedby="basic-addon2">
+												<div class="input-group-append">
+													<a class="text-decoration-none text-white btn btn-primary" href='javascript:void(0);' onclick="insertRe_reply(${club.ca_id},${ca_reply.car_id});" role="button">Comment</a>
+												</div>
 										</div>
 										</c:forEach>
 										</c:if>
 									</section>
 									<!-- comment card ends -->
-
 								</div>
 							</div>
 						<!--본인이 쓴 글일 경우 수정,삭제 메뉴 -->
@@ -472,7 +598,7 @@
 										onclick="send(${club.ca_id})" data-toggle="modal"
 										data-target="#staticBackdrop">삭제</button>
 									<button type="button" class="btn btn-outline-secondary" style="float:right"
-										onclick="location.href='${contextPath }/club/editClubArticleForm.do?ca_id=${club.ca_id}&&c_id=${clubInfo.c_id}'">수정</button>
+										onclick="location.href='${contextPath}/club/editClubArticleForm.do?ca_id=${club.ca_id}&&c_id=${clubInfo.c_id}'">수정</button>
 								</div>
 							</c:when>
 						</c:choose>
@@ -602,7 +728,7 @@
 		</div>
 	</div>
 	<!--leaveClub Modal -->
-<div class="modal fade" id="leaveClub" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="leaveClub" tabindex="-1" aria-labelledb y="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

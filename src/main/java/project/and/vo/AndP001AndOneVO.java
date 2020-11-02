@@ -27,10 +27,23 @@ public class AndP001AndOneVO {
 	private String totalSearch; //총검색
 	private String distance;
 	private String one_addr;
+	private String one_content;
 	
 	public AndP001AndOneVO() {
+		System.out.println("AndP001AndOneVO");
 	}
 	
+	
+	public String getOne_content() {
+		return one_content;
+	}
+
+
+	public void setOne_content(String one_content) {
+		this.one_content = one_content;
+	}
+
+
 	public String getOne_addr() {
 		return one_addr;
 	}

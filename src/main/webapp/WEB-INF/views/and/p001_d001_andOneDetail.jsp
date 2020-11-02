@@ -107,8 +107,7 @@
                 </div>
 	 </div>
 <div>
-	<c:forEach var ="andoneDetail" items="${andOneDetailList}" > 	
-		제목  ${andoneDetail.one_title} <br>
+		 제목${andoneDetail.one_title} <br>
 		 카테고리 ${andoneDetail.one_category}<br>
 		 해쉬태그 ${andoneDetail.one_hashTag}<br>
 		 수령시간 ${andoneDetail.one_date}<br>
@@ -151,7 +150,7 @@
 		 	test!!!!!! ${omLeaderCheck}
 		 	<c:choose>
 		 		<c:when test="${omLeaderCheck eq '10'}"> <!-- 작성자 -->
-				 	<br><button onclick="location.href='${contextPath}/and/modifyAndOnePage.do?one_id=${andoneDetail.one_id}&g_id=${g_id}'">수정하기</button>	 	 
+				 	<br><button onclick="modifyAndOne('${andoneDetail.one_id}')">수정하기</button>	 	 
 				 	<br><button onclick="deleteAndOne('${andoneDetail.one_id}')">삭제하기</button>
 				 	<br><button onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button>				 	
 	 			</c:when>
@@ -162,8 +161,7 @@
 			 		<button onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
 			 		<button type="button" onClick='openReportPopup()'>신고하기</button>
 				</c:otherwise>
-			</c:choose>
-	</c:forEach>
+			</c:choose>		
 </div>
   	<!--kakao map-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
@@ -275,11 +273,7 @@
 	    	payData.submit();
      		}  
    		 
-		// 신고하기 연결
-		function openReportPopup(){
-			var popupOpener;
-			popupOpener = window.open("${contextPath}/member/reportInit.do?target=${andoneDetail.one_id}&flag=one", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
-		}
+		
 		//삭제하기
 		function deleteAndOne(one_id){
 			if(window.confirm("&분의일을 삭제하겠습니까?")){
@@ -297,12 +291,31 @@
 				})
 			}
 		}
-		//수정조건 경고창
-		if(msg != null){
-			var msg = '${msg}';
-			alert(msg);			
-		}
-		
+			//수정하기
+			function modifyAndOne(one_id){
+				$.ajax({
+					type : "post",
+		   			dataType: "text",
+		   			async: "true",
+		   			url:"${contextPath}/and/modifyAndOneCheck.do",
+		   			data:{
+		   				"one_id" : one_id
+	   				},
+	   	   			success:function(data,textSataus){ 
+	   	   				console.log("참가자유무:"+data);
+	   	   				if(data == "ok"){
+	   	   					alert("참가자가 존재해 수정이 불가능합니다");
+	   	   				}else{
+	   	   					window.location.href = "${contextPath}/and/modifyAndOnePage.do?one_id=${andoneDetail.one_id}&g_id=${g_id}";
+	   	   				}
+	   	   			}
+				})
+			}
+			// 신고하기 연결
+			function openReportPopup(){
+				var popupOpener;
+				popupOpener = window.open("${contextPath}/member/reportInit.do?target=${andoneDetail.one_id}&flag=one", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
+			}			
 	</script>
 </body>
 </html>

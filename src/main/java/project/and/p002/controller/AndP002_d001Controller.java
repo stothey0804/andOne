@@ -11,5 +11,8 @@ public interface AndP002_d001Controller {
 	public ModelAndView insertAndOnePage(HttpServletRequest request);
 	public String insertAndOne(Map<String,Object> Andone, HttpServletRequest request);
 	public void deleteAndOne(String one_id);
+	public String modifyAndOneCheck(String one_id);
 	public ModelAndView modifyAndOnePage(Map<String, Object> modifyMap);
+	public String modifyAndOne(Map<String,Object> modifyMap, HttpServletRequest request);
+	
 }

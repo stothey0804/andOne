@@ -5,8 +5,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!--  	<!-- jQuery --> -->
-<!-- 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
 	<!-- Perfect-DateTimePicker CSS -->
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/jquery.datetimepicker.css"/>
 	<!-- Perfect-DateTimePicker JS -->
@@ -51,11 +49,11 @@
 				</c:when>
 			</c:choose>
 		</h1>
-      <form method="post" name="modifyAnd" action="${contextPath}/and/insertAndOne.do" >
+      <form method="post" name="modifyAnd" action="${contextPath}/and/modifyAndOne.do">
       <div class="col-lg-6 col-sm-10 mx-auto mt-5 ">
       	<div class="form-row">
             <div class="form-group col-md-6 mx-auto title">
-   				<input type="text" class="form-control" name="one_title" placeholder="제목을 입력해주세요" value="">
+   				<input type="text" class="form-control" name="one_title" placeholder="제목을 입력해주세요" value="${andOneEdit.one_title}">
     		</div>
       	</div>
       	<!-- 카테고리 -->
@@ -64,8 +62,13 @@
       	<c:choose>
       		<c:when test="${g_id == '010'}">
 		      	<div id="category" style="width:650px; margin: 0 auto">
-						<c:forEach var ="ctg" items="${ctg_eat}" > 
-							<button type="button" id="category_sub" class="btn btn-outline-dark mb-3 ctgbutton" value="${ctg.gc_id}" >${ctg.gc_name}</button>
+						<c:forEach var ="ctg" items="${ctg}" > 
+							<c:if test="${andOneEdit.one_category ne ctg.gc_name}">
+								<button type="button" id="category_sub" class="btn btn-outline-dark mb-3 ctgbutton" value="${ctg.gc_id}" >${ctg.gc_name}</button>
+							</c:if>
+							<c:if test="${andOneEdit.one_category eq ctg.gc_name}">
+								<button type="button" id="category_sub" class="btn btn-outline-dark mb-3 ctgbutton active" value="${ctg.gc_id}" >${ctg.gc_name}</button>
+							</c:if>
 						</c:forEach>
 				</div>
 			</c:when>
@@ -73,7 +76,7 @@
 		<c:choose>
       		<c:when test="${g_id == '011'}">
 		      	<div id="category" style="width:650px; margin: 0 auto; ">
-						<c:forEach var ="ctg" items="${ctg_eat}" > 
+						<c:forEach var ="ctg" items="${ctg}" > 
 							<button type="button" id="category_sub" class="btn btn-outline-dark mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
 						</c:forEach>
 				</div>
@@ -82,7 +85,7 @@
 		<c:choose>
       		<c:when test="${g_id == '012'}">
 		      	<div id="category" style="width:800px; margin: 0 auto">
-						<c:forEach var ="ctg" items="${ctg_eat}" > 
+						<c:forEach var ="ctg" items="${ctg}" > 
 							<button type="button" id="category_sub" class="btn btn-outline-dark mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
 						</c:forEach>
 				</div>
@@ -92,21 +95,26 @@
 		</div>
 		<div class="form-row">
         	<div class="form-group col-md-6 mx-auto">
-				<input type="text" class="form-control" name="one_totalPrice" placeholder="주문금액을 입력해주세요">
+				<input type="text" class="form-control" name="one_totalPrice" placeholder="주문금액을 입력해주세요" value="${andOneEdit.one_totalPrice}">
 			</div>
 		</div>
 		<!--달력 -->
 		<div class="form-row">
         	<div class="form-group col-md-6 mx-auto" id="orderDate">
-			<input name="one_date" class="form-control" placeholder="주문시간을 입력해주세요" />
+			<input name="one_date" class="form-control" placeholder="주문시간을 입력해주세요" value="${andOneEdit.one_date}" />
 			</div>		
 		</div>
 	   <!-- 인원설정 -->
 	   <div class="form-row">
-		 <select id="memberCnt" class="custom-select form-group col-md-6 mx-auto" onChange="setValue()" >
-			<option selected >인원을 선택하세요</option>
+		 <select id="memberCnt" class="custom-select form-group col-md-6 mx-auto" onchange = "setValue()" >
+			<option value="">인원을 선택하세요</option>
 				<c:forEach var="i" begin="2" end="10">
-					<option value="<c:out value='${i}'/>"><c:out value="${i}"/></option>
+					<c:if test="${i ne andOneEdit.one_memberMax}">
+						<option value="<c:out value='${i}'/>"><c:out value="${i}"/></option>
+					</c:if>
+					<c:if test="${i eq andOneEdit.one_memberMax}">
+						<option value="${andOneEdit.one_memberMax}" selected>${andOneEdit.one_memberMax}</option>
+					</c:if>
 				</c:forEach>
 			 </select>
 			 <input type="hidden" name="one_memberMax" value="">
@@ -115,7 +123,7 @@
 		<div class="form-row">
 			<div class="form-group col-md-6 mx-auto">
         		<button type="button" class="btn btn-outline-dark mb-3" onclick="searchAddress()">위치선택하기</button>
-        		<input type="text" id="inputAddress" name ="one_addr" class="form-control" placeholder="위치를선택해주세요" readonly><br>
+        		<input type="text" id="inputAddress" name ="one_addr" class="form-control" placeholder="위치를선택해주세요" value="${andOneEdit.one_addr}" readonly><br>
        		</div>
       	</div>	
         		<div id="map" style="width:500px; height:400px"></div>
@@ -125,13 +133,13 @@
         <div class="form-row">
         <div class="form-group col-md-6 mx-auto">
        		<label for="one_content"></label>
-       		<textarea rows="15" cols="80" id="one_content" class="form-control" name="one_content"></textarea>
+       		<textarea rows="15" cols="80" id="one_content" class="form-control" name="one_content">${andOneEdit.one_content}</textarea>
        	</div>
        	</div>
        	<div class="form-row">
        		<div class="form-group col-md-6 mx-auto ">
-		       	<input type="text" class="form-control"  name="one_hashTag" placeholder="해쉬태그를 입력해주세요"><br><br>
-	        	<input type="submit" id="registerAndEat" class="btn btn-outline-dark btn-lg mb-3 form-control"  value="새로운같이먹기 등록하기" >
+		       	<input type="text" class="form-control"  name="one_hashTag" placeholder="해쉬태그를 입력해주세요" value="${andOneEdit.one_hashTag}" ><br><br>
+	        	<input type="submit" id="registerAndEat" class="btn btn-outline-dark btn-lg mb-3 form-control"  value="수정하기" >
       		</div>
 		       	<input type="hidden" name="one_type" value="${g_id}">
         </div>
@@ -163,8 +171,7 @@
             new daum.Postcode({
                 oncomplete: function(data) {
                     var addr = data.address; //최종변수주소
-                    console.log("addr:   "+addr)
-                    
+                    console.log("addr:   "+addr);
                     //주소정보 해당필드에 넣기
                     document.getElementById("inputAddress").value = addr;
                     //주소로 상세정보검색
@@ -191,15 +198,27 @@
                             marker.setPosition(coords);
 
                             //hidden값으로 변수 one_locate에 좌표 전달
-                            document.insertAnd.one_locate_Lat.value = one_locate_Lat;
-                            document.insertAnd.one_locate_Lng.value = one_locate_Lng;
+                            document.modifyAnd.one_locate_Lat.value = one_locate_Lat;
+                            document.modifyAnd.one_locate_Lng.value = one_locate_Lng;
                         }
                     });
                 }
             }).open();
         }
-      //<<<<<<<<<<<< MAP 끝
-      
+        //수정시 주소로 좌표 표시
+        geocoder.addressSearch("${andOneEdit.one_addr}", function(result, status) {
+    		// 정상적으로 검색이 완료됐으면 
+     		if (status === kakao.maps.services.Status.OK) {
+     			var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+     			// 결과값으로 받은 위치를 마커로 표시합니다
+     			var marker = new kakao.maps.Marker({
+     				map: map,
+     				position: coords
+     				});
+     			map.setCenter(coords);
+     		}
+        });
+		//<<<<<<<<<<<< MAP 끝
       $(document).ready(function() {
 	      //카테고리 버튼 클릭시 선택
     	  $('#category').on('click', '#category_sub' , function(e){
@@ -209,7 +228,7 @@
     		  var category = $(this).val();
    			  //hidden값으로  변수 one_category에 전달
    			  console.log(category);
-    		  document.insertAnd.one_category.value = category;
+    		  document.modifyAnd.one_category.value = category;
     	  });
 	      //달력
 	      var $d7input = $('input', '#orderDate').focus(function() {
@@ -235,7 +254,7 @@
 	      function setValue(){
 	    	  var cnt = $("#memberCnt").val();
 		      console.log(cnt); 
-		      document.insertAnd.one_memberMax.value = cnt;//인원수 전달
+		      document.modifyAnd.one_memberMax.value = cnt;//인원수 전달
 	      }
     </script>
 	

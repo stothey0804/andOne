@@ -64,7 +64,7 @@
       	<c:choose>
       		<c:when test="${g_id == '010'}">
 		      	<div id="category" style="width:650px; margin: 0 auto">
-						<c:forEach var ="ctg" items="${ctg_eat}" > 
+						<c:forEach var ="ctg" items="${ctg}" > 
 							<button type="button" id="category_sub" class="btn btn-outline-dark mb-3 ctgbutton" value="${ctg.gc_id}" >${ctg.gc_name}</button>
 						</c:forEach>
 				</div>
@@ -73,7 +73,7 @@
 		<c:choose>
       		<c:when test="${g_id == '011'}">
 		      	<div id="category" style="width:650px; margin: 0 auto; ">
-						<c:forEach var ="ctg" items="${ctg_eat}" > 
+						<c:forEach var ="ctg" items="${ctg}" > 
 							<button type="button" id="category_sub" class="btn btn-outline-dark mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
 						</c:forEach>
 				</div>
@@ -82,7 +82,7 @@
 		<c:choose>
       		<c:when test="${g_id == '012'}">
 		      	<div id="category" style="width:800px; margin: 0 auto">
-						<c:forEach var ="ctg" items="${ctg_eat}" > 
+						<c:forEach var ="ctg" items="${ctg}" > 
 							<button type="button" id="category_sub" class="btn btn-outline-dark mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
 						</c:forEach>
 				</div>

@@ -201,6 +201,7 @@
 		select count(m_id)
 		from one_member
 		where one_id = #{one_id}
+		and om_state ='20'
 	]]>
 	</select>
 	

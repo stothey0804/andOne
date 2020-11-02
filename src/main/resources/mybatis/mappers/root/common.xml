@@ -10,9 +10,9 @@
    
    
    <!-- 분류 그룹명 조회 -->
-   	<select id="select" resultType="java.util.HashMap" parameterType="String">
+   	<select id="selectCommonGroupName" resultType="String" parameterType="String">
    		<![CDATA[
-			SELECT g_id, g_name
+			SELECT g_name
 			FROM code_group
 			WHERE g_id = #{g_id}
    		]]>

@@ -110,11 +110,22 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 			if(vo.getArticleList().get(i).getArticleReplyList().size()!=0) {
 				for(int j=0; j < vo.getArticleList().get(i).getArticleReplyList().size();j++) {
 					if(vo.getArticleList().get(i).getArticleReplyList().get(j) !=null) {
+						//상위댓글
 						if(vo.getArticleList().get(i).getArticleReplyList().get(j).getM_img() == null) {
 						} else {
 							encoded = Base64.getEncoder().encode((byte[])vo.getArticleList().get(i).getArticleReplyList().get(j).getM_img());
 							vo.getArticleList().get(i).getArticleReplyList().get(j).setE_m_img(new String(encoded));
 						}
+						//하위댓글
+						if(vo.getArticleList().get(i).getArticleReplyList().get(j).getArticleRe_replyList() != null) {
+							for(int k=0 ; k < vo.getArticleList().get(i).getArticleReplyList().get(j).getArticleRe_replyList().size(); k++) {
+								if(vo.getArticleList().get(i).getArticleReplyList().get(j).getArticleRe_replyList().get(k).getM_img() != null) {
+									encoded = Base64.getEncoder().encode(vo.getArticleList().get(i).getArticleReplyList().get(j).getArticleRe_replyList().get(k).getM_img());
+									vo.getArticleList().get(i).getArticleReplyList().get(j).getArticleRe_replyList().get(k).setE_m_img(new String(encoded));
+								}
+							}
+						}
+						
 					}
 				}
 			}
