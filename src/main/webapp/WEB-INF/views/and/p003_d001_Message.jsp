@@ -59,29 +59,15 @@ input::placeholder {
 <!------ Include the above in your HEAD tag ---------->
 
 <script>
-var ws = null;
-var url = null;
+var wsocket;
 
-function connect(){
-	ws = new Websocket(url);
-	ws.onopen = function(){
-		
-	};
-	ws.onmessage = function (event){
-		
-	};
-	ws.onclose = function(event){
-		
-	};
-}
-
-function disconnect(){
-	ws.close();
-	ws = null;
-}
-function echo(){
-	ws.send(message);
-}
+$(function(){
+	$("#sendBtn").on("click", function(){
+		send();
+	});
+$("#connect").on("click", function(){
+	connect();
+});
 
 $(document).ready(function(){
 	$("#sendBtn").click(function(){
