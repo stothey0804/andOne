@@ -37,7 +37,7 @@
 	<update id="updateShopReview" parameterType="ShopP003ShopReviewVO">
 		<![CDATA[
 			UPDATE S_REVIEW
-			SET SR_CONTENT = #{sr_content}, SR_DATE = SYSDATE, SR_SCORE = #{sr_score}
+			SET SR_CONTENT = #{sr_content}, SR_DATE = SYSDATE, SR_SCORE = #{sr_score}, SR_PUBLIC = '1'
 			WHERE S_ID = #{s_id}
 			AND M_ID = #{m_id}
 		]]>

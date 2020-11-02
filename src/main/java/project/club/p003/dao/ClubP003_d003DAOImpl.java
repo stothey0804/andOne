@@ -21,4 +21,9 @@ public class ClubP003_d003DAOImpl implements ClubP003_d003DAO{
 		sqlSession.delete("club.p003_d003.deleteReply", deleteMap);
 	}
 
+	@Override
+	public void updateReply(Map<String, Object> updateMap) {
+		sqlSession.update("club.p003_d003.updateReply", updateMap);
+	}
+
 }
