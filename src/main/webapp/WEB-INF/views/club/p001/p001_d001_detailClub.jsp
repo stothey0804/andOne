@@ -204,7 +204,8 @@
 			
 		});
 	});
-
+	
+	// 회원가입
 	function joinClub(c_id){
 		var form = $(".intro")[0];
 		var formData = new FormData(form);
@@ -217,12 +218,50 @@
             type : 'POST', 
             data : formData, 
             success : function(data) {
+            	// 알림전송
+            	// 소모임 이름 조회
+            	let type = '40';	// 소모임
+				let url = '/andOne/club/detailClub.do?c_id='+c_id;
+				$.ajax({
+					type: 'post',
+					url: '/andOne/selectClubName.do',
+					dataType: 'text',
+					data: {	c_id: c_id	},
+					success: function(data){
+						// 소모임명 저장
+						var content = '[' + data +'] 소모임 가입신청이 들어왔습니다.';
+						// 소모임 장 조회
+						$.ajax({
+							type: 'post',
+							url: '/andOne/member/selectClubManager.do',
+							dataType: 'text',
+							data: { c_id: c_id	},
+							success: function(data){
+								var target = data;	// 클럽장 아이디
+								// db저장	
+								$.ajax({
+									type: 'post',
+									url: '/andOne/member/saveNotify.do',
+									dataType: 'text',
+									data: {
+										target: target,	content: content, type: type, url: url
+									},
+									success: function(){
+										socket.send("소모임,"+target+","+content+","+url);	// 소켓에 전달
+									}
+								});
+							}
+						});
+
+					}
+				});
+            	
                 location.reload();
             },
             error:function(data){
             	alert("error");
             }
-		})
+		});
 	}
 	
 	function insertReply(ca_id){

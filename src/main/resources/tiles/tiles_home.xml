@@ -177,6 +177,12 @@
    </definition>
 	<!-- 엔분의일 끝-->
 	
+	<!-- 메세지 -->
+	<definition name="message" extends="baseLayout">
+		<put-attribute name="title" value="메세지" />
+		<put-attribute name="body" value="/WEB-INF/views/and/p003_d001_Message.jsp" />
+	</definition>
+	
    <!-- 지역업체 페이지 -->
    <definition name="localShopMain" extends="baseLayout">
       <put-attribute name="title" value="지역업체 메인페이지" />

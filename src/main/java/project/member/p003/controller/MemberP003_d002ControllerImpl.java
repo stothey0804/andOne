@@ -49,11 +49,8 @@ public class MemberP003_d002ControllerImpl implements MemberP003_d002Controller{
 	@RequestMapping(value="/searchAllReport.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView esearchNewReport(@RequestParam Map<String,String> param, @RequestParam(defaultValue="1") int curPage, HttpServletRequest request){
 		
-//		List<HashMap<String, String>> qTypeList = commonService.searchCommonCodeList("016");	// 016 - 문의유형
 		List<HashMap<String, String>> rStateList = commonService.searchCommonCodeList("003");	// 003 - 신고내역_처리상태
 		ModelAndView mav = new ModelAndView(Common.checkAdminDestinationView("AdminP003_d002_search", request));
-//		mav.addObject("title", "신규신고");
-//		mav.addObject("qTypeList",qTypeList);
 		mav.addObject("rStateList",rStateList);
 		List<MemberP003VO> articleList = null;
 		
@@ -102,28 +99,6 @@ public class MemberP003_d002ControllerImpl implements MemberP003_d002Controller{
 		return result;
 	}
 	
-	// 전체문의
-//	@RequestMapping(value="/searchAllReport.do", method= {RequestMethod.GET, RequestMethod.POST})
-//	public ModelAndView searchAllQnA(@RequestParam Map<String,String> param, @RequestParam(defaultValue="1") int curPage, HttpServletRequest request){
-//		ModelAndView mav = new ModelAndView(Common.checkAdminDestinationView("AdminP003_d002_search", request));
-//		List<HashMap<String, String>> rStateList = commonService.searchCommonCodeList("003");	// 003 - 신고내역_처리상태
-//		mav.addObject("title", "전체신고");
-////		mav.addObject("qTypeList",qTypeList);
-//		mav.addObject("rStateList",rStateList);
-//		List<MemberP003VO> articleList = null;
-//		
-//		// 파라미터 생성
-//		Map<String, String> searchParam = new HashMap<String, String>();
-//		int listCnt = memberP003_d002Service.selectAllReportListCnt(searchParam);
-//		Pagination pagination = new Pagination(listCnt, curPage);
-//		searchParam.put("startIndex",(pagination.getStartIndex()+1)+"");
-//		searchParam.put("endIndex",(pagination.getStartIndex()+pagination.getPageSize())+"");
-//		
-//		articleList = memberP003_d002Service.selectAllReportList(searchParam);
-//		mav.addObject("pagination", pagination);	//페이지네이션
-//		mav.addObject("articleList", articleList);	// 전체리스트
-//		return mav;
-//	}
 	
 	// 팝업
 	@RequestMapping(value="/popupReportDetail.do", method= {RequestMethod.GET, RequestMethod.POST}, produces = "application/text;charset=UTF-8" )
