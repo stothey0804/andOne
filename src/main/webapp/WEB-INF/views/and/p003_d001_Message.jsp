@@ -12,6 +12,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+
 ::-webkit-scrollbar-track {
   width: 5px;
   background: #f5f5f5;
@@ -57,39 +58,51 @@ input::placeholder {
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
-
+<!-- sockJS -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script>
-var wsocket;
-
-$(function(){
-	$("#sendBtn").on("click", function(){
-		send();
+	$(document).ready(function() {
+		$('#sendBtn').click(function() {
+			sendMessage();
+		});
 	});
-$("#connect").on("click", function(){
-	connect();
-});
+	var wsocket;
+	function sendMessage() {
+		wsocket = new WebSocet("ws://localhost:8090/andOne/echo-ws")
+		wsocket.onmessage = onMessage;
+		wsocket.onclose = onClose;
+		wsocket.onopen = onOpen;
+	}
 
-$(document).ready(function(){
-	$("#sendBtn").click(function(){
-		sendMessage();
-	});
-});
+	function onMessage(evt) {
+		var data = evt.data;
+		alert('서버에서 데이터 받음 : ' + data);
+		wsocket.close();
+	}
 
-}
+	function onClose(evt) {
+		alert('연결 끊김');
+	}
+
+	function onOpen() {
+		wsocket.send($('#message').val());
+	}
+	
 </script>
 <body>
 <div class="container py-5 px-4">
   
   <div class="row rounded-lg">
     <!-- Users box-->
-    <div class="col-5 px-0" style="border:1px solid #c4c4c4;">
+    <div class="col-5 px-0" style="border:1px solid #c4c4c4">
       <div class="bg-white">
 
         <div class="bg-gray px-4 py-2 bg-light">
           <p class="h5 mb-0 py-1" align="center">메시지</p>
         </div>
 
-        <div class="messages-box">
+        <div class="messages-box" id="">
+        	
           <div class="list-group rounded-0">
 <!--             <a class="list-group-item list-group-item-action active text-white rounded-0"> -->
 <!--               <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle"> -->
@@ -110,7 +123,7 @@ $(document).ready(function(){
     <c:set var="one_title" value="${one_title}" />
 
       <!-- 기본 채팅방 -->
-            <div class="col-7 px-0" style="border:1px solid #c4c4c4;"> 
+<!--             <div class="col-7 px-0" style="border:1px solid #c4c4c4;"> 
        <div class="px-4 py-5 bg-white">
 		<div class="regular Message" align="center">
 			<i class="far fa-comments fa-9x icon-a"></i>
@@ -120,39 +133,40 @@ $(document).ready(function(){
  		</div> 
       </div> 
       
-   </div> 
+   </div> --> 
+   <!-- 기본 채팅방 끝 -->
 
  	  <!-- 채팅방 눌렀을 때-->
  	  <!-- 채팅 -->
-<!--      <div class="col-7 px-0"style="border:1px solid #c4c4c4;"> -->
-<!--      <div class="bg-gray px-4 py-2 bg-light"> -->
-<!--          <p class="h5 mb-0 py-1" align="left"> -->
-<!--           	글제목(참여자 수) -->
-<!-- <!--           	<i class="fas fa-info-circle"></i> --> 
-<!-- <svg aria-label="대화 상세 정보 보기" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24"> -->
-<%-- <path d="M24 48C10.8 48 0 37.2 0 24S10.8 0 24 0s24 10.8 24 24-10.8 24-24 24zm0-45C12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21S35.6 3 24 3z"></path><circle clip-rule="evenodd" cx="24" cy="14.8" fill-rule="evenodd" r="2.6"></circle> --%>
-<!-- <path d="M27.1 35.7h-6.2c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5h6.2c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5z"></path><path d="M24 35.7c-.8 0-1.5-.7-1.5-1.5V23.5h-1.6c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5H24c.8 0 1.5.7 1.5 1.5v12.2c0 .8-.7 1.5-1.5 1.5z"></path></svg> -->
-<!--           	</p> -->
-<!--         </div> -->
-<!--       <div class="px-4 py-5 chat-box bg-white"> -->
-<!--       </div> -->
-<!--       여기서부터 채팅방 시작 -->
+     <div class="col-7 px-0"style="border:1px solid #c4c4c4;">
+     <div class="bg-gray px-4 py-2 bg-light">
+         <p class="h5 mb-0 py-1" align="left">
+          	글제목(참여자 수)
+<!--            	<i class="fas fa-info-circle"></i>  -->
+ <svg aria-label="대화 상세 정보 보기" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24" font-size="1rem">
+<path d="M24 48C10.8 48 0 37.2 0 24S10.8 0 24 0s24 10.8 24 24-10.8 24-24 24zm0-45C12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21S35.6 3 24 3z"></path><circle clip-rule="evenodd" cx="24" cy="14.8" fill-rule="evenodd" r="2.6"></circle>
+<path d="M27.1 35.7h-6.2c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5h6.2c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5z"></path><path d="M24 35.7c-.8 0-1.5-.7-1.5-1.5V23.5h-1.6c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5H24c.8 0 1.5.7 1.5 1.5v12.2c0 .8-.7 1.5-1.5 1.5z"></path></svg>
+
+           	</p>
+        </div>
+<!--       여기서부터 채팅방 시작-->
+      <div class="px-4 py-5 chat-box bg-white"  id="messageArea">
+      </div>
       
-      
-<!--       채팅방 끝  -->
-<!--       타이핑 시작 -->
-<!--       <form action="#" class="bg-light"> -->
-<!--         <div class="input-group"> -->
-<!--           <input type="text" id="inputMessage" placeholder="내용을 입력하세요.." aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light"> -->
-<!--           <div class="input-group-append"> -->
-<!--             <button id="button-addon2" type="submit" id="sendMessage" class="btn btn-link">  -->
-<!-- <!--              <i class="far fa-paper-plane"></i> -->
-<!-- 					보내기 -->
-<!--             </button> -->
-<!--           </div> -->
-<!--         </div> -->
-<!--       </form> -->
-<!--       </div>  -->
+    <!-- 채팅방 끝 ->
+      <!--타이핑 시작 -->
+      <form action="#" class="bg-light">
+        <div class="input-group">
+          <input type="text" id="message" placeholder="내용을 입력하세요.." aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+          <div class="input-group-append">
+            <button type="submit" id="sendBtn" class="btn btn-link"> 
+<!--              <i class="far fa-paper-plane"></i> -->
+					보내기
+            </button>
+          </div>
+        </div>
+      </form>
+      </div> 
       <!-- 타이핑 끝 -->
       <!-- 채팅방 눌렀을 때 끝-->
       

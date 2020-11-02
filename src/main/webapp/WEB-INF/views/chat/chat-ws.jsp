@@ -9,7 +9,7 @@
 	var wsocket;
 	
 	function connect() {
-		wsocket = new WebSocket("ws://localhost:8090/devFw/chat-ws");
+		wsocket = new WebSocket("ws://localhost:8090/andOne/chat-ws");
 		wsocket.onopen = onOpen;
 		wsocket.onmessage = onMessage;
 		wsocket.onclose = onClose;
