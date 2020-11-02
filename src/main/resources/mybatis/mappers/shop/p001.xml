@@ -199,6 +199,15 @@
    			WHERE S_ID = #{s_id}
  		]]>	
    	</select>
+   	
+   	<update id="updateReviewPublicStatus" parameterType="java.util.HashMap">
+   		<![CDATA[
+   			UPDATE S_REVIEW
+   			SET SR_PUBLIC = #{sr_public}
+   			WHERE S_ID = #{s_id}
+   			AND M_ID = #{m_id}
+ 		]]>	
+   	</update>
 	
 	<select id="sixMonthScoreStatistics" parameterType="String" resultMap="shop.p001.shopStatistics">
 		<![CDATA[

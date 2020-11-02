@@ -40,7 +40,7 @@
 					c_name=#{c_name},c_content=#{c_content},c_category=#{c_category},c_membermax=#{c_membermax},c_hashtag=#{c_hashtag},c_img=#{c_img},c_ask=#{c_ask}
 				WHEN NOT MATCHED THEN
 					INSERT (c_id,c_name,c_content,c_category,c_membercnt,c_membermax,c_hashtag,c_img,c_openingdate,c_ask)
-					VALUES(#{c_id},#{c_name},#{c_content},#{c_category},1,#{c_membermax},#{c_hashtag},#{c_img},to_char(sysdate,'YYYY-MM-DD hh:mm'),#{c_ask})
+					VALUES(#{c_id},#{c_name},#{c_content},#{c_category},1,#{c_membermax},#{c_hashtag},#{c_img},to_char(sysdate,'YYYY-MM-DD HH24:MI'),#{c_ask})
 		]]>
 	</update>
 	<update id="updateClub">
@@ -51,14 +51,14 @@
 	<insert id="insertClub">
 		<![CDATA[
 			insert into club (c_id,c_name,c_content,c_category,c_membercnt,c_membermax,c_hashtag,c_img,c_openingdate,c_ask)
-			values(#{c_id},#{c_name},#{c_content},#{c_category},1,#{c_membermax},#{c_hashtag},#{c_img},to_char(sysdate,'YYYY-MM-DD hh:mm'),#{c_ask})
+			values(#{c_id},#{c_name},#{c_content},#{c_category},1,#{c_membermax},#{c_hashtag},#{c_img},to_char(sysdate,'YYYY-MM-DD HH24:MI'),#{c_ask})
 		]]>
 	</insert>
 	
 	<insert id="insertLeader">
 		<![CDATA[
 			insert into c_member(c_id,m_id,cm_joindate,cm_rank)
-			values(#{c_id},#{m_id},to_char(sysdate,'YYYY-MM-DD hh:mm'),10)
+			values(#{c_id},#{m_id},to_char(sysdate,'YYYY-MM-DD HH24:MI'),10)
 		]]>
 	</insert>
 	
@@ -86,7 +86,7 @@
 			declare
 			begin
 				UPDATE c_member
-				SET cm_rank = 30, cm_joindate = to_char(sysdate,'YYYY-MM-DD hh:mm')
+				SET cm_rank = 30, cm_joindate = to_char(sysdate,'YYYY-MM-DD HH24:MI')
 				WHERE m_id = #{m_id}
 				AND c_id = #{c_id};
 				UPDATE club

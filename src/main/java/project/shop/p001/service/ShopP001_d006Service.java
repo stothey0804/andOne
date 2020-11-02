@@ -13,5 +13,6 @@ public interface ShopP001_d006Service {
 	public void updateShop(ShopP002ShopDetailVO vo);
 	public void updateShopImage(ShopP002ShopImageVO vo);
 	public Map<String,String> getShopLocateByShopId(String s_id);
+	public void updateReviewPublicStatus(Map<String,String> param);
 
 }

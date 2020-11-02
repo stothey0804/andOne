@@ -17,6 +17,7 @@ import project.shop.p001.service.ShopP001_d004Service;
 import project.shop.p001.vo.ShopP001StatisticsVO;
 import project.shop.p002.service.ShopP002_d001Service;
 import project.shop.p002.vo.ShopP002ShopDetailVO;
+import project.shop.p003.service.ShopP003_d001Service;
 import project.shop.p003.vo.ShopP003ShopReviewVO;
 
 @Controller
@@ -26,6 +27,8 @@ public class ShopP001_d004ControllerImpl implements ShopP001_d004Controller{
 	ShopP001_d004Service shopP001_d004Service;
 	@Autowired
 	ShopP002_d001Service shopP002_d001Service;
+	@Autowired
+	ShopP003_d001Service shopP003_d001Service;
 	
 	//로그인성공
 		@RequestMapping(value="biz/loginOk.do")
@@ -48,19 +51,13 @@ public class ShopP001_d004ControllerImpl implements ShopP001_d004Controller{
 				if(resultVO == null) {
 					model.addAttribute("isNull",true);
 				}else {
+					Map<String,String> reviewParam = new HashMap<>();
 					String s_id = resultVO.getS_id();
-					List<String> memberIdList = shopP002_d001Service.getMemberIdFromShopReview(s_id);
-					int count = memberIdList.size();
-					if(count>3) {
-						count = 3;
-					}
-					List<ShopP003ShopReviewVO> reviewList = new ArrayList<>();
-					for(int i=0; i<count; i++) {
-						ShopP003ShopReviewVO reviewVO = new ShopP003ShopReviewVO();
-						reviewVO.setS_id(s_id);
-						reviewVO.setM_id(memberIdList.get(i));
-						reviewList.add(shopP002_d001Service.getShopReview(reviewVO));
-					}
+					reviewParam.put("s_id", s_id);
+					reviewParam.put("startIndex", "1");
+					reviewParam.put("endIndex", "3");
+					reviewParam.put("isAll","true");
+					List<ShopP003ShopReviewVO> reviewList = shopP003_d001Service.getShopReviewListByPaging(reviewParam);
 					resultVO.setShopReviewList(reviewList);
 					shopP002_d001Service.shopImageEncoder(resultVO);
 					for(int i=0; i<resultVO.getShopReviewList().size();i++) {
