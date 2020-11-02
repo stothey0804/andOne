@@ -1,5 +1,7 @@
 package project.shop.p001.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,16 @@ public class ShopP001_d003ServiceImpl implements ShopP001_d003Service {
 	@Override
 	public String selectOverlapEmail(String email) {
 		return shopP001_d003DAO.selectOverlapEmail(email);
+	}
+
+	@Override
+	public Map<String, String> selectIdPwdByEmail(String bm_email) {
+		return shopP001_d003DAO.selectIdPwdByEmail(bm_email);
+	}
+
+	@Override
+	public void updatePwd(Map<String, String> paramMap) {
+		shopP001_d003DAO.updatePwd(paramMap);
 	}
 
 }

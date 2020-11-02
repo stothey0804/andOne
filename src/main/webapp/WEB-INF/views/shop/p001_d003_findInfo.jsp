@@ -79,9 +79,9 @@
                     },
                     success:function(data,textSataus){
                  		if(data == 'true'){
-                 			alert('성공');
+                 			window.location.href='${contextPath }/biz/sendEmail.do?bm_email='+bm_email;
                  		}else{
-                 			alert('실패');
+                 			alert('아이디나 이메일을 다시 확인해주세요.');
                  		}
                     }
                  })

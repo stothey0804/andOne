@@ -1,5 +1,7 @@
 package project.shop.p001.dao;
 
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,5 +23,15 @@ public class ShopP001_d003DAOImpl implements ShopP001_d003DAO{
 	@Override
 	public String selectOverlapEmail(String email) {
 		return sqlSession.selectOne("shop.p001.selectOverlapEmail",email);
+	}
+
+	@Override
+	public Map<String, String> selectIdPwdByEmail(String bm_email) {
+		return sqlSession.selectOne("shop.p001.selectIdPwdByEmail",bm_email);
+	}
+
+	@Override
+	public void updatePwd(Map<String, String> paramMap) {
+		sqlSession.update("shop.p001.updatePwd",paramMap);
 	}
 }
