@@ -77,12 +77,12 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		
 		//최근 등록된 같이먹기 + 해쉬태그
 		List<AndP001AndOneVO> recentAndOneList = p001_d001Service.recentAndOneList(param); //최근등록된 같이먹기
-		List<AndP001AndOneVO> ctg_eat = p001_d001Service.searchCtg(g_id); //카테고리설정
+		List<AndP001AndOneVO> ctg = p001_d001Service.searchCtg(g_id); //카테고리설정
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(Common.checkLoginDestinationView("andOneMain", request));
 		mav.addObject("g_id",g_id);
-		mav.addObject("ctg_eat",ctg_eat);//카테고리
+		mav.addObject("ctg",ctg);//카테고리
 		mav.addObject("recentAndOneList", recentAndOneList);//최근 엔분의일
 		
 		return mav;
@@ -105,7 +105,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		System.out.println(">>>>>>>>>>g_id:" +g_id);
 		System.out.println(">>>>>>>>TS :" +totalSearch);
 		
-		List<AndP001AndOneVO> ctg_eat = p001_d001Service.searchCtg(g_id); //카테고리 설정
+		List<AndP001AndOneVO> ctg = p001_d001Service.searchCtg(g_id); //카테고리 설정
 		
 		//회원 위치 가져오기
 		HttpSession session = request.getSession(false);
@@ -136,7 +136,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		mav.addObject("SearchAndOneList", SearchAndOneList);
 		mav.addObject("size",SearchAndOneList.size()); //검색 결과 건수
 		mav.addObject("g_id",g_id);
-		mav.addObject("ctg_eat",ctg_eat);
+		mav.addObject("ctg",ctg);
 		
 		return mav;
 	}
@@ -154,7 +154,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		String m_nickname = (String) session.getAttribute("m_nickname");//닉네임조회
 		System.out.println("참가자신청용 m_id :"+m_id);
 		
-		List<AndP001AndOneVO> andOneDetailList = p001_d001Service.andOneDetailList(detailMap);//글 상세조회
+		AndP001AndOneVO vo = p001_d001Service.andOneDetail(detailMap);//글 상세조회
 		List<AndOneMemberVO> oneMemList = p001_d001Service.oneMemList(one_id); //작성자 참가자 사진 닉네임
 		Common.getEncodedAndUser(oneMemList);//작성자 사진 인코딩
 		
@@ -167,7 +167,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(Common.checkLoginDestinationView("andOneDetail", request));
-		mav.addObject("andOneDetailList",andOneDetailList);
+		mav.addObject("andoneDetail", vo);
 		mav.addObject("oneMemList",oneMemList);
 		mav.addObject("omLeaderCheck",omLeaderCheck);
 		mav.addObject("m_nickname",m_nickname);

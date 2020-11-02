@@ -6,27 +6,71 @@
 <html>
 <head>
 	<script type="text/javascript">
-		//취소하기 클릭
-		function cancelAndOne(one_id){
-			console.log("one_id>>"+one_id);
+		 //취소하기
+		 function cancelAndOne(one_id){
+			 console.log(one_id);
 			$.ajax({
-				type : "post",
-    			dataType: "text",
-    			async: "true",
-    			url:"${contextPath}/and/cancelOneMember.do",
-    			data:{
-    				"one_id":one_id
-    			},
-    			success:function(data,textSataus){
-    			}
-			})
-		}
+	   			type : "post",
+	   			dataType: "text",
+	   			async: "true",
+	   			url:"${contextPath}/and/cancelOneMember.do",
+	   			data:{
+	   				"one_id" : one_id
+				},
+				success:function(data,textSataus){
+					console.log("확인: "+data);
+					if(data == 'true'){
+						console.log("취소성공");
+						$('#cancleOkModal').modal("show");
+						}else{
+							console.log("취소불가");
+							$('#cancleFailModal').modal("show");
+						}
+					}
+				})
+			}
 	</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-<div class="container">
+	<!-- 취소성공 Modal영역 -->
+	 <div class="modal fade" id="cancleOkModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+	 	<div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" id="ModalLabel">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h6>신청하신 &의일 취소가 완료되었습니다</h6> 
+                    </div>
+                    <div class="modal-footer">
+                    	<button type="submit" class="btn btn-primary" 
+                    	onclick="location.href='${contextPath}/and?g_id=${g_id}'">확인 ${g_id}</button>
+                    	<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+        </div>
+	 </div>
+	 
+	 <!-- 취소불가 Modal영역 -->
+	 <div class="modal fade" id="cancleFailModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+	 	<div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" id="ModalLabel">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h6>수령시간 30분전까지만 취소가 가능합니다</h6> 
+                    </div>
+                    <div class="modal-footer">
+	                    	<button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
+                    </div>
+                </div>
+                </div>
+	 </div>
+	 
+	<div class="container">
 			<h2 class="m-5">
 			<c:if test="${flag eq 'participate'}">내가 참가한 &분의일</c:if>
 			<c:if test="${flag eq 'write'}">내가 쓴 &분의일</c:if>
@@ -42,35 +86,36 @@
 						</tr>
 					</thead>
 					<c:forEach var="list" items="${searchAndOneList}">
-					<c:if test="${flag eq 'write'}">
-					<tbody>
-						<tr class="arcticleSubject text-center">
-							<td>${list.om_num}</td>
-							<td>${list.g_name}</td> <!-- 같이먹기/하기/사기 -->
-							<td>${list.one_title}</td> <!-- 제목 -->
-							<td>${list.one_state}</td> <!-- 상태 -->
-							<td>${list.one_price}</td>
-							<td>${list.om_date}</td>
-							<td><button type="button" class="btn btn-link">수정</button><button type="button" class="btn btn-link">삭제</button></td>
-							<td><button type="button" class="btn btn-link" onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${list.one_id}'">참가신청확인</button></td>
-						</tr>
-					</tbody>
-					</c:if>
-					<c:if test="${flag eq 'participate'}">
-					<tbody>
-						<tr class="arcticleSubject text-center">
-							<td>${list.om_num}</td>
-							<td>${list.g_name}</td> <!-- 같이먹기/하기/사기 -->
-							<td>${list.one_title}</td> <!-- 제목 -->
-							<td>${list.one_state}</td> <!-- 상태 -->
-							<td>${list.one_price}</td>
-							<td>${list.om_date}</td>
-							<td>${list.om_state}</td>							
-							<td>${list.WRITER_NICKNAME}</td>
-							<td><button type="button" class="btn btn-link" onclick="cancelAndOne('${list.one_id}')">${list.one_id}</button></td>		
-						</tr>
-					</tbody>
-					</c:if>
+						<c:if test="${flag eq 'write'}">
+							<tbody>
+								<tr class="arcticleSubject text-center">
+									<td>${list.om_num}</td>
+									<td>${list.g_name}</td> <!-- 같이먹기/하기/사기 -->
+									<td onclick="location.href='${contextPath}/and/detailAndOne.do?one_id=${list.one_id}&g_id=${list.one_type}'">${list.one_title}</td> <!-- 제목 -->
+									<td>${list.one_state}</td> <!-- 상태 -->
+									<td>${list.one_price}</td>
+									<td>${list.om_date}</td>
+									<td><button type="button" class="btn btn-link" onclick="location.href='${contextPath}/and/modifyAndOnePage.do?one_id=${list.one_id}&g_id=${list.one_type}'">수정</button>
+									<button type="button" class="btn btn-link">삭제</button></td>
+									<td><button type="button" class="btn btn-link" onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${list.one_id}'">참가신청확인</button></td>
+								</tr>
+							</tbody>
+							</c:if>
+							<c:if test="${flag eq 'participate'}">
+							<tbody>
+								<tr class="arcticleSubject text-center">
+									<td>${list.om_num}</td>
+									<td>${list.g_name}</td> <!-- 같이먹기/하기/사기 -->
+									<td>${list.one_title}</td> <!-- 제목 -->
+									<td>${list.one_state}</td> <!-- 상태 -->
+									<td>${list.one_price}</td>
+									<td>${list.om_date}</td>
+									<td>${list.om_state}</td>							
+									<td>${list.WRITER_NICKNAME}</td>
+									<td><button type="button" class="btn btn-link" onclick="cancelAndOne('${list.one_id}')">취소하기</button></td>
+								</tr>
+							</tbody>
+						</c:if>
 					</c:forEach>
 					</table>
 					</div>

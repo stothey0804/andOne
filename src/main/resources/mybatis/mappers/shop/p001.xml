@@ -73,6 +73,22 @@
 		]]>
 	</select>
 	
+	<select id="selectIdPwdByEmail" parameterType="String" resultType="java.util.HashMap">
+		<![CDATA[
+     		SELECT BM_ID, BM_PWD
+     		FROM B_MEMBER
+     		WHERE BM_EMAIL = #{bm_email}
+		]]>
+	</select>
+	
+	<update id="updatePwd" parameterType="java.util.Map">
+		<![CDATA[
+     		UPDATE B_MEMBER
+     		SET BM_PWD = #{bm_pwd}
+     		WHERE BM_ID = #{bm_id}
+		]]>
+	</update>
+	
 	<select id="selectOverlapEmail" resultType="String" parameterType="String">
    		<![CDATA[
    			SELECT BM_EMAIL
@@ -208,7 +224,7 @@
    			AND M_ID = #{m_id}
  		]]>	
    	</update>
-	
+   	
 	<select id="sixMonthScoreStatistics" parameterType="String" resultMap="shop.p001.shopStatistics">
 		<![CDATA[
 	     	SELECT

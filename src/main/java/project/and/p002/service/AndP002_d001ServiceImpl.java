@@ -27,6 +27,17 @@ public class AndP002_d001ServiceImpl implements AndP002_d001Service {
 	public void deleteAndOne(String one_id) {
 		p002_d001DAO.deleteAndOne(one_id);
 	}
+	@Override
+	public int countOneMem(String one_id) {
+		int count = p002_d001DAO.countOneMem(one_id);
+		return count;
+	}
+	
+	@Override
+	public void editAndOne(String one_id) {
+		p002_d001DAO.editAndOne(one_id);
+		
+	}
 	
 
 }

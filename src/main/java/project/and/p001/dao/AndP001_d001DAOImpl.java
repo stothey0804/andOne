@@ -60,10 +60,10 @@ public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 	}
 	//엔분의일 상세보기
 	@Override
-	public List<AndP001AndOneVO> selectAndOneDetailList(Map<String, Object> detailMap) {
-		List<AndP001AndOneVO> selectAndOneDetailList = null;
-		selectAndOneDetailList = sqlSession.selectList("and.p001.selectAndOneDetailList",detailMap);
-		return selectAndOneDetailList;
+	public AndP001AndOneVO selectAndOneDetail(Map<String, Object> detailMap) {
+		AndP001AndOneVO selectAndOneDetail = null;
+		selectAndOneDetail = sqlSession.selectOne("and.p001.selectAndOneDetail",detailMap);
+		return selectAndOneDetail;
 	}
 	//엔분의일 작성자정보
 	@Override
