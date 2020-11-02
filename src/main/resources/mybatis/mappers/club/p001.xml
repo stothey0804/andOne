@@ -63,14 +63,38 @@
 		<result property="m_id" column="m_id"></result>
 		<result property="m_nickname" column="m_nickname"></result>
 		<result property="m_img" column="m_img"></result>
+		<collection property="articleRe_replyList" column="car_id" javaType="java.util.ArrayList"
+					select="getArticleRe_reply" ofType="clubArticleReplyVO"></collection>
 	</resultMap>
 	
+	<resultMap id="re_replyList" type="clubAricleReplyVO">
+		<result property="ca_id" column="ca_id"></result>
+		<result property="car_id" column="car_id"></result>
+		<result property="car_content" column="car_content"></result>
+		<result property="car_date" column="car_date"></result>
+		<result property="m_id" column="m_id"></result>
+		<result property="m_nickname" column="m_nickname"></result>
+		<result property="m_img" column="m_img"></result>
+	</resultMap>
+	
+	<select id="getArticleRe_reply" resultMap="club.p001.re_replyList">
+		<![CDATA[
+			SELECT c.ca_id,a.car_id,a.car_content,a.car_date,b.m_nickname,b.m_img,b.m_id
+			FROM ca_reply a, member b, ca_reply c
+			WHERE a.m_id = b.m_id
+			AND c.car_id = a.p_car_id
+			AND a.p_car_id = #{c_id}
+			ORDER BY a.car_date asc
+		]]>
+	</select>
 	<select id="getArticleReply" resultMap="club.p001.replyList" parameterType="java.util.Map">
 		<![CDATA[
 			SELECT a.ca_id,a.car_id,a.car_content,a.car_date,b.m_nickname,b.m_img,b.m_id
 			FROM ca_reply a, member b
 			WHERE a.ca_id = #{c_id}
 			AND a.m_id = b.m_id
+			AND a.p_car_id IS NULL
+			ORDER BY a.car_date asc
 		]]>
 	</select>
 	<select id="clubList" resultMap="p001_d001Result01">
@@ -97,9 +121,7 @@
          and cm_rank in (10,20,30)
 		]]>
 	</select>
-<!-- 	<select id="getArticle_Child_Reply" resultType="hashmap"> -->
-		
-<!-- 	</select> -->
+	
 	<select id="categoryClubList" resultMap="p001_d001Result01">
 		SELECT c_name,c_content,c_membercnt,c_id,c_img,(select c.gc_name
        	from club a, common_code c

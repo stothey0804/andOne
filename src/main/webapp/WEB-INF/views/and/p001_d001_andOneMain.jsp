@@ -231,21 +231,21 @@
 		<c:choose>
 			<c:when test="${g_id == '010'}">
 				<div style="width:650px; margin: 0 auto">
-				<c:forEach var ="ctg" items="${ctg_eat}" > 
+				<c:forEach var ="ctg" items="${ctg}" > 
 				<button type="button" class="btn btn-outline-dark mb-3" onclick="location.href='${contextPath}/andeat/searchAndOne.do?one_category=${ctg.gc_id}&g_id=${g_id}'">${ctg.gc_name}</button>
 				</c:forEach>
 				</div>
 			</c:when>
 			<c:when test="${g_id == '011'}">
 				<div style="width:650px; margin: 0 auto">
-				<c:forEach var ="ctg" items="${ctg_eat}" > 
+				<c:forEach var ="ctg" items="${ctg}" > 
 				<button type="button" class="btn btn-outline-dark mb-3" onclick="location.href='${contextPath}/andbuy/searchAndOne.do?one_category=${ctg.gc_id}&g_id=011'">${ctg.gc_name}</button>
 				</c:forEach>
 				</div>
 			</c:when>
 			<c:when test="${g_id == '012'}">
 				<div style="width:800px; margin: 0 auto">
-				<c:forEach var ="ctg" items="${ctg_eat}" > 
+				<c:forEach var ="ctg" items="${ctg}" > 
 				<button type="button" class="btn btn-outline-dark mb-3" onclick="location.href='${contextPath}/anddo/searchAndOne.do?one_category=${ctg.gc_id}&g_id=012'">${ctg.gc_name}</button>
 				</c:forEach>
 				</div>

@@ -5,12 +5,18 @@
 
 <mapper namespace="club.p003_d003">
 	<insert id="insertReply">
-		INSERT INTO ca_reply(car_id,car_content,car_date,m_id,ca_id)
-		VALUES(CA_REPLY_SEQ.NEXTVAL,#{car_content},to_char(sysdate,'YYYY-MM-DD hh:mm'),#{m_id},#{ca_id})
+		INSERT INTO ca_reply(car_id,p_car_id,car_content,car_date,m_id,ca_id)
+		VALUES(CA_REPLY_SEQ.NEXTVAL,#{p_car_id},#{car_content},to_char(sysdate,'YYYY-MM-DD HH24:MI'),#{m_id},#{ca_id})
 	</insert>
 	
 	<delete id="deleteReply">
 		DELETE FROM ca_reply
 		WHERE car_id = #{car_id}
 	</delete>
+	
+	<update id="updateReply">
+		UPDATE ca_reply
+		SET car_content = #{car_content}
+		WHERE car_id = #{car_id}
+	</update>
 </mapper>

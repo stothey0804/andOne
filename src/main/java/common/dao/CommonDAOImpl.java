@@ -33,6 +33,16 @@ public class CommonDAOImpl implements CommonDAO{
 	public String selectCommonGroupName(String g_id) {
 		return sqlSession.selectOne("common.selectCommonGroupName",g_id);
 	}
+
+	@Override
+	public String selectClubName(String c_id) {
+		return sqlSession.selectOne("common.selectClubName", c_id);
+	}
+
+	@Override
+	public String selectClubManager(String param) {
+		return sqlSession.selectOne("common.selectClubManager", param);
+	}
 	
 	
 }
