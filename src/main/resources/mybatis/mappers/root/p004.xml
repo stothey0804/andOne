@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="root.p004">
+   	<resultMap id="genderMemberMap" type="java.util.HashMap">
+		<result property="male" column="male" />
+		<result property="female" column="female" />
+	</resultMap>
+   	<resultMap id="ageMemberMap" type="java.util.HashMap">
+		<result property="age10" column="age10" />
+		<result property="age20" column="age20" />
+		<result property="age30" column="age30" />
+		<result property="age40" column="age40" />
+		<result property="age50" column="age50" />
+	</resultMap>
+	   	<resultMap id="andOneMap" type="java.util.HashMap">
+		<result property="one_type" column="one_type" />
+		<result property="result" column="result" />
+	</resultMap>
+   	<resultMap id="andOneCategoryMap" type="java.util.HashMap">
+		<result property="category" column="category" />
+		<result property="total" column="total" />
+	</resultMap>
+   
+   
+   <!-- 성별별 회원 수 조회 -->
+   	<select id="selectMemberGenderChart" resultMap="genderMemberMap">
+   		<![CDATA[
+			SELECT (SELECT COUNT(m_id) FROM member WHERE m_gender = '10')male,
+			(SELECT COUNT(m_id) FROM member WHERE m_gender = '20')female
+			FROM DUAL
+   		]]>
+   	</select>
+   <!-- 성별별 나이대별 수 조회 -->
+   	<select id="selectMemberAgeChart" resultMap="ageMemberMap">
+   		<![CDATA[
+			SELECT (SELECT COUNT(m_id) FROM member WHERE m_age = '10')age10,
+			(SELECT COUNT(m_id) FROM member WHERE m_age = '20')age20,
+			(SELECT COUNT(m_id) FROM member WHERE m_age = '30')age30,
+			(SELECT COUNT(m_id) FROM member WHERE m_age = '40')age40,
+			(SELECT COUNT(m_id) FROM member WHERE m_age = '50')age50
+			FROM DUAL
+   		]]>
+   	</select>
+
+	<!--  조건별 엔분의일 참가 -->
+	<select id="selectAndOneChart" resultMap="andOneMap" parameterType="java.util.HashMap">
+		<![CDATA[
+			SELECT DISTINCT one_type, COUNT(m_id) OVER (PARTITION BY one_type)result
+			FROM one_member
+			WHERE m_id IN (SELECT m_id FROM member WHERE 
+		]]>
+		<if test="flag=='gender'">
+		<![CDATA[	m_gender = #{param}		]]>
+		</if>			
+		<if test="flag=='age'">
+		<![CDATA[	m_age = #{param}	]]>
+		</if>			
+			)
+	</select>
+	
+	<!--  -->
+	<select id="selectTotalAndOneTypeChart" resultMap="andOneMap">
+		SELECT (SELECT g_name FROM code_group WHERE g_id = one_type)one_type, count(one_type)result
+		FROM and_one
+		GROUP BY one_type
+	</select>
+	
+	<select id="selectCategoryAndOne" resultMap="andOneCategoryMap" parameterType="String">
+	<![CDATA[
+		SELECT (SELECT gc_name FROM common_code WHERE g_id = one_type AND gc_id = one_category)category, COUNT(*) total
+		FROM AND_ONE
+		WHERE one_type = #{one_type}
+		GROUP BY one_type, one_category
+	]]>
+	</select>
+
+	</mapper>

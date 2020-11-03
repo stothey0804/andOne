@@ -119,13 +119,8 @@
 	  			<ul class="nav flex-column">
 			<!-- 메뉴목록시작 -->
 	          <li class="nav-item">
-	            <a class="nav-link" href="#">
-	              	회원 통계
-	            </a>
-	          </li>
-	          <li class="nav-item">
-	            <a class="nav-link" href="#">
-	              	&분의일 작성글 통계
+	            <a class="nav-link" href="${contextPath}/admin/memberChart.do">
+	              	통계
 	            </a>
 	          </li>
 	    </ul>

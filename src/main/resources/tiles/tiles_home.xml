@@ -119,6 +119,11 @@
       <put-attribute name="title" value="공지사항" />
        <put-attribute name="body" value="/WEB-INF/views/root/p003_d001_save.jsp" />
    </definition>
+   <!-- 회원통계 -->
+   <definition name="RootP004_d001_init" extends="adminLayout">
+      <put-attribute name="title" value="회원통계" />
+       <put-attribute name="body" value="/WEB-INF/views/root/p004_d001_init.jsp" />
+   </definition>
 
    <!-- 관리자페이지 END -->
    
