@@ -28,4 +28,9 @@ public class RootP002_d001ServiceImpl implements RootP002_d001Service{
 	public List<Map<String, String>> getSearchCnt(String searchKeyword) {
 		return rootP002_d001DAO.getSearchCnt(searchKeyword);
 	}
+
+	@Override
+	public List<Map<String, String>> searchDetail(Map<String, String> searchParam) {
+		return rootP002_d001DAO.searchDetail(searchParam);
+	}
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import common.Pagination;
 import project.root.p002.service.RootP002_d001Service;
 import project.root.p002.vo.RootP002VO;
 
@@ -23,7 +24,7 @@ public class RootP002_d001ContorllerImpl implements RootP002_d001Controller{
 	
 	@ResponseBody
 	@RequestMapping("fullSearch.do")
-	public String search(@RequestParam(defaultValue="") String searchKeyword, Model model) {
+	public Map search(@RequestParam(defaultValue="") String searchKeyword, Model model) {
 		//where절에 쓸 objectID 배열 생성
 		List<String> notice = new ArrayList<>();
 		List<String> and_one = new ArrayList<>();
@@ -95,20 +96,52 @@ public class RootP002_d001ContorllerImpl implements RootP002_d001Controller{
 		}
 		
 		//표시되지 않은 결과까지 포함한 총 결과 수를 추출하여 리절트맵에 put
-		List<Map<String,String>> listCnt = rootP002_d001Service.getSearchCnt(searchKeyword);
-		for(int i=0; i<listCnt.size(); i++) {
-			switch(listCnt.get(i).get("TABLENAME")) {
-			case "NOTICE" : searchResult.put("noticeCnt", listCnt.get(i).get("RESULTCOUNT")); break;
-			case "AND_ONE" : searchResult.put("and_oneCnt", listCnt.get(i).get("RESULTCOUNT")); break;
-			case "SHOP" : searchResult.put("shopCnt", listCnt.get(i).get("RESULTCOUNT")); break;
-			case "C_ARTICLE" : searchResult.put("c_articleCnt", listCnt.get(i).get("RESULTCOUNT")); break;
-			case "CLUB" : searchResult.put("clubCnt", listCnt.get(i).get("RESULTCOUNT")); break;
+		List<Map<String,String>> listCntList = rootP002_d001Service.getSearchCnt(searchKeyword);
+		for(int i=0; i<listCntList.size(); i++) {
+			switch(listCntList.get(i).get("TABLENAME")) {
+			case "NOTICE" : searchResult.put("noticeCnt", listCntList.get(i).get("RESULTCOUNT")); break;
+			case "AND_ONE" : searchResult.put("and_oneCnt", listCntList.get(i).get("RESULTCOUNT")); break;
+			case "SHOP" : searchResult.put("shopCnt", listCntList.get(i).get("RESULTCOUNT")); break;
+			case "C_ARTICLE" : searchResult.put("c_articleCnt", listCntList.get(i).get("RESULTCOUNT")); break;
+			case "CLUB" : searchResult.put("clubCnt", listCntList.get(i).get("RESULTCOUNT")); break;
 			}
 		}
 		
 		model.addAttribute("searchResult",searchResult);
 		model.addAttribute("searchKeyword",searchKeyword);
 		
-		return "";
+		return searchResult; // toDo - viewName으로 수정
+	}
+	
+	@ResponseBody
+	@RequestMapping("searchDetail.do")
+	public List searchDetail(@RequestParam(defaultValue="") String searchKeyword, 
+			@RequestParam(defaultValue="") String tableName, 
+			@RequestParam(defaultValue="1")int curPage, Model model) {
+		//페이징을 위해 listCnt 추출
+		List<Map<String,String>> listCntList = rootP002_d001Service.getSearchCnt(searchKeyword);
+		int listCnt = 0;
+		for(int i=0; i<listCntList.size(); i++) {
+			if(tableName.equals(listCntList.get(i).get("TABLENAME"))) {
+				String _listCnt = String.valueOf(listCntList.get(i).get("RESULTCOUNT"));
+				listCnt = Integer.parseInt(_listCnt);
+			}
+		}
+		//페이지네이션 세팅 및 쿼리 검색
+		Pagination pagination = new Pagination(listCnt, curPage);
+		Map<String,String> searchParam = new HashMap<>();
+		searchParam.put("tableName",tableName);
+		searchParam.put("searchKeyword",searchKeyword);
+		searchParam.put("startIndex",(pagination.getStartIndex()+1)+"");
+		searchParam.put("endIndex",(pagination.getStartIndex()+pagination.getPageSize())+"");
+		
+		//view단에 attribute
+		List<Map<String,String>> resultList = rootP002_d001Service.searchDetail(searchParam);
+		model.addAttribute("pagination",pagination);
+		model.addAttribute("resultList",resultList);
+		model.addAttribute("searchKeyword",searchKeyword);
+		model.addAttribute("tableName",tableName);
+		
+		return resultList; // toDo - viewName으로 수정
 	}
 }

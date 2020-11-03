@@ -78,4 +78,69 @@
 				GROUP BY 'C_ARTICLE'
      		]]>
      	</select>
+     	
+     	<select id="searchDetail" parameterType="String" resultType="java.util.Map">
+     		<choose>
+     			<when test="tableName == 'NOTICE'">
+     				<![CDATA[
+		     			SELECT N_ID, N_TITLE, N_CONTENT, N_DATE
+						FROM
+						(
+						    SELECT N_ID, N_TITLE, N_CONTENT, N_DATE, ROW_NUMBER()OVER(ORDER BY N_DATE DESC) AS ROW_NUM
+						    FROM NOTICE
+						    WHERE (N_TITLE LIKE '%'||#{searchKeyword}||'%' OR N_CONTENT LIKE '%'||#{searchKeyword}||'%')
+						)
+						WHERE ROW_NUM BETWEEN #{startIndex} AND #{endIndex}
+		     		]]>
+     			</when>
+     			<when test="tableName == 'AND_ONE'">
+     				<![CDATA[
+		     			SELECT ONE_TYPE, ONE_ID, ONE_CATEGORY, ONE_TITLE, ONE_LOCATE_LAT, ONE_LOCATE_LNG, ONE_TIME, ONE_MEMBERMAX, ONE_DATE, ONE_STATE, ONE_HASHTAG, ONE_CONTENT, ONE_ADDR
+						FROM
+						(
+						    SELECT ONE_TYPE, ONE_ID, ONE_CATEGORY, ONE_TITLE, ONE_LOCATE_LAT, ONE_LOCATE_LNG, ONE_TIME, ONE_MEMBERMAX, ONE_DATE, ONE_STATE, ONE_HASHTAG, ONE_CONTENT, ONE_ADDR, ROW_NUMBER()OVER(ORDER BY ONE_TIME DESC) AS ROW_NUM
+						    FROM AND_ONE
+						    WHERE (ONE_CONTE'%'||#{searchKeyword}||'%'IKE '%'||#{searchKeyword}||'%' OR ONE_TITLE LIKE '%'||#{searchKeyword}||'%' OR ONE_HASHTAG LIKE '%'||#{searchKeyword}||'%')
+						)
+						WHERE ROW_NUM BETWEEN #{startIndex} AND #{endIndex}
+		     		]]>
+     			</when>
+     			<when test="tableName == 'SHOP'">
+     				<![CDATA[
+		     			SELECT S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, S_PHONENUMBER, S_HASHTAG, S_LOCATE_LAT, S_LOCATE_LNG
+						FROM
+						(
+						    SELECT S_ID, S_CATEGORY, S_NAME, S_SCORE, S_CONTENT, S_PHONENUMBER, S_HASHTAG, S_LOCATE_LAT, S_LOCATE_LNG, ROW_NUMBER()OVER(ORDER BY S_SCORE DESC) AS ROW_NUM
+						    FROM SHOP
+						    WHERE (S_CONTENT LIKE '%'||#{searchKeyword}||'%' OR S_NAME LIKE '%'||#{searchKeyword}||'%' OR S_HASHTAG LIKE '%'||#{searchKeyword}||'%')
+						)
+						WHERE ROW_NUM BETWEEN #{startIndex} AND #{endIndex}
+		     		]]>
+     			</when>
+     			<when test="tableName == 'C_ARTICLE'">
+     				<![CDATA[
+		     			SELECT CA_ID, CA_CONTENT, C_ID, CA_DATE, M_ID, CA_IMG, CA_PIN
+						FROM
+						(
+						    SELECT CA_ID, CA_CONTENT, C_ID, CA_DATE, M_ID, CA_IMG, CA_PIN, ROW_NUMBER()OVER(ORDER BY CA_DATE DESC) AS ROW_NUM
+						    FROM C_ARTICLE
+						    WHERE (CA_CONTENT LIKE '%'||#{searchKeyword}||'%')
+						)
+						WHERE ROW_NUM BETWEEN #{startIndex} AND #{endIndex}
+		     		]]>
+     			</when>
+     			<when test="tableName == 'CLUB'">
+     				<![CDATA[
+		     			SELECT C_ID, C_NAME, C_CONTENT, C_OPENINGDATE, C_HASHTAG, C_MEMBERCNT, C_MEMBERMAX, C_CATEGORY
+						FROM
+						(
+						    SELECT C_ID, C_NAME, C_CONTENT, C_OPENINGDATE, C_HASHTAG, C_MEMBERCNT, C_MEMBERMAX, C_CATEGORY, ROW_NUMBER()OVER(ORDER BY C_OPENINGDATE DESC) AS ROW_NUM
+						    FROM CLUB
+						    WHERE (C_NAME LIKE '%'||#{searchKeyword}||'%' OR C_CONTENT LIKE '%'||#{searchKeyword}||'%' OR C_HASHTAG LIKE '%'||#{searchKeyword}||'%')
+						)
+						WHERE ROW_NUM BETWEEN #{startIndex} AND #{endIndex}
+		     		]]>
+     			</when>
+     		</choose>
+     	</select>
    </mapper>

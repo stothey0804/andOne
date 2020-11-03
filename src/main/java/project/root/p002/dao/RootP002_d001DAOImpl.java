@@ -29,4 +29,9 @@ public class RootP002_d001DAOImpl implements RootP002_d001DAO{
 		return sqlSession.selectList("root.p002.getSearchCnt",searchKeyword);
 	}
 
+	@Override
+	public List<Map<String, String>> searchDetail(Map<String, String> searchParam) {
+		return sqlSession.selectList("root.p002.searchDetail",searchParam);
+	}
+
 }
