@@ -99,7 +99,6 @@ public class MemberP003_d002ControllerImpl implements MemberP003_d002Controller{
 		return result;
 	}
 	
-	
 	// 팝업
 	@RequestMapping(value="/popupReportDetail.do", method= {RequestMethod.GET, RequestMethod.POST}, produces = "application/text;charset=UTF-8" )
 	@ResponseBody
@@ -110,7 +109,6 @@ public class MemberP003_d002ControllerImpl implements MemberP003_d002Controller{
 		System.out.println("==========> " + result);
 		return result;
 	}
-	
 	
 	// 상태변경
 	@RequestMapping(value="/saveReportState.do")
