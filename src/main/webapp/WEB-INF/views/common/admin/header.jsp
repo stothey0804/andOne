@@ -39,7 +39,7 @@
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	  <a class="navbar-brand logotype" href="#">&분의일 </a>
+	  <a class="navbar-brand logotype" href="${contextPath}/admin/">&분의일 </a>
 	  <span class="navbar-brand mb-0">관리자페이지</span>
 <!-- 	  	<form class="form-inline msg"> -->
 <!-- 		  	<input type="text" class="form-control mb-2 mr-sm-2" id="inputMsg" placeholder="메시지 입력"> -->

@@ -41,4 +41,9 @@ public class MemberP001_d005DAOImpl implements MemberP001_d005DAO{
 		MemberP001_MemberVO member = sqlSession.selectOne("member.p001.selectMemberById", id);
 		return member;
 	}
+
+	@Override
+	public Map<String, String> seleteMyPageInfo(String m_id) {
+		return sqlSession.selectOne("member.p001.seleteMyPageInfo", m_id);
+	}
 }

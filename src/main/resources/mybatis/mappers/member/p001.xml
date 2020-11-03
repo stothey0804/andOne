@@ -58,9 +58,20 @@
 		<result property="p_editdate" column="p_editdate"  />
 		<result property="p_detail" column="p_detail"  />
 	</resultMap>
+	
+	<!-- 마이페이지 맵 -->
+	<resultMap type="java.util.HashMap" id="myPageMap">
+		<result property="m_id" column="m_id"/>
+		<result property="m_joindate" column="m_joindate"/>
+		<result property="m_score" column="m_score"/>
+		<result property="om_ready" column="om_ready"/>
+		<result property="om_exe" column="om_exe"/>
+		<result property="om_complete" column="om_complete"/>
+		<result property="q_ready" column="q_ready"/>
+		<result property="r_ready" column="r_ready"/>
+	</resultMap>
 
 	<!-- 어드민 영역 START -->
-	
 	<select id="selectMemberCnt" resultType="int">
 	<![CDATA[
 		SELECT COUNT(m_id)
@@ -269,5 +280,20 @@
 	   		WHERE m_id = #{m_id}
 	   	]]>
    	</delete>
+   	
+   	<!-- 마이페이지 영역 -->
+   	<select id="seleteMyPageInfo" parameterType="String" resultMap="myPageMap">
+   	<![CDATA[
+	   	SELECT m_id, SUBSTR(m_joindate,1,10)m_joindate, m_score,
+	    (SELECT DISTINCT COUNT(one_id) OVER(PARTITION BY m_id, om_state) FROM one_member WHERE om_state like '10' AND m_id like #{m_id})om_ready,
+	    (SELECT DISTINCT COUNT(one_id) OVER(PARTITION BY m_id, om_state) FROM one_member WHERE om_state like '20' AND m_id like #{m_id})om_exe,
+	    (SELECT DISTINCT COUNT(one_id) OVER(PARTITION BY m_id, om_state) FROM one_member WHERE om_state like '30' AND m_id like #{m_id})om_complete,
+	    (SELECT DISTINCT COUNT(q_id) OVER(PARTITION BY m_id, q_state) FROM qna WHERE q_state like '10' AND m_id like #{m_id})q_ready,
+	    (SELECT DISTINCT COUNT(r_id) OVER(PARTITION BY m_id, r_state) FROM report WHERE r_state like '10' AND m_id like #{m_id})r_ready
+		FROM member
+		WHERE m_id like #{m_id}
+   	]]>
+   	</select>
+   	
    	
  	</mapper>

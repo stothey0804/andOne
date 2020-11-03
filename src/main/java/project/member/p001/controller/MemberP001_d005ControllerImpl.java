@@ -43,9 +43,15 @@ public class MemberP001_d005ControllerImpl implements MemberP001_d005Controller{
 	
 	@Override
 	@RequestMapping(value="/mypage.do")
-	public String searchMypageMain(HttpServletRequest request) {
-		// 마이페이지로
-		return Common.checkLoginDestinationView("mypage", request);
+	public ModelAndView searchMypageMain(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView(Common.checkLoginDestinationView("mypage", request));
+		// 데이터 조회
+		try {
+			mav.addObject("info", memberP001_d005Service.seleteMyPageInfo((String)request.getSession(false).getAttribute("m_id")));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;		
 	}
 
 	@Override

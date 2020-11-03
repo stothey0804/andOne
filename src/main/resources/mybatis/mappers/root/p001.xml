@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="root.p001">
+   	<resultMap id="weeklyDataMap" type="java.util.HashMap">
+		<result property="date" column="datevalue" />
+		<result property="result" column="result" />
+	</resultMap>
+   	<resultMap id="adminMainMap" type="java.util.HashMap">
+		<result property="newMember" column="new_member" />
+		<result property="newAndone" column="new_andone" />
+		<result property="newClub" column="new_club" />
+		<result property="newBmember" column="new_bmember" />
+		<result property="newQna" column="new_qna" />
+		<result property="newReport" column="new_report" />
+	</resultMap>
+		<!-- 메인 새로운 글 조회영역 -->
+	<select id="selectTodayAdminMain" resultMap="adminMainMap">
+	<![CDATA[
+		SELECT
+		    (SELECT COUNT(m_id) FROM member WHERE SUBSTR(m_joindate,1,10) = TO_CHAR(sysdate,'YYYY-MM-DD'))new_member,
+		    (SELECT COUNT(one_id) FROM and_one WHERE SUBSTR(one_date,1,10) = TO_CHAR(sysdate,'YYYY-MM-DD'))new_andone,
+		    (SELECT COUNT(c_id) FROM club WHERE SUBSTR(c_openingDate,1,10) = TO_CHAR(sysdate,'YYYY-MM-DD'))new_club,
+		    (SELECT count(bm_id) FROM b_member WHERE SUBSTR(bm_joindate,1,10) = TO_CHAR(sysdate,'YYYY-MM-DD') AND bm_status='0')new_bmember,
+		    (SELECT count(q_id) FROM qna WHERE SUBSTR(q_date,1,10) = TO_CHAR(sysdate,'YYYY-MM-DD') AND q_state='10')new_qna,
+		    (SELECT count(r_id) FROM report WHERE SUBSTR(r_date,1,10) = TO_CHAR(sysdate,'YYYY-MM-DD') AND r_state='10')new_report
+		FROM DUAL
+	]]>
+	</select>
+	<!-- 7일간 가입자 -->
+	<select id="selectWeeklyNewMember" resultMap="weeklyDataMap">
+	<![CDATA[
+		SELECT SUBSTR(m_joindate,1,10)datevalue, COUNT(m_id)result
+		FROM member
+		WHERE SUBSTR(m_joindate,1,10)
+		BETWEEN TO_CHAR(sysdate-6,'YYYY-MM-DD') AND TO_CHAR(sysdate,'YYYY-MM-DD')
+		GROUP BY SUBSTR(m_joindate,1,10)
+	]]>
+	</select>
+	<!-- 7일간 매출 -->
+	<select id="selectWeeklySales" resultMap="weeklyDataMap">
+	<![CDATA[
+		SELECT SUBSTR(p_date,1,10)datevalue, SUM(p_changepoint)result
+		FROM point
+		WHERE p_changepoint > 0
+		AND SUBSTR(p_date,1,10) BETWEEN TO_CHAR(sysdate-6,'YYYY-MM-DD') AND TO_CHAR(sysdate,'YYYY-MM-DD')
+		GROUP BY SUBSTR(p_date,1,10)
+	]]>
+	</select>
+	
+   </mapper>

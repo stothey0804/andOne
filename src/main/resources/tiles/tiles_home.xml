@@ -90,7 +90,7 @@
 	<!-- 관리자메인페이지 -->
    <definition name="adminMain" extends="adminLayout">
       <put-attribute name="title" value="관리자메인" />
-       <put-attribute name="body" value="" />
+       <put-attribute name="body" value="/WEB-INF/views/common/admin/main.jsp" />
    </definition>
 
    <definition name="p001_d006_search" extends="adminLayout">

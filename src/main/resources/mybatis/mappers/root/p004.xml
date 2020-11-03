@@ -22,6 +22,7 @@
 		<result property="category" column="category" />
 		<result property="total" column="total" />
 	</resultMap>
+
    
    
    <!-- 성별별 회원 수 조회 -->
@@ -75,5 +76,6 @@
 		GROUP BY one_type, one_category
 	]]>
 	</select>
+	
 
 	</mapper>

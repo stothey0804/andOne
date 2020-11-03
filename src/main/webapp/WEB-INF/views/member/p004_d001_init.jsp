@@ -27,8 +27,15 @@
 	<!-- 회원정보 요약  -->
 	<div class="card mx-5 mt-5">
 		<div class="card-body">
-			<h5 class="card-title">내가 받은 평점 <span class="h3">${m_score}</span>점</h5>
-			<p class="card-text">무슨 텍스트를 넣어야할까...</p>
+			<h5 class="card-title">
+			<c:if test="${empty m_score}">
+			아직 받은 점수가 없어요 :(			
+			</c:if>
+			<c:if test="${not empty m_score}">
+			내가 받은 평점 <span class="h3">${m_score}</span>점
+			</c:if>
+			</h5>
+			<p class="card-text">&amp;분의일에 참여하고 점수를 받아보세요</p>
 		</div>
 	</div>
 	<!-- 작성평가/받은평가 최근리스트 조회 -->
