@@ -1,14 +1,13 @@
 package project.and.p003.vo;
 
-public class AndP003AndOneVO {
+public class AndP003VO {
 
-	
 	private String one_type;
 	private String one_id;
 	private String one_title;
 	private String m_id;
-	private String msg_date;
 	private String msg_content;
+	private String msg_date;
 	
 	public String getOne_type() {
 		return one_type;

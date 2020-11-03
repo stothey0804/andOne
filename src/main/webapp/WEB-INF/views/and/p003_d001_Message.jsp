@@ -5,12 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
-
-</head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 <style>
 
 ::-webkit-scrollbar-track {
@@ -54,6 +49,8 @@ input::placeholder {
 } 
 
 </style>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -89,6 +86,7 @@ input::placeholder {
 	}
 	
 </script>
+</head>
 <body>
 <div class="container py-5 px-4">
   
@@ -101,21 +99,21 @@ input::placeholder {
           <p class="h5 mb-0 py-1" align="center" font-family= 'YanoljaYacheR'>메시지</p>
         </div>
 
-        <div class="messages-box" id="">
-        	<script>
-
-        	</script>
+        <div class="messages-box" id="messageBox">
           <div class="list-group rounded-0">
-<!--             <a class="list-group-item list-group-item-action active text-white rounded-0"> -->
-<!--               <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle"> -->
-<!--                 <div class="media-body ml-4"> -->
-<!--                   <div class="d-flex align-items-center justify-content-between mb-1"> -->
-<!--                     <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">25 Dec</small> -->
-<!--                   </div> -->
-<!--                   <p class="font-italic mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p> -->
-<!--                 </div> -->
-<!--               </div> -->
-<!--             </a> -->
+            <a class="list-group-item list-group-item-action active text-white rounded-0">
+              <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                <div class="media-body ml-4">
+                  <div class="d-flex align-items-center justify-content-between mb-1">
+                    <h6 class="mb-0">
+                    ${m_nickname}
+                    </h6>
+                    <small class="small font-weight-bold"></small>
+                  </div>
+                  <p class="font-italic mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                </div>
+              </div>
+            </a>
           </div>
         </div>
       </div>

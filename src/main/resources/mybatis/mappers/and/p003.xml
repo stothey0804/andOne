@@ -3,7 +3,7 @@
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
    <mapper namespace="and.p003">
-	<resultMap type="java.util.HashMap" id="p003_d001Result01">
+	<resultMap id="messageMap" type="java.util.HashMap" >
 		<result property="one_type" column="one_type" />	<!-- 구분 -->
 		<result property="one_id" column="one_id" />	<!-- 글번호 -->
 		<result property="one_title" column="one_title" />	<!-- 글제목 -->
@@ -13,35 +13,34 @@
 		<result property="msg_content" column="msg_content" />	<!-- 채팅내용 -->
 	</resultMap>
 
-	<!-- 채팅방 목록 불러오기  (진행중)--> 
-	<select id="chatRoom" parameterType="and.p003.vo.AndP003AndOneVO">
+	<!-- 채팅방 목록 불러오기 --> 
+	<select id="readChatList" parameterType="java.util.HashMap">
 		<![CDATA[
- 		SELECT one_type, m_id
- 		FROM one_member
- 		WHERE om_state = 20;
- 		]]>
-	</select>
-	
-		<!-- 채팅방 목록 불러오기  (진행완료)--> 
-	<select id="chatRoom" parameterType="and.p003.vo.AndP003AndOneVO">
-		<![CDATA[
- 		SELECT one_type, m_id
- 		FROM one_member
- 		WHERE om_state = 30);
- 		]]>
-	</select>
-	
-	<!-- 채팅 보내기 -->
-<!-- 	<insert id="sendMessage" parameterType="java.util.Map"> -->
-<!-- 	<![CDATA[INSERT INTO message(one_type, one_id, one_state, one_title, m_id, msg_content, msg_date) -->
-<!-- 	VALUES (#{one_type}, -->
-<!-- 			#{one_id}, -->
-<!-- 			#{one_state}, -->
-<!-- 			#{one_title}, -->
-<!-- 			#{m_id}, -->
-<!-- 			#{msg_content}, -->
-<!-- 			#{msg_date}) -->
-<!-- 			]]> -->
+	SELECT DISTINCT a.one_type, a.one_id, a.one_title, b.m_id
+	FROM and_one a, one_member b
+	WHERE a.one_type = b.one_type
+	AND a.one_id = b.one_id
+	AND b.om_state IN ('20','30')
 
-<!-- 	</insert> -->
+  		]]>
+	</select>
+	
+	<!-- 채팅 보내기-->
+<!-- 	<insert id="sendMessage" parameterType="AndP003VO"> -->
+<!-- 		<![CDATA[ -->
+<!-- 		INSERT INTO MESSAGE( -->
+<!-- 							one_type,  -->
+<!-- 							one_id,  -->
+<!-- 							m_id,  -->
+<!-- 							msg_content,  -->
+<!-- 							msg_date) -->
+<!--  		VALUES ( -->
+<!--  				#{one_type},  -->
+<!--  				#{one_id},  -->
+<!--  				#{m_id},  -->
+<!--  				#{msg_content},  -->
+<!--  				Sysdate) -->
+<!--  		]]>  -->
+<!--  	</insert> -->
+ 	
    </mapper>
