@@ -1,13 +1,18 @@
 package project.root.p001.contoller;
 
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.definition.LocaleDefinitionsFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -115,10 +120,44 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 	
 	// 어드민 연결
 	@RequestMapping(value="/admin")
-	public String adminMain(HttpServletRequest request) {
-		return Common.checkAdminDestinationView("adminMain", request);
+	public ModelAndView adminMain(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView(Common.checkAdminDestinationView("adminMain", request));
+		// 어드민 메인 조회 데이터
+		mav.addObject("newDataSet", rootP001_d001Service.selectTodayAdminMain());
+		// 신규멤버 데이터
+		mav.addObject("newMemberSet", separateChartList(rootP001_d001Service.selectWeeklyNewMember()));
+		// 매출액 데이터
+		mav.addObject("newSalesSet", separateChartList(rootP001_d001Service.selectWeeklySales()));
+		return mav;
 	}
 	
+	// 라벨, 값 분리 저장
+	private Map<String, Object> separateChartList(List<Map<String, String>> list) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		List<String> labels = new ArrayList<String>();
+		List<String> data = new ArrayList<String>(Arrays.asList("0","0","0","0","0","0","0"));
+		// 7일범위 만들기
+		LocalDate today = LocalDate.now();
+		for(int i = -6; i <= 0; i++) {
+			labels.add(today.plusDays(i).toString());
+		}
+		// 날짜별로 값 조회 저장
+		for(int i = 0; i < labels.size(); i++) {
+			for(Map iter: list) {
+				if((labels.get(i)).equals(String.valueOf(iter.get("date")))) {	
+					data.set(i, String.valueOf(iter.get("result")));
+					break;
+				}
+			}
+		}
+		// 라벨 값 조정(small quote추가)
+		for(int i = 0; i < labels.size(); i++) {
+			labels.set(i, "'"+labels.get(i)+"'");
+		}
+		resultMap.put("labels",labels);
+		resultMap.put("data",data);
+		return resultMap;
+	}
 
 	
 }

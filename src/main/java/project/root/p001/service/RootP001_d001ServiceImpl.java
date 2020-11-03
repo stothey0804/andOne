@@ -25,5 +25,20 @@ public class RootP001_d001ServiceImpl implements RootP001_d001Service{
 		return rootP001_d001DAO.selectMemberLocate(m_id);
 	}
 
+	@Override
+	public Map<String, String> selectTodayAdminMain() {
+		return rootP001_d001DAO.selectTodayAdminMain();
+	}
+
+	@Override
+	public List<Map<String, String>> selectWeeklyNewMember() {
+		return rootP001_d001DAO.selectWeeklyNewMember();
+	}
+
+	@Override
+	public List<Map<String, String>> selectWeeklySales() {
+		return rootP001_d001DAO.selectWeeklySales();
+	}
+
 
 }

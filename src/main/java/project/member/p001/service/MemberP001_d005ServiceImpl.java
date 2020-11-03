@@ -38,6 +38,11 @@ public class MemberP001_d005ServiceImpl implements MemberP001_d005Service{
 	public MemberP001_MemberVO selectMemberById(String id) {
 		return memberP001_d005DAO.selectMemberById(id);
 	}
+
+	@Override
+	public Map<String, String> seleteMyPageInfo(String m_id) {
+		return memberP001_d005DAO.seleteMyPageInfo(m_id);
+	}
 	
 	
 }
