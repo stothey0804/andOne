@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="root.p002">
+   		<resultMap id="searchResult" type="rootP002VO">
+			<result property="tableName" column="TABLENAME" />
+			<result property="columnName" column="COLUMNNAME" />
+			<result property="objectId" column="OBJECTID" />
+		</resultMap>
+     	<select id="fullSearch" parameterType="String" resultMap="root.p002.searchResult">
+     		<![CDATA[
+     			SELECT TABLENAME, COLUMNNAME, OBJECTID
+				FROM
+				(
+				    SELECT ONE_ID AS OBJECTID, 'AND_ONE' AS TABLENAME, 'ONE_ID' AS COLUMNNAME, ROW_NUMBER()OVER(ORDER BY ONE_TIME DESC) AS ROW_NUM
+				    FROM AND_ONE AO
+				    WHERE (ONE_CONTENT LIKE '%'||#{searchKeyword}||'%' OR ONE_TITLE LIKE '%'||#{searchKeyword}||'%' OR ONE_HASHTAG LIKE '%'||#{searchKeyword}||'%')
+				    UNION 
+				    SELECT S_ID AS OBJECTID, 'SHOP' AS TABLENAME, 'S_ID' AS COLUMNNAME, ROW_NUMBER()OVER(ORDER BY S_SCORE DESC) AS ROW_NUM
+				    FROM SHOP S
+				    WHERE (S_CONTENT LIKE '%'||#{searchKeyword}||'%' OR S_NAME LIKE '%'||#{searchKeyword}||'%' OR S_HASHTAG LIKE '%'||#{searchKeyword}||'%')
+				    UNION
+				    SELECT C_ID AS OBJECTID, 'CLUB' AS TABLENAME, 'C_ID' AS COLUMNNAME, ROW_NUMBER()OVER(ORDER BY C_OPENINGDATE DESC) AS ROW_NUM
+				    FROM CLUB C
+				    WHERE (C_NAME LIKE '%'||#{searchKeyword}||'%' OR C_CONTENT LIKE '%'||#{searchKeyword}||'%' OR C_HASHTAG LIKE '%'||#{searchKeyword}||'%')
+				    UNION
+				    SELECT N_ID AS OBJECTID, 'NOTICE' AS TABLENAME, 'N_ID' AS COLUMNNAME, ROW_NUMBER()OVER(ORDER BY N_DATE DESC) AS ROW_NUM
+				    FROM NOTICE N
+				    WHERE (N_TITLE LIKE '%'||#{searchKeyword}||'%' OR N_CONTENT LIKE '%'||#{searchKeyword}||'%')
+				    UNION
+				    SELECT CA_ID AS OBJECTID, 'C_ARTICLE' AS TABLENAME, 'CA_ID' AS COLUMNNAME, ROW_NUMBER()OVER(ORDER BY CA_DATE DESC) AS ROW_NUM
+				    FROM C_ARTICLE CA
+				    WHERE (CA_CONTENT LIKE '%'||#{searchKeyword}||'%')
+				)
+				WHERE ROW_NUM BETWEEN 1 AND 3
+     		]]>
+     	</select>
+     	
+     	<select id="getObject" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+     		<![CDATA[
+     			SELECT ${selectName}
+     			FROM ${tableName}
+     			WHERE ${columnName} IN
+     		]]>
+     		<foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+     			<![CDATA[
+     				#{item}
+     			]]>
+     		</foreach>
+     	</select>
+     	
+     	<select id="getSearchCnt" parameterType="String" resultType="java.util.Map">
+     		<![CDATA[
+     			SELECT 'AND_ONE' AS TABLENAME, COUNT(*) AS RESULTCOUNT
+				FROM AND_ONE AO
+				WHERE (ONE_CONTENT LIKE '%'||#{searchKeyword}||'%' OR ONE_TITLE LIKE '%'||#{searchKeyword}||'%' OR ONE_HASHTAG LIKE '%'||#{searchKeyword}||'%')
+				GROUP BY 'AND_ONE'
+				UNION 
+				SELECT 'SHOP' AS TABLENAME, COUNT(*) AS RESULTCOUNT
+				FROM SHOP S
+				WHERE (S_CONTENT LIKE '%'||#{searchKeyword}||'%' OR S_NAME LIKE '%'||#{searchKeyword}||'%' OR S_HASHTAG LIKE '%'||#{searchKeyword}||'%')
+				GROUP BY 'SHOP'
+				UNION
+				SELECT 'CLUB' AS TABLENAME, COUNT(*) AS RESULTCOUNT
+				FROM CLUB C
+				WHERE (C_NAME LIKE '%'||#{searchKeyword}||'%' OR C_CONTENT LIKE '%'||#{searchKeyword}||'%' OR C_HASHTAG LIKE '%'||#{searchKeyword}||'%')
+				GROUP BY 'CLUB'
+				UNION
+				SELECT 'NOTICE' AS TABLENAME, COUNT(*) AS RESULTCOUNT
+				FROM NOTICE N
+				WHERE (N_TITLE LIKE '%'||#{searchKeyword}||'%' OR N_CONTENT LIKE '%'||#{searchKeyword}||'%')
+				GROUP BY 'NOTICE'
+				UNION
+				SELECT 'C_ARTICLE' AS TABLENAME, COUNT(*) AS RESULTCOUNT
+				FROM C_ARTICLE CA
+				WHERE (CA_CONTENT LIKE '%'||#{searchKeyword}||'%')
+				GROUP BY 'C_ARTICLE'
+     		]]>
+     	</select>
+   </mapper>
