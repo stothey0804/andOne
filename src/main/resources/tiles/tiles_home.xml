@@ -85,7 +85,7 @@
    </definition>
    
 	<!-- 지역업체 어드민 END -->
-
+	
 	<!-- 관리자 START -->
 	<!-- 관리자메인페이지 -->
    <definition name="adminMain" extends="adminLayout">
@@ -233,6 +233,25 @@
 		<put-attribute name="title" value="내 지역업체 리뷰목록"/>
 		<put-attribute name="body" value="/WEB-INF/views/shop/p003_d001_myShopReviewList.jsp"/>
 	</definition>
+    <!-- 지역업체 끝 -->
+   
+    <!-- 통합검색 시작 -->
+    <definition name="p002_d001_searchMain" extends="baseLayout">
+		<put-attribute name="title" value="통합검색 메인페이지"/>
+		<put-attribute name="body" value="/WEB-INF/views/root/p002_d001_searchMain.jsp"/>
+	</definition>
+	
+	 <definition name="p002_d001_fullSearch" extends="baseLayout">
+		<put-attribute name="title" value="통합검색 결과"/>
+		<put-attribute name="body" value="/WEB-INF/views/root/p002_d001_fullSearch.jsp"/>
+	</definition>
+	
+	 <definition name="p002_d001_searchDetail" extends="baseLayout">
+		<put-attribute name="title" value="더 보기 페이지"/>
+		<put-attribute name="body" value="/WEB-INF/views/root/p002_d001_searchDetail.jsp"/>
+	</definition>
+    
+    <!-- 통합검색 끝 -->
    
 	<!-- 비밀번호찾기 -->
    <definition name="p001_d003_init" extends="baseLayout">
