@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import common.Pagination;
 import project.root.p002.service.RootP002_d001Service;
@@ -22,9 +21,13 @@ public class RootP002_d001ContorllerImpl implements RootP002_d001Controller{
 	@Autowired
 	private RootP002_d001Service rootP002_d001Service;
 	
-	@ResponseBody
+	@RequestMapping("searchMain.do")
+	public String searchMain() {
+		return "p002_d001_searchMain";
+	}
+	
 	@RequestMapping("fullSearch.do")
-	public Map search(@RequestParam(defaultValue="") String searchKeyword, Model model) {
+	public String fullSearch(@RequestParam(defaultValue="") String searchKeyword, Model model) {
 		//where절에 쓸 objectID 배열 생성
 		List<String> notice = new ArrayList<>();
 		List<String> and_one = new ArrayList<>();
@@ -110,12 +113,11 @@ public class RootP002_d001ContorllerImpl implements RootP002_d001Controller{
 		model.addAttribute("searchResult",searchResult);
 		model.addAttribute("searchKeyword",searchKeyword);
 		
-		return searchResult; // toDo - viewName으로 수정
+		return "p002_d001_fullSearch"; // toDo - viewName으로 수정
 	}
 	
-	@ResponseBody
 	@RequestMapping("searchDetail.do")
-	public List searchDetail(@RequestParam(defaultValue="") String searchKeyword, 
+	public String searchDetail(@RequestParam(defaultValue="") String searchKeyword, 
 			@RequestParam(defaultValue="") String tableName, 
 			@RequestParam(defaultValue="1")int curPage, Model model) {
 		//페이징을 위해 listCnt 추출
@@ -142,6 +144,6 @@ public class RootP002_d001ContorllerImpl implements RootP002_d001Controller{
 		model.addAttribute("searchKeyword",searchKeyword);
 		model.addAttribute("tableName",tableName);
 		
-		return resultList; // toDo - viewName으로 수정
+		return "p002_d001_searchDetail"; // toDo - viewName으로 수정
 	}
 }
