@@ -90,7 +90,7 @@
 	<!-- 관리자메인페이지 -->
    <definition name="adminMain" extends="adminLayout">
       <put-attribute name="title" value="관리자메인" />
-       <put-attribute name="body" value="" />
+       <put-attribute name="body" value="/WEB-INF/views/common/admin/main.jsp" />
    </definition>
 
    <definition name="p001_d006_search" extends="adminLayout">
@@ -118,6 +118,11 @@
    <definition name="RootP003_d001_save" extends="adminLayout">
       <put-attribute name="title" value="공지사항" />
        <put-attribute name="body" value="/WEB-INF/views/root/p003_d001_save.jsp" />
+   </definition>
+   <!-- 회원통계 -->
+   <definition name="RootP004_d001_init" extends="adminLayout">
+      <put-attribute name="title" value="회원통계" />
+       <put-attribute name="body" value="/WEB-INF/views/root/p004_d001_init.jsp" />
    </definition>
 
    <!-- 관리자페이지 END -->

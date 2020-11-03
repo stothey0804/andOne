@@ -10,4 +10,5 @@ public interface MemberP001_d005DAO {
 	public int updateMember(MemberP001_MemberVO vo);	// 회원정보변경
 	public void saveImage(Map<String, Object> hmap);	// 프로필이미지 저장
 	public Map<String, Object> getByteImage(String m_id);			// 프로필 이미지 get
+	public Map<String, String> seleteMyPageInfo(String m_id);				// 마이페이지 메인 영역
 }
