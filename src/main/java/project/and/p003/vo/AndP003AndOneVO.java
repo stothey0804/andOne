@@ -7,7 +7,7 @@ public class AndP003AndOneVO {
 	private String one_id;
 	private String one_title;
 	private String m_id;
-	private String msg_dtae;
+	private String msg_date;
 	private String msg_content;
 	
 	public String getOne_type() {
@@ -34,11 +34,11 @@ public class AndP003AndOneVO {
 	public void setOne_title(String one_title) {
 		this.one_title = one_title;
 	}
-	public String getMsg_dtae() {
-		return msg_dtae;
+	public String getMsg_date() {
+		return msg_date;
 	}
-	public void setMsg_dtae(String msg_dtae) {
-		this.msg_dtae = msg_dtae;
+	public void setMsg_dtae(String msg_date) {
+		this.msg_date = msg_date;
 	}
 	public String getMsg_content() {
 		return msg_content;
