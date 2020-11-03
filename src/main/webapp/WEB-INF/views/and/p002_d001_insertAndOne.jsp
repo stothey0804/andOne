@@ -39,23 +39,23 @@
 <body>
 	<c:set var="g_id" value="${g_id}" />
 		<h1 class="and">
-		<c:choose>
-		<c:when test="${g_id == '010'}">
-			같이먹기 <i class="fas fa-utensils"></i>
-		</c:when>
-		<c:when test="${g_id == '011'}">
-			같이사기 <i class="fas fa-shopping-cart"></i>
-		</c:when>
-		<c:when test="${g_id == '012'}">
-			같이하기 <i class="fas fa-user-friends"></i>
-		</c:when>
-	</c:choose>
+			<c:choose>
+				<c:when test="${g_id == '010'}">
+					같이먹기 <i class="fas fa-utensils"></i>
+				</c:when>
+				<c:when test="${g_id == '011'}">
+					같이사기 <i class="fas fa-shopping-cart"></i>
+				</c:when>
+				<c:when test="${g_id == '012'}">
+					같이하기 <i class="fas fa-user-friends"></i>
+				</c:when>
+			</c:choose>
 		</h1>
       <form method="post" name="insertAnd" action="${contextPath}/and/insertAndOne.do" >
       <div class="col-lg-6 col-sm-10 mx-auto mt-5 ">
       	<div class="form-row">
             <div class="form-group col-md-6 mx-auto title">
-      				<input type="text" class="form-control" name="one_title" placeholder="제목을 입력해주세요">
+   				<input type="text" class="form-control" name="one_title" placeholder="제목을 입력해주세요" value="">
     		</div>
       	</div>
       	<!-- 카테고리 -->
@@ -64,8 +64,8 @@
       	<c:choose>
       		<c:when test="${g_id == '010'}">
 		      	<div id="category" style="width:650px; margin: 0 auto">
-						<c:forEach var ="ctg" items="${ctg_eat}" > 
-						<button type="button" id="category_sub" class="btn btn-outline-dark mb-3 ctgbutton" value="${ctg.gc_id}" >${ctg.gc_name}</button>
+						<c:forEach var ="ctg" items="${ctg}" > 
+							<button type="button" id="category_sub" class="btn btn-outline-dark mb-3 ctgbutton" value="${ctg.gc_id}" >${ctg.gc_name}</button>
 						</c:forEach>
 				</div>
 			</c:when>
@@ -73,8 +73,8 @@
 		<c:choose>
       		<c:when test="${g_id == '011'}">
 		      	<div id="category" style="width:650px; margin: 0 auto; ">
-						<c:forEach var ="ctg" items="${ctg_eat}" > 
-						<button type="button" id="category_sub" class="btn btn-outline-dark mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
+						<c:forEach var ="ctg" items="${ctg}" > 
+							<button type="button" id="category_sub" class="btn btn-outline-dark mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
 						</c:forEach>
 				</div>
 			</c:when>
@@ -82,13 +82,13 @@
 		<c:choose>
       		<c:when test="${g_id == '012'}">
 		      	<div id="category" style="width:800px; margin: 0 auto">
-						<c:forEach var ="ctg" items="${ctg_eat}" > 
-						<button type="button" id="category_sub" class="btn btn-outline-dark mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
+						<c:forEach var ="ctg" items="${ctg}" > 
+							<button type="button" id="category_sub" class="btn btn-outline-dark mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
 						</c:forEach>
 				</div>
 			</c:when>
 		</c:choose>
-						<input type="hidden" name="one_category" value=""> <!-- 카테고리값 보내기 -->
+		<input type="hidden" name="one_category" value=""> <!-- 카테고리값 보내기 -->
 		</div>
 		<div class="form-row">
         	<div class="form-group col-md-6 mx-auto">
@@ -98,16 +98,16 @@
 		<!--달력 -->
 		<div class="form-row">
         	<div class="form-group col-md-6 mx-auto" id="orderDate">
-			<input name="one_date" class="form-control" placeholder="주문시간을 입력해주세요"/>
+			<input name="one_date" class="form-control" placeholder="주문시간을 입력해주세요" />
 			</div>		
 		</div>
 	   <!-- 인원설정 -->
 	   <div class="form-row">
 		 <select id="memberCnt" class="custom-select form-group col-md-6 mx-auto" onChange="setValue()" >
 			<option selected >인원을 선택하세요</option>
-			<c:forEach var="i" begin="2" end="10">
-				<option value="<c:out value='${i}'/>"><c:out value="${i}"/></option>
-			</c:forEach>
+				<c:forEach var="i" begin="2" end="10">
+					<option value="<c:out value='${i}'/>"><c:out value="${i}"/></option>
+				</c:forEach>
 			 </select>
 			 <input type="hidden" name="one_memberMax" value="">
 	   </div>
@@ -180,8 +180,8 @@
                             var one_locate_Lng = coords.getLng()
                             
                             console.log(coords);
-                            console.log(typeof(one_locate_Lat)); //37
-                            console.log(typeof(one_locate_Lng)); //126
+                            console.log(one_locate_Lat); //37
+                            console.log(one_locate_Lng); //126
 							//지도에 보여준다
                             container.style.display = "block";
                             map.relayout();
@@ -190,7 +190,7 @@
                            	//마커를 결과값으로 받은 위치로 옮긴다
                             marker.setPosition(coords);
 
-                            //hidden값으로  변수 one_locate에 좌표 전달
+                            //hidden값으로 변수 one_locate에 좌표 전달
                             document.insertAnd.one_locate_Lat.value = one_locate_Lat;
                             document.insertAnd.one_locate_Lng.value = one_locate_Lng;
                         }

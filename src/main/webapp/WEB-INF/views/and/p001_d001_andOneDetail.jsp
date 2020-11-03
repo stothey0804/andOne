@@ -107,8 +107,7 @@
                 </div>
 	 </div>
 <div>
-	<c:forEach var ="andoneDetail" items="${andOneDetailList}" > 	
-		제목  ${andoneDetail.one_title} <br>
+		 제목${andoneDetail.one_title} <br>
 		 카테고리 ${andoneDetail.one_category}<br>
 		 해쉬태그 ${andoneDetail.one_hashTag}<br>
 		 수령시간 ${andoneDetail.one_date}<br>
@@ -116,7 +115,16 @@
 		<c:forEach var ="oneMemList" items="${oneMemList}" > 
 			<c:set var="mem_img" value="${oneMemList.resultUserImg}"/>
 				<c:if test="${oneMemList.om_leader eq '10'}"> <!-- 작성자 구분 -->
-		 			작성자 닉네임${oneMemList.m_nickname} <img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img"><br>
+		 			작성자 닉네임
+		 			<c:choose>
+		 			 	<c:when test="${mem_img eq null}">
+		 			 		<img src="${contextPath}/resources/image/user.png" class="m_img">
+		 			 	</c:when>
+		 			 	 <c:otherwise>
+		 			 	 	<img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img"> 
+			 			 </c:otherwise>
+		 			 </c:choose> 
+		 			${oneMemList.m_nickname}<br>
 				</c:if>
 		</c:forEach>
 		 좌표  ${andoneDetail.one_locate_Lat} <br>
@@ -125,7 +133,7 @@
 		 <div id="map" style="width:500px; height:400px"></div> 
 		 <c:forEach var ="oneMemList" items="${oneMemList}" > 
 			<c:set var="mem_img" value="${oneMemList.resultUserImg}"/>
-				<c:if test="${oneMemList.om_leader eq '20' and oneMemList.om_state eq '30'}"> <!-- 결제완료한 참가자 -->
+				<c:if test="${oneMemList.om_leader eq '20' and oneMemList.om_state eq '20'}"> <!-- 결제완료한 참가자 -->
 		 			 참가자 닉네임 
 		 			 <c:choose>
 		 			 	<c:when test="${mem_img eq null}">
@@ -142,7 +150,7 @@
 		 	test!!!!!! ${omLeaderCheck}
 		 	<c:choose>
 		 		<c:when test="${omLeaderCheck eq '10'}"> <!-- 작성자 -->
-				 	<br><button id="edit">수정하기</button>	 	 
+				 	<br><button onclick="modifyAndOne('${andoneDetail.one_id}')">수정하기</button>	 	 
 				 	<br><button onclick="deleteAndOne('${andoneDetail.one_id}')">삭제하기</button>
 				 	<br><button onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button>				 	
 	 			</c:when>
@@ -153,8 +161,7 @@
 			 		<button onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
 			 		<button type="button" onClick='openReportPopup()'>신고하기</button>
 				</c:otherwise>
-			</c:choose>
-	</c:forEach>
+			</c:choose>		
 </div>
   	<!--kakao map-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
@@ -242,10 +249,9 @@
    						console.log("취소불가");
    						$('#cancleFailModal').modal("show");
    					}
-			}
-		})
+				}
+			})
 		}
-       
        
 	   // 포인트충전하기 클릭
 		function openPopup(){
@@ -267,12 +273,8 @@
 	    	payData.submit();
      		}  
    		 
-		// 신고하기 연결
-		function openReportPopup(){
-			var popupOpener;
-			popupOpener = window.open("${contextPath}/member/reportInit.do?target=${andoneDetail.one_id}&flag=one", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
-		}
 		
+		//삭제하기
 		function deleteAndOne(one_id){
 			if(window.confirm("&분의일을 삭제하겠습니까?")){
 				$.ajax({
@@ -282,11 +284,38 @@
 		   			url:"${contextPath}/and/deleteAndOne.do",
 		   			data:{
 		   				"one_id" : one_id
-	   			}
-			})
+	   				},
+	   	   			success:function(data,textSataus){
+	   	   				window.location.href = '${contextPath}/and?g_id=${g_id}';
+	   	   			}
+				})
+			}
 		}
-	}
-		
+			//수정하기
+			function modifyAndOne(one_id){
+				$.ajax({
+					type : "post",
+		   			dataType: "text",
+		   			async: "true",
+		   			url:"${contextPath}/and/modifyAndOneCheck.do",
+		   			data:{
+		   				"one_id" : one_id
+	   				},
+	   	   			success:function(data,textSataus){ 
+	   	   				console.log("참가자유무:"+data);
+	   	   				if(data == "ok"){
+	   	   					alert("참가자가 존재해 수정이 불가능합니다");
+	   	   				}else{
+	   	   					window.location.href = "${contextPath}/and/modifyAndOnePage.do?one_id=${andoneDetail.one_id}&g_id=${g_id}";
+	   	   				}
+	   	   			}
+				})
+			}
+			// 신고하기 연결
+			function openReportPopup(){
+				var popupOpener;
+				popupOpener = window.open("${contextPath}/member/reportInit.do?target=${andoneDetail.one_id}&flag=one", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
+			}			
 	</script>
 </body>
 </html>

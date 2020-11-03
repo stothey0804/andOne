@@ -19,7 +19,7 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 	
 	//메인 최근등록같이먹기
 	@Override
-	public List recentAndOneList(Map<String, Object> param) throws DataAccessException{
+	public List<AndP001AndOneVO> recentAndOneList(Map<String, Object> param) throws DataAccessException{
 		List<AndP001AndOneVO> recentAndOneList = null;
 		String g_id = (String) param.get("g_id");
 		System.out.println("service찍혀라ㅠㅠㅠㅠ"+g_id);
@@ -28,21 +28,21 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 	}
 	//카테고리(이름/번호)
 	@Override
-	public List searchCtg(String g_id) throws DataAccessException{
+	public List<AndP001AndOneVO> searchCtg(String g_id) throws DataAccessException{
 		List<AndP001AndOneVO> searchCtg = null;
 		searchCtg = p001_d001DAO.selectCtg(g_id);
 		return searchCtg;
 	}
 	//카테고리검색
 	@Override
-	public List ctgSearchList(Map<String, Object> searchMap) throws DataAccessException{
+	public List<AndP001AndOneVO> ctgSearchList(Map<String, Object> searchMap) throws DataAccessException{
 		List<AndP001AndOneVO> ctgSearchList = null;
 		ctgSearchList = p001_d001DAO.selectCtgList(searchMap);
 		return ctgSearchList;
 	}
 	//전체검색
 	@Override
-	public List totalSearchList(Map<String, Object> searchMap) throws DataAccessException{
+	public List<AndP001AndOneVO> totalSearchList(Map<String, Object> searchMap) throws DataAccessException{
 		List<AndP001AndOneVO> totalSearchList = null;
 		totalSearchList = p001_d001DAO.selectTotalSearchList(searchMap);
 		return totalSearchList;
@@ -56,10 +56,10 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 	}
 	//엔분의 일 상세보기
 	@Override
-	public List<AndP001AndOneVO> andOneDetailList(Map<String, Object> detailMap) {
-		List<AndP001AndOneVO> andOneDetailList = null;
-		andOneDetailList = p001_d001DAO.selectAndOneDetailList(detailMap);
-		return andOneDetailList;
+	public AndP001AndOneVO andOneDetail(Map<String, Object> detailMap) {
+		AndP001AndOneVO andOneDetail = null;
+		andOneDetail = p001_d001DAO.selectAndOneDetail(detailMap);
+		return andOneDetail;
 	}
 	//엔분의 작성자 
 	@Override

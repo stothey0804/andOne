@@ -61,7 +61,33 @@
      		$("#findIdModal").modal("hide");
       	})
       	
-      	
+      	function sendFindPwd(){
+      		var bm_id = $('#inputId').val();
+      		var bm_email = $('#inputEmail').val();
+      		if(bm_id == null || bm_id == ''
+      				|| bm_email == null || bm_email == ''){
+      			alert('모든 정보를 입력해주세요');
+      		}else{
+      			$.ajax({
+                    type:"post",
+                    dataType:"text",
+                    async: "true", 
+                    url:"${contextPath}/biz/checkIdAndEmail.do",
+                    data:{
+                        "bm_id" : bm_id,
+                        "bm_email" : bm_email
+                    },
+                    success:function(data,textSataus){
+                 		if(data == 'true'){
+                 			window.location.href='${contextPath }/biz/sendEmail.do?bm_email='+bm_email;
+                 		}else{
+                 			alert('아이디나 이메일을 다시 확인해주세요.');
+                 		}
+                    }
+                 })
+      		}
+      		
+      	}
       	
     </script>
 	<meta charset="UTF-8">
