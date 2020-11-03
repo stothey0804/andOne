@@ -100,7 +100,7 @@
 						(
 						    SELECT ONE_TYPE, ONE_ID, ONE_CATEGORY, ONE_TITLE, ONE_LOCATE_LAT, ONE_LOCATE_LNG, ONE_TIME, ONE_MEMBERMAX, ONE_DATE, ONE_STATE, ONE_HASHTAG, ONE_CONTENT, ONE_ADDR, ROW_NUMBER()OVER(ORDER BY ONE_TIME DESC) AS ROW_NUM
 						    FROM AND_ONE
-						    WHERE (ONE_CONTE'%'||#{searchKeyword}||'%'IKE '%'||#{searchKeyword}||'%' OR ONE_TITLE LIKE '%'||#{searchKeyword}||'%' OR ONE_HASHTAG LIKE '%'||#{searchKeyword}||'%')
+						    WHERE (ONE_CONTENT LIKE '%'||#{searchKeyword}||'%' OR ONE_TITLE LIKE '%'||#{searchKeyword}||'%' OR ONE_HASHTAG LIKE '%'||#{searchKeyword}||'%')
 						)
 						WHERE ROW_NUM BETWEEN #{startIndex} AND #{endIndex}
 		     		]]>
