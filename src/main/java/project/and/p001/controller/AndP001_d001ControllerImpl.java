@@ -51,6 +51,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	public ModelAndView andOneMain(@RequestParam("g_id") String g_id, 
 			@CookieValue(value="locate_lat", required = false) Cookie latCookie, 
 			@CookieValue(value="locate_lng", required = false) Cookie lngCookie, HttpServletRequest request) throws Exception {
+		
 		System.out.println("111111g_id: "+g_id);
 		
 		//세션가져오기
