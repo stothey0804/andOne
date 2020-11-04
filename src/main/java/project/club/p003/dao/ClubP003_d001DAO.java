@@ -16,4 +16,5 @@ public interface ClubP003_d001DAO {
 	public void updateClubArticle(Map<String, Object> updateMap);
 	public void updateClubArticleImg(Map<String, Object> updateMap);
 	public String nextCa_id();
+	public void updatePin(Map<String, Object> updateMap);
 }

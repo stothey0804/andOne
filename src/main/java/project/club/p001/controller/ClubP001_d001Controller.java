@@ -10,4 +10,5 @@ public interface ClubP001_d001Controller {
 	public ModelAndView searchClubCategory(String c_category) throws Exception;
 	public ModelAndView clubMain(HttpSession session) throws Exception;
 	public ModelAndView detailClub(String c_id, HttpSession session, HttpServletRequest request) throws Exception;
+	public ModelAndView searchClubListHashTag(String searchWord) throws Exception;
 }

@@ -73,4 +73,10 @@ public class ClubP001_d001ServiceImpl implements ClubP001_d001Service{
 		ClubVO vo = clubP001_d001DAO.detailClubCard(searchMap);
 		return vo;
 	}
+
+	@Override
+	public List<ClubVO> searchClubListHash(Map<String, Object> searchMap) {
+		List<ClubVO> searchClubList = clubP001_d001DAO.searchClubListHashtag(searchMap);
+		return searchClubList;
+	}
 }

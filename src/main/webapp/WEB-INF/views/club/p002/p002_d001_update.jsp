@@ -85,17 +85,115 @@ function fileReset(){
 	var txt = document.getElementById('preTXT');
 	txt.innerText = "선택된 이미지가 없습니다.";
 }
+
+
+var hashtag = "${clubInfo.c_hashtag}";
+var hashtagArr = hashtag.split(',');
+$(document).ready(function(){
+	console.log(hashtag);
+	$(function(){
+		$('#c_hashtag').val(hashtag);
+		for(let i=0; i<hashtagArr.length; i++){
+		console.log("========"+hashtagArr[i]);
+		$('.hashtagArea').append('<div class="btn-group mr-1 btn-group-sm" role="group">'
+				+'<button class="btn btn-sm btn-light">#'+hashtagArr[i]+'</button>'
+				+'<button id="'+hashtagArr[i]+'" class="btn btn-sm btn-light" onclick="deleteValue(this.id)">&times;</button>'+'</div>');
+		}
+		
+	});
+	
+	$('#submitForm').click(function(){
+		let c_name = document.getElementsByName('c_name')[0].value;
+		let c_category = document.getElementsByName('c_category')[0].value;
+		let c_membermax = document.getElementsByName('c_membermax')[0].value;
+		if(c_name == "" || c_name == null ||
+				c_category == "" || c_category == null ||
+				c_membermax == "" || c_membermax == null){
+			alert("필수 정보를 입력해주세요.");
+			return;	
+		} else {
+			var clubInsert = document.clubInsert;
+			clubInsert.action = "${contextPath}/club/updateClub.do?c_id=${clubInfo.c_id}";
+			clubInsert.method = "post";
+			clubInsert.submit();
+		}
+	});
+	
+	$("#onlyNumber").keyup(function(event){
+		var inputVal = $(this).val();
+		$(this).val(inputVal.replace(/[^0-9]/gi,''));
+		if(inputVal > 50){
+			alert('최대 50명까지 가능합니다.');
+			$(this).val('');
+		}
+	});
+})
+
+// 해쉬태그
+function characterCheck() {
+	var RegExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-+┼<>@\#$%&\'\"\\\(\=]/gi;
+	var space = / /gi;
+	var obj = document.getElementsByName("c_hashtagInput")[0];
+	if (RegExp.test(obj.value)) {
+		alert("특수문자는 언더바(_)만 사용 가능합니다.");
+		obj.value = obj.value.substring(0, obj.value.length - 1);
+	} else if (space.test(obj.value)){
+		add();
+	}
+	
+}
+	function add(){
+		let inputValue = $('#c_hashtagInput').val();
+		console.log(inputValue);
+		console.log("lllllllll"+hashtagArr)
+		if(isEmpty(inputValue)){
+			alert('키워드를 입력해주세요.');
+			$('#c_hashtagInput').val('');
+		}else{
+			inputValue = inputValue.slice(0,-1);
+			console.log(inputValue);
+			hashtagArr.push(inputValue);
+			$('.hashtagArea').append('<div class="btn-group mr-1 btn-group-sm" role="group">'
+					+'<button class="btn btn-light">#'+inputValue+'</button>'
+					+'<button id="'+inputValue+'" class="btn btn-sm btn-light" onclick="deleteValue(this.id)">&times;</button>'+'</div>');
+			$('#c_hashtagInput').val('');
+			$('#c_hashtag').val(hashtagArr);
+		}
+	}
+	
+	function lookUp(){
+		hashtagArr = '';
+		for(let i=0; i<hashtagArr.length; i++){
+			hashtagArr += hashtagArr[i] + ','
+		}
+		hashtagArr = hashtagArr.slice(0,-1);
+		alert(hashtagArr);
+	}
+
+	function deleteValue(param){
+		hashtagArr.splice(hashtagArr.indexOf(param),1);
+		$('.btn-group').has('#'+param).remove();
+		$('#c_hashtag').val(hashtagArr);
+	}
+	
+	function isEmpty(str){
+		if(typeof str == "undefined" || str == null || str == "" || str == " "){
+			return true;
+		}else{
+			return false;
+		}
+	}
 </script>
 </head>
 <body>
-<form action="${contextPath}/club/updateClub.do?c_id=${clubInfo.c_id}" enctype="multipart/form-data" class="container my-5 center" method="post" style="width:600px">
+<form name="clubInsert" enctype="multipart/form-data" class="container my-5 center" style="width:600px">
 <h2>소모임 수정하기</h2><br>
  <div class="form-group">
-    <label>소모임 이름</label>
+    <label>소모임 이름</label>&nbsp;<span class="text-muted m-0 text-muted"><small>(필수)</small></span>
     <input type="text" class="form-control" name="c_name" placeholder="소모임을 대표하는 이름을 입력해주세요!" value="${clubInfo.c_name}">
  </div>
  <div class="form-group">
-	<label>카테고리</label>
+	<label>카테고리</label>&nbsp;<span class="text-muted m-0 text-muted"><small>(필수)</small></span>
 	<select class="form-control" name="c_category">
 		<option value="">카테고리 선택</option>
 		<c:forEach var="c" items="${category}">
@@ -108,34 +206,44 @@ function fileReset(){
 		</c:forEach>
 	</select>
 </div>
+
 <div class="form-group">
     <label>해쉬태그</label>
-    <input type="text" class="form-control" name="c_hashtag" placeholder="소모임과 관련된 해쉬태그를 사용해보세요!" value="${clubInfo.c_hashtag}">
+    <div class="hashtagArea" style="margin-bottom:10px;"></div>
+	<!-- 해쉬태그 입력폼 -->
+    <input type="text" class="form-control" name="c_hashtagInput" id="c_hashtagInput" placeholder="소모임과 관련된 해쉬태그를 사용해보세요! 스페이스바로 등록됩니다."
+    		onkeyup="characterCheck()" onkeydown="characterCheck()">
+	<!--해쉬태그 보내는 input -->
+    <input type="text" class="form-control" name="c_hashtag" id="c_hashtag">
 </div>
 
-<div class="col form-group">
-	소모임 인원 <input type="text" class="form-control memberMax" name="c_membermax" style="width:60px;" value="${clubInfo.c_membermax}">명
-</div>
 <textarea name="c_content" id="c_content">${clubInfo.c_content}</textarea>
 <script>CKEDITOR.replace('c_content')</script>
-<label>가입인사시 짧은 소개글이나 가입 질문을 써주세요</label>
+<label>가입인사시 짧은 소개글이나 가입 질문을 써주세요!</label>
 <textarea class="form-control" name="c_ask" id="exampleFormControlTextarea1" rows="3">${clubInfo.c_ask}</textarea>
-    <label>대표 이미지 수정</label><br>
-    <label class="btn btn-outline-primary btn-file">이미지 선택
-    	<input type="file" class="form-control-file" accept="image/*" name="c_img" id="c_img" style="display:none;">
-    </label>
-    	<input type="button" value=삭제 class="btn btn-outline-danger fileDelete" onclick="fileReset()">
-    <div id="preview">
-    <c:set var="c_img" value="${clubImg}"/>
-    <c:if test="${c_img ne ''}">
-	    <p id="preTXT">대표 이미지 미리보기</p>
-    	<img id="preImg" src="data:image/jpg;base64, ${c_img}" class="c_img">
-    </c:if>
-    <c:if test="${c_img eq ''}">
-	    <p id="preTXT">대표 이미지가 없습니다.</p>
-    </c:if>
-    </div>
-<input class="btn btn-primary btn-block" type="submit" value="소모임 수정하기">
+
+<div class="form-group mt-3">
+	소모임 인원&nbsp;<span class="text-muted m-0 text-muted"><small>(필수)</small></span> 
+	<input type="text" class="form-control memberMax" name="c_membermax" id="onlyNumber" style="width:60px;display:inline-block;" style="width:60px;" value="${clubInfo.c_membermax}">
+	&nbsp;명
+</div>
+
+<label>대표 이미지 수정</label><br>
+<label class="btn btn-outline-primary btn-file">이미지 선택
+	<input type="file" class="form-control-file" accept="image/*" name="c_img" id="c_img">
+</label>
+	<input type="button" value=삭제 class="btn btn-outline-danger fileDelete" onclick="fileReset()">
+<div id="preview" style="margin-bottom:10px;">
+<c:set var="c_img" value="${clubImg}"/>
+<c:if test="${c_img ne ''}">
+ <p id="preTXT">대표 이미지 미리보기</p>
+	<img id="preImg" src="data:image/jpg;base64, ${c_img}" class="c_img">
+</c:if>
+<c:if test="${c_img eq ''}">
+ <p id="preTXT">대표 이미지가 없습니다.</p>
+</c:if>
+</div>
+<input class="btn btn-primary btn-block" type="submit" value="소모임 수정하기" id="submitForm">
 </form>
 </body>
 <script>

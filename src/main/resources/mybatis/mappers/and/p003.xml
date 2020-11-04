@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="and.p003">
+	<resultMap id="messageMap" type="java.util.HashMap" >
+		<result property="one_type" column="one_type" />	<!-- 구분 -->
+		<result property="one_id" column="one_id" />	<!-- 글번호 -->
+		<result property="one_title" column="one_title" />	<!-- 글제목 -->
+		<result property="one_state" column="one_state" />	<!-- 진행상태-->
+		<result property="m_id" column="m_id" /> <!-- 참가자 ID -->
+		<result property="msg_date" column="msg_date" />	<!-- 시간 -->
+		<result property="msg_content" column="msg_content" />	<!-- 채팅내용 -->
+	</resultMap>
+
+	<!-- 채팅방 목록 불러오기 --> 
+	<select id="readChatList" parameterType="java.util.HashMap">
+		<![CDATA[
+	SELECT a.one_type, a.one_id, a.one_title, b.m_id
+	FROM and_one a, one_member b
+	WHERE a.one_type = b.one_type
+	AND a.one_id = b.one_id
+	AND b.om_state IN ('20','30')
+  		]]>
+	</select>
+	
+	<!-- 채팅 보내기-->
+ 	<insert id="sendMessage" parameterType="AndP003VO">
+ 	<![CDATA[
+ 	INSERT INTO message(one_type, one_id, msg_content, msg_date)
+ 	VALUES(
+ 			#{one_type}, 
+ 			#{one_id},
+ 			#{msg_content}, 
+ 			TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss')
+ 			)
+ 	]]>
+ 	</insert>
+ 	
+ 	<!-- 채팅 불러오기 -->
+ 	
+ 	
+   </mapper>
