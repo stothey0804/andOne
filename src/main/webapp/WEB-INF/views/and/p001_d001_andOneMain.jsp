@@ -16,6 +16,26 @@
 	<!--kakao map-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
 	<style>
+	 .map-container {
+    	z-index: 9999;
+    	visibility: hidden;
+    	position: fixed;
+    	left: 50%;
+    	top: 50%;
+    	transform: translate(-50%, -50%);
+    	border: solid 2px black;
+    }
+    #map {
+   		position: relative;
+   		width: 500px;
+ 		height: 400px;
+    }
+    #map-close{
+    	font-size: 3.5em;
+    	margin-top: -0.3em;
+    	margin-right: -0.3em;
+    	cursor: pointer;
+    }
 	.aa{
 		display: block;
 		text-align: center; 
@@ -45,7 +65,19 @@
 	}
 	</style>
 	<script>
+		var m_id = '${m_id}';
 		function init(){
+			
+			// 주소클릭시 맵설정 창 띄우기
+			document.getElementById('centerAddr').addEventListener("click", function(){
+				var mapNode = document.querySelector(".map-container");
+				mapNode.classList.add('visible');
+				var closeNode = mapNode.querySelector("#map-close");
+				closeNode.addEventListener("click",function(){
+					mapNode.classList.remove('visible');
+				});
+			});
+
 			let times = document.querySelectorAll("span.time");
 			let timeResults = document.querySelectorAll("span.timeResult");
 	  		
@@ -53,63 +85,6 @@
 	  			var result = times[i].textContent;
 	  			timeResults[i].innerHTML = timeForToday(result);
 	  		}
-	  		// 주소-좌표 변환 객체를 생성합니다
-	  		var geocoder = new kakao.maps.services.Geocoder();
-	  		
-	  		
-	  		let distane01 = document.querySelectorAll("span.addr");
-	  		let addrResults = document.querySelectorAll("span.addrResult");
-	  		
-	  		var distances = [];
-	  		var ti = [];
-	  		for(let i=0; i<distane01.length; i++){
-	  			distances[i] = distane01[i].textContent;
-	  			var x_memLocate = distances[i].slice(0,distances[i].indexOf(","));
-	  			console.log(">>>x_memLocate "+x_memLocate);
-	  			var y_memLocate = distances[i].slice(distances[i].indexOf(",")+1,distances[i].length-1);
-	  			console.log(">>>y_memLocate "+y_memLocate );
-	  			ti[i] = new daum.maps.LatLng(x_memLocate,y_memLocate);
-	  		}
-	  		var detail = [];
-	  		
-	  		for(i=0; i<ti.length; i++){
-	  			searchDetailAddrFromCoords(ti[i], function(result, status) {
-	  				if (status === kakao.maps.services.Status.OK) {
-			  			var detailAddr = result[0].address.address_name;
-			  			detail = detailAddr;
-			  			console.log(detail);
-	  				}
-		  		})
-			  			addrResults[i].innerHTML = detail[i];
-	  		}
-	  		
-	  		function searchDetailAddrFromCoords(coords, callback) {
-			    // 좌표로 법정동 상세 주소 정보를 요청합니다
-			    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback(detail));
-			}
-	  		
-	  		/* ti.forEach(function (andOnePosition){
-				var polyline = new daum.maps.Polyline({
-					path: [
-						memPosition,
-						andOnePosition
-					]
-				});
-				console.log("길이>>>>"+polyline.getLength());
-				var leng = [];
-				leng = polyline.getLength();
-				console.log(leng[1]);
-				}) */
-	  		
-	  		/* var distance = [];
-			for(var i in andOneLocate){
-				/* one_locate_Lat = andOneLocate[i].ONE_LOCATE_LAT;
-				one_locate_Lng = andOneLocate[i].ONE_LOCATE_LNG;
-				console.log("1111"+one_locate_Lat);
-				console.log("2222"+one_locate_Lng);
-				console.log(typeof one_locate_Lng); 
-				pathh[i] = new daum.maps.LatLng(andOneLocate[i].ONE_LOCATE_LAT,andOneLocate[i].ONE_LOCATE_LNG);
-				} */
 		}
 		//글 올라온시점 계산 함수
 	    function timeForToday(value) {
@@ -133,47 +108,64 @@
 	        }
 	    return Math.floor(betweenTimeDay / 365)+'년전';
 		}
-		//거리계산
-		
-		//회원이 설정한 위치
-		/* var memLocate_Lat = "${memLocate.m_locate_Lat}";
-		var memLocate_Lng = "${memLocate.m_locate_Lng}";
-		console.log(memLocate_Lat);
-		console.log(memLocate_Lng);
-		
-		var andOneLocate = JSON.parse('${andOneLocate}');
-		console.log(andOneLocate[6].ONE_LOCATE_LAT,andOneLocate[6].ONE_LOCATE_LNG)
-		
-		var memPosition = new kakao.maps.LatLng(memLocate_Lat, memLocate_Lng); 
-		console.log("멤버위치:"+memPosition); */
-	
-	    /* var pathh = [];
-		for(var i in andOneLocate){
-			one_locate_Lat = andOneLocate[i].ONE_LOCATE_LAT;
-			one_locate_Lng = andOneLocate[i].ONE_LOCATE_LNG;
-			console.log("1111"+one_locate_Lat);
-			console.log("2222"+one_locate_Lng);
-			console.log(typeof one_locate_Lng); 
-			pathh[i] = new daum.maps.LatLng(andOneLocate[i].ONE_LOCATE_LAT,andOneLocate[i].ONE_LOCATE_LNG);
-			}
-		
-		pathh.forEach(function (andOnePosition){
-			var polyline = new daum.maps.Polyline({
-				path: [
-					memPosition,
-					andOnePosition
-				]
-			});
-			console.log("길이>>>>"+polyline.getLength());
-			}) */
 
 	</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body onload="init()" class="bg-light">
+
+	<!-- 위치정보 -->
+	<div class="container my-5">
+		<p class="h5">
+			<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-geo-alt-fill text-primary" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			  <path fill-rule="evenodd" d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+			</svg>
+			내 위치
+			<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+			</svg>
+			<small class="text-muted" id="centerAddr"></small>
+		</p>
+	</div>
+	<!-- MAP 영역 -->
+	<div class="map-container p-4 bg-light m-auto">
+		<div class="row m-1">
+			<p class="h4">
+				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-map" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+				  <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.502.502 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103zM10 1.91l-4-.8v12.98l4 .8V1.91zm1 12.98l4-.8V1.11l-4 .8v12.98zm-6-.8V1.11l-4 .8v12.98l4-.8z"/>
+				</svg>
+				지도에서 위치 선택	
+			</p>		
+			<div class="ml-auto">
+				<svg width="1em" height="1em" viewBox="0 0 16 16" id="map-close" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+				  <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+				</svg>
+			</div>
+		</div>
+		<div class="row mx-3 mt-3 mb-2"><span class="pt-1 mr-1 text-primary" id="selectGeoLocation">
+			<svg width="1em" height="1.0625em" viewBox="0 0 16 17" class="bi bi-compass" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+				  <path fill-rule="evenodd" d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016zm6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+				  <path d="M6.94 7.44l4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/>
+				</svg>		
+			현재 위치 자동선택 
+			</span>
+		</div>
+		<div class="row mx-3 mb-3"><span class="pt-1 mr-1">선택한 위치
+			<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-double-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			  <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+			  <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+			</svg>
+		</span><span id="selectedAddr" class="text-muted pt-1"></span>
+		<button id="setAddr" class="btn btn-secondary btn-sm ml-2 my-auto">저장</button>
+		</div>
+		<div id="map"></div>
+	</div>
+	<!-- MAP 영역 END -->
+	<script src="${contextPath}/resources/js/kakaoMapMain.js"></script>
+
 	<c:set var="g_id" value="${g_id}" />
-	<h1 class="and text-primary mt-5">
+	<h1 class="and text-primary mt-4">
 	<c:choose>
 		<c:when test="${g_id == '010'}">
 		<img src="${contextPath}/resources/image/main/eat.png" width="100px" height="100px"> 같이먹기 
@@ -266,6 +258,14 @@
 		
 	<div class="container">
 		<div class="row">
+		<c:if test="${empty recentAndOneList}">
+			<div class="col-12 m-3 bg-light card">
+				<div class="cord-body p-5 text-center">
+				등록된 &amp;분의 일이 없습니다.<br>
+				위치정보가 설정되어있는지 확인해주세요 :)
+				</div>
+			</div>
+		</c:if>
 			<c:forEach var ="andone" items="${recentAndOneList}" > 
 				<div class="col-sm-6 mb-3">
 					<div class="card and_card" onclick="location.href='${contextPath}/and/detailAndOne.do?one_id=${andone.one_id}&g_id=${andone.one_type}'">
@@ -291,12 +291,9 @@
 							</div>
 							<div class="clearfix">
 								<p class="card-text float-left"> #${andone.one_hashTag}  </p>
-								<p class="card-text float-right h6"> 예상 <b>${andone.one_price}</b> <span class="text-secondary"> <i class="fas fa-user-friends"></i> n/${andone.one_memberMax} </span></p>
+								<p class="card-text float-right h6"> 예상 <b>${andone.one_price}</b> <span class="text-secondary"> <i class="fas fa-user-friends"></i> ${andone.one_member}/${andone.one_memberMax} </span></p>
 							</div>
 							<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
-							<c:if test="${g_id eq '010'}">
-							<p class="card-text"><span class="addrResult"></span><span class="addr">${andone.one_locate_Lat},${andone.one_locate_Lng} </span></p>
-							</c:if>
 						</div>
 					</div>
 				</div>

@@ -112,7 +112,7 @@
 		 해쉬태그 ${andoneDetail.one_hashTag}<br>
 		 수령시간 ${andoneDetail.one_date}<br>
 		 상태 ${andoneDetail.one_state}<br>
-		 모집인원 ${andoneDetail.one_memberMax}<br>
+		 모집인원${andoneDetail.one_member}/${andoneDetail.one_memberMax}<br>
 		<c:forEach var ="oneMemList" items="${oneMemList}" > 
 			<c:set var="mem_img" value="${oneMemList.resultUserImg}"/>
 				<c:if test="${oneMemList.om_leader eq '10'}"> <!-- 작성자 구분 -->

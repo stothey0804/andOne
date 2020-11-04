@@ -12,7 +12,8 @@ public class AndP001AndOneVO {
 	private String one_title;
 	private String one_locate_Lng;
 	private String one_locate_Lat;
-	private String one_memberMax;
+	private String one_memberMax; // 글설정인원
+	private String one_member; //참가인원
 	private String one_totalPrice; //총가격
 	private String one_price; // 총가격/인원
 	private String one_date;
@@ -28,12 +29,31 @@ public class AndP001AndOneVO {
 	private String distance;
 	private String one_addr;
 	private String one_content;
+	private String m_id;
 	
 	public AndP001AndOneVO() {
-		System.out.println("AndP001AndOneVO");
 	}
 	
-	
+	public String getOne_member() {
+		return one_member;
+	}
+
+
+	public void setOne_member(String one_member) {
+		this.one_member = one_member;
+	}
+
+
+	public String getM_id() {
+		return m_id;
+	}
+
+
+	public void setM_id(String m_id) {
+		this.m_id = m_id;
+	}
+
+
 	public String getOne_content() {
 		return one_content;
 	}
