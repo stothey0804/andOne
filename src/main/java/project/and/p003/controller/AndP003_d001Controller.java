@@ -1,11 +1,14 @@
 package project.and.p003.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.servlet.ModelAndView;
 
 public interface AndP003_d001Controller {
 
-	//메세지 창 이동
-	public ModelAndView Message();
+	//채팅방 불러오기
+	public ModelAndView Message(HttpSession session, HttpServletRequest request) throws Exception;
 
 
 }

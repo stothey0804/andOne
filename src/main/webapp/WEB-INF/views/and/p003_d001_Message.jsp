@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <!DOCTYPE html>
 <html>
@@ -65,7 +66,7 @@ input::placeholder {
 	});
 	var wsocket;
 	function sendMessage() {
-		wsocket = new WebSocet("ws://localhost:8090/andOne/echo-ws")
+		wsocket = new WebSocet("ws://localhost:8090/andOne/echo");
 		wsocket.onmessage = onMessage;
 		wsocket.onclose = onClose;
 		wsocket.onopen = onOpen;
@@ -85,6 +86,9 @@ input::placeholder {
 		wsocket.send($('#message').val());
 	}
 	
+	$.ajax({
+		type : 'post',
+	})
 </script>
 </head>
 <body>
@@ -96,31 +100,27 @@ input::placeholder {
       <div class="bg-white">
 
         <div class="bg-gray px-4 py-2 bg-light">
-          <p class="h5 mb-0 py-1" align="center" font-family= 'YanoljaYacheR'>메시지</p>
+          <p class="h5 mb-0 py-1" align="center">메시지</p>
         </div>
 
         <div class="messages-box" id="messageBox">
           <div class="list-group rounded-0">
             <a class="list-group-item list-group-item-action active text-white rounded-0">
-              <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+              <div class="media">
+              <i class="fas fa-users fa-2x fa-border"></i>
                 <div class="media-body ml-4">
                   <div class="d-flex align-items-center justify-content-between mb-1">
-                    <h6 class="mb-0">
-                    ${m_nickname}
-                    </h6>
-                    <small class="small font-weight-bold"></small>
+                    <h6 class="mb-0"> 제목	</h6>
+                    <small class="small font-weight-bold"> 시간</small>
                   </div>
-                  <p class="font-italic mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                  <p class="font-italic mb-0 text-small"> 내용 </p>
                 </div>
               </div>
             </a>
           </div>
         </div>
       </div>
-    </div>
-    <c:set var="g_id" value="${g_id}" />	
-    <c:set var="m_id" value="${m_id}" />
-    <c:set var="one_title" value="${one_title}" />
+    </div>	
 
       <!-- 기본 채팅방 -->
 <!--             <div class="col-7 px-0" style="border:1px solid #c4c4c4;"> 
@@ -141,12 +141,11 @@ input::placeholder {
      <div class="col-7 px-0"style="border:1px solid #c4c4c4;">
      <div class="bg-gray px-4 py-2 bg-light">
          <p class="h5 mb-0 py-1" align="left">
-          	글제목(참여자 수)
+          	글제목
 <!--            	<i class="fas fa-info-circle"></i>  -->
- <svg aria-label="대화 상세 정보 보기" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24" font-size="1rem">
+ <svg href="${contextPath}/member/notify.do" aria-label="대화 상세 정보 보기" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24" font-size="1rem">
 <path d="M24 48C10.8 48 0 37.2 0 24S10.8 0 24 0s24 10.8 24 24-10.8 24-24 24zm0-45C12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21S35.6 3 24 3z"></path><circle clip-rule="evenodd" cx="24" cy="14.8" fill-rule="evenodd" r="2.6"></circle>
 <path d="M27.1 35.7h-6.2c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5h6.2c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5z"></path><path d="M24 35.7c-.8 0-1.5-.7-1.5-1.5V23.5h-1.6c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5H24c.8 0 1.5.7 1.5 1.5v12.2c0 .8-.7 1.5-1.5 1.5z"></path></svg>
-
            	</p>
         </div>
 <!--       여기서부터 채팅방 시작-->

@@ -36,7 +36,7 @@ public class AndP003VO {
 	public String getMsg_date() {
 		return msg_date;
 	}
-	public void setMsg_dtae(String msg_date) {
+	public void setMsg_date(String msg_date) {
 		this.msg_date = msg_date;
 	}
 	public String getMsg_content() {
@@ -45,6 +45,9 @@ public class AndP003VO {
 	public void setMsg_content(String msg_content) {
 		this.msg_content = msg_content;
 	}
-
+	
+	public AndP003VO() {
+		
+	}
 	
 }
