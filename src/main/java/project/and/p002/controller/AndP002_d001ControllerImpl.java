@@ -1,5 +1,6 @@
 package project.and.p002.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import common.Common;
 import project.and.p001.service.AndP001_d001Service;
 import project.and.p002.service.AndP002_d001Service;
+import project.and.p002.service.AndP002_d002Service;
 import project.and.vo.AndP001AndOneVO;
 
 @Controller
@@ -24,6 +26,8 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 	private AndP001_d001Service p001_d001Service; //엔분의일 수정
 	@Autowired
 	private AndP002_d001Service p002_d001Service;
+	@Autowired
+	private AndP002_d002Service p002_d002Service;
 	
 	//글쓰기로 이동
 	@Override
@@ -65,8 +69,18 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 	@Override
 	@ResponseBody
 	@RequestMapping(value="/and*/deleteAndOne.do")
-	public void deleteAndOne(@RequestParam ("one_id") String one_id) {
-		p002_d001Service.deleteAndOne(one_id);
+	public String deleteAndOne(@RequestParam ("one_id") String one_id) {
+		int countOneMem = p002_d001Service.countOneMem(one_id);
+		String check = "ok";
+		if(countOneMem > 1) { //참가자가 있을 경우
+			System.out.println("참가자있음");
+			return check;
+		}else { //참가자가 없는 경우
+			System.out.println("참가자없음");
+			p002_d001Service.deleteAndOne(one_id);
+			check = "empty";
+			return check;
+		}
 	}
 	
 	//&분의일 수정조건확인 후 수정페이지로 이동
@@ -83,8 +97,7 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 			return check;
 		}else { //참가자가 없는 경우
 			System.out.println("참가자없음");
-			check = one_id;
-			//p002_d001Service.editAndOne(one_id);
+			check = "empty";
 			return check;
 		}
 	}
@@ -124,5 +137,31 @@ public class AndP002_d001ControllerImpl implements AndP002_d001Controller {
 	
 		return "redirect:/and?g_id="+g_id;
 	}
-	
+	//엔분의일 완료
+	@Override
+	@ResponseBody
+	@RequestMapping(value="/and*/completeAndOne.do")
+	public void completeAndOne(@RequestParam("one_id") String one_id, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		String m_id = (String) session.getAttribute("m_id");
+		System.out.println("M_ID :"+m_id); //회원아이디 가져오기
+		
+		Map<String, Object> completeMap = new HashMap<String, Object>();
+		completeMap.put("m_id", m_id);
+		completeMap.put("one_id", one_id);
+		
+		p002_d001Service.completeAndOne(completeMap);//완료 후 om_state변경
+		int andOneCnt = p002_d002Service.andOneCnt(one_id); //글작성시 선택한 참가자 수
+		Map<String, Object> cntMap = new HashMap<String, Object>();
+		cntMap.put("one_id", one_id);
+		cntMap.put("flag", "complete");
+		int oneMemCnt = p002_d002Service.oneMemCnt(cntMap); //완료(30)상태 참가자수
+		
+		if(andOneCnt == oneMemCnt) {
+			Map<String, Object> updateMap = new HashMap<String, Object>();
+			updateMap.put("one_id", one_id);
+			updateMap.put("flag", "complete");
+			p002_d002Service.updateOneState(updateMap);
+		}
+	}
 }

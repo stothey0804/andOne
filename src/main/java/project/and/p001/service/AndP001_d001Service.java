@@ -16,5 +16,6 @@ public interface AndP001_d001Service {
 	public Map<String, Object> selectMemLocate(String m_id) throws DataAccessException;
 	public AndP001AndOneVO andOneDetail(Map<String, Object> detailMap);
 	public List<AndOneMemberVO> oneMemList(String one_id);
-	public String omLeaderCheck(Map<String, Object> omCheckMap);
+	public AndOneMemberVO omLeaderCheck(Map<String, Object> omCheckMap);
+	public void updateAndOneState();
 }

@@ -170,7 +170,7 @@
 	]]>
 	</select>
 	
-	<!-- 작성자/참가자조회 -->
+	<!-- 상세조회용 작성자/참가자조회(닉네임이랑 사진띄우기) -->
 	<select id="selectOneMem" parameterType="String" resultType="AndOneMemberVO">
 		<![CDATA[
 			select b.m_nickname, b.m_img as userImg, a.om_leader, a.om_state, a.m_id
@@ -180,14 +180,31 @@
 		]]>
 	</select>
 	
-	<!-- 작성자인지 참가자인지 확인 -->
-	<select id="selectOmLeader" parameterType="java.util.HashMap" resultType="String">
+	<!-- 로그인한 사람이 작성자인지 참가자인지 확인(버튼용) -->
+	<select id="selectOmLeader" parameterType="java.util.HashMap" resultType="AndOneMemberVO">
 		<![CDATA[
-			select om_leader
+			select om_leader, om_state
 			from one_member 
 			where m_id = #{m_id}
 			and one_id = #{one_id}
 		]]>
 	</select>
-
+	
+	<!-- 모집시간내에 결제완료/진행완료 안된 엔분의일 상태변경 -->
+	<update id="updateAndOneState" >
+		<![CDATA[
+			UPDATE and_one     
+			SET one_state = '40'    
+			WHERE one_id IN(                
+			    SELECT one_id
+			    FROM
+			    (
+			        SELECT ((TO_DATE(one_date,'YYYY-MM-DD hh24:mi:ss') - sysdate) * 24 * 60) AS RESULT, one_id
+			        FROM and_one
+			        WHERE one_state NOT IN ('20','30')
+			    )
+			    WHERE RESULT < 0)         
+		]]>
+	</update>
+	
 </mapper>

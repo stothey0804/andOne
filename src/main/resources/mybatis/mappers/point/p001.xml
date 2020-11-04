@@ -60,7 +60,7 @@
 		]]>
 	</select>
 	
-	<!-- 참가자 신청 -->
+	<!-- 엔분의일 참가자 등록 -->
 	<insert id="insertOneMember" parameterType="java.util.HashMap">
 		<![CDATA[
 			insert into one_member (one_type, one_id, m_id, om_leader, om_state, om_date, om_editor, om_editdate)

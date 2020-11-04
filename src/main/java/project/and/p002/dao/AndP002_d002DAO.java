@@ -11,5 +11,8 @@ public interface AndP002_d002DAO {
 	public void updateDenyOneMember(Map<String, Object> denyMap);
 	public int selectCancelTime(String one_id);
 	public void updateCancelOneMember(Map<String, Object> cancelMap);
+	public int selectAndOneMemberCnt(String one_id);
+	public int selectOneMemCnt(Map<String, Object> cntMap);
+	public void updateOneState(Map<String, Object> updateMap);
 
 }
