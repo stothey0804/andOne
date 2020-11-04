@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import common.Common;
 import common.dao.CommonDAO;
 import project.club.p001.service.ClubP001_d001Service;
+import project.club.vo.ClubMemberVO;
 import project.club.vo.ClubVO;
 
 @Controller
@@ -64,8 +65,30 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 	@RequestMapping(value="/club/searchClub.do",method= {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView searchClubList(@RequestParam(value="searchWord", required=false) String searchWord) throws Exception{
 		Map<String, Object> searchMap = new HashMap<String, Object>();
-		searchMap.put("searchWord", "%"+searchWord+"%");
-		List<ClubVO> list = clubP001_d001Service.searchClubList(searchMap);
+		List<ClubVO> list = null;
+		if(searchWord.charAt(0)=='#') {
+			searchMap.put("searchWord", "%"+ searchWord.substring(1, searchWord.length())+"%");
+			list = clubP001_d001Service.searchClubListHash(searchMap);
+		} else {
+			searchMap.put("searchWord", "%"+searchWord+"%");
+			list = clubP001_d001Service.searchClubList(searchMap);
+		}
+		
+		//소모임 대표이미지 encoding
+		getEncoded(list);
+		ModelAndView mav = new ModelAndView("searchList");
+		mav.addObject("resultList",list);
+		mav.addObject("cnt", list.size());
+		mav.addObject("searchWord",searchWord); 
+		return mav;
+	}
+	
+	@Override		//소모임 검색결과 페이지
+	@RequestMapping(value="/club/searchClubHshtag.do",method= {RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView searchClubListHashTag(@RequestParam(value="searchWord", required=false) String searchWord) throws Exception{
+		Map<String, Object> searchMap = new HashMap<String, Object>();
+		searchMap.put("searchWord", "%"+ searchWord+"%");
+		List<ClubVO> list = clubP001_d001Service.searchClubListHash(searchMap);
 		
 		//소모임 대표이미지 encoding
 		getEncoded(list);
@@ -95,7 +118,6 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 			encoded = Base64.getEncoder().encode(vo.getC_imgByte());
 			clubImg = new String(encoded);	
 		}
-//		System.out.println("========"+vo.getArticleList().get(0).getArticleReplyList().get(0).getCar_content());
 		//소모임 게시글 이미지 encoding
 		for(int i=0; i<vo.getArticleList().size();i++) {
 			if(vo.getArticleList().get(i).getArticleImgList()!=null) {
@@ -137,20 +159,23 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		}
 	
 		//운영진 목록
-//		List<ClubMemberVO> leader = clubP001_d001Service.getLeaderMember(searchMap);
+		List<ClubMemberVO> leader = clubP001_d001Service.getLeaderMember(searchMap);
 		//일반 회원 목록
-//		List<ClubMemberVO> members = clubP001_d001Service.getClubMember(searchMap);
+		List<ClubMemberVO> members = clubP001_d001Service.getClubMember(searchMap);
 		//회원 목록 이미지 encoding
-//		Common.getEncodedUser(members);
-//		Common.getEncodedUser(leader);
+		if(members == null) {
+			System.out.println("멤버 널");
+		}
+		Common.getEncodedUser(members);
+		Common.getEncodedUser(leader);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(Common.checkLoginDestinationView("detailClub", request));
 		mav.addObject("clubInfo", vo);
 		mav.addObject("rank", rank);
 		mav.addObject("clubImg",clubImg);
-//		mav.addObject("members", members);
-//		mav.addObject("leader", leader);
+		mav.addObject("members", members);
+		mav.addObject("leader", leader);
 		return mav;
 	}
 	

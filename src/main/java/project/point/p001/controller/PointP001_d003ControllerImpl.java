@@ -26,7 +26,9 @@ public class PointP001_d003ControllerImpl implements PointP001_d003Controller{
 	@Autowired
 	PointP001_d003Service pointP001_d003Service; // one_member 추가용
 	
-	//oneMember update+결제완료
+	//oneMember update
+	//결제완료
+	//상태확인
 	@Override
 	@RequestMapping(value="pay.do")
 	public ModelAndView pointPay(@RequestParam Map<String, Object> payMap , HttpServletRequest request) {
@@ -41,7 +43,7 @@ public class PointP001_d003ControllerImpl implements PointP001_d003Controller{
 		System.out.println("pay one_id:"+payMap.get("one_id"));
 		payMap.put("m_id", m_id);
 		pointP001_d003Service.addOneMember(payMap);//one_member 추가
-		
+	
 		//사용포인트 -로 변경
 		String payPoint = (String) payMap.get("payPoint");
 		String minus = "-";
@@ -57,7 +59,7 @@ public class PointP001_d003ControllerImpl implements PointP001_d003Controller{
 		
 		pointP001_d002Service.insertPoint(pointVO);//포인트 사용
 		nowPoint = pointP001_d001Service.selectNowPointById(m_id); // 사용 후 값 갱신
-		
+
 		ModelAndView mav = new ModelAndView("point/p003_success");
 		mav.addObject("payPoint",payPoint);//사용한 포인트
 		mav.addObject("nowPoint",nowPoint);//현재포인트

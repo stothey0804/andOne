@@ -116,6 +116,10 @@
     	margin-right: -0.3em;
     	cursor: pointer;
     }
+    .andMenu{
+    	font-family: 'YanoljaYacheR' !important;
+    	font-size: 2.5em;
+    }
  </style>
 </head>
 <body onload="init()" class="bg-light">
@@ -180,7 +184,7 @@
 					<img src="${contextPath}/resources/image/main/eat.png" width="150px" height="150px">
 					</a>
 				</p>
-        		<p class="text-center"><a class="btn btn-link" href="${contextPath}/andeat?g_id=010" role="button">같이먹기</a></p>
+        		<p class="text-center"><a class="andMenu" href="${contextPath}/andeat?g_id=010" role="button">같이먹기</a></p>
       		</div>
 			<div class="col-lg-4">
 				<p class="text-center">
@@ -188,7 +192,7 @@
 					<img src="${contextPath}/resources/image/main/buy.png" width="150px" height="150px">
 					</a>
 				</p>
-        		<p class="text-center"><a class="btn btn-link" href="${contextPath}/andbuy?g_id=011" role="button">같이사기</a></p>
+        		<p class="text-center"><a class="andMenu" href="${contextPath}/andbuy?g_id=011" role="button">같이사기</a></p>
       		</div>
 			<div class="col-lg-4">
 				<p class="text-center">
@@ -196,7 +200,7 @@
 					<img src="${contextPath}/resources/image/main/do.png" width="150px" height="150px">
 					</a>
 				</p>
-        		<p class="text-center"><a class="btn btn-link" href="${contextPath}/anddo?g_id=012" role="button">같이하기</a></p>
+        		<p class="text-center"><a class="andMenu" href="${contextPath}/anddo?g_id=012" role="button">같이하기</a></p>
       		</div>
 		</div>
 	</div>

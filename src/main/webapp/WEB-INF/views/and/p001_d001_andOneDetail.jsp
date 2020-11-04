@@ -79,7 +79,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h6>신청하신 &의일 취소가 완료되었습니다</h6> 
+                        <h6>신청하신 &의일 취소와 사용하신 포인트(${andoneDetail.one_price}P) 환불이 완료되었습니다</h6> 
                     </div>
                     <div class="modal-footer">
                     	<button type="submit" class="btn btn-primary" 
@@ -112,6 +112,7 @@
 		 해쉬태그 ${andoneDetail.one_hashTag}<br>
 		 수령시간 ${andoneDetail.one_date}<br>
 		 상태 ${andoneDetail.one_state}<br>
+		 모집인원 ${andoneDetail.one_memberMax}<br>
 		<c:forEach var ="oneMemList" items="${oneMemList}" > 
 			<c:set var="mem_img" value="${oneMemList.resultUserImg}"/>
 				<c:if test="${oneMemList.om_leader eq '10'}"> <!-- 작성자 구분 -->
@@ -147,21 +148,29 @@
 				</c:if>
 		</c:forEach><br>
 		 금액<span class="price">${andoneDetail.one_price}</span>원<br>
-		 	test!!!!!! ${omLeaderCheck}
 		 	<c:choose>
-		 		<c:when test="${omLeaderCheck eq '10'}"> <!-- 작성자 -->
+		 		<c:when test="${andoneDetail.one_state eq '취소'}">
+		 			<br>취소되어 신청이 불가능한 &분의일 입니다:)
+		 		</c:when>
+		 		<c:when test="${andoneDetail.one_state eq '진행완료'}">
+		 			<br> 같이 엔분의일을한 사람에게 후기를 남겨주세요:)
+		 		</c:when>
+		 		<c:when test="${omLeaderCheck.om_leader eq '10'}">
 				 	<br><button onclick="modifyAndOne('${andoneDetail.one_id}')">수정하기</button>	 	 
 				 	<br><button onclick="deleteAndOne('${andoneDetail.one_id}')">삭제하기</button>
-				 	<br><button onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button>				 	
+				 	<br><button onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button><br>			 	
 	 			</c:when>
-	 			<c:when test="${omLeaderCheck eq '20'}"> <!-- 참가자 -->
-				 	<button onclick="CancelAndOne('${andoneDetail.one_id}')">취소하기</button>
+	 			<c:when test="${omLeaderCheck.om_leader eq '20'}"> 
+				 	<button onclick="cancelAndOne('${andoneDetail.one_id}','${andoneDetail.one_price}')">취소하기</button>
 				</c:when>
 				<c:otherwise>
 			 		<button onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
-			 		<button type="button" onClick='openReportPopup()'>신고하기</button>
 				</c:otherwise>
 			</c:choose>		
+				<c:if test="${omLeaderCheck.om_state eq '20' and andoneDetail.one_state ne '취소' }"> 
+				 	<button onclick="completeAndOne('${andoneDetail.one_id}')">엔분의일 완료</button> 
+				</c:if>
+			 		<button type="button" onClick='openReportPopup()'>신고하기</button>
 </div>
   	<!--kakao map-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
@@ -205,7 +214,8 @@
         			async: "true",
         			url:"${contextPath}/and/addOneMember.do",
         			data:{
-        				"one_price" : price
+        				"one_price" : price,
+        				"one_id" : one_id
         			},
         			success:function(data,textSataus){
         				console.log("결과 :"+data);
@@ -216,6 +226,9 @@
         					document.getElementById('payResult').value = price;//결제금액전달
         					document.getElementById('pay_One_id').value = one_id;//글번호 전달
         					document.getElementById('pay_one_type').value = one_type;//엔분의일 타입전달
+        				}else if(data == "false"){
+        					console.log("인원초과");
+        					alert("신청인원이 초과되어 신청이 불가능합니다");
         				}else{
         					console.log("포인트부족" +data);
         					var finalPrice = Math.ceil((price-data)/1000)*1000;
@@ -230,7 +243,7 @@
         		})
        		}
        //취소하기
-       function CancelAndOne(one_id){
+       function cancelAndOne(one_id,one_price){
 	        console.log(one_id);
    			$.ajax({
 	   			type : "post",
@@ -238,7 +251,8 @@
 	   			async: "true",
 	   			url:"${contextPath}/and/cancelOneMember.do",
 	   			data:{
-	   				"one_id" : one_id
+	   				"one_id" : one_id,
+	   				"one_price" : one_price
    			},
    			success:function(data,textSataus){
    				console.log("확인: "+data);
@@ -276,7 +290,7 @@
 		
 		//삭제하기
 		function deleteAndOne(one_id){
-			if(window.confirm("&분의일을 삭제하겠습니까?")){
+			if(window.confirm("정말로 &분의일을 삭제하겠습니까?")){
 				$.ajax({
 		   			type : "post",
 		   			dataType: "text",
@@ -286,36 +300,58 @@
 		   				"one_id" : one_id
 	   				},
 	   	   			success:function(data,textSataus){
-	   	   				window.location.href = '${contextPath}/and?g_id=${g_id}';
-	   	   			}
-				})
-			}
-		}
-			//수정하기
-			function modifyAndOne(one_id){
-				$.ajax({
-					type : "post",
-		   			dataType: "text",
-		   			async: "true",
-		   			url:"${contextPath}/and/modifyAndOneCheck.do",
-		   			data:{
-		   				"one_id" : one_id
-	   				},
-	   	   			success:function(data,textSataus){ 
-	   	   				console.log("참가자유무:"+data);
 	   	   				if(data == "ok"){
-	   	   					alert("참가자가 존재해 수정이 불가능합니다");
+	   	   					alert("참가자가 존재해 삭제가 불가능합니다");
 	   	   				}else{
-	   	   					window.location.href = "${contextPath}/and/modifyAndOnePage.do?one_id=${andoneDetail.one_id}&g_id=${g_id}";
+		   	   				window.location.href = '${contextPath}/and?g_id=${g_id}';	   	   					
 	   	   				}
 	   	   			}
 				})
 			}
-			// 신고하기 연결
-			function openReportPopup(){
-				var popupOpener;
-				popupOpener = window.open("${contextPath}/member/reportInit.do?target=${andoneDetail.one_id}&flag=one", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
-			}			
+		}
+		//수정하기
+		function modifyAndOne(one_id){
+			$.ajax({
+				type : "post",
+	   			dataType: "text",
+	   			async: "true",
+	   			url:"${contextPath}/and/modifyAndOneCheck.do",
+	   			data:{
+	   				"one_id" : one_id
+   				},
+   	   			success:function(data,textSataus){ 
+   	   				console.log("참가자유무:"+data);
+   	   				if(data == "ok"){
+   	   					alert("참가자가 존재해 수정이 불가능합니다");
+   	   				}else{
+   	   					window.location.href = "${contextPath}/and/modifyAndOnePage.do?one_id=${andoneDetail.one_id}&g_id=${g_id}";
+   	   				}
+   	   			}
+			})
+		}
+		//완료하기
+		function completeAndOne(one_id){
+			if(window.confirm("&분의일을 완료하셨나요? 완료하셨다면 같이 &분의일을 진행한 분께 후기를 남겨주세요:)")){
+				$.ajax({
+					type : "post",
+		   			dataType: "text",
+		   			async: "true",
+		   			url:"${contextPath}/and/completeAndOne.do",
+		   			data:{
+		   				"one_id" : one_id
+	   				},
+	   	   			success:function(data,textSataus){ 
+	   	   				alert("완료되었습니다")
+	   	   				location.reload();
+	   	   			}
+				})
+			}
+		}
+		// 신고하기 연결
+		function openReportPopup(){
+			var popupOpener;
+			popupOpener = window.open("${contextPath}/member/reportInit.do?target=${andoneDetail.one_id}&flag=one", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
+		}			
 	</script>
 </body>
 </html>

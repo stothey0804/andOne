@@ -13,12 +13,10 @@
 	
 	<!-- font awesome -->
 	<script src="https://kit.fontawesome.com/cdac256c63.js" crossorigin="anonymous"></script>
-	
 	<!--kakao map-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
 	<style>
 	.aa{
-		padding: 15px; 
 		display: block;
 		text-align: center; 
 	 }
@@ -36,11 +34,14 @@
 	 .and{
 		padding : 20px;
 		font-family: 'YanoljaYacheR' !important;
-		font-size: 80px;
+		font-size: 70px;
 		text-align: center; 
 	}
 	.searchInput{
 		padding-bottom : 10px;
+	}
+	.and_card{
+		cursor: pointer;
 	}
 	</style>
 	<script>
@@ -170,90 +171,82 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body onload="init()">
+<body onload="init()" class="bg-light">
 	<c:set var="g_id" value="${g_id}" />
-	<h1 class="and">
+	<h1 class="and text-primary mt-5">
 	<c:choose>
 		<c:when test="${g_id == '010'}">
-			같이먹기 <i class="fas fa-utensils"></i>
+		<img src="${contextPath}/resources/image/main/eat.png" width="100px" height="100px"> 같이먹기 
 		</c:when>
 		<c:when test="${g_id == '011'}">
-			같이사기 <i class="fas fa-shopping-cart"></i>
+		<img src="${contextPath}/resources/image/main/buy.png" width="100px" height="100px"> 같이사기
 		</c:when>
 		<c:when test="${g_id == '012'}">
-			같이하기 <i class="fas fa-user-friends"></i>
+		<img src="${contextPath}/resources/image/main/do.png" width="100px" height="100px">	같이하기 
 		</c:when>
 	</c:choose>
 	</h1> 
-	<div style="width:350px; margin: 0 auto">
+	<div style="width:500px; margin: 0 auto">
 	<c:choose>
 		<c:when test="${g_id == '010'}">
-			<form name="eat" class="form-inline" method="get" action="${contextPath}/andeat/searchAndOne.do">
-				<div class="form-group mx-sm-3 mb-2 searchInput">
-					<input class="form-control" type ="text" name="totalSearch" placeholder="카테고리/지역/제목">
-					<input type ="hidden" name="g_id" value="${g_id}">
-				</div>
-					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
-			</form>
-				<div class="resisterBtn" style="width:200px; margin: 0 auto">
-					<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이먹기 등록하기 </button>
-				</div>
+			<form name="eat" method="get" action="${contextPath}/andeat/searchAndOne.do">
 		</c:when>
 		<c:when test="${g_id == '011'}">
-			<form name="eat" class="form-inline" method="get" action="${contextPath}/andbuy/searchAndOne.do">
-				<div class="form-group mx-sm-3 mb-2">
-					<input class="form-control" type ="text" name="totalSearch" placeholder="카테고리/지역/제목">
-					<input type ="hidden" name="g_id" value="${g_id}">
-				</div>
-					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
-			</form>
-				<div class="resisterBtn" style="width:200px; margin: 0 auto">
-					<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이사기 등록하기 </button>
-				</div>
+			<form name="eat" method="get" action="${contextPath}/andbuy/searchAndOne.do">
 		</c:when>
 		<c:when test="${g_id == '012'}">
-			<form name="eat" class="form-inline" method="get" action="${contextPath}/anddo/searchAndOne.do">
-				<div class="form-group mx-sm-3 mb-2">
-					<input class="form-control" type ="text" name="totalSearch" placeholder="카테고리/지역/제목">
-					<input type ="hidden" name="g_id" value="${g_id}">
-				</div>
-					<input type="submit" class="btn btn-outline-dark mb-2" value="검색"><br><br>
-			</form>
-				<div class="resisterBtn" style="width:200px; margin: 0 auto">
-					<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-outline-dark "> 새로운 같이하기 등록하기 </button>
-				</div>
+			<form name="eat" method="get" action="${contextPath}/anddo/searchAndOne.do">
 		</c:when>
 	</c:choose>
+				<div class="form-group mx-3 searchInput">
+				  <div class="p-1 rounded rounded-pill border border-primary" style="border-width:2px !important">
+		            <div class="input-group">
+		              <input type="search" placeholder="카테고리/지역/제목" aria-describedby="button-addon1" name="totalSearch" class="form-control border-0 m-1 bg-light">
+		              <div class="input-group-append">
+		                <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+		              </div>
+		            </div>
+		          </div>
+<!-- 					<input class="form-control" type ="text" name="totalSearch" placeholder="카테고리/지역/제목"> -->
+					<input type ="hidden" name="g_id" value="${g_id}">
+<!-- 					<input type="submit" class="btn btn-outline-dark" value="검색"><br><br> -->
+				</div>
+			</form>
+			
+			
 	</div>
 	<br>
-	<div class="aa">
-		<h4>카테고리</h4><br>
-		<c:choose>
-			<c:when test="${g_id == '010'}">
-				<div style="width:650px; margin: 0 auto">
-				<c:forEach var ="ctg" items="${ctg}" > 
-				<button type="button" class="btn btn-outline-dark mb-3" onclick="location.href='${contextPath}/andeat/searchAndOne.do?one_category=${ctg.gc_id}&g_id=${g_id}'">${ctg.gc_name}</button>
-				</c:forEach>
-				</div>
-			</c:when>
-			<c:when test="${g_id == '011'}">
-				<div style="width:650px; margin: 0 auto">
-				<c:forEach var ="ctg" items="${ctg}" > 
-				<button type="button" class="btn btn-outline-dark mb-3" onclick="location.href='${contextPath}/andbuy/searchAndOne.do?one_category=${ctg.gc_id}&g_id=011'">${ctg.gc_name}</button>
-				</c:forEach>
-				</div>
-			</c:when>
-			<c:when test="${g_id == '012'}">
-				<div style="width:800px; margin: 0 auto">
-				<c:forEach var ="ctg" items="${ctg}" > 
-				<button type="button" class="btn btn-outline-dark mb-3" onclick="location.href='${contextPath}/anddo/searchAndOne.do?one_category=${ctg.gc_id}&g_id=012'">${ctg.gc_name}</button>
-				</c:forEach>
-				</div>
-			</c:when>
-		</c:choose>
+	<div class="container clearfix">
+		<p class="h5 float-left">카테고리
+		<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+	 			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+		</svg>
+		<div class="aa">
+			<div style="width:800px; margin: 0 auto">
+			<c:choose>
+				<c:when test="${g_id == '010'}">
+					<c:forEach var ="ctg" items="${ctg}" > 
+					<button type="button" class="btn btn-outline-primary mb-3" onclick="location.href='${contextPath}/andeat/searchAndOne.do?one_category=${ctg.gc_id}&g_id=${g_id}'">${ctg.gc_name}</button>
+					</c:forEach>
+				</c:when>
+				<c:when test="${g_id == '011'}">
+					<c:forEach var ="ctg" items="${ctg}" > 
+					<button type="button" class="btn btn-outline-primary mb-3" onclick="location.href='${contextPath}/andbuy/searchAndOne.do?one_category=${ctg.gc_id}&g_id=011'">${ctg.gc_name}</button>
+					</c:forEach>
+				</c:when>
+				<c:when test="${g_id == '012'}">
+					<c:forEach var ="ctg" items="${ctg}" > 
+					<button type="button" class="btn btn-outline-primary mb-3" onclick="location.href='${contextPath}/anddo/searchAndOne.do?one_category=${ctg.gc_id}&g_id=012'">${ctg.gc_name}</button>
+					</c:forEach>
+				</c:when>
+			</c:choose>
+			</div>
+		</div>
 	</div>
-	<br><br>
-		<h4 style="text-align: center;">
+
+	
+	<div class="container clearfix mt-5">
+		<p class="h5 float-left">
 	<c:choose>
 		<c:when test="${g_id == '010'}">
 			최근등록된 같이먹기
@@ -265,42 +258,53 @@
 			최근등록된 같이하기
 		</c:when>
 	</c:choose>
-		</h4><br>
+	<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+	 			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+	</svg></p>
+	<p class="float-right"><span class="sortDistance">거리순</span>/<span class="sortDay">마감순</span></p>
+	</div>
+		
 	<div class="container">
-		<h5 style="text-align: right;"><span class="sortDistance">거리순</span>/<span class="sortDay">마감순</span></h5><br>
 		<div class="row">
 			<c:forEach var ="andone" items="${recentAndOneList}" > 
 				<div class="col-sm-6 mb-3">
-					<div class="card">
-						<a href="${contextPath}/and/detailAndOne.do?one_id=${andone.one_id}&g_id=${andone.one_type}"><div class="card-body">
-				<c:choose>
-					<c:when test="${g_id == '010'}"> 
-						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
-						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state}<span class="date">${andone.one_date}수령예정</span></h5>
-						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
-						<p class="card-text"> #${andone.one_hashTag}  </p>
-						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
-						<p class="card-text"><span class="addrResult"></span><span class="addr">${andone.one_locate_Lat},${andone.one_locate_Lng} </span></p>
-					</c:when>
-					<c:when test="${g_id == '011'}">
-						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
-						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}수령예정</h5>
-						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
-						<p class="card-text"> #${andone.one_hashTag}  </p>
-					</c:when>
-					<c:when test="${g_id == '012'}">
-						<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h4>
-						<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}수령예정 </h5>
-						<p class="card-text"> 예상 ${andone.one_price}  n/${andone.one_memberMax}명   </p>
-						<p class="card-text"> #${andone.one_hashTag}  </p>
-						<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time}</span></p>
-					</c:when>
-				</c:choose>
-						</div></a>
+					<div class="card and_card" onclick="location.href='${contextPath}/and/detailAndOne.do?one_id=${andone.one_id}&g_id=${andone.one_type}'">
+						<div class="card-body">
+							<div class="card-title clearfix">
+								<p class="h5 "><span class="text-primary">[${andone.one_category}]</span> ${andone.one_title}</p>
+								<p class="h6 font-weight-bold mb-1 float-left">
+								<c:if test="${andone.one_state eq '모집중'}">
+									<span class="text-primary">
+								</c:if>
+								<c:if test="${andone.one_state eq '결제완료'}">
+									<span class="text-success">
+								</c:if>
+								<c:if test="${andone.one_state eq '진행완료'}">
+									<span class="text-secondary">
+								</c:if>
+								<c:if test="${andone.one_state eq '취소'}">
+									<span class="text-danger">
+								</c:if>
+								${andone.one_state}</span>
+								</p>
+								<p class="card-subtitle mb-3 text-muted float-right"><span class="date">${andone.one_date} 수령예정</span></p>
+							</div>
+							<div class="clearfix">
+								<p class="card-text float-left"> #${andone.one_hashTag}  </p>
+								<p class="card-text float-right h6"> 예상 <b>${andone.one_price}</b> <span class="text-secondary"> <i class="fas fa-user-friends"></i> n/${andone.one_memberMax} </span></p>
+							</div>
+							<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
+							<c:if test="${g_id eq '010'}">
+							<p class="card-text"><span class="addrResult"></span><span class="addr">${andone.one_locate_Lat},${andone.one_locate_Lng} </span></p>
+							</c:if>
+						</div>
 					</div>
 				</div>
 			</c:forEach>
 			</div>
-		</div>	
+	</div>	
+				<div class="resisterBtn" style="width:500px; margin: 0 auto">
+					<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-primary rounded btn-block"> 새로운 활동 등록하기 </button>
+			</div>
 </body>
 </html>

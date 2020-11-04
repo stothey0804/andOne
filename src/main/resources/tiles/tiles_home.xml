@@ -85,7 +85,7 @@
    </definition>
    
 	<!-- 지역업체 어드민 END -->
-
+	
 	<!-- 관리자 START -->
 	<!-- 관리자메인페이지 -->
    <definition name="adminMain" extends="adminLayout">
@@ -152,32 +152,32 @@
 	<!-- 엔분의일 -->
    <!-- 같이 메인 -->
    <definition name="andOneMain" extends="baseLayout">
-      <put-attribute name="title" value="엔분의일 메인" />
+      <put-attribute name="title" value="&amp;분의일 메인" />
        <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_andOneMain.jsp" />
    </definition> 
    <!-- 같이 리스트 -->
    <definition name="andOneSearch" extends="baseLayout">
-      <put-attribute name="title" value="엔분의일 조회" />
+      <put-attribute name="title" value="&amp;분의일 조회" />
        <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_andOneSearch.jsp" />
    </definition>
    <!--같이 글쓰기 -->
    <definition name="insertAndOnePage" extends="baseLayout">
-      <put-attribute name="title" value="엔분의일 글쓰기" />
+      <put-attribute name="title" value="&amp;분의일 글쓰기" />
        <put-attribute name="body" value="/WEB-INF/views/and/p002_d001_insertAndOne.jsp" />
    </definition>
    <!-- 같이 상세조회 -->
 	<definition name="andOneDetail" extends="baseLayout">
-      <put-attribute name="title" value="엔분의일 상세조회" />
+      <put-attribute name="title" value="&amp;분의일 상세조회" />
        <put-attribute name="body" value="/WEB-INF/views/and/p001_d001_andOneDetail.jsp" />
    </definition>
     <!-- &분의일 신청 승인거절 -->
 	<definition name="approveAndOne" extends="baseLayout">
-      <put-attribute name="title" value="엔분의일  승인거절" />
+      <put-attribute name="title" value="&amp;분의일  승인거절" />
        <put-attribute name="body" value="/WEB-INF/views/and/p002_d002_ApproveAndOne.jsp" />
    </definition>
    <!-- &분의일 수정 -->
 	<definition name="modifyAndOne" extends="baseLayout">
-      <put-attribute name="title" value="엔분의일 수정페이지" />
+      <put-attribute name="title" value="&amp;분의일 수정페이지" />
        <put-attribute name="body" value="/WEB-INF/views/and/p002_d001_modifyAndOne.jsp" />
    </definition>
 	<!-- 엔분의일 끝-->
@@ -233,6 +233,25 @@
 		<put-attribute name="title" value="내 지역업체 리뷰목록"/>
 		<put-attribute name="body" value="/WEB-INF/views/shop/p003_d001_myShopReviewList.jsp"/>
 	</definition>
+    <!-- 지역업체 끝 -->
+   
+    <!-- 통합검색 시작 -->
+    <definition name="p002_d001_searchMain" extends="baseLayout">
+		<put-attribute name="title" value="통합검색 메인페이지"/>
+		<put-attribute name="body" value="/WEB-INF/views/root/p002_d001_searchMain.jsp"/>
+	</definition>
+	
+	 <definition name="p002_d001_fullSearch" extends="baseLayout">
+		<put-attribute name="title" value="통합검색 결과"/>
+		<put-attribute name="body" value="/WEB-INF/views/root/p002_d001_fullSearch.jsp"/>
+	</definition>
+	
+	 <definition name="p002_d001_searchDetail" extends="baseLayout">
+		<put-attribute name="title" value="더 보기 페이지"/>
+		<put-attribute name="body" value="/WEB-INF/views/root/p002_d001_searchDetail.jsp"/>
+	</definition>
+    
+    <!-- 통합검색 끝 -->
    
 	<!-- 비밀번호찾기 -->
    <definition name="p001_d003_init" extends="baseLayout">

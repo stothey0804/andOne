@@ -6,6 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import project.club.vo.ClubVO;
+
 @Repository
 public class ClubP002_d001DAOImpl implements ClubP002_d001DAO{
 	@Autowired
@@ -39,6 +41,12 @@ public class ClubP002_d001DAOImpl implements ClubP002_d001DAO{
 	@Override
 	public void inserClub(Map<String, Object> insertMap) {
 		sqlSession.insert("club.p002.insertClub", insertMap);
+	}
+
+	@Override
+	public ClubVO detailClub_forUpdate(Map<String, Object> searchMap) {
+		ClubVO vo = sqlSession.selectOne("club.p002.detailClub_forUpdate", searchMap);
+		return vo;
 	}
 
 }

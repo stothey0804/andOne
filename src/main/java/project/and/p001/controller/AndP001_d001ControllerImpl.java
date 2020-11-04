@@ -1,5 +1,6 @@
 package project.and.p001.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,8 @@ import javax.sound.midi.Soundbank;
 
 import org.aspectj.org.eclipse.jdt.core.dom.ParenthesizedExpression;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,6 +28,7 @@ import com.google.gson.JsonArray;
 import common.Common;
 import net.sf.json.JSONArray;
 import project.and.p001.service.AndP001_d001Service;
+import project.and.p002.service.AndP002_d002Service;
 import project.and.vo.AndOneMemberVO;
 import project.and.vo.AndP001AndOneVO;
 import project.member.p001.vo.MemberP001_MemberVO;
@@ -32,11 +36,14 @@ import project.point.p001.service.PointP001_d001Service;
 
 
 @Controller
+@Component
 public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	@Autowired
 	private AndP001_d001Service p001_d001Service;
 	@Autowired
-	PointP001_d001Service pointP001_d001Service; //포인트조회
+	private PointP001_d001Service pointP001_d001Service; //포인트조회
+	@Autowired
+	private AndP002_d002Service p002_d002Service; //인원수 체크용
 	
 	//&분의일 먹기 사기 하기 메인
 	@Override
@@ -44,6 +51,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	public ModelAndView andOneMain(@RequestParam("g_id") String g_id, 
 			@CookieValue(value="locate_lat", required = false) Cookie latCookie, 
 			@CookieValue(value="locate_lng", required = false) Cookie lngCookie, HttpServletRequest request) throws Exception {
+		
 		System.out.println("111111g_id: "+g_id);
 		
 		//세션가져오기
@@ -78,7 +86,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		//최근 등록된 같이먹기 + 해쉬태그
 		List<AndP001AndOneVO> recentAndOneList = p001_d001Service.recentAndOneList(param); //최근등록된 같이먹기
 		List<AndP001AndOneVO> ctg = p001_d001Service.searchCtg(g_id); //카테고리설정
-		
+	
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(Common.checkLoginDestinationView("andOneMain", request));
 		mav.addObject("g_id",g_id);
@@ -162,41 +170,60 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		omCheckMap.put("one_id", one_id);
 		omCheckMap.put("m_id", m_id);
 		
-		String omLeaderCheck = p001_d001Service.omLeaderCheck(omCheckMap);//작성자 참가자 확인
+		AndOneMemberVO omLeaderCheck = p001_d001Service.omLeaderCheck(omCheckMap);//작성자 참가자 확인
 		System.out.println("힘들다ㅏㅏㅏㅏㅏㅏ"+omLeaderCheck);
-		
+
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(Common.checkLoginDestinationView("andOneDetail", request));
 		mav.addObject("andoneDetail", vo);
-		mav.addObject("oneMemList",oneMemList);
-		mav.addObject("omLeaderCheck",omLeaderCheck);
+		mav.addObject("oneMemList",oneMemList);//닉네임 사진
+		mav.addObject("omLeaderCheck",omLeaderCheck);//om_state + om_leader
 		mav.addObject("m_nickname",m_nickname);
 		mav.addObject("g_id",g_id);
 		return mav;
 	}
-	//포인트충전
+	//신청하기 ->포인트충전
 	@Override
 	@ResponseBody
 	@RequestMapping(value="/and*/addOneMember.do")
-	public String addOneMember(@RequestParam("one_price") String one_price, HttpServletRequest request) throws Exception {
+	public String addOneMember(@RequestParam Map<String,Object> addMap, HttpServletRequest request) throws Exception {
+		String one_price = (String) addMap.get("one_price");
+		String one_id = (String) addMap.get("one_id");
 		
 		HttpSession session = request.getSession(false);
 		String m_id = (String) session.getAttribute("m_id");
 		System.out.println("참가자신청용 m_id :"+m_id);
+		//인원확인
+		int andOneCnt = p002_d002Service.andOneCnt(one_id); //글작성시 선택한 참가자 수
+		Map<String, Object> cntMap = new HashMap<String, Object>();
+		cntMap.put("one_id", one_id);
+		cntMap.put("flag", "pay");
+		int oneMemCnt = p002_d002Service.oneMemCnt(cntMap); //신청 수락완료된 참가자 수(om_state 20->참여확정상태)
 		
 		String beforePoint = pointP001_d001Service.selectNowPointById(m_id);//보유 포인트 확인
 		beforePoint = beforePoint==null? "0": beforePoint;
-		
 		int afterPoint = Integer.parseInt(beforePoint);//보유포인트
 		int price = Integer.parseInt(one_price);//가격
-//		System.out.println("포인트나와"+afterPoint);
-//		System.out.println(">>>>>>>결제금액:"+price);
 		
-		if(price>afterPoint) { //포인트부족(1) 
+		if(andOneCnt == oneMemCnt) { //인원초과 신청불가
+			return "false";
+		}else if(price>afterPoint) { //포인트부족(1) 
 			return beforePoint;
 		}else { //결제가능(0)
 			return "true";
 		}
 	}
+
+	@Scheduled(fixedRate = 100000) //10초마다 함수호출
+	public void handle() {
+		System.out.println("=================================>> LogProcessor.handle(): " + new Date());
+		p001_d001Service.updateAndOneState();//one_id로 select후 상태 취소로 업데이트
+		//취소 상태 작성자 빼고 환불
+		
+		//환불 컬럼 포인트 지급 컬럼
+		//결제완료 상태되면 작성자에게 포인트 지급
+		
+	}
+	
 }
 

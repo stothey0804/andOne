@@ -158,6 +158,12 @@ filesArr.forEach(function(f) {
 	reader.readAsDataURL(f);
 	})
 }
+
+if ($('input[name=pin]').is(":checked")) {
+    $('input[name=ca_pin]').val('1');
+} else {
+    $('input[name=ca_pin]').val('0');
+}
 </script>
 <body>
 <div class="container my-5 center">
@@ -184,13 +190,15 @@ filesArr.forEach(function(f) {
 <form action="${contextPath}/club/writeArticle.do" method="post" enctype="multipart/form-data">
 	<textarea class="form-control col-sm-5" rows="13" name="ca_content">${articleInfo.ca_content }</textarea><br>
 	<script>CKEDITOR.replace('ca_content')</script>
-	<div class="btn" id="a"style="width:462px;">
-	
+	<div class="btn" id="a" style="width:462px;">
+	<c:if test="${rank eq 10}">
+		<label><input type="checkbox" class="form-check-input" name="pin" value="1">공지하기</label>
+	</c:if>
 	<div id="label">이미지 첨부<br>
     <label class="btn btn-outline-primary btn-file" id="label">이미지 선택
     	<input type="file" class="form-control-file" accept="image/*" name="ca_img" id="ca_img" multiple style="display:none;">
     </label>
-    	<input type="button" value=삭제 class="btn btn-outline-danger fileDelete" onclick="fileReset()">
+    	<input type="button" value="이미지 전체 삭제 " class="btn btn-outline-danger fileDelete" onclick="fileReset()">
     </div>
 	<br>
 	<br>
@@ -201,6 +209,7 @@ filesArr.forEach(function(f) {
 </div>
 	<input type="hidden" name="c_id" value="${clubInfo.c_id}">
 	<input type="hidden" name="m_id" value="${member.m_id}">
+	<input type="hidden" name="ca_pin" />
 	<input type="submit" class="btn btn-success btn-block" onclick="sort();" value="글쓰기"></div>
 </form>
 </div>
