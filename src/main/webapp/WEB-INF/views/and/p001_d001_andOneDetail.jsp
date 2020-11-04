@@ -19,8 +19,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
-상세조회!<br>
+<body class="bg-light">
 
 	 <!-- 포인트 충전 Modal영역 -->
 	 <div class="modal fade" id="pointModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
@@ -106,71 +105,124 @@
                 </div>
                 </div>
 	 </div>
-<div>
-		 제목${andoneDetail.one_title} <br>
-		 카테고리 ${andoneDetail.one_category}<br>
-		 해쉬태그 ${andoneDetail.one_hashTag}<br>
-		 수령시간 ${andoneDetail.one_date}<br>
-		 상태 ${andoneDetail.one_state}<br>
-		 모집인원 ${andoneDetail.one_memberMax}<br>
-		<c:forEach var ="oneMemList" items="${oneMemList}" > 
-			<c:set var="mem_img" value="${oneMemList.resultUserImg}"/>
-				<c:if test="${oneMemList.om_leader eq '10'}"> <!-- 작성자 구분 -->
-		 			작성자 닉네임
-		 			<c:choose>
-		 			 	<c:when test="${mem_img eq null}">
-		 			 		<img src="${contextPath}/resources/image/user.png" class="m_img">
-		 			 	</c:when>
-		 			 	 <c:otherwise>
-		 			 	 	<img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img"> 
-			 			 </c:otherwise>
-		 			 </c:choose> 
-		 			${oneMemList.m_nickname}<br>
+<div class="container my-5">
+	<div class="row">
+		<!-- 좌측 -->
+		<div class="col-7 mr-3 border-bottom">
+			<p class="h2"><span class="h4">[${andoneDetail.one_category}]</span> ${andoneDetail.one_title}
+			</p> 
+			<div class="clearfix">
+				<p class="float-left h5">
+				<c:if test="${andoneDetail.one_state eq '모집중'}">
+					<span class="text-primary">
 				</c:if>
-		</c:forEach>
-		 좌표  ${andoneDetail.one_locate_Lat} <br>
-		 좌표  ${andoneDetail.one_locate_Lng} <br>
-		 주소  <div class="addr">${andoneDetail.one_addr}</div> <br>
-		 <div id="map" style="width:500px; height:400px"></div> 
-		 <c:forEach var ="oneMemList" items="${oneMemList}" > 
-			<c:set var="mem_img" value="${oneMemList.resultUserImg}"/>
-				<c:if test="${oneMemList.om_leader eq '20' and oneMemList.om_state eq '20'}"> <!-- 결제완료한 참가자 -->
-		 			 참가자 닉네임 
-		 			 <c:choose>
-		 			 	<c:when test="${mem_img eq null}">
-		 			 		<img src="${contextPath}/resources/image/user.png" class="m_img">
-		 			 	</c:when>
-			 			 <c:otherwise>
-			 			 	<img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img"> 
-			 			 </c:otherwise>
-		 			 </c:choose> 
-	 			 	${oneMemList.m_nickname}
+				<c:if test="${andoneDetail.one_state eq '결제완료'}">
+					<span class="text-success">
 				</c:if>
-		</c:forEach><br>
-		 금액<span class="price">${andoneDetail.one_price}</span>원<br>
-		 	<c:choose>
+				<c:if test="${andoneDetail.one_state eq '진행완료'}">
+					<span class="text-secondary">
+				</c:if>
+				<c:if test="${andoneDetail.one_state eq '취소'}">
+					<span class="text-danger">
+				</c:if>
+				${andoneDetail.one_state}
+				</span></p>
+				<p class="float-right h6 text-secondary"><i class="fas fa-user-friends"></i> ${andoneDetail.one_memberMax}명</p>			
+			</div>
+			
+		</div>
+		<!-- 우측 -->
+		<div class="col-4 border-bottom">
+			<p class="h6 text-muted text-right">${andoneDetail.one_date} 예정</p>
+			<p class="h2 font-weight-bold text-right">
+			<span class="h6">결제금액 </span>
+			<span class="price">${andoneDetail.one_price}</span>P</p>
+		</div>
+	</div>
+	<div class="row my-3">
+		<!-- 내용 -->
+		<div class="col-7 mr-3">
+			 <!-- 해시태그 -->
+			 해시태그: ${andoneDetail.one_hashTag}<br>
+			 <!-- 글내용 -->
+			 <div class="mt-3">${andoneDetail.one_content}</div>
+			 <!-- 참여자 -->
+			 <div class="card mt-5 clearfix">
+			 		<ul class="list-group list-group-horizontal">
+			 		<c:forEach var ="oneMemList" items="${oneMemList}" > 
+			 		<li class="list-group-item border-0 text-center">
+						<c:set var="mem_img" value="${oneMemList.resultUserImg}"/>
+					 			<c:choose>
+					 			 	<c:when test="${mem_img eq null}">
+					 			 		<img src="${contextPath}/resources/image/user.png" class="m_img">
+					 			 	</c:when>
+					 			 	 <c:otherwise>
+					 			 	 	<img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img"> 
+						 			 </c:otherwise>
+					 			 </c:choose><br> 
+					 		<c:if test="${oneMemList.om_leader eq '10'}"> <!-- 작성자 구분 -->
+					 			<i class="fas fa-crown text-warning"></i> 
+							</c:if>${oneMemList.m_nickname}
+					</li>
+					</c:forEach>
+					</ul>
+<%-- 			 	<c:forEach var ="oneMemList" items="${oneMemList}" >  --%>
+<%-- 					<c:set var="mem_img" value="${oneMemList.resultUserImg}"/> --%>
+<%-- 						<c:if test="${oneMemList.om_leader eq '20' and oneMemList.om_state eq '20'}"> <!-- 결제완료한 참가자 --> --%>
+<!-- 				 			 참가자 닉네임  -->
+<%-- 				 			 <c:choose> --%>
+<%-- 				 			 	<c:when test="${mem_img eq null}"> --%>
+<%-- 				 			 		<img src="${contextPath}/resources/image/user.png" class="m_img"> --%>
+<%-- 				 			 	</c:when> --%>
+<%-- 					 			 <c:otherwise> --%>
+<%-- 					 			 	<img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img">  --%>
+<%-- 					 			 </c:otherwise> --%>
+<%-- 				 			 </c:choose>  --%>
+<%-- 			 			 	${oneMemList.m_nickname} --%>
+<%-- 						</c:if> --%>
+<%-- 				</c:forEach><br> --%>
+			 </div>
+		</div>
+		<!-- 지도 -->
+		<div class="col-4">
+			<div id="map" class="border mb-2" style="height:350px">
+			</div>
+			<!-- 버튼들 -->
+			<div>
+				<c:choose>
 		 		<c:when test="${andoneDetail.one_state eq '취소'}">
-		 			<br>취소되어 신청이 불가능한 &분의일 입니다:)
+		 			<p class="text-muted text-center my-3">취소되어 신청이 불가능한 &분의일 입니다 :)</p>
 		 		</c:when>
 		 		<c:when test="${andoneDetail.one_state eq '진행완료'}">
-		 			<br> 같이 엔분의일을한 사람에게 후기를 남겨주세요:)
+		 			<p class="text-muted text-center my-3">같이 &amp;분의일을 한 사람에게 후기를 남겨주세요:)</p>
 		 		</c:when>
 		 		<c:when test="${omLeaderCheck.om_leader eq '10'}">
-				 	<br><button onclick="modifyAndOne('${andoneDetail.one_id}')">수정하기</button>	 	 
-				 	<br><button onclick="deleteAndOne('${andoneDetail.one_id}')">삭제하기</button>
-				 	<br><button onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button><br>			 	
+				 	<br><button class="btn btn-secondary col-6" onclick="modifyAndOne('${andoneDetail.one_id}')">수정하기</button>	 	 
+				 	<br><button class="btn btn-danger col-6" onclick="deleteAndOne('${andoneDetail.one_id}')">삭제하기</button>
+				 	<br><button class="btn btn-secondary col-12" onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button><br>			 	
 	 			</c:when>
 	 			<c:when test="${omLeaderCheck.om_leader eq '20'}"> 
-				 	<button onclick="cancelAndOne('${andoneDetail.one_id}','${andoneDetail.one_price}')">취소하기</button>
+				 	<button class="btn btn btn-danger col-12" onclick="cancelAndOne('${andoneDetail.one_id}','${andoneDetail.one_price}')">취소하기</button>
 				</c:when>
 				<c:otherwise>
-			 		<button onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
+			 		<button class="btn btn-primary col-12" onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
 				</c:otherwise>
-			</c:choose>		
+				</c:choose>		
+			 	<button class="btn btn-light col-12 mt-1" type="button" onClick='openReportPopup()'>부적절한 &amp;분의일 신고하기</button>
 				<c:if test="${omLeaderCheck.om_state eq '20' and andoneDetail.one_state ne '취소' }"> 
-				 	<button onclick="completeAndOne('${andoneDetail.one_id}')">엔분의일 완료</button> 
+				 	<button class="btn btn-outline-primary col-12" onclick="completeAndOne('${andoneDetail.one_id}')">엔분의일 완료</button> 
 				</c:if>
-			 		<button type="button" onClick='openReportPopup()'>신고하기</button>
+			</div>
+		</div>
+	</div>
+		
+<%-- 		 좌표  ${andoneDetail.one_locate_Lat} <br> --%>
+<%-- 		 좌표  ${andoneDetail.one_locate_Lng} <br> --%>
+		 주소  <div class="addr">${andoneDetail.one_addr}</div> <br>
+<!-- 		 <div id="map" style="width:500px; height:400px"></div>  -->
+		 
+		 
+
 </div>
   	<!--kakao map-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
