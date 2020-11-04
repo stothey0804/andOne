@@ -87,7 +87,10 @@
 
             url: "/andOne/member/saveLocate.do",
             success: function (data, textStatus) {
-				window.setTimeout("location.reload()",1000);
+				// 쿠키에 저장
+				setCookie("locate_lat",m_locate_lat,7);
+				setCookie("locate_lng",m_locate_lng,7);
+				location.reload(true);
             }
 		});
 	});
