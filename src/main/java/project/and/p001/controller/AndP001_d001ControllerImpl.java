@@ -67,7 +67,6 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		System.out.println("123123: "+m_locate_Lat);
 		System.out.println("123123: "+m_locate_Lng);
 
-		
 		Map<String,Object> param = new HashMap<String,Object>(); 
 		param.put("m_id", m_id);
 		param.put("m_locate_Lat", m_locate_Lat);
