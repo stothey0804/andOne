@@ -13,7 +13,6 @@
 	
 	<!-- font awesome -->
 	<script src="https://kit.fontawesome.com/cdac256c63.js" crossorigin="anonymous"></script>
-	
 	<!--kakao map-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
 	<style>
