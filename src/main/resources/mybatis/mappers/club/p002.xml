@@ -12,9 +12,23 @@
 		<result property="c_membercnt" column="c_membercnt" />
 		<result property="c_hashtag" column="c_hashtag" />
 	</resultMap>
+	
 	<resultMap id="article" type="clubArticleVO">
 		<result property="ca_content" column="ca_content"/>
 		<result property="imgList" column="ca_img" javaType="[B"  jdbcType="BLOB"/>
+	</resultMap>
+	
+	<resultMap id="Result02" type="clubVO">
+		<result property="c_id" column="c_id" />
+		<result property="c_name" column="c_name" />
+		<result property="c_content" column="c_content" />
+		<result property="c_category" column="c_category" />
+		<result property="c_membercnt" column="c_membercnt" />
+		<result property="c_hashtag" column="c_hashtag" />
+		<result property="c_openingdate" column="c_openingdate" />
+		<result property="c_membermax" column="c_membermax" />
+		<result property="c_ask" column="c_ask" />
+		<result property="c_imgByte" column="c_img" javaType="[B" jdbcType="BLOB" />
 	</resultMap>
 	
 	<resultMap id="member" type="clubMemberVO">
@@ -24,6 +38,19 @@
 		<result property="m_nickname" column="m_nickname"/>
 		<result property="m_id" column="m_id"/>
 	</resultMap>
+	
+	<select id="detailClub_forUpdate" resultMap="Result02">
+		<![CDATA[
+		 	select c_name,c_content,c_hashtag,c_membercnt,gc_name as c_category,c_id,SUBSTR(c_openingdate,1,10) as c_openingdate,c_membermax,c_img,c_ask
+        from
+        (
+            select *
+            from common_code a inner join club b on a.gc_id = b.c_category
+            where g_id=019
+        )
+        where c_id = #{c_id}
+		]]>
+	</select>
 	
 	<select id="nextC_id" resultType="string">
 		<![CDATA[

@@ -57,11 +57,16 @@ public class ClubP003_d001ControllerImpl implements ClubP003_d001Controller{
 
 	@Override		//게시글 작성폼
 	@RequestMapping(value="/club/writeArticleForm.do",method= {RequestMethod.GET})
-	public ModelAndView writeArticleForm(@RequestParam(value="c_id",required = true) String c_id) throws Exception {
+	public ModelAndView writeArticleForm(@RequestParam(value="c_id",required = true) String c_id,HttpSession session) throws Exception {
+		String m_id = (String)session.getAttribute("m_id");
 		System.out.println(c_id);
 		Map<String, Object> searchMap = new HashMap<String, Object>();
 		searchMap.put("c_id", c_id);
+		searchMap.put("m_id", m_id);
 		ClubVO vo = clubP001_d001Service.detailClubCard(searchMap);
+		
+		//회원 등급 확인
+		String rank = clubP001_d001Service.memberCheck(searchMap);
 
 		//소모임 대표 이미지 encoding
 		byte[] encoded = null;
@@ -73,6 +78,7 @@ public class ClubP003_d001ControllerImpl implements ClubP003_d001Controller{
 		ModelAndView mav = new ModelAndView("writeArticleForm");
 		mav.addObject("clubInfo", vo);
 		mav.addObject("clubImg", clubImg);
+		mav.addObject("rank", rank);
 		return mav;
 	}
 	
@@ -86,6 +92,12 @@ public class ClubP003_d001ControllerImpl implements ClubP003_d001Controller{
 		insertMap.put("ca_content", vo.getCa_content());
 		insertMap.put("m_id", m_id);
 		insertMap.put("c_id", vo.getC_id());
+		System.out.println("+++++++++++"+vo.getCa_pin());
+		if(vo.getCa_pin().isEmpty()) {
+			insertMap.put("ca_pin",0);
+		} else {
+			insertMap.put("ca_pin",1);
+		}
 		String ca_id = clubP003_d001Service.writeArticle(insertMap);
 		insertMap.put("ca_id", ca_id);
 		if(!mf.get(0).isEmpty()) {
@@ -146,6 +158,16 @@ public class ClubP003_d001ControllerImpl implements ClubP003_d001Controller{
 		mav.addObject("articleImg", imgVO);
 		mav.addObject("clubImg", clubImg);
 		return mav;
+	}
+	
+	@Override		//공지사항 수정
+	@ResponseBody
+	@RequestMapping(value="/club/editPin.do", method= {RequestMethod.GET,RequestMethod.POST})
+	public void editPin(ClubArticleVO vo){
+		Map<String, Object> updateMap = new HashMap<String, Object>();
+		updateMap.put("ca_id",vo.getCa_id());
+		updateMap.put("ca_pin", vo.getCa_pin());
+		clubP003_d001Service.updatePin(updateMap);
 	}
 	
 	public String encodedClubImg(ClubVO vo) {
