@@ -79,5 +79,24 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 	public void updateAndOneState() {
 		p001_d001DAO.updateAndOneState();
 	}
+	@Override
+	public List<AndP001AndOneVO> pointList() {
+		List<AndP001AndOneVO> pointList = p001_d001DAO.pointList();
+		return pointList;
+	}
+	@Override
+	public void updateAndOneRefund(String one_id) {
+		p001_d001DAO.updateAndOneRefund(one_id);
+		
+	}
+	@Override
+	public List<AndP001AndOneVO> payList() {
+		List<AndP001AndOneVO> payList = p001_d001DAO.payList();
+		return payList;
+	}
+	@Override
+	public void updateAndOnePay(String one_id) {
+		p001_d001DAO.updateAndOnePay(one_id);
+	}
 
 }

@@ -33,6 +33,8 @@ import project.and.vo.AndOneMemberVO;
 import project.and.vo.AndP001AndOneVO;
 import project.member.p001.vo.MemberP001_MemberVO;
 import project.point.p001.service.PointP001_d001Service;
+import project.point.p001.service.PointP001_d002Service;
+import project.point.p001.vo.PointP001VO;
 
 
 @Controller
@@ -44,6 +46,8 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	private PointP001_d001Service pointP001_d001Service; //포인트조회
 	@Autowired
 	private AndP002_d002Service p002_d002Service; //인원수 체크용
+	@Autowired
+	private PointP001_d002Service pointP001_d002Service; // 포인트 사용
 	
 	//&분의일 먹기 사기 하기 메인
 	@Override
@@ -213,14 +217,46 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		}
 	}
 
-	@Scheduled(fixedRate = 100000) //10초마다 함수호출
+	@Scheduled(fixedRate = 60000) //1분마다 호출
 	public void handle() {
 		System.out.println("=================================>> LogProcessor.handle(): " + new Date());
-		p001_d001Service.updateAndOneState();//one_id로 select후 상태 취소로 업데이트
-		//취소 상태 작성자 빼고 환불
 		
-		//환불 컬럼 포인트 지급 컬럼
+		p001_d001Service.updateAndOneState();//시간초과 엔분의일 취소
+		
+		//취소 상태 작성자 빼고 환불
+		List<AndP001AndOneVO> pointList = p001_d001Service.pointList();
+		for(int i =0; i<pointList.size(); i++) {
+			String m_id = pointList.get(i).getM_id();
+			String one_price = pointList.get(i).getOne_price();
+			String one_id = pointList.get(i).getOne_id();
+			
+			PointP001VO pointVO = new PointP001VO();
+			pointVO.setM_id(m_id);
+			pointVO.setP_changepoint(one_price);
+			pointVO.setP_detail("포인트 환불");
+			String nowPoint = pointP001_d001Service.selectNowPointById(m_id);
+			pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint); //포인트 null값 0으로 변경
+			pointP001_d002Service.insertPoint(pointVO);//포인트 환불
+			nowPoint = pointP001_d001Service.selectNowPointById(m_id); //환불 후 값 갱신
+			p001_d001Service.updateAndOneRefund(one_id);//엔분의일 테이블 refund 0->1변경
+		}
 		//결제완료 상태되면 작성자에게 포인트 지급
+		List<AndP001AndOneVO> payList = p001_d001Service.payList();
+		for(int i =0; i<payList.size(); i++) {
+			String m_id = payList.get(i).getM_id();
+			String one_price = payList.get(i).getOne_price();
+			String one_id = payList.get(i).getOne_id();
+			
+			PointP001VO pointVO = new PointP001VO();
+			pointVO.setM_id(m_id);
+			pointVO.setP_changepoint(one_price);
+			pointVO.setP_detail("포인트 지급");
+			String nowPoint = pointP001_d001Service.selectNowPointById(m_id);
+			pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint); //포인트 null값 0으로 변경
+			pointP001_d002Service.insertPoint(pointVO);//포인트 환불
+			nowPoint = pointP001_d001Service.selectNowPointById(m_id); //환불 후 값 갱신
+			p001_d001Service.updateAndOnePay(one_id);//엔분의일 pay 0->1변경
+		}
 		
 	}
 	

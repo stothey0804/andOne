@@ -28,12 +28,22 @@ public class AndP001AndOneVO {
 	private String distance;
 	private String one_addr;
 	private String one_content;
+	private String m_id;
 	
 	public AndP001AndOneVO() {
 		System.out.println("AndP001AndOneVO");
 	}
 	
-	
+	public String getM_id() {
+		return m_id;
+	}
+
+
+	public void setM_id(String m_id) {
+		this.m_id = m_id;
+	}
+
+
 	public String getOne_content() {
 		return one_content;
 	}
