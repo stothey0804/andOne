@@ -16,23 +16,24 @@
 	<!-- 채팅방 목록 불러오기 --> 
 	<select id="readChatList" parameterType="java.util.HashMap">
 		<![CDATA[
-	SELECT a.one_type, a.one_id, a.one_title, b.m_id
-	FROM and_one a, one_member b
-	WHERE a.one_type = b.one_type
-	AND a.one_id = b.one_id
-	AND b.om_state IN ('20','30')
+	SELECT A.ONE_TYPE, A.ONE_ID, A.ONE_TITLE, B.M_ID
+	FROM AND_ONE A, ONE_MEMBER B
+	WHERE A.ONE_TYPE = B.ONE_TYPE
+	AND A.ONE_ID = B.ONE_ID
+	AND B.OM_STATE IN ('20','30')
   		]]>
 	</select>
 	
 	<!-- 채팅 보내기-->
- 	<insert id="sendMessage" parameterType="AndP003VO">
+ 	<insert id="sendMessage" parameterType="andP003ChatContentVO">
  	<![CDATA[
- 	INSERT INTO message(one_type, one_id, msg_content, msg_date)
+ 	INSERT INTO MESSAGE(ONE_TYPE, ONE_ID, MSG_CONTENT, MSG_DATE, M_ID)
  	VALUES(
  			#{one_type}, 
  			#{one_id},
  			#{msg_content}, 
- 			TO_CHAR(sysdate,'yyyy-mm-dd hh24:mi:ss')
+ 			TO_CHAR(SYSDATE,'YYYY-MM-DD hh24:mi:ss'),
+ 			#{m_id}
  			)
  	]]>
  	</insert>

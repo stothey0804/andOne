@@ -64,10 +64,17 @@ public class AndP002_d002ControllerImpl implements AndP002_d002Controller {
 			return check;
 		}else { // 수락가능
 			p002_d002Service.okOneMember(okMap);//one_member 상태변경
-			Map<String, Object> updateMap = new HashMap<String, Object>();
-			updateMap.put("one_id", one_id);
-			updateMap.put("flag", "update");
-			p002_d002Service.updateOneState(updateMap); //엔분의일 one_state 20(결제완료)로 변경
+			System.out.println("=============변경완료");
+			oneMemCnt = p002_d002Service.oneMemCnt(cntMap);
+			System.out.println("ㅠㅠㅠㅠㅠㅠㅠ글인원수:"+andOneCnt);
+			System.out.println("ㅠㅠㅠㅠㅠㅠㅠ참가인원수:"+oneMemCnt);
+			if(andOneCnt == oneMemCnt) {
+				System.out.println("인원수 마감!!!!!!");
+				Map<String, Object> updateMap = new HashMap<String, Object>();
+				updateMap.put("one_id", one_id);
+				updateMap.put("flag", "update");
+				p002_d002Service.updateOneState(updateMap); //엔분의일 one_state 20(결제완료)로 변경
+			}
 			return check;
 		}
 	}

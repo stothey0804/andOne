@@ -37,10 +37,10 @@
 		WHEN NOT MATCHED THEN
 			INSERT (one_type, one_id, one_state, one_category, one_title, one_memberMax, 
        			    one_totalPrice, one_date, one_hashtag, one_time, one_locate_lat, one_locate_lng,
-       			    one_content, one_addr, one_editor, one_editdate )
+       			    one_content, one_addr, one_editor, one_editdate, one_refund, one_pay )
 			VALUES ( #{one_type}, lpad(andone_seq.NEXTVAL,6,'0'), '10', #{one_category}, #{one_title}, #{one_memberMax},
 					#{one_totalPrice}, #{one_date}, #{one_hashTag}, to_char(sysdate,'yyyy-mm-dd HH24:mi:ss'), #{one_locate_Lat}, #{one_locate_Lng},
-					#{one_content}, #{one_addr}, #{m_id}, to_char(sysdate,'yyyy-mm-dd HH24:mi:ss'))
+					#{one_content}, #{one_addr}, #{m_id}, to_char(sysdate,'yyyy-mm-dd HH24:mi:ss'), '0','0')
       ]]>
 	</insert>
 	<!-- 엔분의일 작성자 등록 -->

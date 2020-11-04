@@ -36,7 +36,7 @@
 		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
 		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, d.distance, a.one_locate_Lat, a.one_locate_Lng,
-		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time
+		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, a.one_addr, (select count(m_id) from one_member e where e.one_id = d.one_id )as one_member
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
 		              from common_code 
@@ -46,10 +46,10 @@
 		              where g_id = #{g_id} ) c,
 		              (select tmp.DISTANCE as distance, one_id
 					   from ( 
-    						select one_id, DISTNACE_WGS84(#{m_locate_Lat}, #{m_locate_Lng}, one_locate_Lat, one_locate_Lng) as DISTANCE
+    						select one_id, ROUND(DISTANCE_WGS84(#{m_locate_Lat}, #{m_locate_Lng}, one_locate_Lat, one_locate_Lng),2) as DISTANCE
     						from and_one
-    						where (one_locate_Lat between #{m_locate_Lat}-0.019 and #{m_locate_Lat}+0.019)
-   							and (one_locate_Lng between #{m_locate_Lng}-0.022 and #{m_locate_Lng}+0.022) ) TMP) d
+    						where (one_locate_Lat between #{m_locate_Lat}-0.059 and #{m_locate_Lat}+0.059)
+   							and (one_locate_Lng between #{m_locate_Lng}-0.066 and #{m_locate_Lng}+0.066) ) TMP) d
 			    where a.one_state = b.gc_id
 				and a.one_category = c.gc_id
                 and a.one_id = d.one_id
@@ -78,7 +78,7 @@
 		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
 		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, d.distance,
-		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time
+		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, (select count(m_id) from one_member e where e.one_id = d.one_id )as one_member
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
 		              from common_code 
@@ -89,10 +89,10 @@
 		              and gc_id= #{one_category}) c,
 		              (select tmp.DISTANCE as distance, one_id
 					   from ( 
-    						select one_id, DISTNACE_WGS84(#{m_locate_Lat}, #{m_locate_Lng}, one_locate_Lat, one_locate_Lng) as DISTANCE
+    						select one_id, ROUND(DISTANCE_WGS84(#{m_locate_Lat}, #{m_locate_Lng}, one_locate_Lat, one_locate_Lng),2) as DISTANCE
     						from and_one
-    						where (one_locate_Lat between #{m_locate_Lat}-0.019 and #{m_locate_Lat}+0.019)
-   							and (one_locate_Lng between #{m_locate_Lng}-0.022 and #{m_locate_Lng}+0.022) ) TMP) d
+    						where (one_locate_Lat between #{m_locate_Lat}-0.059 and #{m_locate_Lat}+0.059)
+   							and (one_locate_Lng between #{m_locate_Lng}-0.066 and #{m_locate_Lng}+0.066) ) TMP) d
 			    where a.one_state = b.gc_id
 				and a.one_category = c.gc_id
                 and a.one_id = d.one_id
@@ -111,7 +111,7 @@
 		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
 		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, d.distance,
-		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time
+		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, (select count(m_id) from one_member e where e.one_id = d.one_id )as one_member
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
 		              from common_code 
@@ -121,10 +121,10 @@
 		              where g_id = #{g_id} ) c,
 		              (select tmp.DISTANCE as distance, one_id
 					   from ( 
-    						select one_id, DISTNACE_WGS84(#{m_locate_Lat}, #{m_locate_Lng}, one_locate_Lat, one_locate_Lng) as DISTANCE
+    						select one_id, ROUND(DISTANCE_WGS84(#{m_locate_Lat}, #{m_locate_Lng}, one_locate_Lat, one_locate_Lng),2) as DISTANCE
     						from and_one
-    						where (one_locate_Lat between #{m_locate_Lat}-0.019 and #{m_locate_Lat}+0.019)
-   							and (one_locate_Lng between #{m_locate_Lng}-0.022 and #{m_locate_Lng}+0.022) ) TMP) d
+    						where (one_locate_Lat between #{m_locate_Lat}-0.059 and #{m_locate_Lat}+0.059)
+   							and (one_locate_Lng between #{m_locate_Lng}-0.066 and #{m_locate_Lng}+0.066) ) TMP) d
  				]]>
 				<where>
 			    a.one_state = b.gc_id
@@ -155,7 +155,7 @@
 		select a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
        			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax)) END as one_price,
        			a.one_totalPrice, substr(a.one_date,6,11) as one_date, a.one_hashTag, a.one_locate_Lat, a.one_locate_Lng, one_addr,
-        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time , a.one_content
+        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time , a.one_content, (select count(m_id) from one_member where one_id = #{one_id})as one_member
 		from and_one a, 
 		     (select gc_name, gc_id, g_id
 		      from common_code 
@@ -204,6 +204,52 @@
 			        WHERE one_state NOT IN ('20','30')
 			    )
 			    WHERE RESULT < 0)         
+		]]>
+	</update>
+	
+	<!-- 포인트 환불 List -->
+	<select id="selectPointList" resultType="AndP001AndOneVO">
+		<![CDATA[
+			SELECT A.m_id, b.one_totalprice/b.one_membermax AS one_price, A.one_id
+			FROM one_member A , and_one b
+			WHERE om_leader = '20'
+			AND A.one_id = b.one_id
+			AND A.one_id IN (SELECT one_id
+                			 FROM and_one
+                			 WHERE one_state = '40'
+                			 AND one_refund = '0')
+		]]>
+	</select>
+	
+	<!-- refund 상태변경 -->
+	<update id="updateAndOneRefund" >
+		<![CDATA[
+			UPDATE and_one     
+			SET one_refund = '1'   
+			WHERE one_id = #{one_id}        
+		]]>
+	</update>
+	
+	<!-- 포인트 지급 List -->
+	<select id="selectPayList" resultType="AndP001AndOneVO">
+		<![CDATA[
+			SELECT A.m_id, b.one_totalprice-(b.one_totalprice/b.one_membermax) AS one_price, A.one_id
+			FROM one_member A, and_one b
+			WHERE A.one_id = b.one_id
+			AND A.om_leader = '10'
+			AND A.one_id IN (SELECT one_id
+                 			FROM and_one
+                 			WHERE one_state = '20'
+                 			AND one_pay = '0')
+		]]>
+	</select>
+	
+	<!-- pay 상태변경 -->
+	<update id="updateAndOnePay" >
+		<![CDATA[
+			UPDATE and_one     
+			SET one_pay = '1'   
+			WHERE one_id = #{one_id}        
 		]]>
 	</update>
 	
