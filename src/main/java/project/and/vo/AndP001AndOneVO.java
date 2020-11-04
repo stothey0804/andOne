@@ -30,10 +30,22 @@ public class AndP001AndOneVO {
 	private String one_addr;
 	private String one_content;
 	private String m_id;
+	private String forEditDate;
 	
 	public AndP001AndOneVO() {
 	}
 	
+	
+	public String getForEditDate() {
+		return forEditDate;
+	}
+
+
+	public void setForEditDate(String forEditDate) {
+		this.forEditDate = forEditDate;
+	}
+
+
 	public String getOne_member() {
 		return one_member;
 	}

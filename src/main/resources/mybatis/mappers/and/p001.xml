@@ -154,7 +154,7 @@
 	<![CDATA[
 		select a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
        			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax)) END as one_price,
-       			a.one_totalPrice, substr(a.one_date,6,11) as one_date, a.one_hashTag, a.one_locate_Lat, a.one_locate_Lng, one_addr,
+       			a.one_totalPrice, substr(a.one_date,6,11) as one_date, TO_DATE(one_date,'YYYY-MM-DD hh24:mi:ss') as forEditDate,  a.one_hashTag, a.one_locate_Lat, a.one_locate_Lng, one_addr,
         		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time , a.one_content, (select count(m_id) from one_member where one_id = #{one_id})as one_member
 		from and_one a, 
 		     (select gc_name, gc_id, g_id
