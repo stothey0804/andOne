@@ -39,6 +39,9 @@
             		locPosition = new kakao.maps.LatLng(lat, lng);	// 자른 값으로 객체 생성
             		displayMarker(locPosition);
             		searchAddrFromCoords(locPosition, displayCenterInfo);
+					// 쿠키에 저장
+					setCookie("locate_lat",lat,7);
+					setCookie("locate_lng",lng,7);
             	}
             }
 		});
@@ -84,7 +87,7 @@
 
             url: "/andOne/member/saveLocate.do",
             success: function (data, textStatus) {
-	
+				window.setTimeout("location.reload()",1000);
             }
 		});
 	});
@@ -141,3 +144,10 @@
 		} 
 	}   
 	
+	// 쿠키저장 함수
+		var setCookie = function(name, value, exp) {
+			var date = new Date();
+			date.setTime(date.getTime() + exp*24*60*60*1000);
+			document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+		};
+

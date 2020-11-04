@@ -31,7 +31,8 @@
 			});
 		});
 		
- 		
+
+		
  		// swiper
 	    var swiper = new Swiper('.swiper-container', {
 	      slidesPerView: 3,
@@ -72,6 +73,7 @@
 		}
 
  	}
+
 
  </script>
  <style type="text/css">
