@@ -77,8 +77,7 @@
 					mapNode.classList.remove('visible');
 				});
 			});
-			
-			
+
 			let times = document.querySelectorAll("span.time");
 			let timeResults = document.querySelectorAll("span.timeResult");
 	  		
@@ -86,63 +85,6 @@
 	  			var result = times[i].textContent;
 	  			timeResults[i].innerHTML = timeForToday(result);
 	  		}
-	  		// 주소-좌표 변환 객체를 생성합니다
-	  		var geocoder = new kakao.maps.services.Geocoder();
-	  		
-	  		
-	  		let distane01 = document.querySelectorAll("span.addr");
-	  		let addrResults = document.querySelectorAll("span.addrResult");
-	  		
-	  		var distances = [];
-	  		var ti = [];
-	  		for(let i=0; i<distane01.length; i++){
-	  			distances[i] = distane01[i].textContent;
-	  			var x_memLocate = distances[i].slice(0,distances[i].indexOf(","));
-	  			console.log(">>>x_memLocate "+x_memLocate);
-	  			var y_memLocate = distances[i].slice(distances[i].indexOf(",")+1,distances[i].length-1);
-	  			console.log(">>>y_memLocate "+y_memLocate );
-	  			ti[i] = new daum.maps.LatLng(x_memLocate,y_memLocate);
-	  		}
-	  		var detail = [];
-	  		
-	  		for(i=0; i<ti.length; i++){
-	  			searchDetailAddrFromCoords(ti[i], function(result, status) {
-	  				if (status === kakao.maps.services.Status.OK) {
-			  			var detailAddr = result[0].address.address_name;
-			  			detail = detailAddr;
-			  			console.log(detail);
-	  				}
-		  		})
-			  			addrResults[i].innerHTML = detail[i];
-	  		}
-	  		
-	  		function searchDetailAddrFromCoords(coords, callback) {
-			    // 좌표로 법정동 상세 주소 정보를 요청합니다
-			    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback(detail));
-			}
-	  		
-	  		/* ti.forEach(function (andOnePosition){
-				var polyline = new daum.maps.Polyline({
-					path: [
-						memPosition,
-						andOnePosition
-					]
-				});
-				console.log("길이>>>>"+polyline.getLength());
-				var leng = [];
-				leng = polyline.getLength();
-				console.log(leng[1]);
-				}) */
-	  		
-	  		/* var distance = [];
-			for(var i in andOneLocate){
-				/* one_locate_Lat = andOneLocate[i].ONE_LOCATE_LAT;
-				one_locate_Lng = andOneLocate[i].ONE_LOCATE_LNG;
-				console.log("1111"+one_locate_Lat);
-				console.log("2222"+one_locate_Lng);
-				console.log(typeof one_locate_Lng); 
-				pathh[i] = new daum.maps.LatLng(andOneLocate[i].ONE_LOCATE_LAT,andOneLocate[i].ONE_LOCATE_LNG);
-				} */
 		}
 		//글 올라온시점 계산 함수
 	    function timeForToday(value) {
@@ -166,39 +108,6 @@
 	        }
 	    return Math.floor(betweenTimeDay / 365)+'년전';
 		}
-		//거리계산
-		
-		//회원이 설정한 위치
-		/* var memLocate_Lat = "${memLocate.m_locate_Lat}";
-		var memLocate_Lng = "${memLocate.m_locate_Lng}";
-		console.log(memLocate_Lat);
-		console.log(memLocate_Lng);
-		
-		var andOneLocate = JSON.parse('${andOneLocate}');
-		console.log(andOneLocate[6].ONE_LOCATE_LAT,andOneLocate[6].ONE_LOCATE_LNG)
-		
-		var memPosition = new kakao.maps.LatLng(memLocate_Lat, memLocate_Lng); 
-		console.log("멤버위치:"+memPosition); */
-	
-	    /* var pathh = [];
-		for(var i in andOneLocate){
-			one_locate_Lat = andOneLocate[i].ONE_LOCATE_LAT;
-			one_locate_Lng = andOneLocate[i].ONE_LOCATE_LNG;
-			console.log("1111"+one_locate_Lat);
-			console.log("2222"+one_locate_Lng);
-			console.log(typeof one_locate_Lng); 
-			pathh[i] = new daum.maps.LatLng(andOneLocate[i].ONE_LOCATE_LAT,andOneLocate[i].ONE_LOCATE_LNG);
-			}
-		
-		pathh.forEach(function (andOnePosition){
-			var polyline = new daum.maps.Polyline({
-				path: [
-					memPosition,
-					andOnePosition
-				]
-			});
-			console.log("길이>>>>"+polyline.getLength());
-			}) */
 
 	</script>
 <meta charset="UTF-8">
@@ -382,12 +291,9 @@
 							</div>
 							<div class="clearfix">
 								<p class="card-text float-left"> #${andone.one_hashTag}  </p>
-								<p class="card-text float-right h6"> 예상 <b>${andone.one_price}</b> <span class="text-secondary"> <i class="fas fa-user-friends"></i> n/${andone.one_memberMax} </span></p>
+								<p class="card-text float-right h6"> 예상 <b>${andone.one_price}</b> <span class="text-secondary"> <i class="fas fa-user-friends"></i> ${andone.one_member}/${andone.one_memberMax} </span></p>
 							</div>
 							<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
-							<c:if test="${g_id eq '010'}">
-							<p class="card-text"><span class="addrResult"></span><span class="addr">${andone.one_locate_Lat},${andone.one_locate_Lng} </span></p>
-							</c:if>
 						</div>
 					</div>
 				</div>

@@ -58,27 +58,15 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		
 		System.out.println("111111g_id: "+g_id);
 		//세션가져오기
-//		HttpSession session = request.getSession(false);
 		String m_id ="";
 		String m_locate_Lat ="";
 		String m_locate_Lng ="";
-		
-		//회원 위치 가져오기
-//		if(session.getAttribute("isLogOn") != null) {
-//			m_id = (String) session.getAttribute("m_id");
-//			Map<String, Object> memLocate = p001_d001Service.selectMemLocate(m_id);
-//			m_locate_Lat = (String) memLocate.get("m_locate_Lat");
-//			m_locate_Lng = (String) memLocate.get("m_locate_Lng");
-//			System.out.println("m_locate_Lat: " +m_locate_Lat);
-//			System.out.println("m_locate_Lng: " +m_locate_Lng);
-//		}
-//		else {//쿠키에 저장된 비회원 위치 가져오기(수정해야함)
-			System.out.println("쿠키 받아먹어ㅓㅓㅓㅓㅓ");
-			m_locate_Lat = latCookie.getValue();
-			m_locate_Lng = lngCookie.getValue();
-			System.out.println("123123: "+m_locate_Lat);
-			System.out.println("123123: "+m_locate_Lng);
-//		}
+
+		m_locate_Lat = latCookie.getValue();
+		m_locate_Lng = lngCookie.getValue();
+		System.out.println("123123: "+m_locate_Lat);
+		System.out.println("123123: "+m_locate_Lng);
+
 		
 		Map<String,Object> param = new HashMap<String,Object>(); 
 		param.put("m_id", m_id);
@@ -92,7 +80,6 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("andOneMain");
-//		mav.setViewName(Common.checkLoginDestinationView("andOneMain", request));
 		mav.addObject("g_id",g_id);
 		mav.addObject("ctg",ctg);//카테고리
 		mav.addObject("recentAndOneList", recentAndOneList);//최근 엔분의일
@@ -126,9 +113,6 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		HttpSession session = request.getSession(false);
 		String m_id = (String) session.getAttribute("m_id");
 		System.out.println("M_IDM_IDM_ID :"+m_id);
-//		Map<String, Object> memLocate = p001_d001Service.selectMemLocate(m_id);
-//		String m_locate_Lat = (String) memLocate.get("m_locate_Lat");
-//		String m_locate_Lng = (String) memLocate.get("m_locate_Lng");
 		String m_locate_Lat = latCookie.getValue();
 		String m_locate_Lng = lngCookie.getValue();
 		System.out.println("m_locate_Lat22: " +m_locate_Lat);
