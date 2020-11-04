@@ -371,7 +371,7 @@ function removeHTML(text){
 	</div>
 	<div class="container my-5 center">
 		<div class="search">
-			<a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br>
+			<a href="${contextPath}/club/searchClubHshtag.do?searchWord=운동">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br>
 			<form name="searchFrm" method="post"
 				action="${contextPath}/club/searchClub.do">
 				<div>

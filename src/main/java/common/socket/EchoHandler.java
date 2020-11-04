@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.socket.CloseStatus;
@@ -28,7 +30,6 @@ public class EchoHandler extends TextWebSocketHandler{
 	// 1대1
 	Map<String, WebSocketSession> users = new ConcurrentHashMap<String, WebSocketSession>();
 	
-	
 	// 클라이언트가 서버로 연결시
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -44,11 +45,12 @@ public class EchoHandler extends TextWebSocketHandler{
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		String senderId = getMemberId(session);
-//		모든 유저에게 보낸다 - 브로드 캐스팅
-//		log(senderId+":"+message.getPayload());
+		//모든 유저에게 보낸다 - 브로드 캐스팅
+//		log(senderId+":"+ message.getPayload());
 //		for (WebSocketSession sess : sessions) {
 //			sess.sendMessage(new TextMessage(message.getPayload()));
 //		}
+		
 		// 특정 유저에게 보내기
 		String msg = message.getPayload();
 		if(msg != null) {

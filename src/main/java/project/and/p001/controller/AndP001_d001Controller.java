@@ -15,8 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 import project.and.vo.AndP001AndOneVO;
 
 public interface AndP001_d001Controller{
-public ModelAndView searchAndOneList(Map<String, Object> searchMap, HttpServletRequest request) throws Exception;
 public ModelAndView andOneMain(String g_id, Cookie latCookie, Cookie lngCookie, HttpServletRequest requestn) throws Exception;
 public ModelAndView andOneDetail(Map<String, Object> detailMap, HttpServletRequest request) throws Exception;
 public String addOneMember(Map<String,Object> addMap, HttpServletRequest request) throws Exception;
+public ModelAndView searchAndOneList(Map<String, Object> searchMap, Cookie latCookie, Cookie lngCookie,
+		HttpServletRequest request) throws Exception;
 }

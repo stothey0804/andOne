@@ -10,7 +10,31 @@
 <title>검색</title>
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 <script type="text/javascript">
- 
+$(document).ready(function(){
+		$('.clickArea').click(function(){
+			var allClass = $(this).attr('class');
+			var classArr = allClass.split(' ');
+			var id = $(this).attr('id');
+			var table = classArr[0];
+			searchDetail(table,id);
+		})
+	})
+	
+	function searchDetail(table, id){
+		var path = '';
+		switch(table){
+		case 'SHOP': path = '${contextPath }/shop/localShopDetail.do?s_id='+id; break;
+		case 'NOTICE': path = '${contextPath }/notice.do'; break;
+		case 'CLUB': path = '${contextPath }/club/detailClub.do?c_id='+id; break;
+		case 'C_ARTICLE': path = '${contextPath }/club/detailClub.do?c_id='+id; break;
+		case 'AND_ONE': 
+			var g_id = $('input#'+id).val();
+			path = '${contextPath }/and/detailAndOne.do?one_id='+id; 
+			path += '&g_id=' + g_id;
+			break;
+		}
+		window.location.href = path;
+	}
 </script>
 <style type="text/css">
     
@@ -29,7 +53,7 @@
 						<th>대표번호</th>
 					</tr>
 					<c:forEach var="i" begin="0" end="${(fn:length(resultList))-1 }">
-							<tr class="SHOP clickArea" id="${searchResult.shopList[i].S_ID }">
+							<tr class="SHOP clickArea" id="${resultList[i].S_ID }">
 								<td>
 									${resultList[i].S_NAME }
 								</td>
@@ -56,6 +80,7 @@
 						<th>날짜</th>
 					</tr>
 					<c:forEach var="i" begin="0" end="${(fn:length(resultList))-1 }">
+						<input type="hidden" id="${resultList[i].ONE_ID }" value="${resultList[i].ONE_TYPE }"/>
 							<tr class="AND_ONE clickArea" id="${resultList[i].ONE_ID }">
 								<td>
 									${resultList[i].ONE_TITLE }
@@ -110,7 +135,7 @@
 						<th>작성일</th>
 					</tr>
 					<c:forEach var="i" begin="0" end="${(fn:length(resultList))-1 }">
-							<tr class="C_ARTICLE clickArea" id="${resultList[i].CA_ID }">
+							<tr class="C_ARTICLE clickArea" id="${resultList[i].C_ID }">
 								<td>
 									${resultList[i].CA_ID }
 								</td>

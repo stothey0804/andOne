@@ -87,7 +87,7 @@ public class ClubP002_d001ControllerImpl implements ClubP002_d001Controller{
 		searchMap.put("c_id", c_id);
 		//카테고리 목록 가져오기
 		List<HashMap<String, String>> category = commonDAO.searchCommonCodeList("019");
-		ClubVO vo = clubP001_d001Service.detailClub(searchMap);
+		ClubVO vo = clubP002_d001Service.detailClub_forUpdate(searchMap);
 		//소모임 대표 이미지 encoding
 		byte[] encoded = null;
 		String clubImg = "";
@@ -114,7 +114,6 @@ public class ClubP002_d001ControllerImpl implements ClubP002_d001Controller{
 		insertMap.put("c_img",vo.getC_img().getBytes());
 		insertMap.put("c_ask",vo.getC_ask());
 		insertMap.put("c_id", c_id);
-//		clubP002_d001Service.mergeClub(insertMap);
 		clubP002_d001Service.updateClub(insertMap);
 		return "redirect:/club/detailClub.do?c_id="+c_id;
 	}

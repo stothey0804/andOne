@@ -13,6 +13,7 @@
 		<result property="c_hashtag" column="c_hashtag" />
 		<result property="c_openingdate" column="c_openingdate" />
 		<result property="c_membermax" column="c_membermax" />
+		<result property="c_hashtag" column="c_hashtag" />
 		<result property="gc_name" column="gc_name"/>
 		<result property="c_imgByte" column="c_img" javaType="[B" jdbcType="BLOB" />
 	</resultMap>
@@ -87,6 +88,7 @@
 			ORDER BY a.car_date asc
 		]]>
 	</select>
+	
 	<select id="getArticleReply" resultMap="club.p001.replyList" parameterType="java.util.Map">
 		<![CDATA[
 			SELECT a.ca_id,a.car_id,a.car_content,a.car_date,b.m_nickname,b.m_img,b.m_id
@@ -97,6 +99,7 @@
 			ORDER BY a.car_date asc
 		]]>
 	</select>
+	
 	<select id="clubList" resultMap="p001_d001Result01">
       <![CDATA[
         SELECT b.c_name,b.c_content,b.c_membercnt,b.c_id,b.c_img,
@@ -112,6 +115,7 @@
          where rownum between 1 and 6
           ]]>
 	</select>
+	
 	<select id="myClubList" resultMap="p001_d001Result01">
 		<![CDATA[
 		 SELECT a.c_name,a.c_membercnt,a.c_id,a.c_img
@@ -131,6 +135,7 @@
 		FROM club b
 		WHERE c_category = #{c_category}
 	</select>
+	
 	<select id = "memberCheck" resultMap="member">
 		<![CDATA[
 			select m_id,cm_rank
@@ -146,6 +151,7 @@
 		WHERE g_id ='019'
 		AND gc_id =#{c_category}
 	</select>
+	
 	<select id="searchClubList" resultMap="p001_d001Result01">
 		<![CDATA[
 		 select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id,c_img
@@ -162,10 +168,23 @@
         or c_hashtag like #{searchWord}
 		]]>
 	</select>
+	
+	<select id="searchClubListHashtag" resultMap="p001_d001Result01">
+		<![CDATA[
+		 select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id,c_img
+        from
+        (
+            select *
+            from common_code a inner join club b on a.gc_id = b.c_category
+            where g_id=019
+        )
+        where c_hashtag like #{searchWord}
+		]]>
+	</select>
 
 	<select id="detailClub" resultMap="p001_d001Result02">
 		<![CDATA[
-		 	select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id,c_openingdate,c_membermax,c_img,c_ask
+		 	select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id,SUBSTR(c_openingdate,1,10) as c_openingdate,c_membermax,c_img,c_ask
         from
         (
             select *
@@ -188,6 +207,7 @@
         where c_id = #{c_id}
 		]]>
 	</select>
+	
 	<select id="getArticleList" resultMap="club.p001.articleList">
 		<![CDATA[
 		 	select a.ca_content,a.ca_date,b.m_nickname,a.ca_img,a.ca_id,a.ca_pin,b.m_img,a.m_id
@@ -197,6 +217,7 @@
             order by a.ca_pin desc, a.ca_date desc
 		]]>
 	</select>
+	
 	<select id="getArticleListImg" resultMap="club.p001.imgList">
 		<![CDATA[
 		 	select ca_img
@@ -218,10 +239,13 @@
 	<select id="getClubMember" resultMap="member">
 		<![CDATA[
 		 	SELECT a.m_img
-			FROM member a, c_member b
+			FROM member a, (select *
+         					from c_member
+        					order by cm_joindate asc) b
 			WHERE a.m_id = b.m_id
 			AND cm_rank in (20,30)
 			AND c_id = #{c_id}
+			AND rownum between 1 and 15
 		]]>
 	</select>
 	

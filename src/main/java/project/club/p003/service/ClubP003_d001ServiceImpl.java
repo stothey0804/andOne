@@ -55,5 +55,10 @@ public class ClubP003_d001ServiceImpl implements ClubP003_d001Service{
 	public String nextCa_id() {
 		return clubP003_d001DAO.nextCa_id();
 	}
+
+	@Override
+	public void updatePin(Map<String, Object> updateMap) {
+		clubP003_d001DAO.updatePin(updateMap);
+	}
 	
 }

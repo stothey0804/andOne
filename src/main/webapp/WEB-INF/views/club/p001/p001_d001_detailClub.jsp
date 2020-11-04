@@ -33,19 +33,19 @@
 .side{
 	display: relative;
 	position:absolute;
-	margin-left:20px;
-	margin-top:17px;
+	margin-left:325px;
 }
 
 .left {
 	margin-top: 0;
- 	position: absolute; 
 	width:17rem;
 }
 
 .right {
-	margin-left: 290px;
-	margin-top: 17px;
+	margin-left: 20px;
+}
+.side,.left,.right{
+	margin-top: 50px;
 }
 
 .card-title, .pin, .card-subtitle {
@@ -62,7 +62,7 @@
 	width: 30px;
 	position: absolute;
 	top: 20px;
-	right: 20px;
+	right: 40px;
 }
 
 .card-subtitle {
@@ -118,6 +118,17 @@
 	width: 45px;
 	height: 45px;
 }
+
+.userListImg{
+	position: relative;
+	border-radius: 30px;
+	-moz-border-radius: 30px;
+	-khtml-border-radius: 30px;
+	-webkit-border-radius: 30px;
+	width: 55px;
+	height: 55px;
+	margin-bottom:5px;
+}
 .bi-file-earmark-lock-fill,.c{
 	margin:auto;
 }
@@ -166,6 +177,9 @@
     
 .re_comment{
 	display:none;
+}
+.secret,.article,.clubInfo{
+	width:800px;
 }
     
 </style>
@@ -357,14 +371,29 @@
 		})
 		
 	}
+	
+	function editPin(ca_id,ca_pin){
+		$.ajax({
+			url:"${contextPath}/club/editPin.do",
+			type:"post",
+			async:true,
+			data : {ca_id:ca_id,ca_pin:ca_pin},
+			success:function(data){
+				location.reload();
+			},
+			error:function(data){
+				alert("error");
+			}
+		})
+	}
 </script>
 </head>
 <body>
 <!-- 	소모임 카드 -->
 <div class="row" style="clear:both;">
-	<div class="container my-6 center top">
+	<div class="container my-6 center top" style="margin-left:280px;">
 		<div class="left">
-			<div class="card info" style="width: 17rem; margin-top:17px;">
+			<div class="card info" style="width: 17rem;">
 			<c:set var="c_img" value="${clubImg}"/>
 				<c:choose>
 					<c:when test="${c_img eq ''}">
@@ -375,11 +404,13 @@
 					</c:otherwise>
 				</c:choose>
 				<div class="card-body">
-					<h5 class="card-title">${clubInfo.c_name }</h5>
-					<p class="card-text">함께하는 사람 ${clubInfo.c_membercnt }</p>
+					<h5 class="card-title" style="margin-left:0px;">${clubInfo.c_name }</h5>
+					<p class="card-text">함께하는 사람 ${clubInfo.c_membercnt}</p>
 					<c:if test="${clubInfo.c_hashtag ne null}">
 						<small class="text-muted" style="height: 14px">#${clubInfo.c_hashtag}</small>
 					</c:if>
+					<br>
+					<span class="text-muted m-0 text-muted"><small>시작한 날 ${clubInfo.c_openingdate}</small></span>
 					<c:set var="cm_rank" value="${rank}"/>
 						<c:choose>
 							<c:when test="${rank eq 10}">
@@ -389,7 +420,7 @@
 								<button id="btnGroupDrop1" type="button"
 									class="dropdown-toggle btn btn-success btn-block"
 									data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false" style="margin-top:10px;width:246px;">소모임 관리</button>
+									aria-expanded="false" style="margin-top:10px;width:228px;">소모임 관리</button>
 								<div class="dropdown-menu btn btn-success btn-block" aria-labelledby="btnGroupDrop1">
 									<a class="dropdown-item" href="${contextPath}/club/waitMemberList.do?c_id=${clubInfo.c_id}">요청승인하기</a> 
 									<a class="dropdown-item" href="${contextPath}/club/updateClubForm.do?c_id=${clubInfo.c_id}">소모임 수정하기</a>
@@ -413,8 +444,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="right">
-			<div class="card" style="width: 700px;">
+		<div class="right align-top">
+			<div class="card clubInfo">
 				<div class="card-header">${clubInfo.c_name }</div>
 				<div class="card-body">
 					<h5>${clubInfo.c_content }</h5>
@@ -425,7 +456,7 @@
 			<c:choose>
 			<c:when test="${rank eq 10 or rank eq 20 or rank eq 30}">
 			<c:forEach var="club" items="${clubInfo.articleList}">
-				<div class="card article" style="width: 700px; height: auto;">
+				<div class="card article" style="height: auto;margin-top:20px;">
 					<div class="card-body" style="height: auto">
 			<c:set var="m_img" value="${club.resultUserImg}"/>
 					<c:choose>
@@ -441,7 +472,7 @@
 						<c:choose>
 							<c:when test="${ca_pin eq 1}">
 								<div class="pin">
-									<svg width="1.5em" height="1.5em" viewBox="0 0 16 16"
+									<svg width="3em" height="3em" viewBox="0 0 16 16"
 										class="bi bi-bookmark-star-fill" fill="currentColor"
 										xmlns="http://www.w3.org/2000/svg">
   										<path fill-rule="evenodd"
@@ -450,13 +481,13 @@
 								</div>
 							</c:when>
 						</c:choose>
-						<h6 class="card-subtitle mb-2 text-muted">${club.ca_date }</h6>
-						<p class="card-text" style="margin-top: 10px;">${club.ca_content }</p>
-						<div class="swiper-container">
+						<h6 class="card-subtitle mb-2 text-muted">${club.ca_date}</h6>
+						<p class="card-text" style="margin-top: 10px;">${club.ca_content}</p>
+						<div class="swiper-container" style="margin-bottom:20px;">
 						<div class="swiper-wrapper">
 						<c:set var="ca_img" value="${club.articleImgList}" />
 							<c:forEach var="ca_img" items="${club.articleImgList}">
-								<c:if test="${ca_img.resultArticleImg ne null }">
+								<c:if test="${ca_img.resultArticleImg ne null}">
 									<div class="swiper-slide">
 										<img src="data:image/jpg;base64, ${ca_img.resultArticleImg}" class="ca_img">
 									</div>
@@ -622,8 +653,8 @@
 								</div>
 							</div>
 						<!--본인이 쓴 글일 경우 수정,삭제 메뉴 -->
-						<c:set var="logOnId" value="${m_id }" />
-						<c:set var="writer" value="${club.m_id }" />
+						<c:set var="logOnId" value="${m_id}" />
+						<c:set var="writer" value="${club.m_id}" />
 						<c:choose>
 							<c:when test="${logOnId eq writer}">
 							<svg onclick="menuTap(${club.ca_id});" width="1em" height="1em"
@@ -638,6 +669,14 @@
 										data-target="#staticBackdrop">삭제</button>
 									<button type="button" class="btn btn-outline-secondary" style="float:right"
 										onclick="location.href='${contextPath}/club/editClubArticleForm.do?ca_id=${club.ca_id}&&c_id=${clubInfo.c_id}'">수정</button>
+									<c:if test="${club.ca_pin eq 1}">
+									<button type="button" class="btn btn-outline-warning" style="float:right"
+										onclick="editPin(${club.ca_id},0)">공지사항 내리기</button>
+									</c:if>
+									<c:if test="${club.ca_pin eq 0}">
+									<button type="button" class="btn btn-outline-warning" style="float:right"
+										onclick="editPin(${club.ca_id},1)">공지사항 설정하기</button>
+									</c:if>
 								</div>
 							</c:when>
 						</c:choose>
@@ -646,7 +685,7 @@
 			</c:forEach>
 			</c:when>
 			<c:otherwise>
-					<div class="card bg-light text-secondary secret" style="text-align:center; width:700px; height:500px; margin-top:20px;">
+					<div class="card bg-light text-secondary secret" style="text-align:center;height:500px; margin-top:20px;">
 					<div class="c">
 					<svg width="4em" height="4em" viewBox="0 0 16 16" class="bi bi-file-earmark-lock-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   						<path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zM7 7a1 1 0 0 1 2 0v1H7V7zm3 0v1.076c.54.166 1 .597 1 1.224v2.4c0 .816-.781 1.3-1.5 1.3h-3c-.719 0-1.5-.484-1.5-1.3V9.3c0-.627.46-1.058 1-1.224V7a2 2 0 1 1 4 0zM6 9.3c0-.042.02-.107.105-.175A.637.637 0 0 1 6.5 9h3a.64.64 0 0 1 .395.125c.085.068.105.133.105.175v2.4c0 .042-.02.107-.105.175A.637.637 0 0 1 9.5 12h-3a.637.637 0 0 1-.395-.125C6.02 11.807 6 11.742 6 11.7V9.3z"/>
@@ -700,33 +739,33 @@
 				</div>
 			</div>
 		</div>
-			<div class="side" style="height:80%;margin-left:210px;">
-				<h5>리더</h5>
-				<c:forEach var="leader" items="${leader}">
-					<c:set var="leader" value="${leader.resultUserImg}" />
+			<div class="side" style="height:80%;width:350px;">
+				<h5>만든 사람</h5>
+				<c:forEach var="lead" items="${leader}">
+					<c:set var="leaderImg" value="${lead.resultUserImg}" />
 					<c:choose>
-						<c:when test="${leader eq null}">
+						<c:when test="${leaderImg eq null}">
 							<img src="${contextPath}/resources/image/user.png"
-								class="userImg">
+								class="userListImg">
 						</c:when>
 						<c:otherwise>
-							<img src="data:image/jpg;base64, ${leader}" class="userImg">
+							<img src="data:image/jpg;base64, ${leaderImg}" class="userListImg">
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
 				<br>
 				<br>
-				<h5>멤버(${clubInfo.c_membercnt}명)</h5>
+				<h5>함께하는 사람(${clubInfo.c_membercnt}명)</h5>
 				<a href="${contextPath}/club/clubMemberList.do?c_id=${clubInfo.c_id}">모두 보기</a><br>
-				<c:forEach var="members" items="${members}">
-					<c:set var="members" value="${members.resultUserImg}" />
+				<c:forEach var="member" items="${members}">
+					<c:set var="membersImg" value="${member.resultUserImg}" />
 					<c:choose>
-						<c:when test="${members eq null}">
+						<c:when test="${membersImg eq null}">
 							<img src="${contextPath}/resources/image/user.png"
-								class="userImg">
+								class="userListImg">
 						</c:when>
 						<c:otherwise>
-							<img src="data:image/jpg;base64, ${members}" class="userImg">
+							<img src="data:image/jpg;base64, ${membersImg}" class="userListImg">
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
