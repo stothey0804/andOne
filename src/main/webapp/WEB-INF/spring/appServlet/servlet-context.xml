@@ -86,9 +86,8 @@
 	</websocket:handlers>
 	
     <!-- batch -->
-    <!-- 
     <task:annotation-driven executor="executor" scheduler="scheduler"/>
     <task:scheduler id="scheduler" pool-size="10" />
     <task:executor id="executor" keep-alive="5" pool-size="10-20" queue-capacity="10" rejection-policy="ABORT" />
-    -->
+    
 </beans:beans>
