@@ -63,4 +63,9 @@ public class ClubP003_d001DAOImpl implements ClubP003_d001DAO{
 		String ca_id = sqlSession.selectOne("club.p003.nextCa_id");
 		return ca_id;
 	}
+
+	@Override
+	public void updatePin(Map<String, Object> updateMap) {
+		sqlSession.update("club.p003.updatePin", updateMap);
+	}
 }

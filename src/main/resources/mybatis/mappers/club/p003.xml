@@ -33,17 +33,17 @@
 	
 	<insert id="insertClubArticle" parameterType="java.util.Map">
 		INSERT INTO c_article(ca_id,ca_content,c_id,ca_date,m_id,ca_pin)
-		values(art_SEQ.NEXTVAL,#{ca_content},#{c_id},to_char(sysdate,'YYYY-MM-DD HH24:MI'),#{m_id},0)
+		values(art_SEQ.NEXTVAL,#{ca_content},#{c_id},to_char(sysdate,'YYYY-MM-DD HH24:MI'),#{m_id},#{ca_pin})
 	</insert>
 	
 	<insert id="insertClubArticleImg" parameterType="java.util.Map">
-			INSERT INTO ca_image(cai_id,ca_img,ca_id)
-			values(LPAD(c_articleImg_SEQ.NEXTVAL,6,'0'),#{ca_img},#{ca_id})
+		INSERT INTO ca_image(cai_id,ca_img,ca_id)
+		values(LPAD(c_articleImg_SEQ.NEXTVAL,6,'0'),#{ca_img},#{ca_id})
 	</insert>
 
 	<insert id="updateArticleImg" parameterType="java.util.Map">
-			INSERT INTO ca_image(cai_id,ca_img,ca_id)
-			values(LPAD(c_articleImg_SEQ.NEXTVAL,6,'0'),#{ca_img},#{ca_id})
+		INSERT INTO ca_image(cai_id,ca_img,ca_id)
+		values(LPAD(c_articleImg_SEQ.NEXTVAL,6,'0'),#{ca_img},#{ca_id})
 	</insert>
 	
 	<select id="getArticle" resultMap="article" parameterType="java.util.Map">
@@ -77,6 +77,7 @@
 		SET ca_content = #{ca_content}
 		WHERE ca_id = #{ca_id}
 	</update>
+	
 	<delete id="leaveClub">
 		{call
            declare
@@ -91,4 +92,9 @@
        }
 	</delete>
 	
+	<update id="updatePin">
+		UPDATE c_article
+		SET ca_pin = #{ca_pin}
+		WHERE ca_id = #{ca_id}
+	</update>
 </mapper>

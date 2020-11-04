@@ -70,4 +70,9 @@ public class ClubP001_d001DAOImpl implements ClubP001_d001DAO{
 		ClubVO vo = sqlSession.selectOne("club.p001.detailClubCard",searchMap);
 		return vo;
 	}
+	@Override
+	public List<ClubVO> searchClubListHashtag(Map<String, Object> searchMap) {
+		List<ClubVO> searchClubList = sqlSession.selectList("club.p001.searchClubListHashtag",searchMap);
+		return searchClubList;
+	}
 }

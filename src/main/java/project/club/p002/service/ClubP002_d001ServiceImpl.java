@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import project.club.p002.dao.ClubP002_d001DAO;
+import project.club.vo.ClubVO;
 
 @Service
 public class ClubP002_d001ServiceImpl implements ClubP002_d001Service{
@@ -40,6 +41,12 @@ public class ClubP002_d001ServiceImpl implements ClubP002_d001Service{
 	@Override
 	public void insertClub(Map<String, Object> insertMap) {
 		clubP002_d001DAO.inserClub(insertMap);
+	}
+
+	@Override
+	public ClubVO detailClub_forUpdate(Map<String, Object> searchMap) {
+		ClubVO vo = clubP002_d001DAO.detailClub_forUpdate(searchMap);
+		return vo;
 	}
 	
 }
