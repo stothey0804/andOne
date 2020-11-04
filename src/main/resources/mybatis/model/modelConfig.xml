@@ -21,7 +21,7 @@
 		<typeAlias type="project.and.vo.AndP001AndOneVO" alias="AndP001AndOneVO"/><!-- 엔분의일 -->
 		<typeAlias type="project.and.vo.AndP002AndOneVO" alias="AndP002AndOneVO"/><!-- 엔분의일 -->
 		<typeAlias type="project.and.vo.AndOneMemberVO" alias="AndOneMemberVO"/><!-- 엔분의일 -->
-		<typeAlias type="project.and.p003.vo.AndP003VO" alias="AndP003VO"/> <!-- 메세지 -->
+		<typeAlias type="project.and.p003.vo.AndP003ChatContentVO" alias="andP003ChatContentVO"/> <!-- 메세지 -->
 		<typeAlias type="project.shop.p001.vo.ShopP001BmemberVO" alias="shopP001BMemberVO"/>
 		<typeAlias type="project.shop.p001.vo.ShopP001StatisticsVO" alias="shopP001StatisticsVO"/>
 	    <typeAlias type="project.shop.p002.vo.ShopP002ShopDetailVO" alias="ShopP002ShopDetailVO" />
