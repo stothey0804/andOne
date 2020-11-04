@@ -47,4 +47,21 @@ public class AndP002_d002DAOImpl implements AndP002_d002DAO {
 	public void updateCancelOneMember(Map<String, Object> cancelMap) {
 		sqlSession.update("and.p002.updateCancelOneMember", cancelMap);
 	}
+	//엔분의일 글 인원 수 확인
+	@Override
+	public int selectAndOneMemberCnt(String one_id) {
+		int andOneCnt = sqlSession.selectOne("and.p002.selectAndOneMemberCnt",one_id);
+		return andOneCnt;
+	}
+	//결제완료후 수락까지 받은 인원수 확인
+	@Override
+	public int selectOneMemCnt(Map<String, Object> cntMap) {
+		int OneMemCnt = sqlSession.selectOne("and.p002.selectOneMemCnt", cntMap);
+		return OneMemCnt;
+	}
+	//엔분의일 진행상태 업테이트
+	@Override
+	public void updateOneState(Map<String, Object> updateMap) {
+		sqlSession.update("and.p002.updateOneState", updateMap);
+	}
 }

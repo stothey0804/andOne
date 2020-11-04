@@ -70,10 +70,14 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 	}
 	//작성자 참가자 확인
 	@Override
-	public String omLeaderCheck(Map<String,Object> omCheckMap) {
-		String omLeaderCheck = p001_d001DAO.omLeaderCheck(omCheckMap);
+	public AndOneMemberVO omLeaderCheck(Map<String,Object> omCheckMap) {
+		AndOneMemberVO omLeaderCheck = p001_d001DAO.omLeaderCheck(omCheckMap);
 		System.out.println("서비스체크   :"+omLeaderCheck);
 		return omLeaderCheck;
 	}
-	
+	@Override
+	public void updateAndOneState() {
+		p001_d001DAO.updateAndOneState();
+	}
+
 }

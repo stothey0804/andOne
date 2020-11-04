@@ -39,6 +39,23 @@ public class AndP002_d002ServiceImpl implements AndP002_d002Service {
 	@Override
 	public void cancelOneMember(Map<String, Object> cancelMap) {
 		p002_d002DAO.updateCancelOneMember(cancelMap);
+	}
+
+	@Override
+	public int andOneCnt(String one_id) {
+		int andOneCnt = p002_d002DAO.selectAndOneMemberCnt(one_id);
+		return andOneCnt;
+	}
+
+	@Override
+	public int oneMemCnt(Map<String, Object> cntMap) {
+		int oneMemCnt = p002_d002DAO.selectOneMemCnt(cntMap);
+		return oneMemCnt;
+	}
+
+	@Override
+	public void updateOneState(Map<String, Object> updateMap) {
+		p002_d002DAO.updateOneState(updateMap);
 	} 
 
 }

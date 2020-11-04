@@ -11,5 +11,8 @@ public interface AndP002_d002Service {
 	public void denyOneMember(Map<String, Object> denyMap);
 	public int CancelTime(String one_id);
 	public void cancelOneMember(Map<String, Object> cancelMap);
+	public int andOneCnt(String one_id);
+	public int oneMemCnt(Map<String, Object> cntMap);
+	public void updateOneState(Map<String, Object> updateMap);
 
 }

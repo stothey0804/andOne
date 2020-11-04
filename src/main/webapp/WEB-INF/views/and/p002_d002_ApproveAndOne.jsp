@@ -17,40 +17,47 @@
 				}
 	</style>
 	<script>
-		function okAndOne(m_id,one_id,idx){
-			console.log("m_id>>"+m_id);
-			console.log("one_id>>"+one_id);
-			$.ajax({
-				type : "post",
-    			dataType: "text",
-    			async: "true",
-    			url:"${contextPath}/and/okOneMember.do",
-    			data:{
-    				"m_id" : m_id,
-    				"one_id":one_id
-    			},
-    			success:function(data,textSataus){
-    				$(".check"+idx).html("&분의일 신청 수락완료:)");
-    			}
-			})
-		}
-		function denyAndOne(m_id,one_id,idx){
-			console.log("m_id>>"+m_id);
-			console.log("one_id>>"+one_id);
-			$.ajax({
-				type : "post",
-    			dataType: "text",
-    			async: "true",
-    			url:"${contextPath}/and/denyOneMember.do",
-    			data:{
-    				"m_id" : m_id,
-    				"one_id":one_id
-    			},
-    			success:function(data,textSataus){
-    				$("#"+idx).remove();
-    			}
-			})
-		}
+	//수락하기
+	function okAndOne(m_id,one_id,idx){
+		console.log("m_id>>"+m_id);
+		console.log("one_id>>"+one_id);
+		$.ajax({
+			type : "post",
+   			dataType: "text",
+   			async: "true",
+   			url:"${contextPath}/and/okOneMember.do",
+   			data:{
+   				"m_id" : m_id,
+   				"one_id":one_id
+   			},
+   			success:function(data,textSataus){
+   				console.log("확인:"+data);
+   				if(data =="fail"){
+   					alert("수락인원이 초과되어 수락이 불가능합니다");
+   				}else if(data == "success"){
+	   				$(".check"+idx).html("&분의일 신청 수락완료:)");
+   				}
+   			}
+		})
+	}
+	//거절하기
+	function denyAndOne(m_id,one_id,idx){
+		console.log("m_id>>"+m_id);
+		console.log("one_id>>"+one_id);
+		$.ajax({
+			type : "post",
+   			dataType: "text",
+   			async: "true",
+   			url:"${contextPath}/and/denyOneMember.do",
+   			data:{
+   				"m_id" : m_id,
+   				"one_id":one_id
+   			},
+   			success:function(data,textSataus){
+   				$("#"+idx).remove();
+   			}
+		})
+	}
 	</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>

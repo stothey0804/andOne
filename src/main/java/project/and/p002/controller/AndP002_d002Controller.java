@@ -10,7 +10,7 @@ public interface AndP002_d002Controller {
 	public ModelAndView AndOnewaitMemList(String one_id);
 	public String okOneMember(Map<String, Object> okMap);
 	public String denyOneMember(Map<String, Object> denyMap);
-	public String cancelOneMember(String one_id, HttpServletRequest request);
+	public String cancelOneMember(Map<String, Object> cancelMap, HttpServletRequest request);
 	
 
 }
