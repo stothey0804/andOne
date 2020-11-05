@@ -9,5 +9,5 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.ModelAndView;
 
 public interface RootP001_d002Controller {	// 로그인 처리
-	
+	public ModelAndView searchInit(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

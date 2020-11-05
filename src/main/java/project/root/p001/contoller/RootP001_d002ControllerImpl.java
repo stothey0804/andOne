@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import common.Common;
 
 @Controller
-public class RootP001_d002ControllerImpl implements RootP001_d001Controller {
+public class RootP001_d002ControllerImpl implements RootP001_d002Controller {
 	
 
 	// 메인영역
