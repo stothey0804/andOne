@@ -42,7 +42,7 @@
 	</select>
 
 	<!-- 채팅 내용 불러오기 --> 
-	<select id="getMessageList" parameterType="java.util.HashMap" resultMap="and.p003.messageMap">
+	<select id="getChatContentList" parameterType="java.util.HashMap" resultMap="and.p003.messageMap">
 		<![CDATA[
 			SELECT MSG_CONTENT, MSG_DATE, MSG_ID, M_NICKNAME
 			FROM MESSAGE M
@@ -75,7 +75,7 @@
  	</insert>
  	
  	<!-- 채팅방 목록 불러오기 -->
- 	<select id="getChatRoomList" parameterType="String" resultMap="and.p003.andP003ChatRoomVO">
+ 	<select id="getChatRoomList" parameterType="String" resultMap="and.p003.roomMap">
  		<![CDATA[
  			SELECT ONE_TYPE, ONE_ID, ONE_TITLE, DECODE(MSG_CONTENT, NULL, '메세지가 없습니다', MSG_CONTENT) AS LATESTMESSAGE, DECODE(MSG_DATE,NULL,'0',MSG_DATE) AS MSG_DATE
 			FROM
@@ -96,7 +96,7 @@
  	</select>
  	
  	<!-- 유저 목록 불러오기 -->
- 	<select id="getChatUserList" parameterType="String" resultMap="">
+ 	<select id="getChatUserList" parameterType="String" resultMap="and.p003.userMap">
  		<![CDATA[
  			SELECT M_ID, M_NICKNAME, M_IMG
 			FROM MEMBER
