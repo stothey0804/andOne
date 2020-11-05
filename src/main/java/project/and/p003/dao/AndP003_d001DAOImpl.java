@@ -29,4 +29,19 @@ public class AndP003_d001DAOImpl implements AndP003_d001DAO {
 	public List<AndP003ChatUserVO> getChatUserList(String one_id) {
 		return sqlSession.selectList("and.p003.getChatUserList",one_id);
 	}
+
+	@Override
+	public void insertChatContent(AndP003ChatContentVO vo) {
+		sqlSession.insert("and.p003.sendMessage",vo);
+	}
+
+	@Override
+	public List<String> getChatUserIdList(String one_id) {
+		return sqlSession.selectList("and.p003.getChatUserIdList",one_id);
+	}
+
+	@Override
+	public AndP003ChatContentVO selectLatestMessage(String one_id) {
+		return sqlSession.selectOne("and.p003.selectLatestMessage",one_id);
+	}
 }

@@ -45,7 +45,7 @@
 	<!-- 채팅 내용 불러오기 --> 
 	<select id="getChatContentList" parameterType="java.util.HashMap" resultMap="and.p003.messageMap">
 		<![CDATA[
-			SELECT MSG_CONTENT, MSG_DATE, MSG_ID, M_NICKNAME
+			SELECT MSG_CONTENT, MSG_DATE, MSG_ID, M_NICKNAME, M.M_ID
 			FROM MESSAGE M
 			INNER JOIN
 			(
@@ -107,6 +107,36 @@
 			    FROM ONE_MEMBER
 			    WHERE ONE_ID = #{one_id}
 			)
+ 		]]>
+ 	</select>
+ 	
+ 	<!-- 유저 아이디만 뽑아오기 -->
+ 	<select id="getChatUserIdList" parameterType="String" resultType="String">
+ 		<![CDATA[
+		    SELECT M_ID
+		    FROM ONE_MEMBER
+		    WHERE ONE_ID = #{one_id}
+ 		]]>
+ 	</select>
+ 	
+ 	<!-- 마지막 메세지의 모든 데이터 셀렉트 -->
+ 	<select id="selectLatestMessage" parameterType="String" resultMap="and.p003.messageMap">
+ 		<![CDATA[
+ 			SELECT ONE_ID, ONE_TYPE, MSG_CONTENT, MSG_DATE, MSG_ID, M_NICKNAME
+			FROM
+			(
+			    SELECT ONE_ID, ONE_TYPE, MSG_CONTENT, MSG_DATE, MSG_ID, M_NICKNAME, ROW_NUMBER()OVER(ORDER BY MSG_DATE DESC) AS ROW_NUM
+			    FROM MESSAGE M
+			    INNER JOIN 
+			    (
+			        SELECT A.M_ID, M_NICKNAME
+			        FROM MEMBER A INNER JOIN ONE_MEMBER B ON A.M_ID = B.M_ID
+			        WHERE ONE_ID = #{one_id}
+			    ) INN ON M.M_ID = INN.M_ID
+			    WHERE ONE_ID = #{one_id}
+			    ORDER BY ROW_NUM
+			)
+			WHERE ROW_NUM = 1
  		]]>
  	</select>
  	

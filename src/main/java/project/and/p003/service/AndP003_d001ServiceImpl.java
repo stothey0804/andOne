@@ -39,4 +39,19 @@ public class AndP003_d001ServiceImpl implements AndP003_d001Service{
 			vo.setM_imgEncoder(null);
 		}
 	}
+
+	@Override
+	public void insertChatContent(AndP003ChatContentVO vo) {
+		andP003_d001DAO.insertChatContent(vo);
+	}
+
+	@Override
+	public List<String> getChatUserIdList(String one_id) {
+		return andP003_d001DAO.getChatUserIdList(one_id);
+	}
+
+	@Override
+	public AndP003ChatContentVO selectLatestMessage(String one_id) {
+		return andP003_d001DAO.selectLatestMessage(one_id);
+	}
 }

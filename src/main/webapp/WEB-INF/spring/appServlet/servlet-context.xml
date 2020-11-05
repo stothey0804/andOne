@@ -77,13 +77,17 @@
  
     <!-- websocket -->
     <beans:bean id="echoHandler" class="common.socket.EchoHandler" />
+    <beans:bean id="chatHandler" class="common.socket.ChatHandler" />
  	<websocket:handlers>
 		<websocket:mapping handler="echoHandler" path="/echo-ws" />
+		<websocket:mapping handler="chatHandler" path="/chat-ws" />
 		<websocket:handshake-interceptors>
 		  <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
 		</websocket:handshake-interceptors>	
 		<websocket:sockjs />
 	</websocket:handlers>
+	
+	
 	
     <!-- batch -->
     <task:annotation-driven executor="executor" scheduler="scheduler"/>
