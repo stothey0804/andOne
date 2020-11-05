@@ -46,9 +46,8 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("main");
 		
-		String m_locate_Lat = latCookie.getValue();
-		String m_locate_Lng = lngCookie.getValue();
-		
+		String m_locate_Lat = "";
+		String m_locate_Lng = "";
 		
 //		HttpSession session = request.getSession(false);
 //		System.out.println("세션값? >> " + session.getAttribute("member"));

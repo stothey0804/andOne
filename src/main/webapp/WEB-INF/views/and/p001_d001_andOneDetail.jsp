@@ -152,23 +152,35 @@
 			 		<c:forEach var ="oneMemList" items="${oneMemList}" > 
 			 		<li class="list-group-item border-0 text-center">
 						<c:set var="mem_img" value="${oneMemList.resultUserImg}"/>
+					 		<c:if test="${oneMemList.om_leader eq '10'}"> <!-- 작성자 구분 -->
 					 			<c:choose>
 					 			 	<c:when test="${mem_img eq null}">
-					 			 		<img src="${contextPath}/resources/image/user.png" class="m_img">
+					 			 		<img src="${contextPath}/resources/image/user.png" class="m_img" onclick="openMemPopup('${oneMemList.m_id}')">
 					 			 	</c:when>
 					 			 	 <c:otherwise>
-					 			 	 	<img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img"> 
+					 			 	 	<img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img" onclick="openMemPopup('${oneMemList.m_id}')"> 
 						 			 </c:otherwise>
 					 			 </c:choose><br> 
-					 		<c:if test="${oneMemList.om_leader eq '10'}"> <!-- 작성자 구분 -->
-					 			<i class="fas fa-crown text-warning"></i> 
-							</c:if>${oneMemList.m_nickname}
+					 			<i class="fas fa-crown text-warning"></i>
+					 			${oneMemList.m_nickname} 
+							</c:if>
+							<c:set var="mem_img" value="${oneMemList.resultUserImg}"/>
+					 		<c:if test="${oneMemList.om_leader eq '20' and oneMemList.om_state eq '20'}"> <!-- 결제완료한 참가자 -->
+					 			<c:choose>
+					 			 	<c:when test="${mem_img eq null}">
+					 			 		<img src="${contextPath}/resources/image/user.png" class="m_img" onclick="openMemPopup('${oneMemList.m_id}')">
+					 			 	</c:when>
+					 			 	 <c:otherwise>
+					 			 	 	<img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img" onclick="openMemPopup('${oneMemList.m_id}')"> 
+						 			 </c:otherwise>
+					 			 </c:choose><br>
+					 			${oneMemList.m_nickname} 
+							</c:if>
 					</li>
 					</c:forEach>
 					</ul>
 <%-- 			 	<c:forEach var ="oneMemList" items="${oneMemList}" >  --%>
 <%-- 					<c:set var="mem_img" value="${oneMemList.resultUserImg}"/> --%>
-<%-- 						<c:if test="${oneMemList.om_leader eq '20' and oneMemList.om_state eq '20'}"> <!-- 결제완료한 참가자 --> --%>
 <!-- 				 			 참가자 닉네임  -->
 <%-- 				 			 <c:choose> --%>
 <%-- 				 			 	<c:when test="${mem_img eq null}"> --%>
@@ -398,7 +410,13 @@
 		function openReportPopup(){
 			var popupOpener;
 			popupOpener = window.open("${contextPath}/member/reportInit.do?target=${andoneDetail.one_id}&flag=one", "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
-		}			
+		}
+		// 프로필 클릭 
+		function openMemPopup(memID){
+				var popupOpener;
+				let m_id = memID;
+				popupOpener = window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "popupOpener", "resizable=no,top=0,left=0,width=450,height=500");
+		}
 	</script>
 </body>
 </html>
