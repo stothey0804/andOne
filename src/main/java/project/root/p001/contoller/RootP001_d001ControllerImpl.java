@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import common.Common;
+import project.and.p001.service.AndP001_d001Service;
+import project.and.vo.AndP001AndOneVO;
 import project.club.p001.service.ClubP001_d001Service;
 import project.club.vo.ClubVO;
 import project.root.p001.service.RootP001_d001Service;
@@ -33,29 +35,54 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 	RootP001_d001Service rootP001_d001Service;
 	@Autowired
 	ClubP001_d001Service clubP001_d001Service;
+	@Autowired
+	AndP001_d001Service p001_d001Service;
 	
 	// 메인영역
 	@RequestMapping(value="/")
 	@Override
-	public ModelAndView searchInit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView searchInit(@CookieValue(value="locate_lat", required = false) Cookie latCookie, 
+			@CookieValue(value="locate_lng", required = false) Cookie lngCookie, HttpServletRequest request, 
+			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("main");
+		
+		String m_locate_Lat = latCookie.getValue();
+		String m_locate_Lng = lngCookie.getValue();
 		
 		
 //		HttpSession session = request.getSession(false);
 //		System.out.println("세션값? >> " + session.getAttribute("member"));
 		
 		// &분의일 - 같이먹기
+		Map<String,Object> andeat = new HashMap<String,Object>(); 
+		andeat.put("m_locate_Lat", m_locate_Lat);
+		andeat.put("m_locate_Lng", m_locate_Lng);
+		andeat.put("g_id", "010");
+		List<AndP001AndOneVO> andEatList = p001_d001Service.recentAndOneList(andeat);
 		
 		// &분의일 - 같이사기
+		Map<String,Object> andbuy = new HashMap<String,Object>(); 
+		andbuy.put("m_locate_Lat", m_locate_Lat);
+		andbuy.put("m_locate_Lng", m_locate_Lng);
+		andbuy.put("g_id", "011");
+		List<AndP001AndOneVO> andBuyList = p001_d001Service.recentAndOneList(andbuy);
 		
 		// &분의일 - 같이하기
-		
+		Map<String,Object> anddo= new HashMap<String,Object>(); 
+		anddo.put("m_locate_Lat", m_locate_Lat);
+		anddo.put("m_locate_Lng", m_locate_Lng);
+		anddo.put("g_id", "012");
+		List<AndP001AndOneVO> andDoList = p001_d001Service.recentAndOneList(anddo);
 		// 소모임설정
 		List<ClubVO> clubList = clubP001_d001Service.clubList();
 		// 업체정보와 후기 출력
 		
 		//
 		mav.addObject("clubList", clubList);
+		mav.addObject("andEatList", andEatList);
+		mav.addObject("andBuyList", andBuyList);
+		mav.addObject("andDoList", andDoList);
+		
 		return mav;
 	}
 	

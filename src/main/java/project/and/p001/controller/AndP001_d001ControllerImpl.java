@@ -7,31 +7,24 @@ import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.sound.midi.Soundbank;
 
-import org.aspectj.org.eclipse.jdt.core.dom.ParenthesizedExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.JsonArray;
 
 import common.Common;
-import net.sf.json.JSONArray;
 import project.and.p001.service.AndP001_d001Service;
 import project.and.p002.service.AndP002_d002Service;
 import project.and.vo.AndOneMemberVO;
 import project.and.vo.AndP001AndOneVO;
-import project.member.p001.vo.MemberP001_MemberVO;
 import project.point.p001.service.PointP001_d001Service;
 import project.point.p001.service.PointP001_d002Service;
 import project.point.p001.vo.PointP001VO;
@@ -81,7 +74,6 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		List<AndP001AndOneVO> recentAndOneList = null;
 		//최근 등록된 같이먹기 + 해쉬태그
 		if(flag ==null || flag.equals("")) {
-			System.out.println("여기로들어옴?????왜?????");
 			recentAndOneList = p001_d001Service.recentAndOneList(param); //최근등록된 같이먹기			
 		}else if(flag.equals("distance")) {
 			System.out.println(">>>>>>>>distance");
