@@ -18,6 +18,7 @@
 		<result property="one_id" column="ONE_ID" />
 		<result property="one_title" column="ONE_TITLE" />
 		<result property="latestMessage" column="LATESTMESSAGE" />
+		<result property="msg_date" column="MSG_DATE" />
 	</resultMap>
 	
 	<resultMap id="userMap" type="andP003ChatUserVO">
