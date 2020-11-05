@@ -31,11 +31,25 @@ public class AndP001AndOneVO {
 	private String one_content;
 	private String m_id;
 	private String forEditDate;
+	private String addrDetail;
 	
 	public AndP001AndOneVO() {
 	}
 	
 	
+	
+	public String getAddrDetail() {
+		return addrDetail;
+	}
+
+
+
+	public void setAddrDetail(String addrDetail) {
+		this.addrDetail = addrDetail;
+	}
+
+
+
 	public String getForEditDate() {
 		return forEditDate;
 	}

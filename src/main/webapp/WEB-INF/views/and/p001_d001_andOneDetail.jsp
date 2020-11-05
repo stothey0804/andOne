@@ -78,7 +78,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h6>신청하신 &의일 취소와 사용하신 포인트(${andoneDetail.one_price}P) 환불이 완료되었습니다</h6> 
+                        <h6>신청하신 &amp;분의일 취소와 사용하신 포인트(${andoneDetail.one_price}P) 환불이 완료되었습니다</h6> 
                     </div>
                     <div class="modal-footer">
                     	<button type="submit" class="btn btn-primary" 
@@ -127,7 +127,7 @@
 				</c:if>
 				${andoneDetail.one_state}
 				</span></p>
-				<p class="float-right h6 text-secondary"><i class="fas fa-user-friends"></i> ${andoneDetail.one_memberMax}명</p>			
+				<p class="float-right h6 text-secondary"><i class="fas fa-user-friends"></i>  ${andoneDetail.one_member}/${andoneDetail.one_memberMax}명</p>			
 			</div>
 			
 		</div>
@@ -143,7 +143,7 @@
 		<!-- 내용 -->
 		<div class="col-7 mr-3">
 			 <!-- 해시태그 -->
-			 해시태그: ${andoneDetail.one_hashTag}<br>
+			 #${andoneDetail.one_hashTag}<br>
 			 <!-- 글내용 -->
 			 <div class="mt-3">${andoneDetail.one_content}</div>
 			 <!-- 참여자 -->
@@ -197,8 +197,8 @@
 		 			<p class="text-muted text-center my-3">같이 &amp;분의일을 한 사람에게 후기를 남겨주세요:)</p>
 		 		</c:when>
 		 		<c:when test="${omLeaderCheck.om_leader eq '10'}">
-				 	<br><button class="btn btn-secondary col-6" onclick="modifyAndOne('${andoneDetail.one_id}')">수정하기</button>	 	 
-				 	<br><button class="btn btn-danger col-6" onclick="deleteAndOne('${andoneDetail.one_id}')">삭제하기</button>
+				 	<button class="btn btn-secondary col-6" onclick="modifyAndOne('${andoneDetail.one_id}')">수정하기</button>	 	 
+				 	<button class="btn btn-danger col-6" onclick="deleteAndOne('${andoneDetail.one_id}')">삭제하기</button>
 				 	<br><button class="btn btn-secondary col-12" onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button><br>			 	
 	 			</c:when>
 	 			<c:when test="${omLeaderCheck.om_leader eq '20'}"> 
@@ -209,19 +209,14 @@
 				</c:otherwise>
 				</c:choose>		
 			 	<button class="btn btn-light col-12 mt-1" type="button" onClick='openReportPopup()'>부적절한 &amp;분의일 신고하기</button>
-				<c:if test="${omLeaderCheck.om_state eq '20' and andoneDetail.one_state ne '취소' }"> 
+				<c:if test="${omLeaderCheck.om_state eq '20' and andoneDetail.one_state eq '결제완료' }"> 
 				 	<button class="btn btn-outline-primary col-12" onclick="completeAndOne('${andoneDetail.one_id}')">엔분의일 완료</button> 
 				</c:if>
 			</div>
 		</div>
 	</div>
 		
-<%-- 		 좌표  ${andoneDetail.one_locate_Lat} <br> --%>
-<%-- 		 좌표  ${andoneDetail.one_locate_Lng} <br> --%>
 		 주소  <div class="addr">${andoneDetail.one_addr}</div> <br>
-<!-- 		 <div id="map" style="width:500px; height:400px"></div>  -->
-		 
-		 
 
 </div>
   	<!--kakao map-->

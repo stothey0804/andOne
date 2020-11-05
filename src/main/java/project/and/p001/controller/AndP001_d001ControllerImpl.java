@@ -52,11 +52,14 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	//&분의일 먹기 사기 하기 메인
 	@Override
 	@RequestMapping(value="/and*")
-	public ModelAndView andOneMain(@RequestParam("g_id") String g_id, 
+	public ModelAndView andOneMain(@RequestParam Map<String, Object> mainMap, 
 			@CookieValue(value="locate_lat", required = false) Cookie latCookie, 
 			@CookieValue(value="locate_lng", required = false) Cookie lngCookie, HttpServletRequest request) throws Exception {
 		
-		System.out.println("111111g_id: "+g_id);
+		String g_id = (String) mainMap.get("g_id");
+		String flag = (String) mainMap.get("flag");
+		System.out.println("************메인용g_id: "+g_id);
+		System.out.println("************메인용flag: "+flag);
 		//세션가져오기
 		String m_id ="";
 		String m_locate_Lat ="";
@@ -73,10 +76,21 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		param.put("m_locate_Lat", m_locate_Lat);
 		param.put("m_locate_Lng", m_locate_Lng);
 		param.put("g_id", g_id);
+		param.put("flag", flag);
 		
-		//최근 등록된 같이먹기 + 해쉬태그
-		List<AndP001AndOneVO> recentAndOneList = p001_d001Service.recentAndOneList(param); //최근등록된 같이먹기
 		List<AndP001AndOneVO> ctg = p001_d001Service.searchCtg(g_id); //카테고리설정
+		List<AndP001AndOneVO> recentAndOneList = null;
+		//최근 등록된 같이먹기 + 해쉬태그
+		if(flag ==null || flag.equals("")) {
+			System.out.println("여기로들어옴?????왜?????");
+			recentAndOneList = p001_d001Service.recentAndOneList(param); //최근등록된 같이먹기			
+		}else if(flag.equals("distance")) {
+			System.out.println(">>>>>>>>distance");
+			recentAndOneList = p001_d001Service.recentAndOneList(param);//거리순
+		}else if(flag.equals("date")) {
+			System.out.println(">>>>>>>>date");
+			recentAndOneList = p001_d001Service.recentAndOneList(param);//마감순
+		}
 	
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("andOneMain");
