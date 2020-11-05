@@ -14,5 +14,6 @@ public interface AndP002_d002Service {
 	public int andOneCnt(String one_id);
 	public int oneMemCnt(Map<String, Object> cntMap);
 	public void updateOneState(Map<String, Object> updateMap);
+	public String selectGidByOneId(String one_id);	// g_id 선택..
 
 }

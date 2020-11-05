@@ -10,10 +10,12 @@ public class AndOneMemberVO {
 	private String one_id;
 	private String om_date;
 	
+	
+	
 	public AndOneMemberVO() {
 		System.out.println("AndOneMemberVO");
 	}
-
+		
 	public String getOne_id() {
 		return one_id;
 	}
