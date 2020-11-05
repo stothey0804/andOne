@@ -75,4 +75,16 @@ public class ClubP001_d001DAOImpl implements ClubP001_d001DAO{
 		List<ClubVO> searchClubList = sqlSession.selectList("club.p001.searchClubListHashtag",searchMap);
 		return searchClubList;
 	}
+	@Override
+	public int searchClubListCnt(Map<String, Object> searchMap) {
+		return sqlSession.selectOne("club.p001.searchClubListCnt", searchMap);
+	}
+	@Override
+	public int searchClubListCntHashtag(Map<String, Object> searchMap) {
+		return sqlSession.selectOne("club.p001.searchClubListCntHashtag", searchMap);
+	}
+	@Override
+	public int searchClubListCntCategory(Map<String, Object> searchMap) {
+		return sqlSession.selectOne("club.p001.searchClubListCntCategory", searchMap);
+	}
 }

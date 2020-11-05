@@ -2,7 +2,6 @@ package common;
 
 import java.text.DecimalFormat;
 import java.util.Base64;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +27,17 @@ public class Common {
 			}
 		}
 		return returnView;
+	}
+	// 로그인 체크 메서드, 로그인중이면 true 아니면 false 리턴
+	public static boolean checkLoginStatus(HttpServletRequest request) {
+		boolean result = false;
+		HttpSession session = request.getSession(false);
+		if(session!=null) {
+			if(session.getAttribute("m_id")!=null && session.getAttribute("isLogOn")!=null){
+				result = true;
+			}
+		}
+		return result;
 	}
 	// 관리자여부 체크 메서드, dest = 목적지 view
 	public static String checkAdminDestinationView(String dest, HttpServletRequest request) {
@@ -70,6 +80,8 @@ public class Common {
 				 if(list.get(i).getUserImg() != null) {
 					 encoded = Base64.getEncoder().encode(list.get(i).getUserImg());
 					 list.get(i).setResultUserImg(new String(encoded));	
+				 } else {
+					 System.out.println("nullllllllllllllll");
 				 }
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -9,7 +9,16 @@ public class AndP003ChatRoomVO {
 	private String one_id;
 	private String one_title;
 	private String latestMessage;
+	private String msg_date;
 	
+	
+	
+	public String getMsg_date() {
+		return msg_date;
+	}
+	public void setMsg_date(String msg_date) {
+		this.msg_date = msg_date;
+	}
 	public String getLatestMessage() {
 		return latestMessage;
 	}

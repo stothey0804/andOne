@@ -59,36 +59,37 @@ input::placeholder {
 <!-- sockJS -->
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script>
-	$(document).ready(function() {
-		$('#sendBtn').click(function() {
-			sendMessage();
-		});
-	});
-	var wsocket;
-	function sendMessage() {
-		wsocket = new WebSocet("ws://localhost:8090/andOne/echo");
-		wsocket.onmessage = onMessage;
-		wsocket.onclose = onClose;
-		wsocket.onopen = onOpen;
-	}
+// 	$(document).ready(function() {
+// 		$('#sendBtn').click(function() {
+// 			sendMessage();
+// 		});
+// 	});
+// 	var wsocket;
+// 	function sendMessage() {
+// 		wsocket = new WebSocet("ws://localhost:8090/andOne/echo");
+// 		wsocket.onmessage = onMessage;
+// 		wsocket.onclose = onClose;
+// 		wsocket.onopen = onOpen;
+// 	}
 
-	function onMessage(evt) {
-		var data = evt.data;
-		alert('서버에서 데이터 받음 : ' + data);
-		wsocket.close();
-	}
+// 	function onMessage(evt) {
+// 		var data = evt.data;
+// 		alert('서버에서 데이터 받음 : ' + data);
+// 		wsocket.close();
+// 	}
 
-	function onClose(evt) {
-		alert('연결 끊김');
-	}
+// 	function onClose(evt) {
+// 		alert('연결 끊김');
+// 	}
 
-	function onOpen() {
-		wsocket.send($('#message').val());
-	}
+// 	function onOpen() {
+// 		wsocket.send($('#message').val());
+// 	}
 	
-	$.ajax({
-		type : 'post',
-	})
+// 	$.ajax({
+// 		type : 'post',
+// 	})
+
 </script>
 </head>
 <body>
@@ -104,20 +105,38 @@ input::placeholder {
         </div>
 
         <div class="messages-box" id="messageBox">
-          <div class="list-group rounded-0">
-            <a class="list-group-item list-group-item-action active text-white rounded-0">
-              <div class="media">
-              <i class="fas fa-users fa-2x fa-border"></i>
-                <div class="media-body ml-4">
-                  <div class="d-flex align-items-center justify-content-between mb-1">
-                    <h6 class="mb-0"> 제목	</h6>
-                    <small class="small font-weight-bold"> 시간</small>
-                  </div>
-                  <p class="font-italic mb-0 text-small"> 내용 </p>
-                </div>
-              </div>
-            </a>
-          </div>
+        	<c:forEach var="list" items="${chatRoomList }">
+        		<div class="list-group rounded-0">
+		            <a class="list-group-item list-group-item-action list-group-item-light rounded-0">
+		              <div class="media">
+		              <i class="fas fa-users fa-2x fa-border"></i>
+		                <div class="media-body ml-4">
+		                  <div class="d-flex align-items-center justify-content-between mb-1">
+		                    <h6 class="mb-0">${list.one_title }</h6>
+		                    <small class="small font-weight-bold">${list.msg_date }</small>
+		                  </div>
+		                  <p class="font-italic mb-0 text-small">${list.latestMessage } </p>
+		                </div>
+		              </div>
+		            </a>
+		          </div>
+        	</c:forEach>
+        	
+<!--           <div class="list-group rounded-0"> -->
+<!--             <a class="list-group-item list-group-item-action active text-white rounded-0"> -->
+<!--               <div class="media"> -->
+<!--               <i class="fas fa-users fa-2x fa-border"></i> -->
+<!--                 <div class="media-body ml-4"> -->
+<!--                   <div class="d-flex align-items-center justify-content-between mb-1"> -->
+<!--                     <h6 class="mb-0"> 제목	</h6> -->
+<!--                     <small class="small font-weight-bold"> 시간</small> -->
+<!--                   </div> -->
+<!--                   <p class="font-italic mb-0 text-small"> 내용 </p> -->
+<!--                 </div> -->
+<!--               </div> -->
+<!--             </a> -->
+<!--           </div> -->
+          
         </div>
       </div>
     </div>	

@@ -48,7 +48,7 @@
 	margin-top: 50px;
 }
 
-.card-title, .pin, .card-subtitle {
+.card-title,.card-subtitle {
 	display: inline-block;
 	margin-left: 10px;
 }
@@ -59,6 +59,7 @@
 }
 
 .pin {
+	display: contents;
 	width: 30px;
 	position: absolute;
 	top: 20px;
@@ -109,7 +110,7 @@
 	height: 60px;
 }
 
-.r_userImg {
+.r_userImg,.r_replyUserImg {
 	position: relative;
 	border-radius: 70px;
 	-moz-border-radius: 70px;
@@ -117,6 +118,9 @@
 	-webkit-border-radius: 70px;
 	width: 45px;
 	height: 45px;
+}
+.r_replyUserImg{
+	margin-left:58px;
 }
 
 .userListImg{
@@ -386,6 +390,10 @@
 			}
 		})
 	}
+	
+	function openMemberPopup2(m_id){
+		window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
+	}
 </script>
 </head>
 <body>
@@ -454,33 +462,37 @@
 
 			<!--소모임 게시글  -->
 			<c:choose>
-			<c:when test="${rank eq 10 or rank eq 20 or rank eq 30}">
+			<c:when test="${rank eq 10 or rank eq 20 or rank eq 30 or m_id eq '00000001'}">
 			<c:forEach var="club" items="${clubInfo.articleList}">
 				<div class="card article" style="height: auto;margin-top:20px;">
 					<div class="card-body" style="height: auto">
-			<c:set var="m_img" value="${club.resultUserImg}"/>
-					<c:choose>
-						<c:when test="${m_img ne null}">
-							<img src="data:image/jpg;base64, ${club.resultUserImg}" class="userImg">
-						</c:when>
-						<c:otherwise>
-							<img src="${contextPath}/resources/image/user.png" class="userImg">
-						</c:otherwise>
-					</c:choose>
-						<h5 class="card-title art-title">${club.m_nickname}</h5>
-						<c:set var="ca_pin" value="${club.ca_pin}" />
+					<c:set var="ca_pin" value="${club.ca_pin}" />
 						<c:choose>
 							<c:when test="${ca_pin eq 1}">
 								<div class="pin">
-									<svg width="3em" height="3em" viewBox="0 0 16 16"
+									<svg width="3em" height="2.2em" viewBox="0 0 16 16"
 										class="bi bi-bookmark-star-fill" fill="currentColor"
 										xmlns="http://www.w3.org/2000/svg">
   										<path fill-rule="evenodd"
 											d="M4 0a2 2 0 0 0-2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4zm4.16 4.1a.178.178 0 0 0-.32 0l-.634 1.285a.178.178 0 0 1-.134.098l-1.42.206a.178.178 0 0 0-.098.303L6.58 6.993c.042.041.061.1.051.158L6.39 8.565a.178.178 0 0 0 .258.187l1.27-.668a.178.178 0 0 1 .165 0l1.27.668a.178.178 0 0 0 .257-.187L9.368 7.15a.178.178 0 0 1 .05-.158l1.028-1.001a.178.178 0 0 0-.098-.303l-1.42-.206a.178.178 0 0 1-.134-.098L8.16 4.1z" />
 									</svg>
+									공지사항
 								</div>
+								<br><br>
 							</c:when>
 						</c:choose>
+				<c:set var="m_img" value="${club.resultUserImg}"/>
+					<a href="javascript:void(0);" onclick="openMemberPopup2('${club.m_id}');">
+					<c:choose>
+						<c:when test="${m_img ne null}">
+							<img src="data:image/jpg;base64, ${club.resultUserImg}" class="userImg">
+						</c:when>
+						<c:otherwise>
+								<img src="${contextPath}/resources/image/user.png" class="userImg">
+						</c:otherwise>
+					</c:choose>
+					</a>							
+						<a href="javascript:void(0);" onclick="openMemberPopup2('${club.m_id}');"><h5 class="card-title art-title">${club.m_nickname}</h5></a>
 						<h6 class="card-subtitle mb-2 text-muted">${club.ca_date}</h6>
 						<p class="card-text" style="margin-top: 10px;">${club.ca_content}</p>
 						<div class="swiper-container" style="margin-bottom:20px;">
@@ -519,14 +531,23 @@
 						</a>
 						<br>
 						<div class="collapse" id="collapseExample${club.ca_id}">
-								<div class="card border border-right-0 border-left-0 border-bottom-0">
+								<div class="card border border-right-0 border-left-0 border-bottom-0" style="margin-top:10px;">
 									<!-- new comment form -->
 									<section class="mt-3">
 										<form action="">
 											<div class="input-group input-group">
-												<input type="text" id="comment${club.ca_id}" class="form-control" placeholder="Write Comment" aria-label="Recipient's username" aria-describedby="basic-addon2">
+											<c:set var="profileImg" value="${profileImg}"/>	
+												<a href="javascript:void(0);" onclick="openMemberPopup2('${m_id}');">
+												<c:if test="${profileImg ne ''}">
+													<img src="data:image/jpg;base64, ${profileImg}" class="r_userImg">
+												</c:if>
+												<c:if test="${profileImg eq ''}">
+													<img src="${contextPath}/resources/image/user.png" class="r_userImg">
+												</c:if>
+												</a>
+												<input type="text" id="comment${club.ca_id}" class="form-control" placeholder="Write Comment" aria-label="Recipient's username" aria-describedby="basic-addon2" style="margin-left:10px;margin-top:5px;">
 												<div class="input-group-append">
-													<a class="text-decoration-none text-white btn btn-primary" href='javascript:void(0);' onclick="insertReply(${club.ca_id});" role="button">Comment</a>
+													<a class="text-decoration-none text-white btn btn-primary" href='javascript:void(0);' style="margin-top:5px;height:38px;"onclick="insertReply(${club.ca_id});" role="button">Comment</a>
 												</div>
 											</div>
 										</form>
@@ -535,24 +556,22 @@
 									<section>
 								<c:if test="${ca.reply eq null}">
 									<c:forEach var="ca_reply" items="${club.articleReplyList}">
-										<div class="p-2 mt-3">
+										<div class="p-2 mt-3" style="padding-left:0px !important;">
 											<!-- comment header -->
 											<div class="d-flex">
 												<div class="">
-													<a class="text-decoration-none" href="#">
 													<c:set var="m_img" value="${ca_reply.e_m_img}"/>
-														<c:choose>
-															<c:when test="${m_img ne null}">
-																<img src="data:image/jpg;base64, ${ca_reply.e_m_img}" class="r_userImg">
-															</c:when>
-															<c:otherwise>
-																<img src="${contextPath}/resources/image/user.png" class="r_userImg">
-															</c:otherwise>
-														</c:choose>
+													<a href="javascript:void(0);" onclick="openMemberPopup2('${ca_reply.m_id}');">
+														<c:if test="${m_img ne null}">
+															<img src="data:image/jpg;base64, ${ca_reply.e_m_img}" class="r_userImg">
+														</c:if>
+														<c:if test="${m_img eq null}">
+															<img src="${contextPath}/resources/image/user.png" class="r_userImg">
+														</c:if>
 													</a>
 												</div>
 												<div class="flex-grow-1 pl-2">
-													<a class="text-decoration-none text-capitalize h6 m-0" href="#">${ca_reply.m_nickname}</a>
+													<a class="text-decoration-none text-capitalize h6 m-0"  href="javascript:void(0);" onclick="openMemberPopup2('${ca_reply.m_id}');">${ca_reply.m_nickname}</a>
 													<p class="small m-0 text-muted edit${ca_reply.car_id}">${ca_reply.car_date}</p>
 												</div>
 												<a href='javascript:void(0);' onclick="re_reply(${ca_reply.car_id},${club.ca_id});" style="margin-right:5px;size:8px;">답글</a>
@@ -578,12 +597,12 @@
 											<!-- comment header -->
 											<!-- comment body -->
 											<div class="card-body p-0"  id="edit${ca_reply.car_id}">
-												<p class="card-text h7 mb-1" style="margin-left:50px;">${ca_reply.car_content}</p>
+												<p class="card-text h7 mb-1" style="margin-left:53px;">${ca_reply.car_content}</p>
 											</div>
 										</div>
 										<section>
 										<c:if test="${fn:length(ca_reply.articleRe_replyList) ne 0}">
-										<a class="small text-decoration-none" style="margin-left:60px;" data-toggle="collapse" href="#collapseExample${ca_reply.car_id}" role="button" aria-expanded="false" aria-controls="collapseExample">
+										<a class="small text-decoration-none" style="margin-left:54px;" data-toggle="collapse" href="#collapseExample${ca_reply.car_id}" role="button" aria-expanded="false" aria-controls="collapseExample">
 										대댓글 ${fn:length(ca_reply.articleRe_replyList)}개
 										</a>
 										</c:if>
@@ -594,7 +613,7 @@
 											<!-- comment header -->
 											<div class="d-flex">
 												<div class="">
-													<a class="text-decoration-none" href="#">
+													<a href="javascript:void(0);" onclick="openMemberPopup2('${re_ca_reply.m_id}');">
 													<c:set var="m_img" value="${re_ca_reply.e_m_img}"/>
 														<c:choose>
 															<c:when test="${m_img ne null}">
@@ -607,7 +626,7 @@
 													</a>
 												</div>
 												<div class="flex-grow-1 pl-2">
-													<a class="text-decoration-none text-capitalize h6 m-0" href="#">${re_ca_reply.m_nickname}</a>
+													<a class="text-decoration-none text-capitalize h6 m-0" href="javascript:void(0);" onclick="openMemberPopup2('${re_ca_reply.m_id}');">${re_ca_reply.m_nickname}</a>
 													<p class="small m-0 text-muted edit${re_ca_reply.car_id}">${re_ca_reply.car_date}</p>
 												</div>
 												<div>
@@ -630,21 +649,27 @@
 											<!-- comment header -->
 											<!-- comment body -->
 											<div class="card-body p-0" id="edit${re_ca_reply.car_id}">
-												<p class="card-text h7 mb-1" style="margin-left:50px;">${re_ca_reply.car_content}</p>
+												<p class="card-text h7 mb-1" style="margin-left:53px;">${re_ca_reply.car_content}</p>
 											</div>
 										</div>
 										</c:forEach>
 										</div>
 										</section>
 										<!--대댓글 input -->
-										<div class="input-group input-group" id="re_reply${ca_reply.car_id}" style="display:none;">
-												<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-return-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-												  <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
-												</svg>				
-												<input type="text" id="re_comment${ca_reply.car_id}" class="form-control" placeholder="Write Comment" aria-label="Recipient's username" aria-describedby="basic-addon2">
-												<div class="input-group-append">
-													<a class="text-decoration-none text-white btn btn-primary" href='javascript:void(0);' onclick="insertRe_reply(${club.ca_id},${ca_reply.car_id});" role="button">Comment</a>
-												</div>
+										<div class="input-group input-group" id="re_reply${ca_reply.car_id}" style="display:none;margin-top:8px;">
+											<c:set var="profileImg" value="${profileImg}"/>	
+											<a href="javascript:void(0);" onclick="openMemberPopup2('${m_id}');">
+											<c:if test="${profileImg ne ''}">
+												<img src="data:image/jpg;base64, ${profileImg}" class="r_replyUserImg">
+											</c:if>
+											<c:if test="${profileImg eq ''}">
+												<img src="${contextPath}/resources/image/user.png" class="r_replyUserImg">
+											</c:if>
+											</a>
+											<input type="text" style="margin-left:10px;margin-top:5px;" id="re_comment${ca_reply.car_id}" class="form-control" placeholder="Write Comment" aria-label="Recipient's username" aria-describedby="basic-addon2">
+											<div class="input-group-append">
+												<a class="text-decoration-none text-white btn btn-primary" style="height:38px;margin-top:5px;"href='javascript:void(0);' onclick="insertRe_reply(${club.ca_id},${ca_reply.car_id});" role="button">Comment</a>
+											</div>
 										</div>
 										</c:forEach>
 										</c:if>

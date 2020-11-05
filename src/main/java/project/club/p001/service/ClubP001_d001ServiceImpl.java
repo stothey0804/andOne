@@ -79,4 +79,19 @@ public class ClubP001_d001ServiceImpl implements ClubP001_d001Service{
 		List<ClubVO> searchClubList = clubP001_d001DAO.searchClubListHashtag(searchMap);
 		return searchClubList;
 	}
+
+	@Override
+	public int searchClubListCnt(Map<String, Object> searchMap) {
+		return clubP001_d001DAO.searchClubListCnt(searchMap);
+	}
+
+	@Override
+	public int searchClubListCntHashtag(Map<String, Object> searchMap) {
+		return clubP001_d001DAO.searchClubListCntHashtag(searchMap);
+	}
+
+	@Override
+	public int searchClubListCntCategory(Map<String, Object> searchMap) {
+		return clubP001_d001DAO.searchClubListCntCategory(searchMap);
+	}
 }

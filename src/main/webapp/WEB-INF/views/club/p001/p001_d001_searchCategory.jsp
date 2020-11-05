@@ -202,7 +202,7 @@ function removeHTML(text){
 				</div>
 			</div>
 		</div>
-		<h3>${gc_name} 검색결과</h3>
+		<h3>${gc_name} 검색결과 ${cnt}건</h3>
 		<br>
 		<div class="row">
 			<c:forEach var="club" items="${categoryClubList}">
@@ -229,7 +229,7 @@ function removeHTML(text){
 								<p class="card-text" style="height: 40%">${club.c_content}</p>
 								</div>
 								<p class="card-text">
-									<small class="text-muted" style="height: 14px">${club.c_category}</small>
+									<small class="text-muted" style="height: 14px">${gc_name}</small>
 								</p>
 								<p class="card-text">
 									<small class="text-muted" style="height: 14px">함께하는 사람 ${club.c_membercnt}</small>
@@ -265,5 +265,46 @@ function removeHTML(text){
 		</div>
 		<br>
 	</div>
+	
+	<!-- 페이징  -->		
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <c:if test="${pagination.curRange ne 1 }">
+            <li class="page-item">
+            <a class="page-link" href="?curPage=1&c_category=${c_category}">처음</a> 
+            </li>
+        </c:if>
+        <c:if test="${pagination.curPage ne 1}">
+            <li class="page-item">
+                <a class="page-link" href="?curPage=${pagination.prevPage}&c_category=${c_category}">이전</a> 
+                </li>
+        </c:if>
+        <c:forEach var="pageNum" begin="${pagination.startPage}" end="${pagination.endPage}">
+            <c:choose>
+                <c:when test="${pageNum eq pagination.curPage}">
+                    <li class="page-item active">
+                        <a class="page-link" href="?curPage=${pageNum}&c_category=${c_category}">${pageNum }</a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item">
+                        <a class="page-link" href="?curPage=${pageNum}&c_category=${c_category}">${pageNum }</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
+            <li class="page-item">
+                <a class="page-link" href="?curPage=${pagination.nextPage}&c_category=${c_category}">다음</a> 
+                </li>	                        
+        </c:if>
+        <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
+            <li class="page-item">
+                <a class="page-link" href="#"  onClick="fn_paging('${pagination.pageCnt }')">끝</a> 
+                </li>	                    
+    </c:if>
+    </ul>
+</nav>
+<!-- 페이징 END -->
 </body>
 </html>
