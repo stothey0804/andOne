@@ -12,18 +12,17 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.definition.LocaleDefinitionsFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-
 import common.Common;
+import project.club.p001.service.ClubP001_d001Service;
+import project.club.vo.ClubVO;
 import project.root.p001.service.RootP001_d001Service;
 
 
@@ -32,6 +31,8 @@ import project.root.p001.service.RootP001_d001Service;
 public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 	@Autowired
 	RootP001_d001Service rootP001_d001Service;
+	@Autowired
+	ClubP001_d001Service clubP001_d001Service;
 	
 	// 메인영역
 	@RequestMapping(value="/")
@@ -50,10 +51,11 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 		// &분의일 - 같이하기
 		
 		// 소모임설정
-		
+		List<ClubVO> clubList = clubP001_d001Service.clubList();
 		// 업체정보와 후기 출력
 		
 		//
+		mav.addObject("clubList", clubList);
 		return mav;
 	}
 	

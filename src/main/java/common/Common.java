@@ -2,7 +2,6 @@ package common;
 
 import java.text.DecimalFormat;
 import java.util.Base64;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +69,8 @@ public class Common {
 				 if(list.get(i).getUserImg() != null) {
 					 encoded = Base64.getEncoder().encode(list.get(i).getUserImg());
 					 list.get(i).setResultUserImg(new String(encoded));	
+				 } else {
+					 System.out.println("nullllllllllllllll");
 				 }
 			} catch (Exception e) {
 				e.printStackTrace();
