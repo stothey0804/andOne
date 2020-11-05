@@ -54,7 +54,7 @@
 				WHERE ONE_ID = #{one_id}
 			) INN ON M.M_ID = INN.M_ID
 			WHERE ONE_ID = #{one_id}
-			ORDER BY MSG_ID ASC
+			ORDER BY MSG_DATE ASC
   		]]>
 	</select>
 	

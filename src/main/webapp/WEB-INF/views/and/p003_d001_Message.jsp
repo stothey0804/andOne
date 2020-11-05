@@ -66,9 +66,7 @@ input::placeholder {
 	
 	$(document).ready(function(){
 		getChatRoomList(m_id);
-		$('#messageForm').submit(function(){
-			sendMessage();
-		})
+		
 	})
 	
 	function messageBoxClickEvent(){
@@ -131,9 +129,9 @@ input::placeholder {
 				var chatContent = "";
 				for(let i=0; i<Object.keys(jsonInfo).length; i++){
 					if(jsonInfo[i].m_id == m_id){
-						chatContent += "<div style='text-align:right;border:1px solid black;'>";
+						chatContent += "<div style='text-align:right;'>";
 					}else{
-						chatContent += "<div style='border:1px solid black;'>";
+						chatContent += "<div>";
 					}
 					chatContent += '['+jsonInfo[i].m_nickname+']';
 					chatContent += '<br>';
@@ -141,6 +139,7 @@ input::placeholder {
 					chatContent += "</div>";
 				}
 				$('#messageArea').html(chatContent);
+				autoScroll();
 			},
 			error: function (data, textStatus) {
 				alert("에러가 발생했습니다.");
@@ -203,41 +202,24 @@ input::placeholder {
 						alert("에러가 발생했습니다.");
 					},
 					complete: function (data, textStatus) {
+						$('input#message').val('');
 					}
 				})
 			}
 		}
 	}
-// 	$(document).ready(function() {
-// 		$('#sendBtn').click(function() {
-// 			sendMessage();
-// 		});
-// 	});
-// 	var wsocket;
-// 	function sendMessage() {
-// 		wsocket = new WebSocet("ws://localhost:8090/andOne/echo");
-// 		wsocket.onmessage = onMessage;
-// 		wsocket.onclose = onClose;
-// 		wsocket.onopen = onOpen;
-// 	}
+	//요소 추가시 스크롤 아래로 고정
+	function autoScroll(){
+		var objDiv = document.getElementById("messageArea"); 
+		objDiv.scrollTop = objDiv.scrollHeight;
+	}
+	//엔터키 입력 체크 함수
+	function enterkey() {
+        if (window.event.keyCode == 13) {
+        	sendMessage();
+        }
+	}
 
-// 	function onMessage(evt) {
-// 		var data = evt.data;
-// 		alert('서버에서 데이터 받음 : ' + data);
-// 		wsocket.close();
-// 	}
-
-// 	function onClose(evt) {
-// 		alert('연결 끊김');
-// 	}
-
-// 	function onOpen() {
-// 		wsocket.send($('#message').val());
-// 	}
-	
-// 	$.ajax({
-// 		type : 'post',
-// 	})
 
 // 웹소켓 파트
 	var m_sock = new SockJS("${contextPath }/chat-ws/");
@@ -255,20 +237,21 @@ input::placeholder {
 			var chatContent = '';
 			if(jsonInfo.m_id == m_id){
 				console.log('내 채팅');
-				chatContent += "<div style='text-align:right;border:1px solid black;'>";
+				chatContent += "<div style='text-align:right;'>";
 			}else{
 				console.log('남의 채팅');
-				chatContent += "<div style='border:1px solid black;'>";
+				chatContent += "<div>";
 			}
 			chatContent += '['+jsonInfo.m_nickname+']';
 			chatContent += '<br>';
 			chatContent += jsonInfo.msg_content;
 			chatContent += "</div>";
 			$('#messageArea').append(chatContent);
+			autoScroll();
 		}else{
 			console.log('안보고 있는 채팅방');
-			getChatRoomList(m_id);
 		}
+		getChatRoomList(m_id);
 		
 	}
 	
@@ -331,9 +314,9 @@ input::placeholder {
       
     <!-- 채팅방 끝 ->
       <!--타이핑 시작 -->
-      <form id="messageForm" class="bg-light">
+      <div id="messageForm" class="bg-light">
         <div class="input-group">
-          <input type="text" id="message" placeholder="내용을 입력하세요.." aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+          <input onkeyup="enterkey()" type="text" id="message" placeholder="내용을 입력하세요.." aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
           <div class="input-group-append">
             <button type="button" id="sendBtn" class="btn btn-link" onclick="sendMessage()"> 
 <!--              <i class="far fa-paper-plane"></i> -->
@@ -341,7 +324,7 @@ input::placeholder {
             </button>
           </div>
         </div>
-      </form>
+      </div>
       </div> 
       <!-- 타이핑 끝 -->
       <!-- 채팅방 눌렀을 때 끝-->
