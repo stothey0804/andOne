@@ -88,24 +88,45 @@ input::placeholder {
 				var jsonStr = data;
 				var jsonInfo = JSON.parse(jsonStr);
 				var chatRoom = "";
+				var unoccupied = "";
 				for(let i=0; i<Object.keys(jsonInfo).length; i++){
-					chatRoom += '<input type="hidden" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
-					chatRoom += '<div class="list-group rounded-0" id="'+jsonInfo[i].one_id+'">';
-					chatRoom += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
-					chatRoom += 		'<div class="media">';
-					chatRoom += 			'<i class="fas fa-users fa-2x fa-border"></i>';
-					chatRoom += 			'<div class="media-body ml-4">';
-					chatRoom += 				'<div class="d-flex align-items-center justify-content-between mb-1">';
-					chatRoom += 					'<h6 class="mb-0">'+jsonInfo[i].one_title+'</h6>';
-					chatRoom += 					'<small class="small font-weight-bold">'+jsonInfo[i].msg_date+'</small>';
-					chatRoom += 				'</div>';
-					chatRoom += 				'<p class="font-italic mb-0 text-small">'+jsonInfo[i].latestMessage+'</p>';
-					chatRoom += 			'</div>';
-					chatRoom += 		'</div>';
-					chatRoom += 	'</a>';
-					chatRoom += '</div>';
+					if(jsonInfo[i].msg_date != 0){
+						chatRoom += '<input type="hidden" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
+						chatRoom += '<div class="list-group rounded-0" id="'+jsonInfo[i].one_id+'">';
+						chatRoom += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
+						chatRoom += 		'<div class="media">';
+						chatRoom += 			'<i class="fas fa-users fa-2x fa-border"></i>';
+						chatRoom += 			'<div class="media-body ml-4">';
+						chatRoom += 				'<div class="d-flex align-items-center justify-content-between mb-1">';
+						chatRoom += 					'<h6 class="mb-0">'+jsonInfo[i].one_title+'</h6>';
+						chatRoom += 					'<small class="small font-weight-bold">'+jsonInfo[i].msg_date+'</small>';
+						chatRoom += 				'</div>';
+						chatRoom += 				'<p class="font-italic mb-0 text-small">'+jsonInfo[i].latestMessage+'</p>';
+						chatRoom += 			'</div>';
+						chatRoom += 		'</div>';
+						chatRoom += 	'</a>';
+						chatRoom += '</div>';
+					}else{
+						unoccupied += '<input type="hidden" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
+						unoccupied += '<div class="list-group rounded-0" id="'+jsonInfo[i].one_id+'">';
+						unoccupied += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
+						unoccupied += 		'<div class="media">';
+						unoccupied += 			'<i class="fas fa-users fa-2x fa-border"></i>';
+						unoccupied += 			'<div class="media-body ml-4">';
+						unoccupied += 				'<div class="d-flex align-items-center justify-content-between mb-1">';
+						unoccupied += 					'<h6 class="mb-0">'+jsonInfo[i].one_title+'</h6>';
+						unoccupied += 					'<small class="small font-weight-bold"></small>';
+						unoccupied += 				'</div>';
+						unoccupied += 				'<p class="font-italic mb-0 text-small">'+jsonInfo[i].latestMessage+'</p>';
+						unoccupied += 			'</div>';
+						unoccupied += 		'</div>';
+						unoccupied += 	'</a>';
+						unoccupied += '</div>';
+					}
+					
 				}
 				$('#messageBox').html(chatRoom);
+				$('#messageBox').append(unoccupied);
 			},
 			error: function (data, textStatus) {
 				alert("에러가 발생했습니다.");
