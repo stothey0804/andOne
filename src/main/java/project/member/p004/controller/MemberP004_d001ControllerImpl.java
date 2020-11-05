@@ -47,7 +47,7 @@ public class MemberP004_d001ControllerImpl implements MemberP004_d001Controller{
 		String encodedProfileImg = Common.encodeBlobImage(m_id, memberP001_d005Service);
 		result.put("m_img", encodedProfileImg);	// 프로필 이미지
 		Map<String, String> searchParam = new HashMap<String, String>();
-		searchParam.put("startIndex", "1");	searchParam.put("endIndex", "5"); searchParam.put("m_id", m_id);
+		searchParam.put("startIndex", "1");	searchParam.put("endIndex", "4"); searchParam.put("m_id", m_id);
 		List<MemberP004VO> receivedList = memberP004_d001Service.searchReceivedMemberReview(searchParam);	// 최근 받은 평가
 		// 전달 값
 		mav.addObject("info", result);

@@ -123,6 +123,10 @@
     	font-family: 'YanoljaYacheR' !important;
     	font-size: 2.5em;
     }
+    .card-img-top{
+    	height: 10em;
+    	object-fit: cover;
+    }
  </style>
 </head>
 <body onload="init()" class="bg-light">
@@ -230,7 +234,7 @@
 		</p>
 	</div>
 	
-	<!-- 최근등록된  -->
+	<!-- 최근등록된  같이먹기-->
 	<div class="container my-5">
 		<h5 class="mb-3"><spring:message code="main.recentEat" />
 		<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -238,10 +242,41 @@
 		</svg>
 		</h5>
 			 <div class="container">
-				
+				<div class="row">
+					<c:if test="${empty andEatList}">
+						<div class="col-12 m-3 bg-light card">
+							<div class="cord-body p-5 text-center">근처에 등록된 같이먹기가 없습니다.<br>위치정보가 설정되어있는지 확인해주세요 :)</div>
+						</div>
+					</c:if>
+					<c:forEach var ="andone" items="${andEatList}" > 
+						<div class="col-sm-6 mb-3">
+							<div class="card and_card" onclick="location.href='${contextPath}/and/detailAndOne.do?one_id=${andone.one_id}&g_id=${andone.one_type}'">
+								<div class="card-body">
+									<div class="card-title clearfix">
+										<p class="h5 "><span class="text-primary">[${andone.one_category}]</span> ${andone.one_title}</p>
+										<p class="h6 font-weight-bold mb-1 float-left">
+										<c:if test="${andone.one_state eq '모집중'}"><span class="text-primary"></c:if>
+										<c:if test="${andone.one_state eq '결제완료'}"><span class="text-success"></c:if>
+										<c:if test="${andone.one_state eq '진행완료'}"><span class="text-secondary"></c:if>
+										<c:if test="${andone.one_state eq '취소'}"><span class="text-danger">	</c:if>
+										${andone.one_state} </span>
+										</p>
+										<p class="card-subtitle mb-3 text-muted float-right"><span class="date">${andone.one_date} 수령예정</span></p>
+									</div>
+									<div class="clearfix">
+										<p class="card-text float-left mb-0"> #${andone.one_hashTag}  </p>
+										<p class="card-text float-right h6"> 예상 <b>${andone.one_price}</b> <span class="text-secondary"> <i class="fas fa-user-friends"></i> ${andone.one_member}/${andone.one_memberMax} </span></p>
+									</div>
+									<p class="card-text float-left"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
+									<p class="card-text float-right h6"> ${andone.addrDetail} / ${andone.distance}km  </p>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
 			</div>
 	</div>
-	<!-- 최근등록된  -->
+	<!-- 최근등록된 같이사기 -->
 	<div class="container my-5">
 		<h5 class="mb-3"><spring:message code="main.recentBuy" />
 		<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -249,10 +284,41 @@
 		</svg>
 		</h5>
 			 <div class="container">
-				
+				<div class="row">
+					<c:if test="${empty andBuyList}">
+						<div class="col-12 m-3 bg-light card">
+							<div class="cord-body p-5 text-center">근처에 등록된 같이하기가 없습니다.<br>위치정보가 설정되어있는지 확인해주세요 :)</div>
+						</div>
+					</c:if>
+					<c:forEach var ="andone" items="${andBuyList}" > 
+						<div class="col-sm-6 mb-3">
+							<div class="card and_card" onclick="location.href='${contextPath}/and/detailAndOne.do?one_id=${andone.one_id}&g_id=${andone.one_type}'">
+								<div class="card-body">
+									<div class="card-title clearfix">
+										<p class="h5 "><span class="text-primary">[${andone.one_category}]</span> ${andone.one_title}</p>
+										<p class="h6 font-weight-bold mb-1 float-left">
+										<c:if test="${andone.one_state eq '모집중'}"><span class="text-primary"></c:if>
+										<c:if test="${andone.one_state eq '결제완료'}"><span class="text-success"></c:if>
+										<c:if test="${andone.one_state eq '진행완료'}"><span class="text-secondary"></c:if>
+										<c:if test="${andone.one_state eq '취소'}"><span class="text-danger">	</c:if>
+										${andone.one_state} </span>
+										</p>
+										<p class="card-subtitle mb-3 text-muted float-right"><span class="date">${andone.one_date} 수령예정</span></p>
+									</div>
+									<div class="clearfix">
+										<p class="card-text float-left mb-0"> #${andone.one_hashTag}  </p>
+										<p class="card-text float-right h6"> 예상 <b>${andone.one_price}</b> <span class="text-secondary"> <i class="fas fa-user-friends"></i> ${andone.one_member}/${andone.one_memberMax} </span></p>
+									</div>
+									<p class="card-text float-left"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
+									<p class="card-text float-right h6"> ${andone.addrDetail} / ${andone.distance}km  </p>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
 			</div>
 	</div>
-	<!-- 최근등록된  -->
+	<!-- 최근등록된 같이하기 -->
 	<div class="container my-5">
 		<h5 class="mb-3"><spring:message code="main.recentDo" />
 		<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -260,7 +326,38 @@
 		</svg>
 		</h5>
 			 <div class="container">
-				
+				<div class="row">
+					<c:if test="${empty andDoList}">
+						<div class="col-12 m-3 bg-light card">
+							<div class="cord-body p-5 text-center">근처에 등록된 같이먹기가 없습니다.<br>위치정보가 설정되어있는지 확인해주세요 :)</div>
+						</div>
+					</c:if>
+					<c:forEach var ="andone" items="${andDoList}" > 
+						<div class="col-sm-6 mb-3">
+							<div class="card and_card" onclick="location.href='${contextPath}/and/detailAndOne.do?one_id=${andone.one_id}&g_id=${andone.one_type}'">
+								<div class="card-body">
+									<div class="card-title clearfix">
+										<p class="h5 "><span class="text-primary">[${andone.one_category}]</span> ${andone.one_title}</p>
+										<p class="h6 font-weight-bold mb-1 float-left">
+										<c:if test="${andone.one_state eq '모집중'}"><span class="text-primary"></c:if>
+										<c:if test="${andone.one_state eq '결제완료'}"><span class="text-success"></c:if>
+										<c:if test="${andone.one_state eq '진행완료'}"><span class="text-secondary"></c:if>
+										<c:if test="${andone.one_state eq '취소'}"><span class="text-danger">	</c:if>
+										${andone.one_state} </span>
+										</p>
+										<p class="card-subtitle mb-3 text-muted float-right"><span class="date">${andone.one_date} 수령예정</span></p>
+									</div>
+									<div class="clearfix">
+										<p class="card-text float-left mb-0"> #${andone.one_hashTag}  </p>
+										<p class="card-text float-right h6"> 예상 <b>${andone.one_price}</b> <span class="text-secondary"> <i class="fas fa-user-friends"></i> ${andone.one_member}/${andone.one_memberMax} </span></p>
+									</div>
+									<p class="card-text float-left"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
+									<p class="card-text float-right h6"> ${andone.addrDetail} / ${andone.distance}km  </p>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
 			</div>
 	</div>
 	
@@ -271,10 +368,33 @@
   			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
 			</svg>
 		</h5>
-		<div class="row">
+		<div class="row px-3">
 		<!-- start card  -->
-
-		</div><!-- end row -->
+		  <c:forEach var="club" items="${clubList}" >	
+<%-- 			 <c:url var="url"  value="searchMod.do"  > --%>
+<%-- 			   <c:param  name="c_id" value="${club.c_id}" /> --%>
+<%-- 			 </c:url>      --%>
+		  <div class="col-lg-2 col-sm-6 p-1">
+		    <div class="card">
+			<c:choose>
+			<c:when test="${club.resultImg eq null}">
+				<img src="https://cdn.pixabay.com/photo/2014/07/08/10/47/team-386673_1280.jpg" class="card-img-top" alt="...">
+			</c:when>
+			<c:otherwise>
+				<img src="data:image/jpg;base64,${club.resultImg}" class="card-img-top"
+					alt="...">
+			</c:otherwise>
+			</c:choose>
+		      <div class="card-body">
+		        <h5 class="card-title text-truncate" style="height:28px">${club.c_name}</h5>
+		        <div class="card-text text-truncate" style="height:40px">${club.c_content}</div>
+		        <p class="card-text">${club.c_hashtag}</p>
+		        <a href='${contextPath}/club/detailClub.do?c_id=${club.c_id}' class="btn btn-sm btn-primary text-right">자세히 보기</a>
+		      </div>
+		    </div>
+		  </div>
+		  </c:forEach>
+		<!-- end card -->
 	</div>
 	
 	<!-- 지역업체  -->

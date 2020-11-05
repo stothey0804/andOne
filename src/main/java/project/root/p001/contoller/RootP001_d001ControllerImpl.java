@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,11 +47,8 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("main");
 		
-		String m_locate_Lat = "";
-		String m_locate_Lng = "";
-		
-//		HttpSession session = request.getSession(false);
-//		System.out.println("세션값? >> " + session.getAttribute("member"));
+		String m_locate_Lat = latCookie.getValue();
+		String m_locate_Lng = lngCookie.getValue();
 		
 		// &분의일 - 같이먹기
 		Map<String,Object> andeat = new HashMap<String,Object>(); 
@@ -58,6 +56,7 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 		andeat.put("m_locate_Lng", m_locate_Lng);
 		andeat.put("g_id", "010");
 		List<AndP001AndOneVO> andEatList = p001_d001Service.recentAndOneList(andeat);
+		
 		
 		// &분의일 - 같이사기
 		Map<String,Object> andbuy = new HashMap<String,Object>(); 
@@ -74,6 +73,9 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 		List<AndP001AndOneVO> andDoList = p001_d001Service.recentAndOneList(anddo);
 		// 소모임설정
 		List<ClubVO> clubList = clubP001_d001Service.clubList();
+		//소모임 대표이미지 encoding
+		getEncoded(clubList);
+		
 		// 업체정보와 후기 출력
 		
 		//
@@ -188,5 +190,16 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 		return resultMap;
 	}
 
-	
+	//article encoding method
+	public void getEncoded(List<ClubVO> list) {
+		byte[] encoded = null;
+		if(list!=null) {
+			for(int i=0; i < list.size();i++) {
+				if(list.get(i).getC_imgByte() != null) {
+					encoded = Base64.getEncoder().encode(list.get(i).getC_imgByte());
+					list.get(i).setResultImg(new String(encoded));	
+				}
+			}
+		}
+	}
 }
