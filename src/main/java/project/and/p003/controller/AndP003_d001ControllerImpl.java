@@ -22,7 +22,7 @@ public class AndP003_d001ControllerImpl implements AndP003_d001Controller{
 	@Autowired
 	private AndP003_d001Service andP003_d001Service;
 	
-	@RequestMapping("")
+	@RequestMapping("message/messageInit.do")
 	public String messageInit(HttpServletRequest request, Model model) {
 		String viewName = "member/p001_d002";
 		HttpSession session = request.getSession(false);
@@ -31,21 +31,21 @@ public class AndP003_d001ControllerImpl implements AndP003_d001Controller{
 				//m_id 기준 채팅목록 불러오기
 				List<AndP003ChatRoomVO> chatRoomList = andP003_d001Service.getChatRoomList((String)session.getAttribute("m_id"));
 				model.addAttribute("chatRoomList",chatRoomList);
-				viewName = "채팅화면 뷰네임";
+				viewName = "message";
 			}
 		}
 		return viewName;
 	}
 	
 	@ResponseBody
-	@RequestMapping("")
+	@RequestMapping("temp1")
 	public List<AndP003ChatContentVO> getChatContentList(@RequestParam String one_id){
 		List<AndP003ChatContentVO> chatContentList = andP003_d001Service.getChatContentList(one_id);
 		return chatContentList;
 	}
 	
 	@ResponseBody
-	@RequestMapping("")
+	@RequestMapping("temp2")
 	public List<AndP003ChatUserVO> getChatUserList(@RequestParam String one_id){
 		List<AndP003ChatUserVO> chatUserList = andP003_d001Service.getChatUserList(one_id);
 		for(int i=0; i<chatUserList.size(); i++) {
