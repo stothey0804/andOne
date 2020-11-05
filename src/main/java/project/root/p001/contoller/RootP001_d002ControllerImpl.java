@@ -13,12 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 import common.Common;
 
 @Controller
-public class RootP001_d002ControllerImpl implements RootP001_d001Controller {
+public class RootP001_d002ControllerImpl  {
 	
 
 	// 메인영역
 //	@RequestMapping(value="/")
-	@Override
 	public ModelAndView searchInit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("main");
 		HttpSession session = request.getSession(false);

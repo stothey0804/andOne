@@ -336,8 +336,9 @@
 			frmData.submit();
 	       }
    		 
-   	   //결제하기 클릭
+   	   //결제하기 클릭 - 신청
 	    function openPayPopup(){
+   		    // 결제알림 
 	    	let popTitle = "payPopupOpener";
 	    	window.open("", popTitle, "resizable=yes,top=0,left=0,width=450,height=500");
 	    	let payData = document.payData;
@@ -401,6 +402,8 @@
 	   				},
 	   	   			success:function(data,textSataus){ 
 	   	   				alert("완료되었습니다")
+	   	   				// 완료 알림 전송
+	   	   				
 	   	   				location.reload();
 	   	   			}
 				})
