@@ -32,6 +32,9 @@
            			displayMarker(locPosition);
         			var infoDiv = document.getElementById('centerAddr');
         			document.getElementById('centerAddr').innerHTML = '저장된 위치가 없습니다.';
+					// 쿠키에 저장
+					setCookie("locate_lat",'37.570371',7);
+					setCookie("locate_lng",'126.985308',7);
             	}else if(data!='' || data!=null){
             		//db에 저장된 위도,경도 값
             		let lat = latLng.M_LOCATE_LAT;

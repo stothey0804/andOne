@@ -21,7 +21,7 @@
 	font-style: normal;
 }
 
-h5{
+h5 {
 	font-size: 90%;
 }
 
@@ -39,49 +39,34 @@ input[type="submit"] {
 	font-family: FontAwesome;
 }
 
-div.search {text-align =center;
-	
-}
-
 .card {
 	
 }
 
-i.fa-star-half-alt{
-	color:rgb(255,234,0);
+i.fa-star-half-alt {
+/* 	color: rgb(255, 234, 0); */
+	color: #ffc107;
 }
 
-i.fa-star{
-	color:rgb(255,234,0);
+i.fa-star {
+/* 	color: rgb(255, 234, 0); */
+	color: #ffc107;
 }
 
-img.noResult{
-	display:block; margin:0px auto;
+img.noResult {
+	display: block;
+	margin: 0px auto;
 }
 
 div#review {
-	background-color: rgb(228, 228, 228);
+/* 	background-color: rgb(228, 228, 228); */
 }
 
 a {
 	text-decoration: none;
 }
 
-a:link {
-	color: black;
-}
 
-a:visited {
-	color: black;
-}
-
-a:active {
-	color: black;
-}
-
-a:hover {
-	color: black;
-}
 </style>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
 <script>
@@ -124,7 +109,7 @@ a:hover {
 				var hashtagArr = data.split(',');
 				var output = '';
 				for(let i=0; i<hashtagArr.length; i++){
-					output += '<a href="${contextPath }/shop/localShopSearch.do?searchCondition=SEARCHBYHASHTAG&searchKeyword='+hashtagArr[i]+'">#'+hashtagArr[i]+'</a>&nbsp;';
+					output += '<a class="btn btn-sm btn-outline-primary" href="${contextPath }/shop/localShopSearch.do?searchCondition=SEARCHBYHASHTAG&searchKeyword='+hashtagArr[i]+'">#'+hashtagArr[i]+'</a>&nbsp;';
 				}
 				$('.hashtag').html(output);
 			},
@@ -152,12 +137,12 @@ a:hover {
 				var jsonInfo = JSON.parse(jsonStr);
 				var output = "";
 				if(Object.keys(jsonInfo).length == 0){
-					output += '<img class="noResult" src="${contextPath }/resources/image/no_result.png">';
+					output += '<div class="col-12 m-3 bg-light card"><div class="cord-body p-5 text-center">등록된 지역업체가 없습니다.<br>위치정보가 설정되어있는지 확인해주세요 :)</div></div>';
 				}else{
-					output += "<div class='row'>";
+					output += "<div class='mt-4 row'><div class='mx-auto'>";
 					for (let i=0; i<Object.keys(jsonInfo).length; i++) {
 						console.log(jsonInfo[i].s_name);
-						output += "<div style='margin: 20px'>";
+						output += "<div class='mx-3 d-inline-block align-top'>";
 						output += "<div class='card' style='width: 18rem;'>";
 						output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
 						if(Object.keys(jsonInfo[i].shopImage).length != 0){
@@ -174,12 +159,12 @@ a:hover {
 							output += jsonInfo[i].distance + "km";
 						}
 						output += "</div>";
-						output += "<div class='card-body' id='review'>";
+						output += "<div class='card-body border-top' id='review'>";
 						output += "<p class='card-text'>";
 						output += "<a href='#'>후기 "+jsonInfo[i].reviewCount+"건</a><br>";
 						output += ""+printStar(jsonInfo[i].s_score)+"</p></div></div></div>";
 					}
-					output += "</div>";
+					output += "</div></div>";
 					
 				}
 				$('.popular').html(output);
@@ -243,133 +228,135 @@ a:hover {
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body class="bg-light">
 	<div class="container my-5 center">
-		<h1 align="center">우리동네 업체정보</h1><br><br><br>
-		<div class="search" align="center">
+	<h1 class="and text-primary mt-4 text-center">우리동네 업체정보</h1>
+	<div style="width:500px; margin: 0 auto">
 			<form name="searchFrm" method="post"
 				action="${contextPath }/shop/localShopSearch.do">
-				<input type="hidden" name="searchCondition" value="ALLSEARCH" />
-				<input type="text" placeholder="검색" name="searchKeyword" style="width:400px; height:30px;"> <input
-					type="submit" value="&#xf002;">
+				<div class="form-group mx-3 searchInput">
+				  <div class="p-1 rounded rounded-pill border border-primary" style="border-width:2px !important">
+		            <div class="input-group">
+		              <input type="search" placeholder="검색" aria-describedby="button-addon1" name="searchKeyword" class="form-control border-0 m-1 bg-light">
+		              <div class="input-group-append">
+		                <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+		              </div>
+		            </div>
+		          </div>
+		         </div>
+			<input type="hidden" name="searchCondition" value="ALLSEARCH" />
 			</form>
-			<div class="hashtag">
-			
+			<div class="text-center">
+				<span class="mr-1">추천검색어 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			 			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path>
+				</svg></span>
+				<div class="hashtag d-inline-block">
 			</div>
-			<br>
+		
 		</div>
+	</div>
+
 		<br><br>
 		<div class="category">
-			<h3>카테고리로 찾기</h3>
+		<p class="h5">카테고리
+		<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+	 			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+		</svg>
 			<div class="categoryList" align="center">
-				<div class="row">
-					<div style="margin: 15px">
-						<div class="card" style="width: 8rem;">
+				<div class="mx-auto">
+					<div class="d-inline-block">
+						<div class="m-4" style="width: 120px;">
 							<a href="${contextPath }/shop/localShopSearch.do?filter=10"><img src="${contextPath }/resources/image/shopCategory/cafe.png" class="card-img-top"
 								alt="..."></a>
-							<div class="card-body">
-								<h5 class="card-title">
-									<a href="${contextPath }/shop/localShopSearch.do?filter=10">카페</a>
-								</h5>
-							</div>
+								<h4 class="mt-3 ">
+									<a class="text-dark" href="${contextPath }/shop/localShopSearch.do?filter=10">카페</a>
+								</h4>
 						</div>
 					</div>	
-					<div style="margin: 15px">
-						<div class="card" style="width: 8rem;">
+					<div class="d-inline-block">
+						<div class="m-4" style="width: 120px;">
 							<a href="${contextPath }/shop/localShopSearch.do?filter=20"><img src="${contextPath }/resources/image/shopCategory/restaurant.png" class="card-img-top"
 								alt="..."></a>
-							<div class="card-body">
-								<h5 class="card-title">
-									<a href="${contextPath }/shop/localShopSearch.do?filter=20">음식점</a>
-								</h5>
-							</div>
+								<h4 class="mt-3 ">
+									<a class="text-dark" href="${contextPath }/shop/localShopSearch.do?filter=20">음식점</a>
+								</h4>
 						</div>
 					</div>
-					<div style="margin: 15px">
-						<div class="card" style="width: 8rem;">
+					<div class="d-inline-block" >
+						<div class="m-4" style="width: 120px;">
 							<a href="${contextPath }/shop/localShopSearch.do?filter=30"><img src="${contextPath }/resources/image/shopCategory/hospital.png" class="card-img-top"
 								alt="..."></a>
-							<div class="card-body">
-								<h5 class="card-title">
-									<a href="${contextPath }/shop/localShopSearch.do?filter=30">병원</a>
-								</h5>
-							</div>
+								<h4 class="mt-3 ">
+									<a class="text-dark" href="${contextPath }/shop/localShopSearch.do?filter=30">병원</a>
+								</h4>
 						</div>
 					</div>
-					<div style="margin: 15px">
-						<div class="card" style="width: 8rem;">
+					<div class="d-inline-block" >
+						<div class="m-4" style="width: 120px;">
 							<a href="${contextPath }/shop/localShopSearch.do?filter=40"><img src="${contextPath }/resources/image/shopCategory/academy.png" class="card-img-top"
 								alt="..."></a>
-							<div class="card-body">
-								<h5 class="card-title">
-									<a href="${contextPath }/shop/localShopSearch.do?filter=40">학원</a>
-								</h5>
-							</div>
+								<h4 class="mt-3 ">
+									<a class="text-dark" href="${contextPath }/shop/localShopSearch.do?filter=40">학원</a>
+								</h4>
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div style="margin: 15px">
-						<div class="card" style="width: 8rem;">
+				<div class="mx-auto">
+					<div class="d-inline-block">
+						<div class="m-4" style="width: 120px;">
 							<a href="${contextPath }/shop/localShopSearch.do?filter=50"><img src="${contextPath }/resources/image/shopCategory/beauty.png" class="card-img-top"
 								alt="..."></a>
-							<div class="card-body">
-								<h5 class="card-title">
-									<a href="${contextPath }/shop/localShopSearch.do?filter=50">미용</a>
-								</h5>
-							</div>
+								<h4 class="mt-3 ">
+									<a class="text-dark" href="${contextPath }/shop/localShopSearch.do?filter=50">미용</a>
+								</h4>
 						</div>
 					</div>
-					<div style="margin: 15px">
-						<div class="card" style="width: 8rem;">
+					<div class="d-inline-block">
+						<div class="m-4" style="width: 120px;">
 							<a href="${contextPath }/shop/localShopSearch.do?filter=60"><img src="${contextPath }/resources/image/shopCategory/mart.png" class="card-img-top"
 								alt="..."></a>
-							<div class="card-body">
-								<h5 class="card-title">
-									<a href="${contextPath }/shop/localShopSearch.do?filter=60">마트/유통</a>
-								</h5>
-							</div>
+								<h4 class="mt-3 ">
+									<a class="text-dark" href="${contextPath }/shop/localShopSearch.do?filter=60">마트/유통</a>
+								</h4>
 						</div>
 					</div>
-					<div style="margin: 15px">
-						<div class="card" style="width: 8rem;">
+					<div class="d-inline-block">
+						<div class="m-4" style="width: 120px;">
 							<a href="${contextPath }/shop/localShopSearch.do?filter=70"><img src="${contextPath }/resources/image/shopCategory/pottery.png" class="card-img-top"
 								alt="..."></a>
-							<div class="card-body">
-								<h5 class="card-title">
-									<a href="${contextPath }/shop/localShopSearch.do?filter=70">공방/클래스</a>
-								</h5>
-							</div>
+								<h4 class="mt-3 ">
+									<a class="text-dark" href="${contextPath }/shop/localShopSearch.do?filter=70">공방/클래스</a>
+								</h4>
 						</div>
 					</div>
-					<div style="margin: 15px">
-						<div class="card" style="width: 8rem;">
+					<div class="d-inline-block">
+						<div class="m-4" style="width: 120px;">
 							<a href="${contextPath }/shop/localShopSearch.do?filter=80"><img src="${contextPath }/resources/image/shopCategory/interior.png" class="card-img-top"
 								alt="..."></a>
-							<div class="card-body">
-								<h5 class="card-title">
-									<a href="${contextPath }/shop/localShopSearch.do?filter=80">인테리어</a>
-								</h5>
-							</div>
+								<h4 class="mt-3 ">
+									<a class="text-dark" href="${contextPath }/shop/localShopSearch.do?filter=80">인테리어</a>
+								</h4>
 						</div>
 					</div>
-					<div style="margin: 15px">
-						<div class="card" style="width: 8rem;">
+					<div class="d-inline-block">
+						<div class="m-4" style="width: 120px;">
 							<a href="${contextPath }/shop/localShopSearch.do?filter=90"><img src="${contextPath }/resources/image/shopCategory/real_estate.png" class="card-img-top"
 								alt="..."></a>
-							<div class="card-body">
-								<h5 class="card-title">
-									<a href="${contextPath }/shop/localShopSearch.do?filter=90">부동산</a>
-								</h5>
-							</div>
+								<h4 class="mt-3 ">
+									<a class="text-dark" href="${contextPath }/shop/localShopSearch.do?filter=90">부동산</a>
+								</h4>
 						</div>
 					</div>
 				</div>	
 			</div>
-		</div>
+		</div>	
 		<br>
-		<br>
-		<h3>우리동네 인기업체></h3>
+		
+
+		<p class="h5 mt-5">우리동네 인기업체
+		<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+	 			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+		</svg>
 		<div class="popular">
 				
 		</div>

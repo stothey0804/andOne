@@ -227,10 +227,10 @@
 							<a href="${contextPath}/point/charge.do" class="btn btn-outline-primary btn-sm ml-auto"><spring:message code="menu.chargeBtn" /></a>
 						</div>
 					</div>
-					<ul class="list-group list-group-horizontal">
-						<li class="list-group-item col-6 text-center"><a href="${contextPath}/member/mypage.do"><spring:message code="menu.mypage" /></a></li>
-			  			<li class="list-group-item col-6 text-center"><a href="${contextPath}/member/logout.do"><spring:message code="menu.logoutBtn" /></a></li>
-					</ul>
+				<ul class="list-group list-group-horizontal">
+					<li class="list-group-item col-6 text-center"><a href="${contextPath}/member/mypage.do"><spring:message code="menu.mypage" /></a></li>
+		  			<li class="list-group-item col-6 text-center"><a href="${contextPath}/member/logout.do"><spring:message code="menu.logoutBtn" /></a></li>
+				</ul>
 			</div>
 			
           </c:when>
