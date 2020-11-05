@@ -3,42 +3,111 @@
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
    <mapper namespace="and.p003">
-	<resultMap id="messageMap" type="java.util.HashMap" >
-		<result property="one_type" column="one_type" />	<!-- 구분 -->
-		<result property="one_id" column="one_id" />	<!-- 글번호 -->
-		<result property="one_title" column="one_title" />	<!-- 글제목 -->
-		<result property="one_state" column="one_state" />	<!-- 진행상태-->
-		<result property="m_id" column="m_id" /> <!-- 참가자 ID -->
-		<result property="msg_date" column="msg_date" />	<!-- 시간 -->
-		<result property="msg_content" column="msg_content" />	<!-- 채팅내용 -->
+	<resultMap id="messageMap" type="andP003ChatContentVO" >
+		<result property="one_id" column="ONE_ID" />	<!-- 구분 -->
+		<result property="one_type" column="ONE_TYPE" />	<!-- 구분 -->
+		<result property="m_id" column="M_ID" />	<!-- 구분 -->
+		<result property="msg_content" column="MSG_CONTENT" />	<!-- 구분 -->
+		<result property="msg_date" column="MSG_DATE" />	<!-- 구분 -->
+		<result property="msg_id" column="MSG_ID" />	<!-- 구분 -->
+		<result property="m_nickname" column="M_NICKNAME" />	<!-- 구분 -->
 	</resultMap>
-
-	<!-- 채팅방 목록 불러오기 --> 
-	<select id="readChatList" parameterType="java.util.HashMap">
+	
+	<resultMap id="roomMap" type="andP003ChatRoomVO">
+		<result property="one_type" column="ONE_TYPE" />
+		<result property="one_id" column="ONE_ID" />
+		<result property="one_title" column="ONE_TITLE" />
+		<result property="latestMessage" column="LATESTMESSAGE" />
+		<result property="msg_date" column="MSG_DATE" />
+	</resultMap>
+	
+	<resultMap id="userMap" type="andP003ChatUserVO">
+		<result property="m_id" column="M_ID" />
+		<result property="m_nickname" column="M_NICKNAME" />
+		<collection property="m_imgEncoder" column="{m_id=M_ID}" javaType="java.util.Map"
+					select="getUserImage" ofType="java.util.Map">
+		</collection>
+	</resultMap>
+	
+	<resultMap id="m_clobMap" type="java.util.Map">
+		<result property="m_imgEncoder" column="M_IMG" javaType="[B" jdbcType="BLOB" />
+	</resultMap>
+	
+	<!-- 유저 프사 불러오기 -->
+	<select id="getUserImage" parameterType="java.util.Map" resultMap="m_clobMap">
 		<![CDATA[
-	SELECT A.ONE_TYPE, A.ONE_ID, A.ONE_TITLE, B.M_ID
-	FROM AND_ONE A, ONE_MEMBER B
-	WHERE A.ONE_TYPE = B.ONE_TYPE
-	AND A.ONE_ID = B.ONE_ID
-	AND B.OM_STATE IN ('20','30')
+			SELECT M_IMG
+			FROM MEMBER
+			WHERE M_ID = #{m_id}
+		]]>
+	</select>
+
+	<!-- 채팅 내용 불러오기 --> 
+	<select id="getChatContentList" parameterType="java.util.HashMap" resultMap="and.p003.messageMap">
+		<![CDATA[
+			SELECT MSG_CONTENT, MSG_DATE, MSG_ID, M_NICKNAME
+			FROM MESSAGE M
+			INNER JOIN
+			(
+				SELECT A.M_ID, M_NICKNAME
+				FROM MEMBER A INNER JOIN ONE_MEMBER B ON A.M_ID = B.M_ID
+				WHERE ONE_ID = #{one_id}
+			) INN ON M.M_ID = INN.M_ID
+			WHERE ONE_ID = #{one_id}
+			ORDER BY MSG_ID ASC
   		]]>
 	</select>
 	
 	<!-- 채팅 보내기-->
  	<insert id="sendMessage" parameterType="andP003ChatContentVO">
  	<![CDATA[
- 	INSERT INTO MESSAGE(ONE_TYPE, ONE_ID, MSG_CONTENT, MSG_DATE, M_ID)
+ 	INSERT INTO MESSAGE(ONE_TYPE, ONE_ID, MSG_CONTENT, MSG_DATE, M_ID, MSG_ID)
  	VALUES(
  			#{one_type}, 
  			#{one_id},
  			#{msg_content}, 
  			TO_CHAR(SYSDATE,'YYYY-MM-DD hh24:mi:ss'),
- 			#{m_id}
+ 			#{m_id},
+ 			(SELECT COUNT(MSG_ID)+1 AS MSG_ID
+	        FROM MESSAGE
+	        WHERE ONE_ID = #{one_id})
  			)
  	]]>
  	</insert>
  	
- 	<!-- 채팅 불러오기 -->
+ 	<!-- 채팅방 목록 불러오기 -->
+ 	<select id="getChatRoomList" parameterType="String" resultMap="and.p003.roomMap">
+ 		<![CDATA[
+ 			SELECT ONE_TYPE, ONE_ID, ONE_TITLE, DECODE(MSG_CONTENT, NULL, '메세지가 없습니다', MSG_CONTENT) AS LATESTMESSAGE, DECODE(MSG_DATE,NULL,'0',MSG_DATE) AS MSG_DATE
+			FROM
+			(
+			    SELECT A.ONE_TYPE, A.ONE_ID, A.ONE_TITLE, MSG_CONTENT, MSG_DATE, ROW_NUMBER()OVER(PARTITION BY A.ONE_ID ORDER BY MSG_DATE DESC) AS ROW_NUM
+			    FROM AND_ONE A INNER JOIN ONE_MEMBER B ON A.ONE_ID = B.ONE_ID
+			    LEFT OUTER JOIN 
+			    (
+			        SELECT ONE_ID, MSG_CONTENT, MSG_DATE
+			        FROM MESSAGE A
+			    )C ON A.ONE_ID = C.ONE_ID
+			    WHERE B.OM_STATE IN ('20','30')
+			    AND M_ID = #{m_id}
+			    ORDER BY OM_STATE ASC, MSG_DATE DESC
+			)
+			WHERE ROW_NUM = 1
+ 		]]>
+ 	</select>
  	
+ 	<!-- 유저 목록 불러오기 -->
+ 	<select id="getChatUserList" parameterType="String" resultMap="and.p003.userMap">
+ 		<![CDATA[
+ 			SELECT M_ID, M_NICKNAME, M_IMG
+			FROM MEMBER
+			WHERE M_ID IN
+			(
+			    SELECT M_ID
+			    FROM ONE_MEMBER
+			    WHERE ONE_ID = #{one_id}
+			)
+ 		]]>
+ 	</select>
  	
    </mapper>
