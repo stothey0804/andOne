@@ -67,7 +67,6 @@
 	<script>
 		var m_id = '${m_id}';
 		function init(){
-			
 			// 주소클릭시 맵설정 창 띄우기
 			document.getElementById('centerAddr').addEventListener("click", function(){
 				var mapNode = document.querySelector(".map-container");
@@ -108,7 +107,7 @@
 	        }
 	    return Math.floor(betweenTimeDay / 365)+'년전';
 		}
-
+	   
 	</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -204,8 +203,7 @@
 <!-- 					<input type="submit" class="btn btn-outline-dark" value="검색"><br><br> -->
 				</div>
 			</form>
-			
-			
+
 	</div>
 	<br>
 	<div class="container clearfix">
@@ -223,12 +221,12 @@
 				</c:when>
 				<c:when test="${g_id == '011'}">
 					<c:forEach var ="ctg" items="${ctg}" > 
-					<button type="button" class="btn btn-outline-primary mb-3" onclick="location.href='${contextPath}/andbuy/searchAndOne.do?one_category=${ctg.gc_id}&g_id=011'">${ctg.gc_name}</button>
+					<button type="button" class="btn btn-outline-primary mb-3" onclick="location.href='${contextPath}/andbuy/searchAndOne.do?one_category=${ctg.gc_id}&g_id=${g_id}'">${ctg.gc_name}</button>
 					</c:forEach>
 				</c:when>
 				<c:when test="${g_id == '012'}">
 					<c:forEach var ="ctg" items="${ctg}" > 
-					<button type="button" class="btn btn-outline-primary mb-3" onclick="location.href='${contextPath}/anddo/searchAndOne.do?one_category=${ctg.gc_id}&g_id=012'">${ctg.gc_name}</button>
+					<button type="button" class="btn btn-outline-primary mb-3" onclick="location.href='${contextPath}/anddo/searchAndOne.do?one_category=${ctg.gc_id}&g_id=${g_id}'">${ctg.gc_name}</button>
 					</c:forEach>
 				</c:when>
 			</c:choose>
@@ -253,7 +251,7 @@
 	<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 	 			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
 	</svg></p>
-	<p class="float-right"><span class="sortDistance">거리순</span>/<span class="sortDay">마감순</span></p>
+	<p class="float-right"><a href="${contextPath}/and?g_id=${g_id}&flag=distance">거리순</a>/<a href="${contextPath}/and?g_id=${g_id}&flag=date">마감순</a></p>
 	</div>
 		
 	<div class="container">
@@ -285,7 +283,7 @@
 								<c:if test="${andone.one_state eq '취소'}">
 									<span class="text-danger">
 								</c:if>
-								${andone.one_state}</span>
+								${andone.one_state} </span>
 								</p>
 								<p class="card-subtitle mb-3 text-muted float-right"><span class="date">${andone.one_date} 수령예정</span></p>
 							</div>
@@ -293,7 +291,8 @@
 								<p class="card-text float-left"> #${andone.one_hashTag}  </p>
 								<p class="card-text float-right h6"> 예상 <b>${andone.one_price}</b> <span class="text-secondary"> <i class="fas fa-user-friends"></i> ${andone.one_member}/${andone.one_memberMax} </span></p>
 							</div>
-							<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
+							<p class="card-text float-left"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
+							<p class="card-text float-right h6"> ${andone.addrDetail} / ${andone.distance}km  </p>
 						</div>
 					</div>
 				</div>

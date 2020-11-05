@@ -51,7 +51,7 @@
 				</c:when>
 			</c:choose>
 		</h1>
-      <form method="post" name="insertAnd" action="${contextPath}/and/insertAndOne.do" >
+      <form name="insertAnd" onsubmit="return false">
       <div class="col-lg-6 col-sm-10 mx-auto mt-5 ">
       	<div class="form-row">
             <div class="form-group col-md-6 mx-auto title">
@@ -128,14 +128,22 @@
        		<textarea rows="15" cols="80" id="one_content" class="form-control" name="one_content"></textarea>
        	</div>
        	</div>
+       	<!-- 해시태그 -->
        	<div class="form-row">
        		<div class="form-group col-md-6 mx-auto ">
-		       	<input type="text" class="form-control"  name="one_hashTag" placeholder="해쉬태그를 입력해주세요"><br><br>
-	        	<input type="submit" id="registerAndEat" class="btn btn-outline-dark btn-lg mb-3 form-control"  value="새로운같이먹기 등록하기" >
-      		</div>
+	    		<div class="displayArea">
+
+				</div><br>
+				    <div class="col-md-6 mx-auto">
+				     <input type="text" class="form-control" id="inputHashtag" name="inputHashtag" 
+				      placeholder="키워드 입력 후 스페이스바로 등록" onkeyup="characterCheck()" onkeydown="characterCheck()" />
+		    		</div>
+	        	<input type="submit" id="registerAnd" class="btn btn-outline-dark btn-lg mb-3 form-control"  value="새로운같이먹기 등록하기" >
+	    	</div>
+    	</div>
 		       	<input type="hidden" name="one_type" value="${g_id}">
-        </div>
-       </div>
+		       	<input type="hidden" name="one_hashTag" id="one_hashTag">
+	   </div>
     </form>
     
     <!--우편번호 서비스-->
@@ -237,6 +245,64 @@
 		      console.log(cnt); 
 		      document.insertAnd.one_memberMax.value = cnt;//인원수 전달
 	      }
+      	  //해쉬태그
+      	  var hashtag = '';
+		  var hashtagArr = new Array();
+		  function characterCheck() {
+				var RegExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-+┼<>@\#$%&\'\"\\\(\=]/gi;
+				var space = / /gi;
+				var obj = document.getElementsByName("inputHashtag")[0]
+				if (RegExp.test(obj.value)) {
+					alert("특수문자는 언더바(_)만 사용 가능합니다.");
+					obj.value = obj.value.substring(0, obj.value.length - 1);
+				}else if(space.test(obj.value)){
+					add();
+				}
+			}
+			
+			function deleteValue(param){
+				hashtagArr.splice(hashtagArr.indexOf(param),1);
+				// $('.displayArea #'+param).remove();
+				$('.btn-group').has('#'+param).remove();
+			}
+			
+			function add(){
+				let inputValue = $('#inputHashtag').val();
+				if(isEmpty(inputValue)){
+					alert('키워드를 입력해주세요.');
+					$('#inputHashtag').val('');
+				}else{
+					inputValue = inputValue.slice(0,-1);
+					hashtagArr.push(inputValue);
+					$('.displayArea').append('<div class="btn-group mr-1 btn-group-sm" role="group">'
+							+'<button class="btn btn-sm btn-light">#'+inputValue+'</button>'
+							+'<button id="'+inputValue+'" class="btn btn-sm btn-light" onclick="deleteValue(this.id)">&times;</button>'+'</div>');
+					$('#inputHashtag').val('');
+				}
+			}
+			
+			function isEmpty(str){
+				if(typeof str == "undefined" || str == null || str == "" || str == " "){
+					return true;
+				}else{
+					return false;
+				}
+			}
+	      $('#registerAnd').click(function(){
+	    	  hashtag = '';
+				for(let i=0; i<hashtagArr.length; i++){
+					hashtag += hashtagArr[i] + ','
+				}
+				hashtag = hashtag.slice(0,-1);
+				$('#one_hashTag').val(hashtag);
+				$('#inputHashtag').remove();
+				alert(hashtag);
+	    	  var insertAnd = document.insertAnd;
+	    	  insertAnd.action = "${contextPath}/and/insertAndOne.do";
+	    	  insertAnd.method= "post";
+	    	  insertAnd.submit();
+	    	  
+	      })
     </script>
 	
 </body>

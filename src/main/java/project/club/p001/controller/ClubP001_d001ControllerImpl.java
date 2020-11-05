@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import common.Common;
+import common.Pagination;
 import common.dao.CommonDAO;
 import project.club.p001.service.ClubP001_d001Service;
 import project.club.vo.ClubMemberVO;
@@ -50,27 +51,51 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 	}
 	@Override	//카테고리 검색결과
 	@RequestMapping(value="/club/searchClubCategory.do",method= {RequestMethod.GET})
-	public ModelAndView searchClubCategory(@RequestParam(value="c_category",required = true) String c_category) throws Exception{
+	public ModelAndView searchClubCategory(@RequestParam(value="c_category",required = true) String c_category,
+											@RequestParam(defaultValue = "1") int curPage) throws Exception{
 		Map<String, Object> searchMap = new HashMap<String, Object>();
 		searchMap.put("c_category", c_category);
+		int categoryClubListCnt = clubP001_d001Service.searchClubListCntCategory(searchMap);
+		Pagination pagination = new Pagination(categoryClubListCnt, curPage);
+		searchMap.put("startIndex",(pagination.getStartIndex()+1)+"");
+		searchMap.put("endIndex", (pagination.getStartIndex()+pagination.getPageSize())+"");
 		List<ClubVO> categoryClubList = clubP001_d001Service.categoryClubList(searchMap);
+		
+		//카테고리 이름 가져오기
 		String category_name = clubP001_d001Service.categoryName(searchMap);
+		
+		//소모임 대표이미지 encoding
 		getEncoded(categoryClubList);
+		
 		ModelAndView mav = new ModelAndView("categorySearchList");
 		mav.addObject("categoryClubList", categoryClubList);
 		mav.addObject("gc_name", category_name);
+		mav.addObject("pagination", pagination);
+		mav.addObject("cnt", categoryClubListCnt);
+		mav.addObject("c_category", c_category);
 		return mav;
 	}
 	@Override		//소모임 검색결과 페이지
 	@RequestMapping(value="/club/searchClub.do",method= {RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView searchClubList(@RequestParam(value="searchWord", required=false) String searchWord) throws Exception{
+	public ModelAndView searchClubList(@RequestParam(value="searchWord", required=false) String searchWord
+										,@RequestParam(defaultValue = "1") int curPage) throws Exception{
 		Map<String, Object> searchMap = new HashMap<String, Object>();
 		List<ClubVO> list = null;
+		int clubListCnt = 0;
+		Pagination pagination = null;
 		if(searchWord.charAt(0)=='#') {
 			searchMap.put("searchWord", "%"+ searchWord.substring(1, searchWord.length())+"%");
+			clubListCnt = clubP001_d001Service.searchClubListCntHashtag(searchMap);
+			pagination = new Pagination(clubListCnt, curPage);
+			searchMap.put("startIndex",(pagination.getStartIndex()+1)+"");
+			searchMap.put("endIndex", (pagination.getStartIndex()+pagination.getPageSize())+"");
 			list = clubP001_d001Service.searchClubListHash(searchMap);
 		} else {
 			searchMap.put("searchWord", "%"+searchWord+"%");
+			clubListCnt = clubP001_d001Service.searchClubListCnt(searchMap);
+			pagination = new Pagination(clubListCnt, curPage);
+			searchMap.put("startIndex",(pagination.getStartIndex()+1)+"");
+			searchMap.put("endIndex", (pagination.getStartIndex()+pagination.getPageSize())+"");
 			list = clubP001_d001Service.searchClubList(searchMap);
 		}
 		
@@ -78,8 +103,9 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		getEncoded(list);
 		ModelAndView mav = new ModelAndView("searchList");
 		mav.addObject("resultList",list);
-		mav.addObject("cnt", list.size());
-		mav.addObject("searchWord",searchWord); 
+		mav.addObject("cnt", clubListCnt);
+		mav.addObject("searchWord",searchWord);
+		mav.addObject("pagination", pagination);
 		return mav;
 	}
 	
@@ -87,7 +113,7 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 	@RequestMapping(value="/club/searchClubHshtag.do",method= {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView searchClubListHashTag(@RequestParam(value="searchWord", required=false) String searchWord) throws Exception{
 		Map<String, Object> searchMap = new HashMap<String, Object>();
-		searchMap.put("searchWord", "%"+ searchWord+"%");
+		searchMap.put("searchWord", "%"+searchWord+"%");
 		List<ClubVO> list = clubP001_d001Service.searchClubListHash(searchMap);
 		
 		//소모임 대표이미지 encoding
@@ -163,10 +189,10 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		//일반 회원 목록
 		List<ClubMemberVO> members = clubP001_d001Service.getClubMember(searchMap);
 		//회원 목록 이미지 encoding
-		if(members == null) {
+		if(members != null) {
 			System.out.println("멤버 널");
+			Common.getEncodedUser(members);
 		}
-		Common.getEncodedUser(members);
 		Common.getEncodedUser(leader);
 		
 		ModelAndView mav = new ModelAndView();

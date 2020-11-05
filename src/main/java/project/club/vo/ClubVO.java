@@ -25,8 +25,23 @@ public class ClubVO {
 	private byte[] c_imgByte;
 	private String resultImg;
 	private String c_openingdate;
+	private String gc_name;
+	private String leaderId;
+	
 	private List<ClubArticleVO> articleList;
 	
+	public String getLeaderId() {
+		return leaderId;
+	}
+	public void setLeaderId(String leaderId) {
+		this.leaderId = leaderId;
+	}
+	public String getGc_name() {
+		return gc_name;
+	}
+	public void setGc_name(String gc_name) {
+		this.gc_name = gc_name;
+	}
 	public String getRc_type() {
 		return rc_type;
 	}

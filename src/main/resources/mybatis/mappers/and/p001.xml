@@ -35,8 +35,8 @@
        	from (
 		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
-		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, d.distance, a.one_locate_Lat, a.one_locate_Lng,
-		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, a.one_addr, (select count(m_id) from one_member e where e.one_id = d.one_id )as one_member
+		       			substr(a.one_date,6,11) as one_date, replace(a.one_hashTag,',','#') as one_hashTag, RTRIM(TO_CHAR(d.distance, 'FM9990.9999'),'.') as distance, a.one_locate_Lat, a.one_locate_Lng,
+		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, a.one_addr, substr(a.one_addr,1,6) as addrDetail, (select count(m_id) from one_member e where e.one_id = d.one_id )as one_member
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
 		              from common_code 
@@ -54,7 +54,23 @@
 				and a.one_category = c.gc_id
                 and a.one_id = d.one_id
 				and a.one_type= #{g_id}
-				order by d.one_id desc
+				and a.one_id IN(SELECT one_id
+                              FROM (
+                                    SELECT ((TO_DATE(one_date,'YYYY-MM-DD hh24:mi:ss') - SYSDATE) * 24 * 60) AS RESULT, one_id
+                                    FROM and_one
+                                    )
+                            WHERE RESULT > 0)
+				]]>
+				<if test ="flag == null">
+				order by d.one_id DESC
+				</if>
+				<if test ="flag == 'distance'">
+				order by distance
+				</if>
+				<if test ="flag == 'date'">
+				order by a.one_date
+				</if>
+			<![CDATA[
 			)
 			where rownum <=6
       ]]>
@@ -77,7 +93,7 @@
        	from (
 		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
-		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, d.distance,
+		       			substr(a.one_date,6,11) as one_date, replace(a.one_hashTag,',','#') as one_hashTag, d.distance,
 		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, (select count(m_id) from one_member e where e.one_id = d.one_id )as one_member
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
@@ -110,7 +126,7 @@
        	from (
 		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
-		       			substr(a.one_date,6,11) as one_date, a.one_hashTag, d.distance,
+		       			substr(a.one_date,6,11) as one_date, replace(a.one_hashTag,',','#') as one_hashTag, d.distance,
 		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, (select count(m_id) from one_member e where e.one_id = d.one_id )as one_member
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
@@ -154,7 +170,7 @@
 	<![CDATA[
 		select a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
        			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax)) END as one_price,
-       			a.one_totalPrice, substr(a.one_date,6,11) as one_date, TO_DATE(one_date,'YYYY-MM-DD hh24:mi:ss') as forEditDate,  a.one_hashTag, a.one_locate_Lat, a.one_locate_Lng, one_addr,
+       			a.one_totalPrice, substr(a.one_date,6,11) as one_date, one_date as forEditDate,  replace(a.one_hashTag,',','#') as one_hashTag, a.one_locate_Lat, a.one_locate_Lng, one_addr,
         		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time , a.one_content, (select count(m_id) from one_member where one_id = #{one_id})as one_member
 		from and_one a, 
 		     (select gc_name, gc_id, g_id
@@ -193,18 +209,18 @@
 	<!-- 모집시간내에 결제완료/진행완료 안된 엔분의일 상태변경 -->
 	<update id="updateAndOneState" >
 		<![CDATA[
-			UPDATE and_one     
-			SET one_state = '40'    
-			WHERE one_id IN(                
-			    SELECT one_id
-			    FROM
-			    (
-			        SELECT ((TO_DATE(one_date,'YYYY-MM-DD hh24:mi:ss') - sysdate) * 24 * 60) AS RESULT, one_id
-			        FROM and_one
-			        WHERE one_state NOT IN ('20','30')
-			    )
-			    WHERE RESULT < 0)         
-		]]>
+			 UPDATE and_one     
+			 SET one_state = '40'    
+			 WHERE one_id IN(                
+    		 SELECT one_id
+    		 FROM
+    		 (
+		        SELECT ((TO_DATE(one_date,'YYYY-MM-DD hh24:mi:ss') - (SELECT sysdate from dual)) * 24 * 60) AS RESULT, one_id
+		        FROM and_one
+		        WHERE one_state NOT IN ('20','30')
+    		)
+    		WHERE RESULT < 0)
+    	]]>
 	</update>
 	
 	<!-- 포인트 환불 List -->

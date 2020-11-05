@@ -24,7 +24,6 @@
 			document.getElementById("termOfServiceCheck").checked = allCheck.checked;
 			document.getElementById("termOfGeolocationCheck").checked = allCheck.checked;
 		});
-		
 		// 회원가입 클릭시 약관동의 체크
 		document.getElementById("joinCountinue").addEventListener("click",function(){
 			let agreeOfService = document.getElementById("termOfServiceCheck").checked;

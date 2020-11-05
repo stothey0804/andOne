@@ -48,7 +48,7 @@
 	            </a>
 	          </li>
 	          <li class="nav-item">
-	            <a class="nav-link" href="#">
+	            <a class="nav-link" href="${contextPath}/admin/searchClubList.do">
 	              	소모임 조회
 	            </a>
 	          </li>

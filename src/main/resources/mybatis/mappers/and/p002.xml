@@ -31,7 +31,7 @@
       	WHEN MATCHED THEN
       		UPDATE SET 
 		     one_category = #{one_category}, one_title = #{one_title}, one_memberMax = #{one_memberMax}, 
-		     one_totalPrice = #{one_totalPrice},one_date = #{one_date}, one_hashtag = #{one_hashTag}, 
+		     one_totalPrice = #{one_totalPrice}, one_date = #{one_date}, one_hashtag = #{one_hashTag}, 
 		     one_locate_lat = #{one_locate_Lat}, one_locate_lng = #{one_locate_Lng}, one_content = #{one_content}, 
 		     one_addr = #{one_addr}, one_editdate = to_char(sysdate,'yyyy-mm-dd HH24:mi:ss')
 		WHEN NOT MATCHED THEN

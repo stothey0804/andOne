@@ -89,15 +89,30 @@ function removeHTML(text){
 </script>
 </head>
 <body onload="init();">
-	<form class="searchClub container center" name="searchFrm"
-		method="post" action="${contextPath}/club/searchClub.do">
+<!-- 	<form class="searchClub container center" name="searchFrm" -->
+<%-- 		method="post" action="${contextPath}/club/searchClub.do"> --%>
+<!-- <a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br> -->
+<%-- 		<input type="text" value="${searchWord}" name="searchWord">  --%>
+<!-- 		<input type="submit" value="&#xf002;"> -->
+<!-- 	</form> -->
+<div class="form-group mx-3 searchInput center" style="width:700px;margin-top:90px;">
 <a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br>
-		<input type="text" value="${searchWord}" name="searchWord"> <input
-			type="submit" value="&#xf002;">
-	</form>
+          <div class="input-group">
+          <form class="searchClub container center p-1 rounded rounded-pill border border-primary" style="border-width:2px !important" name="searchFrm" method="post" action="${contextPath}/club/searchClub.do">
+            <input type="text" placeholder="카테고리/지역/제목" value="${searchWord}" aria-describedby="button-addon1" name="searchWord" class="form-control border-0 m-1">
+            <div class="input-group-append">
+              <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+           </div>
+         </form>
+          </div>
+        </div>
+	
+	
+	
+	
 	<br>
 	<br>
-	<div class="container center">
+	<div class="container center" style="width:1400px;">
 		<c:set var="cnt" value="${cnt }" />
 		<c:choose>
 			<c:when test="${cnt eq 0 }">
@@ -109,7 +124,7 @@ function removeHTML(text){
 		</c:choose>
 		<c:forEach var="club" items="${resultList}">
 			<div class="card my-3 center"
-				style="max-width: 540px;margin-right:0;">
+				style="max-width: 540px;margin-right:0; display:inline-block;">
 				<div class="row no-gutters"
 					onclick="location.href='${contextPath }/club/detailClub.do?c_id=${club.c_id}'">
 					<div class="col-md-4" style="width: 500px">
@@ -132,7 +147,7 @@ function removeHTML(text){
 								<p class="card-text result">${club.c_content}</p>
 							</div>
 							<p class="card-text result">
-								<small class="text-muted">카테고리 ${club.c_category}</small>
+								<small class="text-muted">카테고리 ${club.gc_name}</small>
 							</p>
 							<p class="card-text result">
 								<small class="text-muted">#${club.c_hashtag}</small>
@@ -145,6 +160,47 @@ function removeHTML(text){
 				</div>
 			</div>
 		</c:forEach>
+<!-- 페이징  -->		
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <c:if test="${pagination.curRange ne 1 }">
+            <li class="page-item">
+            <a class="page-link" href="?curPage=1&searchWord='${searchWord}'">처음</a> 
+            </li>
+        </c:if>
+        <c:if test="${pagination.curPage ne 1}">
+            <li class="page-item">
+                <a class="page-link" href="?curPage=${pagination.prevPage}&searchWord='${searchWord}'">이전</a> 
+                </li>
+        </c:if>
+        <c:forEach var="pageNum" begin="${pagination.startPage}" end="${pagination.endPage}">
+            <c:choose>
+                <c:when test="${pageNum eq pagination.curPage}">
+                    <li class="page-item active">
+                        <a class="page-link" href="?curPage=${pageNum}&searchWord=${searchWord}">${pageNum }</a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item">
+                        <a class="page-link" href="?curPage=${pageNum}&searchWord=${searchWord}">${pageNum }</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
+            <li class="page-item">
+                <a class="page-link" href="?curPage=${pagination.nextPage}&searchWord=${searchWord}">다음</a> 
+                </li>	                        
+        </c:if>
+        <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
+            <li class="page-item">
+                <a class="page-link" href="#"  onClick="fn_paging('${pagination.pageCnt }')">끝</a> 
+                </li>	                    
+    </c:if>
+    </ul>
+</nav>
+<!-- 페이징 END -->
+		
 	</div>
 </body>
 </html>

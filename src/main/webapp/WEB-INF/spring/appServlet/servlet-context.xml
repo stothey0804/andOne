@@ -45,10 +45,17 @@
 
 	<context:component-scan base-package="project,common" />
 
-	<beans:bean id="localeResolver"
-		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-		<beans:property name="defaultLocale" value="ko" />
-	</beans:bean>
+	<!-- Locale 설정 -->
+	<mvc:interceptors>
+		<beans:bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<beans:property name="paramName" value="lang" />
+		</beans:bean>
+	</mvc:interceptors>
+
+<!-- 	<beans:bean id="localeResolver" -->
+<!-- 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver"> -->
+<!-- 		<beans:property name="defaultLocale" value="ko" /> -->
+<!-- 	</beans:bean> -->
 	
 
 	  <!-- Tiles -->

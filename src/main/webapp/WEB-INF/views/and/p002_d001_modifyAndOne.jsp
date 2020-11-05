@@ -136,13 +136,21 @@
        		<textarea rows="15" cols="80" id="one_content" class="form-control" name="one_content">${andOneEdit.one_content}</textarea>
        	</div>
        	</div>
+       	<!-- 해쉬태그 -->
        	<div class="form-row">
        		<div class="form-group col-md-6 mx-auto ">
-		       	<input type="text" class="form-control"  name="one_hashTag" placeholder="해쉬태그를 입력해주세요" value="${andOneEdit.one_hashTag}" ><br><br>
-	        	<input type="submit" id="registerAndEat" class="btn btn-outline-dark btn-lg mb-3 form-control"  value="수정하기" >
+	    		<div class="displayArea">
+
+				</div><br>
+				    <div class="col-md-6 mx-auto">
+				     <input type="text" class="form-control" id="inputHashtag" name="inputHashtag" 
+				      placeholder="키워드 입력 후 스페이스바로 등록" onkeyup="characterCheck()" onkeydown="characterCheck()" />
+		    		</div>
+	        	<input type="submit" id="modifyAnd" class="btn btn-outline-dark btn-lg mb-3 form-control"  value="수정하기" >
       		</div>
 		       	<input type="hidden" name="one_type" value="${g_id}">
 		       	<input type="hidden" name="one_id" value="${andOneEdit.one_id}">
+		       	<input type="hidden" name="one_hashTag" id="one_hashTag">
         </div>
        </div>
     </form>
@@ -239,7 +247,19 @@
      		}
         });
 		//<<<<<<<<<<<< MAP 끝
+		var hashtagArr = new Array();
+		var hashtag = '';
       $(document).ready(function() {
+		//수정용 해쉬태그
+		hashtag = "${andOneEdit.one_hashTag}";
+		console.log(hashtag);
+		hashtagArr = hashtag.split(',');
+		for(let i=0; i<hashtagArr.length; i++){
+			console.log(hashtagArr[i]);
+			$('.displayArea').append('<div class="btn-group mr-1 btn-group-sm" role="group">'
+			+'<button class="btn btn-sm btn-light">#'+hashtagArr[i]+'</button>'
+			+'<button id="'+hashtagArr[i]+'" class="btn btn-sm btn-light" onclick="deleteValue(this.id)">&times;</button>'+'</div>')
+			}
 	      //카테고리 버튼 클릭시 선택
     	  $('#category').on('click', '#category_sub' , function(e){
     		  $(this).addClass('active');
@@ -286,6 +306,65 @@
     	  var category =  $("#memberCnt option:selected").val();
     	  console.log(category);
 		  document.modifyAnd.one_memberMax.value = category;
+		  
+		//해쉬태그
+		  function characterCheck() {
+				var RegExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-+┼<>@\#$%&\'\"\\\(\=]/gi;
+				var space = / /gi;
+				var obj = document.getElementsByName("inputHashtag")[0]
+				if (RegExp.test(obj.value)) {
+					alert("특수문자는 언더바(_)만 사용 가능합니다.");
+					obj.value = obj.value.substring(0, obj.value.length - 1);
+				}else if(space.test(obj.value)){
+					add();
+				}
+			}
+		
+			function deleteValue(param){
+				hashtagArr.splice(hashtagArr.indexOf(param),1);
+				// $('.displayArea #'+param).remove();
+				$('.btn-group').has('#'+param).remove();
+			}
+			
+			function add(){
+				let inputValue = $('#inputHashtag').val();
+				if(isEmpty(inputValue)){
+					alert('키워드를 입력해주세요.');
+					$('#inputHashtag').val('');
+				}else{
+					inputValue = inputValue.slice(0,-1);
+					hashtagArr.push(inputValue);
+					$('.displayArea').append('<div class="btn-group mr-1 btn-group-sm" role="group">'
+							+'<button class="btn btn-sm btn-light">#'+inputValue+'</button>'
+							+'<button id="'+inputValue+'" class="btn btn-sm btn-light" onclick="deleteValue(this.id)">&times;</button>'+'</div>');
+					$('#inputHashtag').val('');
+				}
+			}
+			
+			function isEmpty(str){
+				if(typeof str == "undefined" || str == null || str == "" || str == " "){
+					return true;
+				}else{
+					return false;
+				}
+			}
+		
+		  //수정하기
+		  $('#modifyAnd').click(function(){
+			  hashtag = '';
+				for(let i=0; i<hashtagArr.length; i++){
+					hashtag += hashtagArr[i] + ','
+				}
+				hashtag = hashtag.slice(0,-1);
+				$('#one_hashTag').val(hashtag);
+				$('#inputHashtag').remove();
+				alert(hashtag);
+	    	  var modifyAnd = document.modifyAnd;
+	    	  modifyAnd.action = "${contextPath}/and/modifyAndOne.do";
+	    	  modifyAnd.method= "post";
+	    	  modifyAnd.submit();
+	    	  
+	      })
       	  
     </script>
 	
