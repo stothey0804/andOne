@@ -11,4 +11,7 @@ public interface AndP003_d001Service {
 	public List<AndP003ChatContentVO> getChatContentList(String one_id);
 	public List<AndP003ChatUserVO> getChatUserList(String one_id);
 	public void userImageEncoder(AndP003ChatUserVO vo);
+	public void insertChatContent(AndP003ChatContentVO vo);
+	public List<String> getChatUserIdList(String one_id);
+	public AndP003ChatContentVO selectLatestMessage(String one_id);
 }
