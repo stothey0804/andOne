@@ -33,6 +33,8 @@ import project.and.vo.AndOneMemberVO;
 import project.and.vo.AndP001AndOneVO;
 import project.member.p001.vo.MemberP001_MemberVO;
 import project.point.p001.service.PointP001_d001Service;
+import project.point.p001.service.PointP001_d002Service;
+import project.point.p001.vo.PointP001VO;
 
 
 @Controller
@@ -44,6 +46,8 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	private PointP001_d001Service pointP001_d001Service; //포인트조회
 	@Autowired
 	private AndP002_d002Service p002_d002Service; //인원수 체크용
+	@Autowired
+	private PointP001_d002Service pointP001_d002Service; // 포인트 사용
 	
 	//&분의일 먹기 사기 하기 메인
 	@Override
@@ -51,31 +55,18 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	public ModelAndView andOneMain(@RequestParam("g_id") String g_id, 
 			@CookieValue(value="locate_lat", required = false) Cookie latCookie, 
 			@CookieValue(value="locate_lng", required = false) Cookie lngCookie, HttpServletRequest request) throws Exception {
-		System.out.println("111111g_id: "+g_id);
 		
+		System.out.println("111111g_id: "+g_id);
 		//세션가져오기
-		HttpSession session = request.getSession(false);
 		String m_id ="";
 		String m_locate_Lat ="";
 		String m_locate_Lng ="";
-		
-		//회원 위치 가져오기
-		if(session.getAttribute("isLogOn") != null) {
-			m_id = (String) session.getAttribute("m_id");
-			Map<String, Object> memLocate = p001_d001Service.selectMemLocate(m_id);
-			m_locate_Lat = (String) memLocate.get("m_locate_Lat");
-			m_locate_Lng = (String) memLocate.get("m_locate_Lng");
-			System.out.println("m_locate_Lat: " +m_locate_Lat);
-			System.out.println("m_locate_Lng: " +m_locate_Lng);
-		}
-//		else {//쿠키에 저장된 비회원 위치 가져오기(수정해야함)
-//			System.out.println("쿠키 받아먹어ㅓㅓㅓㅓㅓ");
-//			m_locate_Lat = latCookie.getValue();
-//			m_locate_Lng = lngCookie.getValue();
-//			System.out.println("123123: "+m_locate_Lat);
-//			System.out.println("123123: "+m_locate_Lng);
-//		}
-		
+
+		m_locate_Lat = latCookie.getValue();
+		m_locate_Lng = lngCookie.getValue();
+		System.out.println("123123: "+m_locate_Lat);
+		System.out.println("123123: "+m_locate_Lng);
+
 		Map<String,Object> param = new HashMap<String,Object>(); 
 		param.put("m_id", m_id);
 		param.put("m_locate_Lat", m_locate_Lat);
@@ -87,7 +78,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		List<AndP001AndOneVO> ctg = p001_d001Service.searchCtg(g_id); //카테고리설정
 	
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName(Common.checkLoginDestinationView("andOneMain", request));
+		mav.setViewName("andOneMain");
 		mav.addObject("g_id",g_id);
 		mav.addObject("ctg",ctg);//카테고리
 		mav.addObject("recentAndOneList", recentAndOneList);//최근 엔분의일
@@ -103,7 +94,10 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	//5.마감순정렬
 	@Override
 	@RequestMapping(value="/and*/searchAndOne.do")
-	public ModelAndView searchAndOneList(@RequestParam Map<String, Object> searchMap , HttpServletRequest request) throws Exception {
+	public ModelAndView searchAndOneList(@RequestParam Map<String, Object> searchMap , 
+			@CookieValue(value="locate_lat", required = false) Cookie latCookie, 
+			@CookieValue(value="locate_lng", required = false) Cookie lngCookie, 
+			HttpServletRequest request) throws Exception {
 		//1.전체검색
 		String one_category = (String)searchMap.get("one_category");
 		String g_id = (String)searchMap.get("g_id");
@@ -118,9 +112,8 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		HttpSession session = request.getSession(false);
 		String m_id = (String) session.getAttribute("m_id");
 		System.out.println("M_IDM_IDM_ID :"+m_id);
-		Map<String, Object> memLocate = p001_d001Service.selectMemLocate(m_id);
-		String m_locate_Lat = (String) memLocate.get("m_locate_Lat");
-		String m_locate_Lng = (String) memLocate.get("m_locate_Lng");
+		String m_locate_Lat = latCookie.getValue();
+		String m_locate_Lng = lngCookie.getValue();
 		System.out.println("m_locate_Lat22: " +m_locate_Lat);
 		System.out.println("m_locate_Lng22: " +m_locate_Lng);
 		
@@ -213,14 +206,46 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		}
 	}
 
-	@Scheduled(fixedRate = 100000) //10초마다 함수호출
+	@Scheduled(fixedRate = 60000) //1분마다 호출
 	public void handle() {
 		System.out.println("=================================>> LogProcessor.handle(): " + new Date());
-		p001_d001Service.updateAndOneState();//one_id로 select후 상태 취소로 업데이트
-		//취소 상태 작성자 빼고 환불
 		
-		//환불 컬럼 포인트 지급 컬럼
+		p001_d001Service.updateAndOneState();//시간초과 엔분의일 취소
+		
+		//취소 상태 작성자 빼고 환불
+		List<AndP001AndOneVO> pointList = p001_d001Service.pointList();
+		for(int i =0; i<pointList.size(); i++) {
+			String m_id = pointList.get(i).getM_id();
+			String one_price = pointList.get(i).getOne_price();
+			String one_id = pointList.get(i).getOne_id();
+			
+			PointP001VO pointVO = new PointP001VO();
+			pointVO.setM_id(m_id);
+			pointVO.setP_changepoint(one_price);
+			pointVO.setP_detail("포인트 환불");
+			String nowPoint = pointP001_d001Service.selectNowPointById(m_id);
+			pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint); //포인트 null값 0으로 변경
+			pointP001_d002Service.insertPoint(pointVO);//포인트 환불
+			nowPoint = pointP001_d001Service.selectNowPointById(m_id); //환불 후 값 갱신
+			p001_d001Service.updateAndOneRefund(one_id);//엔분의일 테이블 refund 0->1변경
+		}
 		//결제완료 상태되면 작성자에게 포인트 지급
+		List<AndP001AndOneVO> payList = p001_d001Service.payList();
+		for(int i =0; i<payList.size(); i++) {
+			String m_id = payList.get(i).getM_id();
+			String one_price = payList.get(i).getOne_price();
+			String one_id = payList.get(i).getOne_id();
+			
+			PointP001VO pointVO = new PointP001VO();
+			pointVO.setM_id(m_id);
+			pointVO.setP_changepoint(one_price);
+			pointVO.setP_detail("포인트 지급");
+			String nowPoint = pointP001_d001Service.selectNowPointById(m_id);
+			pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint); //포인트 null값 0으로 변경
+			pointP001_d002Service.insertPoint(pointVO);//포인트 환불
+			nowPoint = pointP001_d001Service.selectNowPointById(m_id); //환불 후 값 갱신
+			p001_d001Service.updateAndOnePay(one_id);//엔분의일 pay 0->1변경
+		}
 		
 	}
 	

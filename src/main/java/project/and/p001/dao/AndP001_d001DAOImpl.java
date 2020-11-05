@@ -82,4 +82,23 @@ public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 	public void updateAndOneState() {
 		sqlSession.update("and.p001.updateAndOneState");
 	}
+	@Override
+	public List<AndP001AndOneVO> pointList() {
+		List<AndP001AndOneVO> pointList = sqlSession.selectList("and.p001.selectPointList");
+		return pointList;
+	}
+	@Override
+	public void updateAndOneRefund(String one_id) {
+		sqlSession.update("and.p001.updateAndOneRefund",one_id);
+		
+	}
+	@Override
+	public List<AndP001AndOneVO> payList() {
+		List<AndP001AndOneVO> payList = sqlSession.selectList("and.p001.selectPayList");
+		return payList;
+	}
+	@Override
+	public void updateAndOnePay(String one_id) {
+		sqlSession.update("and.p001.updateAndOnePay",one_id);
+	}
 }

@@ -297,6 +297,11 @@
 		<put-attribute name="title" value="포인트충전"/>
 		<put-attribute name="body" value="/WEB-INF/views/point/p001_init.jsp"/>
 	</definition>
+   <!-- 포인트 충전 -->
+	<definition name="PointP001_d002_exhange" extends="mypageLayout">
+		<put-attribute name="title" value="포인트환전"/>
+		<put-attribute name="body" value="/WEB-INF/views/point/p001_exchange.jsp"/>
+	</definition>
    <!-- 포인트 사용이력 -->
 	<definition name="PointP001_d001_Search" extends="mypageLayout">
 		<put-attribute name="title" value="포인트 사용이력"/>

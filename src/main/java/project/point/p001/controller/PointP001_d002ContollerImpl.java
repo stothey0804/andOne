@@ -74,6 +74,11 @@ public class PointP001_d002ContollerImpl implements PointP001_d002Controller{
 	public String chargeInit(HttpServletRequest request) {
 		return Common.checkLoginDestinationView("PointP001_d001_init", request);
 	}
+	
+	@RequestMapping("/exchange.do")
+	public String exchangeInit(HttpServletRequest request) {
+		return Common.checkLoginDestinationView("PointP001_d002_exhange", request);
+	}
 
 	@Override
 	public void setChargePoint() {
@@ -93,6 +98,20 @@ public class PointP001_d002ContollerImpl implements PointP001_d002Controller{
 		pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint);	// 적용		
 		// 포인트 입력
 		pointP001_d002Service.insertPoint(pointVO);	
+	}
+	
+	@RequestMapping("/exchangeSend.do")
+	public String sendExchageAmount(@RequestParam Map<String,String> param) {
+		PointP001VO pointVO = new PointP001VO();
+		pointVO.setM_id(param.get("target"));
+		int exchangePoint = Integer.parseInt(param.get("amount")) * -1;	// 차감변경
+		pointVO.setP_changepoint(String.valueOf(exchangePoint));
+		pointVO.setP_detail("환전 신청");
+		String nowPoint = pointP001_d001Service.selectNowPointById(param.get("target"));	// 현재 포인트 조회
+		pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint);	// 적용		
+		// 포인트 입력
+		pointP001_d002Service.insertPoint(pointVO);	
+		return "redirect:/point/pointDetail.do";
 	}
 
 }

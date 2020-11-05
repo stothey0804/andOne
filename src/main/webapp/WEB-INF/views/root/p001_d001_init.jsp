@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -31,7 +32,8 @@
 			});
 		});
 		
- 		
+
+		
  		// swiper
 	    var swiper = new Swiper('.swiper-container', {
 	      slidesPerView: 3,
@@ -72,6 +74,7 @@
 		}
 
  	}
+
 
  </script>
  <style type="text/css">
@@ -127,17 +130,27 @@
    request.setCharacterEncoding( "utf-8" );
 %>
 	<!-- 위치정보 -->
-	<div class="container my-5">
-		<p class="h5">
+	<div class="container my-5 clearfix">
+		<p class="h5 float-left">
 			<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-geo-alt-fill text-primary" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 			  <path fill-rule="evenodd" d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
 			</svg>
-			내 위치
+			<spring:message code="myLocation" />
 			<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
 			</svg>
 			<small class="text-muted" id="centerAddr"></small>
 		</p>
+		<!-- 언어설정 -->
+		  <div class="btn-group float-right" style="margin-top:-4px">
+			  <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			     <spring:message code="menu.lang" />
+			  </button>
+			  <div class="dropdown-menu dropdown-menu-lg-right">
+			    <a class="dropdown-item" href="${contextPath}/?lang=ko"><spring:message code="lang.ko" /></a>
+			    <a class="dropdown-item" href="${contextPath}/?lang=en"><spring:message code="lang.en" /></a>
+			  </div>
+		  </div>
 	</div>
 	<!-- MAP 영역 -->
 	<div class="map-container p-4 bg-light m-auto">
@@ -184,7 +197,7 @@
 					<img src="${contextPath}/resources/image/main/eat.png" width="150px" height="150px">
 					</a>
 				</p>
-        		<p class="text-center"><a class="andMenu" href="${contextPath}/andeat?g_id=010" role="button">같이먹기</a></p>
+        		<p class="text-center"><a class="andMenu" href="${contextPath}/andeat?g_id=010" role="button"><spring:message code="andEat" /></a></p>
       		</div>
 			<div class="col-lg-4">
 				<p class="text-center">
@@ -192,7 +205,7 @@
 					<img src="${contextPath}/resources/image/main/buy.png" width="150px" height="150px">
 					</a>
 				</p>
-        		<p class="text-center"><a class="andMenu" href="${contextPath}/andbuy?g_id=011" role="button">같이사기</a></p>
+        		<p class="text-center"><a class="andMenu" href="${contextPath}/andbuy?g_id=011" role="button"><spring:message code="andBuy" /></a></p>
       		</div>
 			<div class="col-lg-4">
 				<p class="text-center">
@@ -200,13 +213,13 @@
 					<img src="${contextPath}/resources/image/main/do.png" width="150px" height="150px">
 					</a>
 				</p>
-        		<p class="text-center"><a class="andMenu" href="${contextPath}/anddo?g_id=012" role="button">같이하기</a></p>
+        		<p class="text-center"><a class="andMenu" href="${contextPath}/anddo?g_id=012" role="button"><spring:message code="andDo" /></a></p>
       		</div>
 		</div>
 	</div>
 	<!-- 추천검색어 -->
 	<div class="container my-5">
-		<p class="h5">추천 검색어
+		<p class="h5"><spring:message code="main.recommendTag" />
 		<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
 		</svg>
@@ -219,57 +232,48 @@
 	
 	<!-- 최근등록된  -->
 	<div class="container my-5">
-		<h5 class="mb-3">최근등록된 같이 먹기
+		<h5 class="mb-3"><spring:message code="main.recentEat" />
 		<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
 		</svg>
 		</h5>
 			 <div class="container">
-				<div class="row">
-					<c:forEach var ="andone" items="${andoneList}" > 
-					<c:url var="url"  value="add.do"  >
-					 </c:url> 
-					<div class="col-sm-6 mb-3">
-						<div class="card">
-							<a href="#"><div class="card-body">
-								<h4 class="card-title">[${andone.one_category}] ${andone.one_title}</h5>
-								<h5 class="card-subtitle mb-3 text-muted">  ${andone.one_state} ${andone.one_date}주문  </h6>
-								<p class="card-text"> 예상 ${andone.one_totalPrice}원  n/${andone.one_memberMax}</p>
-							</div></a>
-						</div>
-					</div>
-					</c:forEach>
-				</div>
+				
+			</div>
+	</div>
+	<!-- 최근등록된  -->
+	<div class="container my-5">
+		<h5 class="mb-3"><spring:message code="main.recentBuy" />
+		<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+		</svg>
+		</h5>
+			 <div class="container">
+				
+			</div>
+	</div>
+	<!-- 최근등록된  -->
+	<div class="container my-5">
+		<h5 class="mb-3"><spring:message code="main.recentDo" />
+		<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+		</svg>
+		</h5>
+			 <div class="container">
+				
 			</div>
 	</div>
 	
 	<!-- 소모임 -->
 	<div class="container my-5">
-		<h5 class="mb-3">지금 뜨는 소모임
+		<h5 class="mb-3"><spring:message code="main.hotClub" />
 			<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
 			</svg>
 		</h5>
 		<div class="row">
 		<!-- start card  -->
-		  <c:forEach var="club" items="${clubList}" >	
-<%-- 			 <c:url var="url"  value="searchMod.do"  > --%>
-<%-- 			   <c:param  name="c_id" value="${club.c_id}" /> --%>
-<%-- 			 </c:url>      --%>
-		
-		  <div class="col-lg-3">
-		    <div class="card">
-		    <img src="https://via.placeholder.com/100x100" class="card-img-top" alt="...">
-		      <div class="card-body">
-		        <h5 class="card-title">${club.c_name}</h5>
-		        <p class="card-text">${club.c_content}</p>
-		        <p class="card-text">${club.c_hashtag}</p>
-		        <a href='#' class="btn btn-primary text-right">자세히 보기</a>
-		      </div>
-		    </div>
-		  </div>
-		  </c:forEach>
-		<!-- end card -->
+
 		</div><!-- end row -->
 	</div>
 	
@@ -277,7 +281,7 @@
 	
 	
 	<div class="container my-5">
-		<h5 class="mb-3">우리동네 업체 후기
+		<h5 class="mb-3"><spring:message code="main.localShop" />
 			<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
 			</svg>
@@ -288,27 +292,13 @@
 		    <div class="swiper-wrapper">
 				<c:forEach var="shop" items="${shopList}" >
 			      <div class="swiper-slide">
-					  <div class="col p-0">
-					    <div class="card">
-					    <img src="https://via.placeholder.com/150x100" class="card-img-top" alt="...">
-					      <div class="card-body">
-					        <h5 class="card-title">${shop.s_name}</h5>
-					        <p class="card-text">${shop.s_content}</p>
-					        <p class="card-text h6 text-right">후기 ${shop.review_cnt}건</p>
-					      </div>
-					      <div class="card-body bg-light m-2">
-					        <h6 class="card-title">${shop.m_nickname}님의 후기</h6>
-					        <p class="card-text text-warning text-right"><span class="star "></span><span class="rate ml-1">${shop.sr_score}</span></p>
-					        <p class="card-text">${shop.sr_content}</p>
-					      </div>
-					    </div>
-					  </div>	
+		
 			      </div>
 				</c:forEach>
 		    </div>
 		  </div><!-- end swiper -->
 	</div>
 
-
+	
 </body>
 </html>

@@ -40,7 +40,7 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 	public ModelAndView searchInit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("main");
 		
-
+		
 //		HttpSession session = request.getSession(false);
 //		System.out.println("세션값? >> " + session.getAttribute("member"));
 		
@@ -114,6 +114,7 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 
 			}
 		}
+
 		System.out.println("==========> locate" + locate);
 		jsonStr = mapper.writeValueAsString(locate);
 		out.print(jsonStr);

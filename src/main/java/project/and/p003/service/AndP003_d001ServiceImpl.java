@@ -1,22 +1,42 @@
 package project.and.p003.service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Base64;
 import java.util.List;
-import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import project.and.p003.dao.AndP003_d001DAO;
+import project.and.p003.vo.AndP003ChatContentVO;
+import project.and.p003.vo.AndP003ChatRoomVO;
+import project.and.p003.vo.AndP003ChatUserVO;
 
 @Service
 public class AndP003_d001ServiceImpl implements AndP003_d001Service{
+	@Autowired
+	private AndP003_d001DAO andP003_d001DAO;
 
-//	private Map<String,ChatRoom> chatRooms;
-//
-//	public void init() {
-//		chatRooms = new LinkedHashMap<>();
-//		
-//	}
-//	public <chatRooms> List<ChatRoom> findAllRoom(){
-//		return new ArrayList<>(chatRooms.values());
-//	}
+	@Override
+	public List<AndP003ChatRoomVO> getChatRoomList(String m_id) {
+		return andP003_d001DAO.getChatRoomList(m_id);
+	}
+
+	@Override
+	public List<AndP003ChatContentVO> getChatContentList(String one_id) {
+		return andP003_d001DAO.getChatContentList(one_id);
+	}
+
+	@Override
+	public List<AndP003ChatUserVO> getChatUserList(String one_id) {
+		return andP003_d001DAO.getChatUserList(one_id);
+	}
+	
+	@Override
+	public void userImageEncoder(AndP003ChatUserVO vo) {
+		if(vo.getM_imgEncoder()!=null) {
+			byte[] encoded = Base64.getEncoder().encode((byte[])vo.getM_imgEncoder().get("m_imgEncoder"));
+			vo.setM_encodedImg(new String(encoded));
+			vo.setM_imgEncoder(null);
+		}
+	}
 }

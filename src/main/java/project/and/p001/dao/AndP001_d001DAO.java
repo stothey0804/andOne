@@ -19,4 +19,8 @@ public interface AndP001_d001DAO {
 	public List<AndOneMemberVO> selectOneMem(String one_id);
 	public AndOneMemberVO omLeaderCheck(Map<String, Object> omCheckMap);
 	public void updateAndOneState();
+	public List<AndP001AndOneVO> pointList();
+	public void updateAndOneRefund(String one_id);
+	public List<AndP001AndOneVO> payList();
+	public void updateAndOnePay(String one_id);
 }

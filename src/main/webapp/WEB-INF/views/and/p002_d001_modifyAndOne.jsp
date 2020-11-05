@@ -101,7 +101,7 @@
 		<!--달력 -->
 		<div class="form-row">
         	<div class="form-group col-md-6 mx-auto" id="orderDate">
-			<input name="one_date" class="form-control" placeholder="주문시간을 입력해주세요" value="${andOneEdit.one_date}" />
+			<input name="one_date" class="form-control" placeholder="주문시간을 입력해주세요" value="${andOneEdit.forEditDate}" />
 			</div>		
 		</div>
 	   <!-- 인원설정 -->
@@ -142,6 +142,7 @@
 	        	<input type="submit" id="registerAndEat" class="btn btn-outline-dark btn-lg mb-3 form-control"  value="수정하기" >
       		</div>
 		       	<input type="hidden" name="one_type" value="${g_id}">
+		       	<input type="hidden" name="one_id" value="${andOneEdit.one_id}">
         </div>
        </div>
     </form>
@@ -216,6 +217,25 @@
      				position: coords
      				});
      			map.setCenter(coords);
+     			
+     			//해당 주소에 대한 좌표를 받아서	
+                var one_locate_Lat = coords.getLat();
+                var one_locate_Lng = coords.getLng()
+                
+                console.log(coords);
+                console.log(one_locate_Lat); //37
+                console.log(one_locate_Lng); //126
+				//지도에 보여준다
+                container.style.display = "block";
+                map.relayout();
+                //지도의 중심 변경
+                map.setCenter(coords);
+               	//마커를 결과값으로 받은 위치로 옮긴다
+                marker.setPosition(coords);
+
+                //hidden값으로 변수 one_locate에 좌표 전달
+                document.modifyAnd.one_locate_Lat.value = one_locate_Lat;
+                document.modifyAnd.one_locate_Lng.value = one_locate_Lng;
      		}
         });
 		//<<<<<<<<<<<< MAP 끝
@@ -225,22 +245,28 @@
     		  $(this).addClass('active');
     		  $(this).siblings().removeClass('active');
     		  
+    		  //var category = $(this).val();
     		  var category = $(this).val();
    			  //hidden값으로  변수 one_category에 전달
    			  console.log(category);
     		  document.modifyAnd.one_category.value = category;
     	  });
+	      //카테고리 수정
+    	  var category = $(".active").val();
+    	  console.log(category);
+		  document.modifyAnd.one_category.value = category;
+    	  
 	      //달력
-	      var $d7input = $('input', '#orderDate').focus(function() {
+	      var $inputDate = $('input', '#orderDate').focus(function() {
                 $('.dropdown', '#orderDate').remove();
                 var $dropdown = $('<div class="dropdown"/>').appendTo('#orderDate');
                     $dropdown.datetimepicker({
-                        date: $d7input.data('value') || new Date(),
+                        date: $inputDate.data('value') || new Date(),
                         viewMode: 'YMDHM',
                         onDateChange: function(){
                             //debugger;
-                            $d7input.val(this.getText()); //24시간기준
-                            $d7input.data('value', this.getValue());
+                            $inputDate.val(this.getText()); //24시간기준
+                            $inputDate.data('value', this.getValue());
                         },
                         //ok button click event
 	  	    			 onOk: function() {
@@ -256,6 +282,11 @@
 		      console.log(cnt); 
 		      document.modifyAnd.one_memberMax.value = cnt;//인원수 전달
 	      }
+      	  //인원수 수정
+    	  var category =  $("#memberCnt option:selected").val();
+    	  console.log(category);
+		  document.modifyAnd.one_memberMax.value = category;
+      	  
     </script>
 	
 </body>
