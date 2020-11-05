@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     isELIgnored="false" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
@@ -65,7 +66,6 @@
     	height: 15px;
     	margin-left: -24px;
 	}
-	
 </style>
 <!-- sockJS -->
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
@@ -169,8 +169,9 @@
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	  <a class="navbar-brand logotype ml-3 text-primary" href="${contextPath}/">&분의일 </a>
-	  슬로건 넣으면 좋을거같아요
+	  <a class="navbar-brand logotype ml-3 text-primary" href="${contextPath}/"><spring:message code="title" /></a>
+	 <spring:message code="header.subTitle" />
+	 
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
@@ -178,27 +179,27 @@
 	    <ul class="navbar-nav ml-auto mr-2">
    	      <li class="nav-item dropdown h5">
 	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	          &분의일
+	          <spring:message code="title" />
 	        </a>
 	        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-	         	<a class="dropdown-item" href="${contextPath}/andeat?g_id=010">같이먹기</a>
-          		<a class="dropdown-item" href="${contextPath}/andeat?g_id=011">같이사기</a>
-         		<a class="dropdown-item" href="${contextPath}/andeat?g_id=012">같이하기</a>
+	         	<a class="dropdown-item" href="${contextPath}/andeat?g_id=010"><spring:message code="andEat" /></a>
+          		<a class="dropdown-item" href="${contextPath}/andeat?g_id=011"><spring:message code="andBuy" /></a>
+         		<a class="dropdown-item" href="${contextPath}/andeat?g_id=012"><spring:message code="andDo" /></a>
 	        </div>
 	      </li>
+<!-- 	      <li class="nav-item h5"> -->
+<!-- 	        <a class="nav-link" href="#">찾기</a> -->
+<!-- 	      </li> -->
 	      <li class="nav-item h5">
-	        <a class="nav-link" href="#">찾기</a>
+	        <a class="nav-link" href="${contextPath}/club/clubMain.do"><spring:message code="menu.club" /></a>
 	      </li>
 	      <li class="nav-item h5">
-	        <a class="nav-link" href="${contextPath}/club/clubMain.do">소모임</a>
-	      </li>
-	      <li class="nav-item h5">
-	        <a class="nav-link" href="${contextPath}/shop/localShopMain.do">지역업체</a>
+	        <a class="nav-link" href="${contextPath}/shop/localShopMain.do"><spring:message code="menu.shop" /></a>
 	      </li>
        <c:choose>
           <c:when test="${isLogOn == true && m_id!= null}">
       		<li class="nav-item h5">
-	       		<a class="nav-link" href="${contextPath}/and/Message.do">메시지</a>
+	       		<a class="nav-link" href="${contextPath}/and/Message.do"><spring:message code="menu.message" /></a>
 	      	</li>
       		<li class="nav-item h3">
 	       		<a class="nav-link py-0" href="${contextPath}/member/notify.do"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bell" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -215,7 +216,7 @@
 			<div class="ml-3">
 				<div id="memberLayer" class="card" onmouseover="onProfile()" onmouseout="outProfile()">
 					<div class="card-body">
-			            <h5 class="card-title"><b>${m_nickname}</b>님 
+			            <h5 class="card-title"><b>${m_nickname}</b>
 			            	<a href="${contextPath}/member/updateMember.do"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 							  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
 							  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -223,22 +224,21 @@
 			            </h5>
 						<div class="row mx-1">
 							<p class="point mb-0"><span id="point" class="font-weight-bold"></span>point</p>
-							<a href="${contextPath}/point/charge.do" class="btn btn-outline-primary btn-sm ml-auto">충전</a>
+							<a href="${contextPath}/point/charge.do" class="btn btn-outline-primary btn-sm ml-auto"><spring:message code="menu.chargeBtn" /></a>
 						</div>
 					</div>
 					<ul class="list-group list-group-horizontal">
-						<li class="list-group-item col-6 text-center"><a href="${contextPath}/member/mypage.do">마이페이지</a></li>
-			  			<li class="list-group-item col-6 text-center"><a href="${contextPath}/member/logout.do">로그아웃</a></li>
+						<li class="list-group-item col-6 text-center"><a href="${contextPath}/member/mypage.do"><spring:message code="menu.mypage" /></a></li>
+			  			<li class="list-group-item col-6 text-center"><a href="${contextPath}/member/logout.do"><spring:message code="menu.logoutBtn" /></a></li>
 					</ul>
 			</div>
 			
           </c:when>
           <c:otherwise>
           </ul>
-		  	<a class="btn btn-outline-secondary btn-sm" style="margin-top:-6px" href="${contextPath}/member/login.do">회원가입/로그인</a>
+		  	<a class="btn btn-outline-secondary btn-sm" style="margin-top:-6px" href="${contextPath}/member/login.do"><spring:message code="menu.loginBtn" /></a>
 	      </c:otherwise>
 	   </c:choose>     
-	   
 	  </div>
 	</nav>
     <div id="msgStack">
