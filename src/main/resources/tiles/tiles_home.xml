@@ -16,7 +16,6 @@
       <put-attribute name="body" value="" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
-   
    <definition name="adminLayout"  template="/WEB-INF/views/common/admin/adminLayout.jsp">
       <put-attribute name="title" value="" />
       <put-attribute name="header" value="/WEB-INF/views/common/admin/header.jsp" />
@@ -123,6 +122,12 @@
    <definition name="RootP004_d001_init" extends="adminLayout">
       <put-attribute name="title" value="회원통계" />
        <put-attribute name="body" value="/WEB-INF/views/root/p004_d001_init.jsp" />
+   </definition>
+   
+   <!-- 소모임 조회-->
+   <definition name="ClubP001_d002_search" extends="adminLayout">
+      <put-attribute name="title" value="전체 소모임 조회" />
+       <put-attribute name="body" value="/WEB-INF/views/club/p001/p001_d002_search.jsp" />
    </definition>
 
    <!-- 관리자페이지 END -->

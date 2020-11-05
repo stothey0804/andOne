@@ -32,6 +32,14 @@
 					select="getArticleList" ofType="clubArticleVO" />
 	</resultMap>
 	
+	<resultMap id="p001_d002Result01" type="clubVO">
+		<result property="c_id" column="c_id" />
+		<result property="c_name" column="c_name" />
+		<result property="gc_name" column="gc_name"/>
+		<result property="c_openingdate" column="c_openingdate" />
+		<result property="leaderId" column="m_id" />
+	</resultMap>
+	
 	<resultMap id="member" type="clubMemberVO">
 		<result property="m_id" column="m_id"/>
 		<result property="cm_rank" column="cm_rank"/>
@@ -78,9 +86,29 @@
 		<result property="m_img" column="m_img"></result>
 	</resultMap>
 	
+	<select id="allClubList" resultMap="p001_d002Result01">
+		SELECT *
+		FROM (SELECT a.c_name, b.m_id,a.c_openingdate,a.c_id,ROW_NUMBER() OVER (ORDER BY c_openingdate DESC) ROWNUMBER,
+                                                (SELECT gc_name
+                                                  FROM common_code
+                                                  WHERE g_id ='019'
+                                                  AND a.c_category = gc_id) as gc_name
+				FROM club a, c_member b
+				WHERE a.c_id = b.c_id
+				AND b.cm_rank = '10')
+        WHERE rownumber between #{startIndex} AND #{endIndex}
+	</select>
+	
+	<select id="allClubCnt" resultType="int">
+		SELECT COUNT(*)
+		FROM club
+	</select>
 	<select id="getArticleRe_reply" resultMap="club.p001.re_replyList">
 		<![CDATA[
-			SELECT c.ca_id,a.car_id,a.car_content,a.car_date,b.m_nickname,b.m_img,b.m_id
+			SELECT c.ca_id,a.car_id,a.car_content,b.m_nickname,b.m_img,b.m_id,
+				(CASE WHEN SUBSTR(a.car_date,1,10) = TO_CHAR(sysdate,'YYYY-MM-DD') THEN SUBSTR(a.car_date,12,16)
+                ELSE a.car_date
+                END) as car_date
 			FROM ca_reply a, member b, ca_reply c
 			WHERE a.m_id = b.m_id
 			AND c.car_id = a.p_car_id
@@ -91,7 +119,10 @@
 	
 	<select id="getArticleReply" resultMap="club.p001.replyList" parameterType="java.util.Map">
 		<![CDATA[
-			SELECT a.ca_id,a.car_id,a.car_content,a.car_date,b.m_nickname,b.m_img,b.m_id
+			SELECT a.ca_id,a.car_id,a.car_content,b.m_nickname,b.m_img,b.m_id,
+				(CASE WHEN SUBSTR(a.car_date,1,10) = TO_CHAR(sysdate,'YYYY-MM-DD') THEN SUBSTR(a.car_date,12,16)
+                ELSE a.car_date
+                END) as car_date
 			FROM ca_reply a, member b
 			WHERE a.ca_id = #{c_id}
 			AND a.m_id = b.m_id
@@ -127,12 +158,18 @@
 	</select>
 	
 	<select id="categoryClubList" resultMap="p001_d001Result01">
-		SELECT c_name,c_content,c_membercnt,c_id,c_img,(select c.gc_name
-       	from club a, common_code c
-       	where a.c_category= c.gc_id
-       	and c.g_id = '019'
-       	and b.c_id = a.c_id) as c_category
+		SELECT *
+		FROM(
+        SELECT c_name,c_content,c_membercnt,c_id,c_img, c_category,ROW_NUMBER() OVER (ORDER BY c_membercnt DESC) ROWNUMBER
 		FROM club b
+		WHERE c_category = #{c_category}
+        )
+   		WHERE rownumber BETWEEN #{startIndex} AND #{endIndex}
+	</select>
+	
+	<select id="searchClubListCntCategory" resultType="int">
+		SELECT COUNT(*)
+		FROM club 
 		WHERE c_category = #{c_category}
 	</select>
 	
@@ -154,9 +191,24 @@
 	
 	<select id="searchClubList" resultMap="p001_d001Result01">
 		<![CDATA[
-		 select c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name as c_category,c_id,c_img
-        from
+		SELECT *
+        FROM
         (
+            SELECT c_name,c_content,c_hashtag,c_membercnt,gc_name,c_id,c_img,ROW_NUMBER() OVER (ORDER BY c_membercnt DESC) ROWNUMBER
+            FROM common_code a INNER JOIN club b ON a.gc_id = b.c_category
+            WHERE g_id = 019
+            AND (gc_name like #{searchWord}
+            OR c_content like #{searchWord}
+            OR c_name like #{searchWord}
+            OR c_hashtag like #{searchWord})
+        )
+        WHERE rownumber BETWEEN #{startIndex} AND #{endIndex}
+		]]>
+	</select>
+	
+	<select id="searchClubListCnt" resultType="int">
+		SELECT COUNT(*) 
+        FROM  (
             select *
             from common_code a inner join club b on a.gc_id = b.c_category
             where g_id=019
@@ -166,7 +218,6 @@
         or c_content like #{searchWord}
         or c_name like #{searchWord}
         or c_hashtag like #{searchWord}
-		]]>
 	</select>
 	
 	<select id="searchClubListHashtag" resultMap="p001_d001Result01">
@@ -180,6 +231,17 @@
         )
         where c_hashtag like #{searchWord}
 		]]>
+	</select>
+	
+	<select id="searchClubListCntHashtag" resultType="int">
+		SELECT COUNT(*) 
+        FROM  (
+            select *
+            from common_code a inner join club b on a.gc_id = b.c_category
+            where g_id=019
+        )
+        where
+        c_hashtag like #{searchWord}
 	</select>
 
 	<select id="detailClub" resultMap="p001_d001Result02">
@@ -210,11 +272,14 @@
 	
 	<select id="getArticleList" resultMap="club.p001.articleList">
 		<![CDATA[
-		 	select a.ca_content,a.ca_date,b.m_nickname,a.ca_img,a.ca_id,a.ca_pin,b.m_img,a.m_id
-		 	from c_article a, member b
-		 	where a.m_id = b.m_id 
-		 	and a.c_id = #{c_id}
-            order by a.ca_pin desc, a.ca_date desc
+		 	SELECT a.ca_content,b.m_nickname,a.ca_img,a.ca_id,a.ca_pin,b.m_img,a.m_id,
+		 			(CASE WHEN SUBSTR(a.ca_date,1,10) = TO_CHAR(sysdate,'YYYY-MM-DD') THEN SUBSTR(a.ca_date,12,16)
+	                ELSE a.ca_date
+	                END) as ca_date
+		 	FROM c_article a, member b
+		 	WHERE a.m_id = b.m_id 
+		 	AND a.c_id = #{c_id}
+            ORDER BY a.ca_pin DESC, a.ca_date DESC
 		]]>
 	</select>
 	
@@ -241,7 +306,7 @@
 		 	SELECT a.m_img
 			FROM member a, (select *
          					from c_member
-        					order by cm_joindate asc) b
+        					order by cm_joindate desc) b 
 			WHERE a.m_id = b.m_id
 			AND cm_rank in (20,30)
 			AND c_id = #{c_id}

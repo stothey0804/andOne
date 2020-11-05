@@ -18,4 +18,7 @@ public interface ClubP001_d001DAO {
 	public String categoryName(Map<String, Object> searchMap);
 	public ClubVO detailClubCard(Map<String, Object> searchMap);
 	public List<ClubVO> searchClubListHashtag(Map<String, Object> searchMap);
+	public int searchClubListCnt(Map<String, Object> searchMap);
+	public int searchClubListCntHashtag(Map<String, Object> searchMap);
+	public int searchClubListCntCategory(Map<String, Object> searchMap);
 }

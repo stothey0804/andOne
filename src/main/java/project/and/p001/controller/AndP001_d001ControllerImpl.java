@@ -7,31 +7,24 @@ import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.sound.midi.Soundbank;
 
-import org.aspectj.org.eclipse.jdt.core.dom.ParenthesizedExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.JsonArray;
 
 import common.Common;
-import net.sf.json.JSONArray;
 import project.and.p001.service.AndP001_d001Service;
 import project.and.p002.service.AndP002_d002Service;
 import project.and.vo.AndOneMemberVO;
 import project.and.vo.AndP001AndOneVO;
-import project.member.p001.vo.MemberP001_MemberVO;
 import project.point.p001.service.PointP001_d001Service;
 import project.point.p001.service.PointP001_d002Service;
 import project.point.p001.vo.PointP001VO;
@@ -52,11 +45,14 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	//&분의일 먹기 사기 하기 메인
 	@Override
 	@RequestMapping(value="/and*")
-	public ModelAndView andOneMain(@RequestParam("g_id") String g_id, 
+	public ModelAndView andOneMain(@RequestParam Map<String, Object> mainMap, 
 			@CookieValue(value="locate_lat", required = false) Cookie latCookie, 
 			@CookieValue(value="locate_lng", required = false) Cookie lngCookie, HttpServletRequest request) throws Exception {
 		
-		System.out.println("111111g_id: "+g_id);
+		String g_id = (String) mainMap.get("g_id");
+		String flag = (String) mainMap.get("flag");
+		System.out.println("************메인용g_id: "+g_id);
+		System.out.println("************메인용flag: "+flag);
 		//세션가져오기
 		String m_id ="";
 		String m_locate_Lat ="";
@@ -72,10 +68,20 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		param.put("m_locate_Lat", m_locate_Lat);
 		param.put("m_locate_Lng", m_locate_Lng);
 		param.put("g_id", g_id);
+		param.put("flag", flag);
 		
-		//최근 등록된 같이먹기 + 해쉬태그
-		List<AndP001AndOneVO> recentAndOneList = p001_d001Service.recentAndOneList(param); //최근등록된 같이먹기
 		List<AndP001AndOneVO> ctg = p001_d001Service.searchCtg(g_id); //카테고리설정
+		List<AndP001AndOneVO> recentAndOneList = null;
+		//최근 등록된 같이먹기 + 해쉬태그
+		if(flag ==null || flag.equals("")) {
+			recentAndOneList = p001_d001Service.recentAndOneList(param); //최근등록된 같이먹기			
+		}else if(flag.equals("distance")) {
+			System.out.println(">>>>>>>>distance");
+			recentAndOneList = p001_d001Service.recentAndOneList(param);//거리순
+		}else if(flag.equals("date")) {
+			System.out.println(">>>>>>>>date");
+			recentAndOneList = p001_d001Service.recentAndOneList(param);//마감순
+		}
 	
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("andOneMain");
