@@ -47,8 +47,23 @@ input::placeholder {
 }
 .icon-a {
        color: #e3e3e3;
-} 
+}
 
+.centered {
+    position: absolute;
+    top:25%;
+    left: 55%;
+    transform: translate(-25%, 0);
+    border:1px solid black;
+    width:40%;
+    height:auto;
+    z-index:10;
+    background-color: #ffffff;
+}
+
+div.border{
+	border:1px solid black;
+}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -65,8 +80,11 @@ input::placeholder {
 	var one_id = '';
 	
 	$(document).ready(function(){
+		$('.popUp').hide();
 		getChatRoomList(m_id);
-		
+		$('.close').click(function(){
+			$('.popUp').hide();
+		})
 	})
 	
 	function messageBoxClickEvent(){
@@ -75,6 +93,23 @@ input::placeholder {
 			one_type = $('input#'+this.id).val();
 			getChatContent(one_id);
 		})
+	}
+	
+	//상세 신고기능 아직 미구현
+	function userListClickEvent(){
+		$('button.report').click(function(){
+			var id = this.id;
+			alert(id + ' 녀석을 신고해버리겠어');
+		});
+		$('td.userProfile').click(function(){
+			openMemberPopup2(this.id);
+		})
+		
+	}
+	
+	function openMemberPopup2(param){
+		let m_id = param+'';
+		window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
 	}
 	
 	function getChatRoomList(m_id){
@@ -88,24 +123,45 @@ input::placeholder {
 				var jsonStr = data;
 				var jsonInfo = JSON.parse(jsonStr);
 				var chatRoom = "";
+				var unoccupied = "";
 				for(let i=0; i<Object.keys(jsonInfo).length; i++){
-					chatRoom += '<input type="hidden" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
-					chatRoom += '<div class="list-group rounded-0" id="'+jsonInfo[i].one_id+'">';
-					chatRoom += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
-					chatRoom += 		'<div class="media">';
-					chatRoom += 			'<i class="fas fa-users fa-2x fa-border"></i>';
-					chatRoom += 			'<div class="media-body ml-4">';
-					chatRoom += 				'<div class="d-flex align-items-center justify-content-between mb-1">';
-					chatRoom += 					'<h6 class="mb-0">'+jsonInfo[i].one_title+'</h6>';
-					chatRoom += 					'<small class="small font-weight-bold">'+jsonInfo[i].msg_date+'</small>';
-					chatRoom += 				'</div>';
-					chatRoom += 				'<p class="font-italic mb-0 text-small">'+jsonInfo[i].latestMessage+'</p>';
-					chatRoom += 			'</div>';
-					chatRoom += 		'</div>';
-					chatRoom += 	'</a>';
-					chatRoom += '</div>';
+					if(jsonInfo[i].msg_date != 0){
+						chatRoom += '<input type="hidden" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
+						chatRoom += '<div class="list-group rounded-0" id="'+jsonInfo[i].one_id+'">';
+						chatRoom += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
+						chatRoom += 		'<div class="media">';
+						chatRoom += 			'<i class="fas fa-users fa-2x fa-border"></i>';
+						chatRoom += 			'<div class="media-body ml-4">';
+						chatRoom += 				'<div class="d-flex align-items-center justify-content-between mb-1">';
+						chatRoom += 					'<h6 class="mb-0">'+jsonInfo[i].one_title+'</h6>';
+						chatRoom += 					'<small class="small font-weight-bold">'+jsonInfo[i].msg_date+'</small>';
+						chatRoom += 				'</div>';
+						chatRoom += 				'<p class="font-italic mb-0 text-small">'+jsonInfo[i].latestMessage+'</p>';
+						chatRoom += 			'</div>';
+						chatRoom += 		'</div>';
+						chatRoom += 	'</a>';
+						chatRoom += '</div>';
+					}else{
+						unoccupied += '<input type="hidden" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
+						unoccupied += '<div class="list-group rounded-0" id="'+jsonInfo[i].one_id+'">';
+						unoccupied += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
+						unoccupied += 		'<div class="media">';
+						unoccupied += 			'<i class="fas fa-users fa-2x fa-border"></i>';
+						unoccupied += 			'<div class="media-body ml-4">';
+						unoccupied += 				'<div class="d-flex align-items-center justify-content-between mb-1">';
+						unoccupied += 					'<h6 class="mb-0">'+jsonInfo[i].one_title+'</h6>';
+						unoccupied += 					'<small class="small font-weight-bold"></small>';
+						unoccupied += 				'</div>';
+						unoccupied += 				'<p class="font-italic mb-0 text-small">'+jsonInfo[i].latestMessage+'</p>';
+						unoccupied += 			'</div>';
+						unoccupied += 		'</div>';
+						unoccupied += 	'</a>';
+						unoccupied += '</div>';
+					}
+					
 				}
 				$('#messageBox').html(chatRoom);
+				$('#messageBox').append(unoccupied);
 			},
 			error: function (data, textStatus) {
 				alert("에러가 발생했습니다.");
@@ -164,12 +220,31 @@ input::placeholder {
 					var jsonStr = data;
 					var jsonInfo = JSON.parse(jsonStr);
 					var userList = "";
+					userList += "<table class='table table-hover'>";
 					for(let i=0; i<Object.keys(jsonInfo).length; i++){
-						userList += "<div>";
+						userList += "<tr>";
+						userList += "<td class='userProfile' id='"+jsonInfo[i].m_id+"'>";
+						if(jsonInfo[i].m_encodedImg == null || jsonInfo[i].m_encodedImg == ''){
+							userList += "<img src='${contextPath }/resources/image/user.png' width='50px' alt='....' class='img-circle'>";
+						}else{
+							userList += "<img src='data:image/jpg;base64,"+jsonInfo[i].m_encodedImg+"' width='50px' alt='....' class='img-circle'>";
+						}
+						userList += "</td>";
+						userList += "<td>";
+						userList += "<h5>";
 						userList += jsonInfo[i].m_nickname;
-						userList += "</div>";
+						userList += "</h5>";
+						userList += "</td>";
+						userList += "<td>";
+						userList += "<button type='button' id='"+jsonInfo[i].m_id+"' class='btn btn-danger btn-sm report'>신고";
+						userList += "</button>";
+						userList += "</td>";
+						userList += "</tr>";
 					}
-					$('#messageArea').html(userList); //toDo 레이어 만들고 거기에 넣기
+					userList += "</table>";
+					$('.popContent').html(userList); //toDo 레이어 만들고 거기에 넣기
+					userListClickEvent();
+					$('.popUp').show();
 				},
 				error: function (data, textStatus) {
 					alert("에러가 발생했습니다.");
@@ -221,7 +296,7 @@ input::placeholder {
 	}
 
 
-// 웹소켓 파트
+	// 웹소켓 파트
 	var m_sock = new SockJS("${contextPath }/chat-ws/");
 		m_sock.onmessage = m_onMessage;
 		m_sock.onclose = m_onClose;
@@ -353,8 +428,23 @@ input::placeholder {
       </div>
       </div> --%>
       <!-- 채팅방 인포 누르기 끝 -->
-      
+  <div class="popUp centered">
+	   <div class="bg-gray px-4 py-2 bg-light">
+	  	<div class="close">닫기</div>
+	  	<p class="h5 mb-0 py-1" align="center">
+	  	 유저정보
+	  	</p>
+		</div>
+	  	<div class="px-4 py-5 bg-white popContent">
+	  	
+	  	</div>
+<!-- 	  	<div class="close">닫기</div> -->
+  </div>  
+  
+  
+  
+    
   </div>
-</div>
+  </div>
     </body>
     </html>
