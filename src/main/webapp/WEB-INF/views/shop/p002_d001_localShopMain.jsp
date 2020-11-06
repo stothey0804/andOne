@@ -66,6 +66,29 @@ a {
 	text-decoration: none;
 }
 
+.mi_box {
+	    width: 80px;
+	    height: 80px; 
+	    border-radius: 70%;
+	    overflow: hidden;
+	    cursor: pointer;
+	}
+	
+.ri_box {
+	width: 80px;	
+	height: 80px; 
+    overflow: hidden;
+    cursor: pointer;
+	}
+	
+.si_box{
+	width: 285px;
+	height: 230px; 
+    overflow: hidden;
+    cursor: pointer;
+    text-align: center;
+	}
+
 
 </style>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
@@ -144,13 +167,15 @@ a {
 						console.log(jsonInfo[i].s_name);
 						output += "<div class='mx-3 d-inline-block align-top'>";
 						output += "<div class='card' style='width: 18rem;'>";
+						output += "<div class='si_box'>"
 						output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
 						if(Object.keys(jsonInfo[i].shopImage).length != 0){
-							output += "<img src='data:image/jpg;base64,"+jsonInfo[i].shopImage[0].si_encodedImg+"' class='card-img-top'alt='...'>";
+							output += "<img src='data:image/jpg;base64,"+jsonInfo[i].shopImage[0].si_encodedImg+"' class='card-img-top img-thumbnail'alt='...'>";
 						}else{
-							output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top'alt='...'>";
+							output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top img-thumbnail' alt='...'>";
 						}
 						output += "</a>";
+						output += "</div>";
 						output += "<div class='card-body'><h5 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>"+jsonInfo[i].s_name+"</a></h5>";
 						output += "<div id='popularAddr"+i+"'></div>";
 						if(jsonInfo[i].distance<1){

@@ -274,9 +274,9 @@ a:hover {
 							output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo.resultList[i].s_id+"'>";
 							//가게 이미지
 							if(Object.keys(jsonInfo.resultList[i].shopImage).length != 0){
-								output += "<img src='data:image/jpg;base64,"+jsonInfo.resultList[i].shopImage[0].si_encodedImg+"' class='card-img-top'alt='...'>";
+								output += "<img src='data:image/jpg;base64,"+jsonInfo.resultList[i].shopImage[0].si_encodedImg+"' class='card-img-top img-thumbnail'alt='...'>";
 							}else{
-								output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top'alt='...'>";
+								output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top img-thumbnail'alt='...'>";
 							}
 							output += "</a>";
 							output += "</div>";
@@ -326,11 +326,6 @@ a:hover {
 						if(jsonInfo.pagination.curPage != jsonInfo.pagination.pageCnt && jsonInfo.pagination.pageCnt > 0){
 							paging += '<li class="page-item">';
 							paging += '<a class="page-link" href="javascript:void(0);" id="'+jsonInfo.pagination.nextPage+'">다음</a>';
-							paging += '</li>';
-						}
-						if(jsonInfo.pagination.curPage != jsonInfo.pagination.rangeCnt && jsonInfo.pagination.rangeCnt > 0){
-							paging += '<li class="page-item">';
-							paging += '<a class="page-link" href="javascript:void(0);">끝</a>';
 							paging += '</li>';
 						}
 						paging += '</ul>';
