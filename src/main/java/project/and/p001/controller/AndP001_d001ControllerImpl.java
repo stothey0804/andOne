@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-
 import common.Common;
 import project.and.p001.service.AndP001_d001Service;
 import project.and.p002.service.AndP002_d002Service;
@@ -212,7 +210,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		}
 	}
 
-	@Scheduled(fixedRate = 60000) //1분마다 호출
+	@Scheduled(fixedRate = 60000000) //1분마다 호출
 	public void handle() {
 		System.out.println("=================================>> LogProcessor.handle(): " + new Date());
 		
