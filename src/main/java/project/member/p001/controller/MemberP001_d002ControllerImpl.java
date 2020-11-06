@@ -86,8 +86,9 @@ public class MemberP001_d002ControllerImpl implements MemberP001_d002Controller{
 	@RequestMapping(value="/logout.do")
 	public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession(false);
-		session.invalidate();
-
+		if(session!=null) {
+			session.invalidate();
+		}
 		return "redirect:/";
 	}
 

@@ -27,7 +27,15 @@ public class ClubVO {
 	private String c_openingdate;
 	private String gc_name;
 	private String leaderId;
+	private String select;
 	
+	public String getSelect() {
+		return select;
+	}
+	public void setSelect(String select) {
+		this.select = select;
+	}
+
 	private List<ClubArticleVO> articleList;
 	
 	public String getLeaderId() {

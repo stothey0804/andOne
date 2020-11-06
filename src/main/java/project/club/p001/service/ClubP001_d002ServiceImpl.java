@@ -24,8 +24,8 @@ public class ClubP001_d002ServiceImpl implements ClubP001_d002Service{
 	}
 
 	@Override
-	public int clubCnt() {
-		return clubP001_d002DAO.clubCnt();
+	public int clubCnt(Map<String, Object> searchMap) {
+		return clubP001_d002DAO.clubCnt(searchMap);
 	}
 
 }
