@@ -53,6 +53,7 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 			if(latCookie!=null && lngCookie!=null) {
 				m_locate_Lat = latCookie.getValue();
 				m_locate_Lng = lngCookie.getValue();
+				System.out.println("컨트롤러 조회 위,경도~~ : " + m_locate_Lat +", " + m_locate_Lng);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

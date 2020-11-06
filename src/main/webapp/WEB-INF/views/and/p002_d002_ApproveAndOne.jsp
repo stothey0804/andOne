@@ -41,7 +41,7 @@
 	   	   		    let g_id = '${g_id}';
 	   	   		    let type = '';
 	   	   		    // 분류코드설정
-					if(g_id=='010'){type='10';}elseif(g_id=='011'){type='20'}elseif(g_id=='012'){type='30';}
+					if(g_id=='010'){type='10';}else if(g_id=='011'){type='20'}else if(g_id=='012'){type='30';}
 	   	   		 	let content = '['+ one_id +'] 참가신청이 수락됐습니다.';		// 알림메시지
 	   	   		 	let url = '${contextPath}/and/detailAndOne.do?one_id='+one_id+'&g_id='+g_id;
 	   	   		 	$.ajax({
@@ -84,7 +84,7 @@
    	   		    let g_id = '${g_id}';
    	   		    let type = '';
    	   		    // 분류코드설정
-				if(g_id=='010'){type='10';}elseif(g_id=='011'){type='20'}elseif(g_id=='012'){type='30';}
+				if(g_id=='010'){type='10';}else if(g_id=='011'){type='20'}else if(g_id=='012'){type='30';}
    	   		 	let content = '['+ one_id +'] 참가신청이 거절됐습니다.';		// 알림메시지
    	   		 	let url = '${contextPath}/and/detailAndOne.do?one_id='+one_id+'&g_id='+g_id;
    	   		 	$.ajax({
