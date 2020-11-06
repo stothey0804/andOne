@@ -46,6 +46,7 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 			@CookieValue(value="locate_lng", required = false) Cookie lngCookie, HttpServletRequest request, 
 			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("main");
+		
 		// 초기값 set
 		String m_locate_Lat = "37.570371";
 		String m_locate_Lng = "126.985308";
