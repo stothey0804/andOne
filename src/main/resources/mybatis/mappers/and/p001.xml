@@ -226,7 +226,7 @@
 	<!-- 포인트 환불 List -->
 	<select id="selectPointList" resultType="AndP001AndOneVO">
 		<![CDATA[
-			SELECT A.m_id, b.one_totalprice/b.one_membermax AS one_price, A.one_id
+			SELECT A.m_id, to_char(trunc(B.one_totalPrice/B.one_memberMax)) as one_price, A.one_id
 			FROM one_member A , and_one b
 			WHERE om_leader = '20'
 			AND A.one_id = b.one_id
@@ -249,7 +249,7 @@
 	<!-- 포인트 지급 List -->
 	<select id="selectPayList" resultType="AndP001AndOneVO">
 		<![CDATA[
-			SELECT A.m_id, b.one_totalprice-(b.one_totalprice/b.one_membermax) AS one_price, A.one_id
+			SELECT A.m_id, to_char(trunc(B.one_totalPrice/B.one_memberMax)) as one_price, A.one_id
 			FROM one_member A, and_one b
 			WHERE A.one_id = b.one_id
 			AND A.om_leader = '10'

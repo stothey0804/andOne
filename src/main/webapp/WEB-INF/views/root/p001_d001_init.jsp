@@ -72,6 +72,14 @@
 // 			console.log(result);
 			stars[i].innerHTML = result;
 		}
+		
+		let prices = document.querySelectorAll("span.price");
+			let priceResults = document.querySelectorAll("span.priceResult");
+			
+			for(let i=0; i<prices.length; i++){
+				var pResult = prices[i].textContent;
+				priceResults[i].innerHTML = pointToNumFormat(pResult);
+  		}
 
  	}
 
@@ -287,7 +295,7 @@
 									</div>
 									<div class="clearfix">
 										<p class="card-text float-left mb-0"> #${andone.one_hashTag}  </p>
-										<p class="card-text float-right h6"> 예상 <b>${andone.one_price}</b> <span class="text-secondary"> <i class="fas fa-user-friends"></i> ${andone.one_member}/${andone.one_memberMax} </span></p>
+										<p class="card-text float-right h6"><span class="price invisible"><b>${andone.one_price}</b></span> 예상 <span class="priceResult"></span>  <span class="text-secondary"> <i class="fas fa-user-friends"></i> ${andone.one_member}/${andone.one_memberMax} </span></p>
 									</div>
 									<p class="card-text float-left"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
 									<p class="card-text float-right h6"> ${andone.addrDetail} / ${andone.distance}km  </p>

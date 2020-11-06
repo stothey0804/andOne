@@ -25,10 +25,6 @@ public class AndP002_d002ServiceImpl implements AndP002_d002Service {
 		p002_d002DAO.updateOkOneMember(okMap);
 		
 	}
-	@Override
-	public void denyOneMember(Map<String, Object> denyMap) {
-		p002_d002DAO.updateDenyOneMember(denyMap);
-	}
 
 	@Override
 	public int CancelTime(String one_id) {
