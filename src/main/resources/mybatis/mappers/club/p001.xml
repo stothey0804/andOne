@@ -92,16 +92,40 @@
                                                 (SELECT gc_name
                                                   FROM common_code
                                                   WHERE g_id ='019'
-                                                  AND a.c_category = gc_id) as gc_name
+                                                  AND a.c_category = gc_id) as gc_name,a.c_category
 				FROM club a, c_member b
 				WHERE a.c_id = b.c_id
 				AND b.cm_rank = '10')
         WHERE rownumber between #{startIndex} AND #{endIndex}
+        AND c_category like #{c_category}
+        <if test="select=='10'">
+		<![CDATA[
+			AND c_name LIKE '%'||#{keyword}||'%'
+		]]>
+		</if>
+		<if test="select=='20'">
+		<![CDATA[
+			AND m_id LIKE '%'||#{keyword}||'%'
+		]]>
+		</if>
 	</select>
 	
 	<select id="allClubCnt" resultType="int">
 		SELECT COUNT(*)
-		FROM club
+		FROM club a, c_member b
+		WHERE c_category like #{c_category}
+		AND a.c_id = b.c_id
+		AND b.cm_rank = '10'
+		<if test="select=='10'">
+		<![CDATA[
+			AND a.c_name LIKE '%'||#{keyword}||'%'
+		]]>
+		</if>
+		<if test="select=='20'">
+		<![CDATA[
+			AND b.m_id LIKE '%'||#{keyword}||'%'
+		]]>
+		</if>
 	</select>
 	<select id="getArticleRe_reply" resultMap="club.p001.re_replyList">
 		<![CDATA[

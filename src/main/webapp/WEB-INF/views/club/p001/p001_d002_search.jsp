@@ -49,7 +49,7 @@
 	
 <script type="text/javascript">
 	function openMemberPopup2(m_id){
-		window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
+		window.open("${contextPath}/popup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
 	}
 </script>
 </head>
@@ -60,22 +60,29 @@
 	<div class="form-group col-sm-11 mx-auto p-0">
 		<!-- 검색폼 START -->
 		<form action="searchClubList.do" method="post">
-			<div class="input-group mb-3 col-6 ml-auto">
+			<div class="input-group mb-3 col-8 ml-auto">
 			<!-- 구분  -->
 			 <div class="input-group-prepend">
 			      <label class="input-group-text" for="inputGroupSelect01">검색조건</label>
 		      </div>
-   		    <select class="custom-select" name="searchCondition">
-				<option value="c_name">소모임명</option>
-				<option value="leaderId">리더ID</option>
+   		   <select class="form-control" name="c_category">
+				<option value="">카테고리 선택</option>
+				<c:forEach var="c" items="${category}">
+					<option value="${c.gc_id}">${c.gc_name}</option>
+				</c:forEach>
+			</select>
+   		    <select class="custom-select" name="select">
+				<option value="10">소모임명</option>
+				<option value="20">리더ID</option>
 		    </select>
-			  <input type="text" name="searchKeyword" class="form-control searchValue" aria-describedby="button-addon2">
+			  <input type="text" name="keyword" class="form-control">
 			  <div class="input-group-append">
-			    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">검색</button>
+			    <input type="submit" class="btn btn-outline-secondary" value="검색">
 			  </div>
 			</div>
 		</form>
 		<!-- 검색폼 END -->
+		
 		<!-- 리스트영역  -->
 			<table class="table result">
 				<thead>
@@ -99,6 +106,7 @@
 						</a>
 					</td>
 					<td class="text-center">${club.c_openingdate}</td>
+					<td><button class="btn-sm btn btn-outline-secondary text-center" onclick="location.href='${contextPath}/club/detailClub.do?c_id=${club.c_id}'">상세보기</button></td>
 				</tr>
 				</c:forEach>
 			</table>

@@ -26,4 +26,9 @@ public class ClubP003_d003DAOImpl implements ClubP003_d003DAO{
 		sqlSession.update("club.p003_d003.updateReply", updateMap);
 	}
 
+	@Override
+	public String next_car_id() {
+		return sqlSession.selectOne("club.p003_d003.next_car_id");
+	}
+
 }
