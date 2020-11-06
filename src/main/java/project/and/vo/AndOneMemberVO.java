@@ -9,13 +9,25 @@ public class AndOneMemberVO {
 	private String m_id;
 	private String one_id;
 	private String om_date;
+	private String one_price;
 	
 	
 	
 	public AndOneMemberVO() {
 		System.out.println("AndOneMemberVO");
 	}
-		
+	
+	
+	public String getOne_price() {
+		return one_price;
+	}
+
+
+	public void setOne_price(String one_price) {
+		this.one_price = one_price;
+	}
+
+
 	public String getOne_id() {
 		return one_id;
 	}

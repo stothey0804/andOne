@@ -56,7 +56,7 @@
 	   					},
 	   					success: function(){
 	   						// 소켓전송
-	   						socket.send("&분의일,"+target+","+content+","+url);	// 소켓에 전달
+	   						socket.send("&분의일,"+m_id+","+content+","+url);	// 소켓에 전달
 	   					}
 	   				});
 	   	   		 	// ------ 알림전송 END
@@ -65,7 +65,7 @@
 		})
 	}
 	//거절하기
-	function denyAndOne(m_id,one_id,idx){
+	function denyAndOne(m_id,one_price,one_id,idx){
 		console.log("m_id>>"+m_id);
 		console.log("one_id>>"+one_id);
 		$.ajax({
@@ -75,7 +75,8 @@
    			url:"${contextPath}/and/denyOneMember.do",
    			data:{
    				m_id : m_id,
-   				one_id: one_id
+   				one_id: one_id,
+   				one_price : one_price
    			},
    			success:function(data,textSataus){
    				$("#"+idx).remove();
@@ -99,7 +100,7 @@
    					},
    					success: function(){
    						// 소켓전송
-   						socket.send("&분의일,"+target+","+content+","+url);	// 소켓에 전달
+   						socket.send("&분의일,"+m_id+","+content+","+url);	// 소켓에 전달
    					}
    				});
    	   		 	// ------ 알림전송 END
@@ -139,7 +140,7 @@
 						<td>${list.om_date}</td>
 						<td onclick="event.cancelBubble=true" class="check${status.count}">
 							<button type="button" class="btn btn-outline-danger" onclick="okAndOne('${list.m_id}','${list.one_id}','${status.count}')">수락</button>
-							<button type="button" class="btn btn-outline-dark" onclick="denyAndOne('${list.m_id}','${list.one_id}','${status.count}')">거절</button>
+							<button type="button" class="btn btn-outline-dark" onclick="denyAndOne('${list.m_id}','${list.one_price}','${list.one_id}','${status.count}')">거절</button>
 						</td>
 					</tbody>
 					</c:forEach>

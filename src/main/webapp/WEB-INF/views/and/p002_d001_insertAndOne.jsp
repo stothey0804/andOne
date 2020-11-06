@@ -102,9 +102,9 @@
 			 <input type="hidden" name="one_memberMax" value="">
 	   </div>
 		<!-- 지도 -->
-		<div class="form-group" style="display:inline;"> 
+		<div class="form-group form-inline"> 
         		<button type="button" class="btn btn-outline-primary" onclick="searchAddress()" >위치선택하기</button>&nbsp;
-        		<input type="text" id="inputAddress" name ="one_addr"  class="form-control" placeholder="위치를선택해주세요" readonly><br>
+        		<input type="text" id="inputAddress" name ="one_addr"  class="form-control col-9" placeholder="위치를선택해주세요" readonly><br>
     	</div>
      	<div id="map" style="width:500px; height:250px"></div>
       	<input type="hidden" name="one_locate_Lat" value="">

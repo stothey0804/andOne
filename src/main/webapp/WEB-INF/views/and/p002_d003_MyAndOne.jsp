@@ -6,29 +6,30 @@
 <html>
 <head>
 	<script type="text/javascript">
-		 //취소하기
-		 function cancelAndOne(one_id){
-			 console.log(one_id);
+	//취소하기
+    function cancelAndOne(one_id,one_price){
+	        console.log(one_id);
 			$.ajax({
 	   			type : "post",
 	   			dataType: "text",
 	   			async: "true",
 	   			url:"${contextPath}/and/cancelOneMember.do",
 	   			data:{
-	   				"one_id" : one_id
-				},
-				success:function(data,textSataus){
-					console.log("확인: "+data);
-					if(data == 'true'){
-						console.log("취소성공");
-						$('#cancleOkModal').modal("show");
-						}else{
-							console.log("취소불가");
-							$('#cancleFailModal').modal("show");
-						}
+	   				"one_id" : one_id,
+	   				"one_price" : one_price
+			},
+			success:function(data,textSataus){
+				console.log("확인: "+data);
+				if(data == 'true'){
+					console.log("취소성공");
+					$('#cancleOkModal').modal("show");
+					}else{
+						console.log("취소불가");
+						$('#cancleFailModal').modal("show");
 					}
-				})
-			}
+				}
+			})
+		}
 	</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -112,7 +113,7 @@
 									<td>${list.om_date}</td>
 									<td>${list.om_state}</td>							
 									<td>${list.WRITER_NICKNAME}</td>
-									<td><button type="button" class="btn btn-link" onclick="cancelAndOne('${list.one_id}')">취소하기</button></td>
+									<td><button type="button" class="btn btn-link" onclick="cancelAndOne('${andoneDetail.one_id}','${andoneDetail.one_price}')">취소하기</button></td>
 								</tr>
 							</tbody>
 						</c:if>

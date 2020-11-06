@@ -132,12 +132,13 @@
 	<!-- 신청수락용 엔분의일 신청멤버 -->
 	<select id="selectAndOneWaitMem" parameterType="String" resultType="AndOneMemberVO">
 		<![CDATA[
-			select a.m_id, a.one_id, b.m_nickname, a.om_date, b.m_img as userImg
-			from one_member a , member b
+			select a.m_id, a.one_id, b.m_nickname, a.om_date, b.m_img as userImg, to_char(trunc(c.one_totalPrice/c.one_memberMax)) as one_price
+			from one_member a , member b, and_one c
 			where om_leader = '20'
 			and om_state = '10'
 			and a.m_id = b.m_id 
-			and one_id = #{one_id}
+            and a.one_id = c.one_id
+			and a.one_id = #{one_id}
 		]]>
 	</select>
 	
@@ -146,17 +147,6 @@
 		<![CDATA[
 			update one_member
 			set om_state = '20'
-			where one_id = #{one_id}
-			and m_id = #{m_id}
-			and om_leader = '20'
-		]]>
-	</update>
-	
-	<!-- 엔분의일 신청 거절 -->
-	<update id="updateDenyOneMember" parameterType="java.util.HashMap">
-		<![CDATA[
-			update one_member
-			set om_state = '40'
 			where one_id = #{one_id}
 			and m_id = #{m_id}
 			and om_leader = '20'
