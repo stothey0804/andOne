@@ -64,6 +64,14 @@ input::placeholder {
 div.border{
 	border:1px solid black;
 }
+
+.mi_box {
+	    width: 60px;
+	    height: 60px; 
+	    border-radius: 70%;
+	    overflow: hidden;
+	    cursor: pointer;
+	}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -79,6 +87,8 @@ div.border{
 	var one_type = '';
 	var one_id = '';
 	
+	var imageMap = new Map();
+	
 	$(document).ready(function(){
 		$('.popUp').hide();
 		getChatRoomList(m_id);
@@ -91,7 +101,7 @@ div.border{
 		$('div.list-group').click(function(){
 			one_id = this.id;
 			one_type = $('input#'+this.id).val();
-			getChatContent(one_id);
+			setupUserImageMap(one_id);
 		})
 	}
 	
@@ -110,6 +120,34 @@ div.border{
 	function openMemberPopup2(param){
 		let m_id = param+'';
 		window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
+	}
+	
+	function setupUserImageMap(one_id){
+		imageMap.clear();
+		$.ajax({
+			type: "post",
+			async: true,
+			url: "http://localhost:8090/andOne/message/getChatUserList.do",
+			dataType: "text",
+			data: 'one_id='+one_id,
+			success: function (data, textStatus) {
+				var jsonStr = data;
+				var jsonInfo = JSON.parse(jsonStr);
+				for(let i=0; i<Object.keys(jsonInfo).length; i++){
+					if(jsonInfo[i].m_encodedImg == null){
+						imageMap.set(jsonInfo[i].m_id,'${contextPath }/resources/image/user.png');
+					}else{
+						imageMap.set(jsonInfo[i].m_id,'data:image/jpg;base64,'+jsonInfo[i].m_encodedImg);
+					}
+				}
+			},
+			error: function (data, textStatus) {
+				alert("에러가 발생했습니다.");
+			},
+			complete: function (data, textStatus) {
+				getChatContent(one_id);
+			}
+		})
 	}
 	
 	function getChatRoomList(m_id){
@@ -183,12 +221,16 @@ div.border{
 				var jsonStr = data;
 				var jsonInfo = JSON.parse(jsonStr);
 				var chatContent = "";
+				chatContent += "<div style='text-align:center;'>채팅방이 개설되었습니다.</div><br><br>"
 				for(let i=0; i<Object.keys(jsonInfo).length; i++){
 					if(jsonInfo[i].m_id == m_id){
 						chatContent += "<div style='text-align:right;'>";
 					}else{
 						chatContent += "<div>";
 					}
+					chatContent += '<a href="javascript:void(0);" onclick="openMemberPopup2(\''+jsonInfo[i].m_id+'\')">'
+					chatContent += '<img class="mi_box clickArea" src="'+imageMap.get(jsonInfo[i].m_id)+'">'
+					chatContent += '</a>';
 					chatContent += '['+jsonInfo[i].m_nickname+']';
 					chatContent += '<br>';
 					chatContent += jsonInfo[i].msg_content;
@@ -242,7 +284,7 @@ div.border{
 						userList += "</tr>";
 					}
 					userList += "</table>";
-					$('.popContent').html(userList); //toDo 레이어 만들고 거기에 넣기
+					$('.popContent').html(userList);
 					userListClickEvent();
 					$('.popUp').show();
 				},
@@ -317,6 +359,9 @@ div.border{
 				console.log('남의 채팅');
 				chatContent += "<div>";
 			}
+			chatContent += '<a href="javascript:void(0);" onclick="openMemberPopup2(\''+jsonInfo.m_id+'\')">'
+			chatContent += '<img class="mi_box" src="'+imageMap.get(jsonInfo.m_id)+'">'
+			chatContent += '</a>'
 			chatContent += '['+jsonInfo.m_nickname+']';
 			chatContent += '<br>';
 			chatContent += jsonInfo.msg_content;
@@ -334,7 +379,8 @@ div.border{
 	function m_onClose(){
 		  
 	}
-
+	
+	
 </script>
 </head>
 <body>
@@ -384,7 +430,7 @@ div.border{
         </div>
 <!--       여기서부터 채팅방 시작-->
       <div class="px-4 py-5 chat-box bg-white"  id="messageArea">
-      
+      	<div style="text-align:center;margin-top:20%;"><h3 style="color: #cfcfcf;">채팅방을 선택해주세요</h3></div>
       </div>
       
     <!-- 채팅방 끝 ->
