@@ -13,21 +13,15 @@
 	<script type="text/javascript" src="${contextPath}/resources/js/jquery.datetimepicker.js"></script>
 	
 	<style>
-	.aa{
-		display: block;
-		text-align: center; 
-	 }
+	
 	.and{
 		padding : 20px;
 		font-family: 'YanoljaYacheR' !important;
 		font-size: 70px;
-		text-align: center; 
+		text-align: center;  
 	}
 	.ctgbutton{
 		font-weight :bold;
-	}
-	.title{
-		padding-bottom : 20px
 	}
 	#map{
 		margin: 0 auto;
@@ -38,72 +32,68 @@
 </head>
 <body>
 	<c:set var="g_id" value="${g_id}" />
-		<h1 class="and">
+		<h1 class="and text-primary mt-4">
 			<c:choose>
 				<c:when test="${g_id == '010'}">
-					같이먹기 <i class="fas fa-utensils"></i>
+					<img src="${contextPath}/resources/image/main/eat.png" width="100px" height="100px"> 같이먹기 글쓰기
 				</c:when>
 				<c:when test="${g_id == '011'}">
-					같이사기 <i class="fas fa-shopping-cart"></i>
+					<img src="${contextPath}/resources/image/main/buy.png" width="100px" height="100px"> 같이사기 글쓰기
 				</c:when>
 				<c:when test="${g_id == '012'}">
-					같이하기 <i class="fas fa-user-friends"></i>
+					<img src="${contextPath}/resources/image/main/do.png" width="100px" height="100px">	같이하기 글쓰기
 				</c:when>
 			</c:choose>
 		</h1>
-      <form name="insertAnd" onsubmit="return false">
-      <div class="col-lg-6 col-sm-10 mx-auto mt-5 ">
-      	<div class="form-row">
-            <div class="form-group col-md-6 mx-auto title">
-   				<input type="text" class="form-control" name="one_title" placeholder="제목을 입력해주세요" value="">
-    		</div>
-      	</div>
+      <form name="insertAnd" onsubmit="return false" class="container my-5 center" style="width:600px">
+      <div class="form-group">
+      	<label>제목</label>&nbsp;<span class="text-muted m-0 text-muted"></span>
+		<input type="text" class="form-control" name="one_title" placeholder="제목을 입력해주세요" value="">
+	  </div>
       	<!-- 카테고리 -->
-      	<div class="aa">
+      	<div class="form-group">
+      	<label>카테고리</label><div style="margin-bottom:10px;"></div><br>
       	<c:set var="g_id" value="${g_id}" />
       	<c:choose>
       		<c:when test="${g_id == '010'}">
 		      	<div id="category" style="width:650px; margin: 0 auto">
-						<c:forEach var ="ctg" items="${ctg}" > 
-							<button type="button" id="category_sub" class="btn btn-outline-dark mb-3 ctgbutton" value="${ctg.gc_id}" >${ctg.gc_name}</button>
-						</c:forEach>
+					<c:forEach var ="ctg" items="${ctg}" > 
+						<button type="button" id="category_sub" class="btn btn-outline-primary mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
+					</c:forEach>
 				</div>
 			</c:when>
-		</c:choose>
-		<c:choose>
       		<c:when test="${g_id == '011'}">
-		      	<div id="category" style="width:650px; margin: 0 auto; ">
-						<c:forEach var ="ctg" items="${ctg}" > 
-							<button type="button" id="category_sub" class="btn btn-outline-dark mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
-						</c:forEach>
+		      	<div id="category"  class="form-group" style=" margin:0 auto;">
+					<c:forEach var ="ctg" items="${ctg}" > 
+						<button type="button" id="category_sub" class="btn btn-outline-primary mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
+					</c:forEach>
 				</div>
 			</c:when>
-		</c:choose>
-		<c:choose>
       		<c:when test="${g_id == '012'}">
-		      	<div id="category" style="width:800px; margin: 0 auto">
-						<c:forEach var ="ctg" items="${ctg}" > 
-							<button type="button" id="category_sub" class="btn btn-outline-dark mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
-						</c:forEach>
+		      	<div id="category" class="form-group" style="width:800px; margin: 0 auto;">
+					<c:forEach var ="ctg" items="${ctg}" > 
+						<button type="button" id="category_sub" class="btn btn-outline-primary mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
+					</c:forEach>
 				</div>
 			</c:when>
 		</c:choose>
 		<input type="hidden" name="one_category" value=""> <!-- 카테고리값 보내기 -->
 		</div>
-		<div class="form-row">
-        	<div class="form-group col-md-6 mx-auto">
+        	<div class="form-group">
+        		<label>주문금액</label>&nbsp;<span class="text-muted m-0 text-muted"></span>
 				<input type="text" class="form-control" name="one_totalPrice" placeholder="주문금액을 입력해주세요">
 			</div>
-		</div>
 		<!--달력 -->
-		<div class="form-row">
-        	<div class="form-group col-md-6 mx-auto" id="orderDate">
+		<div class="form-group">
+        	<div class="form-group " id="orderDate">
+        	<label>주문시간</label>&nbsp;<span class="text-muted m-0 text-muted"></span>
 			<input name="one_date" class="form-control" placeholder="주문시간을 입력해주세요" />
 			</div>		
 		</div>
 	   <!-- 인원설정 -->
-	   <div class="form-row">
-		 <select id="memberCnt" class="custom-select form-group col-md-6 mx-auto" onChange="setValue()" >
+	   <div class="form-group">
+		 <label>인원</label>&nbsp;<span class="text-muted m-0 text-muted"></span>
+		 <select id="memberCnt" class="custom-select form-group" onChange="setValue()" >
 			<option selected >인원을 선택하세요</option>
 				<c:forEach var="i" begin="2" end="10">
 					<option value="<c:out value='${i}'/>"><c:out value="${i}"/></option>
@@ -112,38 +102,37 @@
 			 <input type="hidden" name="one_memberMax" value="">
 	   </div>
 		<!-- 지도 -->
-		<div class="form-row">
-			<div class="form-group col-md-6 mx-auto">
-        		<button type="button" class="btn btn-outline-dark mb-3" onclick="searchAddress()">위치선택하기</button>
-        		<input type="text" id="inputAddress" name ="one_addr" class="form-control" placeholder="위치를선택해주세요" readonly><br>
-       		</div>
-      	</div>	
-        		<div id="map" style="width:500px; height:400px"></div>
-        		<input type="hidden" name="one_locate_Lat" value="">
-        		<input type="hidden" name="one_locate_Lng" value=""> <!-- 맵 좌표값 보내기 -->
+		<div class="form-group form-inline"> 
+        		<button type="button" class="btn btn-outline-primary" onclick="searchAddress()" >위치선택하기</button>&nbsp;
+        		<input type="text" id="inputAddress" name ="one_addr"  class="form-control col-9" placeholder="위치를선택해주세요" readonly><br>
+    	</div>
+     	<div id="map" style="width:500px; height:250px"></div>
+      	<input type="hidden" name="one_locate_Lat" value="">
+       	<input type="hidden" name="one_locate_Lng" value=""> <!-- 맵 좌표값 보내기 -->
         <!-- 내용 -->
-        <div class="form-row">
-        <div class="form-group col-md-6 mx-auto">
-       		<label for="one_content"></label>
-       		<textarea rows="15" cols="80" id="one_content" class="form-control" name="one_content"></textarea>
-       	</div>
+        <div class="form-group">
+       		<label for="one_content" style="margin-top:10px;">내용</label>
+       		<textarea rows="10" id="one_content" class="form-control" name="one_content"></textarea>
        	</div>
        	<!-- 해시태그 -->
-       	<div class="form-row">
-       		<div class="form-group col-md-6 mx-auto ">
-	    		<div class="displayArea">
-
-				</div><br>
-				    <div class="col-md-6 mx-auto">
-				     <input type="text" class="form-control" id="inputHashtag" name="inputHashtag" 
-				      placeholder="키워드 입력 후 스페이스바로 등록" onkeyup="characterCheck()" onkeydown="characterCheck()" />
-		    		</div>
-	        	<input type="submit" id="registerAnd" class="btn btn-outline-dark btn-lg mb-3 form-control"  value="새로운같이먹기 등록하기" >
-	    	</div>
+       	<div class="form-group">
+       		<label>해쉬태그</label><div class="displayArea" style="margin-bottom:10px;"></div>
+			     <input type="text" class="form-control" id="inputHashtag" name="inputHashtag" 
+			      placeholder="키워드 입력 후 스페이스바로 해시태그를 등록해주세요" onkeyup="characterCheck()" onkeydown="characterCheck()" />
     	</div>
+	        	<c:choose>
+				<c:when test="${g_id == '010'}">
+	        		<input type="submit" id="registerAnd" class="btn btn-primary rounded btn-block mb-3 form-control"  value="새로운 같이먹기 등록하기" >
+				</c:when>
+				<c:when test="${g_id == '011'}">
+	        		<input type="submit" id="registerAnd" class="btn btn-primary rounded btn-block mb-3 form-control"  value="새로운 같이사기 등록하기" >
+				</c:when>
+				<c:when test="${g_id == '012'}">
+	        		<input type="submit" id="registerAnd" class="btn btn-primary rounded btn-block mb-3 form-control"  value="새로운 같이하기 등록하기" >
+				</c:when>
+			</c:choose>
 		       	<input type="hidden" name="one_type" value="${g_id}">
 		       	<input type="hidden" name="one_hashTag" id="one_hashTag">
-	   </div>
     </form>
     
     <!--우편번호 서비스-->

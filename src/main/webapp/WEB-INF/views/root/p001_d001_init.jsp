@@ -225,11 +225,11 @@
 	<!-- /// 검색창 /// -->
 	<div style="width:600px; margin: 0 auto">
 			<!-- 경로 및 Form 설정 -->
-			<form name="searchFrm" method="post" action="">
+			<form name="searchFrm" method="post" action="${contextPath }/fullSearch.do">
 				<div class="form-group mx-3 searchInput">
 				  <div class="p-1 rounded rounded-pill border border-primary" style="border-width:4px !important">
 		            <div class="input-group">
-		              <input type="search" placeholder="검색" aria-describedby="button-addon1" name="" class="form-control border-0 m-1 bg-light">
+		              <input type="search" placeholder="검색" aria-describedby="button-addon1" name="searchKeyword" class="form-control border-0 m-1 bg-light">
 		              <div class="input-group-append">
 		                <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
 		              </div>

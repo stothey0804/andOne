@@ -144,6 +144,30 @@ a:hover {
   	transform: translate(-50%, -50%)
 }
 
+.mi_box {
+	    width: 80px;
+	    height: 80px; 
+	    border-radius: 70%;
+	    overflow: hidden;
+	    cursor: pointer;
+	    object-fit:cover;
+	}
+	
+.ri_box {
+	width: 80px;	
+	height: 80px; 
+    overflow: hidden;
+    cursor: pointer;
+	}
+	
+.si_box{
+	width: 250px;
+	height: 250px; 
+    overflow: hidden;
+    cursor: pointer;
+	}	
+	
+
 </style>
 
 <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
@@ -337,7 +361,7 @@ a:hover {
 				<tr class="tr1">
 					<td rowspan="3" width="80">
 						<div style="margin: 10px">
-							<div class="card" style="width: 5rem;">
+							<div class="mi_box" style="width: 5rem;">
 								<a href="javascript:void(0);" onclick="openMemberPopup2('${list.m_id }')">
 									<c:choose>
 										<c:when test="${empty list.m_encodedImg }">
@@ -366,8 +390,8 @@ a:hover {
 					<c:forEach var="j" begin="1" end="${(fn:length(list.shopReviewImage)) }">
 						<td rowspan="3" width="80">
 							<div style="margin:5px">
-								<div style="width:5rem;">
-									<img src="data:image/jpg;base64,${list.shopReviewImage[j-1].ri_encodedImg }" id="${list.m_id }-split-${j-1 }-split-${fn:length(list.shopReviewImage)-1 }" class="card-img-top clickImg" alt="...">
+								<div class="ri_box" style="width:5rem;">
+									<img src="data:image/jpg;base64,${list.shopReviewImage[j-1].ri_encodedImg }" id="${list.m_id }-split-${j-1 }-split-${fn:length(list.shopReviewImage)-1 }" class="card-img-top clickImg img-thumbnail" alt="...">
 								</div>
 							</div>
 						</td>
@@ -453,11 +477,6 @@ a:hover {
 	                <a class="page-link" href="?curPage=${pagination.nextPage}&s_id=${s_id}">다음</a> 
 	                </li>	                        
 	        </c:if>
-	        <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
-	            <li class="page-item">
-	                <a class="page-link" href="#"  onClick="fn_paging('${pagination.pageCnt }')">끝</a> 
-	                </li>	                    
-  	 	 	</c:if>
 	   	 </ul>
 	</nav>
 <!-- 페이징 END -->

@@ -36,7 +36,7 @@
 		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
 		       			substr(a.one_date,6,11) as one_date, replace(a.one_hashTag,',','#') as one_hashTag, RTRIM(TO_CHAR(d.distance, 'FM9990.9999'),'.') as distance, a.one_locate_Lat, a.one_locate_Lng,
-		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, a.one_addr, substr(a.one_addr,1,6) as addrDetail, (select count(m_id) from one_member e where e.one_id = d.one_id )as one_member
+		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, a.one_addr, substr(a.one_addr,1,6) as addrDetail, (select count(m_id) from one_member e where e.one_id = a.one_id and om_state not in ('10','40'))as one_member
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
 		              from common_code 
@@ -94,7 +94,7 @@
 		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
 		       			substr(a.one_date,6,11) as one_date, replace(a.one_hashTag,',','#') as one_hashTag, d.distance,
-		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, (select count(m_id) from one_member e where e.one_id = d.one_id )as one_member
+		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, (select count(m_id) from one_member e where e.one_id = a.one_id and om_state not in ('10','40'))as one_member
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
 		              from common_code 
@@ -127,7 +127,7 @@
 		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
 		       			substr(a.one_date,6,11) as one_date, replace(a.one_hashTag,',','#') as one_hashTag, d.distance,
-		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, (select count(m_id) from one_member e where e.one_id = d.one_id )as one_member
+		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, (select count(m_id) from one_member e where e.one_id = a.one_id and om_state not in ('10','40'))as one_member
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
 		              from common_code 
@@ -171,7 +171,7 @@
 		select a.one_type, a.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
        			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax)) END as one_price,
        			a.one_totalPrice, substr(a.one_date,6,11) as one_date, one_date as forEditDate,  replace(a.one_hashTag,',','#') as one_hashTag, a.one_locate_Lat, a.one_locate_Lng, one_addr,
-        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time , a.one_content, (select count(m_id) from one_member where one_id = #{one_id})as one_member
+        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time , a.one_content, (select count(m_id) from one_member e where e.one_id = a.one_id and om_state not in ('10','40'))as one_member
 		from and_one a, 
 		     (select gc_name, gc_id, g_id
 		      from common_code 
@@ -226,7 +226,7 @@
 	<!-- 포인트 환불 List -->
 	<select id="selectPointList" resultType="AndP001AndOneVO">
 		<![CDATA[
-			SELECT A.m_id, b.one_totalprice/b.one_membermax AS one_price, A.one_id
+			SELECT A.m_id, to_char(trunc(B.one_totalPrice/B.one_memberMax)) as one_price, A.one_id
 			FROM one_member A , and_one b
 			WHERE om_leader = '20'
 			AND A.one_id = b.one_id
@@ -249,7 +249,7 @@
 	<!-- 포인트 지급 List -->
 	<select id="selectPayList" resultType="AndP001AndOneVO">
 		<![CDATA[
-			SELECT A.m_id, b.one_totalprice-(b.one_totalprice/b.one_membermax) AS one_price, A.one_id
+			SELECT A.m_id, to_char(trunc(B.one_totalPrice/B.one_memberMax)) as one_price, A.one_id
 			FROM one_member A, and_one b
 			WHERE A.one_id = b.one_id
 			AND A.om_leader = '10'

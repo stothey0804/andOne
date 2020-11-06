@@ -133,6 +133,30 @@ a:hover {
   	transform: translate(-50%, -50%)
 }
 
+.mi_box {
+	    width: 80px;
+	    height: 80px; 
+	    border-radius: 70%;
+	    overflow: hidden;
+	    cursor: pointer;
+	}
+	
+.ri_box {
+	width: 80px;	
+	height: 80px; 
+    overflow: hidden;
+    cursor: pointer;
+	}
+	
+.si_box{
+	width: 250px;
+	height: 250px; 
+    overflow: hidden;
+    cursor: pointer;
+	}	
+	
+
+
 .map_wrap {position:relative;width:100%;height:350px;}
 .map_title {font-weight:bold;display:block;}
 .hAddr {position:absolute;left:10px;top:10px;border-radius: 2px;background:#fff;background:rgba(255,255,255,0.8);z-index:1;padding:5px;}
@@ -266,7 +290,7 @@ a:hover {
 				output += 	'<tr>';
 				output += 		'<td align="center" height="80" width="80">';
 				output += 			'<div style="margin: 2px">';
-				output +=				'<div class="card" style="width: 4rem;">';
+				output += 				'<div class="mi_box">';
 				if(jsonInfo.m_encodedImg == null){
 					output += '<img src="${contextPath }/resources/image/basicProfileImg.png" class="card-img-top" alt="...">';
 				}else{
@@ -292,7 +316,7 @@ a:hover {
 				output += 		'<div class="row">';
 				for(let j=0; j<Object.keys(jsonInfo.shopReviewImage).length; j++){
 					output += 		'<div style="margin: 5px">';
-					output += 			'<div class="card" style="width: 5rem;">';
+					output += 			'<div class="ri_box">';
 					output += 				'<img src="data:image/jpg;base64,'+jsonInfo.shopReviewImage[j].ri_encodedImg+'" id="'+jsonInfo.m_id+'-split-'+j+'-split-'+(Object.keys(jsonInfo.shopReviewImage).length-1)+'" class="card-img-top clickImg" alt="...">';
 					output += 			'</div></div>';
 				}
@@ -393,12 +417,11 @@ a:hover {
 				console.log(reviewCount);
 				console.log('======> 가게 이미지 갯수');
 				console.log(imageCount);
-				
 				shopImage += '<div class="row">';
 				for(let i=0; i<imageCount; i++){
 					shopImage += '<div style="margin: 15px">';
-					shopImage += '<div class="card" style="width: 20rem;">';
-					shopImage += '<img src="data:image/jpg;base64,'+jsonInfo.shopImage[i].si_encodedImg+'"id="'+jsonInfo.s_id+'-split-'+i+'-split-'+(Object.keys(jsonInfo.shopImage).length-1)+'" class="card-img-top clickImg" alt="...">';
+					shopImage += '<div class="si_box" style="width: 20rem;">';
+					shopImage += '<img src="data:image/jpg;base64,'+jsonInfo.shopImage[i].si_encodedImg+'"id="'+jsonInfo.s_id+'-split-'+i+'-split-'+(Object.keys(jsonInfo.shopImage).length-1)+'" class="card-img-top clickImg img-thumbnail" alt="...">';
 					shopImage += '</div></div>';
 				}
 // 				for(let i=0; i<3-imageCount; i++){
@@ -431,7 +454,7 @@ a:hover {
 				for(let i=0; i<reviewCount; i++){
 					reviewList += '<table><tr><td rowspan="3" width="80">';
 					reviewList += '<div style="margin: 10px">';
-					reviewList += '<div class="card" style="width: 5rem;">';
+					reviewList += '<div class="mi_box" style="width: 5rem;">';
 					reviewList += '<a href="javascript:void(0);" onclick="openMemberPopup2(\''+jsonInfo.shopReviewList[i].m_id+'\')">';
 					if(jsonInfo.shopReviewList[i].m_encodedImg == null){
 						reviewList += '<img src="${contextPath }/resources/image/user.png" class="card-img-top" alt="...">';
@@ -451,8 +474,8 @@ a:hover {
 					for(let j=0; j<Object.keys(jsonInfo.shopReviewList[i].shopReviewImage).length; j++){
 						reviewList += '<td rowspan="3" width="80">';
 						reviewList += '<div style="margin: 5px">';
-						reviewList += '<div class="card" style="width: 5rem;">';
-						reviewList += '<img src="data:image/jpg;base64,'+jsonInfo.shopReviewList[i].shopReviewImage[j].ri_encodedImg+'" id="'+jsonInfo.shopReviewList[i].m_id+'-split-'+j+'-split-'+(Object.keys(jsonInfo.shopReviewList[i].shopReviewImage).length-1)+'" class="card-img-top clickImg" alt="...">';
+						reviewList += '<div class="ri_box">';
+						reviewList += '<img src="data:image/jpg;base64,'+jsonInfo.shopReviewList[i].shopReviewImage[j].ri_encodedImg+'" id="'+jsonInfo.shopReviewList[i].m_id+'-split-'+j+'-split-'+(Object.keys(jsonInfo.shopReviewList[i].shopReviewImage).length-1)+'" class="card-img-top clickImg img-thumbnail" alt="...">';
 						reviewList += '</div></div>';
 						reviewList += '</td>';
 					}
@@ -550,14 +573,15 @@ a:hover {
 					for (let i=0; i<shopCount; i++) {
 						console.log(jsonInfo.resultList[i].s_name);
 						output += "<div style='margin: 20px'>";
-						output += "<div class='card' style='width: 18rem;'>";
+						output += "<div class='si_box' style='width: 18rem;'>";
 						output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo.resultList[i].s_id+"'>";
 						if(Object.keys(jsonInfo.resultList[i].shopImage).length != 0){
-							output += "<img src='data:image/jpg;base64,"+jsonInfo.resultList[i].shopImage[0].si_encodedImg+"' class='card-img-top'alt='...'>";
+							output += "<img src='data:image/jpg;base64,"+jsonInfo.resultList[i].shopImage[0].si_encodedImg+"' class='card-img-top img-thumbnail'alt='...'>";
 						}else{
-							output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top'alt='...'>";
+							output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top img-thumbnail'alt='...'>";
 						}
 						output += "</a>";
+						output += "</div>";
 						output += "<div class='card-body'><h5 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo.resultList[i].s_id+"'>"+jsonInfo.resultList[i].s_name+"</a></h5>";
 						output += "<div id='recommendAddr"+i+"'></div>";
 						if(jsonInfo.resultList[i].distance<1){
@@ -569,7 +593,7 @@ a:hover {
 						output += "<div class='card-body' id='review'>";
 						output += "<p class='card-text'>";
 						output += "<a href='#'>후기 "+jsonInfo.resultList[i].reviewCount+"건</a><br>";
-						output += "별점 : "+printStar(jsonInfo.resultList[i].s_score)+"</p></div></div></div>";
+						output += "별점 : "+printStar(jsonInfo.resultList[i].s_score)+"</p></div></div>";
 					}
 					output += "</div>";
 				}

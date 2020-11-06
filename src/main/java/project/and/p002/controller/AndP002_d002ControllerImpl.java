@@ -83,12 +83,22 @@ public class AndP002_d002ControllerImpl implements AndP002_d002Controller {
 	@Override
 	@ResponseBody
 	@RequestMapping(value="denyOneMember.do")
-	public String denyOneMember(@RequestParam Map<String, Object> denyMap) {
-		System.out.println("m_id"+denyMap.get("m_id"));
-		System.out.println("one"+denyMap.get("one_id"));
-		p002_d002Service.denyOneMember(denyMap);//one_member 상태변경(10->30)
-		return "fail";
+	public void denyOneMember(@RequestParam Map<String, Object> denyMap) {
+		String m_id = (String) denyMap.get("m_id");
+		System.out.println("거절!!!!!!!!!!!!!!one"+denyMap.get("one_id"));
+		String one_price = (String) denyMap.get("one_price");
+		p002_d002Service.cancelOneMember(denyMap);////one_member에서 지우기
 		
+		//환불
+		PointP001VO pointVO = new PointP001VO();
+		pointVO.setM_id(m_id);
+		pointVO.setP_changepoint(one_price);
+		pointVO.setP_detail("포인트 환불");
+		String nowPoint = pointP001_d001Service.selectNowPointById(m_id);
+		pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint); //포인트 null값 0으로 변경
+		
+		pointP001_d002Service.insertPoint(pointVO);//포인트 환불
+		nowPoint = pointP001_d001Service.selectNowPointById(m_id); //환불 후 값 갱신
 	}
 	//신청 취소(참가자)
 	@Override
