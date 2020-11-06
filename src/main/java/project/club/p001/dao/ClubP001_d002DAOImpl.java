@@ -21,7 +21,7 @@ public class ClubP001_d002DAOImpl implements ClubP001_d002DAO{
 	}
 
 	@Override
-	public int clubCnt() {
-		return sqlSession.selectOne("club.p001.allClubCnt");
+	public int clubCnt(Map<String, Object> searchMap) {
+		return sqlSession.selectOne("club.p001.allClubCnt",searchMap);
 	}
 } 

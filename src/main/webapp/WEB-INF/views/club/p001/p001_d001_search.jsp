@@ -89,23 +89,17 @@ function removeHTML(text){
 </script>
 </head>
 <body onload="init();">
-<!-- 	<form class="searchClub container center" name="searchFrm" -->
-<%-- 		method="post" action="${contextPath}/club/searchClub.do"> --%>
-<!-- <a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br> -->
-<%-- 		<input type="text" value="${searchWord}" name="searchWord">  --%>
-<!-- 		<input type="submit" value="&#xf002;"> -->
-<!-- 	</form> -->
-<div class="form-group mx-3 searchInput center" style="width:700px;margin-top:90px;">
+<div class="form-group mx-auto searchInput center" style="width:700px;margin-top:10px;">
 <a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br>
-          <div class="input-group">
-          <form class="searchClub container center p-1 rounded rounded-pill border border-primary" style="border-width:2px !important" name="searchFrm" method="post" action="${contextPath}/club/searchClub.do">
-            <input type="text" placeholder="카테고리/지역/제목" value="${searchWord}" aria-describedby="button-addon1" name="searchWord" class="form-control border-0 m-1">
-            <div class="input-group-append">
-              <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
-           </div>
-         </form>
-          </div>
+	<form class="searchClub container center p-1 rounded rounded-pill border border-primary" style="border-width:2px !important" name="searchFrm" method="post" action="${contextPath}/club/searchClub.do">
+		<div class="input-group">
+           	<input type="text" placeholder="카테고리/소모임명" value="${searchWord}" aria-describedby="button-addon1" name="searchWord" class="form-control border-0 m-1">
+        <div class="input-group-append">
+            <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
         </div>
+	    </div>
+    </form>
+</div>
 	
 	
 	

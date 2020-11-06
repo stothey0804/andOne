@@ -19,4 +19,9 @@
 		SET car_content = #{car_content}
 		WHERE car_id = #{car_id}
 	</update>
+	
+	<select id="next_car_id" resultType="string">
+		SELECT CA_REPLY_SEQ.NEXTVAL
+		FROM DUAL
+	</select>
 </mapper>

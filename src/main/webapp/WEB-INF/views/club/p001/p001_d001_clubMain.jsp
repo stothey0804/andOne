@@ -372,13 +372,24 @@ function removeHTML(text){
 	<div class="container my-5 center">
 		<div class="search">
 			<a href="${contextPath}/club/searchClubHshtag.do?searchWord=운동">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br>
-			<form name="searchFrm" method="post"
-				action="${contextPath}/club/searchClub.do">
-				<div>
-				<input type="text" class="form-control" placeholder="검색" name="searchWord" id="search"> 
-				<input class="btn btn-secondary" type="submit" value="&#xf002;" style="margin-top:-6px;margin-left:-4px;width:80px;">
-				</div>
-			</form>
+<!-- 			<form name="searchFrm" method="post" -->
+<%-- 				action="${contextPath}/club/searchClub.do"> --%>
+<!-- 				<div> -->
+<!-- 				<input type="text" class="form-control" placeholder="검색" name="searchWord" id="search">  -->
+<!-- 				<input class="btn btn-secondary" type="submit" value="&#xf002;" style="margin-top:-6px;margin-left:-4px;width:80px;"> -->
+<!-- 				</div> -->
+<!-- 			</form> -->
+
+<div class="form-group mx-auto searchInput center" style="width:700px;margin-top:5px;">
+	<form class="searchClub container center p-1 rounded rounded-pill border border-primary" style="border-width:2px !important" name="searchFrm" method="post" action="${contextPath}/club/searchClub.do">
+		<div class="input-group">
+           	<input type="text" placeholder="카테고리/소모임명" aria-describedby="button-addon1" name="searchWord" class="form-control border-0 m-1">
+        <div class="input-group-append">
+            <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+        </div>
+	    </div>
+    </form>
+</div>
 			<br>
 			<p style="font-size: 18px;">원하시는 소모임이 없나요? 한번 만들어보세요!</p>
 			<button type="button"
