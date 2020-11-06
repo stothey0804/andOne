@@ -16,10 +16,24 @@
 				height: 60px;
 				}
 	</style>
+	<script>
+	function init(){
+		let prices = document.querySelectorAll("span.price");
+			let priceResults = document.querySelectorAll("span.priceResult");
+			
+			for(let i=0; i<prices.length; i++){
+				var pResult = prices[i].textContent;
+				priceResults[i].innerHTML = pointToNumFormat(pResult);
+  			}
+		 	function pointToNumFormat(num) {
+		       	return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		    }
+	}
+	</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body class="bg-light">
+<body class="bg-light" onload="init()">
 
 	 <!-- 포인트 충전 Modal영역 -->
 	 <div class="modal fade" id="pointModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
@@ -78,7 +92,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h6>신청하신 &amp;분의일 취소와 사용하신 포인트(${andoneDetail.one_price}P) 환불이 완료되었습니다</h6> 
+                        <h6>신청하신 &amp;분의일 취소와 사용하신 포인트(<span class="price invisible">${andoneDetail.one_price}</span><span class="priceResult"></span>P) 환불이 완료되었습니다</h6> 
                     </div>
                     <div class="modal-footer">
                     	<button type="submit" class="btn btn-primary" 
@@ -136,7 +150,7 @@
 			<p class="h6 text-muted text-right">${andoneDetail.one_date} 예정</p>
 			<p class="h2 font-weight-bold text-right">
 			<span class="h6">결제금액 </span>
-			<span class="price">${andoneDetail.one_price}</span>P</p>
+			<span class="price invisible">${andoneDetail.one_price}</span><span class="priceResult"></span>P</p>
 		</div>
 	</div>
 	<div class="row my-3">
@@ -298,9 +312,9 @@
         					var finalPrice = Math.ceil((price-data)/1000)*1000;
         					console.log("됨?"+finalPrice);
         					$('#pointModal').modal("show");
-        					$('#point_value3').text("결제요청금액"+price+"원");
+        					$('#point_value3').text("결제요청금액"+price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"원");
         					$('#point_value').text(data+"p");
-        					$('#point_value2').text("충전할 포인트"+finalPrice+"P");
+        					$('#point_value2').text("충전할 포인트"+finalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"P");
         					document.getElementById('amountResult').value = finalPrice;
         				}
         			}

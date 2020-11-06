@@ -159,11 +159,6 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		System.out.println("참가자신청용 m_id :"+m_id);
 		
 		AndP001AndOneVO vo = p001_d001Service.andOneDetail(detailMap);//글 상세조회
-		String one_price = vo.getOne_price();
-		System.out.println("가격>>>>>>>>>>>>>"+one_price);
-		String commaToOnePrice = Common.toNumFormat(one_price);
-		System.out.println("ㅠㅠㅠㅠㅠㅠㅠㅠ"+commaToOnePrice);
-		vo.setOne_price(commaToOnePrice);
 		List<AndOneMemberVO> oneMemList = p001_d001Service.oneMemList(one_id); //작성자 참가자 사진 닉네임
 		Common.getEncodedAndUser(oneMemList);//작성자 사진 인코딩
 		
@@ -188,8 +183,11 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	@ResponseBody
 	@RequestMapping(value="/and*/addOneMember.do")
 	public String addOneMember(@RequestParam Map<String,Object> addMap, HttpServletRequest request) throws Exception {
-		String one_price = (String) addMap.get("one_price");
+		String mapPrice = (String) addMap.get("one_price");
 		String one_id = (String) addMap.get("one_id");
+		
+		String one_price = mapPrice.replaceAll("[^0-9]", "");
+		System.out.println("콤마제거콤마제거"+one_price);
 		
 		HttpSession session = request.getSession(false);
 		String m_id = (String) session.getAttribute("m_id");
@@ -231,7 +229,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 			PointP001VO pointVO = new PointP001VO();
 			pointVO.setM_id(m_id);
 			pointVO.setP_changepoint(one_price);
-			pointVO.setP_detail("포인트 환불");
+			pointVO.setP_detail("&분의일["+one_id+"]취소 포인트환불");
 			String nowPoint = pointP001_d001Service.selectNowPointById(m_id);
 			pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint); //포인트 null값 0으로 변경
 			pointP001_d002Service.insertPoint(pointVO);//포인트 환불
@@ -248,7 +246,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 			PointP001VO pointVO = new PointP001VO();
 			pointVO.setM_id(m_id);
 			pointVO.setP_changepoint(one_price);
-			pointVO.setP_detail("포인트 지급");
+			pointVO.setP_detail("&분의일["+one_id+"]결제용 포인트지급");
 			String nowPoint = pointP001_d001Service.selectNowPointById(m_id);
 			pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint); //포인트 null값 0으로 변경
 			pointP001_d002Service.insertPoint(pointVO);//포인트 환불

@@ -287,7 +287,6 @@
 				hashtag = hashtag.slice(0,-1);
 				$('#one_hashTag').val(hashtag);
 				$('#inputHashtag').remove();
-				alert(hashtag);
 	    	  var insertAnd = document.insertAnd;
 	    	  insertAnd.action = "${contextPath}/and/insertAndOne.do";
 	    	  insertAnd.method= "post";

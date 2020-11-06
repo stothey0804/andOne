@@ -30,11 +30,24 @@
 				}
 			})
 		}
+    function init(){
+		let prices = document.querySelectorAll("span.price");
+			let priceResults = document.querySelectorAll("span.priceResult");
+			
+			for(let i=0; i<prices.length; i++){
+				var pResult = prices[i].textContent;
+				priceResults[i].innerHTML = pointToNumFormat(pResult);
+  		}
+	 	function pointToNumFormat(num) {
+	       	return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	    }
+			
+	}
 	</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body onload="init()">
 	<!-- 취소성공 Modal영역 -->
 	 <div class="modal fade" id="cancleOkModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
 	 	<div class="modal-dialog">
@@ -94,7 +107,7 @@
 									<td>${list.g_name}</td> <!-- 같이먹기/하기/사기 -->
 									<td><button type="button" class="btn btn-link" onclick="location.href='${contextPath}/and/detailAndOne.do?one_id=${list.one_id}&g_id=${list.one_type}'">${list.one_title}</button></td>
 									<td>${list.one_state}</td> <!-- 상태 -->
-									<td>${list.one_price}</td>
+									<td><span class="price invisible">${list.one_price}</span><span class="priceResult"></span></td>
 									<td>${list.om_date}</td>
 									<td><button type="button" class="btn btn-link" onclick="location.href='${contextPath}/and/modifyAndOnePage.do?one_id=${list.one_id}&g_id=${list.one_type}'">수정</button>
 									<button type="button" class="btn btn-link">삭제</button></td>
@@ -109,7 +122,7 @@
 									<td>${list.g_name}</td> <!-- 같이먹기/하기/사기 -->
 									<td><button type="button" class="btn btn-link" onclick="location.href='${contextPath}/and/detailAndOne.do?one_id=${list.one_id}&g_id=${list.one_type}'">${list.one_title}</button></td><!-- 제목 -->
 									<td>${list.one_state}</td> <!-- 상태 -->
-									<td>${list.one_price}</td>
+									<td><span class="price invisible">${list.one_price}</span><span class="priceResult"></span></td>
 									<td>${list.om_date}</td>
 									<td>${list.om_state}</td>							
 									<td>${list.WRITER_NICKNAME}</td>
