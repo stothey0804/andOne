@@ -46,9 +46,17 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 			@CookieValue(value="locate_lng", required = false) Cookie lngCookie, HttpServletRequest request, 
 			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("main");
-		
-		String m_locate_Lat = latCookie.getValue();
-		String m_locate_Lng = lngCookie.getValue();
+		// 초기값 set
+		String m_locate_Lat = "37.570371";
+		String m_locate_Lng = "126.985308";
+		try {
+			if(latCookie!=null && lngCookie!=null) {
+				m_locate_Lat = latCookie.getValue();
+				m_locate_Lng = lngCookie.getValue();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		// &분의일 - 같이먹기
 		Map<String,Object> andeat = new HashMap<String,Object>(); 

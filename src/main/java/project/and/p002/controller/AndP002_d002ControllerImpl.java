@@ -40,6 +40,7 @@ public class AndP002_d002ControllerImpl implements AndP002_d002Controller {
 		
 		ModelAndView mav = new ModelAndView("approveAndOne");
 		mav.addObject("AndOnewaitMemList",AndOnewaitMemList);
+		mav.addObject("g_id",p002_d002Service.selectGidByOneId(one_id));	// g_id 추가...
 		return mav;
 	}
 	//신청 수락(작성자)

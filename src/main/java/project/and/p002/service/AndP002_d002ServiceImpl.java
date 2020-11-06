@@ -56,6 +56,11 @@ public class AndP002_d002ServiceImpl implements AndP002_d002Service {
 	@Override
 	public void updateOneState(Map<String, Object> updateMap) {
 		p002_d002DAO.updateOneState(updateMap);
+	}
+
+	@Override
+	public String selectGidByOneId(String one_id) {
+		return p002_d002DAO.selectGidByOneId(one_id);
 	} 
 
 }

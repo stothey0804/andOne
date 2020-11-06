@@ -14,5 +14,5 @@ public interface AndP002_d002DAO {
 	public int selectAndOneMemberCnt(String one_id);
 	public int selectOneMemCnt(Map<String, Object> cntMap);
 	public void updateOneState(Map<String, Object> updateMap);
-
+	public String selectGidByOneId(String one_id);	// g_id 선택..
 }

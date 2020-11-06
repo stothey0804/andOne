@@ -153,6 +153,7 @@
 			 		<li class="list-group-item border-0 text-center">
 						<c:set var="mem_img" value="${oneMemList.resultUserImg}"/>
 					 		<c:if test="${oneMemList.om_leader eq '10'}"> <!-- 작성자 구분 -->
+					 		<c:set var="leaderId" value="${oneMemList.m_id}" /><!-- target저장 -->
 					 			<c:choose>
 					 			 	<c:when test="${mem_img eq null}">
 					 			 		<img src="${contextPath}/resources/image/user.png" class="m_img" onclick="openMemPopup('${oneMemList.m_id}')">
@@ -209,9 +210,11 @@
 		 			<p class="text-muted text-center my-3">같이 &amp;분의일을 한 사람에게 후기를 남겨주세요:)</p>
 		 		</c:when>
 		 		<c:when test="${omLeaderCheck.om_leader eq '10'}">
-				 	<button class="btn btn-secondary col-6" onclick="modifyAndOne('${andoneDetail.one_id}')">수정하기</button>	 	 
-				 	<button class="btn btn-danger col-6" onclick="deleteAndOne('${andoneDetail.one_id}')">삭제하기</button>
-				 	<br><button class="btn btn-secondary col-12" onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button><br>			 	
+		 		<div class="row mb-2">
+		 		<div class="col-6 pr-1"><button class="btn btn-block btn-info" onclick="modifyAndOne('${andoneDetail.one_id}')">수정하기</button></div>
+		 		<div class="col-6 pl-1"><button class="btn btn-block btn-danger" onclick="deleteAndOne('${andoneDetail.one_id}')">삭제하기</button></div>
+		 		</div>
+				 <button class="btn btn-secondary col-12" onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button><br>			 	
 	 			</c:when>
 	 			<c:when test="${omLeaderCheck.om_leader eq '20'}"> 
 				 	<button class="btn btn btn-danger col-12" onclick="cancelAndOne('${andoneDetail.one_id}','${andoneDetail.one_price}')">취소하기</button>
@@ -219,8 +222,10 @@
 				<c:otherwise>
 			 		<button class="btn btn-primary col-12" onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
 				</c:otherwise>
-				</c:choose>		
-			 	<button class="btn btn-light col-12 mt-1" type="button" onClick='openReportPopup()'>부적절한 &amp;분의일 신고하기</button>
+				</c:choose>
+				<c:if test="${omLeaderCheck.om_leader ne '10'}">
+				 	<button class="btn btn-light col-12 mt-1" type="button" onClick='openReportPopup()'>부적절한 &amp;분의일 신고하기</button>
+				</c:if>		
 				<c:if test="${omLeaderCheck.om_state eq '20' and andoneDetail.one_state eq '결제완료' }"> 
 				 	<button class="btn btn-outline-primary col-12" onclick="completeAndOne('${andoneDetail.one_id}')">엔분의일 완료</button> 
 				</c:if>
@@ -339,6 +344,33 @@
    	   //결제하기 클릭 - 신청
 	    function openPayPopup(){
    		    // 결제알림 
+   		    // db저장	
+   		    let g_id = '${g_id}';
+   		    let type = '';	// 분류코드
+   		    if(g_id=='010'){	// 같이먹기
+   		    	type = '10';
+   		    }else if(g_id=='011'){	//같이사기
+   		    	type = '20';
+   		    }else if(g_id=='012'){	//같이하기
+   		    	type = '30';
+   		    }
+   		 	let content = '['+ '${andoneDetail.one_id}' +'] 참가신청이 도착했습니다.';		// 알림메시지
+   		 	let target = '${leaderId}';
+   		 	let url = '${contextPath}/and/waitonemem.do?one_id='+'${andoneDetail.one_id}';
+			$.ajax({
+				type: 'post',
+				url: '${contextPath}/member/saveNotify.do',
+				dataType: 'text',
+				data: {
+					target: target,
+					content: content,
+					type: type,
+					url: url
+				},
+				success: function(){
+					socket.send("&분의일,"+target+","+content+","+url);	// 소켓에 전달
+				}
+			});
 	    	let popTitle = "payPopupOpener";
 	    	window.open("", popTitle, "resizable=yes,top=0,left=0,width=450,height=500");
 	    	let payData = document.payData;
