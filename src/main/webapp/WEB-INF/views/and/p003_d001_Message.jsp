@@ -224,17 +224,39 @@ div.border{
 				chatContent += "<div style='text-align:center;'>채팅방이 개설되었습니다.</div><br><br>"
 				for(let i=0; i<Object.keys(jsonInfo).length; i++){
 					if(jsonInfo[i].m_id == m_id){
-						chatContent += "<div style='text-align:right;'>";
+						chatContent += '<div class="media w-50 ml-auto mb-3" style="text-align:right;">';
+						chatContent += '<div class="media-body">';
+						chatContent += '<div class="bg-primary rounded py-2 px-3 mb-2">';
+						chatContent += '<p class="text-white mb-0" style="font-size : 13px;">';
+						chatContent += jsonInfo[i].msg_content;
+						chatContent += '</p>';
+						chatContent += '</div>';
+						chatContent += '<p class="small text-muted">';
+						chatContent += jsonInfo[i].msg_date;
+						chatContent += '</p>';
+						chatContent += '</div>';
+						chatContent += '</div>';
 					}else{
-						chatContent += "<div>";
+						chatContent += '<div class="media w-50 mb-3">';
+						chatContent += '<div style="width:50px;">';
+						chatContent += '<a href="javascript:void(0);" onclick="openMemberPopup2(\''+jsonInfo[i].m_id+'\')">'
+						chatContent += '<img class="mi_box clickArea" src="'+imageMap.get(jsonInfo[i].m_id)+'">'
+						chatContent += '</a>';
+						chatContent += '</div>';
+						chatContent += '<div class="media-body ml-3 py-1" style="font-size: 13px;">';
+						chatContent += jsonInfo[i].m_nickname;
+						chatContent += '<div class="bg-light rounded py-2 px-3 mb-2">';
+						chatContent += '<p class="text-small mb-0 text-black">';
+						chatContent += jsonInfo[i].msg_content;
+						chatContent += '</p>';
+						chatContent += '</div>';
+						chatContent += '<p class="medium text-muted" style="text-align:right;">';
+						chatContent += jsonInfo[i].msg_date;
+						chatContent += '</p>';
+						chatContent += '</div>';
+						chatContent += '</div>';
 					}
-					chatContent += '<a href="javascript:void(0);" onclick="openMemberPopup2(\''+jsonInfo[i].m_id+'\')">'
-					chatContent += '<img class="mi_box clickArea" src="'+imageMap.get(jsonInfo[i].m_id)+'">'
-					chatContent += '</a>';
-					chatContent += '['+jsonInfo[i].m_nickname+']';
-					chatContent += '<br>';
-					chatContent += jsonInfo[i].msg_content;
-					chatContent += "</div>";
+					
 				}
 				$('#messageArea').html(chatContent);
 				autoScroll();
@@ -354,18 +376,39 @@ div.border{
 			var chatContent = '';
 			if(jsonInfo.m_id == m_id){
 				console.log('내 채팅');
-				chatContent += "<div style='text-align:right;'>";
+				chatContent += '<div class="media w-50 ml-auto mb-3" style="text-align:right;">';
+				chatContent += '<div class="media-body">';
+				chatContent += '<div class="bg-primary rounded py-2 px-3 mb-2">';
+				chatContent += '<p class="text-white mb-0" style="font-size : 13px;">';
+				chatContent += jsonInfo.msg_content;
+				chatContent += '</p>';
+				chatContent += '</div>';
+				chatContent += '<p class="small text-muted">';
+				chatContent += jsonInfo.msg_date;
+				chatContent += '</p>';
+				chatContent += '</div>';
+				chatContent += '</div>';
 			}else{
 				console.log('남의 채팅');
-				chatContent += "<div>";
+				chatContent += '<div class="media w-50 mb-3">';
+				chatContent += '<div style="width:50px;">';
+				chatContent += '<a href="javascript:void(0);" onclick="openMemberPopup2(\''+jsonInfo.m_id+'\')">'
+				chatContent += '<img class="mi_box clickArea" src="'+imageMap.get(jsonInfo.m_id)+'">'
+				chatContent += '</a>';
+				chatContent += '</div>';
+				chatContent += '<div class="media-body ml-3 py-1" style="font-size: 13px;">';
+				chatContent += jsonInfo.m_nickname;
+				chatContent += '<div class="bg-light rounded py-2 px-3 mb-2">';
+				chatContent += '<p class="text-small mb-0 text-black">';
+				chatContent += jsonInfo.msg_content;
+				chatContent += '</p>';
+				chatContent += '</div>';
+				chatContent += '<p class="medium text-muted" style="text-align:right;">';
+				chatContent += jsonInfo.msg_date;
+				chatContent += '</p>';
+				chatContent += '</div>';
+				chatContent += '</div>';
 			}
-			chatContent += '<a href="javascript:void(0);" onclick="openMemberPopup2(\''+jsonInfo.m_id+'\')">'
-			chatContent += '<img class="mi_box" src="'+imageMap.get(jsonInfo.m_id)+'">'
-			chatContent += '</a>'
-			chatContent += '['+jsonInfo.m_nickname+']';
-			chatContent += '<br>';
-			chatContent += jsonInfo.msg_content;
-			chatContent += "</div>";
 			$('#messageArea').append(chatContent);
 			autoScroll();
 		}else{
