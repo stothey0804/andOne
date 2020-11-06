@@ -198,9 +198,7 @@
 		              </div>
 		            </div>
 		          </div>
-<!-- 					<input class="form-control" type ="text" name="totalSearch" placeholder="카테고리/지역/제목"> -->
 					<input type ="hidden" name="g_id" value="${g_id}">
-<!-- 					<input type="submit" class="btn btn-outline-dark" value="검색"><br><br> -->
 				</div>
 			</form>
 
@@ -212,19 +210,21 @@
 	 			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
 		</svg>
 		<div class="aa">
-			<div style="width:800px; margin: 0 auto">
 			<c:choose>
 				<c:when test="${g_id == '010'}">
+					<div style="width:700px; margin: 0 auto">
 					<c:forEach var ="ctg" items="${ctg}" > 
 					<button type="button" class="btn btn-outline-primary mb-3" onclick="location.href='${contextPath}/andeat/searchAndOne.do?one_category=${ctg.gc_id}&g_id=${g_id}'">${ctg.gc_name}</button>
 					</c:forEach>
 				</c:when>
 				<c:when test="${g_id == '011'}">
+					<div style="width:700px; margin: 0 auto">
 					<c:forEach var ="ctg" items="${ctg}" > 
 					<button type="button" class="btn btn-outline-primary mb-3" onclick="location.href='${contextPath}/andbuy/searchAndOne.do?one_category=${ctg.gc_id}&g_id=${g_id}'">${ctg.gc_name}</button>
 					</c:forEach>
 				</c:when>
 				<c:when test="${g_id == '012'}">
+					<div style="width:800px; margin: 0 auto">
 					<c:forEach var ="ctg" items="${ctg}" > 
 					<button type="button" class="btn btn-outline-primary mb-3" onclick="location.href='${contextPath}/anddo/searchAndOne.do?one_category=${ctg.gc_id}&g_id=${g_id}'">${ctg.gc_name}</button>
 					</c:forEach>

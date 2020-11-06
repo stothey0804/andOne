@@ -91,7 +91,7 @@
 								<tr class="arcticleSubject text-center">
 									<td>${list.om_num}</td>
 									<td>${list.g_name}</td> <!-- 같이먹기/하기/사기 -->
-									<td onclick="location.href='${contextPath}/and/detailAndOne.do?one_id=${list.one_id}&g_id=${list.one_type}'">${list.one_title}</td> <!-- 제목 -->
+									<td><button type="button" class="btn btn-link" onclick="location.href='${contextPath}/and/detailAndOne.do?one_id=${list.one_id}&g_id=${list.one_type}'">${list.one_title}</button></td>
 									<td>${list.one_state}</td> <!-- 상태 -->
 									<td>${list.one_price}</td>
 									<td>${list.om_date}</td>
@@ -106,7 +106,7 @@
 								<tr class="arcticleSubject text-center">
 									<td>${list.om_num}</td>
 									<td>${list.g_name}</td> <!-- 같이먹기/하기/사기 -->
-									<td>${list.one_title}</td> <!-- 제목 -->
+									<td><button type="button" class="btn btn-link" onclick="location.href='${contextPath}/and/detailAndOne.do?one_id=${list.one_id}&g_id=${list.one_type}'">${list.one_title}</button></td><!-- 제목 -->
 									<td>${list.one_state}</td> <!-- 상태 -->
 									<td>${list.one_price}</td>
 									<td>${list.om_date}</td>

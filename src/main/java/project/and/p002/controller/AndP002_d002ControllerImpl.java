@@ -84,9 +84,9 @@ public class AndP002_d002ControllerImpl implements AndP002_d002Controller {
 	@ResponseBody
 	@RequestMapping(value="denyOneMember.do")
 	public String denyOneMember(@RequestParam Map<String, Object> denyMap) {
-		System.out.println("m_id"+denyMap.get("m_id"));
-		System.out.println("one"+denyMap.get("one_id"));
-		p002_d002Service.denyOneMember(denyMap);//one_member 상태변경(10->30)
+		System.out.println("거절~~~~~~~~~~~~~~~"+denyMap.get("m_id"));
+		System.out.println("거절!!!!!!!!!!!!!!one"+denyMap.get("one_id"));
+		p002_d002Service.denyOneMember(denyMap);//one_member 상태변경(10->40)
 		return "fail";
 		
 	}

@@ -204,7 +204,7 @@
 			<div>
 				<c:choose>
 		 		<c:when test="${andoneDetail.one_state eq '취소'}">
-		 			<p class="text-muted text-center my-3">취소되어 신청이 불가능한 &분의일 입니다 :)</p>
+		 			<p class="text-muted text-center my-3">취소되어 신청이 불가능한 &amp;분의일 입니다 :)</p>
 		 		</c:when>
 		 		<c:when test="${andoneDetail.one_state eq '진행완료'}">
 		 			<p class="text-muted text-center my-3">같이 &amp;분의일을 한 사람에게 후기를 남겨주세요:)</p>
@@ -216,7 +216,7 @@
 		 		</div>
 				 <button class="btn btn-secondary col-12" onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button><br>			 	
 	 			</c:when>
-	 			<c:when test="${omLeaderCheck.om_leader eq '20'}"> 
+	 			<c:when test="${omLeaderCheck.om_leader eq '20' and omLeaderCheck.om_state ne '40'}"> 
 				 	<button class="btn btn btn-danger col-12" onclick="cancelAndOne('${andoneDetail.one_id}','${andoneDetail.one_price}')">취소하기</button>
 				</c:when>
 				<c:otherwise>

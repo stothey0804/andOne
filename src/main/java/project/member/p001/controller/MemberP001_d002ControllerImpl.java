@@ -43,7 +43,7 @@ public class MemberP001_d002ControllerImpl implements MemberP001_d002Controller{
 		// 세션 멤버정보 존재시 메인으로 보내기
 		if(session.getAttribute("member")!=null) {
 			// 로그인중이다.
-			return "main";
+			return "redirect:/";
 		}
 		// 입력값 존재시
 		if(email!=null && inputPwd!=null) {
@@ -64,7 +64,7 @@ public class MemberP001_d002ControllerImpl implements MemberP001_d002Controller{
 				}else {
 					System.out.println("=============>>>>" + request.getHeader("Referer"));
 					if("http://localhost:8090/andOne/member/login.do".equals(request.getHeader("Referer"))) {
-						returnView = "main";
+						returnView = "redirect:/";
 					}else {
 						returnView = "redirect:"+ request.getHeader("Referer"); // 최근요청화면으로 이동
 					}
@@ -86,7 +86,7 @@ public class MemberP001_d002ControllerImpl implements MemberP001_d002Controller{
 	public String logout(HttpServletRequest request) throws Exception {
 		HttpSession session = request.getSession(false);
 		session.invalidate();
-		return "main";
+		return "redirect:/";
 	}
 
 	
