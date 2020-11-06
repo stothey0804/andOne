@@ -3,6 +3,7 @@ package project.member.p001.controller;
 import java.io.PrintWriter;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -83,9 +84,10 @@ public class MemberP001_d002ControllerImpl implements MemberP001_d002Controller{
 	
 	@Override
 	@RequestMapping(value="/logout.do")
-	public String logout(HttpServletRequest request) throws Exception {
+	public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession(false);
 		session.invalidate();
+
 		return "redirect:/";
 	}
 
