@@ -193,8 +193,8 @@
 	<script src="${contextPath}/resources/js/kakaoMapMain.js"></script>
 	
 	<!-- &분의일 링크 -->
-	<div class="container my-5">
-		<div class="row">
+	<div class="container mt-5 my-4">
+		<div class="row col-10 mx-auto">
 			<div class="col-lg-4">
 				<p class="text-center">
 					<a href="${contextPath}/andeat?g_id=010">
@@ -221,18 +221,40 @@
       		</div>
 		</div>
 	</div>
-	<!-- 추천검색어 -->
-	<div class="container my-5">
-		<p class="h5"><spring:message code="main.recommendTag" />
-		<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-		</svg>
-			<a href="#" class="btn btn-outline-primary">#치킨</a>
-			<a href="#" class="btn btn-outline-primary">#영화</a>
-			<a href="#" class="btn btn-outline-primary">#과일</a>
-			<a href="#" class="btn btn-outline-primary">#나눔</a>
-		</p>
+	
+	<!-- /// 검색창 /// -->
+	<div style="width:600px; margin: 0 auto">
+			<!-- 경로 및 Form 설정 -->
+			<form name="searchFrm" method="post" action="">
+				<div class="form-group mx-3 searchInput">
+				  <div class="p-1 rounded rounded-pill border border-primary" style="border-width:4px !important">
+		            <div class="input-group">
+		              <input type="search" placeholder="검색" aria-describedby="button-addon1" name="" class="form-control border-0 m-1 bg-light">
+		              <div class="input-group-append">
+		                <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+		              </div>
+		            </div>
+		          </div>
+		         </div>
+<!-- 			<input type="hidden" name="searchCondition" value="ALLSEARCH" /> -->
+			</form>
+			<div class="text-center">
+				<span class="mr-1">추천검색어 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			 			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path>
+				</svg></span>
+				<div class="hashtag d-inline-block">
+					<!-- 인기 해시태그 넣고 지워주세요  -->
+					<a href="#" class="btn btn-outline-primary">#치킨</a>
+					<a href="#" class="btn btn-outline-primary">#영화</a>
+					<a href="#" class="btn btn-outline-primary">#과일</a>
+					<a href="#" class="btn btn-outline-primary">#나눔</a>
+					<!-- 인기 해시태그 넣고 지워주세요  END -->
+				</div>
+		</div>
 	</div>
+	
+	<!-- 추천검색어 -->
+
 	
 	<!-- 최근등록된  같이먹기-->
 	<div class="container my-5">

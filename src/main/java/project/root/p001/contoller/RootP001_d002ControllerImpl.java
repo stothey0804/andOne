@@ -17,6 +17,7 @@ import common.Common;
 @Controller
 public class RootP001_d002ControllerImpl implements RootP001_d002Controller {
 
+
 	// 메인영역
 //	@RequestMapping(value="/")
 	public ModelAndView searchInit(HttpServletRequest request, HttpServletResponse response) throws Exception {
