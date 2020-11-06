@@ -101,7 +101,7 @@ div.border{
 			var id = this.id;
 			alert(id + ' 녀석을 신고해버리겠어');
 		});
-		$('td.userProfile').click(function(){
+		$('td.clickArea').click(function(){
 			openMemberPopup2(this.id);
 		})
 		
@@ -223,14 +223,14 @@ div.border{
 					userList += "<table class='table table-hover'>";
 					for(let i=0; i<Object.keys(jsonInfo).length; i++){
 						userList += "<tr>";
-						userList += "<td class='userProfile' id='"+jsonInfo[i].m_id+"'>";
+						userList += "<td class='clickArea' id='"+jsonInfo[i].m_id+"'>";
 						if(jsonInfo[i].m_encodedImg == null || jsonInfo[i].m_encodedImg == ''){
 							userList += "<img src='${contextPath }/resources/image/user.png' width='50px' alt='....' class='img-circle'>";
 						}else{
 							userList += "<img src='data:image/jpg;base64,"+jsonInfo[i].m_encodedImg+"' width='50px' alt='....' class='img-circle'>";
 						}
 						userList += "</td>";
-						userList += "<td>";
+						userList += "<td class='clickArea' id='"+jsonInfo[i].m_id+"'>";
 						userList += "<h5>";
 						userList += jsonInfo[i].m_nickname;
 						userList += "</h5>";

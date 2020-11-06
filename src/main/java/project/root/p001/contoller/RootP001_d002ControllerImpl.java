@@ -13,7 +13,15 @@ import org.springframework.web.servlet.ModelAndView;
 import common.Common;
 
 @Controller
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'master' of https://github.com/stothey0804/andOne
 public class RootP001_d002ControllerImpl implements RootP001_d002Controller {
+<<<<<<< HEAD
+=======
+	
+>>>>>>> branch 'master' of https://github.com/stothey0804/andOne
 
 	// 메인영역
 //	@RequestMapping(value="/")
