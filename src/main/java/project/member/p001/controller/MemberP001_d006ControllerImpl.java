@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import common.Pagination;
 import project.member.p001.service.MemberP001_d006Service;
@@ -54,8 +53,8 @@ public class MemberP001_d006ControllerImpl implements MemberP001_d006Controller{
 		if(param.get("searchCondition") == null) {
 			param.put("searchCondition","EMAIL");
 		}
-		if(param.get("searchKeyword") == null) {
-			param.put("searchKeyword","");
+		if(param.get("searchKeyWord") == null) {
+			param.put("searchKeyWord","");
 		}
 		
 		int listCnt = memberP001_d006Service.selectMemberCnt(param);
