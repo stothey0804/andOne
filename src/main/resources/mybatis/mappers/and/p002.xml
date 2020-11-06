@@ -163,6 +163,10 @@
 		]]>
 	</update>
 	
+	<select id="selectGidByOneId" parameterType="String" resultType="String">
+		SELECT one_type FROM and_one WHERE one_id = #{one_id}
+	</select>
+	
 	<!-- 취소 시간계산 -->
 	<select id="selectCancelTime" resultType="int" parameterType="String">
 	<![CDATA[

@@ -47,8 +47,23 @@ input::placeholder {
 }
 .icon-a {
        color: #e3e3e3;
-} 
+}
 
+.centered {
+    position: absolute;
+    top:25%;
+    left: 55%;
+    transform: translate(-25%, 0);
+    border:1px solid black;
+    width:40%;
+    height:auto;
+    z-index:10;
+    background-color: #ffffff;
+}
+
+div.border{
+	border:1px solid black;
+}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -59,36 +74,266 @@ input::placeholder {
 <!-- sockJS -->
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script>
-// 	$(document).ready(function() {
-// 		$('#sendBtn').click(function() {
-// 			sendMessage();
-// 		});
-// 	});
-// 	var wsocket;
-// 	function sendMessage() {
-// 		wsocket = new WebSocet("ws://localhost:8090/andOne/echo");
-// 		wsocket.onmessage = onMessage;
-// 		wsocket.onclose = onClose;
-// 		wsocket.onopen = onOpen;
-// 	}
-
-// 	function onMessage(evt) {
-// 		var data = evt.data;
-// 		alert('서버에서 데이터 받음 : ' + data);
-// 		wsocket.close();
-// 	}
-
-// 	function onClose(evt) {
-// 		alert('연결 끊김');
-// 	}
-
-// 	function onOpen() {
-// 		wsocket.send($('#message').val());
-// 	}
 	
-// 	$.ajax({
-// 		type : 'post',
-// 	})
+	var m_id = '${m_id }';
+	var one_type = '';
+	var one_id = '';
+	
+	$(document).ready(function(){
+		$('.popUp').hide();
+		getChatRoomList(m_id);
+		$('.close').click(function(){
+			$('.popUp').hide();
+		})
+	})
+	
+	function messageBoxClickEvent(){
+		$('div.list-group').click(function(){
+			one_id = this.id;
+			one_type = $('input#'+this.id).val();
+			getChatContent(one_id);
+		})
+	}
+	
+	//상세 신고기능 아직 미구현
+	function userListClickEvent(){
+		$('button.report').click(function(){
+			var id = this.id;
+			alert(id + ' 녀석을 신고해버리겠어');
+		});
+		$('td.userProfile').click(function(){
+			openMemberPopup2(this.id);
+		})
+		
+	}
+	
+	function openMemberPopup2(param){
+		let m_id = param+'';
+		window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
+	}
+	
+	function getChatRoomList(m_id){
+		$.ajax({
+			type: "post",
+			async: true,
+			url: "http://localhost:8090/andOne/message/getChatRoomList.do",
+			dataType: "text",
+			data: 'm_id='+m_id,
+			success: function (data, textStatus) {
+				var jsonStr = data;
+				var jsonInfo = JSON.parse(jsonStr);
+				var chatRoom = "";
+				var unoccupied = "";
+				for(let i=0; i<Object.keys(jsonInfo).length; i++){
+					if(jsonInfo[i].msg_date != 0){
+						chatRoom += '<input type="hidden" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
+						chatRoom += '<div class="list-group rounded-0" id="'+jsonInfo[i].one_id+'">';
+						chatRoom += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
+						chatRoom += 		'<div class="media">';
+						chatRoom += 			'<i class="fas fa-users fa-2x fa-border"></i>';
+						chatRoom += 			'<div class="media-body ml-4">';
+						chatRoom += 				'<div class="d-flex align-items-center justify-content-between mb-1">';
+						chatRoom += 					'<h6 class="mb-0">'+jsonInfo[i].one_title+'</h6>';
+						chatRoom += 					'<small class="small font-weight-bold">'+jsonInfo[i].msg_date+'</small>';
+						chatRoom += 				'</div>';
+						chatRoom += 				'<p class="font-italic mb-0 text-small">'+jsonInfo[i].latestMessage+'</p>';
+						chatRoom += 			'</div>';
+						chatRoom += 		'</div>';
+						chatRoom += 	'</a>';
+						chatRoom += '</div>';
+					}else{
+						unoccupied += '<input type="hidden" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
+						unoccupied += '<div class="list-group rounded-0" id="'+jsonInfo[i].one_id+'">';
+						unoccupied += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
+						unoccupied += 		'<div class="media">';
+						unoccupied += 			'<i class="fas fa-users fa-2x fa-border"></i>';
+						unoccupied += 			'<div class="media-body ml-4">';
+						unoccupied += 				'<div class="d-flex align-items-center justify-content-between mb-1">';
+						unoccupied += 					'<h6 class="mb-0">'+jsonInfo[i].one_title+'</h6>';
+						unoccupied += 					'<small class="small font-weight-bold"></small>';
+						unoccupied += 				'</div>';
+						unoccupied += 				'<p class="font-italic mb-0 text-small">'+jsonInfo[i].latestMessage+'</p>';
+						unoccupied += 			'</div>';
+						unoccupied += 		'</div>';
+						unoccupied += 	'</a>';
+						unoccupied += '</div>';
+					}
+					
+				}
+				$('#messageBox').html(chatRoom);
+				$('#messageBox').append(unoccupied);
+			},
+			error: function (data, textStatus) {
+				alert("에러가 발생했습니다.");
+			},
+			complete: function (data, textStatus) {
+				messageBoxClickEvent();
+			}
+		})
+	}
+	
+	function getChatContent(one_id){
+		$.ajax({
+			type: "post",
+			async: true,
+			url: "http://localhost:8090/andOne/message/getChatContentList.do",
+			dataType: "text",
+			data: 'one_id='+one_id,
+			success: function (data, textStatus) {
+				var jsonStr = data;
+				var jsonInfo = JSON.parse(jsonStr);
+				var chatContent = "";
+				for(let i=0; i<Object.keys(jsonInfo).length; i++){
+					if(jsonInfo[i].m_id == m_id){
+						chatContent += "<div style='text-align:right;'>";
+					}else{
+						chatContent += "<div>";
+					}
+					chatContent += '['+jsonInfo[i].m_nickname+']';
+					chatContent += '<br>';
+					chatContent += jsonInfo[i].msg_content;
+					chatContent += "</div>";
+				}
+				$('#messageArea').html(chatContent);
+				autoScroll();
+			},
+			error: function (data, textStatus) {
+				alert("에러가 발생했습니다.");
+			},
+			complete: function (data, textStatus) {
+				
+			}
+		})
+	}
+	
+	function getChatUserList(){
+		if(one_id == null || one_id == '' || one_type == null || one_type == ''){
+			alert('채팅목록을 먼저 선택해주세요');
+		}else{
+			$.ajax({
+				type: "post",
+				async: true,
+				url: "http://localhost:8090/andOne/message/getChatUserList.do",
+				dataType: "text",
+				data: 'one_id='+one_id,
+				success: function (data, textStatus) {
+					var jsonStr = data;
+					var jsonInfo = JSON.parse(jsonStr);
+					var userList = "";
+					userList += "<table class='table table-hover'>";
+					for(let i=0; i<Object.keys(jsonInfo).length; i++){
+						userList += "<tr>";
+						userList += "<td class='userProfile' id='"+jsonInfo[i].m_id+"'>";
+						if(jsonInfo[i].m_encodedImg == null || jsonInfo[i].m_encodedImg == ''){
+							userList += "<img src='${contextPath }/resources/image/user.png' width='50px' alt='....' class='img-circle'>";
+						}else{
+							userList += "<img src='data:image/jpg;base64,"+jsonInfo[i].m_encodedImg+"' width='50px' alt='....' class='img-circle'>";
+						}
+						userList += "</td>";
+						userList += "<td>";
+						userList += "<h5>";
+						userList += jsonInfo[i].m_nickname;
+						userList += "</h5>";
+						userList += "</td>";
+						userList += "<td>";
+						userList += "<button type='button' id='"+jsonInfo[i].m_id+"' class='btn btn-danger btn-sm report'>신고";
+						userList += "</button>";
+						userList += "</td>";
+						userList += "</tr>";
+					}
+					userList += "</table>";
+					$('.popContent').html(userList); //toDo 레이어 만들고 거기에 넣기
+					userListClickEvent();
+					$('.popUp').show();
+				},
+				error: function (data, textStatus) {
+					alert("에러가 발생했습니다.");
+				},
+				complete: function (data, textStatus) {
+					
+				}
+			})
+		}
+	}
+	
+	function sendMessage(){
+		var messageText = $('input#message').val();
+		if(messageText == null || messageText == ''){
+			alert('내용을 입력해주세요');
+		}else{
+			if(one_id == null || one_id == '' || one_type == null || one_type == ''){
+				alert('채팅목록을 먼저 선택해주세요');
+			}else{
+				$.ajax({
+					type: "post",
+					async: true,
+					url: "http://localhost:8090/andOne/message/insertChatContent.do",
+					dataType: "text",
+					data: 'one_id='+one_id+'&one_type='+one_type+'&m_id='+m_id+'&msg_content='+messageText,
+					success: function (data, textStatus) {
+						m_sock.send(data);
+					},
+					error: function (data, textStatus) {
+						alert("에러가 발생했습니다.");
+					},
+					complete: function (data, textStatus) {
+						$('input#message').val('');
+					}
+				})
+			}
+		}
+	}
+	//요소 추가시 스크롤 아래로 고정
+	function autoScroll(){
+		var objDiv = document.getElementById("messageArea"); 
+		objDiv.scrollTop = objDiv.scrollHeight;
+	}
+	//엔터키 입력 체크 함수
+	function enterkey() {
+        if (window.event.keyCode == 13) {
+        	sendMessage();
+        }
+	}
+
+
+	// 웹소켓 파트
+	var m_sock = new SockJS("${contextPath }/chat-ws/");
+		m_sock.onmessage = m_onMessage;
+		m_sock.onclose = m_onClose;
+	
+	//메세지 받았을 때
+	function m_onMessage(msg){
+		var data = msg.data;
+		console.log(data);
+		var jsonStr = data;
+		var jsonInfo = JSON.parse(jsonStr);
+		if(jsonInfo.one_id == one_id){
+			console.log('보고 있는 채팅방');
+			var chatContent = '';
+			if(jsonInfo.m_id == m_id){
+				console.log('내 채팅');
+				chatContent += "<div style='text-align:right;'>";
+			}else{
+				console.log('남의 채팅');
+				chatContent += "<div>";
+			}
+			chatContent += '['+jsonInfo.m_nickname+']';
+			chatContent += '<br>';
+			chatContent += jsonInfo.msg_content;
+			chatContent += "</div>";
+			$('#messageArea').append(chatContent);
+			autoScroll();
+		}else{
+			console.log('안보고 있는 채팅방');
+		}
+		getChatRoomList(m_id);
+		
+	}
+	
+	//연결 종료
+	function m_onClose(){
+		  
+	}
 
 </script>
 </head>
@@ -103,40 +348,10 @@ input::placeholder {
         <div class="bg-gray px-4 py-2 bg-light">
           <p class="h5 mb-0 py-1" align="center">메시지</p>
         </div>
-
+		
+		<!-- 채팅방 목록 -->
         <div class="messages-box" id="messageBox">
-        	<c:forEach var="list" items="${chatRoomList }">
-        		<div class="list-group rounded-0">
-		            <a class="list-group-item list-group-item-action list-group-item-light rounded-0">
-		              <div class="media">
-		              <i class="fas fa-users fa-2x fa-border"></i>
-		                <div class="media-body ml-4">
-		                  <div class="d-flex align-items-center justify-content-between mb-1">
-		                    <h6 class="mb-0">${list.one_title }</h6>
-		                    <small class="small font-weight-bold">${list.msg_date }</small>
-		                  </div>
-		                  <p class="font-italic mb-0 text-small">${list.latestMessage } </p>
-		                </div>
-		              </div>
-		            </a>
-		          </div>
-        	</c:forEach>
-        	
-<!--           <div class="list-group rounded-0"> -->
-<!--             <a class="list-group-item list-group-item-action active text-white rounded-0"> -->
-<!--               <div class="media"> -->
-<!--               <i class="fas fa-users fa-2x fa-border"></i> -->
-<!--                 <div class="media-body ml-4"> -->
-<!--                   <div class="d-flex align-items-center justify-content-between mb-1"> -->
-<!--                     <h6 class="mb-0"> 제목	</h6> -->
-<!--                     <small class="small font-weight-bold"> 시간</small> -->
-<!--                   </div> -->
-<!--                   <p class="font-italic mb-0 text-small"> 내용 </p> -->
-<!--                 </div> -->
-<!--               </div> -->
-<!--             </a> -->
-<!--           </div> -->
-          
+
         </div>
       </div>
     </div>	
@@ -160,30 +375,31 @@ input::placeholder {
      <div class="col-7 px-0"style="border:1px solid #c4c4c4;">
      <div class="bg-gray px-4 py-2 bg-light">
          <p class="h5 mb-0 py-1" align="left">
-          	글제목
+          	참여자 정보
 <!--            	<i class="fas fa-info-circle"></i>  -->
- <svg href="${contextPath}/member/notify.do" aria-label="대화 상세 정보 보기" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24" font-size="1rem">
+ <svg onclick="getChatUserList()" aria-label="대화 상세 정보 보기" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24" font-size="1rem">
 <path d="M24 48C10.8 48 0 37.2 0 24S10.8 0 24 0s24 10.8 24 24-10.8 24-24 24zm0-45C12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21S35.6 3 24 3z"></path><circle clip-rule="evenodd" cx="24" cy="14.8" fill-rule="evenodd" r="2.6"></circle>
 <path d="M27.1 35.7h-6.2c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5h6.2c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5z"></path><path d="M24 35.7c-.8 0-1.5-.7-1.5-1.5V23.5h-1.6c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5H24c.8 0 1.5.7 1.5 1.5v12.2c0 .8-.7 1.5-1.5 1.5z"></path></svg>
            	</p>
         </div>
 <!--       여기서부터 채팅방 시작-->
       <div class="px-4 py-5 chat-box bg-white"  id="messageArea">
+      
       </div>
       
     <!-- 채팅방 끝 ->
       <!--타이핑 시작 -->
-      <form action="#" class="bg-light">
+      <div id="messageForm" class="bg-light">
         <div class="input-group">
-          <input type="text" id="message" placeholder="내용을 입력하세요.." aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+          <input onkeyup="enterkey()" type="text" id="message" placeholder="내용을 입력하세요.." aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
           <div class="input-group-append">
-            <button type="submit" id="sendBtn" class="btn btn-link"> 
+            <button type="button" id="sendBtn" class="btn btn-link" onclick="sendMessage()"> 
 <!--              <i class="far fa-paper-plane"></i> -->
 					보내기
             </button>
           </div>
         </div>
-      </form>
+      </div>
       </div> 
       <!-- 타이핑 끝 -->
       <!-- 채팅방 눌렀을 때 끝-->
@@ -212,8 +428,23 @@ input::placeholder {
       </div>
       </div> --%>
       <!-- 채팅방 인포 누르기 끝 -->
-      
+  <div class="popUp centered">
+	   <div class="bg-gray px-4 py-2 bg-light">
+	  	<div class="close">닫기</div>
+	  	<p class="h5 mb-0 py-1" align="center">
+	  	 유저정보
+	  	</p>
+		</div>
+	  	<div class="px-4 py-5 bg-white popContent">
+	  	
+	  	</div>
+<!-- 	  	<div class="close">닫기</div> -->
+  </div>  
+  
+  
+  
+    
   </div>
-</div>
+  </div>
     </body>
     </html>

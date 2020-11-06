@@ -113,19 +113,19 @@ $(document).ready(function(){
 					<table class="table">
 					<thead>
 						<tr class="text-center">
-							<th>No.</th><th>닉네임</th><th>점수</th><th style="width:200px;">제목</th>
+							<th>No.</th><th width="50px">닉네임</th><th>점수</th><th style="width:200px;">제목</th>
 						</tr>
 					</thead>
 					<c:forEach var="list" items="${articleList}">
 					<tbody id="${list.mr_id}">
 						<tr class="arcticleSubject text-center">
 							<td>${list.r_num}</td>
-							<td>
+							<td class="text-truncate">
 							<a href="${contextPath}/member/searchMemberInfoPopup.do?m_id=${list.m_id}" onclick="window.open(this.href,'_blank','resizable=no,top=0,left=460,width=450,height=500');return false">
 								${list.m_nickname}
 							</a>
 							</td>
-							<td class="text-center">${list.mr_score}점</td>
+							<td class="text-center">${list.mr_score}</td>
 							<td class="text-left"><div class="text-over-cut">${list.mr_content}</div></td>
 						</tr>
 						<!-- 내용영역 -->

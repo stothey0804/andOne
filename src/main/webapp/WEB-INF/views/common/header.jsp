@@ -199,7 +199,7 @@
        <c:choose>
           <c:when test="${isLogOn == true && m_id!= null}">
       		<li class="nav-item h5">
-	       		<a class="nav-link" href="${contextPath}/and/Message.do"><spring:message code="menu.message" /></a>
+	       		<a class="nav-link" href="${contextPath}/message/messageInit.do"><spring:message code="menu.message" /></a>
 	      	</li>
       		<li class="nav-item h3">
 	       		<a class="nav-link py-0" href="${contextPath}/member/notify.do"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bell" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -227,10 +227,10 @@
 							<a href="${contextPath}/point/charge.do" class="btn btn-outline-primary btn-sm ml-auto"><spring:message code="menu.chargeBtn" /></a>
 						</div>
 					</div>
-					<ul class="list-group list-group-horizontal">
-						<li class="list-group-item col-6 text-center"><a href="${contextPath}/member/mypage.do"><spring:message code="menu.mypage" /></a></li>
-			  			<li class="list-group-item col-6 text-center"><a href="${contextPath}/member/logout.do"><spring:message code="menu.logoutBtn" /></a></li>
-					</ul>
+				<ul class="list-group list-group-horizontal">
+					<li class="list-group-item col-6 text-center"><a href="${contextPath}/member/mypage.do"><spring:message code="menu.mypage" /></a></li>
+		  			<li class="list-group-item col-6 text-center"><a href="${contextPath}/member/logout.do"><spring:message code="menu.logoutBtn" /></a></li>
+				</ul>
 			</div>
 			
           </c:when>

@@ -64,4 +64,9 @@ public class AndP002_d002DAOImpl implements AndP002_d002DAO {
 	public void updateOneState(Map<String, Object> updateMap) {
 		sqlSession.update("and.p002.updateOneState", updateMap);
 	}
+
+	@Override
+	public String selectGidByOneId(String one_id) {
+		return sqlSession.selectOne("and.p002.selectGidByOneId", one_id);
+	}
 }
