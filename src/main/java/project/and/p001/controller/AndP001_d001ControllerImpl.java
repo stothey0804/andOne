@@ -96,8 +96,8 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	//1.전체검색 O
 	//2.카테고리검색 O
 	//3.해쉬태그검색 
-	//4.거리순정렬
-	//5.마감순정렬
+	//4.거리순정렬O
+	//5.마감순정렬O
 	@Override
 	@RequestMapping(value="/and*/searchAndOne.do")
 	public ModelAndView searchAndOneList(@RequestParam Map<String, Object> searchMap , 
@@ -161,6 +161,11 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		System.out.println("참가자신청용 m_id :"+m_id);
 		
 		AndP001AndOneVO vo = p001_d001Service.andOneDetail(detailMap);//글 상세조회
+		String one_price = vo.getOne_price();
+		System.out.println("가격>>>>>>>>>>>>>"+one_price);
+		String commaToOnePrice = Common.toNumFormat(one_price);
+		System.out.println("ㅠㅠㅠㅠㅠㅠㅠㅠ"+commaToOnePrice);
+		vo.setOne_price(commaToOnePrice);
 		List<AndOneMemberVO> oneMemList = p001_d001Service.oneMemList(one_id); //작성자 참가자 사진 닉네임
 		Common.getEncodedAndUser(oneMemList);//작성자 사진 인코딩
 		
