@@ -180,7 +180,7 @@
 					 			${oneMemList.m_nickname} 
 							</c:if>
 							<c:set var="mem_img" value="${oneMemList.resultUserImg}"/>
-					 		<c:if test="${oneMemList.om_leader eq '20' and oneMemList.om_state eq '20'}"> <!-- 결제완료한 참가자 -->
+					 		<c:if test="${oneMemList.om_leader eq '20' and (oneMemList.om_state eq '20' or oneMemList.om_state eq '30') }"> <!-- 결제완료한 참가자 -->
 					 			<c:choose>
 					 			 	<c:when test="${mem_img eq null}">
 					 			 		<img src="${contextPath}/resources/image/user.png" class="m_img" onclick="openMemPopup('${oneMemList.m_id}')">
