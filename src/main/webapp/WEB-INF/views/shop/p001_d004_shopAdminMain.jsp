@@ -46,8 +46,9 @@ h5 {
 }
 
 h3 {
-	font-family: 'YanoljaYacheR' !important;
-	font-size: 200%;
+/* 	font-family: 'YanoljaYacheR' !important; */
+/* 	font-size: 200%; */
+	font-weight: bold;
 }
 
 
@@ -157,6 +158,7 @@ table.shopInfo{
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
 	$(document).ready(function(){
+		
 		$('#imgPop').hide();
 		$('div#close').click(function(){
 			$('#imgPop').hide();
@@ -243,14 +245,15 @@ table.shopInfo{
 <title>업체관리자페이지</title>
 </head>
 <body>
-	<div class="container my-5 center">
+	<div class="container my-5 mx-auto">
 		<c:choose>
 			<c:when test="${isNull eq true}">
 			등록된 가게 정보가 없습니다~~~ 등록하세요~~~~<br>
 			등록은 나중에 만들거지롱~~~
 			</c:when>
 			<c:when test="${isNull eq false}">
-			<h3>우리매장 정보</h3>
+			<h3 class="font-weight-bold"><i class="fas fa-store mr-1 text-secondary"></i> 우리매장 정보</h3>
+			<hr class="mb-3">
 				<div class="row">
 					<c:forEach var="i" begin="1" end="${(fn:length(resultVO.shopImage)) }">
 						<div style="margin: 15px">
@@ -279,7 +282,7 @@ table.shopInfo{
 				</td></tr><tr>
 				<td valign="top" height="300">${resultVO.s_content }</td>
 				</tr></table>
-				<h3><a href="${contextPath }/biz/shopReviewList.do">후기(${resultVO.reviewCount })</a></h3>
+				<h3 class="font-weight-bold"><a href="${contextPath }/biz/shopReviewList.do"><i class="far fa-comments mr-1 text-secondary"></i>후기(${resultVO.reviewCount })</a></h3>
 				<hr>
 				<c:forEach var="list" items="${resultVO.shopReviewList }">
 				<table id="${list.m_id }">
@@ -378,12 +381,24 @@ table.shopInfo{
 			</table>
 			<hr>
 		</c:forEach>
-				<h3>최근 6개월 통계</h3>
-				<div class="chartContainer"
-					style="position: relative; height: 60%; width: 60%">
-					<canvas id="myChart"></canvas>
-					<canvas id="myChart2"></canvas>
-				</div>
+				<h3 class="font-weight-bold mt-5"><i class="fas fa-chart-line mr-1 text-secondary"></i>최근 6개월 통계</h3>
+				<hr class="mb-3">
+					<div class="row mx-1">
+						<div class="col-6 card p-3" style="margin-left:-3px">
+							<h4>서비스별 점유율</h4>
+							<canvas id="myChart"></canvas>
+						</div>
+						<div class="col-6 card p-3" style="margin-left:3px">
+							<h4>같이먹기 카테고리 점유율</h4>
+							<canvas id="myChart2"></canvas>
+						</div>
+					</div>
+				
+<!-- 				<div class="chartContainer" -->
+<!-- 					style="position: relative; height: 60%; width: 60%"> -->
+<%-- 					<canvas id="myChart"></canvas> --%>
+<%-- 					<canvas id="myChart2"></canvas> --%>
+<!-- 				</div> -->
 				<script
 					src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
 					integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
