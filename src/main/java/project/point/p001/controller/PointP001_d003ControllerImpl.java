@@ -40,7 +40,7 @@ public class PointP001_d003ControllerImpl implements PointP001_d003Controller{
 		
 		//맵확인용
 		System.out.println("pay one_type:"+payMap.get("one_type")); 
-		System.out.println("pay one_id:"+payMap.get("one_id"));
+		String one_id = (String) payMap.get("one_id");
 		payMap.put("m_id", m_id);
 		pointP001_d003Service.addOneMember(payMap);//one_member 추가
 	
@@ -53,7 +53,7 @@ public class PointP001_d003ControllerImpl implements PointP001_d003Controller{
 		PointP001VO pointVO = new PointP001VO();
 		pointVO.setM_id(m_id);
 		pointVO.setP_changepoint(p_changepoint);
-		pointVO.setP_detail("포인트 사용");
+		pointVO.setP_detail("&분의일["+one_id+"] 포인트사용");
 		String nowPoint = pointP001_d001Service.selectNowPointById(m_id);
 		pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint); //포인트 null값 0으로 변경
 		
