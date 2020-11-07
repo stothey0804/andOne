@@ -10,5 +10,5 @@ public interface MemberP001_d002Controller {
 	// 로그인
 	public String login(Map<String, String> param, HttpServletRequest request, HttpServletResponse response, HttpSession session)	throws Exception;
 	// 로그아웃
-	public String logout(HttpServletRequest request) throws Exception;
+	String logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }
