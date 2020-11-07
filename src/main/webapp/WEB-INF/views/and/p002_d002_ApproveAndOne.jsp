@@ -34,8 +34,8 @@
    				console.log("확인:"+data);
    				if(data =="fail"){
    					alert("수락인원이 초과되어 수락이 불가능합니다");
-   				}else if(data == "success"){
-	   				$(".check"+idx).html("&분의일 신청 수락완료:)");
+   				}else if(data == "success"){//엔분의일 수락알람
+	   				$(".check"+idx).html("&분의일 신청 수락완료");
 	   				// ------ 알림전송
 	   			 	// db저장	
 	   	   		    let g_id = '${g_id}';

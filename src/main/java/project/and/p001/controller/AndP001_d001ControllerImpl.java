@@ -9,12 +9,14 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,7 +45,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	//&분의일 먹기 사기 하기 메인
 	@Override
 	@RequestMapping(value="/and*")
-	public ModelAndView andOneMain(@RequestParam Map<String, Object> mainMap, 
+	public ModelAndView andOneMain(@RequestParam Map<String, Object> mainMap,
 			@CookieValue(value="locate_lat", required = false) Cookie latCookie, 
 			@CookieValue(value="locate_lng", required = false) Cookie lngCookie, HttpServletRequest request) throws Exception {
 		
@@ -51,18 +53,13 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		String flag = (String) mainMap.get("flag");
 		System.out.println("************메인용g_id: "+g_id);
 		System.out.println("************메인용flag: "+flag);
-		//세션가져오기
-		String m_id ="";
-		String m_locate_Lat ="";
-		String m_locate_Lng ="";
 
-		m_locate_Lat = latCookie.getValue();
-		m_locate_Lng = lngCookie.getValue();
+		String m_locate_Lat = latCookie.getValue();
+		String m_locate_Lng = lngCookie.getValue();
 		System.out.println("123123: "+m_locate_Lat);
 		System.out.println("123123: "+m_locate_Lng);
 
 		Map<String,Object> param = new HashMap<String,Object>(); 
-		param.put("m_id", m_id);
 		param.put("m_locate_Lat", m_locate_Lat);
 		param.put("m_locate_Lng", m_locate_Lng);
 		param.put("g_id", g_id);
@@ -80,14 +77,52 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 			System.out.println(">>>>>>>>date");
 			recentAndOneList = p001_d001Service.recentAndOneList(param);//마감순
 		}
-	
+		//총andOne갯수 구하기
+		int andOneCnt = p001_d001Service.andOneCnt();
+		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("andOneMain");
 		mav.addObject("g_id",g_id);
 		mav.addObject("ctg",ctg);//카테고리
 		mav.addObject("recentAndOneList", recentAndOneList);//최근 엔분의일
+		mav.addObject("andOneCnt", andOneCnt);//갯수
+		mav.addObject("m_locate_Lat", m_locate_Lat);
+		mav.addObject("m_locate_Lng", m_locate_Lng);
+		if(flag ==null || flag.equals("")) {
+			System.out.println("null이야~~~~~~~~");
+			mav.addObject("flag", "empty");
+		}else {
+			mav.addObject("flag", flag);
+		}
 		
 		return mav;
+	}
+	//더보기
+	@Override
+	@RequestMapping(value = "/and*/searchMoreAndOne.do", produces = "application/text;charset=UTF-8", method=RequestMethod.POST)
+	@ResponseBody
+	public String searchMoreAndOne(@RequestParam Map<String,Object> searchMap) throws Exception {
+		System.out.println("더보기용 g_id"+searchMap.get("g_id")); 
+		System.out.println("더보기용 m_locate_Lat"+searchMap.get("m_locate_Lat")); 
+		System.out.println("더보기용 m_locate_Lng"+searchMap.get("m_locate_Lng")); 
+		System.out.println("더보기용 startIndex"+searchMap.get("startIndex")); 
+		System.out.println("더보기용 endIndex"+searchMap.get("endIndex")); 
+		String flag = (String) searchMap.get("flag"); 
+		
+		List<AndP001AndOneVO> searchMoreAndOneList = null;
+		if(flag.equals("empty")) {
+			System.out.println(">>>>>>>>empty");
+			searchMoreAndOneList = p001_d001Service.searchMoreAndOne(searchMap); 		
+		}else if(flag.equals("distance")) {
+			System.out.println(">>>>>>>>distance");
+			searchMoreAndOneList = p001_d001Service.searchMoreAndOne(searchMap);
+		}else if(flag.equals("date")) {
+			System.out.println(">>>>>>>>date");
+			searchMoreAndOneList = p001_d001Service.searchMoreAndOne(searchMap);
+		}
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonStr = mapper.writeValueAsString(searchMoreAndOneList);
+		return jsonStr;
 	}
 	
 	//&분의 일 같이먹기 List
