@@ -60,6 +60,8 @@
 	   					}
 	   				});
 	   	   		 	// ------ 알림전송 END
+   				}else if(data == "complete"){//모든참가자가 참여확정이라 one_state가 결제완료상태로 변경
+   					$(".check"+idx).html("&분의일 신청 수락완료:)");
    				}
    			}
 		})
