@@ -48,14 +48,6 @@ img.noResult{
 	display:block; margin:0px auto;
 }
 
-i.fa-star-half-alt{
-	color:rgb(255,234,0);
-}
-
-i.fa-star{
-	color:rgb(255,234,0);
-}
-
 a {
 	text-decoration: none;
 }
@@ -96,6 +88,15 @@ a:hover {
 	border-radius: 15px; 
 	position: relative; 
 	left: 0px;
+}
+
+.searchInput{
+	width: 500px;
+}
+.thumb{
+	height: 250px;
+	max-width: 100%;
+	object-fit: cover;
 }
 </style>
 
@@ -195,11 +196,11 @@ a:hover {
 			var resultStar = '';
 			while(true){
 				if(calScore>=2){
-					resultStar += '<i class="fas fa-star"></i>';
+					resultStar += '<i class="fas fa-star text-warning"></i>';
 					calScore -= 2;
 					continue;
 				}else if(calScore>0){
-					resultStar += '<i class="fas fa-star-half-alt"></i>';
+					resultStar += '<i class="fas fa-star-half-alt text-warning"></i>';
 					break;
 				}else{
 					break;
@@ -268,34 +269,40 @@ a:hover {
 					}else{
 						for (var i in jsonInfo.resultList) {
 							console.log(jsonInfo.resultList[i].s_name);
-							output += "<div class='col-sm-6 mb-3' style='max-width: 540px;'>";
-							output += "<div class='row no-gutters'>";
-							output += "<div class='col-sm-6'>";
+// 							output += "<div class='col-sm-6 mb-3' style='max-width: 540px;'>";
+							output += "<div class='col-md-6'>";
+// 							output += "<div class='row no-gutters'>";
+							output += "<div class='row bg-white no-gutters border rounded overflow-hidden flex-md-row mb-4 position-relative'>";
+// 							output += "<div class='col-sm-6'>";
+							output += "<div class='col-5'>";
 							output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo.resultList[i].s_id+"'>";
 							//가게 이미지
 							if(Object.keys(jsonInfo.resultList[i].shopImage).length != 0){
-								output += "<img src='data:image/jpg;base64,"+jsonInfo.resultList[i].shopImage[0].si_encodedImg+"' class='card-img-top img-thumbnail'alt='...'>";
+								output += "<img src='data:image/jpg;base64,"+jsonInfo.resultList[i].shopImage[0].si_encodedImg+"' class='thumb'alt='...'>";
 							}else{
-								output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top img-thumbnail'alt='...'>";
+								output += "<img src='${contextPath }/resources/image/ina.png' class='thumb' alt='...'>";
 							}
 							output += "</a>";
 							output += "</div>";
-							output += "<div class='col-sm-6'>";
-							output += "<div class='card-body' style='height: 225px'>";
+// 							output += "<div class='col-sm-6'>";
+							output += "<div class='col p-4 d-flex flex-column position-static'>";
+// 							output += "<div>";
 							//가게 이름
-							output += "<h5 class='card-title' style='height: 20%'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo.resultList[i].s_id+"'>" + jsonInfo.resultList[i].s_name + "</a></h5>";
+							output += "<div class='card-title clearfix'><h5><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo.resultList[i].s_id+"'>" + jsonInfo.resultList[i].s_name + "</a></h5>";
+							output += "<p class='text-secondary float-left'>"+jsonInfo.resultList[i].gc_name+"</p>";
+							output += "<p class='float-right'>"+printStar(jsonInfo.resultList[i].s_score)+"</p></div>";
 							//가게 소개
-							output += "<p class='card-text' style='height: 40%'>" + jsonInfo.resultList[i].s_content + "</p>";
+							output += "<p class='card-text' style='height: 78px;overflow:hidden'>" + jsonInfo.resultList[i].s_content + "</p>";
 							output += "<p class='card-text'>";
 							//후기 숫자
-							output += "<small class='text-muted' style='height: 14px'>리뷰 " + jsonInfo.resultList[i].reviewCount + "건</small>";
-							output += "</p>";
-							output += "<p class='card-text'>";
-							output += "<small class='text-muted' style='height: 14px'>";
+							output += "<small class='text-muted text-right' style='height: 14px'>리뷰 " + jsonInfo.resultList[i].reviewCount + "건</small>";
+// 							output += "</p>";
+// 							output += "<p class='card-text'>";
+// 							output += "<small class='text-muted' style='height: 14px'>";
 							//별점
-							output += printStar(jsonInfo.resultList[i].s_score) + "</small>";
-							output += "</p>";
-							output += "</div>";
+
+// 							output += "</p>";
+// 							output += "</div>";
 							output += "</div>";
 							output += "</div>";
 							output += "</div>";
@@ -350,26 +357,42 @@ a:hover {
 <title>Insert title here</title>
 </head>
 
-<body>
+<body class="bg-light">
 	<div class="container my-5 center">
 		<div class="search" align="center">
-			<input type="text" id="searchWindow"
-				placeholder="검색" name="searchWindow"
-				style="width: 400px; height: 30px;">
-			<button id="search" onClick="searchButton();">&#xf002;</button>
-			<br>
-			<br>
-			<button id="all" type="button" class="btn btn-outline-info"
-				onclick="">전체</button>
-			<button id="10" type="button" class="btn btn-outline-info" onclick="">카페</button>
-			<button id="20" type="button" class="btn btn-outline-info" onclick="">음식점</button>
-			<button id="30" type="button" class="btn btn-outline-info" onclick="">병원</button>
-			<button id="40" type="button" class="btn btn-outline-info" onclick="">학원</button>
-			<button id="50" type="button" class="btn btn-outline-info" onclick="">미용</button>
-			<button id="60" type="button" class="btn btn-outline-info" onclick="">마트/유통</button>
-			<button id="70" type="button" class="btn btn-outline-info" onclick="">공방/클래스</button>
-			<button id="80" type="button" class="btn btn-outline-info" onclick="">인테리어</button>
-			<button id="90" type="button" class="btn btn-outline-info" onclick="">부동산</button>
+			<p class="text-dark text-center mt-5 logotype" style="font-size:32px;">지역업체 검색결과</p>
+			<div class="form-group mx-auto searchInput">
+				  <div class="p-1 rounded rounded-pill border border-primary" style="border-width:2px !important">
+		            <div class="input-group">
+		              <input id="searchWindow" type="search" placeholder="검색" aria-describedby="button-addon1" name="searchWindow" class="form-control border-0 m-1 bg-light">
+		              <div class="input-group-append">
+		                <button id="button-addon1" onClick="searchButton();" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+		              </div>
+		            </div>
+		          </div>
+<!-- 					<input class="form-control" type ="text" name="totalSearch" placeholder="카테고리/지역/제목"> -->
+					<input type ="hidden" name="g_id" value="${g_id}">
+<!-- 					<input type="submit" class="btn btn-outline-dark" value="검색"><br><br> -->
+				</div>
+			<div class="container clearfix mb-4">
+				<p class="h5 float-left mt-1">카테고리
+				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			 			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+				</svg>
+				<div class="mx-auto">
+					<button id="all" type="button" class="btn btn-outline-primary"
+						onclick="">전체</button>
+					<button id="10" type="button" class="btn btn-outline-primary" onclick="">카페</button>
+					<button id="20" type="button" class="btn btn-outline-primary" onclick="">음식점</button>
+					<button id="30" type="button" class="btn btn-outline-primary" onclick="">병원</button>
+					<button id="40" type="button" class="btn btn-outline-primary" onclick="">학원</button>
+					<button id="50" type="button" class="btn btn-outline-primary" onclick="">미용</button>
+					<button id="60" type="button" class="btn btn-outline-primary" onclick="">마트/유통</button>
+					<button id="70" type="button" class="btn btn-outline-primary" onclick="">공방/클래스</button>
+					<button id="80" type="button" class="btn btn-outline-primary" onclick="">인테리어</button>
+					<button id="90" type="button" class="btn btn-outline-primary" onclick="">부동산</button>
+				</div>
+			</div>
 		</div>
 		<hr>
 		<table class="headTable">

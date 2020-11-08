@@ -163,7 +163,7 @@
 		<c:if test="${size eq 0}">
 				<div class="col-12 m-3 bg-light card">
 					<div class="cord-body p-5 text-center">
-					등록된 &amp;분의 일이 없습니다 ㅠㅠ
+					등록된 &amp;분의 일이 없습니다 .
 					</div>
 				</div>
 		</c:if>
