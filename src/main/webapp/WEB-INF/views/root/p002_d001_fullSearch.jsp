@@ -48,12 +48,18 @@
    	#content div{
    	
    	}
+   	.resultBox{
+   		margin-bottom: 50px;
+   	}
 </style>
 </head>
 <body>
 	<div class="container my-5 center">
 		<div class="resultBox" id="and_one">
-			<h3><a href="${contextPath }">&분의일 ></a></h3><br>
+			<div class="clearfix mb-3">
+			<h3 class="float-left"><a href="${contextPath}">&amp;분의일 </a></h3><br>
+			<span class="float-right">검색결과 ${searchResult.and_oneCnt}건</span>
+			</div>
 					<c:choose>
 						<c:when test="${empty searchResult.and_oneList }">
 							<h5>검색결과가 없습니다.</h5><br>
@@ -97,7 +103,10 @@
 					</c:choose>
 		</div>
 		<div class="resultBox" id="shop">
-			<h3><a href="${contextPath }/shop/localShopMain.do">지역업체 ></a></h3><br>
+			<div class="clearfix mb-3">
+			<h3 class="float-left"><a href="${contextPath}/shop/localShopMain.do">지역업체 </a></h3><br>
+			<span class="float-right">검색결과 ${searchResult.shopCnt}건</span>
+			</div>
 					<c:choose>
 						<c:when test="${empty searchResult.shopList }">
 							<h5>검색결과가 없습니다.</h5><br>
@@ -136,7 +145,10 @@
 					</c:choose>
 		</div>
 		<div class="resultBox" id="club">
-			<h3><a href="${contextPath }/club/clubMain.do">소모임 ></a></h3><br>
+			<div class="clearfix mb-3">
+			<h3 class="float-left"><a href="${contextPath}/club/clubMain.do">소모임 </a></h3><br>
+			<span class="float-right">검색결과 ${searchResult.clubCnt}건</span>
+			</div>
 					<c:choose>
 						<c:when test="${empty searchResult.clubList }">
 							<h5>검색결과가 없습니다.</h5><br>
@@ -175,7 +187,10 @@
 					</c:choose>
 		</div>
 		<div class="resultBox" id="club_article">
-			<h3><a href="${contextPath }/club/clubMain.do">소모임 게시글 ></a></h3><br>
+			<div class="clearfix mb-3">
+			<h3 class="float-left"><a href="${contextPath}/club/clubMain.do">소모임  게시글</a></h3><br>
+			<span class="float-right">검색결과 ${searchResult.c_articleCnt}건</span>
+			</div>
 					<c:choose>
 						<c:when test="${empty searchResult.c_articleList }">
 							<h5>검색결과가 없습니다.</h5><br>
@@ -210,7 +225,10 @@
 					</c:choose>
 		</div>
 		<div class="resultBox" id="notice">
-			<h3><a href="${contextPath }/notice.do">공지사항 ></a></h3><br>
+			<div class="clearfix mb-3">
+			<h3 class="float-left"><a href="${contextPath}/notice.do">공지사항</a></h3><br>
+			<span class="float-right">검색결과 ${searchResult.noticeCnt}건</span>
+			</div>
 					<c:choose>
 						<c:when test="${empty searchResult.noticeList }">
 							<h5>검색결과가 없습니다.</h5><br>

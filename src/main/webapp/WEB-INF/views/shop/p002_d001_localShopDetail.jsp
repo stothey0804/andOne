@@ -320,7 +320,12 @@ a:hover {
 					output += 				'<img src="data:image/jpg;base64,'+jsonInfo.shopReviewImage[j].ri_encodedImg+'" id="'+jsonInfo.m_id+'-split-'+j+'-split-'+(Object.keys(jsonInfo.shopReviewImage).length-1)+'" class="card-img-top clickImg" alt="...">';
 					output += 			'</div></div>';
 				}
-
+// 				for(let j=0; j<3 - Object.keys(jsonInfo.shopReviewImage).length; j++){
+// 					output += 		'<div style="margin: 5px">';
+// 					output += 			'<div class="card" style="width: 5rem;">';
+// 					output += 				'<img src="${contextPath }/resources/image/ina.png" class="card-img-top" alt="...">';
+// 					output += 			'</div></div>';
+// 				}
 				output +=		'</div>'
 				output +=		'</td>';
 				if(logonId == p1){
@@ -419,7 +424,12 @@ a:hover {
 					shopImage += '<img src="data:image/jpg;base64,'+jsonInfo.shopImage[i].si_encodedImg+'"id="'+jsonInfo.s_id+'-split-'+i+'-split-'+(Object.keys(jsonInfo.shopImage).length-1)+'" class="card-img-top clickImg img-thumbnail" alt="...">';
 					shopImage += '</div></div>';
 				}
-			}
+// 				for(let i=0; i<3-imageCount; i++){
+// 					shopImage += '<div style="margin: 15px">';
+// 					shopImage += '<div class="card" style="width: 20rem;">';
+// 					shopImage += '<img src="${contextPath }/resources/image/ina.png" class="card-img-top" alt="...">';
+// 					shopImage += '</div></div>';
+// 				}
 				shopImage += '</div>';
 				
 				shopInformation += '<table><tr><td width="600" height="70">';
