@@ -125,10 +125,10 @@
 	            	let NodeList = "";
 					for(i = 0; i < data.length; i++){
 						console.log("여기는????????");
-						let newNode = "<div>";
+						let newNode = "<div class='col-sm-6 mb-3'>";
 						newNode += "<div class='card and_card' onclick='location.href='http://localhost:8090/andOne/and/detailAndOne.do?one_id="+data[i].one_id+"&g_id="+data[i].one_type+"''>";
 						newNode += "<div class='card-body'><div class='card-title clearfix'>";
-						newNode += "<p class='h5'><span class='text-primary'>["+data[i].one_category+"]</span>"+data[i].one_title+"</p>";
+						newNode += "<p class='h5'><span class='text-primary'>["+data[i].one_category+"]</span>&nbsp;"+data[i].one_title+"</p>";
 						if(data[i].one_state == "모집중"){
 							newNode +="<span class='text-primary'>";
 						}else if(data[i].one_state == "결제완료"){
@@ -145,7 +145,7 @@
 						newNode += "<p class='card-text float-right h6'><span class='price invisible'><b>"+data[i].one_price+"</b>";
 						newNode += "</span> 예상 <span class='priceResult'></span> <span class='text-secondary'><i class='fas fa-user-friends'></i>"+data[i].one_member+"/"+data[i].one_memberMax+"</span></p></div>";
 						newNode += "<p class='card-text float-left'><span class='timeResult'></span><span class='time invisible'>"+data[i].one_time+"</span></p>";
-						newNode += "<p class='card-text float-right h6'>"+data[i].addrDetail+"/"+data[i].distance+"km</p></div>";
+						newNode += "<p class='card-text float-right h6'>"+data[i].addrDetail+"/"+data[i].distance+"km</p></div></div></div>";
 						NodeList += newNode;
 						}
 		            	$(NodeList).appendTo($("#oldAndOne")).slideDown();
@@ -375,8 +375,8 @@
 					</div>
 				</div>
 			</c:forEach>
-			<div id="oldAndOne" class='col-sm-6 mb-3'>
 			</div>
+			<div id="oldAndOne" class='row'>
 			</div>
 	</div>
 	<div style="width:500px; margin: 0 auto">
