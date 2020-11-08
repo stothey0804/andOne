@@ -22,6 +22,12 @@ public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 		selectRecentList = sqlSession.selectList("and.p001.selectRecentList",param);
 		return selectRecentList;
 	}
+	//더보기
+	@Override
+	public List<AndP001AndOneVO> searchMoreAndOne(Map<String, Object> searchMap) {
+		List<AndP001AndOneVO> searchMoreAndOneList = sqlSession.selectList("and.p001.selectSearchMoreAndOne",searchMap);
+		return searchMoreAndOneList;
+	}
 	//카테고리(이름/번호)
 	@Override
 	public List<AndP001AndOneVO> selectCtg(String g_id) throws DataAccessException{
@@ -100,5 +106,10 @@ public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 	@Override
 	public void updateAndOnePay(String one_id) {
 		sqlSession.update("and.p001.updateAndOnePay",one_id);
+	}
+	@Override
+	public int selectAndOneCnt() {
+		int selectAndOneCnt = sqlSession.selectOne("and.p001.selectAndOneCnt");
+		return selectAndOneCnt;
 	}
 }

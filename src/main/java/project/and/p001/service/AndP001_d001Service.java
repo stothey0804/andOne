@@ -22,4 +22,6 @@ public interface AndP001_d001Service {
 	public void updateAndOneRefund(String one_id);
 	public List<AndP001AndOneVO> payList();
 	public void updateAndOnePay(String one_id);
+	public int andOneCnt();
+	public List<AndP001AndOneVO> searchMoreAndOne(Map<String, Object> searchMap);
 }
