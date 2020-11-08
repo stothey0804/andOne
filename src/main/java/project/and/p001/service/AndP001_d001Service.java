@@ -24,4 +24,6 @@ public interface AndP001_d001Service {
 	public void updateAndOnePay(String one_id);
 	public int andOneCnt();
 	public List<AndP001AndOneVO> searchMoreAndOne(Map<String, Object> searchMap);
+	public int selectAndOneCtgCnt(Map<String, Object> ctgSearchMap);
+	public int selectAndOneTotalSearchCnt(Map<String, Object> totalSearchMap);
 }

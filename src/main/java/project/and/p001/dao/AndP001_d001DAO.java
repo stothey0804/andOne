@@ -25,4 +25,6 @@ public interface AndP001_d001DAO {
 	public void updateAndOnePay(String one_id);
 	public int selectAndOneCnt();
 	public List<AndP001AndOneVO> searchMoreAndOne(Map<String, Object> searchMap);
+	public int selectAndOneCtgCnt(Map<String, Object> ctgSearchMap);
+	public int selectAndOneTotalSearchCnt(Map<String, Object> totalSearchMap);
 }
