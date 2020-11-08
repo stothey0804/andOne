@@ -62,7 +62,31 @@
 	   	   		 	// ------ 알림전송 END
    				}else if(data == "complete"){//모든참가자가 참여확정이라 one_state가 결제완료상태로 변경
    					$(".check"+idx).html("&분의일 신청 수락완료:)");
-   				}
+	   				// ------ 알림전송
+		   			 	// db저장	
+		   	   		    let g_id = '${g_id}';
+		   	   		    let type = '';
+		   	   		    // 분류코드설정
+						if(g_id=='010'){type='10';}else if(g_id=='011'){type='20'}else if(g_id=='012'){type='30';}
+		   	   		 	let content = '['+ one_id +'] 참가신청이 수락됐습니다.';		// 알림메시지
+		   	   		 	let url = '${contextPath}/and/detailAndOne.do?one_id='+one_id+'&g_id='+g_id;
+		   	   		 	$.ajax({
+		   					type: 'post',
+		   					url: '${contextPath}/member/saveNotify.do',
+		   					dataType: 'text',
+		   					data: {
+		   						target: m_id,
+		   						content: content,
+		   						type: type,
+		   						url: url
+		   					},
+		   					success: function(){
+		   						// 소켓전송
+		   						socket.send("&분의일,"+m_id+","+content+","+url);	// 소켓에 전달
+		   					}
+		   				});
+		   	   		 	// ------ 알림전송 END
+				}
    			}
 		})
 	}

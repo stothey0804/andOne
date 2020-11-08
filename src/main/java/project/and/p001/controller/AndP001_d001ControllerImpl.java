@@ -27,6 +27,8 @@ import project.and.p001.service.AndP001_d001Service;
 import project.and.p002.service.AndP002_d002Service;
 import project.and.vo.AndOneMemberVO;
 import project.and.vo.AndP001AndOneVO;
+import project.member.p005.service.MemberP005_d001Service;
+import project.member.p005.vo.MemberP005VO;
 import project.point.p001.service.PointP001_d001Service;
 import project.point.p001.service.PointP001_d002Service;
 import project.point.p001.vo.PointP001VO;
@@ -43,6 +45,8 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	private AndP002_d002Service p002_d002Service; //인원수 체크용
 	@Autowired
 	private PointP001_d002Service pointP001_d002Service; // 포인트 사용
+	@Autowired
+	private MemberP005_d001Service MemberP005_d001Service; // 포인트 사용
 	
 	//&분의일 먹기 사기 하기 메인
 	@Override
@@ -293,7 +297,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		}
 	}
 
-	@Scheduled(fixedRate = 60000000) //1분마다 호출
+	@Scheduled(fixedRate = 60000) //1분마다 호출
 	public void handle() {
 		System.out.println("=================================>> LogProcessor.handle(): " + new Date());
 		
@@ -332,6 +336,14 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 			pointP001_d002Service.insertPoint(pointVO);//포인트 환불
 			nowPoint = pointP001_d001Service.selectNowPointById(m_id); //환불 후 값 갱신
 			p001_d001Service.updateAndOnePay(one_id);//엔분의일 pay 0->1변경
+			
+			//포인트 지급 알람
+			MemberP005VO vo = new MemberP005VO();
+			vo.setN_target(pointVO.getM_id());
+			vo.setN_content(pointVO.getP_detail());
+			vo.setN_type("50");
+			vo.setN_url("/andOne/point/pointDetail.do");
+			MemberP005_d001Service.insertNotify(vo);
 		}
 		
 	}

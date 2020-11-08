@@ -217,25 +217,25 @@
 			<!-- 버튼들 -->
 			<div>
 				<c:choose>
-		 		<c:when test="${andoneDetail.one_state eq '취소'}">
-		 			<p class="text-muted text-center my-3">취소되어 신청이 불가능한 &amp;분의일 입니다 :)</p>
-		 		</c:when>
-		 		<c:when test="${andoneDetail.one_state eq '진행완료'}">
-		 			<p class="text-muted text-center my-3">같이 &amp;분의일을 한 사람에게 후기를 남겨주세요:)</p>
-		 		</c:when>
-		 		<c:when test="${omLeaderCheck.om_leader eq '10'}">
-		 		<div class="row mb-2">
-		 		<div class="col-6 pr-1"><button class="btn btn-block btn-info" onclick="modifyAndOne('${andoneDetail.one_id}')">수정하기</button></div>
-		 		<div class="col-6 pl-1"><button class="btn btn-block btn-danger" onclick="deleteAndOne('${andoneDetail.one_id}')">삭제하기</button></div>
-		 		</div>
-				 <button class="btn btn-secondary col-12 mb-2" onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button><br>	
-	 			</c:when>
-	 			<c:when test="${omLeaderCheck.om_leader eq '20' and omLeaderCheck.om_state ne '40'}"> 
-				 	<button class="btn btn btn-danger col-12" onclick="cancelAndOne('${andoneDetail.one_id}','${andoneDetail.one_price}')">취소하기</button>
-				</c:when>
-				<c:otherwise>
-			 		<button class="btn btn-primary col-12" onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
-				</c:otherwise>
+			 		<c:when test="${andoneDetail.one_state eq '취소'}">
+			 			<p class="text-muted text-center my-3">취소되어 신청이 불가능한 &amp;분의일 입니다 :)</p>
+			 		</c:when>
+			 		<c:when test="${andoneDetail.one_state eq '진행완료'}">
+			 			<p class="text-muted text-center my-3">같이 &amp;분의일을 한 사람에게 후기를 남겨주세요:)</p>
+			 		</c:when>
+			 		<c:when test="${omLeaderCheck.om_leader eq '10'}">
+			 		<div class="row mb-2">
+			 		<div class="col-6 pr-1"><button class="btn btn-block btn-info" onclick="modifyAndOne('${andoneDetail.one_id}')">수정하기</button></div>
+			 		<div class="col-6 pl-1"><button class="btn btn-block btn-danger" onclick="deleteAndOne('${andoneDetail.one_id}')">삭제하기</button></div>
+			 		</div>
+					 <button class="btn btn-secondary col-12 mb-2" onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button><br>	
+		 			</c:when>
+		 			<c:when test="${omLeaderCheck.om_leader eq '20' and omLeaderCheck.om_state eq '20' and andoneDetail.one_state eq '모집중'}"> 
+					 	<button class="btn btn btn-danger col-12" onclick="cancelAndOne('${andoneDetail.one_id}','${andoneDetail.one_price}')">취소하기</button>
+					</c:when>
+					<c:when test="${empty omLeaderCheck.om_leader}" >
+				 		<button class="btn btn-primary col-12" onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
+					</c:when>
 				</c:choose>
 				<c:if test="${omLeaderCheck.om_leader ne '10'}">
 				 	<button class="btn btn-light col-12 mt-1" type="button" onClick='openReportPopup()'>부적절한 &amp;분의일 신고하기</button>

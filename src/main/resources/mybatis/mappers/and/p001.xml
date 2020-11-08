@@ -324,7 +324,7 @@
 	<!-- 포인트 지급 List -->
 	<select id="selectPayList" resultType="AndP001AndOneVO">
 		<![CDATA[
-			SELECT A.m_id, to_char(trunc(B.one_totalPrice/B.one_memberMax)) as one_price, A.one_id
+			SELECT A.m_id, trunc(B.one_totalPrice/B.one_memberMax)*(B.one_memberMax-1) as one_price, A.one_id
 			FROM one_member A, and_one b
 			WHERE A.one_id = b.one_id
 			AND A.om_leader = '10'

@@ -10,6 +10,7 @@ public class AndOneMemberVO {
 	private String one_id;
 	private String om_date;
 	private String one_price;
+	private String one_state;
 	
 	
 	
@@ -18,6 +19,19 @@ public class AndOneMemberVO {
 	}
 	
 	
+	
+	public String getOne_state() {
+		return one_state;
+	}
+
+
+
+	public void setOne_state(String one_state) {
+		this.one_state = one_state;
+	}
+
+
+
 	public String getOne_price() {
 		return one_price;
 	}
