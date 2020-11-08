@@ -10,7 +10,6 @@
 		function init(){
 			let times = document.querySelectorAll("span.time");
 			let timeResults = document.querySelectorAll("span.timeResult");
-      		console.log(times);
       
       		for(let i=0; i<times.length; i++){
       			var result = times[i].textContent;
@@ -27,19 +26,15 @@
 		
         function timeForToday(value) {
         const today = new Date();
-        console.log(today);
         const timeValue = new Date(value);
-        console.log(timeValue);
 
         const betweenTime = Math.floor((today.getTime() - timeValue.getTime())/1000/60);
-        console.log(betweenTime);
             if (betweenTime < 1) return '방금전';
             if (betweenTime < 60) {
                 return betweenTime+'분전';
             }
 
         const betweenTimeHour = Math.floor(betweenTime / 60);
-        console.log(betweenTimeHour);
             if (betweenTimeHour < 24) {
                 return betweenTimeHour+'시간전';
             }
@@ -78,6 +73,9 @@
 	 .cc{
 	 	text-align: center; 
 	 }
+	 .and_card{
+		cursor: pointer;
+	}
 	</style>
 	
 </head>
@@ -156,7 +154,11 @@
 		</div>
 	</div>
 	
-	
+	<div class="container clearfix mt-5">
+		<p class="float-right">
+		<a href="${contextPath}/and/searchAndOne.do?g_id=${g_id}&flag=distance&one_category=${one_category}&totalSearch=${totalSearch}">거리순</a>/
+		<a href="${contextPath}/and/searchAndOne.do?g_id=${g_id}&flag=date&one_category=${one_category}&totalSearch=${totalSearch}">마감순</a></p>
+	</div>
 	<!--진행상태 one_state, 카테고리번호one_category,제목one_title,모집인원 one_memberMax,총금액one_totalPrice,실행날짜one_date-->
 	<!-- 같이먹기 검색결과 list -->
 	 <div class="container">
@@ -195,13 +197,54 @@
 								<p class="card-text float-left"> #${andone.one_hashTag}  </p>
 								<p class="card-text float-right h6"><span class="price invisible"><b>${andone.one_price}</b></span> 예상 <span class="priceResult"></span> <span class="text-secondary"> <i class="fas fa-user-friends"></i>${andone.one_member}/${andone.one_memberMax} </span></p>
 							</div>
-							<p class="card-text"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
+							<p class="card-text float-left"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
+							<p class="card-text float-right h6"> ${andone.addrDetail} / ${andone.distance}km  </p>
 						</div>
 					</div>
 				</div>
 			</c:forEach>
 		</div>
 	</div>
+		<!-- 페이징  -->
+	<nav aria-label="Page navigation example">
+	    <ul class="pagination justify-content-center">
+	        <c:if test="${pagination.curRange ne 1 }">
+	            <li class="page-item">
+	            <a class="page-link" href="?curPage=1">처음</a> 
+	            </li>
+	        </c:if>
+	        <c:if test="${pagination.curPage ne 1}">
+	            <li class="page-item">
+	                <a class="page-link" href="?curPage=${pagination.prevPage}&one_category=${one_category}&g_id=${g_id}&totalSearch=${totalSearch}">이전</a> 
+	                </li>
+	        </c:if>
+	        <c:forEach var="pageNum" begin="${pagination.startPage}" end="${pagination.endPage}">
+	            <c:choose>
+	                <c:when test="${pageNum eq  pagination.curPage}">
+	                    <li class="page-item active">
+	                        <a class="page-link" href="?curPage=${pageNum}&one_category=${one_category}&g_id=${g_id}&totalSearch=${totalSearch}">${pageNum}</a>
+	                    </li>
+	                </c:when>
+	                <c:otherwise>
+	                    <li class="page-item">
+	                        <a class="page-link" href="?curPage=${pageNum}&one_category=${one_category}&g_id=${g_id}&totalSearch=${totalSearch}">${pageNum}</a>
+	                    </li>
+	                </c:otherwise>
+	            </c:choose>
+	        </c:forEach>
+	        <c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
+	            <li class="page-item">
+	                <a class="page-link" href="?curPage=${pagination.nextPage}&one_category=${one_category}&g_id=${g_id}&totalSearch=${totalSearch}">다음</a> 
+	                </li>	                        
+	        </c:if>
+	        <c:if test="${pagination.curRange ne pagination.rangeCnt && pagination.rangeCnt > 0}">
+	            <li class="page-item">
+	                <a class="page-link" href="#"  onClick="fn_paging('${pagination.pageCnt }')">끝</a> 
+	                </li>	                    
+	    </c:if>
+	    </ul>
+	</nav>
+	<!-- 페이징 END -->
 	<br><br><br>
 				<div class="resisterBtn" style="width:500px; margin: 0 auto">
 					<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-primary rounded btn-block"> 새로운 활동 등록하기 </button>

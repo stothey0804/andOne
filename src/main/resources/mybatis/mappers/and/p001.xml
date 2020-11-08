@@ -30,10 +30,22 @@
 	<!-- one_date 실행날짜 one_time 등록시간 -->
 	<!-- &분의일  최근등록된 같이먹기 -->
 	<select id="selectRecentList" parameterType="map" resultType="AndP001AndOneVO">
-      <![CDATA[
+<![CDATA[
        	select *
        	from (
-		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
+		      	select ROW_NUMBER() OVER (
+		      			]]>
+		      			<if test ="flag == null">
+		      				ORDER BY d.one_id DESC) ROWNUMER
+		      			</if>
+		      			<if test ="flag == 'distance'">
+		      				ORDER BY distance) ROWNUMER
+		      			</if>
+		      			<if test ="flag == 'date'">
+		      				ORDER BY a.one_date) ROWNUMER
+		      			</if>
+		      			<![CDATA[
+		      			,a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
 		       			substr(a.one_date,6,11) as one_date, replace(a.one_hashTag,',','#') as one_hashTag, RTRIM(TO_CHAR(d.distance, 'FM9990.9999'),'.') as distance, a.one_locate_Lat, a.one_locate_Lng,
 		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, a.one_addr, substr(a.one_addr,1,6) as addrDetail, (select count(m_id) from one_member e where e.one_id = a.one_id and om_state not in ('10','40'))as one_member
@@ -60,20 +72,9 @@
                                     FROM and_one
                                     )
                             WHERE RESULT > 0)
-				]]>
-				<if test ="flag == null">
-				order by d.one_id DESC
-				</if>
-				<if test ="flag == 'distance'">
-				order by distance
-				</if>
-				<if test ="flag == 'date'">
-				order by a.one_date
-				</if>
-			<![CDATA[
 			)
-			where rownum <=6
-      ]]>
+			where ROWNUMER <=6
+      ]]>            
 	</select>
 	<!-- 엔분의일 더보기 -->
 	<select id="selectSearchMoreAndOne" parameterType="map" resultType="AndP001AndOneVO">
@@ -139,10 +140,22 @@
       <![CDATA[
 		select *
        	from (
-		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
+		      	select ROW_NUMBER() OVER (
+		      			]]>
+		      			<if test ="flag == null">
+		      				ORDER BY d.one_id DESC) ROWNUMER
+		      			</if>
+		      			<if test ="flag == 'distance'">
+		      				ORDER BY distance) ROWNUMER
+		      			</if>
+		      			<if test ="flag == 'date'">
+		      				ORDER BY a.one_date) ROWNUMER
+		      			</if>
+		      			<![CDATA[
+		      			,a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
-		       			substr(a.one_date,6,11) as one_date, replace(a.one_hashTag,',','#') as one_hashTag, d.distance,
-		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, (select count(m_id) from one_member e where e.one_id = a.one_id and om_state not in ('10','40'))as one_member
+		       			substr(a.one_date,6,11) as one_date, replace(a.one_hashTag,',','#') as one_hashTag, RTRIM(TO_CHAR(d.distance, 'FM9990.9999'),'.') as distance, a.one_locate_Lat, a.one_locate_Lng,
+		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, a.one_addr, substr(a.one_addr,1,6) as addrDetail, (select count(m_id) from one_member e where e.one_id = a.one_id and om_state not in ('10','40'))as one_member
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
 		              from common_code 
@@ -161,21 +174,33 @@
 				and a.one_category = c.gc_id
                 and a.one_id = d.one_id
 				and a.one_type= #{g_id}
-				order by d.one_id desc
+				and a.one_category = #{one_category}
 			)
-			where rownum <=6
+			WHERE ROWNUMER BETWEEN #{startIndex} AND #{endIndex}
       ]]>
 	</select>
 	
 	<!-- 전체검색 추후 지역추가해야함-->
 	<select id="selectTotalSearchList" parameterType="map" resultType="AndP001AndOneVO">
 	  	 <![CDATA[
-	  	 select *
-       	from (
-		      	select a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
+			select *
+       		from (
+		      		select ROW_NUMBER() OVER (
+		      			]]>
+		      			<if test ="flag == null">
+		      				ORDER BY d.one_id DESC) ROWNUMER
+		      			</if>
+		      			<if test ="flag == 'distance'">
+		      				ORDER BY distance) ROWNUMER
+		      			</if>
+		      			<if test ="flag == 'date'">
+		      				ORDER BY a.one_date) ROWNUMER
+		      			</if>
+		      			<![CDATA[
+		      			,a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
-		       			substr(a.one_date,6,11) as one_date, replace(a.one_hashTag,',','#') as one_hashTag, d.distance,
-		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, (select count(m_id) from one_member e where e.one_id = a.one_id and om_state not in ('10','40'))as one_member
+		       			substr(a.one_date,6,11) as one_date, replace(a.one_hashTag,',','#') as one_hashTag, RTRIM(TO_CHAR(d.distance, 'FM9990.9999'),'.') as distance, a.one_locate_Lat, a.one_locate_Lng,
+		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, a.one_addr, substr(a.one_addr,1,6) as addrDetail, (select count(m_id) from one_member e where e.one_id = a.one_id and om_state not in ('10','40'))as one_member
 				from and_one a, 
 		       		 (select gc_name, gc_id, g_id
 		              from common_code 
@@ -191,16 +216,18 @@
    							and (one_locate_Lng between #{m_locate_Lng}-0.066 and #{m_locate_Lng}+0.066) ) TMP) d
  				]]>
 				<where>
-			    a.one_state = b.gc_id
+				(one_category like '%' ||#{totalSearch}|| '%' or 
+				   one_title like '%' ||#{totalSearch}|| '%' or 
+				   one_hashTag like '%' ||#{totalSearch} || '%' or
+				   one_addr like '%' ||#{totalSearch} || '%' )
+			    and a.one_state = b.gc_id
 				and a.one_category = c.gc_id
                 and a.one_id = d.one_id
 				and a.one_type= #{g_id}
-				and(one_category like '%' ||#{totalSearch}|| '%' or a.one_title like '%' ||#{totalSearch}|| '%' or a.one_hashTag like '%' ||#{totalSearch} || '%')
 				</where>
-				order by d.one_id DESC
 			)
 			<![CDATA[
-	  		where ROWNUM <= 6
+	  		WHERE ROWNUMER BETWEEN #{startIndex} AND #{endIndex}
 	  	 	]]>
 	</select>
 	
@@ -317,12 +344,37 @@
 		]]>
 	</update>
 	
-	
 	<!-- 총AndOne 갯수 -->
 	<select id="selectAndOneCnt" resultType="int">
 		<![CDATA[
 			SELECT COUNT(one_id)
 			FROM and_one
+		]]>
+	</select>
+	
+	<!-- 카테고리 별 글 개수 -->
+	<select id="selectAndOneCtgCnt" parameterType="java.util.HashMap" resultType="int">
+		<![CDATA[
+			SELECT COUNT(one_id)
+			FROM and_one
+			WHERE one_category = #{one_category}
+			and (one_locate_Lat between #{m_locate_Lat}-0.059 and #{m_locate_Lat}+0.059)
+			and (one_locate_Lng between #{m_locate_Lng}-0.066 and #{m_locate_Lng}+0.066)
+			and one_type = #{g_id}
+		]]>
+	</select>
+	<!-- 검색어 별 글 개수 -->
+	<select id="selectAndOneTotalSearchCnt" parameterType="java.util.HashMap" resultType="int">
+		<![CDATA[
+			SELECT COUNT(one_id)
+			FROM and_one
+			WHERE (one_category like '%' ||#{totalSearch}|| '%' or 
+				   one_title like '%' ||#{totalSearch}|| '%' or 
+				   one_hashTag like '%' ||#{totalSearch} || '%' or
+				   one_addr like '%' ||#{totalSearch} || '%' )
+		   and (one_locate_Lat between #{m_locate_Lat}-0.059 and #{m_locate_Lat}+0.059)
+	 	   and (one_locate_Lng between #{m_locate_Lng}-0.066 and #{m_locate_Lng}+0.066)
+	 	   and one_type = #{g_id}
 		]]>
 	</select>
 	

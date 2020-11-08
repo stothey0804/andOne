@@ -107,5 +107,15 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 		int andOneCnt = p001_d001DAO.selectAndOneCnt();
 		return andOneCnt;
 	}
+	@Override
+	public int selectAndOneCtgCnt(Map<String, Object> ctgSearchMap) {
+		int selectAndOneCtgCnt = p001_d001DAO.selectAndOneCtgCnt(ctgSearchMap);
+		return selectAndOneCtgCnt;
+	}
+	@Override
+	public int selectAndOneTotalSearchCnt(Map<String, Object> totalSearchMap) {
+		int selectAndOneTotalSearchCnt = p001_d001DAO.selectAndOneTotalSearchCnt(totalSearchMap);
+		return selectAndOneTotalSearchCnt;
+	}
 
 }

@@ -112,4 +112,14 @@ public class AndP001_d001DAOImpl implements AndP001_d001DAO{
 		int selectAndOneCnt = sqlSession.selectOne("and.p001.selectAndOneCnt");
 		return selectAndOneCnt;
 	}
+	@Override
+	public int selectAndOneCtgCnt(Map<String, Object> ctgSearchMap) {
+		int selectAndOneCtgCnt = sqlSession.selectOne("and.p001.selectAndOneCtgCnt",ctgSearchMap);
+		return selectAndOneCtgCnt;
+	}
+	@Override
+	public int selectAndOneTotalSearchCnt(Map<String, Object> totalSearchMap) {
+		int selectAndOneTotalSearchCnt = sqlSession.selectOne("and.p001.selectAndOneTotalSearchCnt",totalSearchMap);	
+		return selectAndOneTotalSearchCnt;
+	}
 }

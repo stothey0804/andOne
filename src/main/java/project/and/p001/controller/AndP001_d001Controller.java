@@ -18,7 +18,7 @@ public interface AndP001_d001Controller{
 	public ModelAndView andOneMain(Map<String, Object> mainMap, Cookie latCookie, Cookie lngCookie, HttpServletRequest requestn) throws Exception;
 	public ModelAndView andOneDetail(Map<String, Object> detailMap, HttpServletRequest request) throws Exception;
 	public String addOneMember(Map<String,Object> addMap, HttpServletRequest request) throws Exception;
-	public ModelAndView searchAndOneList(Map<String, Object> searchMap, Cookie latCookie, Cookie lngCookie,
+	public ModelAndView searchAndOneList(Map<String, Object> searchMap,int curPage, Cookie latCookie, Cookie lngCookie,
 			HttpServletRequest request) throws Exception;
 	public String searchMoreAndOne(Map<String,Object> searchMap) throws Exception;
 }

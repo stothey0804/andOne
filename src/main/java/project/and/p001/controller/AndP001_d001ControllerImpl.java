@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import common.Common;
+import common.Pagination;
 import project.and.p001.service.AndP001_d001Service;
 import project.and.p002.service.AndP002_d002Service;
 import project.and.vo.AndOneMemberVO;
@@ -134,7 +135,8 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 	//5.마감순정렬O
 	@Override
 	@RequestMapping(value="/and*/searchAndOne.do")
-	public ModelAndView searchAndOneList(@RequestParam Map<String, Object> searchMap , 
+	public ModelAndView searchAndOneList(@RequestParam Map<String, Object> searchMap,
+			@RequestParam(defaultValue = "1") int curPage,
 			@CookieValue(value="locate_lat", required = false) Cookie latCookie, 
 			@CookieValue(value="locate_lng", required = false) Cookie lngCookie, 
 			HttpServletRequest request) throws Exception {
@@ -142,6 +144,7 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		String one_category = (String)searchMap.get("one_category");
 		String g_id = (String)searchMap.get("g_id");
 		String totalSearch = (String)searchMap.get("totalSearch");
+		String flag = (String)searchMap.get("flag");
 		System.out.println(">>>>>>>>>>one_category:" +one_category);
 		System.out.println(">>>>>>>>>>g_id:" +g_id);
 		System.out.println(">>>>>>>>TS :" +totalSearch);
@@ -149,34 +152,75 @@ public class AndP001_d001ControllerImpl implements AndP001_d001Controller {
 		List<AndP001AndOneVO> ctg = p001_d001Service.searchCtg(g_id); //카테고리 설정
 		
 		//회원 위치 가져오기
-		HttpSession session = request.getSession(false);
-		String m_id = (String) session.getAttribute("m_id");
-		System.out.println("M_IDM_IDM_ID :"+m_id);
 		String m_locate_Lat = latCookie.getValue();
 		String m_locate_Lng = lngCookie.getValue();
-		System.out.println("m_locate_Lat22: " +m_locate_Lat);
-		System.out.println("m_locate_Lng22: " +m_locate_Lng);
 		
-		searchMap.put("m_id", m_id);
 		searchMap.put("m_locate_Lat", m_locate_Lat);
 		searchMap.put("m_locate_Lng", m_locate_Lng);
 		searchMap.put("g_id", g_id);
 		
-		
+		Pagination pagination = null;
 		List<AndP001AndOneVO> SearchAndOneList =null;
-		if(totalSearch != null) {
+		int listCnt = 0;
+		if(totalSearch != null && totalSearch.length() != 0 ) {
 			System.out.println(">>>>>>>>>>>>>>>전체검색 실행");
-			SearchAndOneList = p001_d001Service.totalSearchList(searchMap);//전체 검색
-		}else {
+			Map<String, Object> totalSearchMap = new HashMap<String, Object>();
+			totalSearchMap.put("m_locate_Lat", m_locate_Lat);
+			totalSearchMap.put("m_locate_Lng", m_locate_Lng);
+			totalSearchMap.put("totalSearch", totalSearch);
+			totalSearchMap.put("g_id", g_id);
+			listCnt = p001_d001Service.selectAndOneTotalSearchCnt(totalSearchMap);
+			pagination = new Pagination(listCnt, curPage);	// pagination 객체 생성
+			searchMap.put("startIndex", (pagination.getStartIndex()+1)+"");	// 시작 index는 1부터 이므로 1을 더해줌.
+			searchMap.put("endIndex", (pagination.getStartIndex()+pagination.getPageSize())+"");	// 끝 index
+			
+			if(flag ==null || flag.equals("")) {
+				SearchAndOneList = p001_d001Service.totalSearchList(searchMap);//카테고리별 검색
+			}else if(flag.equals("distance")) {
+				System.out.println(">>>>>>>>distance");
+				SearchAndOneList = p001_d001Service.totalSearchList(searchMap);//거리순
+			}else if(flag.equals("date")) {
+				System.out.println(">>>>>>>>date");
+				SearchAndOneList = p001_d001Service.totalSearchList(searchMap);//마감순
+			}
+			
+		}else if(totalSearch == null || totalSearch.equals("")) {
 			System.out.println(">>>>>>>>>>>>>>>카테고리검색 실행");
-			SearchAndOneList = p001_d001Service.ctgSearchList(searchMap);//카테고리별 검색
+			Map<String, Object> ctgSearchMap = new HashMap<String, Object>();
+			ctgSearchMap.put("m_locate_Lat", m_locate_Lat);
+			ctgSearchMap.put("m_locate_Lng", m_locate_Lng);
+			ctgSearchMap.put("one_category", one_category);
+			ctgSearchMap.put("g_id", g_id);
+			listCnt = p001_d001Service.selectAndOneCtgCnt(ctgSearchMap);
+			System.out.println("카테고리!!!!!!!"+listCnt);
+			pagination = new Pagination(listCnt, curPage);	// pagination 객체 생성
+			searchMap.put("startIndex", (pagination.getStartIndex()+1)+"");	// 시작 index는 1부터 이므로 1을 더해줌.
+			searchMap.put("endIndex", (pagination.getStartIndex()+pagination.getPageSize())+"");	// 끝 index
+			
+			if(flag ==null || flag.equals("")) {
+				SearchAndOneList = p001_d001Service.ctgSearchList(searchMap);//카테고리별 검색
+			}else if(flag.equals("distance")) {
+				System.out.println(">>>>>>>>distance");
+				SearchAndOneList = p001_d001Service.ctgSearchList(searchMap);//거리순
+			}else if(flag.equals("date")) {
+				System.out.println(">>>>>>>>date");
+				SearchAndOneList = p001_d001Service.ctgSearchList(searchMap);//마감순
+			}
 		}
-		
 		ModelAndView mav = new ModelAndView("andOneSearch");
 		mav.addObject("SearchAndOneList", SearchAndOneList);
-		mav.addObject("size",SearchAndOneList.size()); //검색 결과 건수
+		mav.addObject("size",listCnt); //검색 결과 건수
 		mav.addObject("g_id",g_id);
 		mav.addObject("ctg",ctg);
+		mav.addObject("pagination", pagination);
+		mav.addObject("one_category", one_category);
+		mav.addObject("totalSearch", totalSearch);
+		if(flag ==null || flag.equals("")) {
+			System.out.println("null이야~~~~~~~~");
+			mav.addObject("flag", "empty");
+		}else {
+			mav.addObject("flag", flag);
+		}
 		
 		return mav;
 	}
