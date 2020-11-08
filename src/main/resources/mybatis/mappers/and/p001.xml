@@ -80,7 +80,19 @@
       <![CDATA[
        	select *
        	from (
-		      	select ROW_NUMBER() OVER (ORDER BY d.one_id DESC) ROWNUMER, a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
+		      	select ROW_NUMBER() OVER (
+		      			]]>
+		      			<if test ="flag == 'empty'">
+		      				ORDER BY d.one_id DESC) ROWNUMER
+		      			</if>
+		      			<if test ="flag == 'distance'">
+		      				ORDER BY distance) ROWNUMER
+		      			</if>
+		      			<if test ="flag == 'date'">
+		      				ORDER BY a.one_date) ROWNUMER
+		      			</if>
+		      			<![CDATA[
+		      			, a.one_type, d.one_id, b.gc_name as one_state, c.gc_name as one_category, a.one_title, a.one_memberMax, 
 		       			CASE WHEN to_char(a.one_totalPrice/a.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(a.one_totalPrice/a.one_memberMax))||'원' END as one_price,
 		       			substr(a.one_date,6,11) as one_date, replace(a.one_hashTag,',','#') as one_hashTag, RTRIM(TO_CHAR(d.distance, 'FM9990.9999'),'.') as distance, a.one_locate_Lat, a.one_locate_Lng,
 		        		to_date(a.one_time,'yyyy-mm-dd HH24:mi:ss') as one_time, a.one_addr, substr(a.one_addr,1,6) as addrDetail, (select count(m_id) from one_member e where e.one_id = a.one_id and om_state not in ('10','40'))as one_member
@@ -107,17 +119,6 @@
                                     FROM and_one
                                     )
                             WHERE RESULT > 0)
-				]]>
-				<if test ="flag == 'empty'">
-				order by d.one_id DESC
-				</if>
-				<if test ="flag == 'distance'">
-				order by distance
-				</if>
-				<if test ="flag == 'date'">
-				order by a.one_date
-				</if>
-			<![CDATA[
 			)
 			WHERE ROWNUMER BETWEEN #{startIndex} AND #{endIndex}
       ]]>
