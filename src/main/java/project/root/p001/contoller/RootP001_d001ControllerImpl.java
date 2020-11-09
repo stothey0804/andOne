@@ -27,6 +27,8 @@ import project.and.vo.AndP001AndOneVO;
 import project.club.p001.service.ClubP001_d001Service;
 import project.club.vo.ClubVO;
 import project.root.p001.service.RootP001_d001Service;
+import project.shop.p002.service.ShopP002_d001Service;
+import project.shop.p002.vo.ShopP002ShopDetailVO;
 
 
 
@@ -38,6 +40,8 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 	ClubP001_d001Service clubP001_d001Service;
 	@Autowired
 	AndP001_d001Service p001_d001Service;
+	@Autowired
+	ShopP002_d001Service shopP002_d001Service;
 	
 	// 메인영역
 	@RequestMapping(value="/")
@@ -99,12 +103,26 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 		getEncoded(clubList);
 		
 		// 업체정보와 후기 출력
-		
+		ShopP002ShopDetailVO vo = new ShopP002ShopDetailVO();
+		vo.setSearchCondition("POPULAR");
+		vo.setStatus("REVIEW");
+		Map<String,Object> shop = new HashMap<>();
+		shop.put("vo",vo);
+		shop.put("startIndex",1);
+		shop.put("endIndex",4);
+		shop.put("limit",30);
+		shop.put("M_LOCATE_LAT",m_locate_Lat);
+		shop.put("M_LOCATE_LNG",m_locate_Lng);
+		List<ShopP002ShopDetailVO> shopList = shopP002_d001Service.getShopList(shop);
+		for(int i=0; i<shopList.size(); i++) {
+			shopP002_d001Service.shopImageEncoder(shopList.get(i));
+		}
 		//
 		mav.addObject("clubList", clubList);
 		mav.addObject("andEatList", andEatList);
 		mav.addObject("andBuyList", andBuyList);
 		mav.addObject("andDoList", andDoList);
+		mav.addObject("shopList",shopList);
 		
 		return mav;
 	}

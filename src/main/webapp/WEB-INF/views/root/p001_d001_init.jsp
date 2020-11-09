@@ -442,7 +442,7 @@
 		    <div class="swiper-wrapper">
 				<c:forEach var="shop" items="${shopList}" >
 			      <div class="swiper-slide">
-		
+					${shop.s_name }
 			      </div>
 				</c:forEach>
 		    </div>
