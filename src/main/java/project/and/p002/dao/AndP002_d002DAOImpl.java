@@ -28,13 +28,6 @@ public class AndP002_d002DAOImpl implements AndP002_d002DAO {
 		
 	}
 	
-	//엔분의일 신청거절
-	@Override
-	public void updateDenyOneMember(Map<String, Object> denyMap) {
-		sqlSession.update("and.p002.updateDenyOneMember",denyMap);
-		
-	}
-	
 	//취소 시간 계산
 	@Override
 	public int selectCancelTime(String one_id) {
@@ -42,7 +35,7 @@ public class AndP002_d002DAOImpl implements AndP002_d002DAO {
 		return CancelTime;
 	}
 	
-	//엔분의일 취소
+	//엔분의일 취소 OR 거절
 	@Override
 	public void updateCancelOneMember(Map<String, Object> cancelMap) {
 		sqlSession.update("and.p002.updateCancelOneMember", cancelMap);

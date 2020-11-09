@@ -46,12 +46,24 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 			@CookieValue(value="locate_lng", required = false) Cookie lngCookie, HttpServletRequest request, 
 			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("main");
-		
 		// 초기값 set
 		String m_locate_Lat = "37.570371";
 		String m_locate_Lng = "126.985308";
+		// 쿠키조회
 		try {
+			// 로그인정보 조회
+//			String m_id = (String)request.getSession(false).getAttribute("m_id");
+//			if(m_id!=null && m_id!="") {	// 로그인시 DB조회
+//				Map<String, String> locate = rootP001_d001Service.selectMemberLocate(m_id);
+//				// 쿠키갱신
+//				latCookie = new Cookie("locate_lat", locate.get("M_LOCATE_LAT"));
+//				lngCookie = new Cookie("locate_lng", locate.get("M_LOCATE_LNG"));
+//				response.addCookie(latCookie);
+//				response.addCookie(lngCookie);
+//			}
+
 			if(latCookie!=null && lngCookie!=null) {
+				System.out.println("쿠키있어...");
 				m_locate_Lat = latCookie.getValue();
 				m_locate_Lng = lngCookie.getValue();
 				System.out.println("컨트롤러 조회 위,경도~~ : " + m_locate_Lat +", " + m_locate_Lng);
@@ -124,6 +136,29 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 		
 	}
 	
+	private Map<String, String> selectLocate(@CookieValue(value="locate_lat", required = false) Cookie latCookie,
+			@CookieValue(value="locate_lng", required = false) Cookie lngCookie, HttpServletResponse response, String m_id) throws Exception{
+		Map<String, String> locate = new HashMap<String, String>();
+		if(m_id!=null && m_id!="") {	// 로그인시 DB조회
+			locate = rootP001_d001Service.selectMemberLocate(m_id);
+			// 쿠키갱신
+			latCookie = new Cookie("locate_lat", locate.get("M_LOCATE_LAT"));
+			lngCookie = new Cookie("locate_lng", locate.get("M_LOCATE_LNG"));
+			response.addCookie(latCookie);
+			response.addCookie(lngCookie);
+		}else {	// 비로그인 시 쿠키에서 조회
+			if(latCookie == null || lngCookie == null) {
+				locate.put("M_LOCATE_LAT","37.570371");
+				locate.put("M_LOCATE_LNG","126.985308");
+			}else {
+				locate.put("M_LOCATE_LAT",latCookie.getValue());
+				locate.put("M_LOCATE_LNG",lngCookie.getValue());
+
+			}
+		}
+		return locate;
+	}
+	
 	// locate 조회
 	@RequestMapping(value="/member/selectLocate.do", method= {RequestMethod.POST, RequestMethod.GET})
 	public void selectMemberLocate(@CookieValue(value="locate_lat", required = false) Cookie latCookie,
@@ -144,15 +179,14 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 			response.addCookie(lngCookie);
 		}else {	// 비로그인 시 쿠키에서 조회
 			if(latCookie == null || lngCookie == null) {
-				locate.put("M_LOCATE_LAT","0");
-				locate.put("M_LOCATE_LNG","0");
+				locate.put("M_LOCATE_LAT","37.570371");
+				locate.put("M_LOCATE_LNG","126.985308");
 			}else {
 				locate.put("M_LOCATE_LAT",latCookie.getValue());
 				locate.put("M_LOCATE_LNG",lngCookie.getValue());
 
 			}
 		}
-
 		System.out.println("==========> locate" + locate);
 		jsonStr = mapper.writeValueAsString(locate);
 		out.print(jsonStr);

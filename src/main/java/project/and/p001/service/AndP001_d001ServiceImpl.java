@@ -21,8 +21,6 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 	@Override
 	public List<AndP001AndOneVO> recentAndOneList(Map<String, Object> param) throws DataAccessException{
 		List<AndP001AndOneVO> recentAndOneList = null;
-		String g_id = (String) param.get("g_id");
-		System.out.println("service찍혀라ㅠㅠㅠㅠ"+g_id);
 		recentAndOneList = p001_d001DAO.selectRecentList(param);
 		return recentAndOneList;
 	}
@@ -32,6 +30,12 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 		List<AndP001AndOneVO> searchCtg = null;
 		searchCtg = p001_d001DAO.selectCtg(g_id);
 		return searchCtg;
+	}
+	//더보기
+	@Override
+	public List<AndP001AndOneVO> searchMoreAndOne(Map<String, Object> searchMap) {
+		List<AndP001AndOneVO> searchMoreAndOneList = p001_d001DAO.searchMoreAndOne(searchMap);
+		return searchMoreAndOneList;
 	}
 	//카테고리검색
 	@Override
@@ -97,6 +101,21 @@ public class AndP001_d001ServiceImpl implements AndP001_d001Service {
 	@Override
 	public void updateAndOnePay(String one_id) {
 		p001_d001DAO.updateAndOnePay(one_id);
+	}
+	@Override
+	public int andOneCnt() {
+		int andOneCnt = p001_d001DAO.selectAndOneCnt();
+		return andOneCnt;
+	}
+	@Override
+	public int selectAndOneCtgCnt(Map<String, Object> ctgSearchMap) {
+		int selectAndOneCtgCnt = p001_d001DAO.selectAndOneCtgCnt(ctgSearchMap);
+		return selectAndOneCtgCnt;
+	}
+	@Override
+	public int selectAndOneTotalSearchCnt(Map<String, Object> totalSearchMap) {
+		int selectAndOneTotalSearchCnt = p001_d001DAO.selectAndOneTotalSearchCnt(totalSearchMap);
+		return selectAndOneTotalSearchCnt;
 	}
 
 }

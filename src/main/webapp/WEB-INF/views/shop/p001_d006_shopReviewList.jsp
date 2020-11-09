@@ -306,12 +306,12 @@ a:hover {
 </head>
 <body>
 	<div class="container my-5 center">
-	<div>
-	<h2 class="m-5">전체 리뷰 리스트</h2>
-	<hr class="m-5">
-	<h4>후기(${reviewCount })</h4>
+	<div class="mx-5">
+		<h2>전체 리뷰 리스트</h2>
+		<hr class="mb-5">
+		<h4>후기(${reviewCount })</h4>
 	</div>
-	<div id="container">
+	<div class="mx-5">
 		<c:forEach var="list" items="${reviewList }">
 			<table id="${list.m_id }">
 				<tr class="tr1">

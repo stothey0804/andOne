@@ -16,10 +16,24 @@
 				height: 60px;
 				}
 	</style>
+	<script>
+	function init(){
+		let prices = document.querySelectorAll("span.price");
+			let priceResults = document.querySelectorAll("span.priceResult");
+			
+			for(let i=0; i<prices.length; i++){
+				var pResult = prices[i].textContent;
+				priceResults[i].innerHTML = pointToNumFormat(pResult);
+  			}
+		 	function pointToNumFormat(num) {
+		       	return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		    }
+	}
+	</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body class="bg-light">
+<body class="bg-light" onload="init()">
 
 	 <!-- 포인트 충전 Modal영역 -->
 	 <div class="modal fade" id="pointModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
@@ -78,7 +92,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h6>신청하신 &amp;분의일 취소와 사용하신 포인트(${andoneDetail.one_price}P) 환불이 완료되었습니다</h6> 
+                        <h6>신청하신 &amp;분의일 취소와 사용하신 포인트(<span class="price invisible">${andoneDetail.one_price}</span><span class="priceResult"></span>P) 환불이 완료되었습니다</h6> 
                     </div>
                     <div class="modal-footer">
                     	<button type="submit" class="btn btn-primary" 
@@ -136,7 +150,7 @@
 			<p class="h6 text-muted text-right">${andoneDetail.one_date} 예정</p>
 			<p class="h2 font-weight-bold text-right">
 			<span class="h6">결제금액 </span>
-			<span class="price">${andoneDetail.one_price}</span>P</p>
+			<span class="price invisible">${andoneDetail.one_price}</span><span class="priceResult"></span>P</p>
 		</div>
 	</div>
 	<div class="row my-3">
@@ -166,7 +180,7 @@
 					 			${oneMemList.m_nickname} 
 							</c:if>
 							<c:set var="mem_img" value="${oneMemList.resultUserImg}"/>
-					 		<c:if test="${oneMemList.om_leader eq '20' and oneMemList.om_state eq '20'}"> <!-- 결제완료한 참가자 -->
+					 		<c:if test="${oneMemList.om_leader eq '20' and (oneMemList.om_state eq '20' or oneMemList.om_state eq '30') }"> <!-- 결제완료한 참가자 -->
 					 			<c:choose>
 					 			 	<c:when test="${mem_img eq null}">
 					 			 		<img src="${contextPath}/resources/image/user.png" class="m_img" onclick="openMemPopup('${oneMemList.m_id}')">
@@ -203,31 +217,36 @@
 			<!-- 버튼들 -->
 			<div>
 				<c:choose>
-		 		<c:when test="${andoneDetail.one_state eq '취소'}">
-		 			<p class="text-muted text-center my-3">취소되어 신청이 불가능한 &amp;분의일 입니다 :)</p>
-		 		</c:when>
-		 		<c:when test="${andoneDetail.one_state eq '진행완료'}">
-		 			<p class="text-muted text-center my-3">같이 &amp;분의일을 한 사람에게 후기를 남겨주세요:)</p>
-		 		</c:when>
-		 		<c:when test="${omLeaderCheck.om_leader eq '10'}">
-		 		<div class="row mb-2">
-		 		<div class="col-6 pr-1"><button class="btn btn-block btn-info" onclick="modifyAndOne('${andoneDetail.one_id}')">수정하기</button></div>
-		 		<div class="col-6 pl-1"><button class="btn btn-block btn-danger" onclick="deleteAndOne('${andoneDetail.one_id}')">삭제하기</button></div>
-		 		</div>
-				 <button class="btn btn-secondary col-12" onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button><br>			 	
-	 			</c:when>
-	 			<c:when test="${omLeaderCheck.om_leader eq '20' and omLeaderCheck.om_state ne '40'}"> 
-				 	<button class="btn btn btn-danger col-12" onclick="cancelAndOne('${andoneDetail.one_id}','${andoneDetail.one_price}')">취소하기</button>
-				</c:when>
-				<c:otherwise>
-			 		<button class="btn btn-primary col-12" onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
-				</c:otherwise>
+			 		<c:when test="${andoneDetail.one_state eq '취소'}">
+			 			<p class="text-muted text-center my-3">취소되어 신청이 불가능한 &amp;분의일 입니다 :)</p>
+			 		</c:when>
+			 		<c:when test="${andoneDetail.one_state eq '진행완료'}">
+			 			<p class="text-muted text-center my-3">같이 &amp;분의일을 한 사람에게 후기를 남겨주세요:)</p>
+			 		</c:when>
+			 		<c:when test="${omLeaderCheck.om_leader eq '10'}">
+			 		<div class="row mb-2">
+			 		<div class="col-6 pr-1"><button class="btn btn-block btn-info" onclick="modifyAndOne('${andoneDetail.one_id}')">수정하기</button></div>
+			 		<div class="col-6 pl-1"><button class="btn btn-block btn-danger" onclick="deleteAndOne('${andoneDetail.one_id}')">삭제하기</button></div>
+			 		</div>
+					 <button class="btn btn-secondary col-12 mb-2" onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button><br>	
+		 			</c:when>
+		 			<c:when test="${omLeaderCheck.om_leader eq '20' and omLeaderCheck.om_state eq '20' and andoneDetail.one_state eq '모집중'}"> 
+					 	<button class="btn btn btn-danger col-12" onclick="cancelAndOne('${andoneDetail.one_id}','${andoneDetail.one_price}')">취소하기</button>
+					</c:when>
+					<c:when test="${empty omLeaderCheck.om_leader}" >
+				 		<button class="btn btn-primary col-12" onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
+					</c:when>
 				</c:choose>
 				<c:if test="${omLeaderCheck.om_leader ne '10'}">
 				 	<button class="btn btn-light col-12 mt-1" type="button" onClick='openReportPopup()'>부적절한 &amp;분의일 신고하기</button>
 				</c:if>		
 				<c:if test="${omLeaderCheck.om_state eq '20' and andoneDetail.one_state eq '결제완료' }"> 
-				 	<button class="btn btn-outline-primary col-12" onclick="completeAndOne('${andoneDetail.one_id}')">엔분의일 완료</button> 
+					<button class="btn btn-outline-primary col-12 mb-2" onclick="location.href='${contextPath}/message/messageInit.do'">채팅하기
+					 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chat-text" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+	  				 <path fill-rule="evenodd" d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
+	  				 <path fill-rule="evenodd" d="M4 5.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zM4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8zm0 2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/>
+					 </svg></button><br>
+				 	<button class="btn btn-outline-primary col-12" onclick="completeAndOne('${andoneDetail.one_id}')">&amp;분의일 완료</button> 
 				</c:if>
 			</div>
 		</div>
@@ -298,9 +317,9 @@
         					var finalPrice = Math.ceil((price-data)/1000)*1000;
         					console.log("됨?"+finalPrice);
         					$('#pointModal').modal("show");
-        					$('#point_value3').text("결제요청금액"+price+"원");
-        					$('#point_value').text(data+"p");
-        					$('#point_value2').text("충전할 포인트"+finalPrice+"P");
+        					$('#point_value3').text("결제요청금액"+price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"원");
+        					$('#point_value').text(data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"p");
+        					$('#point_value2').text("충전할 포인트"+finalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"P");
         					document.getElementById('amountResult').value = finalPrice;
         				}
         			}
@@ -339,6 +358,8 @@
 			frmData.target = popTitle;
 			frmData.action = "${contextPath}/point/kakaoPay.do";
 			frmData.submit();
+			window.close();
+			opener.location.reload();
 	       }
    		 
    	   //결제하기 클릭 - 신청
@@ -423,7 +444,7 @@
 		}
 		//완료하기
 		function completeAndOne(one_id){
-			if(window.confirm("&분의일을 완료하셨나요? 완료하셨다면 같이 &분의일을 진행한 분께 후기를 남겨주세요:)")){
+			if(window.confirm("&분의일을 완료하셨나요? 완료하셨다면 같이 &분의일을 진행한 분께 후기를 남겨주세요.")){
 				$.ajax({
 					type : "post",
 		   			dataType: "text",
@@ -433,9 +454,7 @@
 		   				"one_id" : one_id
 	   				},
 	   	   			success:function(data,textSataus){ 
-	   	   				alert("완료되었습니다")
-	   	   				// 완료 알림 전송
-	   	   				
+	   	   				alert("완료되었습니다");
 	   	   				location.reload();
 	   	   			}
 				})

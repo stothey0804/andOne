@@ -496,7 +496,7 @@
 <body>
 <!-- 	소모임 카드 -->
 <div class="row" style="clear:both;">
-	<div class="container my-6 center top" style="margin-left:280px;">
+	<div class="container my-6 center top" style="margin: 0 auto">
 		<div class="left">
 			<div class="card info" style="width: 17rem;">
 			<c:set var="c_img" value="${clubImg}"/>

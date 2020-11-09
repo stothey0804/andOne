@@ -34,16 +34,17 @@
    				console.log("확인:"+data);
    				if(data =="fail"){
    					alert("수락인원이 초과되어 수락이 불가능합니다");
-   				}else if(data == "success"){
-	   				$(".check"+idx).html("&분의일 신청 수락완료:)");
-	   				// ------ 알림전송
+   				}else if(data == "success"){//엔분의일 수락알람
+	   				$(".check"+idx).html("&분의일 신청 수락완료");
+	   				// ------ 알림전송 ()
 	   			 	// db저장	
 	   	   		    let g_id = '${g_id}';
 	   	   		    let type = '';
 	   	   		    // 분류코드설정
 					if(g_id=='010'){type='10';}else if(g_id=='011'){type='20'}else if(g_id=='012'){type='30';}
-	   	   		 	let content = '['+ one_id +'] 참가신청이 수락됐습니다.';		// 알림메시지
-	   	   		 	let url = '${contextPath}/and/detailAndOne.do?one_id='+one_id+'&g_id='+g_id;
+	   	   		 	let content = '['+ one_id +'] 참가신청이 수락됐습니다. 채팅을 시작해보세요.';		// 알림메시지
+// 	   	   		 	let url = '${contextPath}/and/detailAndOne.do?one_id='+one_id+'&g_id='+g_id;
+	   	   		 	let url = '${contextPath}/message/messageInit.do';
 	   	   		 	$.ajax({
 	   					type: 'post',
 	   					url: '${contextPath}/member/saveNotify.do',
@@ -56,16 +57,43 @@
 	   					},
 	   					success: function(){
 	   						// 소켓전송
-	   						socket.send("&분의일,"+target+","+content+","+url);	// 소켓에 전달
+	   						socket.send("&분의일,"+m_id+","+content+","+url);	// 소켓에 전달
 	   					}
 	   				});
 	   	   		 	// ------ 알림전송 END
+   				}else if(data == "complete"){//모든참가자가 참여확정이라 one_state가 결제완료상태로 변경
+   					// 참여확정 알림전송
+	   				// ------ 알림전송
+	   			 	// db저장	
+	   	   		    let g_id = '${g_id}';
+	   	   		    let type = '';
+	   	   		    // 분류코드설정
+					if(g_id=='010'){type='10';}else if(g_id=='011'){type='20'}else if(g_id=='012'){type='30';}
+	   	   		 	let content = '['+ one_id +'] 모든 참가자가 확정됐습니다. 채팅을 시작해보세요.';		// 알림메시지
+	   	   		 	let url = '${contextPath}/message/messageInit.do';
+	   	   		 	$.ajax({
+	   					type: 'post',
+	   					url: '${contextPath}/member/saveNotify.do',
+	   					dataType: 'text',
+	   					data: {
+	   						target: '${sessionScope.m_id}',
+	   						content: content,
+	   						type: type,
+	   						url: url
+	   					},
+	   					success: function(){
+	   						// 소켓전송
+	   						socket.send("&분의일,"+m_id+","+content+","+url);	// 소켓에 전달
+	   					}
+	   				});
+	   	   			// ------ 알림전송 END
+   					$(".check"+idx).html("&분의일 신청 수락완료");
    				}
    			}
 		})
 	}
 	//거절하기
-	function denyAndOne(m_id,one_id,idx){
+	function denyAndOne(m_id,one_price,one_id,idx){
 		console.log("m_id>>"+m_id);
 		console.log("one_id>>"+one_id);
 		$.ajax({
@@ -75,7 +103,8 @@
    			url:"${contextPath}/and/denyOneMember.do",
    			data:{
    				m_id : m_id,
-   				one_id: one_id
+   				one_id: one_id,
+   				one_price : one_price
    			},
    			success:function(data,textSataus){
    				$("#"+idx).remove();
@@ -99,7 +128,7 @@
    					},
    					success: function(){
    						// 소켓전송
-   						socket.send("&분의일,"+target+","+content+","+url);	// 소켓에 전달
+   						socket.send("&분의일,"+m_id+","+content+","+url);	// 소켓에 전달
    					}
    				});
    	   		 	// ------ 알림전송 END
@@ -139,7 +168,7 @@
 						<td>${list.om_date}</td>
 						<td onclick="event.cancelBubble=true" class="check${status.count}">
 							<button type="button" class="btn btn-outline-danger" onclick="okAndOne('${list.m_id}','${list.one_id}','${status.count}')">수락</button>
-							<button type="button" class="btn btn-outline-dark" onclick="denyAndOne('${list.m_id}','${list.one_id}','${status.count}')">거절</button>
+							<button type="button" class="btn btn-outline-dark" onclick="denyAndOne('${list.m_id}','${list.one_price}','${list.one_id}','${status.count}')">거절</button>
 						</td>
 					</tbody>
 					</c:forEach>

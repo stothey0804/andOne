@@ -72,6 +72,14 @@
 // 			console.log(result);
 			stars[i].innerHTML = result;
 		}
+		
+		let prices = document.querySelectorAll("span.price");
+			let priceResults = document.querySelectorAll("span.priceResult");
+			
+			for(let i=0; i<prices.length; i++){
+				var pResult = prices[i].textContent;
+				priceResults[i].innerHTML = pointToNumFormat(pResult);
+  		}
 
  	}
 
@@ -229,7 +237,7 @@
 				<div class="form-group mx-3 searchInput">
 				  <div class="p-1 rounded rounded-pill border border-primary" style="border-width:4px !important">
 		            <div class="input-group">
-		              <input type="search" placeholder="검색" aria-describedby="button-addon1" name="searchKeyword" class="form-control border-0 m-1 bg-light">
+		              <input type="search" placeholder="<spring:message code="searchInput" />" aria-describedby="button-addon1" name="searchKeyword" class="form-control border-0 m-1 bg-light">
 		              <div class="input-group-append">
 		                <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
 		              </div>
@@ -267,7 +275,7 @@
 				<div class="row">
 					<c:if test="${empty andEatList}">
 						<div class="col-12 m-3 bg-light card">
-							<div class="cord-body p-5 text-center">근처에 등록된 같이먹기가 없습니다.<br>위치정보가 설정되어있는지 확인해주세요 :)</div>
+							<div class="cord-body p-5 text-center"><spring:message code="emptyMsg" /></div>
 						</div>
 					</c:if>
 					<c:forEach var ="andone" items="${andEatList}" > 
@@ -287,7 +295,7 @@
 									</div>
 									<div class="clearfix">
 										<p class="card-text float-left mb-0"> #${andone.one_hashTag}  </p>
-										<p class="card-text float-right h6"> 예상 <b>${andone.one_price}</b> <span class="text-secondary"> <i class="fas fa-user-friends"></i> ${andone.one_member}/${andone.one_memberMax} </span></p>
+										<p class="card-text float-right h6"><span class="price invisible"><b>${andone.one_price}</b></span> 예상 <span class="priceResult"></span>  <span class="text-secondary"> <i class="fas fa-user-friends"></i> ${andone.one_member}/${andone.one_memberMax} </span></p>
 									</div>
 									<p class="card-text float-left"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
 									<p class="card-text float-right h6"> ${andone.addrDetail} / ${andone.distance}km  </p>
@@ -309,7 +317,7 @@
 				<div class="row">
 					<c:if test="${empty andBuyList}">
 						<div class="col-12 m-3 bg-light card">
-							<div class="cord-body p-5 text-center">근처에 등록된 같이하기가 없습니다.<br>위치정보가 설정되어있는지 확인해주세요 :)</div>
+							<div class="cord-body p-5 text-center"><spring:message code="emptyMsg" /></div>
 						</div>
 					</c:if>
 					<c:forEach var ="andone" items="${andBuyList}" > 
@@ -351,7 +359,7 @@
 				<div class="row">
 					<c:if test="${empty andDoList}">
 						<div class="col-12 m-3 bg-light card">
-							<div class="cord-body p-5 text-center">근처에 등록된 같이먹기가 없습니다.<br>위치정보가 설정되어있는지 확인해주세요 :)</div>
+							<div class="cord-body p-5 text-center"><spring:message code="emptyMsg" /></div>
 						</div>
 					</c:if>
 					<c:forEach var ="andone" items="${andDoList}" > 

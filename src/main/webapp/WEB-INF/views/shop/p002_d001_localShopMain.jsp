@@ -81,14 +81,18 @@ a {
     cursor: pointer;
 	}
 	
-.si_box{
-	width: 285px;
-	height: 230px; 
-    overflow: hidden;
-    cursor: pointer;
-    text-align: center;
-	}
+/* .si_box{ */
+/* 	width: 285px; */
+/* 	height: 230px;  */
+/*     overflow: hidden; */
+/*     cursor: pointer; */
+/*     text-align: center; */
+/* 	} */
 
+.thumb{
+	height: 230px;
+	object-fit: cover;
+}
 
 </style>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
@@ -167,27 +171,30 @@ a {
 						console.log(jsonInfo[i].s_name);
 						output += "<div class='mx-3 d-inline-block align-top'>";
 						output += "<div class='card' style='width: 18rem;'>";
-						output += "<div class='si_box'>"
+// 						output += "<div class='si_box'>"
 						output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
 						if(Object.keys(jsonInfo[i].shopImage).length != 0){
-							output += "<img src='data:image/jpg;base64,"+jsonInfo[i].shopImage[0].si_encodedImg+"' class='card-img-top img-thumbnail'alt='...'>";
+							output += "<img src='data:image/jpg;base64,"+jsonInfo[i].shopImage[0].si_encodedImg+"' class='card-img-top thumb' alt='...'>";
 						}else{
-							output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top img-thumbnail' alt='...'>";
+							output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top thumb' alt='...'>";
 						}
 						output += "</a>";
-						output += "</div>";
-						output += "<div class='card-body'><h5 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>"+jsonInfo[i].s_name+"</a></h5>";
-						output += "<div id='popularAddr"+i+"'></div>";
+// 						output += "</div>";
+						//카테고리 표시
+						output += "<div class='card-body'><small class='text-secondary'>"+jsonInfo[i].gc_name+"</small>";
+						output += "<h4 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>"+jsonInfo[i].s_name+"</a></h4>";
+						output += "<div id='popularAddr"+i+"'></div>"
+						output += "<p class='text-right mt-2 mb-0'><i class='fas fa-map-marker-alt mr-1 text-muted'></i>";
 						if(jsonInfo[i].distance<1){
 							output += (jsonInfo[i].distance * 1000) + "m";
 						}else{
 							output += jsonInfo[i].distance + "km";
 						}
-						output += "</div>";
-						output += "<div class='card-body border-top' id='review'>";
-						output += "<p class='card-text'>";
-						output += "<a href='#'>후기 "+jsonInfo[i].reviewCount+"건</a><br>";
-						output += ""+printStar(jsonInfo[i].s_score)+"</p></div></div></div>";
+						output += "</p></div>";
+						output += "<div class='card-body border-top clearfix' id='review'>";
+						output += "<p class='mb-0 card-text float-left'>";
+						output += "<a href='#'>후기 "+jsonInfo[i].reviewCount+"건</a></p>";
+						output += "<p class='mb-0 card-text float-right'>"+printStar(jsonInfo[i].s_score)+"</p></div></div></div>";
 					}
 					output += "</div></div>";
 					
