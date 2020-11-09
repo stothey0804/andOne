@@ -502,7 +502,8 @@ table.shopInfo{
 					};
 					geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
 					//인포윈도우
-					var iwContent = '<div style="padding:5px;">${resultVO.s_name}</div>';
+					var linkPath = 'https://map.kakao.com/link/to/${resultVO.s_name},${resultVO.s_locate_lat},${resultVO.s_locate_lng}';
+					var iwContent = '<div style="padding:5px;"><a target="_blank" href="'+linkPath+'">${resultVO.s_name}</a></div>';
 					var iwPosition = new kakao.maps.LatLng(x, y);
 					var infowindow = new kakao.maps.InfoWindow({
 					    position : iwPosition, 

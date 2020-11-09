@@ -215,7 +215,6 @@
 	}
 	
 	function deleteButton(){
-		alert('이미지 삭제할거임');
 		$.ajax({
 			type: "post",
 			async: true,
@@ -508,7 +507,6 @@
 			else if($(".is-invalid").length!=0){
 				alert("입력정보를 확인해주세요.");
 			}else{
-				alert('보낼거얌');
 				//모든 조건 통과시 saveMember로 보내기
 				hashtag = '';
 				for(let i=0; i<hashtagArr.length; i++){
@@ -517,7 +515,6 @@
 				hashtag = hashtag.slice(0,-1);
 				$('#s_hashtag').val(hashtag);
 				$('#inputHashtag').remove();
-				alert(hashtag);
 				var frmShopInfo = document.frmShopInfo;
 				frmShopInfo.action = "${contextPath}/biz/modifyShop.do";
 				frmShopInfo.submit();

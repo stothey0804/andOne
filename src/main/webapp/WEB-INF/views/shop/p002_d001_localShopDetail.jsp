@@ -524,7 +524,8 @@ a:hover {
 				};
 				geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
 				//인포윈도우
-				var iwContent = '<div style="padding:5px;">'+jsonInfo.s_name+'</div>';
+				var linkPath = 'https://map.kakao.com/link/to/'+jsonInfo.s_name+','+jsonInfo.s_locate_lat+','+jsonInfo.s_locate_lng;
+				var iwContent = '<div style="padding:5px;"><a target="_blank" href="'+linkPath+'">'+jsonInfo.s_name+'</a></div>';
 				var iwPosition = new kakao.maps.LatLng(x, y);
 				var infowindow = new kakao.maps.InfoWindow({
 				    position : iwPosition, 
