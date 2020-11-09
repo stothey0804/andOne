@@ -128,6 +128,7 @@ a:hover {
 			infoButton += '<path d="M27.1 35.7h-6.2c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5h6.2c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5z"></path>';
 			infoButton += '<path d="M24 35.7c-.8 0-1.5-.7-1.5-1.5V23.5h-1.6c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5H24c.8 0 1.5.7 1.5 1.5v12.2c0 .8-.7 1.5-1.5 1.5z"></path></svg>';
 			$('#chatRoomTitle').html(aTag+titleMap.get(one_id)+'</a>&nbsp;'+infoButton);
+			listHighlight(one_id);
 			setupUserImageMap(one_id);
 		})
 	}
@@ -458,6 +459,14 @@ a:hover {
 		  
 	}
 	
+	function listHighlight(param){
+		$('div.list-group a').removeClass('active');
+		$('div.list-group a').removeClass('text-white');
+		$('div.list-group a').addClass('list-group-item-light');
+		$('div.list-group#'+param+' a').removeClass('list-group-item-light');
+		$('div.list-group#'+param+' a').addClass('active');
+		$('div.list-group#'+param+' a').addClass('text-white');
+	}
 	
 </script>
 </head>
@@ -571,5 +580,6 @@ a:hover {
     
   </div>
   </div>
+  
     </body>
     </html>
