@@ -23,7 +23,7 @@
 	<insert id="insertShopReview" parameterType="ShopP003ShopReviewVO">
 		<![CDATA[
 			INSERT INTO S_REVIEW (S_ID,M_ID,SR_CONTENT,SR_DATE,SR_SCORE,SR_PUBLIC)
-			VALUES (#{s_id},#{m_id},#{sr_content},SYSDATE,#{sr_score},'1')
+			VALUES (#{s_id},#{m_id},#{sr_content},TO_CHAR(SYSDATE,'yyyy-mm-dd'),#{sr_score},'1')
 		]]>
 	</insert>
 	
@@ -37,7 +37,7 @@
 	<update id="updateShopReview" parameterType="ShopP003ShopReviewVO">
 		<![CDATA[
 			UPDATE S_REVIEW
-			SET SR_CONTENT = #{sr_content}, SR_DATE = SYSDATE, SR_SCORE = #{sr_score}, SR_PUBLIC = '1'
+			SET SR_CONTENT = #{sr_content}, SR_DATE = TO_CHAR(SYSDATE,'yyyy-mm-dd'), SR_SCORE = #{sr_score}, SR_PUBLIC = '1'
 			WHERE S_ID = #{s_id}
 			AND M_ID = #{m_id}
 		]]>
