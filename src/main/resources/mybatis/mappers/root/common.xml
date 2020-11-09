@@ -40,7 +40,7 @@
    		<![CDATA[
 			SELECT gc_name 
 			FROM common_code
-			WHERE g_id = #{g_id} AND gc_id = #{gc_id};
+			WHERE g_id = #{g_id} AND gc_id = #{gc_id}
    		]]>
    	</select>
    	

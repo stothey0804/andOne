@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +30,13 @@ import project.and.vo.AndP001AndOneVO;
 import project.club.p001.service.ClubP001_d001Service;
 import project.club.vo.ClubVO;
 import project.root.p001.service.RootP001_d001Service;
+import project.shop.p002.service.ShopP002_d001Service;
+import project.shop.p002.vo.ShopP002ShopDetailVO;
 
 
 
 @Controller
+@Component
 public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 	@Autowired
 	RootP001_d001Service rootP001_d001Service;
@@ -38,6 +44,8 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 	ClubP001_d001Service clubP001_d001Service;
 	@Autowired
 	AndP001_d001Service p001_d001Service;
+	@Autowired
+	ShopP002_d001Service shopP002_d001Service;
 	
 	// 메인영역
 	@RequestMapping(value="/")
@@ -99,12 +107,30 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 		getEncoded(clubList);
 		
 		// 업체정보와 후기 출력
-		
+		ShopP002ShopDetailVO vo = new ShopP002ShopDetailVO();
+		vo.setSearchCondition("POPULAR");
+		vo.setStatus("REVIEW");
+		Map<String,Object> shop = new HashMap<>();
+		shop.put("vo",vo);
+		shop.put("startIndex",1);
+		shop.put("endIndex",4);
+		shop.put("limit",30);
+		shop.put("M_LOCATE_LAT",m_locate_Lat);
+		shop.put("M_LOCATE_LNG",m_locate_Lng);
+		List<ShopP002ShopDetailVO> shopList = shopP002_d001Service.getShopList(shop);
+		for(int i=0; i<shopList.size(); i++) {
+			shopP002_d001Service.shopImageEncoder(shopList.get(i));
+		}
+		// 인기 해시태그 불러오기
+		String ph_content = rootP001_d001Service.getPopularHashtag();
+		String[] hashtag = ph_content.split(",");
 		//
 		mav.addObject("clubList", clubList);
 		mav.addObject("andEatList", andEatList);
 		mav.addObject("andBuyList", andBuyList);
 		mav.addObject("andDoList", andDoList);
+		mav.addObject("shopList",shopList);
+		mav.addObject("hashtag",hashtag);
 		
 		return mav;
 	}
@@ -245,5 +271,12 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 				}
 			}
 		}
+	}
+	
+	//24시간마다 인기 해시태그 자동 업데이트
+	@Scheduled(fixedRate = 86400000) //24시간마다 호출
+	public void handle() {
+		System.out.println("=================================>> LogProcessor.handle(): " + new Date());
+		rootP001_d001Service.popularHashtagUpdate();
 	}
 }

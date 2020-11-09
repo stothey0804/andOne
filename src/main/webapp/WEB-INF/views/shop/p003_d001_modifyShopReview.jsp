@@ -158,7 +158,6 @@ div#loadingImg{
 		})
 	}
 	function deleteButton(){
-		alert('이미지 삭제할거임');
 		$.ajax({
 			type: "post",
 			async: true,

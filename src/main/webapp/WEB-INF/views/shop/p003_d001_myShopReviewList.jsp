@@ -216,7 +216,7 @@ div.topTitle{
 		<c:forEach var="list" items="${reviewList }">
 			<table id="${list.m_id }">
 			<tr>
-				<td align="right" colspan="5">이거 s_id인데 활용해서 해당 업체 정보로 넘기든가 해볼게요 ${list.s_id }</td>
+				<td align="right" colspan="5"><a href="${contextPath }/shop/localShopDetail.do?s_id=${list.s_id }">업체정보로 이동 >></a></td>
 				<td></td>
 				<tr class="tr1">
 					<td rowspan="3" width="80">
