@@ -101,7 +101,7 @@
 	<update id="initShopScore" parameterType="String">
 		<![CDATA[
 			UPDATE SHOP
-			SET S_SCORE = 'none'
+			SET S_SCORE = '0'
 			WHERE S_ID = #{s_id}
 		]]>
 	</update>
