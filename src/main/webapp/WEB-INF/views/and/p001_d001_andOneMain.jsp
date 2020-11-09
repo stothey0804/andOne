@@ -92,7 +92,72 @@
   				var pResult = prices[i].textContent;
   				priceResults[i].innerHTML = pointToNumFormat(pResult);
 	  		}
+		var andOneCnt = '${andOneCnt}';
+    	// 조회 인덱스
+		var startIndex = 1;	// 인덱스 초기값
+		var searchStep = 6;	// 6걔씩 로딩
+  	
+	    //더보기 클릭시
+	    $('#searchMoreAndOne').click(function(){
+	    	console.log("들어오시나요????/")
+			startIndex += searchStep;
+			readOldAndOne(startIndex);
+		});
+	    
+	    // 더보기 실행함수
+		function readOldAndOne(index){
+			let _endIndex = index+searchStep-1;	// endIndex설정
+			$.ajax({
+				type: "post",
+				async: "true",
+				dataType: "json",
+				data: {
+					g_id: '${g_id}',
+					m_locate_Lat: '${m_locate_Lat}',
+					m_locate_Lng: '${m_locate_Lng}',
+					startIndex: index,
+					endIndex: _endIndex,
+					flag : '${flag}'
+				},
+				url: "${contextPath}/and/searchMoreAndOne.do",
+	            success: function (data, textStatus) {
+	            	console.log(data);
+	            	let NodeList = "";
+					for(i = 0; i < data.length; i++){
+						console.log("여기는????????");
+						let newNode = "<div class='col-sm-6 mb-3'>";
+						newNode += "<div class='card and_card' onclick='location.href='http://localhost:8090/andOne/and/detailAndOne.do?one_id="+data[i].one_id+"&g_id="+data[i].one_type+"''>";
+						newNode += "<div class='card-body'><div class='card-title clearfix'>";
+						newNode += "<p class='h5'><span class='text-primary'>["+data[i].one_category+"]</span>&nbsp;"+data[i].one_title+"</p>";
+						if(data[i].one_state == "모집중"){
+							newNode +="<span class='text-primary'>";
+						}else if(data[i].one_state == "결제완료"){
+							newNode +="<span class='text-success'>";
+						}else if(data[i].one_state == "결제완료"){
+							newNode +="<span class='text-success'>";
+						}else if(data[i].one_state == "진행완료"){
+							newNode +="<span class='text-secondary'>";
+						}else if(data[i].one_state == "취소"){
+							newNode +="<span class='text-danger'>"+data[i].one_state+"</span></p>";
+						}
+						newNode += "<p class='card-subtitle mb-3 text-muted float-right'><span class='date'>"+data[i].one_date+"수령예정</span></p></div><div class='clearfix'>";
+						newNode += "<p class='card-text float-left'>"+data[i].one_hashTag+"</p>";
+						newNode += "<p class='card-text float-right h6'><span class='price invisible'><b>"+data[i].one_price+"</b>";
+						newNode += "</span> 예상 <span class='priceResult'></span> <span class='text-secondary'><i class='fas fa-user-friends'></i>"+data[i].one_member+"/"+data[i].one_memberMax+"</span></p></div>";
+						newNode += "<p class='card-text float-left'><span class='timeResult'></span><span class='time invisible'>"+data[i].one_time+"</span></p>";
+						newNode += "<p class='card-text float-right h6'>"+data[i].addrDetail+"/"+data[i].distance+"km</p></div></div></div>";
+						NodeList += newNode;
+						}
+		            	$(NodeList).appendTo($("#oldAndOne")).slideDown();
+		        		// 더보기 버튼 삭제
+		            	if(startIndex + searchStep > andOneCnt){
+		        			$('#searchMoreAndOne').remove();
+		        		}
+	            	}
+				});
+			}
 		}
+		
 		//글 올라온시점 계산 함수
 	    function timeForToday(value) {
 	    const today = new Date();
@@ -119,6 +184,7 @@
 	    function pointToNumFormat(num) {
 	       	return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	    }
+	    
 	   
 	</script>
 <meta charset="UTF-8">
@@ -310,9 +376,14 @@
 				</div>
 			</c:forEach>
 			</div>
-	</div>	
-				<div class="resisterBtn" style="width:500px; margin: 0 auto">
-					<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-primary rounded btn-block"> 새로운 활동 등록하기 </button>
+			<div id="oldAndOne" class='row'>
 			</div>
+	</div>
+	<div style="width:500px; margin: 0 auto">
+		<button id="searchMoreAndOne" class="btn btn-primary rounded btn-block mb-3">더 보기</button>	
+	</div>	
+	<div class="resisterBtn" style="width:500px; margin: 0 auto">
+		<button onclick="location.href='${contextPath}/andeat/insertAndOnePage.do?g_id=${g_id}'" class="btn btn-primary rounded btn-block"> 새로운 활동 등록하기 </button>
+	</div>
 </body>
 </html>

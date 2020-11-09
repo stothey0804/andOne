@@ -69,12 +69,15 @@ public class AndP002_d002ControllerImpl implements AndP002_d002Controller {
 			oneMemCnt = p002_d002Service.oneMemCnt(cntMap);
 			System.out.println("ㅠㅠㅠㅠㅠㅠㅠ글인원수:"+andOneCnt);
 			System.out.println("ㅠㅠㅠㅠㅠㅠㅠ참가인원수:"+oneMemCnt);
+			
 			if(andOneCnt == oneMemCnt) {
 				System.out.println("인원수 마감!!!!!!");
 				Map<String, Object> updateMap = new HashMap<String, Object>();
 				updateMap.put("one_id", one_id);
 				updateMap.put("flag", "update");
 				p002_d002Service.updateOneState(updateMap); //엔분의일 one_state 20(결제완료)로 변경
+				check = "complete";
+				return check;
 			}
 			return check;
 		}
@@ -85,7 +88,7 @@ public class AndP002_d002ControllerImpl implements AndP002_d002Controller {
 	@RequestMapping(value="denyOneMember.do")
 	public void denyOneMember(@RequestParam Map<String, Object> denyMap) {
 		String m_id = (String) denyMap.get("m_id");
-		System.out.println("거절!!!!!!!!!!!!!!one"+denyMap.get("one_id"));
+		String one_id = (String) denyMap.get("one_id");
 		String one_price = (String) denyMap.get("one_price");
 		p002_d002Service.cancelOneMember(denyMap);////one_member에서 지우기
 		
@@ -93,7 +96,7 @@ public class AndP002_d002ControllerImpl implements AndP002_d002Controller {
 		PointP001VO pointVO = new PointP001VO();
 		pointVO.setM_id(m_id);
 		pointVO.setP_changepoint(one_price);
-		pointVO.setP_detail("포인트 환불");
+		pointVO.setP_detail("&분의일["+one_id+"]취소 포인트환불");
 		String nowPoint = pointP001_d001Service.selectNowPointById(m_id);
 		pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint); //포인트 null값 0으로 변경
 		
@@ -124,7 +127,7 @@ public class AndP002_d002ControllerImpl implements AndP002_d002Controller {
 			PointP001VO pointVO = new PointP001VO();
 			pointVO.setM_id(m_id);
 			pointVO.setP_changepoint(one_price);
-			pointVO.setP_detail("포인트 환불");
+			pointVO.setP_detail("&분의일["+one_id+"]취소 포인트환불");
 			String nowPoint = pointP001_d001Service.selectNowPointById(m_id);
 			pointVO.setP_currentpoint(nowPoint==null? "0": nowPoint); //포인트 null값 0으로 변경
 			

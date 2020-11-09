@@ -11,6 +11,8 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/jquery.datetimepicker.css"/>
 	<!-- Perfect-DateTimePicker JS -->
 	<script type="text/javascript" src="${contextPath}/resources/js/jquery.datetimepicker.js"></script>
+	<!-- CKEDITOR-->
+	<script src = "${contextPath}/resources/js/ckeditor/ckeditor.js"></script>
 	
 	<style>
 	
@@ -106,13 +108,13 @@
         		<button type="button" class="btn btn-outline-primary" onclick="searchAddress()" >위치선택하기</button>&nbsp;
         		<input type="text" id="inputAddress" name ="one_addr"  class="form-control col-9" placeholder="위치를선택해주세요" readonly><br>
     	</div>
-     	<div id="map" style="width:500px; height:250px"></div>
+     	<div id="map" class="mb-4" style="width:500px; height:250px"></div>
       	<input type="hidden" name="one_locate_Lat" value="">
        	<input type="hidden" name="one_locate_Lng" value=""> <!-- 맵 좌표값 보내기 -->
         <!-- 내용 -->
         <div class="form-group">
-       		<label for="one_content" style="margin-top:10px;">내용</label>
        		<textarea rows="10" id="one_content" class="form-control" name="one_content"></textarea>
+       		<script>CKEDITOR.replace('one_content')</script>
        	</div>
        	<!-- 해시태그 -->
        	<div class="form-group">
@@ -285,7 +287,6 @@
 				hashtag = hashtag.slice(0,-1);
 				$('#one_hashTag').val(hashtag);
 				$('#inputHashtag').remove();
-				alert(hashtag);
 	    	  var insertAnd = document.insertAnd;
 	    	  insertAnd.action = "${contextPath}/and/insertAndOne.do";
 	    	  insertAnd.method= "post";

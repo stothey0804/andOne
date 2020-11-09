@@ -195,9 +195,9 @@ $(document).ready(function(){
 		data: buyCategory,
 		options: {
 			legend: {
-				display : false
+				position: 'bottom',
+				labels: {pointStyle:'circle', usePointStyle:true}}
 			}
-		}
 	});
 	var eatCategoryChart = document.getElementById("eatCategoryChart");
 	window.myBar = new Chart( eatCategoryChart, {
@@ -205,9 +205,9 @@ $(document).ready(function(){
 		data: eatCategory,
 		options: {
 			legend: {
-				display : false
+				position: 'bottom',
+				labels: {pointStyle:'circle', usePointStyle:true}}
 			}
-		}
 	});
 	var actCategoryChart = document.getElementById("actCategoryChart");
 	window.myBar = new Chart( actCategoryChart, {
@@ -215,9 +215,9 @@ $(document).ready(function(){
 		data: actCategory,
 		options: {
 			legend: {
-				display : false
+				position: 'bottom',
+				labels: {pointStyle:'circle', usePointStyle:true}}
 			}
-		}
 	});
 		
 });

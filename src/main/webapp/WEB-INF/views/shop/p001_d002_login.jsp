@@ -43,36 +43,53 @@
 	</script>
 <meta charset="UTF-8">
 <title>업체회원 로그인</title>
+<style type="text/css">
+	.login-form{
+		width: 300px;
+    	position: absolute;
+    	left: 50%;
+    	top: 50%;
+    	transform: translate(-50%, -50%);
+	}
+	h1.logotype{
+		font-size: 4em;
+	}
+	.login-form input[type="text"]{
+		margin-bottom: -1px;
+		border-bottom-right-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+	.login-form input[type="password"]{
+		border-top-right-radius: 0;
+		border-top-left-radius: 0;
+	}
+</style>
 </head>
-<body>
+<body class="text-center bg-light">
 <!--쿠키가 있을 경우 ${checked}에 checked 속성 부여  -->
 	<c:if test="${not empty cookie.id_check}">
 		<c:set value="checked" var="checked" />
 	</c:if>
-	 <div class="col-lg-6 col-sm-10 mx-auto mt-5 ">
-  		<div class="form-group col-md-6">
-    		<label for="inputId">아이디</label>
-    		<input type="text" class="form-control" id="inputId" value="${cookie.id_check.value}" name="bm_id">
+		<div class="login-form m-auto">
+			<h1 class="logotype text-dark">&분의일</h1>
+			<p class="h5 mb-4 font-weight-normal">지역업체회원 관리자페이지</p>
+			<label for="inputId" class="sr-only">아이디</label>
+    		<input type="text" class="form-control" placeholder="아이디" id="inputId" value="${cookie.id_check.value}" name="bm_id">
     		<!-- 쿠키에 저장되어 있는 value(아이디값)가져오기 -->
-		</div>
-  		<div class="form-group col-md-6">
-    		<label for="inputPwd">비밀번호</label>
-    		<input type="password" class="form-control" id="inputPwd" name="bm_pwd">
-          </div>
-        <div class="form-group col-md-6">
-    		<span class="font-weight-bold text-black" id="sploginCheck"></span>
-        </div>
-  		<div class="form-group form-check">
-    		<input type="checkbox" class="form-check-input" id="_saveId" name="saveId" ${checked}>
-    		<label class="form-check-label" for="_saveId">아이디 저장하기</label>
-    		<a href="${contextPath}/biz/findInfo.do">아이디 /비밀번호 찾기</a>
-        </div>
-        <div class="form-group form-check">
-            <button type="button" id ="login" class="btn btn-primary col-md-6">로그인</button>
-        </div>
-        <div class="form-group form-check">
-            <button onclick="location.href='${contextPath}/biz/join.do'" class="btn btn-primary col-md-6">회원가입</button>
-        </div>
+    		<label for="inputPwd" class="sr-only">비밀번호</label>
+    		<input type="password" class="form-control" placeholder="비밀번호" id="inputPwd" name="bm_pwd">
+    		<div class="form-group col-md-6">
+    			<span class="font-weight-bold text-black" id="sploginCheck"></span>
+	        </div>
+	  		<div class="form-group form-check">
+	    		<input type="checkbox" class="form-check-input" id="_saveId" name="saveId" ${checked}>
+	    		<label class="form-check-label" for="_saveId">아이디 저장하기</label>
+	        </div>
+	        <button class="btn btn-lg btn-dark btn-block mt-2" id="login">로그인</button>
+		    <p class="m-3"><a class="text-muted" href="${contextPath}/biz/findInfo.do">아이디 /비밀번호 찾기</a></p>
+		    <button class="btn btn-lg btn-outline-dark btn-block" onclick="location.href='${contextPath}/biz/join.do'">회원가입</button>
+		    <p class="mt-5 mb-3 text-muted">© 2020 능력있는사람들</p>
 	</div>
+	
 </body>
 </html>

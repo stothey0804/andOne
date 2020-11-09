@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import project.shop.p001.service.ShopP001_d004Service;
+import project.shop.p001.service.ShopP001_d005Service;
 import project.shop.p001.vo.ShopP001StatisticsVO;
 import project.shop.p002.service.ShopP002_d001Service;
 import project.shop.p002.vo.ShopP002ShopDetailVO;
@@ -30,17 +31,23 @@ public class ShopP001_d004ControllerImpl implements ShopP001_d004Controller{
 	@Autowired
 	ShopP003_d001Service shopP003_d001Service;
 	
+	// 지역업체 관리 옮겨오기
+	@Autowired
+	ShopP001_d005Service shopP001_d005Service;
+	
 	//로그인성공
 		@RequestMapping(value="biz/loginOk.do")
 		public String loginOk(HttpServletRequest request, Model model) {
 			String path = "";
 			HttpSession session = request.getSession(false);
+			
 			boolean result = false;
 			if(session!=null) {
 				if(session.getAttribute("bm_id")!=null && session.getAttribute("isLogOn")!=null){
 					result = true;
 				}
 			}
+			// 로그인세션 존재시
 			if(result) {
 				ShopP002ShopDetailVO resultVO = new ShopP002ShopDetailVO();
 				resultVO.setSearchCondition("SEARCHBYBMID");
@@ -48,6 +55,8 @@ public class ShopP001_d004ControllerImpl implements ShopP001_d004Controller{
 				Map<String,Object> param = new HashMap<>();
 				param.put("vo", resultVO);
 				resultVO = shopP002_d001Service.getShopDetail(param);
+				
+				
 				if(resultVO == null) {
 					model.addAttribute("isNull",true);
 				}else {
