@@ -3,6 +3,7 @@ package project.club.p001.service;
 import java.util.List;
 import java.util.Map;
 
+import project.and.vo.AndP002AndOneVO;
 import project.club.vo.ClubMemberVO;
 import project.club.vo.ClubVO;
 
@@ -22,4 +23,5 @@ public interface ClubP001_d001Service {
 	public int searchClubListCnt(Map<String, Object> searchMap);
 	public int searchClubListCntHashtag(Map<String, Object> searchMap);
 	public int searchClubListCntCategory(Map<String, Object> searchMap);
+	public List<AndP002AndOneVO> getAndOne(Map<String, Object> searchMap);
 }

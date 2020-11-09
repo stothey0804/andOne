@@ -41,7 +41,10 @@
 } 
 </style>
 <script>
-	
+function openMemberPopup2(m_id){
+	window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
+}
+
 </script>
 </head>
 <body>
@@ -65,7 +68,9 @@
 				<tr class="userList">
 					<th scope="row">${status.count}</th>
 					<c:set var="memImg" value="${members.resultUserImg}" />
-					<td><c:choose>
+					<td>
+					<a href="javascript:void(0);" onclick="openMemberPopup2('${members.m_id}');">
+						<c:choose>
 							<c:when test="${memImg eq null}">
 								<img src="${contextPath}/resources/image/user.png"
 									class="userImg">
@@ -73,7 +78,11 @@
 							<c:otherwise>
 								<img src="data:image/jpg;base64, ${memImg}" class="userImg">
 							</c:otherwise>
-						</c:choose> ${members.m_nickname} 
+						</c:choose>
+					</a>
+					<a href="javascript:void(0);" onclick="openMemberPopup2('${members.m_id}');">
+						 ${members.m_nickname} 
+					</a>
 						<c:set var="cm_rank" value="${members.cm_rank}" /> 
 						<c:choose>
 							<c:when test="${cm_rank eq '20'}">
