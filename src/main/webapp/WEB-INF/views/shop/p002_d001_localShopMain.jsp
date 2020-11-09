@@ -166,11 +166,11 @@ a {
 				if(Object.keys(jsonInfo).length == 0){
 					output += '<div class="col-12 m-3 bg-light card"><div class="cord-body p-5 text-center">등록된 지역업체가 없습니다.<br>위치정보가 설정되어있는지 확인해주세요 :)</div></div>';
 				}else{
-					output += "<div class='mt-4 row'><div class='mx-auto'>";
+					output += "<div class='mt-4 row mx-1'><div class='mx-auto'>";
 					for (let i=0; i<Object.keys(jsonInfo).length; i++) {
 						console.log(jsonInfo[i].s_name);
-						output += "<div class='mx-3 d-inline-block align-top'>";
-						output += "<div class='card' style='width: 18rem;'>";
+						output += "<div class='col-3 px-1 d-inline-block align-top'>";
+						output += "<div class='card mx-1'>";
 // 						output += "<div class='si_box'>"
 						output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
 						if(Object.keys(jsonInfo[i].shopImage).length != 0){

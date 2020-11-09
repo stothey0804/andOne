@@ -86,6 +86,26 @@
 		<result property="m_img" column="m_img"></result>
 	</resultMap>
 	
+	<resultMap id="andOne01" type="AndP002AndOneVO">
+		<result property="one_id" column="one_id"></result>
+		<result property="one_title" column="one_title"></result>
+		<result property="m_nickname" column="m_nickname"></result>
+		<result property="one_type" column="one_type"></result>
+	</resultMap>
+	
+	<select id="getAndOne" resultMap="andOne01">
+		SELECT a.one_id,a.one_title,d.m_nickname,a.one_type
+		FROM and_one a, c_member b, one_member c, member d
+		WHERE a.one_id = c.one_id
+		AND c.m_id = b.m_id
+		AND b.c_id = #{c_id}
+		AND b.cm_rank in (10,20,30)
+		AND c.om_leader = '10'
+		AND d.m_id = b.m_id
+		AND SUBSTR(one_time,1,10) = to_char(sysdate,'YYYY-MM-DD')
+	</select>
+	
+	
 	<select id="allClubList" resultMap="p001_d002Result01">
 		SELECT *
 		FROM (SELECT a.c_name, b.m_id,a.c_openingdate,a.c_id,ROW_NUMBER() OVER (ORDER BY c_openingdate DESC) ROWNUMBER,

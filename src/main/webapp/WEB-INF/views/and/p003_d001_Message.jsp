@@ -72,6 +72,27 @@ div.border{
 	    overflow: hidden;
 	    cursor: pointer;
 	}
+	
+a {
+	text-decoration: none;
+}
+
+a:link {
+	color: black;
+}
+
+a:visited {
+	color: black;
+}
+
+a:active {
+	color: black;
+}
+
+a:hover {
+	color: black;
+}
+	
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -86,7 +107,7 @@ div.border{
 	var m_id = '${m_id }';
 	var one_type = '';
 	var one_id = '';
-	
+	var titleMap = new Map();
 	var imageMap = new Map();
 	
 	$(document).ready(function(){
@@ -101,6 +122,12 @@ div.border{
 		$('div.list-group').click(function(){
 			one_id = this.id;
 			one_type = $('input#'+this.id).val();
+			var aTag = '<a target="_blank" href="${contextPath }/and/detailAndOne.do?one_id='+one_id+'&g_id='+one_type+'">';
+			var infoButton = '<svg onclick="getChatUserList()" aria-label="대화 상세 정보 보기" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24" font-size="1rem"><path d="M24 48C10.8 48 0 37.2 0 24S10.8 0 24 0s24 10.8 24 24-10.8 24-24 24zm0-45C12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21S35.6 3 24 3z"></path>';
+			infoButton += '<circle clip-rule="evenodd" cx="24" cy="14.8" fill-rule="evenodd" r="2.6"></circle>';
+			infoButton += '<path d="M27.1 35.7h-6.2c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5h6.2c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5z"></path>';
+			infoButton += '<path d="M24 35.7c-.8 0-1.5-.7-1.5-1.5V23.5h-1.6c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5H24c.8 0 1.5.7 1.5 1.5v12.2c0 .8-.7 1.5-1.5 1.5z"></path></svg>';
+			$('#chatRoomTitle').html(aTag+titleMap.get(one_id)+'</a>&nbsp;'+infoButton);
 			setupUserImageMap(one_id);
 		})
 	}
@@ -109,7 +136,7 @@ div.border{
 	function userListClickEvent(){
 		$('button.report').click(function(){
 			var id = this.id;
-			alert(id + ' 녀석을 신고해버리겠어');
+			window.location.href='${contextPath}/member/reportInit.do?target='+id+'&flag=member';
 		});
 		$('td.clickArea').click(function(){
 			openMemberPopup2(this.id);
@@ -163,31 +190,39 @@ div.border{
 				var chatRoom = "";
 				var unoccupied = "";
 				for(let i=0; i<Object.keys(jsonInfo).length; i++){
+					var category = '';
+					switch(jsonInfo[i].one_type){
+					case '010': category = '[같이먹기] '; break;
+					case '020': category = '[같이사기] '; break;
+					case '030': category = '[같이하기] '; break;
+					}
+					titleMap.set(jsonInfo[i].one_id,category + jsonInfo[i].one_title);
+					var subStrDate = jsonInfo[i].msg_date.slice(0,-3);
 					if(jsonInfo[i].msg_date != 0){
-						chatRoom += '<input type="hidden" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
+						chatRoom += '<input type="hidden" class="one_type" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
 						chatRoom += '<div class="list-group rounded-0" id="'+jsonInfo[i].one_id+'">';
 						chatRoom += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
 						chatRoom += 		'<div class="media">';
 						chatRoom += 			'<i class="fas fa-users fa-2x fa-border"></i>';
 						chatRoom += 			'<div class="media-body ml-4">';
 						chatRoom += 				'<div class="d-flex align-items-center justify-content-between mb-1">';
-						chatRoom += 					'<h6 class="mb-0">'+jsonInfo[i].one_title+'</h6>';
-						chatRoom += 					'<small class="small font-weight-bold">'+jsonInfo[i].msg_date+'</small>';
+						chatRoom += 					'<h6 class="mb-0 text-truncate">'+ category + jsonInfo[i].one_title +'</h6>';
+						chatRoom += 					'<small class="small font-weight-bold">'+subStrDate+'</small>';
 						chatRoom += 				'</div>';
-						chatRoom += 				'<p class="font-italic mb-0 text-small">'+jsonInfo[i].latestMessage+'</p>';
+						chatRoom += 				'<p class="font-italic mb-0 text-small text-truncate">'+jsonInfo[i].latestMessage+'</p>';
 						chatRoom += 			'</div>';
 						chatRoom += 		'</div>';
 						chatRoom += 	'</a>';
 						chatRoom += '</div>';
 					}else{
-						unoccupied += '<input type="hidden" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
+						unoccupied += '<input type="hidden" class="one_type" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
 						unoccupied += '<div class="list-group rounded-0" id="'+jsonInfo[i].one_id+'">';
 						unoccupied += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
 						unoccupied += 		'<div class="media">';
 						unoccupied += 			'<i class="fas fa-users fa-2x fa-border"></i>';
 						unoccupied += 			'<div class="media-body ml-4">';
 						unoccupied += 				'<div class="d-flex align-items-center justify-content-between mb-1">';
-						unoccupied += 					'<h6 class="mb-0">'+jsonInfo[i].one_title+'</h6>';
+						unoccupied += 					'<h6 class="mb-0">'+ category + jsonInfo[i].one_title +'</h6>';
 						unoccupied += 					'<small class="small font-weight-bold"></small>';
 						unoccupied += 				'</div>';
 						unoccupied += 				'<p class="font-italic mb-0 text-small">'+jsonInfo[i].latestMessage+'</p>';
@@ -463,8 +498,9 @@ div.border{
  	  <!-- 채팅 -->
      <div class="col-7 px-0"style="border:1px solid #c4c4c4;">
      <div class="bg-gray px-4 py-2 bg-light">
-         <p class="h5 mb-0 py-1" align="left">
-          	참여자 정보
+         <p id="chatRoomTitle" class="h5 mb-0 py-1" align="left">
+          	선택된 대화방이 없습니다.
+         	
 <!--            	<i class="fas fa-info-circle"></i>  -->
  <svg onclick="getChatUserList()" aria-label="대화 상세 정보 보기" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24" font-size="1rem">
 <path d="M24 48C10.8 48 0 37.2 0 24S10.8 0 24 0s24 10.8 24 24-10.8 24-24 24zm0-45C12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21S35.6 3 24 3z"></path><circle clip-rule="evenodd" cx="24" cy="14.8" fill-rule="evenodd" r="2.6"></circle>

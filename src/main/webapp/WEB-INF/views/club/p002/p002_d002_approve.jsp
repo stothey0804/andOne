@@ -96,6 +96,11 @@
 			data:{c_id:c_id,m_id:m_id}
 		})
 	}
+	
+	function openMemberPopup2(m_id){
+		window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
+	}
+
 </script>
 </head>
 <body>
@@ -103,7 +108,7 @@
 <table class="table table-hover" style="width:1000px;margin:0 auto;">
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col">No.</th>
       <th scope="col">닉네임</th>
       <th scope="col">가입요청일자</th>
       <th scope="col">수락/거절</th>
@@ -115,6 +120,7 @@
 		<th>${status.count}</th>
 			<c:set var="memImg" value="${waitMember.resultUserImg}" />
 			<td>
+			<a href="javascript:void(0);" onclick="openMemberPopup2('${waitMember.m_id}');">
 			<c:choose>
 				<c:when test="${memImg eq null}">
 					<img src="${contextPath}/resources/image/user.png" class="userImg">
@@ -123,7 +129,10 @@
 					<img src="data:image/jpg;base64, ${memImg}" class="userImg">
 				</c:otherwise>
 			</c:choose>
-			${waitMember.m_nickname}
+			</a>
+			<a href="javascript:void(0);" onclick="openMemberPopup2('${waitMember.m_id}');">
+				${waitMember.m_nickname}
+			</a>				
 			</td>
 			<td>${waitMember.cm_joindate}</td>
 			<td onclick="event.cancelBubble=true" class="cnt${status.count}">
