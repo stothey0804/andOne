@@ -225,7 +225,7 @@ function removeHTML(text){
 						<div class="col-sm-6">
 							<div class="card-body" style="height: 225px">
 								<h5 class="card-title" style="height: 20%">${club.c_name}</h5>
-								<div class="str">
+								<div class="str d-inline-block overflow-hidden" style="max-height:100px;max-width:250px;">
 								<p class="card-text" style="height: 40%">${club.c_content}</p>
 								</div>
 								<p class="card-text">

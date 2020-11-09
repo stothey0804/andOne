@@ -27,18 +27,19 @@
 .left, .right{
 	display: inline-block;
 	margin: 0;
-	width: 500px;
 }
 
 .side{
-	display: relative;
-	position:absolute;
-	margin-left:325px;
+/* 	display: relative; */
+/* 	position:absolute; */
+	margin-left:20px;
+	width: 395px;
 }
 
 .left {
-	margin-top: 0;
-	width:17rem;
+/* 	margin-top: 100px; */
+	top: 100px;
+	width:220px;
 }
 
 .right {
@@ -55,7 +56,6 @@
 
 .art-title {
 	width: 330px;
-	position: absolute;
 }
 
 .pin {
@@ -99,7 +99,9 @@
 .aa {
 	display: none;
 }
-
+.art-title{
+	cursor:pointer;
+}
 .userImg {
 	position: relative;
 	border-radius: 70px;
@@ -108,8 +110,13 @@
 	-webkit-border-radius: 70px;
 	width: 60px;
 	height: 60px;
+	cursor:pointer;
 }
 
+.card-img-top{
+	height: 230px;
+    object-fit: cover;
+}
 .r_userImg,.r_replyUserImg {
 	position: relative;
 	border-radius: 70px;
@@ -118,6 +125,7 @@
 	-webkit-border-radius: 70px;
 	width: 45px;
 	height: 45px;
+	cursor : pointer;
 }
 .r_replyUserImg{
 	margin-left:58px;
@@ -136,15 +144,12 @@
 .bi-file-earmark-lock-fill,.c{
 	margin:auto;
 }
-.btn-success:hover {
+.btn-success:hover, .set:hover {
     background-color: #00033D !important;
 }
 .btn-success{
 	background-color:#002A87 !important;
 	border-color:#002A87;
-	color:white;
-}
-.dropdown-item{
 	color:white;
 }
 .reportTXT{
@@ -183,9 +188,13 @@
 	display:none;
 }
 .secret,.article,.clubInfo{
-	width:800px;
+	width:650px;
 }
  .none{display:none}   
+ 
+#wrapper{
+	margin : 0 auto;
+}
 </style>
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
@@ -293,12 +302,11 @@
 				output += "<div class='p-2 mt-3' style='padding-left:0px !important;' id='pack"+jsonInfo.car_id+"'>";
 				output += "<div class='d-flex'>";
 				output += "<div class=''>";
-				output += "<a href='javascript:void(0);' onclick='openMemberPopup2('${m_id}');'>";
 				if("${profileImg}" != ""){
 					console.log("zz");
-					output += "<img src='data:image/jpg;base64, ${profileImg}' class='r_userImg'></a>";
+					output += "<img src='data:image/jpg;base64, ${profileImg}' class='r_userImg' onclick='openMemberPopup2('${m_id}');'>";
 				} else {
-					output += "<img src='${contextPath}/resources/image/user.png' class='r_userImg'></a>";
+					output += "<img src='${contextPath}/resources/image/user.png' class='r_userImg' onclick='openMemberPopup2('${m_id}');'>";
 				}
 				output += "</div>";
 				output += "<div class='flex-grow-1 pl-2'>";
@@ -311,18 +319,17 @@
 				output += "<i class='fas fa-chevron-down'></i>";
 				output += "</a>";
 				output += "<div class='dropdown-menu' aria-labelledby='dropdownMenuLink'>";
-				output += "<a class='dropdown-item text-primary' onclick='editReplyInput("+jsonInfo.car_id+",'"+car_content+"'');'>Edit</a>";
+				output += "<a class='dropdown-item text-primary' onclick='editReplyInput("+jsonInfo.car_id+",'"+car_content+"'');'>수정</a>";
 				output += "<a class='dropdown-item text-primary' onclick='deleteReply("+jsonInfo.car_id+");'>삭제</a>";
 				output += "</div></div></div><br></div>";
 				output += "<div class='card-body p-0' id='edit"+jsonInfo.car_id+"'>";
 				output += "<p class='card-text h7 mb-1' id='content"+jsonInfo.car_id+"' style='margin-left:53px;'>"+car_content+"</p></div></div>";
 				output += "<div><div class='input-group input-group' id='re_reply"+jsonInfo.car_id+"' style='display:none;margin-top:8px;'>";
-				output += "<a href='javascript:void(0);' onclick='openMemberPopup2('${m_id}');'>";
 				if("${profileImg}" != ""){
 					console.log("zz");
-					output += "<img src='data:image/jpg;base64, ${profileImg}' class='r_userImg'></a>";
+					output += "<img src='data:image/jpg;base64, ${profileImg}' class='r_userImg' onclick='openMemberPopup2('${m_id}');'>";
 				} else {
-					output += "<img src='${contextPath}/resources/image/user.png' class='r_userImg'></a>";
+					output += "<img src='${contextPath}/resources/image/user.png' class='r_userImg' onclick='openMemberPopup2('${m_id}');'>";
 				}
 				output += "<input type='text' style='margin-left:10px;margin-top:5px;' id='re_comment"+jsonInfo.car_id+"' class='form-control' placeholder='Write Comment' aria-label='Recipient's username' aria-describedby='basic-addon2'>";
 				output += "<div class='input-group-append'>";
@@ -330,7 +337,6 @@
 				output +="</div></div>";
 				$('#sectionReply'+ca_id).append(output);
 			},
-			
 			error:function(data,textStatus){
 				alert("error");
 			}
@@ -382,12 +388,11 @@
 				output += "<div class='p-2' style='margin-left:50px;' id='pack"+jsonInfo.car_id+"'>";
 				output += "<div class='d-flex'>";
 				output += "<div class=''>";
-				output += "<a href='javascript:void(0);' onclick='openMemberPopup2('${m_id}');'>";
 				if("${profileImg}" != ""){
 					console.log("zz");
-					output += "<img src='data:image/jpg;base64, ${profileImg}' class='r_userImg'></a>";
+					output += "<img src='data:image/jpg;base64, ${profileImg}' class='r_userImg' onclick='openMemberPopup2('${m_id}');'>";
 				} else {
-					output += "<img src='${contextPath}/resources/image/user.png' class='r_userImg'></a>";
+					output += "<img src='${contextPath}/resources/image/user.png' class='r_userImg'  onclick='openMemberPopup2('${m_id}');'>";
 				}
 				output += "</div>";
 				output += "<div class='flex-grow-1 pl-2'>";
@@ -406,12 +411,11 @@
 				output += "<div class='card-body p-0' id='edit"+jsonInfo.car_id+"'>";
 				output += "<p class='card-text h7 mb-1' id='content"+jsonInfo.car_id+"' style='margin-left:53px;'>"+re_car_content+"</p></div></div>";
 				output += "<div><div class='input-group input-group' id='re_reply"+jsonInfo.car_id+"' style='display:none;margin-top:8px;'>";
-				output += "<a href='javascript:void(0);' onclick='openMemberPopup2(${m_id});'>";
 				if("${profileImg}" != ""){
 					console.log("zz");
-					output += "<img src='data:image/jpg;base64, ${profileImg}' class='r_userImg'></a>";
+					output += "<img src='data:image/jpg;base64, ${profileImg}' class='r_userImg' onclick='openMemberPopup2(${m_id});'>";
 				} else {
-					output += "<img src='${contextPath}/resources/image/user.png' class='r_userImg'></a>";
+					output += "<img src='${contextPath}/resources/image/user.png' class='r_userImg' onclick='openMemberPopup2(${m_id});'>";
 				}
 				output += "<input type='text' style='margin-left:10px;margin-top:5px;' id='re_comment"+jsonInfo.car_id+"' class='form-control' placeholder='Write Comment' aria-label='Recipient's username' aria-describedby='basic-addon2'>";
 				output += "<div class='input-group-append'>";
@@ -438,7 +442,7 @@
 		let output = "<div class='input-group input-group editInput' style='margin-left:50px;width:95%;'>"
 		+"<input type='text' id='editComment"+car_id+"' class='form-control' aria-label='Recipient's username' aria-describedby='basic-addon2'>"
 		+"<div class='input-group-append'>"
-		+"<a class='text-decoration-none text-white btn btn-primary' href='javascript:void(0);' onclick='editReply("+car_id+");' role='button'>Edit</a>"
+		+"<a class='text-decoration-none text-white btn btn-primary' href='javascript:void(0);' onclick='editReply("+car_id+");' role='button'>수정</a>"
 		+"</div></div>";
 		$('#edit'+car_id).append(output);
 		$('#editComment'+car_id).val(car_content);
@@ -495,10 +499,9 @@
 </head>
 <body>
 <!-- 	소모임 카드 -->
-<div class="row" style="clear:both;">
-	<div class="container my-6 center top" style="margin: 0 auto">
-		<div class="left">
-			<div class="card info" style="width: 17rem;">
+	<div class="mx-auto" style="width:fit-content;">
+		<div class="left align-top position-sticky">
+			<div class="card info">
 			<c:set var="c_img" value="${clubImg}"/>
 				<c:choose>
 					<c:when test="${c_img eq ''}">
@@ -521,15 +524,15 @@
 							<c:when test="${rank eq 10}">
 								<a href="${contextPath}/club/writeArticleForm.do?c_id=${clubInfo.c_id}" class="btn btn-success btn-block"
 									style="margin-top: 3px;">글쓰기</a>
-								<div class="btn-group" role="group">
+								<div class="btn-group btn-block" role="group">
 								<button id="btnGroupDrop1" type="button"
-									class="dropdown-toggle btn btn-success btn-block"
+									class="dropdown-toggle btn btn-success"
 									data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false" style="margin-top:10px;width:228px;">소모임 관리</button>
-								<div class="dropdown-menu btn btn-success btn-block" aria-labelledby="btnGroupDrop1">
-									<a class="dropdown-item" href="${contextPath}/club/waitMemberList.do?c_id=${clubInfo.c_id}">요청승인하기</a> 
-									<a class="dropdown-item" href="${contextPath}/club/updateClubForm.do?c_id=${clubInfo.c_id}">소모임 수정하기</a>
-									<button data-target="#staticBackdrop2" class="dropdown-item" data-toggle="modal">소모임 삭제하기</button>
+									aria-expanded="false">소모임 관리</button>
+								<div class="dropdown-menu btn btn-success btn-block set" aria-labelledby="btnGroupDrop1">
+									<a class="dropdown-item set" href="${contextPath}/club/waitMemberList.do?c_id=${clubInfo.c_id}" style="color:white;">요청승인하기</a> 
+									<a class="dropdown-item set" href="${contextPath}/club/updateClubForm.do?c_id=${clubInfo.c_id}" style="color:white;">소모임 수정하기</a>
+									<button data-target="#staticBackdrop2" class="dropdown-item set" data-toggle="modal" style="color:white;">소모임 삭제하기</button>
 								</div>
 							</div>
 							</c:when>
@@ -588,8 +591,8 @@
 							</a>
 
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<a class="dropdown-item text-primary" href="${contextPath}/club/editClubArticleForm.do?ca_id=${club.ca_id}&&c_id=${clubInfo.c_id}">Edit</a>
-								<a class="dropdown-item text-primary" href="javascript:void(0);" onclick="deleteArticle(${clubInfo.c_id},${club.ca_id})">Delete</a>
+								<a class="dropdown-item text-primary" href="${contextPath}/club/editClubArticleForm.do?ca_id=${club.ca_id}&&c_id=${clubInfo.c_id}">수정</a>
+								<a class="dropdown-item text-primary" href="javascript:void(0);" onclick="deleteArticle(${clubInfo.c_id},${club.ca_id})">삭제</a>
 								<c:if test="${club.ca_pin eq 1}">
 									<a class="dropdown-item text-primary" onclick="editPin(${club.ca_id},0)">공지사항 내리기</a>
 								</c:if>
@@ -600,19 +603,21 @@
 						</div>
 						</c:if>
 				<c:set var="m_img" value="${club.resultUserImg}"/>
-					<a href="javascript:void(0);" onclick="openMemberPopup2('${club.m_id}');">
+				<div class="row mx-2">
 					<c:choose>
 						<c:when test="${m_img ne null}">
-							<img src="data:image/jpg;base64, ${club.resultUserImg}" class="userImg">
+							<img src="data:image/jpg;base64, ${club.resultUserImg}" class="userImg" onclick="openMemberPopup2('${club.m_id}');">
 						</c:when>
 						<c:otherwise>
-								<img src="${contextPath}/resources/image/user.png" class="userImg">
+								<img src="${contextPath}/resources/image/user.png" class="userImg" onclick="openMemberPopup2('${club.m_id}');">
 						</c:otherwise>
 					</c:choose>
-					</a>							
-						<a href="javascript:void(0);" onclick="openMemberPopup2('${club.m_id}');"><h5 class="card-title art-title">${club.m_nickname}</h5></a>
-						<h6 class="card-subtitle mb-2 text-muted">${club.ca_date}</h6>
-						<p class="card-text" style="margin-top: 10px;">${club.ca_content}</p>
+					<div class="ml-2">
+						<h5 class="art-title mb-1" onclick="openMemberPopup2('${club.m_id}');">${club.m_nickname}</h5>
+						<h6 class="mb-2 text-muted">${club.ca_date}</h6>
+					</div>
+				</div>
+						<div class="card-text m-3">${club.ca_content}</div>
 						<div class="swiper-container" style="margin-bottom:20px;">
 						<div class="swiper-wrapper">
 						<c:set var="ca_img" value="${club.articleImgList}" />
@@ -655,17 +660,15 @@
 										<form action="">
 											<div class="input-group input-group">
 											<c:set var="profileImg" value="${profileImg}"/>	
-												<a href="javascript:void(0);" onclick="openMemberPopup2('${m_id}');">
 												<c:if test="${profileImg ne ''}">
-													<img src="data:image/jpg;base64, ${profileImg}" class="r_userImg">
+													<img src="data:image/jpg;base64, ${profileImg}" class="r_userImg" onclick="openMemberPopup2('${m_id}');">
 												</c:if>
 												<c:if test="${profileImg eq ''}">
-													<img src="${contextPath}/resources/image/user.png" class="r_userImg">
+													<img src="${contextPath}/resources/image/user.png" class="r_userImg" onclick="openMemberPopup2('${m_id}');">
 												</c:if>
-												</a>
-												<input type="text" id="comment${club.ca_id}" class="form-control" placeholder="Write Comment" aria-label="Recipient's username" aria-describedby="basic-addon2" style="margin-left:10px;margin-top:5px;">
+												<input type="text" id="comment${club.ca_id}" class="form-control" placeholder="댓글쓰기" aria-label="Recipient's username" aria-describedby="basic-addon2" style="margin-left:10px;margin-top:5px;">
 												<div class="input-group-append">
-													<a class="text-decoration-none text-white btn btn-primary" href='javascript:void(0);' style="margin-top:5px;height:38px;"onclick="insertReply(${club.ca_id});" role="button">Comment</a>
+													<a class="text-decoration-none text-white btn btn-primary" href='javascript:void(0);' style="margin-top:5px;height:38px;"onclick="insertReply(${club.ca_id});" role="button">쓰기</a>
 												</div>
 											</div>
 										</form>
@@ -679,14 +682,12 @@
 											<div class="d-flex">
 												<div class="">
 													<c:set var="m_img" value="${ca_reply.e_m_img}"/>
-													<a href="javascript:void(0);" onclick="openMemberPopup2('${ca_reply.m_id}');">
 														<c:if test="${m_img ne null}">
-															<img src="data:image/jpg;base64, ${ca_reply.e_m_img}" class="r_userImg">
+															<img src="data:image/jpg;base64, ${ca_reply.e_m_img}" class="r_userImg" onclick="openMemberPopup2('${ca_reply.m_id}');">
 														</c:if>
 														<c:if test="${m_img eq null}">
-															<img src="${contextPath}/resources/image/user.png" class="r_userImg">
+															<img src="${contextPath}/resources/image/user.png" class="r_userImg" onclick="openMemberPopup2('${ca_reply.m_id}');">
 														</c:if>
-													</a>
 												</div>
 												<div class="flex-grow-1 pl-2">
 													<a class="text-decoration-none text-capitalize h6 m-0"  href="javascript:void(0);" onclick="openMemberPopup2('${ca_reply.m_id}');">${ca_reply.m_nickname}</a>
@@ -704,8 +705,8 @@
 															</a>
 	
 															<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-																<a class="dropdown-item text-primary" onclick="editReplyInput(${ca_reply.car_id},'${ca_reply.car_content}');">Edit</a>
-															 	<a class="dropdown-item text-primary" onclick="deleteReply(${ca_reply.car_id});">Delete</a>
+																<a class="dropdown-item text-primary" onclick="editReplyInput(${ca_reply.car_id},'${ca_reply.car_content}');">수정</a>
+															 	<a class="dropdown-item text-primary" onclick="deleteReply(${ca_reply.car_id});">삭제</a>
 															</div>
 														</div>
 													</div>
@@ -721,17 +722,15 @@
 										<div>
 										<div class="input-group input-group" id="re_reply${ca_reply.car_id}" style="display:none;margin-top:8px;">
 											<c:set var="profileImg" value="${profileImg}"/>	
-											<a href="javascript:void(0);" onclick="openMemberPopup2('${m_id}');">
 											<c:if test="${profileImg ne ''}">
-												<img src="data:image/jpg;base64, ${profileImg}" class="r_replyUserImg">
+												<img src="data:image/jpg;base64, ${profileImg}" class="r_replyUserImg" onclick="openMemberPopup2('${m_id}');">
 											</c:if>
 											<c:if test="${profileImg eq ''}">
-												<img src="${contextPath}/resources/image/user.png" class="r_replyUserImg">
+												<img src="${contextPath}/resources/image/user.png" class="r_replyUserImg" onclick="openMemberPopup2('${m_id}');">
 											</c:if>
-											</a>
-											<input type="text" style="margin-left:10px;margin-top:5px;" id="re_comment${ca_reply.car_id}" class="form-control" placeholder="Write Comment" aria-label="Recipient's username" aria-describedby="basic-addon2">
+											<input type="text" style="margin-left:10px;margin-top:5px;" id="re_comment${ca_reply.car_id}" class="form-control" placeholder="대댓글쓰기" aria-label="Recipient's username" aria-describedby="basic-addon2">
 											<div class="input-group-append">
-												<a class="text-decoration-none text-white btn btn-primary" style="height:38px;margin-top:5px;"href='javascript:void(0);' onclick="insertRe_reply(${club.ca_id},${ca_reply.car_id});" role="button">Comment</a>
+												<a class="text-decoration-none text-white btn btn-primary" style="height:38px;margin-top:5px;"href='javascript:void(0);' onclick="insertRe_reply(${club.ca_id},${ca_reply.car_id});" role="button">쓰기</a>
 											</div>
 										</div>
 										<c:if test="${fn:length(ca_reply.articleRe_replyList) ne 0}">
@@ -747,17 +746,15 @@
 											<!-- comment header -->
 											<div class="d-flex">
 												<div class="">
-													<a href="javascript:void(0);" onclick="openMemberPopup2('${re_ca_reply.m_id}');">
 													<c:set var="m_img" value="${re_ca_reply.e_m_img}"/>
 														<c:choose>
 															<c:when test="${m_img ne null}">
-																<img src="data:image/jpg;base64, ${re_ca_reply.e_m_img}" class="r_userImg">
+																<img src="data:image/jpg;base64, ${re_ca_reply.e_m_img}" class="r_userImg" onclick="openMemberPopup2('${re_ca_reply.m_id}');">
 															</c:when>
 															<c:otherwise>
-																<img src="${contextPath}/resources/image/user.png" class="r_userImg">
+																<img src="${contextPath}/resources/image/user.png" class="r_userImg" onclick="openMemberPopup2('${re_ca_reply.m_id}');">
 															</c:otherwise>
 														</c:choose>
-													</a>
 												</div>
 												<div class="flex-grow-1 pl-2">
 													<a class="text-decoration-none text-capitalize h6 m-0" href="javascript:void(0);" onclick="openMemberPopup2('${re_ca_reply.m_id}');">${re_ca_reply.m_nickname}</a>
@@ -773,8 +770,8 @@
 															<i class="fas fa-chevron-down"></i>
 															</a>
 															<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-																<a class="dropdown-item text-primary" onclick="editReplyInput(${re_ca_reply.car_id},'${re_ca_reply.car_content}');">Edit</a>
-																<a class="dropdown-item text-primary" onclick="deleteReply(${re_ca_reply.car_id});">Delete</a>
+																<a class="dropdown-item text-primary" onclick="editReplyInput(${re_ca_reply.car_id},'${re_ca_reply.car_content}');">수정</a>
+																<a class="dropdown-item text-primary" onclick="deleteReply(${re_ca_reply.car_id});">삭제</a>
 															</div>
 														</div>
 													</c:if>
@@ -834,7 +831,7 @@
 				</div>
 			</div>
 		</div>
-			<div class="side" style="height:80%;width:350px;">
+			<div class="side">
 				<h5>만든 사람</h5>
 				<c:forEach var="lead" items="${leader}">
 					<c:set var="leaderImg" value="${lead.resultUserImg}" />
@@ -872,6 +869,7 @@
 					</div>
 					</c:when>
 				</c:choose>
+				<c:if test="${!empty andone}">
 <!-- 				&분의일 테이블 -->
 				<table class="table mt-4">
 				<caption style="caption-side:top;">우리 멤버가 쓴 &분의 일</caption>
@@ -899,9 +897,9 @@
 				      </c:if>
 				      </td>
 				      <td><a href="${contextPath}/and/detailAndOne.do?one_id=${andone.one_id}&g_id=${andone.one_type}">
-				      		${andone.one_title}
+				      		[${andone.gc_name}]<br> <span class="d-inline-block text-truncate" style="max-width: 150px;">${andone.one_title}</span>
 				      </a></td>
-				      <td>${andone.m_nickname}</td>
+				      <td><a href="javascript:void(0);" onclick="openMemberPopup2('${andone.m_id}');">${andone.m_nickname}</a></td>
 				    </tr>
 				    </c:when>
 				    <c:otherwise>
@@ -918,9 +916,9 @@
 				      </c:if>
 				      </td>
 				      <td><a href="${contextPath}/and/detailAndOne.do?one_id=${andone.one_id}&g_id=${andone.one_type}">
-				      		${andone.one_title}
+				      		[${andone.gc_name}]<br> <span class="d-inline-block text-truncate" style="max-width: 150px;">${andone.one_title}</span>
 				      </a></td>
-				      <td>${andone.m_nickname}</td>
+				      <td><a href="javascript:void(0);" onclick="openMemberPopup2('${andone.m_id}');">${andone.m_nickname}</a></td>
 				    </tr>
 				    </c:otherwise>
 				    </c:choose>
@@ -928,12 +926,13 @@
 				  </tbody>
 				  </table>
 			<button class="btn btn-light btn-block" onclick="moreAndOnd();">더보기</button>
+			</c:if>
 			</div>
 			
 			
 			
+			
 		</div>
-	</div>
 	<!--Intro Modal -->
 	<div class="modal fade" id="introModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -970,7 +969,7 @@
         </button>
       </div>
       <div class="modal-body">
-        	소모임을 탈퇴하시겠어요?o(TヘTo) </div>
+        	소모임을 탈퇴하시겠어요? </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
         <button type="button" class="btn btn-primary" onclick="location.href='${contextPath}/club/leaveClub.do?c_id=${clubInfo.c_id}'">탈퇴하기</button>
