@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import common.Common;
 import common.Pagination;
 import common.dao.CommonDAO;
+import project.and.vo.AndP002AndOneVO;
 import project.club.p001.service.ClubP001_d001Service;
 import project.club.vo.ClubMemberVO;
 import project.club.vo.ClubVO;
@@ -189,11 +190,11 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		//일반 회원 목록
 		List<ClubMemberVO> members = clubP001_d001Service.getClubMember(searchMap);
 		//회원 목록 이미지 encoding
-		if(members != null) {
-			System.out.println("멤버 널");
-			Common.getEncodedUser(members);
-		}
+		Common.getEncodedUser(members);
 		Common.getEncodedUser(leader);
+		
+		//멤버가 쓴 &분의 일
+		List<AndP002AndOneVO> andone = clubP001_d001Service.getAndOne(searchMap);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(Common.checkLoginDestinationView("detailClub", request));
@@ -202,6 +203,7 @@ public class ClubP001_d001ControllerImpl implements ClubP001_d001Controller{
 		mav.addObject("clubImg",clubImg);
 		mav.addObject("members", members);
 		mav.addObject("leader", leader);
+		mav.addObject("andone", andone);
 		return mav;
 	}
 	

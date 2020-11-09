@@ -185,7 +185,7 @@
 .secret,.article,.clubInfo{
 	width:800px;
 }
-    
+ .none{display:none}   
 </style>
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
@@ -366,8 +366,10 @@
 	function insertRe_reply(ca_id,car_id){
 		console.log(ca_id);
 		console.log(car_id);
-		const re_car_content = document.getElementById('re_comment'+car_id).value;
+		var re_car_content = document.getElementById('re_comment'+car_id).value;
+		re_car_content = re_car_content + "";
 		console.log(re_car_content);
+		document.getElementById('re_comment'+car_id).value ="";
 		$.ajax({
 			url:"${contextPath}/club/insertReply.do?ca_id"+ca_id,
 			type : "get",
@@ -375,7 +377,51 @@
 			data : {ca_id:ca_id,car_content:re_car_content,p_car_id:car_id},
 			success : function(data){
 				
-				location.reload();
+				var jsonInfo =JSON.parse(data);
+				var output ="";
+				output += "<div class='p-2' style='margin-left:50px;' id='pack"+jsonInfo.car_id+"'>";
+				output += "<div class='d-flex'>";
+				output += "<div class=''>";
+				output += "<a href='javascript:void(0);' onclick='openMemberPopup2('${m_id}');'>";
+				if("${profileImg}" != ""){
+					console.log("zz");
+					output += "<img src='data:image/jpg;base64, ${profileImg}' class='r_userImg'></a>";
+				} else {
+					output += "<img src='${contextPath}/resources/image/user.png' class='r_userImg'></a>";
+				}
+				output += "</div>";
+				output += "<div class='flex-grow-1 pl-2'>";
+				output += "<a class='text-decoration-none text-capitalize h6 m-0'  href='javascript:void(0);' onclick='openMemberPopup2(${m_id});'>${m_nickname}</a>";
+				output += "<p class='small m-0 text-muted edit${ca_reply.car_id}'>"+sysdate+"</p></div>";
+// 				output += "<a href='javascript:void(0);' onclick='re_reply("+jsonInfo.car_id+","+ca_id+");' style='margin-right:5px;size:8px;'>답글</a>";
+				output += "<div>";
+				output += "<div class='dropdown'>";
+				output += "<a class='' href='#' role='button' id='dropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>";
+				output += "<i class='fas fa-chevron-down'></i>";
+				output += "</a>";
+				output += "<div class='dropdown-menu' aria-labelledby='dropdownMenuLink'>";
+				output += "<a class='dropdown-item text-primary' onclick='editReplyInput("+jsonInfo.car_id+",'"+re_car_content+"');'>Edit</a>";
+				output += "<a class='dropdown-item text-primary' onclick='deleteReply("+jsonInfo.car_id+");'>삭제</a>";
+				output += "</div></div></div><br></div>";
+				output += "<div class='card-body p-0' id='edit"+jsonInfo.car_id+"'>";
+				output += "<p class='card-text h7 mb-1' id='content"+jsonInfo.car_id+"' style='margin-left:53px;'>"+re_car_content+"</p></div></div>";
+				output += "<div><div class='input-group input-group' id='re_reply"+jsonInfo.car_id+"' style='display:none;margin-top:8px;'>";
+				output += "<a href='javascript:void(0);' onclick='openMemberPopup2(${m_id});'>";
+				if("${profileImg}" != ""){
+					console.log("zz");
+					output += "<img src='data:image/jpg;base64, ${profileImg}' class='r_userImg'></a>";
+				} else {
+					output += "<img src='${contextPath}/resources/image/user.png' class='r_userImg'></a>";
+				}
+				output += "<input type='text' style='margin-left:10px;margin-top:5px;' id='re_comment"+jsonInfo.car_id+"' class='form-control' placeholder='Write Comment' aria-label='Recipient's username' aria-describedby='basic-addon2'>";
+				output += "<div class='input-group-append'>";
+// 				output += "<a class='text-decoration-none text-white btn btn-primary' style='height:38px;margin-top:5px;' href='javascript:void(0);' onclick='insertRe_reply("+ca_id+","+jsonInfo.car_id+");' role='button'>Comment</a>";
+				output +="</div></div>";
+				$('#collapseExample'+car_id).append(output);
+				
+				
+				
+// 				location.reload();
 			},
 			error:function(data,textStatus){
 				alert("error");
@@ -439,6 +485,11 @@
 	
 	function openMemberPopup2(m_id){
 		window.open("${contextPath}/member/searchMemberInfoPopup.do?m_id="+m_id, "_blank", "resizable=no,top=0,left=0,width=450,height=500");
+	}
+	
+	function moreAndOnd(){
+		$('.none').slideToggle();
+// 		$('.none').removeClass('none');
 	}
 </script>
 </head>
@@ -821,7 +872,66 @@
 					</div>
 					</c:when>
 				</c:choose>
+<!-- 				&분의일 테이블 -->
+				<table class="table mt-4">
+				<caption style="caption-side:top;">우리 멤버가 쓴 &분의 일</caption>
+				  <thead>
+				    <tr>
+				      <th scope="col">#</th>
+				      <th scope="col">제목</th>
+				      <th scope="col">작성자</th>
+				    </tr>
+				  </thead>
+				  <tbody id="ticker">
+				  <c:forEach var="andone" items="${andone}" varStatus="status">
+				  <c:choose>
+				  <c:when test="${status.count eq 1 or status.count eq 2}">
+				    <tr id="show${status.count}">
+				      <td scope="row">
+				      <c:if test="${andone.one_type eq 010}">
+				      	같이먹기
+				      </c:if>
+				      <c:if test="${andone.one_type eq 011}">
+				      	같이사기
+				      </c:if>
+				      <c:if test="${andone.one_type eq 012}">
+				      	같이하기
+				      </c:if>
+				      </td>
+				      <td><a href="${contextPath}/and/detailAndOne.do?one_id=${andone.one_id}&g_id=${andone.one_type}">
+				      		${andone.one_title}
+				      </a></td>
+				      <td>${andone.m_nickname}</td>
+				    </tr>
+				    </c:when>
+				    <c:otherwise>
+				    <tr class="none">
+				      <td scope="row">
+				      <c:if test="${andone.one_type eq 010}">
+				      	같이먹기
+				      </c:if>
+				      <c:if test="${andone.one_type eq 011}">
+				      	같이사기
+				      </c:if>
+				      <c:if test="${andone.one_type eq 012}">
+				      	같이하기
+				      </c:if>
+				      </td>
+				      <td><a href="${contextPath}/and/detailAndOne.do?one_id=${andone.one_id}&g_id=${andone.one_type}">
+				      		${andone.one_title}
+				      </a></td>
+				      <td>${andone.m_nickname}</td>
+				    </tr>
+				    </c:otherwise>
+				    </c:choose>
+				   </c:forEach>
+				  </tbody>
+				  </table>
+			<button class="btn btn-light btn-block" onclick="moreAndOnd();">더보기</button>
 			</div>
+			
+			
+			
 		</div>
 	</div>
 	<!--Intro Modal -->

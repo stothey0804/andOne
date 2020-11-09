@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import project.and.vo.AndP002AndOneVO;
 import project.club.vo.ClubMemberVO;
 import project.club.vo.ClubVO;
 
@@ -86,5 +87,10 @@ public class ClubP001_d001DAOImpl implements ClubP001_d001DAO{
 	@Override
 	public int searchClubListCntCategory(Map<String, Object> searchMap) {
 		return sqlSession.selectOne("club.p001.searchClubListCntCategory", searchMap);
+	}
+	@Override
+	public List<AndP002AndOneVO> getAndOne(Map<String, Object> searchMap) {
+		List<AndP002AndOneVO> list = sqlSession.selectList("club.p001.getAndOne", searchMap);
+		return list;
 	}
 }
