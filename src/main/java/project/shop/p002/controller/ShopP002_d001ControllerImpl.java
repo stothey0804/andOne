@@ -92,7 +92,7 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 		Map<String,Object> param = new HashMap<>();
 		param.put("vo",vo);
 		param.put("startIndex",1);
-		param.put("endIndex",3);
+		param.put("endIndex",4);
 		param.put("limit",30);
 		param.put("M_LOCATE_LAT",M_LOCATE_LAT);
 		param.put("M_LOCATE_LNG",M_LOCATE_LNG);

@@ -113,7 +113,7 @@ public class RootP001_d001ControllerImpl implements RootP001_d001Controller {
 		Map<String,Object> shop = new HashMap<>();
 		shop.put("vo",vo);
 		shop.put("startIndex",1);
-		shop.put("endIndex",3);
+		shop.put("endIndex",4);
 		shop.put("limit",30);
 		shop.put("M_LOCATE_LAT",m_locate_Lat);
 		shop.put("M_LOCATE_LNG",m_locate_Lng);
