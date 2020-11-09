@@ -459,6 +459,7 @@ a:hover {
 		  
 	}
 	
+	//채팅방 클릭시 하이라이트
 	function listHighlight(param){
 		$('div.list-group a').removeClass('active');
 		$('div.list-group a').removeClass('text-white');
