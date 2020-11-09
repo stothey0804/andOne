@@ -9,4 +9,7 @@ public interface RootP001_d001DAO {
 	public Map<String, String> selectTodayAdminMain();	// 당일 새 글 조회 영역
 	public List<Map<String, String>> selectWeeklyNewMember();	// 7일간 가입자
 	public List<Map<String, String>> selectWeeklySales();	// 7일간 가입자
+	public void updatePopularHashtag(String ph_content);
+	public List<String> getAllHashtagList();
+	public String getPopularHashtag();
 }

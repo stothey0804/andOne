@@ -1,32 +1,23 @@
 package project.shop.p002.controller;
 
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import common.Pagination;
 import project.shop.p002.service.ShopP002_d001Service;
 import project.shop.p002.vo.ShopP002ShopDetailVO;
-import project.shop.p002.vo.ShopP002ShopImageVO;
 import project.shop.p003.service.ShopP003_d001Service;
-import project.shop.p003.vo.ShopP003ShopReviewImageVO;
 import project.shop.p003.vo.ShopP003ShopReviewVO;
 
 @Controller
@@ -101,7 +92,7 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 		Map<String,Object> param = new HashMap<>();
 		param.put("vo",vo);
 		param.put("startIndex",1);
-		param.put("endIndex",4);
+		param.put("endIndex",3);
 		param.put("limit",30);
 		param.put("M_LOCATE_LAT",M_LOCATE_LAT);
 		param.put("M_LOCATE_LNG",M_LOCATE_LNG);
