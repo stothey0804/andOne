@@ -112,17 +112,21 @@ public class ShopP002_d001ServiceImpl implements ShopP002_d001Service {
 		List<String> hashtagList = getAllHashtag();
 		Map<String,Integer> hashtagMap = new HashMap<>();
 		for(int i=0; i<hashtagList.size(); i++) {
-			String[] parser = hashtagList.get(i).split(",");
-			for(int j=0; j<parser.length; j++) {
-				if(parser[j].equals("")) {
-					continue;
-				}else {
-					if(hashtagMap.containsKey(parser[j])) {
-						int value = (int)hashtagMap.get(parser[j]);
-						value++;
-						hashtagMap.replace(parser[j], value);
+			if(hashtagList.get(i)==null) {
+				continue;
+			}else {
+				String[] parser = hashtagList.get(i).split(",");
+				for(int j=0; j<parser.length; j++) {
+					if(parser[j].equals("")) {
+						continue;
 					}else {
-						hashtagMap.put(parser[j], 1);
+						if(hashtagMap.containsKey(parser[j])) {
+							int value = (int)hashtagMap.get(parser[j]);
+							value++;
+							hashtagMap.replace(parser[j], value);
+						}else {
+							hashtagMap.put(parser[j], 1);
+						}
 					}
 				}
 			}

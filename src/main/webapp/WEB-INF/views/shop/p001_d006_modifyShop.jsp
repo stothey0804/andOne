@@ -89,6 +89,9 @@
 
 </style>
 
+
+<!-- 우편번호 -->
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <!-- JQuery -->
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <!-- KakaoMap -->
@@ -453,7 +456,7 @@
 			console.log(x + ' // ' + y);
 		});
 	</script>	
-		<!-- 	// 자바스크립트 폼 양식 체크 영역 (중복 등 처리) -->
+	<!-- 	// 자바스크립트 폼 양식 체크 영역 (중복 등 처리) -->
 	<script>
 		// 휴대폰번호 체크
 		$("#inputPhoneNumber").keyup(function(){

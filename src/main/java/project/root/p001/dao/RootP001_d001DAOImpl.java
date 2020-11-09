@@ -39,4 +39,19 @@ public class RootP001_d001DAOImpl implements RootP001_d001DAO{
 		return sqlSession.selectList("root.p001.selectWeeklySales");
 	}
 
+	@Override
+	public void updatePopularHashtag(String ph_content) {
+		sqlSession.update("root.p001.updatePopularHashtag",ph_content);
+	}
+
+	@Override
+	public List<String> getAllHashtagList() {
+		return sqlSession.selectList("root.p001.getAllHashtagList");
+	}
+
+	@Override
+	public String getPopularHashtag() {
+		return sqlSession.selectOne("root.p001.getPopularHashtag");
+	}
+
 }

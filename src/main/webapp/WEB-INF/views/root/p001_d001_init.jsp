@@ -20,7 +20,8 @@
  <script type="text/javascript">
  
  	var m_id = '${m_id}';
-	
+ 	
+ 	
  	function init(){
 		// 주소클릭시 맵설정 창 띄우기
 		document.getElementById('centerAddr').addEventListener("click", function(){
@@ -252,10 +253,10 @@
 				</svg></span>
 				<div class="hashtag d-inline-block">
 					<!-- 인기 해시태그 넣고 지워주세요  -->
-					<a href="#" class="btn btn-outline-primary">#치킨</a>
-					<a href="#" class="btn btn-outline-primary">#영화</a>
-					<a href="#" class="btn btn-outline-primary">#과일</a>
-					<a href="#" class="btn btn-outline-primary">#나눔</a>
+					<a href="${contextPath }/fullSearch.do?searchKeyword=${hashtag[0] }" class="btn btn-outline-primary">&num;${hashtag[0] }</a>
+					<a href="${contextPath }/fullSearch.do?searchKeyword=${hashtag[1] }" class="btn btn-outline-primary">&num;${hashtag[1] }</a>
+					<a href="${contextPath }/fullSearch.do?searchKeyword=${hashtag[2] }" class="btn btn-outline-primary">&num;${hashtag[2] }</a>
+					<a href="${contextPath }/fullSearch.do?searchKeyword=${hashtag[3] }" class="btn btn-outline-primary">&num;${hashtag[3] }</a>
 					<!-- 인기 해시태그 넣고 지워주세요  END -->
 				</div>
 		</div>

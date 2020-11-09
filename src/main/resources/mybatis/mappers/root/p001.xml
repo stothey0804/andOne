@@ -49,4 +49,33 @@
 	]]>
 	</select>
 	
+	<update id="updatePopularHashtag" parameterType="String">
+		<![CDATA[
+			UPDATE P_HASHTAG
+			SET PH_CONTENT = #{ph_content}, PH_UPDATEDATE = SYSDATE
+			WHERE PH_CATEGORY = 'ROOT'
+		]]>
+	</update>
+	
+	<select id="getAllHashtagList" resultType="String">
+		<![CDATA[
+			SELECT S_HASHTAG AS HASHTAG
+			FROM SHOP
+			UNION
+			SELECT ONE_HASHTAG AS HASHTAG
+			FROM AND_ONE
+			UNION
+			SELECT C_HASHTAG AS HASHTAG
+			FROM CLUB
+		]]>
+	</select>
+	
+	<select id="getPopularHashtag" resultType="String">
+		<![CDATA[
+			SELECT PH_CONTENT
+			FROM P_HASHTAG
+			WHERE PH_CATEGORY = 'ROOT'
+		]]>
+	</select>
+	
    </mapper>
