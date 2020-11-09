@@ -408,11 +408,11 @@ table.shopInfo{
 				<hr class="mb-3">
 					<div class="row mx-1">
 						<div class="col-6 card p-3" style="margin-left:-3px">
-							<h4>서비스별 점유율</h4>
+							<h4>가게 평점</h4>
 							<canvas id="myChart"></canvas>
 						</div>
 						<div class="col-6 card p-3" style="margin-left:3px">
-							<h4>같이먹기 카테고리 점유율</h4>
+							<h4>등록된 리뷰</h4>
 							<canvas id="myChart2"></canvas>
 						</div>
 					</div>

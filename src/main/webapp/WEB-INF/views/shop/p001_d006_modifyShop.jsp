@@ -89,7 +89,8 @@
 
 </style>
 
-
+<!-- CKEDITOR-->
+<script src = "${contextPath}/resources/js/ckeditor/ckeditor.js"></script>
 <!-- 우편번호 -->
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <!-- JQuery -->
@@ -100,9 +101,9 @@
 <script>
 	// 초기화시, 선택정보 영역 set
 	$(document).ready(function(){
+		$('#mapPop').hide();
 		$('#loadingImg').hide();
 		$('#inputShopImage').on("change",preview);
-		$('#mapPop').hide();
 		$('#mapPop #close').click(function(){
 			$('#mapPop').hide();
 		})
@@ -145,7 +146,6 @@
 				$('#s_score').val(jsonInfo.s_score);
 				$('#inputCategory').val(jsonInfo.s_category);
 				$('#inputShopName').val(jsonInfo.s_name);
-				$('#inputShopContent').val(jsonInfo.s_content);
 				$('#inputPhoneNumber').val(jsonInfo.s_phoneNumber);
 				$('.inputAddrs').text($('#centerAddr').text());
 				hashtag = jsonInfo.s_hashtag;
@@ -165,6 +165,10 @@
 					}
 					$('#regImageContainer').append('&nbsp;&nbsp;<button id="all" type="button" class="btn btn-outline-info" onclick="deleteButton()">첨부파일 삭제</button>');
 				}
+				CKEDITOR.instances.inputShopContent.setData();
+				setTimeout(function() {
+					   CKEDITOR.instances.inputShopContent.document.getBody().setHtml(jsonInfo.s_content);
+					 }, 200);
 			},
 			error: function (data, textStatus) {
 				alert("에러가 발생했습니다.");
@@ -337,6 +341,7 @@
 				    <label for="inputShopContent" class="col-lg-3 col-sm-12 col-form-label">가게소개</label>
 				    <div class="col-lg-7 col-sm-12">
 				      <textarea style="resize:none;" id="inputShopContent" name="s_content" rows="7" cols="43"></textarea>
+		    		  <script>CKEDITOR.replace('s_content')</script>
 		    		</div>
 		    	</div>
 		    	<!-- 대표번호 -->
@@ -497,7 +502,7 @@
 			var shopId = $("#inputShopId").val();
 			var phoneNum = $("#inputPhoneNumber").val();
 			var shopName = $("#inputShopName").val();
-			var shopContent = $("#inputShopContent").val();
+			var shopContent = CKEDITOR.instances.inputShopContent.getData();
 			
 			// 필수입력조건 체크(pwd제외)
 			if(shopId=='' || shopId==null
