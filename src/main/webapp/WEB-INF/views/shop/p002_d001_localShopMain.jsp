@@ -81,6 +81,12 @@ a {
     cursor: pointer;
 	}
 	
+.ri_box > img{
+	width: 80px;	
+	height: 80px; 
+	object-fit: cover;
+}
+	
 /* .si_box{ */
 /* 	width: 285px; */
 /* 	height: 230px;  */

@@ -151,6 +151,12 @@ a:hover {
 	cursor: pointer;
 }
 
+.ri_box > img{
+	width: 80px;	
+	height: 80px; 
+	object-fit: cover;
+}
+
 .si_box {
 	width: 250px;
 	height: 250px;
@@ -487,28 +493,28 @@ a:hover {
 						shopInformation += '<h1>' + jsonInfo.s_name
 								+ '</h1></td><td width="350" height="70"></td>';
 						shopInformation += '<td align="right" width="170" height="70">';
-						shopInformation += '<button id="all" type="button" class="btn btn-outline-info" onclick="writeButton()">리뷰 쓰기</button>';
+						shopInformation += '<button id="all" type="button" class="btn btn-outline-primary" onclick="writeButton()">리뷰 쓰기</button>';
 						shopInformation += '</td></tr><tr><td height="30">'
 								+ printStar(jsonInfo.s_score) + '</td>';
 						//지도
-						shopInformation += '<td align="left" colspan="2" rowspan="4"><div class="map_wrap"><div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div><div class="hAddr"><span class="map_title">업체 상세 주소</span> <span id="centerAddr"></span></div></div></td>';
-						shopInformation += '</tr><tr><td height="30"><a href="${contextPath }/shop/localShopSearch.do?filter='
+						shopInformation += '<td align="left" colspan="2" rowspan="4"><div class="map_wrap"><div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div><div class="hAddr"><span class="map_title">업체 상세 주소</span> <span id="centerAddr"></span></div></div></td></tr>';
+						shopInformation += '<tr><td height="30"><a href="${contextPath }/shop/localShopSearch.do?filter='
 								+ jsonInfo.s_category
 								+ '">'
 								+ jsonInfo.gc_name
-								+ '</a></td>';
-						shopInformation += '</tr><tr><td height="30">'
+								+ '</a></td></tr>';
+						shopInformation += '<tr><td height="30">';
 						var hashtagArr = jsonInfo.s_hashtag.split(',');
 						for (let i = 0; i < hashtagArr.length; i++) {
-							shopInformation += '<a href="${contextPath }/shop/localShopSearch.do?searchCondition=SEARCHBYHASHTAG&searchKeyword='
+							shopInformation += '<a class="btn btn-sm btn-light" href="${contextPath }/shop/localShopSearch.do?searchCondition=SEARCHBYHASHTAG&searchKeyword='
 									+ hashtagArr[i]
 									+ '">#'
 									+ hashtagArr[i]
 									+ '</a>&nbsp;';
 						}
 						shopInformation += '</td></tr><tr>';
-						shopInformation += '<td valign="top" height="300">'
-								+ jsonInfo.s_content + '</td>';
+						shopInformation += '<td valign="top" height="300"><div class="mt-3">'
+								+ jsonInfo.s_content + '</div></td>';
 						shopInformation += '</tr></table>';
 
 						reviewList += '<hr><h3><a href="${contextPath }/shop/getShopReviewList.do?s_id='
@@ -567,7 +573,7 @@ a:hover {
 									+ jsonInfo.shopReviewList[i].sr_date
 									+ '</td></tr></table><hr>';
 						}
-						recommendShop += '<h3>업체추천</h3><div id="recommendShopList"></div>'
+						recommendShop += '<h3 class="mt-4">업체추천</h3><div id="recommendShopList"></div>'
 
 						$('div.shopImage').html(shopImage);
 						$('div.shopInformation').html(shopInformation);
@@ -640,11 +646,10 @@ a:hover {
 	}
 
 	function recommend() {
-		$
-				.ajax({
+		$.ajax({
 					type : "post",
 					async : true,
-					url : "http://localhost:8090/andOne/shop/searchByAjax.do",
+					url : "${contextPath}/shop/searchByAjax.do",
 					dataType : "text",
 					beforeSend : function(data, textStatus) {
 						$('div#recommendShopList')
@@ -663,7 +668,7 @@ a:hover {
 						var shopCount = Object.keys(jsonInfo.resultList).length;
 						var output = "";
 						if (shopCount == 0) {
-							output += "<h3>저런~ 추천 가게가 없습니다.</h3>";
+							output += "<h3>추천 가게가 없습니다.</h3>";
 						} else {
 							if (shopCount > 3) {
 								shopCount = 3;
