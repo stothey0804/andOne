@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import project.and.vo.AndP002AndOneVO;
 import project.club.p001.dao.ClubP001_d001DAO;
 import project.club.vo.ClubMemberVO;
 import project.club.vo.ClubVO;
@@ -93,5 +94,11 @@ public class ClubP001_d001ServiceImpl implements ClubP001_d001Service{
 	@Override
 	public int searchClubListCntCategory(Map<String, Object> searchMap) {
 		return clubP001_d001DAO.searchClubListCntCategory(searchMap);
+	}
+
+	@Override
+	public List<AndP002AndOneVO> getAndOne(Map<String, Object> searchMap) {
+		List<AndP002AndOneVO> list = clubP001_d001DAO.getAndOne(searchMap);
+		return list;
 	}
 }
