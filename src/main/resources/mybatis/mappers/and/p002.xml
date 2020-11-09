@@ -58,18 +58,18 @@
 	  	SELECT *
 		FROM
 		(
-		SELECT (ROW_NUMBER() OVER(ORDER BY om_date DESC))om_num, a.one_type, a.one_id, a.m_id, d.one_title, a.om_leader, a.om_state, a.om_date, 
-			  			g_name, c.gc_name as one_state, e.m_nickname,
-		    			CASE WHEN to_char(d.one_totalPrice/d.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(d.one_totalPrice/d.one_memberMax))||'원' END as one_price
-		FROM one_member a, (SELECT g_name, g_id FROM code_group) b,(SELECT gc_name, gc_id, g_id FROM common_code WHERE g_id='017') c, 
-		    		 and_one d, member e
-		    
-		WHERE a.one_type = b.g_id
-		AND d.one_id = a.one_id
-		AND d.one_state = c.gc_id
-		AND a.m_id = e.m_id		
-		AND a.m_id = #{m_id}
-		AND a.om_leader = '10'  
+			SELECT (ROW_NUMBER() OVER(ORDER BY A.OM_EDITDATE DESC))om_num, a.one_type, a.one_id, a.m_id, d.one_title, a.om_leader, a.om_state, a.om_date, 
+				  			g_name, c.gc_name as one_state, e.m_nickname,
+			    			CASE WHEN to_char(d.one_totalPrice/d.one_memberMax) = 0 then '비용없음' ELSE to_char(trunc(d.one_totalPrice/d.one_memberMax))||'원' END as one_price
+			FROM one_member a, (SELECT g_name, g_id FROM code_group) b,(SELECT gc_name, gc_id, g_id FROM common_code WHERE g_id='017') c, 
+			    		 and_one d, member e
+			    
+			WHERE a.one_type = b.g_id
+			AND d.one_id = a.one_id
+			AND d.one_state = c.gc_id
+			AND a.m_id = e.m_id		
+			AND a.m_id = #{m_id}
+			AND a.om_leader = '10'  
 		)
 		WHERE om_num between #{startIndex} AND #{endIndex}
 	   ]]>
@@ -81,7 +81,7 @@
 	  	SELECT OM_NUM, ONE_TITLE, ONE_STATE, OM_DATE, G_NAME, ONE_PRICE, ONE_ID, M_ID, WRITER_NICKNAME, OM_STATE, ONE_TYPE
 		FROM
 		(
-   			SELECT (ROW_NUMBER() OVER(ORDER BY OM_DATE DESC))OM_NUM, A.ONE_TYPE, A.ONE_ID, A.M_ID, D.ONE_TITLE, A.OM_LEADER, G.GC_NAME AS OM_STATE, A.OM_DATE,
+   			SELECT (ROW_NUMBER() OVER(ORDER BY A.OM_EDITDATE DESC))OM_NUM, A.ONE_TYPE, A.ONE_ID, A.M_ID, D.ONE_TITLE, A.OM_LEADER, G.GC_NAME AS OM_STATE, A.OM_DATE,
             G_NAME, C.GC_NAME AS ONE_STATE, E.M_NICKNAME,
             CASE WHEN TO_CHAR(D.ONE_TOTALPRICE/D.ONE_MEMBERMAX) = 0 THEN '비용없음' ELSE TO_CHAR(TRUNC(D.ONE_TOTALPRICE/D.ONE_MEMBERMAX))||'원' END AS ONE_PRICE
             ,WRITER_NICKNAME
@@ -111,7 +111,7 @@
 	
 	<!-- 작성/참가 페이징 카운트 -->
 	<select id="selectAndOneCnt" parameterType="String" resultType="int">
-		<if test="flag=='participate'">
+		<if test="flag == 'participate'">
 		<![CDATA[
 			SELECT count(m_id) 
 			FROM one_member 
@@ -119,7 +119,7 @@
 			AND om_leader = '20' 
 		]]>
 		</if>
-		<if test="flag=='write'">
+		<if test="flag == 'write'">
 		<![CDATA[
 			SELECT count(m_id) 
 			FROM one_member 
