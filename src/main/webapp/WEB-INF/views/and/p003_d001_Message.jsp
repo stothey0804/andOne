@@ -202,7 +202,11 @@ a:hover {
 					if(jsonInfo[i].msg_date != 0){
 						chatRoom += '<input type="hidden" class="one_type" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
 						chatRoom += '<div class="list-group rounded-0" id="'+jsonInfo[i].one_id+'">';
-						chatRoom += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
+						if(jsonInfo[i].one_id == one_id){
+							chatRoom += 	'<a class="list-group-item list-group-item-action active text-white rounded-0">';
+						}else{
+							chatRoom += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
+						}
 						chatRoom += 		'<div class="media">';
 						chatRoom += 			'<i class="fas fa-users fa-2x fa-border"></i>';
 						chatRoom += 			'<div class="media-body ml-4">';
@@ -218,7 +222,11 @@ a:hover {
 					}else{
 						unoccupied += '<input type="hidden" class="one_type" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
 						unoccupied += '<div class="list-group rounded-0" id="'+jsonInfo[i].one_id+'">';
-						unoccupied += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
+						if(jsonInfo[i].one_id == one_id){
+							unoccupied += 	'<a class="list-group-item list-group-item-action active text-white rounded-0">';
+						}else{
+							unoccupied += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
+						}
 						unoccupied += 		'<div class="media">';
 						unoccupied += 			'<i class="fas fa-users fa-2x fa-border"></i>';
 						unoccupied += 			'<div class="media-body ml-4">';
