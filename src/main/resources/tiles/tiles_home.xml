@@ -129,6 +129,12 @@
       <put-attribute name="title" value="전체 소모임 조회" />
        <put-attribute name="body" value="/WEB-INF/views/club/p001/p001_d002_search.jsp" />
    </definition>
+   
+   <!-- 엔분의일 조회 -->
+   <definition name="AndOneAdmin" extends="adminLayout">
+      <put-attribute name="title" value="엔분의일 게시글 조회" />
+       <put-attribute name="body" value="/WEB-INF/views/and/p001_d002_AndOneAdmin.jsp" />
+   </definition>
 
    <!-- 관리자페이지 END -->
    
