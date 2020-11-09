@@ -14,7 +14,7 @@
 <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8"></script> -->
 <!-- services 라이브러리 불러오기 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=11c6cd1eb3e9a94d0b56232e854a37b8&libraries=services"></script>
-<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+<!-- <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"> -->
 <!-- JQuery -->
 
  <script type="text/javascript">
@@ -22,7 +22,8 @@
  	var m_id = '${m_id}';
  	
  	
- 	function init(){
+ 	$(document).ready(function(){
+ 		
 		// 주소클릭시 맵설정 창 띄우기
 		document.getElementById('centerAddr').addEventListener("click", function(){
 			var mapNode = document.querySelector(".map-container");
@@ -33,6 +34,89 @@
 			});
 		});
 		
+		// 클럽 html 지우기
+		var txt = document.getElementsByClassName("str");
+		for(i=0;i<txt.length;i++){
+			document.getElementsByClassName("str")[i].innerHTML = txt[i].innerText;
+		}
+		
+		// 인기지역업체 받기
+			$.ajax({
+				type: "post",
+				async: true,
+				url: "${contextPath}/shop/popularSearchByAjax.do",
+				dataType: "text",
+				beforeSend:function(data, textStatus){
+					$('.popular').html("<img src='${contextPath}/resources/image/loading.gif' style='display: block; margin: 0 auto; width:100px; height:100px;'>");
+				},
+				data:"M_LOCATE_LAT="+getCookie("locate_lat")+"&M_LOCATE_LNG="+getCookie("locate_lng"),
+				success: function (data, textStatus) {
+					var jsonStr = data;
+					var jsonInfo = JSON.parse(jsonStr);
+					var output = "";
+					if(Object.keys(jsonInfo).length == 0){
+						output += '<div class="col-12 m-3 bg-light card"><div class="cord-body p-5 text-center">등록된 지역업체가 없습니다.<br>위치정보가 설정되어있는지 확인해주세요 :)</div></div>';
+					}else{
+						output += "<div class='mt-4 row'><div class='mx-auto'>";
+						for (let i=0; i<Object.keys(jsonInfo).length; i++) {
+							console.log(jsonInfo[i].s_name);
+							output += "<div class='col-3 px-1 d-inline-block align-top'>";
+							output += "<div class='card mx-1'>";
+//	 						output += "<div class='si_box'>"
+							output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>";
+							if(Object.keys(jsonInfo[i].shopImage).length != 0){
+								output += "<img src='data:image/jpg;base64,"+jsonInfo[i].shopImage[0].si_encodedImg+"' class='card-img-top thumb' alt='...'>";
+							}else{
+								output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top thumb' alt='...'>";
+							}
+							output += "</a>";
+//	 						output += "</div>";
+							//카테고리 표시
+							output += "<div class='card-body'><small class='text-secondary'>"+jsonInfo[i].gc_name+"</small>";
+							output += "<h4 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="+jsonInfo[i].s_id+"'>"+jsonInfo[i].s_name+"</a></h4>";
+							output += "<div id='popularAddr"+i+"'></div>"
+							output += "<p class='text-right mt-2 mb-0'><i class='fas fa-map-marker-alt mr-1 text-muted'></i>";
+							if(jsonInfo[i].distance<1){
+								output += (jsonInfo[i].distance * 1000) + "m";
+							}else{
+								output += jsonInfo[i].distance + "km";
+							}
+							output += "</p></div>";
+							output += "<div class='card-body border-top clearfix' id='review'>";
+							output += "<p class='mb-0 card-text float-left'>";
+							output += "<a href='#'>후기 "+jsonInfo[i].reviewCount+"건</a></p>";
+							output += "<p class='mb-0 card-text float-right'>"+printStar(jsonInfo[i].s_score)+"</p></div></div></div>";
+						}
+						output += "</div></div>";
+						
+					}
+					$('.popular').html(output);
+					
+					//위치정보 입력
+					for(let i=0; i<Object.keys(jsonInfo).length; i++){
+						//위도, 경도
+						var x = jsonInfo[i].s_locate_lat;
+						var y = jsonInfo[i].s_locate_lng;
+						//좌표로 주소 받아오기
+						var geocoder = new kakao.maps.services.Geocoder();
+						var coord = new kakao.maps.LatLng(x, y);
+						var callback = function(result, status) {
+						    if (status === kakao.maps.services.Status.OK) {
+						        console.log('그런 너를 마주칠까 ' + result[0].address_name + '을 못가');
+						        var infoDiv = document.getElementById('popularAddr'+i);
+						        infoDiv.innerHTML = "<p class='card-text'>" + result[0].address_name + "</p>"
+						    }
+						};
+						geocoder.coord2RegionCode(coord.getLng(), coord.getLat(), callback);
+					}
+				},
+				error: function (data, textStatus) {
+					alert("에러가 발생했습니다.");
+				},
+				complete: function (data, textStatus) {
+					
+				}
+			});
 
 		
  		// swiper
@@ -47,32 +131,8 @@
 	          disableOnInteraction: false,
 	        },
 	    });
- 		
- 		// rate 배열 얻기
- 		let rates = document.querySelectorAll("span.rate");
-		let stars = document.querySelectorAll("span.star");
-		
-		// star 출력
-		for(let i = 0; i < rates.length; i++){
-			let score = rates[i].textContent;
-			let result = "";
-				let k = 5;
-				
-				for(let j = 0 ; j < score/2; j++, k--){
-					if(j == Math.ceil(score/2)-1 && score % 2 != 0){
-						result += "<i class='fas fa-star-half-alt'></i>";
-						k--;
-						break;
-					}
-					result += "<i class='fas fa-star'></i>";
-				}
+ 			
 
-				for(k; k > 0; k--){
-					result += "<i class='far fa-star'></i>";
-				}
-// 			console.log(result);
-			stars[i].innerHTML = result;
-		}
 		
 		let prices = document.querySelectorAll("span.price");
 			let priceResults = document.querySelectorAll("span.priceResult");
@@ -82,7 +142,30 @@
 				priceResults[i].innerHTML = pointToNumFormat(pResult);
   		}
 
+ 	});
+ 	
+ 	function getCookie(name) {
+ 		  var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+ 		  return value? value[2] : null;
  	}
+ 	
+	function printStar(score){
+		var calScore = score;
+		var resultStar = '';
+		while(true){
+			if(calScore>=2){
+				resultStar += '<i class="fas fa-star text-warning"></i>';
+				calScore -= 2;
+				continue;
+			}else if(calScore>0){
+				resultStar += '<i class="fas fa-star-half-alt text-warning"></i>';
+				break;
+			}else{
+				break;
+			}
+		}
+		return resultStar;
+	}
 
 
  </script>
@@ -138,7 +221,7 @@
     }
  </style>
 </head>
-<body onload="init()" class="bg-light">
+<body class="bg-light">
 <%
    request.setCharacterEncoding( "utf-8" );
 %>
@@ -418,7 +501,7 @@
 			</c:choose>
 		      <div class="card-body">
 		        <h5 class="card-title text-truncate" style="height:28px">${club.c_name}</h5>
-		        <div class="card-text text-truncate" style="height:40px">${club.c_content}</div>
+		        <div class="card-text text-truncate str" style="height:40px">${club.c_content}</div>
 		        <p class="card-text">${club.c_hashtag}</p>
 		        <a href='${contextPath}/club/detailClub.do?c_id=${club.c_id}' class="btn btn-sm btn-primary text-right">자세히 보기</a>
 		      </div>
@@ -438,16 +521,35 @@
 			</svg>
 		</h5>
 		
+		<div class="popular">
+				
+		</div>
+<!-- 	<div class="mt-4 row mx-1"> -->
+<!-- 		<div class="mx-auto"> -->
+<%-- 		<c:forEach var="shop" items="${shopList}" > --%>
+<!-- 			<div class="col-3 px-1 d-inline-block align-top"> -->
+<!-- 				<div class="card mx-1"><a href="/andOne/shop/localShopDetail.do?s_id=20200917-3"> -->
+<!-- 				<img src="" class="card-img-top thumb" alt="..."></a> -->
+<%-- 				<div class="card-body"><small class="text-secondary">${shop.gc_name}</small> --%>
+<%-- 					<h4 class="card-title"><a href="/andOne/shop/localShopDetail.do?s_id=${shop.s_id}">${shop.s_name}</a></h4> --%>
+<!-- 					<p class="card-text">경기도 고양시 덕양구 원흥동</p> -->
+<!-- 					<p class="text-right mt-2 mb-0"> -->
+<%-- 					<i class="fas fa-map-marker-alt mr-1 text-muted" aria-hidden="true"></i>${shop.distance}km</p> --%>
+<!-- 				</div> -->
+<!-- 				<div class="card-body border-top clearfix" id="review"> -->
+<%-- 				<p class="mb-0 card-text float-left"><a href="#">후기 ${shop.reviewCount}건</a></p> --%>
+<!-- 				<p class="mb-0 card-text float-right"></p> -->
+<!-- 				</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<%-- 		</c:forEach> --%>
+<!-- 		</div> -->
+<!-- 	</div> -->
 		<!-- Swiper -->
-		  <div class="swiper-container">
-		    <div class="swiper-wrapper">
-				<c:forEach var="shop" items="${shopList}" >
-			      <div class="swiper-slide">
-					${shop.s_name }
-			      </div>
-				</c:forEach>
-		    </div>
-		  </div><!-- end swiper -->
+<!-- 		  <div class="swiper-container"> -->
+<!-- 		    <div class="swiper-wrapper"> -->
+<!-- 		    </div> -->
+<!-- 		  </div>end swiper -->
 	</div>
 
 	

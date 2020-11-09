@@ -12,6 +12,7 @@ public class ShopP003ShopReviewVO {
 	private String m_id;
 	private String sr_date;
 	private String sr_score;
+	private String sr_count;
 	private String sr_content;
 	private String sr_public;
 	private String sr_editor;
@@ -23,6 +24,12 @@ public class ShopP003ShopReviewVO {
 	private List<ShopP003ShopReviewImageVO> shopReviewImage;
 	
 	
+	public String getSr_count() {
+		return sr_count;
+	}
+	public void setSr_count(String sr_count) {
+		this.sr_count = sr_count;
+	}
 	
 	public Map<String, Object> getM_imgEncoder() {
 		return m_imgEncoder;
