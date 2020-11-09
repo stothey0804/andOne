@@ -15,6 +15,14 @@
 				width: 60px;
 				height: 60px;
 				}
+		.icon_yellow {
+			color : gold;
+		}
+		.cancel {
+			color : red;
+		}
+		
+        
 	</style>
 	<script>
 	function init(){
@@ -43,11 +51,23 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h6>보유하신 포인트가 부족합니다.<br> 부족한 포인트를 충전하신 후에 신청하실 수 있습니다.</h6> 
-                        <h5 id="point_value3"></h5>
-                        <h5>${m_nickname}님의 현재 보유 포인트:</h5>
-                        <h5 id="point_value"></h5>
-                        <h5 id="point_value2"></h5>
+                        <br>
+                        <h6 class="font-weight-bold text-center">보유하신 포인트가 부족합니다.<br> 부족한 포인트를 충전하신 후에 신청하실 수 있습니다.</h6> 
+                        <br>
+                        <div class="row">
+                        	<div class="col-4">
+	                        	<h6 class="font-weight-bold text-center"><i class="fas fa-coins icon_yellow"></i>&nbsp;결제요청포인트</h6>
+	                        	<h6 class="font-weight-bold text-center " id="point_value3"></h6>
+	                        </div>
+	                        <div class="col-4">
+		                        <h6 class="font-weight-bold text-center"><i class="fas fa-coins icon_yellow"></i>&nbsp;현재 보유 포인트</h6>
+		                        <h6 class="font-weight-bold text-center text-danger" id="point_value"></h6>
+	                        </div>
+	                        <div class="col-4">
+		                        <h6 class="font-weight-bold text-center"><i class="fas fa-coins icon_yellow"></i>&nbsp;충전 포인트</h6>
+		                        <h6 class="font-weight-bold text-center text-primary" id="point_value2"></h6>
+	                        </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
 	                    <form name="frmData" method="post">
@@ -68,8 +88,10 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h6>결제 후 신청이 완료됩니다</h6> 
-                        <h5 id="charge_value"></h5>
+                        <br>
+                        <h6 class="font-weight-bold text-center">포인트 결제 후 &amp;분의일 신청이 완료됩니다</h6><br>
+                        <h6 class="text-center"><i class="fas fa-coins icon_yellow"></i>&nbsp;결제포인트</h6>
+                        <h5 class="text-center font-weight-bold" id="charge_value"></h5><br>
                     </div>
                     <div class="modal-footer">
 	                    <form name="payData" method="post">
@@ -92,11 +114,14 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h6>신청하신 &amp;분의일 취소와 사용하신 포인트(<span class="price invisible">${andoneDetail.one_price}</span><span class="priceResult"></span>P) 환불이 완료되었습니다</h6> 
-                    </div>
+                        <br>
+                        <h6 class="font-weight-bold text-center">확인을 누르면 신청하신 &amp;분의일이 <span class="font-weight-bold text-center cancel">취소</span>됩니다</h6>
+                        <h6 class="font-weight-bold text-center">1시간 내에 사용하신 포인트가 환불됩니다 </h6><br>
+                      	<h5 class="font-weight-bold text-center"><i class="fas fa-coins icon_yellow"></i>&nbsp;<span class="priceResult"></span>P</h5>
+                    </div><span class="price invisible">${andoneDetail.one_price}</span>
                     <div class="modal-footer">
-                    	<button type="submit" class="btn btn-primary" 
-                    	onclick="location.href='${contextPath}/and?g_id=${g_id}'">확인 ${g_id}</button>
+                    	<button type="submit" class="btn btn-danger" 
+                    	onclick="location.href='${contextPath}/and?g_id=${g_id}'">취소</button>
                     	<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                     </div>
                 </div>
@@ -111,7 +136,8 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h6>수령시간 30분전까지만 취소가 가능합니다</h6> 
+                        <br>
+                        <h6 class="font-weight-bold text-center">수령시간 30분전까지만 취소가 가능합니다</h6> 
                     </div>
                     <div class="modal-footer">
 	                    	<button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
@@ -157,7 +183,7 @@
 		<!-- 내용 -->
 		<div class="col-7 mr-3">
 			 <!-- 해시태그 -->
-			 #${andoneDetail.one_hashTag}<br>
+			 <div class="font-weight-bold">#${andoneDetail.one_hashTag}</div>
 			 <!-- 글내용 -->
 			 <div class="mt-3">${andoneDetail.one_content}</div>
 			 <!-- 참여자 -->
@@ -194,20 +220,6 @@
 					</li>
 					</c:forEach>
 					</ul>
-<%-- 			 	<c:forEach var ="oneMemList" items="${oneMemList}" >  --%>
-<%-- 					<c:set var="mem_img" value="${oneMemList.resultUserImg}"/> --%>
-<!-- 				 			 참가자 닉네임  -->
-<%-- 				 			 <c:choose> --%>
-<%-- 				 			 	<c:when test="${mem_img eq null}"> --%>
-<%-- 				 			 		<img src="${contextPath}/resources/image/user.png" class="m_img"> --%>
-<%-- 				 			 	</c:when> --%>
-<%-- 					 			 <c:otherwise> --%>
-<%-- 					 			 	<img src="data:image/jpg;base64, ${oneMemList.resultUserImg}" class="m_img">  --%>
-<%-- 					 			 </c:otherwise> --%>
-<%-- 				 			 </c:choose>  --%>
-<%-- 			 			 	${oneMemList.m_nickname} --%>
-<%-- 						</c:if> --%>
-<%-- 				</c:forEach><br> --%>
 			 </div>
 		</div>
 		<!-- 지도 -->
@@ -230,13 +242,13 @@
 			 		</div>
 					 <button class="btn btn-secondary col-12 mb-2" onclick="location.href='${contextPath}/and/waitonemem.do?one_id=${andoneDetail.one_id}'">참가신청확인하기</button><br>	
 		 			</c:when>
-		 			<c:when test="${omLeaderCheck.om_leader eq '20' and omLeaderCheck.om_state eq '20' and andoneDetail.one_state eq '모집중'}"> 
+		 			<c:when test="${(omLeaderCheck.om_leader eq '20' and andoneDetail.one_state eq '모집중') or (omLeaderCheck.om_leader eq '20' and andoneDetail.one_state ne '결제완료') }"> 
 					 	<button class="btn btn btn-danger col-12" onclick="cancelAndOne('${andoneDetail.one_id}','${andoneDetail.one_price}')">취소하기</button>
 					</c:when>
-					<c:when test="${empty omLeaderCheck.om_leader}" >
-				 		<button class="btn btn-primary col-12" onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
-					</c:when>
 				</c:choose>
+				<c:if test="${empty omLeaderCheck.om_leader}" >
+			 		<button class="btn btn-primary col-12" onclick="submitAndOne('${andoneDetail.one_price}','${andoneDetail.one_id}','${andoneDetail.one_type}')">신청하기</button><br>
+				</c:if>
 				<c:if test="${omLeaderCheck.om_leader ne '10'}">
 				 	<button class="btn btn-light col-12 mt-1" type="button" onClick='openReportPopup()'>부적절한 &amp;분의일 신고하기</button>
 				</c:if>		
@@ -305,7 +317,7 @@
         				if(data == "true"){
         					console.log("결제가능");
         					$('#chargeModal').modal("show");
-        					$('#charge_value').text("결제금액:"+price+"원");
+        					$('#charge_value').text(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"p");
         					document.getElementById('payResult').value = price;//결제금액전달
         					document.getElementById('pay_One_id').value = one_id;//글번호 전달
         					document.getElementById('pay_one_type').value = one_type;//엔분의일 타입전달
@@ -317,9 +329,9 @@
         					var finalPrice = Math.ceil((price-data)/1000)*1000;
         					console.log("됨?"+finalPrice);
         					$('#pointModal').modal("show");
-        					$('#point_value3').text("결제요청금액"+price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"원");
+        					$('#point_value3').text(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"p");
         					$('#point_value').text(data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"p");
-        					$('#point_value2').text("충전할 포인트"+finalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"P");
+        					$('#point_value2').text(finalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"p");
         					document.getElementById('amountResult').value = finalPrice;
         				}
         			}
@@ -358,8 +370,6 @@
 			frmData.target = popTitle;
 			frmData.action = "${contextPath}/point/kakaoPay.do";
 			frmData.submit();
-			window.close();
-			opener.location.reload();
 	       }
    		 
    	   //결제하기 클릭 - 신청

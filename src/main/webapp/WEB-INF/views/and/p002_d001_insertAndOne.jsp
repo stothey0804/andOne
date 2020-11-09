@@ -54,27 +54,27 @@
 	  </div>
       	<!-- 카테고리 -->
       	<div class="form-group">
-      	<label>카테고리</label><div style="margin-bottom:10px;"></div><br>
+      	<label>카테고리</label><br>
       	<c:set var="g_id" value="${g_id}" />
       	<c:choose>
       		<c:when test="${g_id == '010'}">
-		      	<div id="category" style="width:650px; margin: 0 auto">
+		      	<div id="category" class="text-center">
 					<c:forEach var ="ctg" items="${ctg}" > 
-						<button type="button" id="category_sub" class="btn btn-outline-primary mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
+						<button type="button" id="category_sub" class="btn btn-outline-primary mb-2" value="${ctg.gc_id}" >${ctg.gc_name}</button>
 					</c:forEach>
 				</div>
 			</c:when>
       		<c:when test="${g_id == '011'}">
-		      	<div id="category"  class="form-group" style=" margin:0 auto;">
+		      	<div id="category" class="text-center">
 					<c:forEach var ="ctg" items="${ctg}" > 
-						<button type="button" id="category_sub" class="btn btn-outline-primary mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
+						<button type="button" id="category_sub" class="btn btn-outline-primary mb-2" value="${ctg.gc_id}" >${ctg.gc_name}</button>
 					</c:forEach>
 				</div>
 			</c:when>
       		<c:when test="${g_id == '012'}">
-		      	<div id="category" class="form-group" style="width:800px; margin: 0 auto;">
+		      	<div id="category" class="text-center">
 					<c:forEach var ="ctg" items="${ctg}" > 
-						<button type="button" id="category_sub" class="btn btn-outline-primary mb-3" value="${ctg.gc_id}" >${ctg.gc_name}</button>
+						<button type="button" id="category_sub" class="btn btn-outline-primary mb-2" value="${ctg.gc_id}" >${ctg.gc_name}</button>
 					</c:forEach>
 				</div>
 			</c:when>
@@ -83,7 +83,8 @@
 		</div>
         	<div class="form-group">
         		<label>주문금액</label>&nbsp;<span class="text-muted m-0 text-muted"></span>
-				<input type="text" class="form-control" name="one_totalPrice" placeholder="주문금액을 입력해주세요">
+				<input type="text" class="form-control"  id="totalPrice" placeholder="주문금액을 입력해주세요" onkeyup="pointToNumFormat(value)">
+				<input type="hidden" name="one_totalPrice" id="one_totalPrice">
 			</div>
 		<!--달력 -->
 		<div class="form-group">
@@ -101,7 +102,7 @@
 					<option value="<c:out value='${i}'/>"><c:out value="${i}"/></option>
 				</c:forEach>
 			 </select>
-			 <input type="hidden" name="one_memberMax" value="">
+			 <input type="hidden" name="one_memberMax" id="one_totalPrice" value="">
 	   </div>
 		<!-- 지도 -->
 		<div class="form-group form-inline"> 
@@ -279,6 +280,20 @@
 					return false;
 				}
 			}
+	
+			function pointToNumFormat(x) {
+				console.log(x);
+				x = x.replace(/[^0-9]/g,'');   // 입력값이 숫자가 아니면 공백
+				x = x.replace(/,/g,'');          // ,값 공백처리
+				$("#totalPrice").val(x.replace(/\B(?=(\d{3})+(?!\d))/g, ",")); // 정규식을 이용해서 3자리 마다 , 추가
+				$('#one_totalPrice').val(removeComma($('#totalPrice').val()));
+			}
+			function removeComma(str){
+				n = parseInt(str.replace(/,/g,""));
+				return n;
+				}
+
+			
 	      $('#registerAnd').click(function(){
 	    	  hashtag = '';
 				for(let i=0; i<hashtagArr.length; i++){

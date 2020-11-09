@@ -64,6 +64,7 @@
 		<result property="m_id" column="M_ID" />
 		<result property="sr_date" column="SR_DATE" />
 		<result property="sr_score" column="SR_SCORE" />
+		<result property="sr_count" column="SR_COUNT" />
 		<result property="sr_content" column="SR_CONTENT" />
 		<result property="sr_public" column="SR_PUBLIC" />
 		<result property="sr_editor" column="SR_EDITOR" />
@@ -414,7 +415,8 @@
 
 <select id="getShopReview" resultMap="shop.p002.shopReview">
 	<![CDATA[
-		SELECT S_ID, SR.M_ID, SR_DATE, SR_CONTENT, SR_SCORE, SR_PUBLIC, SR_EDITOR, SR_EDITDATE, M.M_NICKNAME, M.M_IMG
+		SELECT S_ID, SR.M_ID, SR_DATE, SR_CONTENT, SR_SCORE, SR_PUBLIC, SR_EDITOR, SR_EDITDATE, M.M_NICKNAME, M.M_IMG,
+			(SELECT COUNT(m_id) FROM S_REVIEW WHERE m_id = #{m_id})sr_count
 		FROM S_REVIEW SR
 		INNER JOIN MEMBER M ON SR.M_ID = M.M_ID
 		WHERE M.M_ID = #{m_id}

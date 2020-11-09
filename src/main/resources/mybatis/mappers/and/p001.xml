@@ -377,5 +377,4 @@
 	 	   and one_type = #{g_id}
 		]]>
 	</select>
-	
 </mapper>

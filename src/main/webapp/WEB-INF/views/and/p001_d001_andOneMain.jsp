@@ -256,6 +256,33 @@
 	</c:choose>
 	</h1> 
 	<div style="width:500px; margin: 0 auto">
+	<div class="text-center">
+				<span class="mr-1">추천검색어 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			 			<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path>
+				</svg></span>
+				<div class="hashtag d-inline-block mb-3">
+					<c:choose>
+						<c:when test="${g_id == '010'}">
+							<a href="${contextPath}/anddo/searchAndOne.do?totalSearch=치킨&g_id=${g_id}" class="btn btn-outline-primary">#치킨</a>
+							<a href="${contextPath}/anddo/searchAndOne.do?totalSearch=떡볶이&g_id=${g_id}" class="btn btn-outline-primary">#떡볶이</a>
+							<a href="${contextPath}/anddo/searchAndOne.do?totalSearch=과일&g_id=${g_id}" class="btn btn-outline-primary">#과일</a>
+							<a href="${contextPath}/anddo/searchAndOne.do?totalSearch=뿌링클&g_id=${g_id}" class="btn btn-outline-primary">#뿌링클</a>
+						</c:when>
+						<c:when test="${g_id == '011'}">
+							<a href="${contextPath}/anddo/searchAndOne.do?totalSearch=과일&g_id=${g_id}" class="btn btn-outline-primary">#과일</a>
+							<a href="${contextPath}/anddo/searchAndOne.do?totalSearch=장보기&g_id=${g_id}" class="btn btn-outline-primary">#장보기</a>
+							<a href="${contextPath}/anddo/searchAndOne.do?totalSearch=영양제&g_id=${g_id}" class="btn btn-outline-primary">#영양제</a>
+							<a href="${contextPath}/anddo/searchAndOne.do?totalSearch=세재&g_id=${g_id}" class="btn btn-outline-primary">#세재</a>
+						</c:when>
+						<c:when test="${g_id == '012'}">
+							<a href="${contextPath}/anddo/searchAndOne.do?totalSearch=강아지산책&g_id=${g_id}" class="btn btn-outline-primary">#강아지산책</a>
+							<a href="${contextPath}/anddo/searchAndOne.do?totalSearch=취업스터디&g_id=${g_id}" class="btn btn-outline-primary">#취업스터디</a>
+							<a href="${contextPath}/anddo/searchAndOne.do?totalSearch=KTX&g_id=${g_id}" class="btn btn-outline-primary">#KTX</a>
+							<a href="${contextPath}/anddo/searchAndOne.do?totalSearch=축구&g_id=${g_id}" class="btn btn-outline-primary">#축구</a>
+						</c:when>
+					</c:choose>
+				</div>
+		</div>
 	<c:choose>
 		<c:when test="${g_id == '010'}">
 			<form name="eat" method="get" action="${contextPath}/andeat/searchAndOne.do">
@@ -279,6 +306,7 @@
 					<input type ="hidden" name="g_id" value="${g_id}">
 				</div>
 			</form>
+			
 
 	</div>
 	<br>

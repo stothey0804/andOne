@@ -89,6 +89,10 @@
 
 </style>
 
+<!-- CKEDITOR-->
+<script src = "${contextPath}/resources/js/ckeditor/ckeditor.js"></script>
+<!-- 우편번호 -->
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <!-- JQuery -->
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <!-- KakaoMap -->
@@ -97,9 +101,9 @@
 <script>
 	// 초기화시, 선택정보 영역 set
 	$(document).ready(function(){
+		$('#mapPop').hide();
 		$('#loadingImg').hide();
 		$('#inputShopImage').on("change",preview);
-		$('#mapPop').hide();
 		$('#mapPop #close').click(function(){
 			$('#mapPop').hide();
 		})
@@ -142,7 +146,6 @@
 				$('#s_score').val(jsonInfo.s_score);
 				$('#inputCategory').val(jsonInfo.s_category);
 				$('#inputShopName').val(jsonInfo.s_name);
-				$('#inputShopContent').val(jsonInfo.s_content);
 				$('#inputPhoneNumber').val(jsonInfo.s_phoneNumber);
 				$('.inputAddrs').text($('#centerAddr').text());
 				hashtag = jsonInfo.s_hashtag;
@@ -162,6 +165,10 @@
 					}
 					$('#regImageContainer').append('&nbsp;&nbsp;<button id="all" type="button" class="btn btn-outline-info" onclick="deleteButton()">첨부파일 삭제</button>');
 				}
+				CKEDITOR.instances.inputShopContent.setData();
+				setTimeout(function() {
+					   CKEDITOR.instances.inputShopContent.document.getBody().setHtml(jsonInfo.s_content);
+					 }, 200);
 			},
 			error: function (data, textStatus) {
 				alert("에러가 발생했습니다.");
@@ -215,7 +222,6 @@
 	}
 	
 	function deleteButton(){
-		alert('이미지 삭제할거임');
 		$.ajax({
 			type: "post",
 			async: true,
@@ -335,6 +341,7 @@
 				    <label for="inputShopContent" class="col-lg-3 col-sm-12 col-form-label">가게소개</label>
 				    <div class="col-lg-7 col-sm-12">
 				      <textarea style="resize:none;" id="inputShopContent" name="s_content" rows="7" cols="43"></textarea>
+		    		  <script>CKEDITOR.replace('s_content')</script>
 		    		</div>
 		    	</div>
 		    	<!-- 대표번호 -->
@@ -454,7 +461,7 @@
 			console.log(x + ' // ' + y);
 		});
 	</script>	
-		<!-- 	// 자바스크립트 폼 양식 체크 영역 (중복 등 처리) -->
+	<!-- 	// 자바스크립트 폼 양식 체크 영역 (중복 등 처리) -->
 	<script>
 		// 휴대폰번호 체크
 		$("#inputPhoneNumber").keyup(function(){
@@ -495,7 +502,7 @@
 			var shopId = $("#inputShopId").val();
 			var phoneNum = $("#inputPhoneNumber").val();
 			var shopName = $("#inputShopName").val();
-			var shopContent = $("#inputShopContent").val();
+			var shopContent = CKEDITOR.instances.inputShopContent.getData();
 			
 			// 필수입력조건 체크(pwd제외)
 			if(shopId=='' || shopId==null
@@ -508,7 +515,6 @@
 			else if($(".is-invalid").length!=0){
 				alert("입력정보를 확인해주세요.");
 			}else{
-				alert('보낼거얌');
 				//모든 조건 통과시 saveMember로 보내기
 				hashtag = '';
 				for(let i=0; i<hashtagArr.length; i++){
@@ -517,7 +523,6 @@
 				hashtag = hashtag.slice(0,-1);
 				$('#s_hashtag').val(hashtag);
 				$('#inputHashtag').remove();
-				alert(hashtag);
 				var frmShopInfo = document.frmShopInfo;
 				frmShopInfo.action = "${contextPath}/biz/modifyShop.do";
 				frmShopInfo.submit();

@@ -178,7 +178,30 @@ table.shopInfo{
 		for(let i=0; i<hashtagArr.length; i++){
 			$('#hashtag').append('#'+hashtagArr[i]+'&nbsp;');
 		}
+		var score = '${resultVO.s_score }';
+		var resultScore = printStar(score);
+		$('#shopScore').html(resultScore);
+		
 	})
+	
+	function printStar(score){
+		var calScore = score;
+		var resultStar = '';
+		while(true){
+			if(calScore>=2){
+				resultStar += '<i class="fas fa-star"></i>';
+				calScore -= 2;
+				continue;
+			}else if(calScore>0){
+				resultStar += '<i class="fas fa-star-half-alt"></i>';
+				break;
+			}else{
+				break;
+			}
+		}
+		return resultStar;
+	}
+	
 	function prev(){
 		let imgId = $('#imgPopContent img').attr('id');
 		let idArr = imgId.split('-split-');
@@ -266,7 +289,7 @@ table.shopInfo{
 				<table class="shopInfo"><tr><td width="500" height="70">
 				<h1>${resultVO.s_name }</h1></td><td width="350" height="70"></td>
 				<td align="right" width="150" height="70">
-				</td></tr><tr><td height="30">${resultVO.s_score }</td>
+				</td></tr><tr><td id="shopScore" height="30">${resultVO.s_score }</td>
 				<td align="right" colspan="2" rowspan="4">
 				<div class="map_wrap" style="width:90%;height:90%;">
 				<div id="map" style="width:100%;height:350px;position:relative;overflow:hidden;">
@@ -385,11 +408,11 @@ table.shopInfo{
 				<hr class="mb-3">
 					<div class="row mx-1">
 						<div class="col-6 card p-3" style="margin-left:-3px">
-							<h4>서비스별 점유율</h4>
+							<h4>가게 평점</h4>
 							<canvas id="myChart"></canvas>
 						</div>
 						<div class="col-6 card p-3" style="margin-left:3px">
-							<h4>같이먹기 카테고리 점유율</h4>
+							<h4>등록된 리뷰</h4>
 							<canvas id="myChart2"></canvas>
 						</div>
 					</div>
@@ -494,7 +517,8 @@ table.shopInfo{
 					};
 					geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
 					//인포윈도우
-					var iwContent = '<div style="padding:5px;">${resultVO.s_name}</div>';
+					var linkPath = 'https://map.kakao.com/link/to/${resultVO.s_name},${resultVO.s_locate_lat},${resultVO.s_locate_lng}';
+					var iwContent = '<div style="padding:5px;"><a target="_blank" href="'+linkPath+'">${resultVO.s_name}</a></div>';
 					var iwPosition = new kakao.maps.LatLng(x, y);
 					var infowindow = new kakao.maps.InfoWindow({
 					    position : iwPosition, 
