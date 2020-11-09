@@ -26,7 +26,7 @@
 }
 
 .messages-box {
-  height: 510px;
+  height: 581px;
   overflow-y: scroll;
 }
 .chat-box {
@@ -72,6 +72,12 @@ div.border{
 	    overflow: hidden;
 	    cursor: pointer;
 	}
+	
+.img-circle{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
 	
 a {
 	text-decoration: none;
@@ -202,16 +208,12 @@ a:hover {
 					if(jsonInfo[i].msg_date != 0){
 						chatRoom += '<input type="hidden" class="one_type" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
 						chatRoom += '<div class="list-group rounded-0" id="'+jsonInfo[i].one_id+'">';
-						if(jsonInfo[i].one_id == one_id){
-							chatRoom += 	'<a class="list-group-item list-group-item-action active text-white rounded-0">';
-						}else{
-							chatRoom += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
-						}
+						chatRoom += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
 						chatRoom += 		'<div class="media">';
 						chatRoom += 			'<i class="fas fa-users fa-2x fa-border"></i>';
 						chatRoom += 			'<div class="media-body ml-4">';
 						chatRoom += 				'<div class="d-flex align-items-center justify-content-between mb-1">';
-						chatRoom += 					'<h6 class="mb-0 text-truncate">'+ category + jsonInfo[i].one_title +'</h6>';
+						chatRoom += 					'<h6 class="mb-0 text-truncate" style="width:180px">'+ category + jsonInfo[i].one_title +'</h6>';
 						chatRoom += 					'<small class="small font-weight-bold">'+subStrDate+'</small>';
 						chatRoom += 				'</div>';
 						chatRoom += 				'<p class="font-italic mb-0 text-small text-truncate">'+jsonInfo[i].latestMessage+'</p>';
@@ -222,11 +224,7 @@ a:hover {
 					}else{
 						unoccupied += '<input type="hidden" class="one_type" id="'+jsonInfo[i].one_id+'" value="'+jsonInfo[i].one_type+'">';
 						unoccupied += '<div class="list-group rounded-0" id="'+jsonInfo[i].one_id+'">';
-						if(jsonInfo[i].one_id == one_id){
-							unoccupied += 	'<a class="list-group-item list-group-item-action active text-white rounded-0">';
-						}else{
-							unoccupied += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
-						}
+						unoccupied += 	'<a class="list-group-item list-group-item-action list-group-item-light rounded-0">';
 						unoccupied += 		'<div class="media">';
 						unoccupied += 			'<i class="fas fa-users fa-2x fa-border"></i>';
 						unoccupied += 			'<div class="media-body ml-4">';
@@ -331,20 +329,20 @@ a:hover {
 					userList += "<table class='table table-hover'>";
 					for(let i=0; i<Object.keys(jsonInfo).length; i++){
 						userList += "<tr>";
-						userList += "<td class='clickArea' id='"+jsonInfo[i].m_id+"'>";
+						userList += "<td width='70px' class='clickArea' id='"+jsonInfo[i].m_id+"'>";
 						if(jsonInfo[i].m_encodedImg == null || jsonInfo[i].m_encodedImg == ''){
-							userList += "<img src='${contextPath }/resources/image/user.png' width='50px' alt='....' class='img-circle'>";
+							userList += "<div class='mi_box'><img src='${contextPath }/resources/image/user.png' alt='....' class='img-circle'>";
 						}else{
-							userList += "<img src='data:image/jpg;base64,"+jsonInfo[i].m_encodedImg+"' width='50px' alt='....' class='img-circle'>";
+							userList += "<div class='mi_box'><img src='data:image/jpg;base64,"+jsonInfo[i].m_encodedImg+"' alt='....' class='img-circle'>";
 						}
-						userList += "</td>";
-						userList += "<td class='clickArea' id='"+jsonInfo[i].m_id+"'>";
+						userList += "</div></td>";
+						userList += "<td class='align-middle clickArea' id='"+jsonInfo[i].m_id+"'>";
 						userList += "<h5>";
 						userList += jsonInfo[i].m_nickname;
 						userList += "</h5>";
 						userList += "</td>";
-						userList += "<td>";
-						userList += "<button type='button' id='"+jsonInfo[i].m_id+"' class='btn btn-danger btn-sm report'>신고";
+						userList += "<td class='align-middle text-right'>";
+						userList += "<button type='button' id='"+jsonInfo[i].m_id+"' class=' btn btn-danger report'>신고";
 						userList += "</button>";
 						userList += "</td>";
 						userList += "</tr>";
@@ -467,7 +465,6 @@ a:hover {
 		  
 	}
 	
-	//채팅방 클릭시 하이라이트
 	function listHighlight(param){
 		$('div.list-group a').removeClass('active');
 		$('div.list-group a').removeClass('text-white');
@@ -573,7 +570,7 @@ a:hover {
       <!-- 채팅방 인포 누르기 끝 -->
   <div class="popUp centered">
 	   <div class="bg-gray px-4 py-2 bg-light">
-	  	<div class="close">닫기</div>
+	  	<div class="close">&times;</div>
 	  	<p class="h5 mb-0 py-1" align="center">
 	  	 유저정보
 	  	</p>

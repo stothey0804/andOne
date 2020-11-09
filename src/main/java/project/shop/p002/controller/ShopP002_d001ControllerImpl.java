@@ -130,13 +130,8 @@ public class ShopP002_d001ControllerImpl implements ShopP002_d001Controller {
 		}
 		int listCnt = shopP002_d001Service.getShopListCnt(param);
 		Pagination pagination = new Pagination(listCnt, curPage, 4);
-		if(vo.getSearchCondition().equals("GETRECOMMENDLIST")) {
-			param.put("startIndex",1);
-			param.put("endIndex",4);
-		}else {
-			param.put("startIndex",(pagination.getStartIndex()+1)+"");
-			param.put("endIndex",(pagination.getStartIndex()+pagination.getPageSize())+"");
-		}
+		param.put("startIndex",(pagination.getStartIndex()+1)+"");
+		param.put("endIndex",(pagination.getStartIndex()+pagination.getPageSize())+"");
 		
 		List<ShopP002ShopDetailVO> resultList = shopP002_d001Service.getShopList(param);
 		for(int i=0; i<resultList.size(); i++) {

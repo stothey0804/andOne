@@ -33,6 +33,11 @@ i.fa-chevron-right {
 	font-size: 500%;
 }
 
+.thumb{
+	height: 230px;
+	object-fit: cover;
+}
+
 /* i.fa-star-half-alt { */
 /* 	color: rgb(255, 234, 0); */
 /* } */
@@ -71,21 +76,6 @@ a {
 	text-decoration: none;
 }
 
-a:link {
-	color: black;
-}
-
-a:visited {
-	color: black;
-}
-
-a:active {
-	color: black;
-}
-
-a:hover {
-	color: black;
-}
 
 #pop {
 /* 	background: #e6e6e6; */
@@ -489,21 +479,22 @@ a:hover {
 						// 				}
 						shopImage += '</div>';
 
-						shopInformation += '<table><tr><td width="600" height="70">';
+						shopInformation += '<table><tr><td width="600">';
 						shopInformation += '<h1>' + jsonInfo.s_name
-								+ '</h1></td><td width="350" height="70"></td>';
-						shopInformation += '<td align="right" width="170" height="70">';
+								+ '</h1></td><td width="350"></td>';
+						shopInformation += '<td align="right" width="170">';
 						shopInformation += '<button id="all" type="button" class="btn btn-outline-primary" onclick="writeButton()">리뷰 쓰기</button>';
-						shopInformation += '</td></tr><tr><td height="30">'
-								+ printStar(jsonInfo.s_score) + '</td>';
-						//지도
-						shopInformation += '<td align="left" colspan="2" rowspan="4"><div class="map_wrap"><div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div><div class="hAddr"><span class="map_title">업체 상세 주소</span> <span id="centerAddr"></span></div></div></td></tr>';
-						shopInformation += '<tr><td height="30"><a href="${contextPath }/shop/localShopSearch.do?filter='
+						shopInformation += '</td></tr>';
+						shopInformation += '<tr><td><a href="${contextPath }/shop/localShopSearch.do?filter='
 								+ jsonInfo.s_category
 								+ '">'
-								+ jsonInfo.gc_name
-								+ '</a></td></tr>';
-						shopInformation += '<tr><td height="30">';
+								+ '<p class="h4 text-muted">'+jsonInfo.gc_name+'</p>'
+								+ '</a></td>';
+						//지도
+						shopInformation += '<td align="left" colspan="2" rowspan="4"><div class="map_wrap"><div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div><div class="hAddr"><span class="map_title">업체 상세 주소</span> <span id="centerAddr"></span></div></div></td></tr>';
+						shopInformation += '<tr><td><p>'
+								+ printStar(jsonInfo.s_score) + '</p></td></tr>';
+						shopInformation += '<tr><td>';
 						var hashtagArr = jsonInfo.s_hashtag.split(',');
 						for (let i = 0; i < hashtagArr.length; i++) {
 							shopInformation += '<a class="btn btn-sm btn-light" href="${contextPath }/shop/localShopSearch.do?searchCondition=SEARCHBYHASHTAG&searchKeyword='
@@ -517,7 +508,7 @@ a:hover {
 								+ jsonInfo.s_content + '</div></td>';
 						shopInformation += '</tr></table>';
 
-						reviewList += '<hr><h3><a href="${contextPath }/shop/getShopReviewList.do?s_id='
+						reviewList += '<hr><h3><a class="text-dark" href="${contextPath }/shop/getShopReviewList.do?s_id='
 								+ shopId
 								+ '">후기('
 								+ jsonInfo.reviewCount
@@ -673,27 +664,29 @@ a:hover {
 							if (shopCount > 3) {
 								shopCount = 3;
 							}
-							output += "<div class='row'>";
+							output += "<div class='mt-4 row mx-1'>";
 							for (let i = 0; i < shopCount; i++) {
 								console.log(jsonInfo.resultList[i].s_name);
-								output += "<div style='margin: 20px'>";
-								output += "<div class='si_box' style='width: 18rem;'>";
+								output += "<div class='col-3 px-1 d-inline-block align-top'>";
+								output += "<div class='card mx-1'>";
 								output += "<a href='${contextPath}/shop/localShopDetail.do?s_id="
 										+ jsonInfo.resultList[i].s_id + "'>";
 								if (Object
 										.keys(jsonInfo.resultList[i].shopImage).length != 0) {
-									output += "<img src='data:image/jpg;base64,"+jsonInfo.resultList[i].shopImage[0].si_encodedImg+"' class='card-img-top img-thumbnail'alt='...'>";
+									output += "<img src='data:image/jpg;base64,"+jsonInfo.resultList[i].shopImage[0].si_encodedImg+"' class='card-img-top thumb'alt='...'>";
 								} else {
-									output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top img-thumbnail'alt='...'>";
+									output += "<img src='${contextPath }/resources/image/ina.png' class='card-img-top thumb'alt='...'>";
 								}
 								output += "</a>";
-								output += "</div>";
-								output += "<div class='card-body'><h5 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="
+// 								output += "</div>";
+								output += "<div class='card-body'><small class='text-secondary'>"+jsonInfo.resultList[i].gc_name+"</small>";
+								output += "<h4 class='card-title'><a href='${contextPath}/shop/localShopDetail.do?s_id="
 										+ jsonInfo.resultList[i].s_id
 										+ "'>"
 										+ jsonInfo.resultList[i].s_name
-										+ "</a></h5>";
+										+ "</a></h4>";
 								output += "<div id='recommendAddr"+i+"'></div>";
+								output += "<p class='text-right mt-2 mb-0'><i class='fas fa-map-marker-alt mr-1 text-muted'></i>";
 								if (jsonInfo.resultList[i].distance < 1) {
 									output += (jsonInfo.resultList[i].distance * 1000)
 											+ "m";
@@ -701,17 +694,17 @@ a:hover {
 									output += jsonInfo.resultList[i].distance
 											+ "km";
 								}
-								output += "</div>";
-								output += "<div class='card-body' id='review'>";
-								output += "<p class='card-text'>";
+								output += "</p></div>";
+								output += "<div class='card-body border-top clearfix' id='review'>";
+								output += "<p class='mb-0 card-text float-left'>";
 								output += "<a href='#'>후기 "
 										+ jsonInfo.resultList[i].reviewCount
-										+ "건</a><br>";
-								output += "별점 : "
+										+ "건</a></p>";
+								output += "<p class='mb-0 card-text float-right'>"
 										+ printStar(jsonInfo.resultList[i].s_score)
 										+ "</p></div></div>";
 							}
-							output += "</div>";
+							output += "</div></div>";
 						}
 						$('div#recommendShopList').html(output);
 						//위치정보 입력
