@@ -173,6 +173,12 @@ a:hover {
 	        search(1);
 	    });
 	    
+		function removeHTML(text){
+			text = text.toString().replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
+			text = text.toString().replace(/<br\/>/ig, "\n");
+			return text;
+		}
+		
 	    // 토글 버튼 이동 모션 함수
 	    function toggleActionStart(toggleBtn, LR) {
 	        // 0.01초 단위로 실행
@@ -292,7 +298,7 @@ a:hover {
 							output += "<p class='text-secondary float-left'>"+jsonInfo.resultList[i].gc_name+"</p>";
 							output += "<p class='float-right'>"+printStar(jsonInfo.resultList[i].s_score)+"</p></div>";
 							//가게 소개
-							output += "<p class='card-text' style='height: 78px;overflow:hidden'>" + jsonInfo.resultList[i].s_content + "</p>";
+							output += "<p class='card-text' style='height: 78px;overflow:hidden'>" + removeHTML(jsonInfo.resultList[i].s_content) + "</p>";
 							output += "<p class='card-text'>";
 							//후기 숫자
 							output += "<small class='text-muted text-right' style='height: 14px'>리뷰 " + jsonInfo.resultList[i].reviewCount + "건</small>";

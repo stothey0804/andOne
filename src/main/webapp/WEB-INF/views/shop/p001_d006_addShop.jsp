@@ -71,6 +71,9 @@
 .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
 </style>
 
+
+<!-- CKEDITOR-->
+<script src = "${contextPath}/resources/js/ckeditor/ckeditor.js"></script>
 <!-- JQuery -->
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <!-- KakaoMap -->
@@ -234,6 +237,7 @@
 				    <label for="inputShopContent" class="col-lg-3 col-sm-12 col-form-label">가게소개</label>
 				    <div class="col-lg-7 col-sm-12">
 				      <textarea style="resize:none;" id="inputShopContent" name="s_content" rows="7" cols="43"></textarea>
+		    		  <script>CKEDITOR.replace('s_content')</script>
 		    		</div>
 		    	</div>
 		    	<!-- 대표번호 -->
@@ -417,7 +421,7 @@
 			var shopId = $("#inputShopId").val();
 			var phoneNum = $("#inputPhoneNumber").val();
 			var shopName = $("#inputShopName").val();
-			var shopContent = $("#inputShopContent").val();
+			var shopContent = CKEDITOR.instances.inputShopContent.getData();
 			var lat = $('#s_locate_lat').val();
 			var lng = $('#s_locate_lng').val();
 			// 필수입력조건 체크(pwd제외)

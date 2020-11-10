@@ -32,6 +32,10 @@
 	font-family: 'YanoljaYacheR' !important; 
 	font-size: 250%; 
 } 
+
+.userImg{
+	cursor:pointer;
+}
 </style>
 <script>
 	$(document).ready(function(){
@@ -120,16 +124,14 @@
 		<th>${status.count}</th>
 			<c:set var="memImg" value="${waitMember.resultUserImg}" />
 			<td>
-			<a href="javascript:void(0);" onclick="openMemberPopup2('${waitMember.m_id}');">
 			<c:choose>
 				<c:when test="${memImg eq null}">
-					<img src="${contextPath}/resources/image/user.png" class="userImg">
+					<img src="${contextPath}/resources/image/user.png" class="userImg" onclick="openMemberPopup2('${waitMember.m_id}');">
 				</c:when>
 				<c:otherwise>
-					<img src="data:image/jpg;base64, ${memImg}" class="userImg">
+					<img src="data:image/jpg;base64, ${memImg}" class="userImg" onclick="openMemberPopup2('${waitMember.m_id}');">
 				</c:otherwise>
 			</c:choose>
-			</a>
 			<a href="javascript:void(0);" onclick="openMemberPopup2('${waitMember.m_id}');">
 				${waitMember.m_nickname}
 			</a>				
