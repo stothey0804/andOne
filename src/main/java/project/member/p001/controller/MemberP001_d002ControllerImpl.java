@@ -64,7 +64,8 @@ public class MemberP001_d002ControllerImpl implements MemberP001_d002Controller{
 					returnView = "adminMain"; // 어드민화면으로 이동
 				}else {
 					System.out.println("=============>>>>" + request.getHeader("Referer"));
-					if("http://3.35.49.13:8080/andOne/member/login.do".equals(request.getHeader("Referer"))) {
+					if("http://localhost:8090/andOne/member/login.do".equals(request.getHeader("Referer"))) {
+//					if("http://3.35.49.13:8080/andOne/member/login.do".equals(request.getHeader("Referer"))) {
 						returnView = "redirect:/";
 					}else {
 						returnView = "redirect:"+ request.getHeader("Referer"); // 최근요청화면으로 이동
