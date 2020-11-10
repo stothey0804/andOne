@@ -300,7 +300,7 @@
 		$.ajax({
 			url:"${contextPath}/club/insertReply.do?ca_id"+ca_id,
 			type : "get",
-			async: true,
+			async: true,                                                                                        
 			data : {ca_id:ca_id,car_content:car_content},
 			success : function(data,textStatus){
 				var jsonInfo =JSON.parse(data);
@@ -379,7 +379,6 @@
 		console.log(ca_id);
 		console.log(car_id);
 		var re_car_content = document.getElementById('re_comment'+car_id).value;
-		re_car_content = re_car_content + "";
 		console.log(re_car_content);
 		document.getElementById('re_comment'+car_id).value ="";
 		$.ajax({
