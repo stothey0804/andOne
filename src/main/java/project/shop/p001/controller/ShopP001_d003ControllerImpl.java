@@ -72,7 +72,7 @@ public class ShopP001_d003ControllerImpl implements ShopP001_d003Controller {
 	public String sendEmail(@RequestParam String bm_email) {
 		String to = bm_email;
 		String subject = "[&분의일]비밀번호 변경 이메일입니다.";
-		String url = "http://localhost:8090/andOne/biz/emailCheck.do";
+		String url = "/andOne/biz/emailCheck.do";
 		Map<String,String> resultMap = shopP001_d003Service.selectIdPwdByEmail(bm_email);
 		url += "?id=" + resultMap.get("BM_ID");
 		url += "&key=" + resultMap.get("BM_PWD");

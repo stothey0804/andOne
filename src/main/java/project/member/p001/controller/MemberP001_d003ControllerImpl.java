@@ -39,7 +39,7 @@ public class MemberP001_d003ControllerImpl implements MemberP001_d003Controller{
 		String to = request.getParameter("m_email");
 		String subject = "[&분의일]비밀번호 변경 이메일입니다.";
 		// 변경 url 생성
-		String url = "http://localhost:8090/andOne/member/emailCheck.do";
+		String url = "/andOne/member/emailCheck.do";
 		Map<String, String> member = memberP001_d003Service.searchIdPwdByEmail(to);
 		System.out.println(member.toString());
 		url += "?id="	+ member.get("M_ID")

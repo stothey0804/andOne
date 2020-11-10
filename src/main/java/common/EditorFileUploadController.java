@@ -56,7 +56,7 @@ public class EditorFileUploadController {
             sb = new StringBuffer();
             sb.append("&bNewLine=true")
               .append("&sFileName=").append(oldName)
-              .append("&sFileURL=").append("http://localhost:8090/devFw/resources/photoUpload/")
+              .append("&sFileURL=").append("/devFw/resources/photoUpload/")
               .append(saveName);
         } catch (Exception e) {
             e.printStackTrace();
