@@ -234,7 +234,7 @@
             	// 알림전송
             	// 소모임 이름 조회
             	let type = '40';	// 소모임
-				let url = '/andOne/club/detailClub.do?c_id='+c_id;
+				let url = '/andOne/club/waitMemberList.do?c_id='+c_id;
 				$.ajax({
 					type: 'post',
 					url: '/andOne/selectClubName.do',
@@ -246,7 +246,7 @@
 						// 소모임 장 조회
 						$.ajax({
 							type: 'post',
-							url: '/andOne/member/selectClubManager.do',
+							url: '/andOne/selectClubManager.do',
 							dataType: 'text',
 							data: { c_id: c_id	},
 							success: function(data){
