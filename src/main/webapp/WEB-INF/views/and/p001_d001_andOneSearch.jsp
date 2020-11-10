@@ -175,7 +175,7 @@
 					<div class="card and_card" onclick="location.href='${contextPath}/and/detailAndOne.do?one_id=${andone.one_id}&g_id=${andone.one_type}'">
 						<div class="card-body">
 							<div class="card-title clearfix">
-								<p class="h5 "><span class="text-primary">[${andone.one_category}]</span> ${andone.one_title}</p>
+								<p class="h5 text-truncate" style="max-width:530px"><span class="text-primary">[${andone.one_category}]</span> ${andone.one_title}</p>
 								<p class="h6 font-weight-bold mb-1 float-left">
 								<c:if test="${andone.one_state eq '모집중'}">
 									<span class="text-primary">
@@ -194,7 +194,7 @@
 								<p class="card-subtitle mb-3 text-muted float-right"><span class="date">${andone.one_date} 수령예정</span></p>
 							</div>
 							<div class="clearfix">
-								<p class="card-text float-left"> #${andone.one_hashTag}  </p>
+								<p class="card-text float-left mb-0 text-truncate" style="max-width:260px"> #${andone.one_hashTag}  </p>
 								<p class="card-text float-right h6"><span class="price invisible"><b>${andone.one_price}</b></span> 예상 <span class="priceResult"></span> <span class="text-secondary"> <i class="fas fa-user-friends"></i>${andone.one_member}/${andone.one_memberMax} </span></p>
 							</div>
 							<p class="card-text float-left"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
