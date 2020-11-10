@@ -200,8 +200,8 @@ a:hover {
 					var category = '';
 					switch(jsonInfo[i].one_type){
 					case '010': category = '[같이먹기] '; break;
-					case '020': category = '[같이사기] '; break;
-					case '030': category = '[같이하기] '; break;
+					case '011': category = '[같이사기] '; break;
+					case '012': category = '[같이하기] '; break;
 					}
 					titleMap.set(jsonInfo[i].one_id,category + jsonInfo[i].one_title);
 					var subStrDate = jsonInfo[i].msg_date.slice(0,-3);
