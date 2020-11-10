@@ -50,7 +50,7 @@ h3 {
 img{
 	width: 100%;
 	object-fit: cover;
-	height: 270px;
+	height: 307px;
 }
 
 </style>
@@ -89,21 +89,19 @@ function removeHTML(text){
 </script>
 </head>
 <body onload="init();">
-<div class="form-group mx-auto searchInput center" style="width:700px;margin-top:10px;">
-<a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br>
-	<form class="searchClub container center p-1 rounded rounded-pill border border-primary" style="border-width:2px !important" name="searchFrm" method="post" action="${contextPath}/club/searchClub.do">
+<div class="search">
+	<div class="form-group mx-auto searchInput center mt-5" style="width:700px;">
+	<a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br>
+		<form class="searchClub container center p-1 rounded rounded-pill border border-primary mt-2" style="border-width:2px !important" name="searchFrm" method="post" action="${contextPath}/club/searchClub.do">
 		<div class="input-group">
-           	<input type="text" placeholder="카테고리/소모임명" value="${searchWord}" aria-describedby="button-addon1" name="searchWord" class="form-control border-0 m-1">
-        <div class="input-group-append">
-            <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
-        </div>
-	    </div>
-    </form>
+			<input type="text" placeholder="카테고리/소모임명" aria-describedby="button-addon1" name="searchWord" class="form-control border-0 m-1">
+		    <div class="input-group-append">
+		    	<button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+		    </div>
+		</div>
+		</form>
+	</div>
 </div>
-	
-	
-	
-	
 	<br>
 	<br>
 	<div class="container center" style="width:1400px;">
