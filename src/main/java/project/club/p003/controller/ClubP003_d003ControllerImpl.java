@@ -28,7 +28,7 @@ public class ClubP003_d003ControllerImpl implements ClubP003_d003Controller{
 	
 	@Override
 	@ResponseBody	//댓글 쓰기
-	@RequestMapping(value="/club/insertReply.do",method= {RequestMethod.GET})
+	@RequestMapping(value="/club/insertReply.do",method= {RequestMethod.GET},produces = "application/text;charset=UTF-8")
 	public void insertReply(@RequestParam(value = "ca_id",required = true) String ca_id,@RequestParam(value="car_content",required=true) String car_content,@RequestParam(value="p_car_id",required = false) String p_car_id,
 			HttpSession session,HttpServletResponse response) throws IOException {
 		PrintWriter writer = response.getWriter();
@@ -61,7 +61,7 @@ public class ClubP003_d003ControllerImpl implements ClubP003_d003Controller{
 
 	@Override
 	@ResponseBody
-	@RequestMapping(value="/club/editReply.do",method = {RequestMethod.GET})
+	@RequestMapping(value="/club/editReply.do",method = {RequestMethod.GET},produces = "application/text;charset=UTF-8")
 	public void editReply(@RequestParam(value="car_id",required = true)String car_id,@RequestParam(value="car_content",required = true) String car_content) {
 		Map<String, Object> updateMap = new HashMap<String, Object>();
 		updateMap.put("car_id", car_id);
