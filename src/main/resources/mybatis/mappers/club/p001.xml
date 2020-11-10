@@ -91,10 +91,16 @@
 		<result property="one_title" column="one_title"></result>
 		<result property="m_nickname" column="m_nickname"></result>
 		<result property="one_type" column="one_type"></result>
+		<result property="gc_name" column="gc_name"></result>
+		<result property="m_id" column="m_id"></result>
 	</resultMap>
 	
 	<select id="getAndOne" resultMap="andOne01">
-		SELECT a.one_id,a.one_title,d.m_nickname,a.one_type
+		SELECT a.one_id,a.one_title,d.m_nickname,a.one_type,
+		(SELECT gc_name
+		FROM common_code
+		WHERE g_id = a.one_type
+		AND gc_id = a.one_category) as gc_name,c.m_id
 		FROM and_one a, c_member b, one_member c, member d
 		WHERE a.one_id = c.one_id
 		AND c.m_id = b.m_id
