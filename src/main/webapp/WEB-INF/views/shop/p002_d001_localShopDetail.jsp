@@ -702,7 +702,7 @@ a {
 										+ "건</a></p>";
 								output += "<p class='mb-0 card-text float-right'>"
 										+ printStar(jsonInfo.resultList[i].s_score)
-										+ "</p></div></div>";
+										+ "</p></div></div></div>";
 							}
 							output += "</div></div>";
 						}
