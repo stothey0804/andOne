@@ -175,7 +175,7 @@
 					<div class="card and_card" onclick="location.href='${contextPath}/and/detailAndOne.do?one_id=${andone.one_id}&g_id=${andone.one_type}'">
 						<div class="card-body">
 							<div class="card-title clearfix">
-								<p class="h5 "><span class="text-primary">[${andone.one_category}]</span> ${andone.one_title}</p>
+								<p class="h5 text-truncate" style="max-width:530px"><span class="text-primary">[${andone.one_category}]</span> ${andone.one_title}</p>
 								<p class="h6 font-weight-bold mb-1 float-left">
 								<c:if test="${andone.one_state eq '모집중'}">
 									<span class="text-primary">
