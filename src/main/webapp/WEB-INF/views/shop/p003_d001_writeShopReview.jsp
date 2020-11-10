@@ -95,7 +95,29 @@ a:hover {
 <script>
 	$(document).ready(function(){
 		$('#image').on("change",preview);
+		$('#sr_score').change(function(){
+			var star = printStar(this.value);
+			$('#printStar').html(star);
+		})
 	})
+	
+	function printStar(score) {
+		var calScore = score;
+		var resultStar = '';
+		while (true) {
+			if (calScore >= 2) {
+				resultStar += '<i class="fas fa-star text-warning"></i>';
+				calScore -= 2;
+				continue;
+			} else if (calScore > 0) {
+				resultStar += '<i class="fas fa-star-half-alt text-warning"></i>';
+				break;
+			} else {
+				break;
+			}
+		}
+		return resultStar;
+	}
 	
 	var sel_files = [];
 	
@@ -141,16 +163,17 @@ a:hover {
 </head>
 <body>
 	<div class="container my-5 center">
-		<h3>지역업체 리뷰 작성</h3>
+		<h3>지역업체 리뷰 작성</h3><hr>
 		<div class="form">
 			<form action="/andOne/shop/insertShopReview.do" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="m_id" value="${vo.m_id }" />
 				<input type="hidden" name="s_id" value="${vo.s_id }" />
-				<div>
-					<textarea style="resize:none;" rows="5" cols="50" name="sr_content"></textarea>
+				<div class="form-group">
+					<label for="sr_content">리뷰내용</label>
+					<textarea style="resize:none;" class="form-control" id="sr_content" rows="5" cols="50" name="sr_content"></textarea>
 				</div>
-				<div>
-					가게점수
+				<div class="form-group">
+					<label for="sr_score">가게점수</label>
 					<select name="sr_score" id="sr_score">
 						<option value="1">1</option>
 						<option value="2">2</option>
@@ -163,10 +186,14 @@ a:hover {
 						<option value="9">9</option>
 						<option value="10">10</option>
 					</select>
+					<span id="printStar"></span>
+				</div>
+				<div class="form-group">
+					<label for="image">이미지 첨부</label><br>
 					<input type="file" id="image" name="image" accept="image/*" multiple />
 				</div>
 				<div>
-					<input type="submit" value="전송" />
+					<button type="submit" class="btn btn-primary">전송</button>
 				</div>
 			</form>
 		</div>
