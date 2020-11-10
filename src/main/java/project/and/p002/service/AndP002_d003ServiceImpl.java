@@ -28,8 +28,8 @@ public class AndP002_d003ServiceImpl implements AndP002_d003Service {
 	}
 	
 	@Override
-	public int selectAndOneCnt(Map<String, Object> searchMap){
-		int selectAndOneCnt = p002_d003DAO.selectAndOneCnt(searchMap);
+	public int selectAndOnePageCnt(Map<String, Object> searchMap){
+		int selectAndOneCnt = p002_d003DAO.selectAndOnePageCnt(searchMap);
 		return selectAndOneCnt;
 	}
 

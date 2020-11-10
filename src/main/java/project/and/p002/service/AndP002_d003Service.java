@@ -8,6 +8,6 @@ import project.and.vo.AndP002AndOneVO;
 public interface AndP002_d003Service {
 	public List<AndP002AndOneVO> searchWroteAndOneList(Map<String, Object> searchMap);
 	public List<AndP002AndOneVO> selectParticiateAndOneList(Map<String, Object> searchMap);
-	public int selectAndOneCnt(Map<String, Object> searchMap);
+	public int selectAndOnePageCnt(Map<String, Object> searchMap);
 
 }

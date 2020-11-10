@@ -29,8 +29,8 @@ public class AndP002_d003DAOImpl implements AndP002_d003DAO {
 	}
 
 	@Override
-	public int selectAndOneCnt(Map<String, Object> searchMap) {
-		int selectAndOneCnt = sqlSession.selectOne("and.p002.selectAndOneCnt",searchMap);
+	public int selectAndOnePageCnt(Map<String, Object> searchMap) {
+		int selectAndOneCnt = sqlSession.selectOne("and.p002.selectAndOnePageCnt",searchMap);
 		return selectAndOneCnt;
 	}
 

@@ -110,7 +110,7 @@
 	</select>
 	
 	<!-- 작성/참가 페이징 카운트 -->
-	<select id="selectAndOneCnt" parameterType="String" resultType="int">
+	<select id="selectAndOnePageCnt" parameterType="String" resultType="int">
 		<if test="flag == 'participate'">
 		<![CDATA[
 			SELECT count(m_id) 

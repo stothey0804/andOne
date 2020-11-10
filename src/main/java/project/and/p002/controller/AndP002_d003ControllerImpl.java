@@ -36,7 +36,7 @@ public class AndP002_d003ControllerImpl implements AndP002_d003Controller {
 		searchMap.put("m_id", m_id);
 		searchMap.put("flag", flag);
 		
-		int listCnt = p002_d003Service.selectAndOneCnt(searchMap);
+		int listCnt = p002_d003Service.selectAndOnePageCnt(searchMap);
 		System.out.println("카운트조회"+listCnt);//카운트조회
 		Pagination pagination = new Pagination(listCnt, curPage);
 		searchMap.put("startIndex", (pagination.getStartIndex()+1)+"");	// 시작 index는 1부터 이므로 1을 더해줌.
@@ -63,7 +63,7 @@ public class AndP002_d003ControllerImpl implements AndP002_d003Controller {
 		searchMap.put("m_id", m_id);
 		searchMap.put("flag", flag);
 		
-		int listCnt = p002_d003Service.selectAndOneCnt(searchMap); //카운트조회
+		int listCnt = p002_d003Service.selectAndOnePageCnt(searchMap); //카운트조회
 		Pagination pagination = new Pagination(listCnt, curPage);
 		searchMap.put("startIndex", (pagination.getStartIndex()+1)+"");	// 시작 index는 1부터 이므로 1을 더해줌.
 		searchMap.put("endIndex", (pagination.getStartIndex()+pagination.getPageSize())+"");	// 끝 index
