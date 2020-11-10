@@ -161,7 +161,7 @@ div#loadingImg{
 		$.ajax({
 			type: "post",
 			async: true,
-			url: 'http://localhost:8090/andOne/shop/deleteShopReviewImage.do',
+			url: '${contextPath }/shop/deleteShopReviewImage.do',
 			dataType: "text",
 			beforeSend:function(data, textStatus){
 				
@@ -190,7 +190,7 @@ div#loadingImg{
 		$.ajax({
 			type: "post",
 			async: true,
-			url: 'http://localhost:8090/andOne/shop/shopReviewPopup.do',
+			url: '${contextPath }/shop/shopReviewPopup.do',
 			dataType: "text",
 			beforeSend:function(data, textStatus){
 				$('#loadingImg').show();

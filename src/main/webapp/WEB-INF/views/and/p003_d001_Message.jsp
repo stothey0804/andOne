@@ -161,7 +161,7 @@ a:hover {
 		$.ajax({
 			type: "post",
 			async: true,
-			url: "http://localhost:8090/andOne/message/getChatUserList.do",
+			url: "${contextPath }/message/getChatUserList.do",
 			dataType: "text",
 			data: 'one_id='+one_id,
 			success: function (data, textStatus) {
@@ -188,7 +188,7 @@ a:hover {
 		$.ajax({
 			type: "post",
 			async: true,
-			url: "http://localhost:8090/andOne/message/getChatRoomList.do",
+			url: "${contextPath }/message/getChatRoomList.do",
 			dataType: "text",
 			data: 'm_id='+m_id,
 			success: function (data, textStatus) {
@@ -256,7 +256,7 @@ a:hover {
 		$.ajax({
 			type: "post",
 			async: true,
-			url: "http://localhost:8090/andOne/message/getChatContentList.do",
+			url: "${contextPath }/message/getChatContentList.do",
 			dataType: "text",
 			data: 'one_id='+one_id,
 			success: function (data, textStatus) {
@@ -319,7 +319,7 @@ a:hover {
 			$.ajax({
 				type: "post",
 				async: true,
-				url: "http://localhost:8090/andOne/message/getChatUserList.do",
+				url: "${contextPath }/message/getChatUserList.do",
 				dataType: "text",
 				data: 'one_id='+one_id,
 				success: function (data, textStatus) {
@@ -373,7 +373,7 @@ a:hover {
 				$.ajax({
 					type: "post",
 					async: true,
-					url: "http://localhost:8090/andOne/message/insertChatContent.do",
+					url: "${contextPath }/message/insertChatContent.do",
 					dataType: "text",
 					data: 'one_id='+one_id+'&one_type='+one_type+'&m_id='+m_id+'&msg_content='+messageText,
 					success: function (data, textStatus) {

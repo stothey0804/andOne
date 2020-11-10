@@ -224,7 +224,7 @@ a:hover {
 			$.ajax({
 				type: "post",
 				async: true,
-				url: "http://localhost:8090/andOne/member/selectLocate.do",
+				url: "${contextPath }/member/selectLocate.do",
 				dataType: "text",
 				success: function (data, textStatus) {
 					var jsonStr = data;
@@ -255,7 +255,7 @@ a:hover {
 			$.ajax({
 				type: "post",
 				async: true,
-				url: "http://localhost:8090/andOne/shop/searchByAjax.do",
+				url: "${contextPath }/shop/searchByAjax.do",
 				dataType: "text",
 				beforeSend:function(data, textStatus){
 					$('.pg').html('');

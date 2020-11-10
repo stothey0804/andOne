@@ -247,7 +247,7 @@ table.shopInfo{
 			$.ajax({
 				type: "post",
 				async: true,
-				url: "http://localhost:8090/andOne/biz/updateReviewPublicStatus.do",
+				url: "${contextPath }/biz/updateReviewPublicStatus.do",
 				dataType: "text",
 				data: 'm_id='+param2+'&s_id='+param1+'&sr_public='+param3,
 				success: function (data, textStatus) {

@@ -270,7 +270,7 @@ a:hover {
 			$.ajax({
 				type: "post",
 				async: true,
-				url: "http://localhost:8090/andOne/shop/deleteShopReview.do",
+				url: "${contextPath }/shop/deleteShopReview.do",
 				dataType: "text",
 				data: 'm_id='+logonId+'&s_id=${s_id }',
 				success: function (data, textStatus) {
