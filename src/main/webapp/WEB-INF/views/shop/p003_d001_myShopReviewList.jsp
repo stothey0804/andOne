@@ -187,7 +187,7 @@ div.topTitle{
 			$.ajax({
 				type: "post",
 				async: true,
-				url: "http://localhost:8090/andOne/shop/deleteShopReview.do",
+				url: "/andOne/shop/deleteShopReview.do",
 				dataType: "text",
 				data: 'm_id=${m_id }&s_id='+param,
 				success: function (data, textStatus) {
