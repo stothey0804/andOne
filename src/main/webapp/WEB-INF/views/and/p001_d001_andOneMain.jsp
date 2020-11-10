@@ -141,7 +141,7 @@
 							newNode +="<span class='text-danger'>"+data[i].one_state+"</span></p>";
 						}
 						newNode += "<p class='card-subtitle mb-3 text-muted float-right'><span class='date'>"+data[i].one_date+"수령예정</span></p></div><div class='clearfix'>";
-						newNode += "<p class='card-text float-left mb-0 text-truncate" style="max-width:260px'>"+data[i].one_hashTag+"</p>";
+						newNode += "<p class='card-text float-left mb-0 text-truncate' style='max-width:260px'>"+data[i].one_hashTag+"</p>";
 						newNode += "<p class='card-text float-right h6'><span class='price invisible'><b>"+data[i].one_price+"</b>";
 						newNode += "</span> 예상 <span class='priceResult'></span> <span class='text-secondary'><i class='fas fa-user-friends'></i>"+data[i].one_member+"/"+data[i].one_memberMax+"</span></p></div>";
 						newNode += "<p class='card-text float-left'><span class='timeResult'></span><span class='time invisible'>"+data[i].one_time+"</span></p>";
