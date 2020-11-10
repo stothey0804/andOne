@@ -188,11 +188,7 @@ a:hover {
 		$.ajax({
 			type: "post",
 			async: true,
-<<<<<<< HEAD
-			url: "${contextPath }/message/getChatRoomList.do",
-=======
 			url: "/andOne/message/getChatRoomList.do",
->>>>>>> branch 'master' of https://github.com/stothey0804/andOne.git
 			dataType: "text",
 			data: 'm_id='+m_id,
 			success: function (data, textStatus) {
@@ -260,11 +256,7 @@ a:hover {
 		$.ajax({
 			type: "post",
 			async: true,
-<<<<<<< HEAD
-			url: "${contextPath }/message/getChatContentList.do",
-=======
 			url: "/andOne/message/getChatContentList.do",
->>>>>>> branch 'master' of https://github.com/stothey0804/andOne.git
 			dataType: "text",
 			data: 'one_id='+one_id,
 			success: function (data, textStatus) {
@@ -327,11 +319,7 @@ a:hover {
 			$.ajax({
 				type: "post",
 				async: true,
-<<<<<<< HEAD
-				url: "${contextPath }/message/getChatUserList.do",
-=======
 				url: "/andOne/message/getChatUserList.do",
->>>>>>> branch 'master' of https://github.com/stothey0804/andOne.git
 				dataType: "text",
 				data: 'one_id='+one_id,
 				success: function (data, textStatus) {
@@ -385,11 +373,7 @@ a:hover {
 				$.ajax({
 					type: "post",
 					async: true,
-<<<<<<< HEAD
-					url: "${contextPath }/message/insertChatContent.do",
-=======
 					url: "/andOne/message/insertChatContent.do",
->>>>>>> branch 'master' of https://github.com/stothey0804/andOne.git
 					dataType: "text",
 					data: 'one_id='+one_id+'&one_type='+one_type+'&m_id='+m_id+'&msg_content='+messageText,
 					success: function (data, textStatus) {

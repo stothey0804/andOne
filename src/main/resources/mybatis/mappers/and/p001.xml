@@ -36,7 +36,7 @@
 		      	select ROW_NUMBER() OVER (
 		      			]]>
 		      			<if test ="flag == null">
-		      				ORDER BY d.one_id DESC) ROWNUMER
+		      				ORDER BY a.one_time DESC) ROWNUMER
 		      			</if>
 		      			<if test ="flag == 'distance'">
 		      				ORDER BY distance) ROWNUMER
