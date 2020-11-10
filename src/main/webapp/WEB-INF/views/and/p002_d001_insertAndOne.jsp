@@ -83,7 +83,7 @@
 		</div>
         	<div class="form-group">
         		<label>주문금액</label>&nbsp;<span class="text-muted m-0 text-muted"></span>
-				<input type="text" class="form-control"  id="totalPrice" placeholder="주문금액을 입력해주세요" onkeyup="pointToNumFormat(value)">
+				<input type="text" class="form-control"  id="totalPrice" placeholder="주문금액을 입력해주세요" onkeyup="pointToNumFormat(this.value)">
 				<input type="hidden" name="one_totalPrice" id="one_totalPrice">
 			</div>
 		<!--달력 -->
@@ -102,7 +102,7 @@
 					<option value="<c:out value='${i}'/>"><c:out value="${i}"/></option>
 				</c:forEach>
 			 </select>
-			 <input type="hidden" name="one_memberMax" id="one_totalPrice" value="">
+			 <input type="hidden" name="one_memberMax" value="">
 	   </div>
 		<!-- 지도 -->
 		<div class="form-group form-inline"> 
