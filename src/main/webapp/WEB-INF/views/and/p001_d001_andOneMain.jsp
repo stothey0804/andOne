@@ -126,7 +126,7 @@
 					for(i = 0; i < data.length; i++){
 						console.log("여기는????????");
 						let newNode = "<div class='col-sm-6 mb-3'>";
-						newNode += "<div class='card and_card' onclick='location.href='http://localhost:8090/andOne/and/detailAndOne.do?one_id="+data[i].one_id+"&g_id="+data[i].one_type+"''>";
+						newNode += "<div class='card and_card' onclick='location.href='/andOne/and/detailAndOne.do?one_id="+data[i].one_id+"&g_id="+data[i].one_type+"''>";
 						newNode += "<div class='card-body'><div class='card-title clearfix'>";
 						newNode += "<p class='h5'><span class='text-primary'>["+data[i].one_category+"]</span>&nbsp;"+data[i].one_title+"</p>";
 						if(data[i].one_state == "모집중"){
@@ -141,7 +141,7 @@
 							newNode +="<span class='text-danger'>"+data[i].one_state+"</span></p>";
 						}
 						newNode += "<p class='card-subtitle mb-3 text-muted float-right'><span class='date'>"+data[i].one_date+"수령예정</span></p></div><div class='clearfix'>";
-						newNode += "<p class='card-text float-left'>"+data[i].one_hashTag+"</p>";
+						newNode += "<p class='card-text float-left mb-0 text-truncate" style="max-width:260px'>"+data[i].one_hashTag+"</p>";
 						newNode += "<p class='card-text float-right h6'><span class='price invisible'><b>"+data[i].one_price+"</b>";
 						newNode += "</span> 예상 <span class='priceResult'></span> <span class='text-secondary'><i class='fas fa-user-friends'></i>"+data[i].one_member+"/"+data[i].one_memberMax+"</span></p></div>";
 						newNode += "<p class='card-text float-left'><span class='timeResult'></span><span class='time invisible'>"+data[i].one_time+"</span></p>";
@@ -394,7 +394,7 @@
 								<p class="card-subtitle mb-3 text-muted float-right"><span class="date">${andone.one_date} 수령예정</span></p>
 							</div>
 							<div class="clearfix">
-								<p class="card-text float-left"> #${andone.one_hashTag}  </p>
+								<p class="card-text float-left mb-0 text-truncate" style="max-width:260px"> #${andone.one_hashTag}  </p>
 								<p class="card-text float-right h6"><span class="price invisible"><b>${andone.one_price}</b></span> 예상 <span class="priceResult"></span> <span class="text-secondary"> <i class="fas fa-user-friends"></i> ${andone.one_member}/${andone.one_memberMax} </span></p>
 							</div>
 							<p class="card-text float-left"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>

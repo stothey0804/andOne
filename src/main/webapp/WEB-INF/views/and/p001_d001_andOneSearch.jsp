@@ -194,7 +194,7 @@
 								<p class="card-subtitle mb-3 text-muted float-right"><span class="date">${andone.one_date} 수령예정</span></p>
 							</div>
 							<div class="clearfix">
-								<p class="card-text float-left"> #${andone.one_hashTag}  </p>
+								<p class="card-text float-left mb-0 text-truncate" style="max-width:260px"> #${andone.one_hashTag}  </p>
 								<p class="card-text float-right h6"><span class="price invisible"><b>${andone.one_price}</b></span> 예상 <span class="priceResult"></span> <span class="text-secondary"> <i class="fas fa-user-friends"></i>${andone.one_member}/${andone.one_memberMax} </span></p>
 							</div>
 							<p class="card-text float-left"><span class="timeResult"></span><span class="time invisible">${andone.one_time} </span></p>
