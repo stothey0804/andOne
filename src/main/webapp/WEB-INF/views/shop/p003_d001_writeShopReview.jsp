@@ -68,20 +68,8 @@ a {
 	text-decoration: none;
 }
 
-a:link {
-	color: black;
-}
-
-a:visited {
-	color: black;
-}
-
-a:active {
-	color: black;
-}
-
-a:hover {
-	color: black;
+.form{
+	max-width: 800px;
 }
 
 #image_container img{
@@ -163,8 +151,8 @@ a:hover {
 </head>
 <body>
 	<div class="container my-5 center">
-		<h3>지역업체 리뷰 작성</h3><hr>
-		<div class="form">
+		<h4>지역업체 리뷰 작성</h4><hr>
+		<div class="form mx-auto">
 			<form action="/andOne/shop/insertShopReview.do" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="m_id" value="${vo.m_id }" />
 				<input type="hidden" name="s_id" value="${vo.s_id }" />
@@ -172,8 +160,11 @@ a:hover {
 					<label for="sr_content">리뷰내용</label>
 					<textarea style="resize:none;" class="form-control" id="sr_content" rows="5" cols="50" name="sr_content"></textarea>
 				</div>
+				<div class="float-right">
+					<button type="submit" class="btn btn-primary">리뷰작성</button>
+				</div>
 				<div class="form-group">
-					<label for="sr_score">가게점수</label>
+					<label for="sr_score">별점</label>
 					<select name="sr_score" id="sr_score">
 						<option value="1">1</option>
 						<option value="2">2</option>
@@ -192,16 +183,15 @@ a:hover {
 					<label for="image">이미지 첨부</label><br>
 					<input type="file" id="image" name="image" accept="image/*" multiple />
 				</div>
-				<div>
-					<button type="submit" class="btn btn-primary">전송</button>
-				</div>
 			</form>
 		</div>
-		<hr>
-		<h3>첨부파일 미리보기</h3>
-		<div id="image_container">
-		<h5>첨부된 파일이 없습니다.</h5>
+		<div class="form mx-auto">
+			<hr class="mt-3">
+			<h5>첨부파일 미리보기</h5>
+			<div id="image_container">
+			<p>첨부된 파일이 없습니다.</p>
+			</div>
 		</div>
-		</div>
+	</div>
 </body>
 </html>

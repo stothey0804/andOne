@@ -17,7 +17,7 @@ $(document).ready(function(){
 					type: "get",
 					dataType: "text",
 					async: true,
-					url: "http://localhost:8090/andOne/popup.do",
+					url: "/andOne/popup.do",
 					data: { m_id: userId },
 					success: function (data, texStatus) {
 						jsoninfo = JSON.parse(data);

@@ -131,7 +131,7 @@
 		$.ajax({
 			type: "post",
 			async: true,
-			url: '${contextPath }/biz/getShopByAjax.do',
+			url: '/andOne/biz/getShopByAjax.do',
 			dataType: "text",
 			beforeSend:function(data, textStatus){
 				$('#loadingImg').show();
@@ -225,7 +225,7 @@
 		$.ajax({
 			type: "post",
 			async: true,
-			url: '${contextPath }/biz/deleteShopImage.do',
+			url: '/andOne/biz/deleteShopImage.do',
 			dataType: "text",
 			beforeSend:function(data, textStatus){
 				

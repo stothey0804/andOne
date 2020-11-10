@@ -288,7 +288,7 @@ a {
 					.ajax({
 						type : "post",
 						async : true,
-						url : "${contextPath }/shop/deleteShopReview.do",
+						url : "/andOne/shop/deleteShopReview.do",
 						dataType : "text",
 						data : 'm_id=' + logonId + '&s_id=' + shopId,
 						success : function(data, textStatus) {
@@ -311,7 +311,7 @@ a {
 				.ajax({
 					type : "post",
 					async : true,
-					url : "${contextPath }/shop/shopReviewPopup.do",
+					url : "/andOne/shop/shopReviewPopup.do",
 					dataType : "text",
 					beforeSend : function(data, textStatus) {
 						$('#popContent')
@@ -400,7 +400,7 @@ a {
 		$.ajax({
 			type : "post",
 			async : true,
-			url : "${contextPath }/member/selectLocate.do",
+			url : "/andOne/member/selectLocate.do",
 			dataType : "text",
 			success : function(data, textStatus) {
 				var jsonStr = data;
@@ -428,7 +428,7 @@ a {
 				.ajax({
 					type : "post",
 					async : true,
-					url : "${contextPath }/shop/getShopDetailByAjax.do",
+					url : "/andOne/shop/getShopDetailByAjax.do",
 					dataType : "text",
 					beforeSend : function(data, textStatus) {
 						$('div.recommendShop')
@@ -702,7 +702,7 @@ a {
 										+ "건</a></p>";
 								output += "<p class='mb-0 card-text float-right'>"
 										+ printStar(jsonInfo.resultList[i].s_score)
-										+ "</p></div></div>";
+										+ "</p></div></div></div>";
 							}
 							output += "</div></div>";
 						}

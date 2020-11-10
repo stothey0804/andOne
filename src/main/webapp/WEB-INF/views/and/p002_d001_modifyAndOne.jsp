@@ -352,7 +352,6 @@
 				hashtag = hashtag.slice(0,-1);
 				$('#one_hashTag').val(hashtag);
 				$('#inputHashtag').remove();
-				alert(hashtag);
 				
 	    	  var modifyAnd = document.modifyAnd;
 	    	  modifyAnd.action = "${contextPath}/and/modifyAndOne.do";

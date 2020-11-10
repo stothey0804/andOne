@@ -284,7 +284,7 @@ a:hover {
 			$.ajax({
 				type: "post",
 				async: true,
-				url: "${contextPath }/biz/updateReviewPublicStatus.do",
+				url: "/andOne/biz/updateReviewPublicStatus.do",
 				dataType: "text",
 				data: 'm_id='+param2+'&s_id='+param1+'&sr_public='+param3,
 				success: function (data, textStatus) {

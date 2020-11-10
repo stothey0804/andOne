@@ -133,7 +133,7 @@ a {
 		$.ajax({
 			type: "post",
 			async: true,
-			url: "${contextPath }/shop/getPopularHashtag.do",
+			url: "/andOne/shop/getPopularHashtag.do",
 			dataType: "text",
 			beforeSend:function(data, textStatus){
 				$('.hashtag').html("<img src='${contextPath}/resources/image/loading.gif' style='display: block; margin: 0 auto; width:30px; height:30px;'>");
@@ -159,7 +159,7 @@ a {
 		$.ajax({
 			type: "post",
 			async: true,
-			url: "${contextPath }/shop/popularSearchByAjax.do",
+			url: "/andOne/shop/popularSearchByAjax.do",
 			dataType: "text",
 			beforeSend:function(data, textStatus){
 				$('.popular').html("<img src='${contextPath}/resources/image/loading.gif' style='display: block; margin: 0 auto; width:100px; height:100px;'>");
@@ -238,7 +238,7 @@ a {
 		$.ajax({
 			type: "post",
 			async: true,
-			url: "${contextPath }/member/selectLocate.do",
+			url: "/andOne/member/selectLocate.do",
 			dataType: "text",
 			success: function (data, textStatus) {
 				var jsonStr = data;
