@@ -131,8 +131,9 @@ function openMemberPopup2(m_id){
 			</tbody>
 		</c:forEach>
 	</table>
-	<div class="container center">
-		<button type="button" style="margin:0 auto;float:none;"class="btn btn-info" onclick="location.href='${contextPath}/club/detailClub.do?c_id=${c_id}'">
-		소모임으로 돌아가기</button></div>
+	<div style="width:200px;" class="mx-auto">
+		<button type="button" style="width:200px;"class="btn btn-primary" onclick="location.href='${contextPath}/club/detailClub.do?c_id=${c_id}'">
+		소모임으로 돌아가기</button>
+	</div>
 </body>
 </html>

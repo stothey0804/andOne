@@ -109,6 +109,7 @@
 		AND c.om_leader = '10'
 		AND d.m_id = b.m_id
 		AND SUBSTR(one_time,1,10) = to_char(sysdate,'YYYY-MM-DD')
+		ORDER BY a.one_time desc
 	</select>
 	
 	
@@ -244,7 +245,7 @@
 		SELECT *
         FROM
         (
-            SELECT c_name,c_content,c_hashtag,c_membercnt,gc_name,c_id,c_img,ROW_NUMBER() OVER (ORDER BY c_membercnt DESC) ROWNUMBER
+            SELECT c_name,c_content,replace(c_hashtag,',','#') as c_hashtag,c_membercnt,gc_name,c_id,c_img,ROW_NUMBER() OVER (ORDER BY c_membercnt DESC) ROWNUMBER
             FROM common_code a INNER JOIN club b ON a.gc_id = b.c_category
             WHERE g_id = 019
             AND (gc_name like #{searchWord}

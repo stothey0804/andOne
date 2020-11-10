@@ -201,6 +201,12 @@
   <!-- Link Swiper's CSS -->
 	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 <script type="text/javascript">
+(function () {
+	if(${rank} == 99){
+		alert('강퇴된 소모임입니다.');
+		history.back();
+	}
+})();
 
 	function deleteArticle(c_id,ca_id){
 		if (window.confirm("게시글을 삭제하시겠습니까?")) { 
@@ -234,7 +240,7 @@
             	// 알림전송
             	// 소모임 이름 조회
             	let type = '40';	// 소모임
-				let url = '/andOne/club/detailClub.do?c_id='+c_id;
+				let url = '/andOne/club/waitMemberList.do?c_id='+c_id;
 				$.ajax({
 					type: 'post',
 					url: '/andOne/selectClubName.do',
@@ -246,7 +252,7 @@
 						// 소모임 장 조회
 						$.ajax({
 							type: 'post',
-							url: '/andOne/member/selectClubManager.do',
+							url: '/andOne/selectClubManager.do',
 							dataType: 'text',
 							data: { c_id: c_id	},
 							success: function(data){
@@ -593,10 +599,10 @@
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 								<a class="dropdown-item text-primary" href="${contextPath}/club/editClubArticleForm.do?ca_id=${club.ca_id}&&c_id=${clubInfo.c_id}">수정</a>
 								<a class="dropdown-item text-primary" href="javascript:void(0);" onclick="deleteArticle(${clubInfo.c_id},${club.ca_id})">삭제</a>
-								<c:if test="${club.ca_pin eq 1}">
+								<c:if test="${club.ca_pin eq 1 and rank eq 10}">
 									<a class="dropdown-item text-primary" onclick="editPin(${club.ca_id},0)">공지사항 내리기</a>
 								</c:if>
-								<c:if test="${club.ca_pin eq 0}">
+								<c:if test="${club.ca_pin eq 0 and rank eq 10}">
 									<a class="dropdown-item text-primary" onclick="editPin(${club.ca_id},1)">공지사항 올리기</a>
 								</c:if>
 							</div>

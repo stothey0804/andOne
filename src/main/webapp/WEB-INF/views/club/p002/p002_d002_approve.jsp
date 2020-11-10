@@ -153,8 +153,9 @@
 </tbody>
 		</c:forEach>
 </table>
-<div class="container center">
-		<button type="button" style="margin:0 auto;" class="btn btn-info" onclick="location.href='${contextPath}/club/detailClub.do?c_id=${c_id}'">
-		소모임으로 돌아가기</button></div>
+<div style="width:200px;" class="mx-auto mt-5">
+		<button type="button" style="width:200px;"class="btn btn-primary" onclick="location.href='${contextPath}/club/detailClub.do?c_id=${c_id}'">
+		소모임으로 돌아가기</button>
+</div>
 </body>
 </html>

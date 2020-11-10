@@ -104,6 +104,7 @@ function init(){
 function removeHTML(text){
 	text = text.toString().replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
 	text = text.toString().replace(/<br\/>/ig, "\n");
+	text = substring.text(0,100);
 	return text;
 }
 
@@ -225,7 +226,7 @@ function removeHTML(text){
 						<div class="col-sm-6">
 							<div class="card-body" style="height: 225px">
 								<h5 class="card-title" style="height: 20%">${club.c_name}</h5>
-								<div class="str d-inline-block overflow-hidden" style="max-height:100px;max-width:250px;">
+								<div class="str d-inline-block overflow-hidden" style="max-height:100px;max-width:250px;margin-top:5px;">
 								<p class="card-text" style="height: 40%">${club.c_content}</p>
 								</div>
 								<p class="card-text">
@@ -246,26 +247,6 @@ function removeHTML(text){
 			</c:forEach>
 		</div>
 	</div>
-	<div class="container my-5 center">
-		<div class="search">
-			<a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br>
-			<form name="searchFrm" method="post"
-				action="${contextPath}/club/searchClub.do">
-				<div>
-				<input type="text" class="form-control" placeholder="검색" name="searchWord" id="search"> 
-				<input class="btn btn-light" type="submit" value="&#xf002;">
-				</div>
-			</form>
-			<br>
-			<p style="font-size: 18px;">원하시는 소모임이 없나요? 한번 만들어보세요!</p>
-			<button type="button"
-				class="btn btn-outline-info btn-block search create"
-				style="font-size: 18px;"
-				onclick="location.href='${contextPath}/club/createClubForm.do'">소모임 만들기</button>
-		</div>
-		<br>
-	</div>
-	
 	<!-- 페이징  -->		
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
@@ -306,5 +287,29 @@ function removeHTML(text){
     </ul>
 </nav>
 <!-- 페이징 END -->
+	<div class="container my-5 center">
+		<div class="search">
+			<a href="#">#운동</a> <a href="#">#산책</a> <a href="#">#볼링</a> <a href="#">#독서</a> <br>
+			<div class="form-group mx-auto searchInput center" style="width:700px;margin-top:5px;">
+			<form class="searchClub container center p-1 rounded rounded-pill border border-primary" style="border-width:2px !important" name="searchFrm" method="post" action="${contextPath}/club/searchClub.do">
+				<div class="input-group">
+		           	<input type="text" placeholder="카테고리/소모임명" aria-describedby="button-addon1" name="searchWord" class="form-control border-0 m-1">
+		        <div class="input-group-append">
+		            <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+		        </div>
+			    </div>
+		    </form>
+			</div>
+			
+			<br>
+			<p style="font-size: 18px;">원하시는 소모임이 없나요? 한번 만들어보세요!</p>
+			<button type="button"
+				class="btn btn-outline-info btn-block search create"
+				style="font-size: 18px;"
+				onclick="location.href='${contextPath}/club/createClubForm.do'">소모임 만들기</button>
+		</div>
+		<br>
+	</div>
+	
 </body>
 </html>
