@@ -560,7 +560,7 @@ a {
 							reviewList += '<tr><td class="clickArea" id="'+jsonInfo.shopReviewList[i].m_id+'" value="rl" width="80">'
 									+ jsonInfo.shopReviewList[i].sr_content
 									+ '</td>';
-							reviewList += '<td class="text-muted">'
+							reviewList += '<td width="100" align="right" class="text-muted">'
 									+ jsonInfo.shopReviewList[i].sr_date
 									+ '</td></tr></table><hr>';
 						}
