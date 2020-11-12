@@ -264,7 +264,7 @@
 		</div>
 	</div>
 		
-		 주소  <div class="addr">${andoneDetail.one_addr}</div> <br>
+		 <div class="addr"></div> <br>
 
 </div>
   	<!--kakao map-->
