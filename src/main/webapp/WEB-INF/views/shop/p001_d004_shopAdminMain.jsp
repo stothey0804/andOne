@@ -397,7 +397,7 @@ table.shopInfo{
 					<td class="clickArea" id="${list.m_id }" width="80">
 						${list.sr_content }
 					</td>
-					<td>
+					<td width="100">
 						${list.sr_date }
 					</td>
 				</tr>	
