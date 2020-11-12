@@ -50,8 +50,8 @@ public class PointP001_d002ServiceImpl implements PointP001_d002Service{
         params.add("quantity", "1");
         params.add("total_amount", amount);		// view에서 받아온 amount
         params.add("tax_free_amount", "0");
-//        String domain = "http://localhost:8090/";
-        String domain = "http://3.35.49.13:8080/";
+        String domain = "http://localhost:8090/";
+//        String domain = "http://3.35.49.13:8080/";
         params.add("approval_url", domain+"andOne/point/kakaoPaySuccess.do");
         params.add("cancel_url", domain);
         params.add("fail_url", domain);
