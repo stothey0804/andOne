@@ -330,7 +330,7 @@
 			AND A.om_leader = '10'
 			AND A.one_id IN (SELECT one_id
                  			FROM and_one
-                 			WHERE one_state = '20'
+                 			WHERE one_state = '30'
                  			AND one_pay = '0')
 		]]>
 	</select>
