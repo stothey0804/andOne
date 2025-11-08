@@ -8,11 +8,14 @@
 
 팀원: 김세영, 고은빈, 김소정, 김홍중, 주희수
 
-배포링크: 추후 추가
 
 - - -
 
 ## 🖥 Project
+<img width="1200" height="700" alt="image" src="https://github.com/user-attachments/assets/5458833a-2c6a-486c-9238-6dc0c5f5996b" />
+<img width="1200" height="700" alt="image" src="https://github.com/user-attachments/assets/50e692b9-9b71-4980-87b7-e9ec11656e69" />
+<img width="1200" height="700" alt="image" src="https://github.com/user-attachments/assets/583b0234-970b-4c20-b76f-4aaa99fcbd64" />
+
 
 #### 개요
 
@@ -28,7 +31,7 @@
 
 #### 기술스택
 
-<img src="https://stothey0804.github.io/assets/images/project/stack.png">
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c43c3e2a-28df-471b-9f19-7eae3d682218" />
 
 
 
@@ -36,7 +39,7 @@
 
 ## 👩‍💻 Member
 
-#### 김세영(팀장)
+#### 김세영(리드)
 
 - 회원 기능 전체(가입,문의,신고,평가) CRUD
 - 비밀번호 찾기를 위한 메일발송과, 회원인증을 위한 SMS전송 구현.
@@ -64,8 +67,5 @@
 
 #### 김홍중
 
-- 전달주시면 수정합니당
+- 유저 채팅기능 작업
 
-#### 주희수
-
-- 전달주시면 수정합니당
